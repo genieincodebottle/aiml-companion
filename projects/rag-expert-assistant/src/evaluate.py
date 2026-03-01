@@ -89,7 +89,7 @@ def run_evaluation(eval_data: dict = None) -> dict:
     for metric, score in results.items():
         if isinstance(score, (int, float)):
             status = "PASS" if score >= 0.85 else "NEEDS WORK" if score >= 0.70 else "FAILING"
-            bar = "\u2588" * int(score * 20) + "\u2591" * (20 - int(score * 20))
+            bar = "#" * int(score * 20) + "-" * (20 - int(score * 20))
             print(f"  {metric:<25} {bar} {score:.3f}  [{status}]")
 
     print("\n" + "-" * 60)
@@ -116,7 +116,7 @@ def run_evaluation(eval_data: dict = None) -> dict:
                             'context_precision', 'context_recall']:
             val = row.get(metric_name, 0)
             if val < 0.80:
-                print(f"  \u26a0 {metric_name} is low ({val:.2f}) - investigate!")
+                print(f"  WARNING: {metric_name} is low ({val:.2f}) - investigate!")
 
     return results
 

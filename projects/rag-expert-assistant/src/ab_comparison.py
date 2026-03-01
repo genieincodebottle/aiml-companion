@@ -103,7 +103,7 @@ def run_ab_comparison(test_questions: list, ground_truth: list):
         opt = opt_scores[metric]
         delta = opt - naive
         sign = "+" if delta > 0 else ""
-        status = "\u2713" if delta > 0 else "\u2717"
+        status = "BETTER" if delta > 0 else "WORSE"
         print(f"  {metric:<23} {naive:>9.3f} {opt:>10.3f} {sign}{delta:>9.3f}  {status}")
 
     print("-" * 60)
