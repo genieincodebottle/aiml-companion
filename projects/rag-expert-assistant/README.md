@@ -21,19 +21,20 @@ Documents (PDF/MD/TXT)
 +----------------------------------------------+
 |  Ingestion Pipeline                           |
 |  Load -> Chunk (512 tokens, 50 overlap)       |
-|  -> Embed (gemini-embedding-001) -> ChromaDB|
+|  -> Embed (gemini-embedding-001) -> ChromaDB  |
 +----------------------------------------------+
     |
     v
 +--------------------------+  +---------------------+
 |  Retrieval + Reranking    |  |  Security Layer      |
 |  Top-20 candidates        |  |  PII Detection       |
-|  -> Cohere rerank -> Top-5|  |  Injection Defense   |
+|  -> FlashRank -> Top-5    |  |  Injection Defense   |
 +--------------------------+  |  Output Filtering    |
     |                          +---------------------+
     v                                   |
 +--------------------------+            |
-|  Generation (Gemini 2.5 Flash Lite) |<----------+
+|  Generation (Gemini 2.5   |<----------+
+|  Flash Lite)              |
 |  Grounded prompt          |
 |  + Citation extraction    |
 +--------------------------+
@@ -71,55 +72,52 @@ Documents (PDF/MD/TXT)
 
 ## How to Run
 
-### Setup
+### 1. Setup
 
 ```bash
-python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
-pip install -r requirements.txt
+# Create virtual environment
+python -m venv .venv
 
-# Set up API keys
+# Activate (Windows)
+.venv\Scripts\activate
+
+# Activate (Linux/Mac)
+# source .venv/bin/activate
+
+# Install uv (fast package installer, one-time setup)
+pip install uv
+
+# Install dependencies
+uv pip install -r requirements.txt
+```
+
+### 2. Set API Key
+
+```bash
+# Copy the example and add your Google API key
 cp .env.example .env
-# Edit .env with your GOOGLE_API_KEY and COHERE_API_KEY
+# Edit .env with your key from https://aistudio.google.com/app/apikey
 ```
 
-### Run the Pipeline
+Only one API key needed - Google API key (free tier). No other keys required.
+
+### 3. Run
 
 ```bash
-# Build and query the RAG pipeline
-make run
-# or: python -m src.rag_pipeline
-# or: bash scripts/run_pipeline.sh
+# Run the RAG pipeline (ingest, chunk, embed, retrieve, generate)
+python -m src.rag_pipeline
 
-# Run security tests
-make security
-# or: python -m src.security.sanitizer
-```
+# Run evaluation (RAGAS metrics)
+python -m src.evaluate
 
-### Run Evaluation
+# Run A/B comparison (naive vs optimized)
+python -m src.ab_comparison
 
-```bash
-# RAGAS evaluation (requires API key)
-make evaluate
-# or: python -m src.evaluate
-# or: bash scripts/run_evaluation.sh
+# Run security tests (injection + PII)
+python -m src.security.sanitizer
 
-# A/B comparison (works with mock data)
-make ab-test
-# or: python -m src.ab_comparison
-```
-
-### Run Tests
-
-```bash
-make test
-# or: pytest tests/ -v
-```
-
-### Run Everything
-
-```bash
-make all
+# Run unit tests
+pytest tests/ -v
 ```
 
 ## Project Structure
@@ -141,19 +139,10 @@ rag-expert-assistant/
 │       └── test_security.py   # Security test suite (injection + PII tests)
 ├── tests/
 │   └── test_rag.py            # Unit tests for pipeline, security, and evaluation
-├── artifacts/
-│   └── results/
-│       ├── evaluation_report.md   # RAGAS results table
-│       ├── security_report.md     # Security test pass/fail results
-│       └── ab_comparison.md       # Naive vs Optimized comparison
 ├── docs/
 │   └── architecture.md        # RAG pipeline architecture documentation
-├── scripts/
-│   ├── run_pipeline.sh        # Shell script to run the full pipeline
-│   └── run_evaluation.sh      # Shell script to run evaluation suite
-├── .env.example               # API key template (Google + Cohere)
-├── Makefile                   # Build targets (run, evaluate, test, etc.)
-├── requirements.txt           # Pinned dependencies
+├── .env.example               # API key template (Google only)
+├── requirements.txt           # Dependencies
 └── README.md
 ```
 
@@ -164,10 +153,10 @@ rag-expert-assistant/
 | Vector store | ChromaDB | Simple setup, persistent storage, good for prototyping |
 | Embeddings | gemini-embedding-001 | Free tier in Gemini API, 768 dims |
 | Chunking | 512 chars, 50 overlap | Preserves context at sentence boundaries |
-| Reranking | Cohere rerank-v3.5 | +17% context precision over cosine-only |
+| Reranking | FlashRank (local) | No API key needed, runs locally, fast |
 | Evaluation | RAGAS framework | Industry standard, separates retrieval vs generation quality |
 | Security | Regex PII + pattern blocking | Fast, no external deps, catches 90%+ of common threats |
-| Generation | gemini-2.5-flash-lite | Fast, cost-effective Gemini model for grounded RAG responses |
+| Generation | Gemini 2.5 Flash Lite | Fast, cost-effective Gemini model for grounded RAG responses |
 
 ## Experiment Log
 
@@ -175,7 +164,7 @@ rag-expert-assistant/
 |---|-----------|-------------|-----------|------------|
 | 1 | Naive (1000 chunks, top-3) | 0.65 | 0.68 | Baseline |
 | 2 | Smaller chunks (512, overlap 50) | 0.75 | 0.78 | +13% precision |
-| 3 | Add Cohere reranking | 0.85 | 0.85 | +7% precision |
+| 3 | Add reranking | 0.85 | 0.85 | +7% precision |
 | 4 | Grounded system prompt | 0.92 | 0.85 | +7% faithfulness |
 
 ## Interview Guide
@@ -200,5 +189,5 @@ rag-expert-assistant/
 - [LangChain Documentation](https://python.langchain.com/)
 - [ChromaDB](https://www.trychroma.com/)
 - [RAGAS Evaluation Framework](https://docs.ragas.io/)
-- [Cohere Reranking](https://docs.cohere.com/docs/reranking)
+- [FlashRank](https://github.com/PrithivirajDamodaran/FlashRank)
 - [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
