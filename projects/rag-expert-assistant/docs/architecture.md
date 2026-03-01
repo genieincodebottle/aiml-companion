@@ -11,7 +11,7 @@ Documents (PDF/MD/TXT)
 +----------------------------------------------+
 |  Ingestion Pipeline                           |
 |  Load -> Chunk (512 tokens, 50 overlap)       |
-|  -> Embed (text-embedding-3-small) -> ChromaDB|
+|  -> Embed (gemini-embedding-001) -> ChromaDB|
 +----------------------------------------------+
     |
     v
@@ -23,7 +23,7 @@ Documents (PDF/MD/TXT)
     |                          +---------------------+
     v                                   |
 +--------------------------+            |
-|  Generation (GPT-4o-mini) |<----------+
+|  Generation (Gemini 2.5 Flash Lite) |<----------+
 |  Grounded prompt          |
 |  + Citation extraction    |
 +--------------------------+
@@ -60,10 +60,10 @@ Documents are split into overlapping chunks using `RecursiveCharacterTextSplitte
 
 ### 3. Embed
 
-Each chunk is embedded into a 1536-dimensional vector using OpenAI's `text-embedding-3-small` model. Embeddings are stored in ChromaDB for persistent vector search.
+Each chunk is embedded into a 768-dimensional vector using Google's `gemini-embedding-001` model. Embeddings are stored in ChromaDB for persistent vector search.
 
 - **Entry point**: `src/rag_pipeline.py :: build_vectorstore()`
-- **Model**: `text-embedding-3-small` (1536 dimensions)
+- **Model**: `gemini-embedding-001` (768 dimensions)
 - **Vector store**: ChromaDB with persistent storage
 - **Output**: Populated ChromaDB collection
 
@@ -90,7 +90,7 @@ A cross-encoder reranker (Cohere rerank-v3.5) re-scores the top-20 candidates an
 The LLM generates a grounded response using the reranked context. The system prompt enforces citation rules, confidence ratings, and context-only answering to minimize hallucination.
 
 - **Entry point**: `src/rag_pipeline.py :: build_rag_chain()`
-- **Model**: `gpt-4o-mini` (temperature=0)
+- **Model**: `gemini-2.5-flash-lite` (temperature=0)
 - **Prompt strategy**: Grounded system prompt with `[Source N]` citation format
 - **Security**: Input sanitization before query, output PII filtering after generation
 - **Output**: Answer with citations and confidence rating
@@ -136,7 +136,7 @@ rag-expert-assistant/
 ├── artifacts/results/           # Generated evaluation and security reports
 ├── docs/architecture.md         # This file
 ├── scripts/                     # Shell scripts for running pipeline and evaluation
-├── .env.example                 # API key template (OpenAI + Cohere)
+├── .env.example                 # API key template (Google + Cohere)
 ├── Makefile                     # Build targets (run, evaluate, test, etc.)
 ├── requirements.txt             # Pinned dependencies
 └── README.md                    # Project overview and quickstart

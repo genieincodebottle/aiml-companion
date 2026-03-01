@@ -1,20 +1,20 @@
 # ============================================================
 # PRODUCTION RAG PIPELINE
-# LangChain 0.3+ | ChromaDB | OpenAI | Cohere Reranker
+# LangChain 0.3+ | ChromaDB | Google Gemini | Cohere Reranker
 # ============================================================
-# pip install langchain langchain-openai langchain-community
+# pip install langchain langchain-google-genai langchain-community
 # pip install chromadb cohere sentence-transformers
 # ============================================================
 
 import os
 from dotenv import load_dotenv
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
 from langchain_community.vectorstores import Chroma
-from langchain.retrievers import ContextualCompressionRetriever
-from langchain.prompts import ChatPromptTemplate
-from langchain.schema.runnable import RunnablePassthrough
+from langchain_classic.retrievers import ContextualCompressionRetriever
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnablePassthrough
 
 load_dotenv()
 
@@ -51,8 +51,9 @@ def chunk_documents(docs: list, chunk_size: int = 512, chunk_overlap: int = 50) 
 # ---- Step 3: Create Embeddings + Vector Store ----
 def build_vectorstore(chunks: list, persist_dir: str = "./chroma_db") -> Chroma:
     """Create ChromaDB vector store from document chunks."""
-    embeddings = OpenAIEmbeddings(
-        model="text-embedding-3-small",
+    embeddings = GoogleGenerativeAIEmbeddings(
+        model="models/gemini-embedding-001",
+        google_api_key=os.getenv("GOOGLE_API_KEY"),
     )
     vectorstore = Chroma.from_documents(
         documents=chunks,
@@ -114,9 +115,13 @@ def format_docs_with_sources(docs: list) -> str:
     return "\n\n".join(formatted)
 
 
-def build_rag_chain(retriever, model: str = "gpt-4o-mini"):
+def build_rag_chain(retriever, model: str = "gemini-2.5-flash-lite"):
     """Build the RAG chain with citations."""
-    llm = ChatOpenAI(model=model, temperature=0)
+    llm = ChatGoogleGenerativeAI(
+        model=model,
+        temperature=0,
+        google_api_key=os.getenv("GOOGLE_API_KEY"),
+    )
     prompt = ChatPromptTemplate.from_messages([
         ("system", SYSTEM_PROMPT),
         ("human", "{question}")
