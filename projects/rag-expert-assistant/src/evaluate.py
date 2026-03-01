@@ -8,7 +8,7 @@
 import os
 from dotenv import load_dotenv
 from ragas import evaluate
-from ragas.metrics import (
+from ragas.metrics.collections import (
     faithfulness,
     answer_relevancy,
     context_precision,
