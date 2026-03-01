@@ -30,10 +30,10 @@ retrieval:
   top_k_rerank: 5
   search_type: "similarity"
 
-# Reranker
+# Reranker (runs locally, no API key needed)
 reranker:
-  model: "cohere-rerank-v3.5"
-  provider: "cohere"
+  model: "ms-marco-MiniLM-L-12-v2"
+  provider: "flashrank"
 
 # LLM generation
 llm:

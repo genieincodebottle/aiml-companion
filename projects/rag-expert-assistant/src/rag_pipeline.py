@@ -1,9 +1,9 @@
 # ============================================================
 # PRODUCTION RAG PIPELINE
-# LangChain 0.3+ | ChromaDB | Google Gemini | Cohere Reranker
+# LangChain 1.x | ChromaDB | Google Gemini | FlashRank Reranker
 # ============================================================
 # pip install langchain langchain-google-genai langchain-community
-# pip install chromadb cohere sentence-transformers
+# pip install chromadb flashrank
 # ============================================================
 
 import os
@@ -67,19 +67,15 @@ def build_vectorstore(chunks: list, persist_dir: str = "./chroma_db") -> Chroma:
 
 # ---- Step 4: Build Retriever with Reranking ----
 def build_retriever(vectorstore: Chroma, use_reranking: bool = True, top_k: int = 20, top_n: int = 5):
-    """Build retriever with optional Cohere reranking."""
+    """Build retriever with FlashRank reranking (runs locally, no API key)."""
     base_retriever = vectorstore.as_retriever(
         search_type="similarity",
         search_kwargs={"k": top_k}
     )
 
-    if use_reranking and os.getenv("COHERE_API_KEY"):
-        from langchain_community.document_compressors import CohereRerank
-        reranker = CohereRerank(
-            cohere_api_key=os.getenv("COHERE_API_KEY"),
-            top_n=top_n,
-            model="rerank-v3.5"
-        )
+    if use_reranking:
+        from langchain_community.document_compressors.flashrank_rerank import FlashrankRerank
+        reranker = FlashrankRerank(top_n=top_n)
         return ContextualCompressionRetriever(
             base_compressor=reranker,
             base_retriever=base_retriever

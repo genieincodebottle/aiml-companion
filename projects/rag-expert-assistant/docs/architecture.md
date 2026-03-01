@@ -11,19 +11,20 @@ Documents (PDF/MD/TXT)
 +----------------------------------------------+
 |  Ingestion Pipeline                           |
 |  Load -> Chunk (512 tokens, 50 overlap)       |
-|  -> Embed (gemini-embedding-001) -> ChromaDB|
+|  -> Embed (gemini-embedding-001) -> ChromaDB  |
 +----------------------------------------------+
     |
     v
 +--------------------------+  +---------------------+
 |  Retrieval + Reranking    |  |  Security Layer      |
 |  Top-20 candidates        |  |  PII Detection       |
-|  -> Cohere rerank -> Top-5|  |  Injection Defense   |
+|  -> FlashRank -> Top-5    |  |  Injection Defense   |
 +--------------------------+  |  Output Filtering    |
     |                          +---------------------+
     v                                   |
 +--------------------------+            |
-|  Generation (Gemini 2.5 Flash Lite) |<----------+
+|  Generation (Gemini 2.5   |<----------+
+|  Flash Lite)              |
 |  Grounded prompt          |
 |  + Citation extraction    |
 +--------------------------+
@@ -78,10 +79,10 @@ Given a user query, the retriever performs dense similarity search against Chrom
 
 ### 5. Rerank
 
-A cross-encoder reranker (Cohere rerank-v3.5) re-scores the top-20 candidates and selects the top-5 most relevant chunks. Reranking captures semantic relevance that cosine similarity misses, providing a +17% improvement in context precision.
+FlashRank runs a cross-encoder model locally to re-score the top-20 candidates and select the top-5 most relevant chunks. Reranking captures semantic relevance that cosine similarity misses, providing a +17% improvement in context precision. No API key needed - the model runs entirely on your machine.
 
 - **Entry point**: `src/rag_pipeline.py :: build_retriever()` (with `use_reranking=True`)
-- **Model**: `cohere-rerank-v3.5`
+- **Model**: FlashRank (ms-marco-MiniLM-L-12-v2, runs locally)
 - **top_k_rerank**: 5 (from 20 candidates)
 - **Output**: Top-5 reranked documents
 
@@ -100,8 +101,8 @@ The LLM generates a grounded response using the reranked context. The system pro
 The RAGAS framework evaluates pipeline quality across four independent metrics, each isolating a different failure mode. An A/B comparison framework measures the impact of each optimization.
 
 - **Entry points**:
-  - `src/evaluate.py :: run_evaluation()` -- RAGAS metrics
-  - `src/ab_comparison.py :: run_ab_comparison()` -- Naive vs Optimized
+  - `src/evaluate.py :: run_evaluation()` - RAGAS metrics
+  - `src/ab_comparison.py :: run_ab_comparison()` - Naive vs Optimized
 - **Metrics**:
   - **Faithfulness**: Does the answer stick to the retrieved context?
   - **Answer Relevancy**: Does the answer address the question?
@@ -135,9 +136,7 @@ rag-expert-assistant/
 │   └── test_rag.py              # Unit tests for pipeline, security, and evaluation
 ├── artifacts/results/           # Generated evaluation and security reports
 ├── docs/architecture.md         # This file
-├── scripts/                     # Shell scripts for running pipeline and evaluation
-├── .env.example                 # API key template (Google + Cohere)
-├── Makefile                     # Build targets (run, evaluate, test, etc.)
-├── requirements.txt             # Pinned dependencies
+├── .env.example                 # API key template (Google only)
+├── requirements.txt             # Dependencies
 └── README.md                    # Project overview and quickstart
 ```
