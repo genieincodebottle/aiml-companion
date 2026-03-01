@@ -1,0 +1,27 @@
+# Core data science
+pandas>=1.5.0
+numpy>=1.23.0
+
+# Visualization
+matplotlib>=3.6.0
+seaborn>=0.12.0
+plotly>=5.0.0
+
+# Machine learning
+scikit-learn>=1.2.0
+
+# Statistical testing
+scipy>=1.10.0
+
+# Configuration
+pyyaml>=6.0
+
+# Jupyter (optional, for notebook execution)
+jupyter>=1.0.0
+notebook>=6.5.0
+
+# Testing
+pytest>=7.0.0
+
+# Static image export (used by EDA stage for chart PNGs)
+kaleido>=0.2.0

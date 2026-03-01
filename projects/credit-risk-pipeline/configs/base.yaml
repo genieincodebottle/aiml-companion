@@ -1,0 +1,65 @@
+# Credit Risk Pipeline - Base Configuration
+# ==========================================
+
+# Data source: "openml" (German Credit), "csv" (local file), "kaggle"
+data_source: "openml"
+openml_id: 31
+# raw_data_path: "data/raw/credit_data.csv"  # for csv source
+# kaggle_dataset: "uciml/german-credit"      # for kaggle source
+
+# Target
+target_column: "target"
+
+# Numeric columns for type coercion
+numeric_columns:
+  - duration
+  - credit_amount
+  - installment_rate
+  - residence_since
+  - age
+  - existing_credits
+  - num_dependents
+
+# Feature engineering
+dti_columns:
+  debt: "credit_amount"
+  income: null  # Auto-detect
+  loan_amount: null
+
+utilization_columns:
+  balance: null  # Auto-detect
+  limit: null
+
+burden_columns:
+  amount: "credit_amount"
+  duration: "duration"
+  income: null
+
+age_column: null  # Auto-detect from ["age", "age_years"]
+age_bins: [0, 25, 35, 45, 55, 100]
+age_labels: ["18-25", "26-35", "36-45", "46-55", "55+"]
+skew_threshold: 2.0
+
+# Imputation
+knn_imputer_neighbors: 5
+
+# Model training
+cv_folds: 5
+
+logistic_regression:
+  C: 1.0
+  max_iter: 1000
+  class_weight: "balanced"
+
+gradient_boosting:
+  n_estimators: 200
+  learning_rate: 0.1
+  max_depth: 4
+  subsample: 0.8
+
+# Evaluation
+cost_false_negative: 10   # Cost of missing a defaulter
+cost_false_positive: 1    # Cost of denying a good borrower
+
+# Output
+output_dir: "artifacts"

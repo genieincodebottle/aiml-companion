@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Model checkpoints and artifacts
+*.pt
+*.pth
+*.onnx
+artifacts/checkpoints/*.pt
+artifacts/checkpoints/*.pth
+
+# Data
+data/
+
+# Experiment logs (CSV) - only ignore data CSVs, not our experiment log
+*.csv
+!docs/experiment_log.csv
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Virtual environments
+venv/
+.env/

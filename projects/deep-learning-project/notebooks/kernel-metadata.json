@@ -1,0 +1,15 @@
+{
+  "id": "genieincodebottle/cifar-10-progressive-deep-learning",
+  "title": "CIFAR-10 Progressive Deep Learning",
+  "code_file": "CIFAR10_Progressive.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "false",
+  "enable_gpu": "true",
+  "enable_internet": "true",
+  "keywords": ["deep learning", "pytorch", "cifar-10", "resnet", "image classification", "computer vision"],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": [],
+  "model_sources": []
+}

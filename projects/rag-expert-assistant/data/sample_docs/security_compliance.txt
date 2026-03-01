@@ -1,0 +1,29 @@
+Security and Compliance
+
+Certifications:
+- SOC 2 Type II certified (annual audit)
+- ISO 27001 certified
+- GDPR compliant (EU data residency available)
+- HIPAA BAA available for healthcare customers
+- PCI DSS Level 1 for payment processing
+
+SSO Support:
+SAML 2.0 compatible. Tested with Okta, Azure AD, OneLogin.
+SSO setup requires Organization Admin role.
+Contact support for SCIM provisioning setup.
+
+Data Retention:
+- Active accounts: data retained indefinitely
+- EU user data retained per GDPR: deleted 30 days after account closure
+- Backups retained for 90 days, then permanently deleted
+- Audit logs retained for 1 year
+
+Data Export:
+Settings > Data > Export supports CSV, JSON, and Parquet formats.
+Full export includes all user data, configurations, and usage history.
+Export requests processed within 24 hours for large datasets.
+
+Team Management:
+Organization Admin > Team > Invite to add team members.
+Supports email invitation and SSO-based provisioning.
+Role-based access: Admin, Editor, Viewer.

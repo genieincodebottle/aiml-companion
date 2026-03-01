@@ -1,0 +1,8 @@
+experiment,date,what_changed,accuracy,precision,recall,f1,auc,notes
+baseline_logreg,2026-02-01,Initial LogisticRegression baseline,0.965,0.968,0.978,0.973,0.993,Simple baseline - strong performance
+svm_rbf,2026-02-01,Added SVM with RBF kernel,0.968,0.971,0.980,0.976,0.994,Slightly better than LogReg
+knn_k5,2026-02-01,KNN with k=5,0.958,0.965,0.969,0.967,0.985,Lowest performer - sensitive to scaling
+decision_tree,2026-02-01,Decision Tree max_depth=5,0.940,0.951,0.955,0.953,0.960,Most interpretable but weakest
+random_forest,2026-02-02,Random Forest n=200,0.963,0.966,0.975,0.971,0.994,Comparable to LogReg with more variance
+xgboost,2026-02-02,XGBoost lr=0.1 depth=4,0.970,0.968,0.983,0.975,0.995,Best AUC - selected for threshold tuning
+xgboost_tuned,2026-02-02,Threshold tuned for 99% recall,0.956,0.942,0.990,0.965,0.995,Precision dropped but recall meets target

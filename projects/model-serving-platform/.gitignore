@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+
+# Model artifacts (keep .gitkeep, ignore binaries)
+*.joblib
+*.pkl
+*.pt
+*.onnx
+
+# Artifacts output
+artifacts/models/*.joblib
+artifacts/models/*.pkl
+artifacts/models/*.pt
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+venv/
+.env/
+.env
+*.env
+
+# Docker
+docker/*.log

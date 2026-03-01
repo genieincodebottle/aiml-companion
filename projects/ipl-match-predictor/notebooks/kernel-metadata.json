@@ -1,0 +1,14 @@
+{
+  "id": "genieincodebottle/ipl-dataset-analysis",
+  "title": "IPL Dataset Analysis",
+  "code_file": "ipl-dataset-analysis.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "false",
+  "enable_gpu": "false",
+  "enable_internet": "true",
+  "keywords": ["ipl", "cricket", "data analysis", "machine learning", "eda"],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": []
+}

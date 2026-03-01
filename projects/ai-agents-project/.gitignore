@@ -1,0 +1,30 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+*.joblib
+*.pkl
+*.h5
+*.pt
+*.pth
+checkpoints/
+wandb/
+mlruns/
+.ipynb_checkpoints/
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Data - keep directory structure, ignore runtime cache
+data/*
+!data/.gitkeep
+
+# Artifacts - track curated results in git, but ignore runtime outputs
+artifacts/logs/
+artifacts/tmp/

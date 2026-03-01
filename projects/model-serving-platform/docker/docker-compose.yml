@@ -1,0 +1,17 @@
+# Run from the project root: docker compose -f docker/docker-compose.yml up
+version: "3.8"
+services:
+  model-server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports: ["8000:8000"]
+    volumes: ["../artifacts/models:/app/artifacts/models"]
+    environment:
+      - MODEL_VERSION=v1.0.0
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

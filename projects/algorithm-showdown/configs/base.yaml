@@ -1,0 +1,97 @@
+# ============================================================================
+# Algorithm Showdown - Base Configuration
+# Dataset: UCI Breast Cancer Wisconsin (569 samples, 30 features)
+# Goal: Compare 6 algorithms with cost-sensitive evaluation
+# ============================================================================
+
+project:
+  name: "Algorithm Showdown: Medical Diagnostic Classifier"
+  dataset: "UCI Breast Cancer Wisconsin"
+  task: "binary_classification"
+  positive_label: 1  # benign
+  target_class: "diagnosis"  # 0=malignant, 1=benign
+  random_state: 42
+
+data:
+  test_size: 0.2
+  stratify: true
+
+cross_validation:
+  strategy: "StratifiedKFold"
+  n_splits: 5
+  shuffle: true
+  scoring:
+    - accuracy
+    - precision
+    - recall
+    - f1
+    - roc_auc
+
+preprocessing:
+  scaler: "StandardScaler"
+
+algorithms:
+  logistic_regression:
+    class: "sklearn.linear_model.LogisticRegression"
+    params:
+      max_iter: 1000
+      random_state: 42
+
+  svm_rbf:
+    class: "sklearn.svm.SVC"
+    params:
+      kernel: "rbf"
+      probability: true
+      random_state: 42
+
+  knn:
+    class: "sklearn.neighbors.KNeighborsClassifier"
+    params:
+      n_neighbors: 5
+
+  decision_tree:
+    class: "sklearn.tree.DecisionTreeClassifier"
+    params:
+      max_depth: 5
+      random_state: 42
+
+  random_forest:
+    class: "sklearn.ensemble.RandomForestClassifier"
+    params:
+      n_estimators: 200
+      max_features: "sqrt"
+      random_state: 42
+      n_jobs: -1
+
+  xgboost:
+    class: "xgboost.XGBClassifier"
+    params:
+      n_estimators: 200
+      learning_rate: 0.1
+      max_depth: 4
+      random_state: 42
+      eval_metric: "logloss"
+      verbosity: 0
+
+threshold_tuning:
+  target_recall: 0.95
+  target_class: "malignant"  # Optimize recall for malignant class (0), not benign
+  base_model: "xgboost"
+  analysis_thresholds:
+    - 0.95
+    - 0.90
+    - 0.85
+    - 0.80
+
+explainability:
+  method: "shap"
+  explainer: "TreeExplainer"
+  top_global_features: 10
+  top_local_features: 5
+  check_data_leakage: true
+
+artifacts:
+  model_dir: "artifacts/models"
+  results_dir: "artifacts/results"
+  model_filename: "best_model.joblib"
+  config_filename: "model_config.joblib"

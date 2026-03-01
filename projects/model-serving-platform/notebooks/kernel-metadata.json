@@ -1,0 +1,14 @@
+{
+  "id": "genieincodebottle/model-serving-platform",
+  "title": "Model Serving Platform",
+  "code_file": "Model_Serving_Platform.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "false",
+  "enable_gpu": "false",
+  "enable_internet": "true",
+  "keywords": ["mlops", "fastapi", "docker", "prometheus", "ci-cd", "model-deployment", "production-ml"],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": []
+}

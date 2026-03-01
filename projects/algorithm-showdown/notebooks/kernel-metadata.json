@@ -1,0 +1,14 @@
+{
+  "id": "genieincodebottle/algorithm-showdown-6-ml-algorithms-on-cancer-data",
+  "title": "Algorithm Showdown: 6 ML Algorithms on Cancer Data",
+  "code_file": "Algorithm_Showdown.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "false",
+  "enable_gpu": "false",
+  "enable_internet": "true",
+  "keywords": ["classification", "machine learning", "xgboost", "shap", "breast cancer"],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": []
+}

@@ -1,0 +1,103 @@
+# ============================================================================
+# IPL Dataset Analysis - Configuration
+# ============================================================================
+
+# ---------------------------------------------------------------------------
+# Dataset URLs (GitHub raw content)
+# ---------------------------------------------------------------------------
+data:
+  matches_url: "https://raw.githubusercontent.com/genieincodebottle/generative-ai/main/docs/ipl-dataset/matches.csv"
+  deliveries_url: "https://raw.githubusercontent.com/genieincodebottle/generative-ai/main/docs/ipl-dataset/deliveries.csv"
+
+  # Local fallback paths (checked before downloading from URL)
+  local_paths:
+    kaggle: "/kaggle/input/ipl-complete-dataset-20082020"
+    local: "./data/raw"
+
+  # Values treated as missing when loading CSVs
+  na_values:
+    - "NA"
+    - ""
+
+# ---------------------------------------------------------------------------
+# Team name standardization mapping
+# Maps variant / renamed franchise names to a single canonical name
+# ---------------------------------------------------------------------------
+team_name_mapping:
+  "Rising Pune Supergiants": "Rising Pune Supergiant"
+  "Royal Challengers Bengaluru": "Royal Challengers Bangalore"
+
+# ---------------------------------------------------------------------------
+# Analysis parameters
+# ---------------------------------------------------------------------------
+analysis:
+  seasons_covered: "2008-2024"
+  total_seasons: 17
+  min_matches_venue_filter: 5       # minimum matches for venue-level stats
+  top_n_venues: 10                  # number of top venues to display
+  top_n_batsmen: 10                 # number of top batsmen to display
+  significance_level: 0.05          # alpha for hypothesis testing
+
+# ---------------------------------------------------------------------------
+# Feature engineering
+# ---------------------------------------------------------------------------
+features:
+  categorical_columns:
+    - team1
+    - team2
+    - toss_winner
+    - venue
+    - city
+    - toss_decision
+  numerical_columns:
+    - season_year
+    - win_by_runs
+    - win_by_wickets
+    - dl_applied
+    - super_over
+  elo:
+    initial_rating: 1500
+    k_factor: 32
+
+# ---------------------------------------------------------------------------
+# Model hyperparameters
+# ---------------------------------------------------------------------------
+models:
+  random_forest:
+    n_estimators: 100
+    max_depth: 10
+    min_samples_split: 10
+    min_samples_leaf: 5
+    random_state: 42
+    class_weight: "balanced"
+  gradient_boosting:
+    n_estimators: 100
+    max_depth: 5
+    learning_rate: 0.1
+    min_samples_split: 10
+    min_samples_leaf: 5
+    random_state: 42
+    loss: "squared_error"
+  train_test_split:
+    test_size: 0.25
+    random_state: 42
+
+# ---------------------------------------------------------------------------
+# Feature flags
+# ---------------------------------------------------------------------------
+feature_flags:
+  use_plotly: true                  # use Plotly for interactive charts
+  use_elo_ratings: true             # compute Elo-like strength index
+  use_momentum_features: true       # rolling win-rate momentum features
+  use_home_advantage: true          # derive home-ground advantage feature
+  scale_numerical_features: true    # apply StandardScaler to numerical cols
+  run_hypothesis_tests: true        # run statistical hypothesis tests
+  export_figures: false             # save figures to artifacts/figures/
+
+# ---------------------------------------------------------------------------
+# Output paths
+# ---------------------------------------------------------------------------
+paths:
+  figures: "artifacts/figures"
+  results: "artifacts/results"
+  data_raw: "data/raw"

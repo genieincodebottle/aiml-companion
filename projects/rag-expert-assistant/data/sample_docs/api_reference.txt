@@ -1,0 +1,23 @@
+API Reference Guide
+
+Authentication:
+All API requests require an API key in the Authorization header.
+Format: Authorization: Bearer YOUR_API_KEY
+API keys can be generated from Settings > API Keys.
+
+Rate Limits:
+- Free plan: 100 requests/minute, 10,000 daily limit
+- Pro plan: 10,000 requests/minute, burst to 15,000. Daily limit: 1,000,000 requests.
+- Enterprise plan: Custom limits, contact sales.
+- Overage: Pro plan charged at $0.001/request over daily limit.
+
+Rate Limit Response:
+When rate limit is exceeded, API returns HTTP 429 (Too Many Requests).
+Response includes Retry-After header with cooldown duration in seconds.
+Client should implement exponential backoff. No data loss on rate limit.
+
+API Key Management:
+To reset your API key: Go to Settings > API Keys > Regenerate.
+Warning: your previous key will be immediately invalidated.
+You can have up to 5 active API keys per account.
+Each key can be scoped to specific endpoints.

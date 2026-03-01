@@ -1,0 +1,14 @@
+{
+  "id": "genieincodebottle/credit-risk-pipeline",
+  "title": "Credit Risk Pipeline",
+  "code_file": "credit-risk-pipeline.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "false",
+  "enable_gpu": "false",
+  "enable_internet": "true",
+  "keywords": ["credit risk", "machine learning", "sklearn pipeline", "feature engineering", "cost-sensitive evaluation"],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": []
+}

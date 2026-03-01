@@ -1,0 +1,29 @@
+# Base configuration for ML Model Serving Platform
+# Override per environment via YAML merge or environment variables.
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 1
+  log_level: "info"
+
+model:
+  path: "artifacts/models/model.joblib"
+  version: "v1.0.0"
+
+metrics:
+  enabled: true
+  port: 9090
+
+sla:
+  p95_latency_ms: 200      # P95 latency must be under 200ms
+  error_rate_pct: 1.0       # Error rate must be under 1%
+  throughput_rps: 100       # Throughput must exceed 100 requests per second
+
+load_test:
+  users: 100
+  spawn_rate: 10
+  duration: "5m"
+  traffic_mix:
+    health_weight: 1
+    predict_weight: 9

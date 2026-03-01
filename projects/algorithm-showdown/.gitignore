@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Model files (don't check in binaries)
+*.joblib
+*.pkl
+*.pt
+*.h5
+*.onnx
+
+# Artifacts (generated outputs)
+artifacts/models/*.joblib
+artifacts/models/*.pkl
+
+# Data
+*.csv
+!docs/experiment_log.csv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Virtual environments
+venv/
+.env/
+
+# Pytest
+.pytest_cache/

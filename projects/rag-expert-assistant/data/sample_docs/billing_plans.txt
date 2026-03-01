@@ -1,0 +1,21 @@
+Billing and Plans
+
+Available Plans:
+1. Free: 100 API calls/day, 1GB storage, community support
+2. Pro: $49/month, 1M API calls/day, 50GB storage, priority support
+3. Enterprise: Custom pricing, unlimited calls, dedicated support, SLA
+
+Upgrading:
+Go to Billing > Plans > Select Pro (or Enterprise).
+Prorated upgrade: you only pay the difference for the remaining billing period.
+No downtime during upgrade. New limits apply immediately.
+
+Downgrading:
+Downgrade takes effect at the end of current billing period.
+Data exceeding new plan limits will be archived (not deleted).
+Archived data accessible for 60 days after downgrade.
+
+Payment Methods:
+Credit card, debit card, wire transfer (Enterprise only).
+Invoices available for Enterprise customers.
+All prices in USD. Tax calculated based on billing address.

@@ -1,0 +1,118 @@
+# ============================================
+# Multi-Agent Research System Configuration
+# ============================================
+# This file centralizes all tunable parameters for the agent pipeline.
+# Override per-environment by creating configs/production.yaml, etc.
+
+# --- Agent Roles ---
+# 7-agent pipeline (8 graph nodes): planner -> researcher (parallel) -> quality_gate -> analyst
+#   -> synthesizer -> writer -> reviewer -> (loop or END)
+#   retry_researcher reuses the researcher function
+agents:
+  planner:
+    role: "Research Planner"
+    description: "Decomposes a research query into 1-3 focused sub-topics"
+    temperature: 0
+    max_output_tokens: 500
+
+  researcher:
+    role: "Research Specialist"
+    description: "Searches the web for relevant sources using multiple tools"
+    temperature: 0
+    max_output_tokens: 1500
+
+  quality_gate:
+    role: "Quality Assessor"
+    description: "Scores source quality (pure Python, no LLM call)"
+
+  analyst:
+    role: "Research Analyst"
+    description: "Extracts structured claims from sources with evidence linking"
+    temperature: 0
+    max_output_tokens: 1500
+
+  synthesizer:
+    role: "Research Synthesizer"
+    description: "Cross-references sources, detects conflicts, ranks reliability"
+    temperature: 0
+    max_output_tokens: 1000
+
+  writer:
+    role: "Technical Writer"
+    description: "Writes structured reports using only provided claims and sources"
+    temperature: 0
+    max_output_tokens: 2000
+
+  reviewer:
+    role: "Report Reviewer"
+    description: "Scores report quality 1-10, flags issues, suggests improvements"
+    temperature: 0
+    max_output_tokens: 1000
+
+# --- Pipeline Parameters ---
+pipeline:
+  max_sub_topics: 3            # Planner generates at most this many sub-topics
+  max_revisions: 2             # Writer can revise at most this many times
+  quality_threshold: 0.4       # Quality Gate: sources must score above this to proceed
+  review_pass_score: 7         # Reviewer: reports scoring >= this pass without revision
+
+# --- Model Configuration ---
+model:
+  name: "gemini-2.5-flash"
+  provider: "google"
+  fallback: "gemini-2.5-flash"   # Use same model as fallback for cost control
+
+# --- Token Budget ---
+budget:
+  token_budget: 50000        # Hard cap across entire pipeline run
+  warn_at_percent: 80        # Log warning when 80% of budget is consumed
+  graceful_degradation: true # Produce best available output when budget is hit
+
+# --- Search Parameters ---
+search:
+  provider: "tavily"
+  max_results: 5             # Number of search results to retrieve per query
+  snippet_max_chars: 500     # Truncate each source snippet to this length
+  timeout_seconds: 10        # Timeout for individual search requests
+
+# --- Guardrails ---
+guardrails:
+  pii_detection:
+    enabled: true
+    patterns:
+      - "email"
+      - "phone"
+      - "ssn"
+    action: "redact"         # Options: redact, warn, block
+
+  url_validation:
+    enabled: true
+    timeout_seconds: 5
+    allowed_domains:          # Leave empty to allow all domains
+      - "wikipedia.org"
+      - "arxiv.org"
+      - "github.com"
+      - "tavily.com"
+
+  prompt_injection:
+    enabled: true
+    action: "block"          # Options: block, warn
+
+  content_filtering:
+    max_report_chars: 10000  # Truncate final report if it exceeds this length
+
+# --- Evaluation ---
+evaluation:
+  judge_model: "gemini-2.5-flash"
+  test_set_size: 10          # Number of questions in the evaluation test set
+  default_run_size: 5        # Number of questions to evaluate in a default run
+  scoring_dimensions:
+    - "accuracy"
+    - "completeness"
+    - "citations"
+  scale: "0-3"               # 0=missing, 1=poor, 2=adequate, 3=excellent
+
+# --- Logging ---
+logging:
+  level: "INFO"
+  format: "%(asctime)s [%(name)s] %(levelname)s: %(message)s"

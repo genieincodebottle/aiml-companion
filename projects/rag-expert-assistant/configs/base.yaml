@@ -1,0 +1,55 @@
+# ============================================================
+# RAG Pipeline Configuration
+# Base settings for the production RAG Expert Assistant
+# ============================================================
+
+# Document processing
+chunking:
+  chunk_size: 512
+  chunk_overlap: 50
+  separators:
+    - "\n\n"
+    - "\n"
+    - ". "
+    - " "
+
+# Embedding model
+embedding:
+  model: "text-embedding-3-small"
+  dimensions: 1536
+
+# Vector store
+vectorstore:
+  provider: "chromadb"
+  collection_name: "product_docs"
+  persist_directory: "./chroma_db"
+
+# Retrieval settings
+retrieval:
+  top_k_retrieval: 20
+  top_k_rerank: 5
+  search_type: "similarity"
+
+# Reranker
+reranker:
+  model: "cohere-rerank-v3.5"
+  provider: "cohere"
+
+# LLM generation
+llm:
+  model: "gpt-4o-mini"
+  temperature: 0
+  max_tokens: 1024
+
+# Evaluation thresholds
+evaluation:
+  faithfulness_threshold: 0.85
+  relevancy_threshold: 0.80
+  precision_threshold: 0.70
+  recall_threshold: 0.70
+
+# Security
+security:
+  enable_pii_detection: true
+  enable_injection_defense: true
+  enable_output_filtering: true

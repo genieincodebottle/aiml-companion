@@ -1,0 +1,7 @@
+date,experiment,lr,weight_decay,dropout,augmentation,train_acc,val_acc,notes
+2026-02-01,baseline_cnn,0.001,0,0,none,0.8200,0.6500,3-layer CNN Adam no augmentation
+2026-02-01,add_augmentation,0.001,0,0,crop+flip,0.8500,0.7500,Added RandomCrop(32 4) + HorizontalFlip
+2026-02-02,resnet_skip,0.1,0.0005,0.1,crop+flip,0.9500,0.8500,ResNet-18 + SGD + skip connections
+2026-02-02,cosine_lr,0.1,0.0005,0.1,crop+flip,0.9700,0.9100,Added CosineAnnealingLR T_max=200
+2026-02-03,mixed_precision,0.1,0.0005,0.1,crop+flip,0.9650,0.9200,Mixed precision training enabled
+2026-02-03,cutmix_final,0.1,0.0005,0.1,crop+flip+cutmix,0.9600,0.9340,Added CutMix + label smoothing 200 epochs

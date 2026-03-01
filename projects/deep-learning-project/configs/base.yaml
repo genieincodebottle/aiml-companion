@@ -1,0 +1,179 @@
+# =============================================================================
+# CIFAR-10 Progressive Training Configuration
+# =============================================================================
+# This config defines hyperparameters for the 6-experiment progressive pipeline.
+# Each experiment builds on the previous, changing exactly one variable to
+# isolate the impact of each technique.
+#
+# Usage:
+#   python src/train.py --config configs/base.yaml --experiment cutmix_final
+# =============================================================================
+
+# --- Dataset ---
+dataset:
+  name: CIFAR-10
+  num_classes: 10
+  image_size: 32
+  mean: [0.4914, 0.4822, 0.4465]
+  std: [0.2470, 0.2435, 0.2616]
+  data_dir: ./data
+
+# --- Training Defaults (shared across experiments) ---
+defaults:
+  batch_size: 128
+  num_workers: 2
+  epochs: 200
+  optimizer: SGD
+  lr: 0.1
+  momentum: 0.9
+  weight_decay: 5.0e-4
+  dropout: 0.2
+  label_smoothing: 0.1
+  scheduler: CosineAnnealingLR
+  scheduler_params:
+    T_max: 200
+  mixed_precision: true
+  grad_clip_max_norm: 1.0
+  early_stopping:
+    patience: 20
+    eval_interval: 10
+
+# --- Augmentation ---
+augmentation:
+  baseline:
+    normalize: true
+  standard:
+    normalize: true
+    random_horizontal_flip: 0.5
+    random_crop:
+      size: 32
+      padding: 4
+    color_jitter:
+      brightness: 0.2
+      contrast: 0.2
+
+# --- Model ---
+model:
+  name: CIFAR10Net
+  use_skip: true
+  channels: [64, 128, 256]
+
+# --- Artifacts ---
+artifacts:
+  checkpoint_dir: artifacts/checkpoints
+  results_dir: artifacts/results
+  experiment_log: docs/experiment_log.csv
+
+# =============================================================================
+# Experiment Definitions (progressive pipeline)
+# =============================================================================
+# Each experiment overrides specific defaults to isolate one technique at a time.
+
+experiments:
+  # Experiment 1: Vanilla CNN baseline
+  baseline_cnn:
+    description: "3-layer CNN, Adam optimizer, no augmentation"
+    override:
+      optimizer: Adam
+      lr: 0.001
+      weight_decay: 0
+      dropout: 0
+      label_smoothing: 0
+      scheduler: null
+      mixed_precision: false
+    model_override:
+      use_skip: false
+    augmentation_profile: baseline
+    expected_test_acc: 65.0
+
+  # Experiment 2: Add data augmentation
+  add_augmentation:
+    description: "Add RandomCrop(32,4) + HorizontalFlip to baseline"
+    override:
+      optimizer: Adam
+      lr: 0.001
+      weight_decay: 0
+      dropout: 0
+      label_smoothing: 0
+      scheduler: null
+      mixed_precision: false
+    model_override:
+      use_skip: false
+    augmentation_profile: standard
+    expected_test_acc: 75.0
+
+  # Experiment 3: ResNet architecture with skip connections
+  resnet_skip:
+    description: "Switch to ResNet with skip connections + SGD"
+    override:
+      optimizer: SGD
+      lr: 0.1
+      momentum: 0.9
+      weight_decay: 5.0e-4
+      dropout: 0.1
+      label_smoothing: 0
+      scheduler: null
+      mixed_precision: false
+    model_override:
+      use_skip: true
+    augmentation_profile: standard
+    expected_test_acc: 85.0
+
+  # Experiment 4: Cosine annealing LR schedule
+  cosine_lr:
+    description: "Add CosineAnnealingLR T_max=200"
+    override:
+      optimizer: SGD
+      lr: 0.1
+      momentum: 0.9
+      weight_decay: 5.0e-4
+      dropout: 0.1
+      label_smoothing: 0
+      scheduler: CosineAnnealingLR
+      scheduler_params:
+        T_max: 200
+      mixed_precision: false
+    model_override:
+      use_skip: true
+    augmentation_profile: standard
+    expected_test_acc: 91.0
+
+  # Experiment 5: Mixed precision training
+  mixed_precision:
+    description: "Enable torch.amp mixed precision + GradScaler"
+    override:
+      optimizer: SGD
+      lr: 0.1
+      momentum: 0.9
+      weight_decay: 5.0e-4
+      dropout: 0.1
+      label_smoothing: 0
+      scheduler: CosineAnnealingLR
+      scheduler_params:
+        T_max: 200
+      mixed_precision: true
+      grad_clip_max_norm: 1.0
+    model_override:
+      use_skip: true
+    augmentation_profile: standard
+    expected_test_acc: 92.0
+
+  # Experiment 6: Full optimization (target 93%+)
+  cutmix_final:
+    description: "CutMix + label smoothing 0.1 + all optimizations"
+    override:
+      optimizer: SGD
+      lr: 0.1
+      momentum: 0.9
+      weight_decay: 5.0e-4
+      dropout: 0.2
+      label_smoothing: 0.1
+      scheduler: CosineAnnealingLR
+      scheduler_params:
+        T_max: 200
+      mixed_precision: true
+      grad_clip_max_norm: 1.0
+    model_override:
+      use_skip: true
+    augmentation_profile: standard
+    expected_test_acc: 93.4

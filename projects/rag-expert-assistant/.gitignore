@@ -1,0 +1,26 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+*.joblib
+*.pkl
+*.h5
+*.pt
+*.pth
+checkpoints/
+chroma_db/
+wandb/
+mlruns/
+.ipynb_checkpoints/
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Artifacts (generated reports and outputs)
+artifacts/
