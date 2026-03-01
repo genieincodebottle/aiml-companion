@@ -15,8 +15,8 @@ chunking:
 
 # Embedding model
 embedding:
-  model: "text-embedding-3-small"
-  dimensions: 1536
+  model: "models/gemini-embedding-001"
+  dimensions: 768
 
 # Vector store
 vectorstore:
@@ -37,7 +37,7 @@ reranker:
 
 # LLM generation
 llm:
-  model: "gpt-4o-mini"
+  model: "gemini-2.5-flash-lite"
   temperature: 0
   max_tokens: 1024
 

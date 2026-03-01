@@ -30,7 +30,7 @@ echo "============================================================"
 echo ""
 
 # Step 1: RAGAS evaluation
-echo "[1/2] Running RAGAS evaluation (requires OpenAI API key)..."
+echo "[1/2] Running RAGAS evaluation (requires Google API key)..."
 python -m src.evaluate
 echo ""
 

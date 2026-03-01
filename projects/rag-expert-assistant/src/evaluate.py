@@ -2,7 +2,7 @@
 # RAG EVALUATION WITH RAGAS
 # Measure retrieval + generation quality independently
 # ============================================================
-# pip install ragas langchain-openai datasets
+# pip install ragas langchain-google-genai datasets
 # ============================================================
 
 import os

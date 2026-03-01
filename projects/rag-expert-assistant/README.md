@@ -21,7 +21,7 @@ Documents (PDF/MD/TXT)
 +----------------------------------------------+
 |  Ingestion Pipeline                           |
 |  Load -> Chunk (512 tokens, 50 overlap)       |
-|  -> Embed (text-embedding-3-small) -> ChromaDB|
+|  -> Embed (gemini-embedding-001) -> ChromaDB|
 +----------------------------------------------+
     |
     v
@@ -33,7 +33,7 @@ Documents (PDF/MD/TXT)
     |                          +---------------------+
     v                                   |
 +--------------------------+            |
-|  Generation (GPT-4o-mini) |<----------+
+|  Generation (Gemini 2.5 Flash Lite) |<----------+
 |  Grounded prompt          |
 |  + Citation extraction    |
 +--------------------------+
@@ -80,7 +80,7 @@ pip install -r requirements.txt
 
 # Set up API keys
 cp .env.example .env
-# Edit .env with your OPENAI_API_KEY and COHERE_API_KEY
+# Edit .env with your GOOGLE_API_KEY and COHERE_API_KEY
 ```
 
 ### Run the Pipeline
@@ -151,7 +151,7 @@ rag-expert-assistant/
 ├── scripts/
 │   ├── run_pipeline.sh        # Shell script to run the full pipeline
 │   └── run_evaluation.sh      # Shell script to run evaluation suite
-├── .env.example               # API key template (OpenAI + Cohere)
+├── .env.example               # API key template (Google + Cohere)
 ├── Makefile                   # Build targets (run, evaluate, test, etc.)
 ├── requirements.txt           # Pinned dependencies
 └── README.md
@@ -162,12 +162,12 @@ rag-expert-assistant/
 | Decision | Choice | Why |
 |----------|--------|-----|
 | Vector store | ChromaDB | Simple setup, persistent storage, good for prototyping |
-| Embeddings | text-embedding-3-small | Best cost/quality ratio, 1536 dims |
+| Embeddings | gemini-embedding-001 | Free tier in Gemini API, 768 dims |
 | Chunking | 512 chars, 50 overlap | Preserves context at sentence boundaries |
 | Reranking | Cohere rerank-v3.5 | +17% context precision over cosine-only |
 | Evaluation | RAGAS framework | Industry standard, separates retrieval vs generation quality |
 | Security | Regex PII + pattern blocking | Fast, no external deps, catches 90%+ of common threats |
-| Generation | gpt-4o-mini | Best cost/quality for grounded RAG responses |
+| Generation | gemini-2.5-flash-lite | Fast, cost-effective Gemini model for grounded RAG responses |
 
 ## Experiment Log
 
