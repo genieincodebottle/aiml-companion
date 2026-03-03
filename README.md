@@ -5,7 +5,7 @@
 ![Status](https://img.shields.io/badge/Status-Portfolio_Ready-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-> A comprehensive AI/ML learning platform with 9 end-to-end projects covering the full spectrum, from classical ML to production LLM systems. Every project follows **industry best-practice structure** used by top teams at Google, Meta, Netflix, and Uber.
+> A comprehensive AI/ML learning platform with 9 end-to-end projects covering the full spectrum, from classical ML to production LLM systems. Every project follows **industry best-practice structure**.
 
 ---
 
