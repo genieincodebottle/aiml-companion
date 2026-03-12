@@ -1,5 +1,7 @@
 # IPL Match Predictor
 
+> **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)** - Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
+
 End-to-end ML pipeline that predicts IPL match outcomes using 17 seasons of historical data (2008-2024). Combines Elo rating system, statistical hypothesis testing, and ensemble models (Random Forest + Gradient Boosting) with cross-validated evaluation.
 
 **What this project demonstrates:** The complete ML lifecycle - from raw data to production-ready predictions - using 1,095 matches and 260,920 ball-by-ball records.

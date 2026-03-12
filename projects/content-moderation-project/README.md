@@ -1,5 +1,7 @@
 # Content Moderation & Community Safety Platform
 
+> **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)** - Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
+
 AI-powered multi-agent content moderation system with React frontend, FastAPI backend, and LangGraph orchestration.
 
 ![Python](https://img.shields.io/badge/python-3.12+-blue.svg)

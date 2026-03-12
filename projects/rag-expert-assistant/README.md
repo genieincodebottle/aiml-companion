@@ -1,5 +1,7 @@
 # RAG Expert Assistant
 
+> **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)** - Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
+
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![LangChain](https://img.shields.io/badge/LangChain-RAG-green.svg)](https://python.langchain.com/)
 [![ChromaDB](https://img.shields.io/badge/ChromaDB-vector_store-orange.svg)](https://www.trychroma.com/)

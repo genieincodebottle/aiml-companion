@@ -1,5 +1,7 @@
 # AI/ML Learning Companion
 
+> **Learn AI/ML interactively at [AI-ML Companion](https://aimlcompanion.ai/)** - Guided walkthroughs, architecture decisions, hands-on challenges, and narrated overviews for every project.
+
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![Projects](https://img.shields.io/badge/Projects-9-orange)
 ![Status](https://img.shields.io/badge/Status-Portfolio_Ready-brightgreen)

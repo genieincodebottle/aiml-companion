@@ -1,5 +1,7 @@
 # From Pixels to Production: CIFAR-10 Progressive Classifier
 
+> **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)** - Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
+
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.2-red)
 ![License](https://img.shields.io/badge/License-MIT-green)

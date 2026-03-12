@@ -1,5 +1,7 @@
 # Credit Risk Pipeline
 
+> **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)** - Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
+
 End-to-end ML pipeline for credit default prediction. Demonstrates data cleaning, EDA, feature engineering, model training with cross-validation, cost-sensitive evaluation, FastAPI serving, and PSI drift monitoring.
 
 ## Quick Start

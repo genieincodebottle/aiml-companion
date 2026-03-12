@@ -1,5 +1,7 @@
 # Multi-Agent Due Diligence Analyst
 
+> **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)** - Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
+
 ![Python 3.11+](https://img.shields.io/badge/Python-3.11+-blue.svg)
 ![LangGraph](https://img.shields.io/badge/LangGraph-0.2+-green.svg)
 ![Gemini](https://img.shields.io/badge/Gemini-2.5_Flash-orange.svg)
