@@ -56,8 +56,8 @@ class FinancialAnalysis(BaseModel):
     company_name: str
     financial_health_rating: str = Field(description="strong | moderate | weak | critical | insufficient_data")
     key_metrics: list[FinancialMetric] = Field(default_factory=list)
-    revenue_analysis: str = Field(description="Revenue trends and growth analysis")
-    profitability_analysis: str = Field(description="Margin and profitability assessment")
+    revenue_analysis: str = Field(default="", description="Revenue trends and growth analysis")
+    profitability_analysis: str = Field(default="", description="Margin and profitability assessment")
     cash_flow_notes: str = Field(default="", description="Cash flow observations if available")
     red_flags: list[str] = Field(default_factory=list, description="Financial warning signs")
     green_flags: list[str] = Field(default_factory=list, description="Financial strengths")
@@ -85,8 +85,8 @@ class NewsSentimentAnalysis(BaseModel):
     overall_sentiment: str = Field(description="positive | negative | neutral | mixed")
     sentiment_trend: str = Field(description="improving | declining | stable | volatile")
     key_events: list[NewsEvent] = Field(default_factory=list)
-    public_perception: str = Field(description="Summary of public/market perception")
-    media_coverage_volume: str = Field(description="high | moderate | low | minimal")
+    public_perception: str = Field(default="", description="Summary of public/market perception")
+    media_coverage_volume: str = Field(default="unknown", description="high | moderate | low | minimal")
     social_media_notes: str = Field(default="", description="Social media sentiment if found")
     potential_concerns: list[str] = Field(default_factory=list)
     sources: list[str] = Field(default_factory=list)
@@ -114,7 +114,7 @@ class CompetitiveAnalysis(BaseModel):
     competitive_advantages: list[str] = Field(default_factory=list, description="Company's moats")
     competitive_risks: list[str] = Field(default_factory=list, description="Competitive threats")
     market_trends: list[str] = Field(default_factory=list)
-    differentiation_summary: str
+    differentiation_summary: str = Field(default="")
     sources: list[str] = Field(default_factory=list)
 
 
@@ -138,10 +138,10 @@ class RiskAssessment(BaseModel):
     company_name: str
     overall_risk_level: str = Field(description="critical | high | moderate | low")
     risks: list[RiskItem] = Field(default_factory=list)
-    regulatory_environment: str = Field(description="Summary of regulatory landscape")
+    regulatory_environment: str = Field(default="", description="Summary of regulatory landscape")
     legal_history: str = Field(default="", description="Known legal issues or litigation")
     esg_concerns: str = Field(default="", description="Environmental, social, governance notes")
-    risk_summary: str = Field(description="2-3 sentence risk overview")
+    risk_summary: str = Field(default="", description="2-3 sentence risk overview")
     sources: list[str] = Field(default_factory=list)
 
 
@@ -168,7 +168,7 @@ class FactCheckReport(BaseModel):
     unverifiable_count: int
     verifications: list[ClaimVerification] = Field(default_factory=list)
     cross_agent_contradictions: list[str] = Field(default_factory=list, description="Claims where agents disagree")
-    overall_reliability: str = Field(description="high | moderate | low")
+    overall_reliability: str = Field(default="moderate", description="high | moderate | low")
     notes: str = Field(default="")
 
 
