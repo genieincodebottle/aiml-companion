@@ -18,6 +18,13 @@ import logging
 import time
 from pathlib import Path
 
+# Load .env file if present (so users can just copy .env.example to .env)
+try:
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).resolve().parent / ".env")
+except ImportError:
+    pass
+
 import streamlit as st
 
 # Must be first Streamlit call

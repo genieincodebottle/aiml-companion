@@ -25,7 +25,13 @@ cd aiml-companion/projects/due-diligence-agent
 pip install -r requirements.txt
 
 # 2. Set API key (free at https://aistudio.google.com/apikey)
-export GOOGLE_API_KEY=your_key_here
+#    Option A: Create a .env file (recommended)
+cp .env.example .env    # Then edit .env and paste your key
+
+#    Option B: Set environment variable directly
+#    Linux/Mac:   export GOOGLE_API_KEY=your_key_here
+#    Windows CMD: set GOOGLE_API_KEY=your_key_here
+#    PowerShell:  $env:GOOGLE_API_KEY='your_key_here'
 
 # 3. Run analysis
 python main.py --company "Tesla"
@@ -33,6 +39,8 @@ python main.py --company "Tesla"
 # Or launch the Streamlit dashboard
 streamlit run app.py
 ```
+
+> **Windows users:** If `pip install` fails with permission errors, use `pip install --user -r requirements.txt` or create a virtual environment first: `python -m venv .venv` then `.venv\Scripts\activate`.
 
 ## Architecture
 
@@ -100,7 +108,7 @@ due-diligence-agent/
 │   │   └── calculators.py        # Financial ratios, risk scoring, sentiment calc
 │   ├── models/
 │   │   ├── state.py              # DueDiligenceState TypedDict (shared state)
-│   │   └── schemas.py            # 10 Pydantic schemas for structured LLM output
+│   │   └── schemas.py            # 14 Pydantic schemas for structured LLM output
 │   ├── guardrails/
 │   │   └── manager.py            # Budget, loops, PII, source grounding, timeout
 │   ├── config.py                 # YAML loader with env overrides + caching
@@ -188,14 +196,17 @@ print(result["final_report"])
 ## Run Tests
 
 ```bash
-# All tests
-make test
+# All tests (64 tests)
+python -m pytest tests/ -v
 
 # With coverage
-make test-cov
+python -m pytest tests/ -v --cov=src --cov-report=term-missing
 
 # Specific test file
-pytest tests/test_guardrails.py -v
+python -m pytest tests/test_guardrails.py -v
+
+# If you have make installed (Linux/Mac)
+make test
 ```
 
 ## Configuration
@@ -243,7 +254,7 @@ Using Google Gemini 2.5 Flash free tier (30 RPM, 1500 RPD):
 | Search | Tavily (paid) / DuckDuckGo (free fallback) |
 | Caching | SQLite (search results + TTL + LRU) |
 | UI | Streamlit |
-| Testing | pytest (50+ tests) |
+| Testing | pytest (64 tests) |
 | Deployment | Docker multi-stage build |
 | Config | YAML + environment variable overrides |
 

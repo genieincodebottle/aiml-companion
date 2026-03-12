@@ -25,7 +25,8 @@ import logging
 import time
 from typing import Any
 
-from langgraph.graph import StateGraph, END, Send
+from langgraph.graph import StateGraph, END
+from langgraph.types import Send
 
 from src.config import get_pipeline_config
 from src.models.state import DueDiligenceState, default_state

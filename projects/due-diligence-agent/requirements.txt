@@ -10,7 +10,7 @@ pydantic>=2.0.0
 
 # Search Tools
 tavily-python>=0.5.0              # Primary search (free tier: 1000/month)
-duckduckgo-search>=6.0.0          # Fallback search (no API key needed)
+ddgs>=7.0.0                       # Fallback search (no API key needed)
 
 # Web & API
 fastapi>=0.115.0

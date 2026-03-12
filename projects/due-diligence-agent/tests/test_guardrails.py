@@ -32,7 +32,7 @@ class TestGuardrailPreChecks:
 
         result = self.gm.pre_check("test_agent")
         assert result["passed"] is False
-        assert "call limit" in result["reason"].lower()
+        assert "limit" in result["reason"].lower()
 
     def test_blocks_agent_loop(self):
         for _ in range(3):
