@@ -1,0 +1,31 @@
+# Environment and secrets
+.env
+
+# SQLite search cache
+data/cache.db
+data/*.db
+
+# Generated reports and artifacts
+artifacts/reports/*.md
+artifacts/reports/*.json
+artifacts/figures/*.png
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# Virtual environment
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
