@@ -11,12 +11,20 @@ from __future__ import annotations
 
 import argparse
 import logging
+import os
 import sys
 from pathlib import Path
 
 # Add project root to path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
+
+# Load .env file if present
+try:
+    from dotenv import load_dotenv
+    load_dotenv(PROJECT_ROOT / ".env")
+except ImportError:
+    pass
 
 from src.agents.graph import run_pipeline
 
@@ -50,6 +58,13 @@ Examples:
     args = parser.parse_args()
 
     setup_logging("DEBUG" if args.verbose else "INFO")
+
+    # Validate API key is set
+    if not os.getenv("GOOGLE_API_KEY") and not os.getenv("GEMINI_API_KEY"):
+        print("\nError: No API key found.")
+        print("Set GOOGLE_API_KEY (free at https://aistudio.google.com/apikey)")
+        print("  Or create a .env file from .env.example in the project root.")
+        sys.exit(1)
 
     print(f"\n{'='*60}")
     print(f"  Multi-Agent Due Diligence Analysis")

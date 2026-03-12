@@ -249,7 +249,10 @@ class WebSearchTool:
 
     def _search_duckduckgo(self, query: str, max_results: int) -> list[SearchResult]:
         """Search using DuckDuckGo (no API key required)."""
-        from duckduckgo_search import DDGS
+        try:
+            from ddgs import DDGS  # New package name (ddgs >= 7.0)
+        except ImportError:
+            from duckduckgo_search import DDGS  # Legacy fallback
 
         with DDGS() as ddgs:
             raw_results = list(ddgs.text(query, max_results=max_results))

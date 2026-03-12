@@ -18,11 +18,35 @@ from __future__ import annotations
 
 import argparse
 import logging
+import os
 import sys
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(PROJECT_ROOT))
+
+# Load .env file if present (so users can just copy .env.example to .env)
+try:
+    from dotenv import load_dotenv
+    load_dotenv(PROJECT_ROOT / ".env")
+except ImportError:
+    pass  # python-dotenv not installed, rely on shell environment variables
+
+
+def _check_api_key():
+    """Validate API key is set before running the pipeline."""
+    if not os.getenv("GOOGLE_API_KEY") and not os.getenv("GEMINI_API_KEY"):
+        print("\nError: No API key found.")
+        print("")
+        print("Option 1 - Create a .env file:")
+        print("  1. Copy .env.example to .env")
+        print("  2. Add your Google API key (free at https://aistudio.google.com/apikey)")
+        print("")
+        print("Option 2 - Set environment variable:")
+        print("  Linux/Mac:  export GOOGLE_API_KEY=your_key_here")
+        print("  Windows:    set GOOGLE_API_KEY=your_key_here")
+        print("  PowerShell: $env:GOOGLE_API_KEY='your_key_here'")
+        sys.exit(1)
 
 
 def setup_logging(verbose: bool = False):
@@ -36,6 +60,7 @@ def setup_logging(verbose: bool = False):
 
 def run_analyze(args):
     """Run the due diligence pipeline."""
+    _check_api_key()
     from src.agents.graph import run_pipeline
 
     company = args.company
@@ -80,6 +105,7 @@ def run_ui(args):
 
 def run_evaluate(args):
     """Run the evaluation framework."""
+    _check_api_key()
     from evaluation.run_eval import run_evaluation
     run_evaluation()
 
