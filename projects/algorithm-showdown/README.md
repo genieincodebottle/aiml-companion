@@ -1,5 +1,7 @@
 # Algorithm Showdown: Medical Diagnostic Classifier
 
+> **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)** - Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
+
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-1.5-orange)
 ![XGBoost](https://img.shields.io/badge/XGBoost-2.0-red)
