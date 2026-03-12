@@ -1,0 +1,21 @@
+{
+  "id": "genieincodebottle/multi-agent-due-diligence-analyst",
+  "title": "Multi-Agent Due Diligence Analyst",
+  "code_file": "Due_Diligence_Agent.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "keywords": [
+    "multi-agent",
+    "langgraph",
+    "due-diligence",
+    "enterprise-ai",
+    "llm",
+    "gemini"
+  ],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": []
+}
