@@ -1,0 +1,130 @@
+# ==============================================================================
+# Due Diligence Agent - Configuration
+# ==============================================================================
+# Single source of truth for all tunable parameters.
+# Override via environment variables or pass config_path to load_config().
+
+# --- LLM Model Settings ---
+model:
+  provider: "google"                    # google | openai | ollama
+  name: "gemini-2.5-flash"             # Primary model
+  fallback_name: "gemini-2.0-flash"    # Fallback if primary fails
+  temperature: 0.1                      # Low for factual research
+  max_output_tokens: 4096
+  timeout_seconds: 60
+  max_retries: 3
+  retry_delay_seconds: 2
+
+# --- Agent Definitions ---
+agents:
+  lead_analyst:
+    role: "Lead Due Diligence Analyst"
+    description: "Orchestrates the research team, decomposes queries, resolves conflicts, and produces the final report."
+    temperature: 0.2
+    max_tokens: 4096
+
+  financial_analyst:
+    role: "Financial Analyst"
+    description: "Analyzes financial data, ratios, revenue trends, profitability, and cash flow health."
+    temperature: 0.1
+    max_tokens: 3072
+
+  news_sentiment:
+    role: "News & Sentiment Analyst"
+    description: "Scans recent news, social sentiment, PR patterns, and public perception."
+    temperature: 0.2
+    max_tokens: 3072
+
+  competitive_intel:
+    role: "Competitive Intelligence Analyst"
+    description: "Maps competitive landscape, market position, differentiators, and market share."
+    temperature: 0.2
+    max_tokens: 3072
+
+  risk_assessor:
+    role: "Risk Assessment Specialist"
+    description: "Identifies legal, regulatory, operational, and reputational risks with severity scores."
+    temperature: 0.1
+    max_tokens: 3072
+
+  fact_checker:
+    role: "Fact Verification Specialist"
+    description: "Cross-references claims from other agents, flags contradictions, assigns confidence scores."
+    temperature: 0.0
+    max_tokens: 2048
+
+# --- Pipeline Settings ---
+pipeline:
+  max_parallel_agents: 4                # Number of agents to run concurrently
+  max_retries_per_agent: 2              # Retry count before using fallback
+  max_debate_rounds: 2                  # Lead analyst contradiction resolution rounds
+  max_fact_check_depth: 2               # How many verification passes
+  timeout_per_agent_seconds: 120        # Per-agent wall-clock timeout
+  enable_self_correction: true          # Enable fact-checker -> re-research loop
+  enable_debate: true                   # Enable Lead Analyst contradiction resolution
+
+# --- Token Budget ---
+budget:
+  max_total_tokens: 100000              # Hard ceiling for entire pipeline
+  max_tokens_per_agent: 20000           # Per-agent token ceiling
+  warning_threshold_pct: 80             # Warn at 80% budget usage
+  cost_per_1k_input_tokens: 0.0001     # For cost tracking (Gemini Flash pricing)
+  cost_per_1k_output_tokens: 0.0004
+  max_cost_usd: 0.50                    # Hard cost ceiling per analysis
+
+# --- Search Settings ---
+search:
+  provider: "tavily"                    # tavily | serper | duckduckgo
+  max_results_per_query: 5
+  max_queries_per_agent: 3
+  include_domains: []                   # Empty = no filter
+  exclude_domains:
+    - "pinterest.com"
+    - "quora.com"
+  search_depth: "advanced"              # basic | advanced (Tavily)
+
+# --- Memory & Caching ---
+cache:
+  enabled: true
+  backend: "sqlite"                     # sqlite | redis
+  ttl_hours: 24                         # Cache TTL for search results
+  max_entries: 1000                     # LRU eviction threshold
+  db_path: "data/cache.db"
+
+# --- Guardrails ---
+guardrails:
+  max_reasoning_iterations: 10          # Prevent infinite reasoning loops
+  max_agent_calls: 30                   # Total agent invocations across pipeline
+  max_execution_time_seconds: 300       # 5-minute wall-clock limit
+  hallucination_check_enabled: true
+  confidence_threshold: 0.6             # Minimum confidence for a finding
+  pii_detection_enabled: true           # Mask PII in outputs
+  source_grounding_required: true       # Every claim must cite a source
+
+# --- Evaluation ---
+evaluation:
+  enabled: true
+  metrics:
+    - "coverage"                        # Breadth of research areas covered
+    - "source_diversity"                # Number of unique sources cited
+    - "factual_consistency"             # Cross-agent agreement score
+    - "actionability"                   # Practical recommendation quality
+  judge_model: "gemini-2.5-flash"
+  num_eval_runs: 3
+
+# --- Output ---
+output:
+  format: "markdown"                    # markdown | json | html
+  include_sources: true
+  include_confidence_scores: true
+  include_agent_traces: true
+  include_cost_breakdown: true
+  reports_dir: "artifacts/reports"
+
+# --- Logging ---
+logging:
+  level: "INFO"                         # DEBUG | INFO | WARNING | ERROR
+  format: "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+  file: "logs/pipeline.log"
+  enable_structured: true               # JSON-structured logs for production
+  trace_llm_calls: false                # Log full prompts/responses (verbose)
