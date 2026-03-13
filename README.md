@@ -16,13 +16,14 @@
 | # | Project | Domain | Difficulty | Key Tech |
 |---|---|---|---|---|
 | 1 | [ML Algorithms](projects/algorithm-showdown/) | Classical ML / Interpretability | Intermediate | Scikit-learn, XGBoost, SHAP |
-| 2 | [Deep Learning](capstones/deep-learning-capstone/) | Computer Vision / DL | Intermediate-Advanced | PyTorch, TorchVision |
-| 3 | [ML Pipeline](capstones/ml-pipeline-capstone/) | Feature Engineering / Production ML | Advanced | Scikit-learn, FastAPI, Docker |
+| 2 | [Deep Learning](projects/deep-learning-project/) | Computer Vision / DL | Intermediate-Advanced | PyTorch, TorchVision |
+| 3 | [ML Pipeline](projects/credit-risk-pipeline/) | Feature Engineering / Production ML | Advanced | Scikit-learn, FastAPI, Docker |
 | 4 | [MLOps](projects/model-serving-platform/) | Model Deployment / Infrastructure | Advanced | FastAPI, Docker, Prometheus, GitHub Actions |
 | 5 | [LLM/RAG](projects/rag-expert-assistant/) | Retrieval-Augmented Generation | Advanced | LangChain, ChromaDB |
 | 6 | [AI Agents](projects/ai-agents-project/) | LLM Agent Orchestration | Advanced | LangGraph, OpenAI, Tavily |
 | 7 | [IPL Analysis](projects/ipl-match-predictor/) | Data Science / EDA | Beginner-Intermediate | Pandas, Plotly, Scikit-learn |
 | 8 | [Content Moderation](projects/content-moderation-project/) | Multi-Agentic AI | Advanced | LangGraph, Multi-Agent |
+| 9 | [Due Diligence Agent](projects/due-diligence-agent/) | Multi-Agent Research | Advanced | LangGraph, Gemini, Streamlit |
 
 ---
 
@@ -90,6 +91,14 @@ Multi-agent content moderation pipeline with specialized agents for different co
 
 ---
 
+### 9. Due Diligence Agent - Multi-Agent Company Research
+
+Enterprise-grade company research powered by 6 AI agents with parallel execution, fact-checking, contradiction resolution, and comprehensive guardrails.
+
+**Highlights:** 6 specialist agents | Parallel execution via LangGraph Send() | Fact-checking + debate | Streamlit dashboard
+
+---
+
 ## Industry Best-Practice Project Structure
 
 Every project follows a consistent structure adapted from top ML teams:
@@ -147,24 +156,27 @@ make all                          # train -> evaluate -> test
 6. LLM/RAG              -> Retrieval-augmented generation, evaluation, security
        |
 7. AI Agents             -> Multi-agent orchestration, guardrails, cost optimization
+       |
+8. Content Moderation    -> Multi-agentic content pipelines
+       |
+9. Due Diligence Agent   -> Enterprise multi-agent research, fact-checking, debate
 ```
 
 ## Repository Structure
 
 ```
 aiml-companion/
-├── capstones/
-│   ├── deep-learning-capstone/     # CIFAR-10 + PyTorch
-│   ├── ml-pipeline-capstone/       # Credit Risk + Monitoring
-│   └── mlops-capstone/             # Model Serving + CI/CD
 ├── projects/
 │   ├── algorithm-showdown/         # Classical ML + SHAP
-│   ├── ipl-match-predictor/        # EDA + Predictive Modeling
+│   ├── deep-learning-project/      # CIFAR-10 + PyTorch
+│   ├── credit-risk-pipeline/       # Credit Risk + Monitoring
+│   ├── model-serving-platform/     # Model Serving + CI/CD
 │   ├── rag-expert-assistant/       # RAG + Security
 │   ├── ai-agents-project/          # Multi-Agent + LangGraph
-│   └── content-moderation-project/ # Multi-Agentic Content Moderation
+│   ├── ipl-match-predictor/        # EDA + Predictive Modeling
+│   ├── content-moderation-project/ # Multi-Agentic Content Moderation
+│   └── due-diligence-agent/        # Multi-Agent Company Research
 └── README.md                       # This file
-
 ```
 
 ---
