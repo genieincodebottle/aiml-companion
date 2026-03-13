@@ -15,13 +15,13 @@
 
 | # | Project | Domain | Difficulty | Key Tech |
 |---|---|---|---|---|
-| 1 | [ML Algorithms](projects/algorithm-showdown/) | Classical ML / Interpretability | Intermediate | Scikit-learn, XGBoost, SHAP |
-| 2 | [Deep Learning](projects/deep-learning-project/) | Computer Vision / DL | Intermediate-Advanced | PyTorch, TorchVision |
-| 3 | [ML Pipeline](projects/credit-risk-pipeline/) | Feature Engineering / Production ML | Advanced | Scikit-learn, FastAPI, Docker |
-| 4 | [MLOps](projects/model-serving-platform/) | Model Deployment / Infrastructure | Advanced | FastAPI, Docker, Prometheus, GitHub Actions |
-| 5 | [LLM/RAG](projects/rag-expert-assistant/) | Retrieval-Augmented Generation | Advanced | LangChain, ChromaDB |
-| 6 | [AI Agents](projects/ai-agents-project/) | LLM Agent Orchestration | Advanced | LangGraph, OpenAI, Tavily |
-| 7 | [IPL Analysis](projects/ipl-match-predictor/) | Data Science / EDA | Beginner-Intermediate | Pandas, Plotly, Scikit-learn |
+| 1 | [IPL Analysis](projects/ipl-match-predictor/) | Data Science / EDA | Beginner-Intermediate | Pandas, Plotly, Scikit-learn |
+| 2 | [ML Algorithms](projects/algorithm-showdown/) | Classical ML / Interpretability | Intermediate | Scikit-learn, XGBoost, SHAP |
+| 3 | [Deep Learning](projects/deep-learning-project/) | Computer Vision / DL | Intermediate-Advanced | PyTorch, TorchVision |
+| 4 | [ML Pipeline](projects/credit-risk-pipeline/) | Feature Engineering / Production ML | Advanced | Scikit-learn, FastAPI, Docker |
+| 5 | [MLOps](projects/model-serving-platform/) | Model Deployment / Infrastructure | Advanced | FastAPI, Docker, Prometheus, GitHub Actions |
+| 6 | [LLM/RAG](projects/rag-expert-assistant/) | Retrieval-Augmented Generation | Advanced | LangChain, ChromaDB |
+| 7 | [AI Agents](projects/ai-agents-project/) | LLM Agent Orchestration | Advanced | LangGraph, OpenAI, Tavily |
 | 8 | [Content Moderation](projects/content-moderation-project/) | Multi-Agentic AI | Advanced | LangGraph, Multi-Agent |
 | 9 | [Due Diligence Agent](projects/due-diligence-agent/) | Multi-Agent Research | Advanced | LangGraph, Gemini, Streamlit |
 
@@ -29,7 +29,15 @@
 
 ## Project Details
 
-### 1. ML Algorithms - Medical Diagnostic Classifier
+### 1. IPL Dataset Analysis - End-to-End EDA
+
+Comprehensive analysis of 17 IPL seasons with interactive visualizations, hypothesis testing, feature engineering, and predictive modeling.
+
+**Highlights:** 1000+ matches | Plotly interactive charts | Hypothesis testing | RF + GB models
+
+---
+
+### 2. ML Algorithms - Medical Diagnostic Classifier
 
 Compare 6 ML algorithms on real clinical data with cost-sensitive threshold tuning (~95% malignant recall) and SHAP explainability for regulatory review.
 
@@ -37,7 +45,7 @@ Compare 6 ML algorithms on real clinical data with cost-sensitive threshold tuni
 
 ---
 
-### 2. Deep Learning - CIFAR-10 Progressive Classifier
+### 3. Deep Learning - CIFAR-10 Progressive Classifier
 
 Systematically improve a CIFAR-10 image classifier from 60% to 93%+ accuracy across 6 documented experiments with a full diagnostics toolkit.
 
@@ -45,7 +53,7 @@ Systematically improve a CIFAR-10 image classifier from 60% to 93%+ accuracy acr
 
 ---
 
-### 3. ML Pipeline - Credit Risk with Monitoring
+### 4. ML Pipeline - Credit Risk with Monitoring
 
 End-to-end pipeline from messy bank data to deployed model with KNN imputation, domain feature engineering, and PSI drift monitoring.
 
@@ -53,7 +61,7 @@ End-to-end pipeline from messy bank data to deployed model with KNN imputation, 
 
 ---
 
-### 4. MLOps - Model Serving Platform
+### 5. MLOps - Model Serving Platform
 
 Production ML infrastructure: FastAPI with graceful shutdown, CI/CD pipeline, Prometheus metrics, Locust load testing, and operational runbook.
 
@@ -61,7 +69,7 @@ Production ML infrastructure: FastAPI with graceful shutdown, CI/CD pipeline, Pr
 
 ---
 
-### 5. LLM/RAG - Expert Assistant
+### 6. LLM/RAG - Expert Assistant
 
 Production RAG system with chunking, security defense, and evaluation framework.
 
@@ -69,19 +77,11 @@ Production RAG system with chunking, security defense, and evaluation framework.
 
 ---
 
-### 6. AI Agents - Multi-Agent Research System
+### 7. AI Agents - Multi-Agent Research System
 
 4-agent orchestrated research pipeline (researcher, analyst, writer, fact-checker) with guardrails, evaluation, and cost tracking.
 
 **Highlights:** LangGraph orchestration | +33% completeness vs single-agent | Budget tracking | LLM-as-judge
-
----
-
-### 7. IPL Dataset Analysis - End-to-End EDA
-
-Comprehensive analysis of 17 IPL seasons with interactive visualizations, hypothesis testing, feature engineering, and predictive modeling.
-
-**Highlights:** 1000+ matches | Plotly interactive charts | Hypothesis testing | RF + GB models
 
 ---
 
@@ -167,13 +167,13 @@ make all                          # train -> evaluate -> test
 ```
 aiml-companion/
 ├── projects/
+│   ├── ipl-match-predictor/        # EDA + Predictive Modeling
 │   ├── algorithm-showdown/         # Classical ML + SHAP
 │   ├── deep-learning-project/      # CIFAR-10 + PyTorch
 │   ├── credit-risk-pipeline/       # Credit Risk + Monitoring
 │   ├── model-serving-platform/     # Model Serving + CI/CD
 │   ├── rag-expert-assistant/       # RAG + Security
 │   ├── ai-agents-project/          # Multi-Agent + LangGraph
-│   ├── ipl-match-predictor/        # EDA + Predictive Modeling
 │   ├── content-moderation-project/ # Multi-Agentic Content Moderation
 │   └── due-diligence-agent/        # Multi-Agent Company Research
 └── README.md                       # This file
