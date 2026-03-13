@@ -35,6 +35,8 @@ Comprehensive analysis of 17 IPL seasons with interactive visualizations, hypoth
 
 **Highlights:** 1000+ matches | Plotly interactive charts | Hypothesis testing | RF + GB models
 
+[Interactive Walkthrough](https://aimlcompanion.ai/module/mlAlgorithms/iplProject)
+
 ---
 
 ### 2. ML Algorithms - Medical Diagnostic Classifier
@@ -42,6 +44,8 @@ Comprehensive analysis of 17 IPL seasons with interactive visualizations, hypoth
 Compare 6 ML algorithms on real clinical data with cost-sensitive threshold tuning (~95% malignant recall) and SHAP explainability for regulatory review.
 
 **Highlights:** 6 algorithms compared | XGBoost AUC ~0.994 | SHAP reports | Threshold tuning
+
+[Interactive Walkthrough](https://aimlcompanion.ai/module/mlAlgorithms/mlAlgorithmsCapstone)
 
 ---
 
@@ -51,6 +55,8 @@ Systematically improve a CIFAR-10 image classifier from 60% to 93%+ accuracy acr
 
 **Highlights:** 6 progressive experiments | ResNet + CutMix | LR Finder | Per-class analysis
 
+[Interactive Walkthrough](https://aimlcompanion.ai/module/deepLearning/dlCapstone)
+
 ---
 
 ### 4. ML Pipeline - Credit Risk with Monitoring
@@ -58,6 +64,8 @@ Systematically improve a CIFAR-10 image classifier from 60% to 93%+ accuracy acr
 End-to-end pipeline from messy bank data to deployed model with KNN imputation, domain feature engineering, and PSI drift monitoring.
 
 **Highlights:** Feature engineering | 10:1 cost-sensitive | PSI drift detection | FastAPI + Docker
+
+[Interactive Walkthrough](https://aimlcompanion.ai/module/mlPipeline/mlPipelineCapstone)
 
 ---
 
@@ -67,6 +75,8 @@ Production ML infrastructure: FastAPI with graceful shutdown, CI/CD pipeline, Pr
 
 **Highlights:** CI/CD (GitHub Actions) | P95 < 45ms | 161.7 RPS | Kubernetes-ready
 
+[Interactive Walkthrough](https://aimlcompanion.ai/module/mlOps/mlopsCapstone)
+
 ---
 
 ### 6. LLM/RAG - Expert Assistant
@@ -74,6 +84,8 @@ Production ML infrastructure: FastAPI with graceful shutdown, CI/CD pipeline, Pr
 Production RAG system with chunking, security defense, and evaluation framework.
 
 **Highlights:** RAG pipeline | PII defense | A/B testing
+
+[Interactive Walkthrough](https://aimlcompanion.ai/module/aiAgents/ragExpertAssistant)
 
 ---
 
@@ -83,11 +95,15 @@ Production RAG system with chunking, security defense, and evaluation framework.
 
 **Highlights:** LangGraph orchestration | +33% completeness vs single-agent | Budget tracking | LLM-as-judge
 
+[Interactive Walkthrough](https://aimlcompanion.ai/module/aiAgents/agentsCapstone)
+
 ---
 
 ### 8. Content Moderation - Multi-Agentic System
 
 Multi-agent content moderation pipeline with specialized agents for different content types.
+
+[Interactive Walkthrough](https://aimlcompanion.ai/module/aiAgents/contentModerationProject)
 
 ---
 
@@ -96,6 +112,8 @@ Multi-agent content moderation pipeline with specialized agents for different co
 Enterprise-grade company research powered by 6 AI agents with parallel execution, fact-checking, contradiction resolution, and comprehensive guardrails.
 
 **Highlights:** 6 specialist agents | Parallel execution via LangGraph Send() | Fact-checking + debate | Streamlit dashboard
+
+[Interactive Walkthrough](https://aimlcompanion.ai/module/aiAgents/dueDiligenceProject)
 
 ---
 
