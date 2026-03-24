@@ -77,7 +77,7 @@ models:
     min_samples_split: 10
     min_samples_leaf: 5
     random_state: 42
-    loss: "squared_error"
+    loss: "huber"
   train_test_split:
     test_size: 0.25
     random_state: 42

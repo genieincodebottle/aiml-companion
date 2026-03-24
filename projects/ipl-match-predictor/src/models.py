@@ -224,11 +224,14 @@ def build_regressor(
     min_samples_split: int = 10,
     min_samples_leaf: int = 5,
     random_state: int = 42,
-    loss: str = "squared_error",
+    loss: str = "huber",
 ) -> Pipeline:
     """Build a Gradient Boosting regression pipeline.
 
     Used for predicting continuous targets such as run margins.
+    Defaults to Huber loss, which is robust to outlier blowout wins
+    (e.g., 146-run margins) by combining MSE for small errors with
+    MAE for large errors.
 
     Parameters
     ----------
@@ -245,7 +248,7 @@ def build_regressor(
     random_state : int
         Reproducibility seed.
     loss : str
-        Loss function (``'squared_error'``, ``'absolute_error'``, etc.).
+        Loss function (``'huber'``, ``'squared_error'``, ``'absolute_error'``, etc.).
 
     Returns
     -------
