@@ -243,9 +243,9 @@ Binomial test (two-sided) on 1,090 decided matches: the toss winner's match win 
 
 The Elo rating difference between teams consistently ranks as the top feature in importance analysis. This confirms that historical team strength (captured via incremental rating updates) provides more signal than raw team identity or venue.
 
-### Run Margin Prediction Is Inherently Noisy
+### Run Margin Prediction Needs Richer Features
 
-The regression model achieves MAE ~20 runs with R2 near zero. Cricket run margins are highly stochastic (weather, pitch, individual player form). The near-zero R2 is expected and consistent with published sports prediction literature.
+The regression model achieves MAE ~20 runs with R2 near zero using pre-match aggregate features. Cricket run margins depend on in-match factors (weather, pitch conditions, individual player form) that richer data sources could capture. The near-zero R2 with current features is consistent with published sports prediction literature.
 
 ---
 
