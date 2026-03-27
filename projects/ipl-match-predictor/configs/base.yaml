@@ -78,6 +78,21 @@ models:
     min_samples_leaf: 5
     random_state: 42
     loss: "huber"
+  xgboost:
+    n_estimators: 200
+    max_depth: 6
+    learning_rate: 0.1
+    subsample: 0.8
+    colsample_bytree: 0.8
+    reg_alpha: 0.1
+    reg_lambda: 1.0
+    random_state: 42
+  neural_net:
+    dropout: 0.3
+    lr: 0.001
+    epochs: 100
+    batch_size: 32
+    random_state: 42
   train_test_split:
     test_size: 0.25
     random_state: 42

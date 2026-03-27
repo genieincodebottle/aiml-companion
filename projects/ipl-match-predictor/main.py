@@ -43,11 +43,15 @@ from src.hypothesis import run_toss_advantage_test, run_home_advantage_test
 from src.models import (
     build_classifier,
     build_regressor,
+    build_xgb_classifier,
+    build_neural_classifier,
     cross_validate_model,
     evaluate_model,
     get_feature_importances,
     prepare_features,
     split_data,
+    _HAS_XGBOOST,
+    _HAS_TORCH,
 )
 from src.evaluate import generate_report, print_summary
 
@@ -152,8 +156,13 @@ def stage_hypothesis(matches: pd.DataFrame) -> dict:
 
 def stage_train(
     matches: pd.DataFrame,
-) -> tuple[object, object, pd.DataFrame, pd.Series, pd.DataFrame, pd.Series, list]:
-    """Stage 6: Model training with cross-validation."""
+) -> dict:
+    """Stage 6: Model training with cross-validation.
+
+    Trains up to 3 classifiers (Random Forest, XGBoost, Neural Net)
+    and 1 regressor (Gradient Boosting). Returns a dict with all
+    trained models and data splits.
+    """
     logger.info("Training models...")
 
     # Classification: predict match winner (team1 wins = 1)
@@ -166,13 +175,41 @@ def stage_train(
 
     X_train, X_test, y_train, y_test = split_data(X_encoded, y_clf)
 
-    # Classification
-    clf = build_classifier()
-    clf.fit(X_train, y_train)
-    cv_clf = cross_validate_model(clf, X_encoded, y_clf, cv=5, scoring="accuracy")
-    logger.info("RF Classifier CV accuracy: %.4f (+/- %.4f)", cv_clf["mean"], cv_clf["std"])
+    classifiers = {}
+    cv_results = {}
+
+    # 1. Random Forest
+    clf_rf = build_classifier()
+    clf_rf.fit(X_train, y_train)
+    cv_rf = cross_validate_model(clf_rf, X_encoded, y_clf, cv=5, scoring="accuracy")
+    classifiers["Random Forest"] = clf_rf
+    cv_results["Random Forest"] = cv_rf
+    logger.info("RF Classifier CV accuracy: %.4f (+/- %.4f)", cv_rf["mean"], cv_rf["std"])
+
+    # 2. XGBoost
+    if _HAS_XGBOOST:
+        clf_xgb = build_xgb_classifier()
+        clf_xgb.fit(X_train, y_train)
+        cv_xgb = cross_validate_model(clf_xgb, X_encoded, y_clf, cv=5, scoring="accuracy")
+        classifiers["XGBoost"] = clf_xgb
+        cv_results["XGBoost"] = cv_xgb
+        logger.info("XGBoost CV accuracy: %.4f (+/- %.4f)", cv_xgb["mean"], cv_xgb["std"])
+    else:
+        logger.warning("xgboost not installed - skipping XGBoost classifier")
+
+    # 3. Neural Network
+    if _HAS_TORCH:
+        clf_nn = build_neural_classifier()
+        clf_nn.fit(X_train, y_train)
+        cv_nn = cross_validate_model(clf_nn, X_encoded, y_clf, cv=5, scoring="accuracy")
+        classifiers["Neural Net"] = clf_nn
+        cv_results["Neural Net"] = cv_nn
+        logger.info("Neural Net CV accuracy: %.4f (+/- %.4f)", cv_nn["mean"], cv_nn["std"])
+    else:
+        logger.warning("torch not installed - skipping Neural Net classifier")
 
     # Regression: predict run margin
+    reg = None
     runs_mask = valid["result"] == "runs"
     if runs_mask.sum() > 50:
         X_reg = X_encoded.loc[runs_mask.reindex(X_encoded.index, fill_value=False)]
@@ -185,37 +222,94 @@ def stage_train(
         )
         logger.info("GBR Regressor CV MAE: %.4f", -cv_reg["mean"])
     else:
-        reg = None
         logger.warning("Not enough 'runs' results for regression (%d)", runs_mask.sum())
 
-    return clf, reg, X_test, y_test, X_encoded, y_clf, feature_names
+    # Print comparison table
+    logger.info("")
+    logger.info("=" * 50)
+    logger.info("  MODEL COMPARISON (5-Fold CV Accuracy)")
+    logger.info("=" * 50)
+    for name, cv in sorted(cv_results.items(), key=lambda x: -x[1]["mean"]):
+        logger.info("  %-15s  %.4f (+/- %.4f)", name, cv["mean"], cv["std"])
+    logger.info("=" * 50)
+
+    # Pick the best classifier
+    best_name = max(cv_results, key=lambda k: cv_results[k]["mean"])
+    logger.info("Best classifier: %s (%.4f)", best_name, cv_results[best_name]["mean"])
+
+    return {
+        "classifiers": classifiers,
+        "cv_results": cv_results,
+        "best_name": best_name,
+        "best_clf": classifiers[best_name],
+        "reg": reg,
+        "X_test": X_test,
+        "y_test": y_test,
+        "X_encoded": X_encoded,
+        "y_clf": y_clf,
+        "feature_names": feature_names,
+    }
 
 
-def stage_evaluate(
-    clf, reg, X_test, y_test, X_encoded, y_clf, feature_names
-) -> dict:
-    """Stage 7: Model evaluation and reporting."""
+def stage_evaluate(train_output: dict) -> dict:
+    """Stage 7: Model evaluation and reporting.
+
+    Evaluates all trained classifiers and picks the best one
+    based on test-set accuracy. Generates a comparison report.
+    """
     logger.info("Evaluating models...")
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Classification metrics
-    clf_metrics = evaluate_model(clf, X_test, y_test, task="classification")
+    classifiers = train_output["classifiers"]
+    X_test = train_output["X_test"]
+    y_test = train_output["y_test"]
+    feature_names = train_output["feature_names"]
+    reg = train_output["reg"]
 
-    # Feature importances
-    fi = get_feature_importances(clf, feature_names, top_n=15)
+    all_metrics = {}
+    for name, clf in classifiers.items():
+        metrics = evaluate_model(clf, X_test, y_test, task="classification")
+        all_metrics[name] = metrics
+        logger.info(
+            "%s test accuracy: %.4f  F1: %.4f",
+            name,
+            metrics["accuracy"],
+            metrics["f1"],
+        )
+
+    # Feature importances from tree-based models
+    best_name = train_output["best_name"]
+    best_clf = train_output["best_clf"]
+
+    fi = None
+    try:
+        fi = get_feature_importances(best_clf, feature_names, top_n=15)
+    except AttributeError:
+        # Neural Net doesn't expose feature_importances_
+        # Fall back to Random Forest if available
+        if "Random Forest" in classifiers:
+            fi = get_feature_importances(
+                classifiers["Random Forest"], feature_names, top_n=15
+            )
+            logger.info("Feature importances from Random Forest (best model has none)")
 
     results = {
-        "classification": clf_metrics,
-        "feature_importances": fi,
+        "classification": all_metrics[best_name],
+        "all_classifiers": {
+            name: {"accuracy": m["accuracy"], "f1": m["f1"]}
+            for name, m in all_metrics.items()
+        },
+        "best_model": best_name,
+        "cv_results": train_output["cv_results"],
     }
 
-    # Regression metrics (if regressor was trained)
+    if fi is not None:
+        results["feature_importances"] = fi
+
     if reg is not None:
-        # Use same split logic for regression evaluation
-        reg_metrics = {
+        results["regression"] = {
             "note": "Regression evaluated during training via cross-validation"
         }
-        results["regression"] = reg_metrics
 
     # Generate and save report
     report = generate_report(results)
@@ -269,7 +363,7 @@ def run_pipeline(stage: str | None = None) -> None:
             return
 
     if stage is None or stage == "train":
-        clf, reg, X_test, y_test, X_enc, y_clf, feat_names = stage_train(matches)
+        train_output = stage_train(matches)
         if stage == "train":
             return
 
@@ -277,8 +371,8 @@ def run_pipeline(stage: str | None = None) -> None:
         if stage == "evaluate":
             # Need to train first
             matches = stage_features(matches)
-            clf, reg, X_test, y_test, X_enc, y_clf, feat_names = stage_train(matches)
-        stage_evaluate(clf, reg, X_test, y_test, X_enc, y_clf, feat_names)
+            train_output = stage_train(matches)
+        stage_evaluate(train_output)
 
     elapsed = time.time() - t0
     logger.info("Pipeline complete in %.1fs", elapsed)
