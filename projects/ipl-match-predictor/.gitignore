@@ -1,7 +1,7 @@
 # Data files (download from Kaggle or auto-loaded from GitHub)
-*.csv
 *.zip
 data/raw/*.csv
+!data/raw/matches.csv
 
 # Artifacts (generated outputs)
 artifacts/results/ipl-dataset-analysis-executed.ipynb

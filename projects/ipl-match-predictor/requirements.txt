@@ -11,8 +11,8 @@ plotly>=5.0.0
 scikit-learn>=1.2.0
 xgboost>=2.0.0
 
-# Deep learning (optional - install only if using neural net model)
-torch>=2.0.0
+# Deep learning (optional - only needed for neural net model variant)
+# torch>=2.0.0
 
 # Statistical testing
 scipy>=1.10.0

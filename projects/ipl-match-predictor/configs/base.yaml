@@ -70,7 +70,14 @@ models:
     min_samples_leaf: 5
     random_state: 42
     class_weight: "balanced"
-  gradient_boosting:
+  gradient_boosting_classifier:
+    n_estimators: 200
+    max_depth: 5
+    learning_rate: 0.1
+    min_samples_split: 10
+    min_samples_leaf: 5
+    random_state: 42
+  gradient_boosting_regressor:
     n_estimators: 100
     max_depth: 5
     learning_rate: 0.1
@@ -87,11 +94,19 @@ models:
     reg_alpha: 0.1
     reg_lambda: 1.0
     random_state: 42
-  neural_net:
-    dropout: 0.3
-    lr: 0.001
-    epochs: 100
-    batch_size: 32
+  logistic_regression:
+    C: 1.0
+    penalty: "l2"
+    max_iter: 1000
+    random_state: 42
+  ensemble_weights:
+    rf: 0.30
+    xgb: 0.35
+    gb: 0.20
+    lr: 0.15
+  monte_carlo:
+    n_simulations: 10000
+    noise_std: 0.05
     random_state: 42
   train_test_split:
     test_size: 0.25

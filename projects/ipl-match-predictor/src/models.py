@@ -22,7 +22,9 @@ from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator, ClassifierMixin
-from sklearn.ensemble import GradientBoostingRegressor, RandomForestClassifier
+from sklearn.calibration import CalibratedClassifierCV
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor, RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
     accuracy_score,
     classification_report,
@@ -387,8 +389,262 @@ def build_xgb_classifier(
     return pipeline
 
 
+def build_gb_classifier(
+    n_estimators: int = 200,
+    max_depth: int = 5,
+    learning_rate: float = 0.1,
+    min_samples_split: int = 10,
+    min_samples_leaf: int = 5,
+    random_state: int = 42,
+) -> Pipeline:
+    """Build a Gradient Boosting classification pipeline.
+
+    Unlike the regressor variant (used for margin prediction), this
+    classifier predicts match winners with calibrated probabilities.
+
+    Parameters
+    ----------
+    n_estimators : int
+        Number of boosting stages.
+    max_depth : int
+        Maximum depth of individual trees.
+    learning_rate : float
+        Shrinkage parameter.
+    min_samples_split : int
+        Minimum samples to split an internal node.
+    min_samples_leaf : int
+        Minimum samples at a leaf node.
+    random_state : int
+        Reproducibility seed.
+
+    Returns
+    -------
+    sklearn.pipeline.Pipeline
+        Unfitted Gradient Boosting classification pipeline.
+
+    Examples
+    --------
+    >>> clf = build_gb_classifier(n_estimators=300)
+    >>> clf.fit(X_train, y_train)
+    >>> y_pred = clf.predict(X_test)
+    """
+    pipeline = Pipeline(
+        [
+            ("scaler", StandardScaler()),
+            (
+                "classifier",
+                GradientBoostingClassifier(
+                    n_estimators=n_estimators,
+                    max_depth=max_depth,
+                    learning_rate=learning_rate,
+                    min_samples_split=min_samples_split,
+                    min_samples_leaf=min_samples_leaf,
+                    random_state=random_state,
+                ),
+            ),
+        ]
+    )
+    logger.info(
+        "Built GB classifier pipeline - %d estimators, lr=%.3f",
+        n_estimators,
+        learning_rate,
+    )
+    return pipeline
+
+
+def build_lr_classifier(
+    C: float = 1.0,
+    penalty: str = "l2",
+    max_iter: int = 1000,
+    random_state: int = 42,
+) -> Pipeline:
+    """Build a Logistic Regression classification pipeline.
+
+    Serves as a calibrated baseline classifier. L2 regularization
+    prevents overfitting on high-dimensional one-hot encoded features.
+
+    Parameters
+    ----------
+    C : float
+        Inverse regularization strength (smaller = stronger reg).
+    penalty : str
+        Regularization type (``'l1'``, ``'l2'``, ``'elasticnet'``).
+    max_iter : int
+        Maximum solver iterations.
+    random_state : int
+        Reproducibility seed.
+
+    Returns
+    -------
+    sklearn.pipeline.Pipeline
+        Unfitted Logistic Regression classification pipeline.
+
+    Examples
+    --------
+    >>> clf = build_lr_classifier(C=0.5)
+    >>> clf.fit(X_train, y_train)
+    >>> y_pred = clf.predict(X_test)
+    """
+    pipeline = Pipeline(
+        [
+            ("scaler", StandardScaler()),
+            (
+                "classifier",
+                LogisticRegression(
+                    C=C,
+                    penalty=penalty,
+                    max_iter=max_iter,
+                    random_state=random_state,
+                    n_jobs=-1,
+                ),
+            ),
+        ]
+    )
+    logger.info("Built LR classifier pipeline - C=%.3f, penalty=%s", C, penalty)
+    return pipeline
+
+
+def build_ensemble(
+    X_train: pd.DataFrame,
+    y_train: pd.Series,
+    weights: Optional[Dict[str, float]] = None,
+) -> Dict[str, Pipeline]:
+    """Build and fit all 4 classifiers as a weighted ensemble.
+
+    Trains Random Forest, XGBoost, Gradient Boosting, and Logistic
+    Regression on the same data. Returns fitted pipelines for
+    ensemble prediction.
+
+    Parameters
+    ----------
+    X_train : pd.DataFrame
+        Training feature matrix.
+    y_train : pd.Series
+        Training target vector.
+    weights : dict, optional
+        Model weights for ensemble averaging. Defaults to
+        ``{'rf': 0.30, 'xgb': 0.35, 'gb': 0.20, 'lr': 0.15}``.
+
+    Returns
+    -------
+    dict
+        Keys: model names, values: fitted Pipeline objects.
+        Also includes ``'weights'`` key with the weight dict.
+    """
+    if weights is None:
+        weights = {"rf": 0.30, "xgb": 0.35, "gb": 0.20, "lr": 0.15}
+
+    models = {
+        "rf": build_classifier(),
+        "xgb": build_xgb_classifier(),
+        "gb": build_gb_classifier(),
+        "lr": build_lr_classifier(),
+    }
+
+    for name, pipeline in models.items():
+        logger.info("Training %s...", name)
+        pipeline.fit(X_train, y_train)
+
+    models["weights"] = weights
+    logger.info("Ensemble built - 4 models trained, weights: %s", weights)
+    return models
+
+
+def ensemble_predict_proba(
+    models: Dict[str, Any],
+    X: pd.DataFrame,
+) -> np.ndarray:
+    """Get weighted ensemble probability predictions.
+
+    Parameters
+    ----------
+    models : dict
+        Output of ``build_ensemble()`` (fitted pipelines + weights).
+    X : pd.DataFrame
+        Feature matrix to predict on.
+
+    Returns
+    -------
+    np.ndarray
+        Weighted average probability of Team 1 winning.
+    """
+    weights = models["weights"]
+    probs = np.zeros(len(X))
+
+    for name, w in weights.items():
+        pipeline = models[name]
+        p = pipeline.predict_proba(X)[:, 1]
+        probs += w * p
+
+    return probs
+
+
+def monte_carlo_simulation(
+    base_prob: float,
+    n_simulations: int = 10000,
+    noise_std: float = 0.05,
+    random_state: int = 42,
+) -> Dict[str, Any]:
+    """Run Monte Carlo simulation to validate prediction stability.
+
+    Simulates the match ``n_simulations`` times, adding Gaussian
+    noise to the base probability each time to model real-world
+    uncertainty (weather, toss, player form, momentum shifts).
+
+    Parameters
+    ----------
+    base_prob : float
+        Base win probability for Team 1 (from ensemble model).
+    n_simulations : int
+        Number of simulations to run.
+    noise_std : float
+        Standard deviation of Gaussian noise added to base probability.
+    random_state : int
+        Reproducibility seed.
+
+    Returns
+    -------
+    dict
+        Keys: ``team1_wins``, ``team2_wins``, ``team1_pct``,
+        ``team2_pct``, ``n_simulations``.
+
+    Examples
+    --------
+    >>> result = monte_carlo_simulation(0.59, n_simulations=10000)
+    >>> print(f"Team 1 wins {result['team1_pct']:.1f}% of simulations")
+    """
+    np.random.seed(random_state)
+
+    team1_wins = 0
+    team2_wins = 0
+
+    for _ in range(n_simulations):
+        noise = np.random.normal(0, noise_std)
+        match_prob = np.clip(base_prob + noise, 0.1, 0.9)
+
+        if np.random.random() < match_prob:
+            team1_wins += 1
+        else:
+            team2_wins += 1
+
+    result = {
+        "team1_wins": team1_wins,
+        "team2_wins": team2_wins,
+        "team1_pct": team1_wins / n_simulations * 100,
+        "team2_pct": team2_wins / n_simulations * 100,
+        "n_simulations": n_simulations,
+    }
+    logger.info(
+        "Monte Carlo (%d sims) - Team1: %.1f%%, Team2: %.1f%%",
+        n_simulations,
+        result["team1_pct"],
+        result["team2_pct"],
+    )
+    return result
+
+
 # ===================================================================
-# 2b. Neural Network classifier (PyTorch)
+# 2b. Neural Network classifier (PyTorch) - OPTIONAL
 # ===================================================================
 if _HAS_TORCH:
 

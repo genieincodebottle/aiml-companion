@@ -2,9 +2,9 @@
 
 > **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)** - Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
 
-End-to-end ML pipeline that predicts IPL match outcomes using 17 seasons of historical data (2008-2024). Combines Elo rating system, statistical hypothesis testing, and ensemble models (Random Forest + Gradient Boosting) with cross-validated evaluation.
+End-to-end ML pipeline that predicts IPL match outcomes using 18 seasons of historical data (2008-2025). Combines Elo rating system, statistical hypothesis testing, and a 4-model weighted ensemble (Random Forest, XGBoost, Gradient Boosting, Logistic Regression) validated with 10,000-match Monte Carlo simulation.
 
-**What this project demonstrates:** The complete ML lifecycle - from raw data to production-ready predictions - using 1,095 matches and 260,920 ball-by-ball records.
+**What this project demonstrates:** The complete ML lifecycle - from raw data to production-ready predictions - using 1,169 matches and 260,920 ball-by-ball records.
 
 ## Architecture
 
@@ -21,18 +21,19 @@ matches.csv + deliveries.csv
         |
    [Hypothesis Testing]   Binomial test (toss), chi-squared (decision impact)
         |
-   [Model Training]       RF classifier + GBR regressor, 5-fold stratified CV
+   [Model Training]       4-model ensemble (RF + XGB + GB + LR), 5-fold stratified CV
         |
-   [Evaluation]           Accuracy, F1, MAE, RMSE, R2, feature importances
+   [Monte Carlo]          10,000-match simulation to validate prediction stability
+        |
+   [Evaluation]           Accuracy, F1, ensemble weights, feature importances
 ```
 
 ## Key Results
 
 | Metric | Value | Method |
 |--------|-------|--------|
-| Match winner accuracy | ~50% | Random Forest, 5-fold CV |
-| Run margin MAE | ~20 runs (baseline) | Gradient Boosting Regressor |
-| Run margin R2 | Near zero | Same |
+| Match winner accuracy | ~50% | 4-model weighted ensemble, 5-fold CV |
+| Monte Carlo validation | 10,000 sims | Gaussian noise (std=0.05) stability check |
 | Toss advantage | Not significant | Binomial test (two-sided), p=0.61 |
 | Top predictive feature | Elo rating difference | Feature importance ranking |
 | Engineered features | 15+ | Elo, momentum, H2H, home, interactions |
@@ -113,7 +114,7 @@ ipl-match-predictor/
 │   ├── eda.py                             # 8 EDA functions with Plotly charts
 │   ├── features.py                        # Elo ratings, momentum, H2H, home advantage
 │   ├── hypothesis.py                      # Binomial + chi-squared hypothesis tests
-│   ├── models.py                          # RF + GBR pipelines, CV, feature importance
+│   ├── models.py                          # RF + XGB + GB + LR ensemble, Monte Carlo, CV
 │   └── evaluate.py                        # Markdown report generation, console summary
 ├── tests/
 │   ├── __init__.py
@@ -168,12 +169,15 @@ Source: [Kaggle IPL Complete Dataset](https://www.kaggle.com/datasets/patrickb19
 
 ### Models
 
-| Task | Algorithm | Key Params |
-|------|-----------|------------|
-| Classification (match winner) | Random Forest | 100 trees, max_depth=10, balanced weights |
-| Regression (run margin) | Gradient Boosting | 100 stages, lr=0.1, max_depth=5 |
+| Task | Algorithm | Key Params | Ensemble Weight |
+|------|-----------|------------|-----------------|
+| Classification | Random Forest | 100 trees, max_depth=10, balanced weights | 30% |
+| Classification | XGBoost | 200 estimators, L1/L2 regularization | 35% |
+| Classification | Gradient Boosting | 200 stages, lr=0.1, calibrated probabilities | 20% |
+| Classification | Logistic Regression | L2 regularization, baseline classifier | 15% |
+| Validation | Monte Carlo Simulation | 10,000 matches, Gaussian noise (std=0.05) | - |
 
-Both models use sklearn Pipelines with StandardScaler preprocessing and 5-fold stratified cross-validation.
+All 4 classifiers use sklearn Pipelines with StandardScaler preprocessing and 5-fold stratified cross-validation. Predictions are combined via weighted average, then validated with Monte Carlo simulation.
 
 ### Hypothesis Testing
 
@@ -189,7 +193,7 @@ Both models use sklearn Pipelines with StandardScaler preprocessing and 5-fold s
 |----------|-----------|
 | Data | pandas, numpy |
 | Visualization | Plotly (interactive), matplotlib, seaborn |
-| ML | scikit-learn (RandomForest, GradientBoosting, Pipeline) |
+| ML | scikit-learn (RandomForest, GradientBoosting, LogisticRegression, Pipeline), xgboost |
 | Statistics | scipy (binomial test, chi-squared) |
 | Config | PyYAML |
 | Testing | pytest |
@@ -209,9 +213,25 @@ models:
     n_estimators: 100
     max_depth: 10
     class_weight: "balanced"
-  gradient_boosting:
-    n_estimators: 100
+  xgboost:
+    n_estimators: 200
     learning_rate: 0.1
+    reg_alpha: 0.1
+    reg_lambda: 1.0
+  gradient_boosting_classifier:
+    n_estimators: 200
+    learning_rate: 0.1
+  logistic_regression:
+    C: 1.0
+    penalty: "l2"
+  ensemble_weights:
+    rf: 0.30
+    xgb: 0.35
+    gb: 0.20
+    lr: 0.15
+  monte_carlo:
+    n_simulations: 10000
+    noise_std: 0.05
 
 feature_flags:
   use_elo_ratings: true
