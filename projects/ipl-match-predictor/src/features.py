@@ -381,11 +381,130 @@ def engineer_features(
     df = _compute_h2h(df)
     df = _compute_home_advantage(df)
 
+    # Toss features (predictive - known before match starts)
+    df = _compute_toss_features(df)
+
+    # Venue chase bias (historical bat-first vs chase win% at venue)
+    df = _compute_venue_chase_bias(df)
+
     # Interaction features
     df["elo_x_momentum_t1"] = df["elo_team1"] * df["momentum_team1"]
     df["elo_x_momentum_t2"] = df["elo_team2"] * df["momentum_team2"]
     df["momentum_diff"] = df["momentum_team1"] - df["momentum_team2"]
+    df["elo_x_home_t1"] = df["elo_team1"] * df["home_team1"]
 
-    n_features = len([c for c in df.columns if c.startswith(("elo_", "momentum_", "h2h_", "home_"))])
+    # Season recency weight (more recent matches count more in training)
+    df = _compute_recency_weight(df)
+
+    n_features = len([c for c in df.columns if c.startswith((
+        "elo_", "momentum_", "h2h_", "home_", "toss_", "venue_chase_", "recency_"
+    ))])
     logger.info("Feature engineering complete - %d new features added", n_features)
+    return df
+
+
+# ---------------------------------------------------------------------------
+# Toss Features
+# ---------------------------------------------------------------------------
+def _compute_toss_features(matches_df: pd.DataFrame) -> pd.DataFrame:
+    """Add toss-related features that are known before match starts.
+
+    Parameters
+    ----------
+    matches_df : pd.DataFrame
+        Cleaned matches DataFrame.
+
+    Returns
+    -------
+    pd.DataFrame
+        Input with added columns:
+        - ``toss_winner_is_team1``: 1 if team1 won the toss
+        - ``toss_chose_field``: 1 if toss winner chose to field
+    """
+    df = matches_df.copy()
+
+    if "toss_winner" in df.columns:
+        df["toss_winner_is_team1"] = (df["toss_winner"] == df["team1"]).astype(int)
+
+    if "toss_decision" in df.columns:
+        df["toss_chose_field"] = (df["toss_decision"] == "field").astype(int)
+
+    return df
+
+
+# ---------------------------------------------------------------------------
+# Venue Chase Bias
+# ---------------------------------------------------------------------------
+def _compute_venue_chase_bias(matches_df: pd.DataFrame) -> pd.DataFrame:
+    """Compute per-venue batting-first vs chasing win percentage.
+
+    For each match, computes the historical chase win% at that venue
+    from all prior matches played there.
+
+    Parameters
+    ----------
+    matches_df : pd.DataFrame
+        Cleaned matches DataFrame sorted by date.
+
+    Returns
+    -------
+    pd.DataFrame
+        Input with added column: ``venue_chase_bias`` (0-1, higher = chase-friendly).
+    """
+    df = matches_df.copy()
+    venue_stats: Dict[str, Dict[str, int]] = defaultdict(lambda: {"chase_wins": 0, "total": 0})
+
+    chase_bias = []
+    for _, row in df.iterrows():
+        venue = row.get("venue", "Unknown")
+        stats = venue_stats[venue]
+
+        if stats["total"] > 0:
+            chase_bias.append(round(stats["chase_wins"] / stats["total"], 4))
+        else:
+            chase_bias.append(0.5)
+
+        # Update stats after recording
+        result = row.get("result", "")
+        if result == "wickets":
+            stats["chase_wins"] += 1
+            stats["total"] += 1
+        elif result == "runs":
+            stats["total"] += 1
+
+    df["venue_chase_bias"] = chase_bias
+    return df
+
+
+# ---------------------------------------------------------------------------
+# Season Recency Weight
+# ---------------------------------------------------------------------------
+def _compute_recency_weight(matches_df: pd.DataFrame) -> pd.DataFrame:
+    """Compute season recency weight for sample weighting during training.
+
+    Recent seasons are weighted more heavily. Uses exponential decay
+    so the most recent season gets weight 1.0 and older seasons
+    decay towards 0.5.
+
+    Parameters
+    ----------
+    matches_df : pd.DataFrame
+        Matches DataFrame with a ``date`` column.
+
+    Returns
+    -------
+    pd.DataFrame
+        Input with added column: ``recency_weight`` (0.5 to 1.0).
+    """
+    df = matches_df.copy()
+
+    if "date" in df.columns:
+        dates = pd.to_datetime(df["date"], errors="coerce")
+        max_date = dates.max()
+        days_ago = (max_date - dates).dt.days
+        # Exponential decay: weight = 0.5 + 0.5 * exp(-days / 1500)
+        df["recency_weight"] = 0.5 + 0.5 * np.exp(-days_ago / 1500)
+    else:
+        df["recency_weight"] = 1.0
+
     return df

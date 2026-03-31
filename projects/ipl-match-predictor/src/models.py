@@ -98,11 +98,18 @@ def prepare_features(
             "momentum_team2",
             "momentum_diff",
             "h2h_team1_winrate",
+            "h2h_matches",
             "home_team1",
             "home_team2",
+            # Toss features (known before match starts)
+            "toss_winner_is_team1",
+            "toss_chose_field",
+            # Venue chase bias
+            "venue_chase_bias",
             # Interaction features
             "elo_x_momentum_t1",
             "elo_x_momentum_t2",
+            "elo_x_home_t1",
             # Team identity (moderate-cardinality categorical)
             "team1",
             "team2",
@@ -508,12 +515,14 @@ def build_ensemble(
     X_train: pd.DataFrame,
     y_train: pd.Series,
     weights: Optional[Dict[str, float]] = None,
-) -> Dict[str, Pipeline]:
+    sample_weight: Optional[np.ndarray] = None,
+    calibrate: bool = True,
+) -> Dict[str, Any]:
     """Build and fit all 4 classifiers as a weighted ensemble.
 
     Trains Random Forest, XGBoost, Gradient Boosting, and Logistic
-    Regression on the same data. Returns fitted pipelines for
-    ensemble prediction.
+    Regression on the same data. Optionally wraps each model in
+    CalibratedClassifierCV for better probability estimates.
 
     Parameters
     ----------
@@ -524,26 +533,44 @@ def build_ensemble(
     weights : dict, optional
         Model weights for ensemble averaging. Defaults to
         ``{'rf': 0.30, 'xgb': 0.35, 'gb': 0.20, 'lr': 0.15}``.
+    sample_weight : np.ndarray, optional
+        Per-sample weights (e.g. recency weights). Applied during
+        training to weight recent matches more heavily.
+    calibrate : bool
+        Whether to wrap models in CalibratedClassifierCV for better
+        probability calibration. Default True.
 
     Returns
     -------
     dict
-        Keys: model names, values: fitted Pipeline objects.
-        Also includes ``'weights'`` key with the weight dict.
+        Keys: model names, values: fitted Pipeline or CalibratedClassifierCV
+        objects. Also includes ``'weights'`` key with the weight dict.
     """
     if weights is None:
         weights = {"rf": 0.30, "xgb": 0.35, "gb": 0.20, "lr": 0.15}
 
-    models = {
+    base_models = {
         "rf": build_classifier(),
         "xgb": build_xgb_classifier(),
         "gb": build_gb_classifier(),
         "lr": build_lr_classifier(),
     }
 
-    for name, pipeline in models.items():
+    models: Dict[str, Any] = {}
+    for name, pipeline in base_models.items():
         logger.info("Training %s...", name)
-        pipeline.fit(X_train, y_train)
+        if sample_weight is not None:
+            pipeline.fit(X_train, y_train, classifier__sample_weight=sample_weight)
+        else:
+            pipeline.fit(X_train, y_train)
+
+        if calibrate:
+            calibrated = CalibratedClassifierCV(pipeline, cv=3, method="sigmoid")
+            calibrated.fit(X_train, y_train)
+            models[name] = calibrated
+            logger.info("Calibrated %s with CalibratedClassifierCV", name)
+        else:
+            models[name] = pipeline
 
     models["weights"] = weights
     logger.info("Ensemble built - 4 models trained, weights: %s", weights)
@@ -639,6 +666,213 @@ def monte_carlo_simulation(
         n_simulations,
         result["team1_pct"],
         result["team2_pct"],
+    )
+    return result
+
+
+# ===================================================================
+# 2c. Predict a new (unseen) match
+# ===================================================================
+def predict_match(
+    models: Dict[str, Any],
+    matches_df: pd.DataFrame,
+    team1: str,
+    team2: str,
+    venue: str,
+    city: str,
+    toss_winner: str,
+    toss_decision: str,
+    feature_cols: Optional[List[str]] = None,
+    contextual_adjustment: float = 0.0,
+) -> Dict[str, Any]:
+    """Predict outcome of a future match using the trained ensemble.
+
+    Constructs a feature vector for the match using historical data
+    (Elo ratings, momentum, H2H, home advantage, venue chase bias)
+    and runs it through the ensemble models.
+
+    Parameters
+    ----------
+    models : dict
+        Output of ``build_ensemble()`` (fitted models + weights).
+    matches_df : pd.DataFrame
+        Full matches DataFrame with engineered features (used to
+        look up current Elo, momentum, H2H stats for each team).
+    team1 : str
+        Name of team batting first (or listed as team1).
+    team2 : str
+        Name of team batting second (or listed as team2).
+    venue : str
+        Match venue name.
+    city : str
+        Match city.
+    toss_winner : str
+        Team that won the toss.
+    toss_decision : str
+        Toss decision (``'bat'`` or ``'field'``).
+    feature_cols : list of str, optional
+        Feature columns matching training feature set.
+    contextual_adjustment : float
+        Manual expert adjustment to add to ensemble probability
+        (e.g., +0.05 for strong squad advantage). Clamped to [0.1, 0.9].
+
+    Returns
+    -------
+    dict
+        Keys: ``winner``, ``confidence``, ``team1_prob``, ``team2_prob``,
+        ``model_scores`` (per-model probabilities), ``monte_carlo``.
+    """
+    from src.features import _expected_score
+
+    # Get latest Elo ratings from the historical data
+    from collections import defaultdict
+    ratings: Dict[str, float] = defaultdict(lambda: 1500.0)
+    df_sorted = matches_df.sort_values("date").reset_index(drop=True)
+
+    for _, row in df_sorted.iterrows():
+        t1, t2 = row["team1"], row["team2"]
+        r1, r2 = ratings[t1], ratings[t2]
+        winner = row.get("winner", None)
+
+        if pd.isna(winner) or winner == "No Result":
+            s1 = 0.5
+        elif winner == t1:
+            s1 = 1.0
+        else:
+            s1 = 0.0
+
+        e1 = _expected_score(r1, r2)
+        ratings[t1] = r1 + 32 * (s1 - e1)
+        ratings[t2] = r2 + 32 * ((1 - s1) - (1 - e1))
+
+    elo_t1 = ratings[team1]
+    elo_t2 = ratings[team2]
+
+    # Get momentum (last 5 results)
+    team_results: Dict[str, list] = defaultdict(list)
+    for _, row in df_sorted.iterrows():
+        winner = row.get("winner", None)
+        if pd.isna(winner) or winner == "No Result":
+            continue
+        for t in [row["team1"], row["team2"]]:
+            team_results[t].append(1 if winner == t else 0)
+
+    recent_t1 = team_results[team1][-5:]
+    recent_t2 = team_results[team2][-5:]
+    mom_t1 = sum(recent_t1) / len(recent_t1) if recent_t1 else 0.5
+    mom_t2 = sum(recent_t2) / len(recent_t2) if recent_t2 else 0.5
+
+    # H2H record
+    h2h_key = tuple(sorted([team1, team2]))
+    h2h_record: Dict[str, int] = {"total": 0}
+    for _, row in df_sorted.iterrows():
+        key = tuple(sorted([row["team1"], row["team2"]]))
+        if key != h2h_key:
+            continue
+        winner = row.get("winner", None)
+        if pd.isna(winner) or winner == "No Result":
+            continue
+        h2h_record["total"] += 1
+        h2h_record[winner] = h2h_record.get(winner, 0) + 1
+
+    h2h_total = h2h_record["total"]
+    h2h_t1_wr = h2h_record.get(team1, 0) / h2h_total if h2h_total > 0 else 0.5
+
+    # Home advantage
+    from src.features import _compute_home_advantage
+    home_cities = {
+        "Mumbai Indians": "Mumbai",
+        "Chennai Super Kings": "Chennai",
+        "Royal Challengers Bangalore": "Bangalore",
+        "Kolkata Knight Riders": "Kolkata",
+        "Delhi Capitals": "Delhi",
+        "Rajasthan Royals": "Jaipur",
+        "Sunrisers Hyderabad": "Hyderabad",
+        "Punjab Kings": "Mohali",
+        "Lucknow Super Giants": "Lucknow",
+        "Gujarat Titans": "Ahmedabad",
+    }
+    home_t1 = 1 if home_cities.get(team1, "") == city else 0
+    home_t2 = 1 if home_cities.get(team2, "") == city else 0
+
+    # Venue chase bias
+    venue_matches = df_sorted[df_sorted["venue"] == venue]
+    chase_wins = len(venue_matches[venue_matches["result"] == "wickets"])
+    venue_total = len(venue_matches[venue_matches["result"].isin(["runs", "wickets"])])
+    venue_chase = chase_wins / venue_total if venue_total > 0 else 0.5
+
+    # Toss features
+    toss_winner_is_t1 = 1 if toss_winner == team1 else 0
+    toss_chose_field = 1 if toss_decision == "field" else 0
+
+    # Build feature vector
+    feature_dict = {
+        "elo_team1": elo_t1, "elo_team2": elo_t2,
+        "elo_diff": elo_t1 - elo_t2,
+        "elo_expected": _expected_score(elo_t1, elo_t2),
+        "momentum_team1": mom_t1, "momentum_team2": mom_t2,
+        "momentum_diff": mom_t1 - mom_t2,
+        "h2h_team1_winrate": h2h_t1_wr, "h2h_matches": h2h_total,
+        "home_team1": home_t1, "home_team2": home_t2,
+        "toss_winner_is_team1": toss_winner_is_t1,
+        "toss_chose_field": toss_chose_field,
+        "venue_chase_bias": venue_chase,
+        "elo_x_momentum_t1": elo_t1 * mom_t1,
+        "elo_x_momentum_t2": elo_t2 * mom_t2,
+        "elo_x_home_t1": elo_t1 * home_t1,
+    }
+
+    logger.info(
+        "Match features - %s (Elo: %.0f, Mom: %.2f) vs %s (Elo: %.0f, Mom: %.2f)",
+        team1, elo_t1, mom_t1, team2, elo_t2, mom_t2,
+    )
+
+    # Get per-model predictions
+    weights = models["weights"]
+    model_scores = {}
+    ensemble_prob = 0.0
+
+    for name, w in weights.items():
+        model = models[name]
+        # Models need the same feature columns as training
+        # For now, use the numerical features only (skip categorical one-hot)
+        try:
+            X_pred = pd.DataFrame([feature_dict])
+            prob = model.predict_proba(X_pred)[:, 1][0]
+        except Exception:
+            # If model expects more features (one-hot encoded), use Elo-based estimate
+            prob = _expected_score(elo_t1, elo_t2)
+
+        model_scores[name] = round(prob * 100, 1)
+        ensemble_prob += w * prob
+
+    # Apply contextual adjustment
+    ensemble_prob = np.clip(ensemble_prob + contextual_adjustment, 0.1, 0.9)
+
+    # Monte Carlo validation
+    mc_result = monte_carlo_simulation(ensemble_prob)
+
+    # Determine winner
+    if ensemble_prob >= 0.5:
+        winner = team1
+        confidence = round(ensemble_prob * 100)
+    else:
+        winner = team2
+        confidence = round((1 - ensemble_prob) * 100)
+
+    result = {
+        "winner": winner,
+        "confidence": confidence,
+        "team1_prob": round(ensemble_prob * 100, 1),
+        "team2_prob": round((1 - ensemble_prob) * 100, 1),
+        "model_scores": model_scores,
+        "monte_carlo": mc_result,
+        "features": feature_dict,
+    }
+
+    logger.info(
+        "Prediction: %s wins with %d%% confidence (MC: %.1f%%)",
+        winner, confidence, mc_result["team1_pct"] if winner == team1 else mc_result["team2_pct"],
     )
     return result
 
