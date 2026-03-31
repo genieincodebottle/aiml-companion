@@ -6,12 +6,18 @@ Provides functions to build, train, and evaluate classification
 (match-winner prediction) and regression (run-margin prediction)
 models on engineered IPL features.
 
+Key capabilities:
+- 4-model weighted ensemble (RF 30%, XGB 35%, GB 20%, LR 15%)
+- CalibratedClassifierCV wrapping for well-calibrated probabilities
+- Season recency weighting via sample_weight parameter
+- predict_match() for unseen future match prediction
+- Monte Carlo simulation (10,000 matches) for validation
+
 Usage
 -----
->>> from src.models import build_classifier, build_regressor, evaluate_model
->>> pipeline = build_classifier()
->>> pipeline.fit(X_train, y_train)
->>> metrics = evaluate_model(pipeline, X_test, y_test, task="classification")
+>>> from src.models import build_ensemble, predict_match
+>>> models = build_ensemble(X_train, y_train, calibrate=True)
+>>> result = predict_match(models, matches_df, "MI", "CSK", venue, city, toss_w, toss_d)
 """
 
 from __future__ import annotations

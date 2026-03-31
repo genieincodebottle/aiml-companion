@@ -162,14 +162,14 @@ def load_matches(
     Returns
     -------
     pd.DataFrame
-        Raw matches DataFrame (1 095 rows x 20 columns for the 2008-2024
+        Raw matches DataFrame (1 169 rows x 20 columns for the 2008-2025
         dataset).
 
     Examples
     --------
     >>> matches = load_matches()
     >>> matches.shape
-    (1095, 20)
+    (1169, 20)
     """
     cfg = load_config()
     if source is None:
@@ -206,7 +206,7 @@ def load_deliveries(
     -------
     pd.DataFrame
         Raw deliveries DataFrame (260 920 rows x 17 columns for the
-        2008-2024 dataset).
+        2008-2025 dataset).
 
     Examples
     --------
@@ -268,7 +268,7 @@ def clean_team_names(
         ``bowling_team``.  Pass *None* to skip.
     mapping : dict, optional
         Custom ``{old_name: new_name}`` mapping.  Defaults to the
-        built-in mapping covering known renames up to 2024.
+        built-in mapping covering known renames up to 2025.
 
     Returns
     -------

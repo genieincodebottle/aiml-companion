@@ -17,15 +17,18 @@ matches.csv + deliveries.csv
         |
    [EDA]                  12 interactive Plotly charts, 7 analysis categories
         |
-   [Feature Engineering]   Elo ratings (K=32), momentum, H2H, home advantage
+   [Feature Engineering]   Elo (K=32), momentum, H2H, home, toss, venue chase bias
         |
    [Hypothesis Testing]   Binomial test (toss), chi-squared (decision impact)
         |
-   [Model Training]       4-model ensemble (RF + XGB + GB + LR), 5-fold stratified CV
+   [Model Training]       4-model calibrated ensemble (RF + XGB + GB + LR)
+        |                  + CalibratedClassifierCV + season recency weighting
         |
    [Monte Carlo]          10,000-match simulation to validate prediction stability
         |
    [Evaluation]           Accuracy, F1, ensemble weights, feature importances
+        |
+   [Predict Match]        predict_match() for unseen future matches
 ```
 
 ## Key Results
@@ -36,7 +39,9 @@ matches.csv + deliveries.csv
 | Monte Carlo validation | 10,000 sims | Gaussian noise (std=0.05) stability check |
 | Toss advantage | Not significant | Binomial test (two-sided), p=0.61 |
 | Top predictive feature | Elo rating difference | Feature importance ranking |
-| Engineered features | 15+ | Elo, momentum, H2H, home, interactions |
+| Engineered features | 20+ | Elo, momentum, H2H, home, toss, venue chase bias, interactions |
+| Probability calibration | CalibratedClassifierCV | Sigmoid method, cv=3 |
+| Training weighting | Season recency | Exponential decay (0.5 to 1.0) |
 
 ## Quick Start
 
@@ -86,6 +91,29 @@ python main.py --stage evaluate     # Evaluation + report generation
 python main.py --verbose            # Debug-level logging
 ```
 
+## Predict a Match
+
+```python
+from src.predict import run_prediction
+
+result = run_prediction(
+    team1="Mumbai Indians",
+    team2="Chennai Super Kings",
+    venue="Wankhede Stadium, Mumbai",
+    city="Mumbai",
+    toss_winner="Mumbai Indians",
+    toss_decision="field",
+    contextual_adjustment=0.0,   # Expert overlay (+/- probability)
+    calibrate=True,              # CalibratedClassifierCV wrapping
+    use_recency_weight=True,     # Season recency weighting
+)
+
+print(f"{result['winner']} wins with {result['confidence']}% confidence")
+# Per-model probabilities: result['model_scores']
+# Monte Carlo validation:  result['monte_carlo']
+# Feature vector used:     result['features']
+```
+
 ## Make Targets
 
 ```bash
@@ -112,9 +140,10 @@ ipl-match-predictor/
 │   ├── __init__.py
 │   ├── data_loader.py                     # Data loading, cleaning, team standardization
 │   ├── eda.py                             # 8 EDA functions with Plotly charts
-│   ├── features.py                        # Elo ratings, momentum, H2H, home advantage
+│   ├── features.py                        # Elo, momentum, H2H, home, toss, venue chase bias, recency
 │   ├── hypothesis.py                      # Binomial + chi-squared hypothesis tests
-│   ├── models.py                          # RF + XGB + GB + LR ensemble, Monte Carlo, CV
+│   ├── models.py                          # Ensemble (RF+XGB+GB+LR), calibration, predict_match, Monte Carlo
+│   ├── predict.py                         # End-to-end prediction pipeline (run_prediction)
 │   └── evaluate.py                        # Markdown report generation, console summary
 ├── tests/
 │   ├── __init__.py
@@ -139,10 +168,10 @@ ipl-match-predictor/
 
 | File | Records | Description |
 |------|---------|-------------|
-| `matches.csv` | 1,095 | Match-level data: teams, toss, result, venue, player of match |
-| `deliveries.csv` | 260,920 | Ball-by-ball: batsman, bowler, runs, extras, wickets |
+| `matches.csv` | 1,169 | Match-level data: teams, toss, result, venue, player of match (2008-2025) |
+| `deliveries.csv` | 260,920 | Ball-by-ball: batsman, bowler, runs, extras, wickets (2008-2024) |
 
-Source: [Kaggle IPL Complete Dataset](https://www.kaggle.com/datasets/patrickb1912/ipl-complete-dataset-20082020)
+Source: [Kaggle IPL Complete Dataset](https://www.kaggle.com/datasets/patrickb1912/ipl-complete-dataset-20082020) + [IPL 2025 Dataset](https://www.kaggle.com/datasets/maratheabhishek/ipl-dataset-2008-to-2025)
 
 > Dataset is auto-loaded from [GitHub](https://github.com/genieincodebottle/generative-ai/tree/main/docs/ipl-dataset). No manual download needed.
 
@@ -162,10 +191,16 @@ Source: [Kaggle IPL Complete Dataset](https://www.kaggle.com/datasets/patrickb19
 | `elo_diff` | Elo rating difference (team1 - team2) |
 | `elo_expected` | Expected win probability from Elo |
 | `momentum_team1/2` | Rolling win rate over last 5 matches |
-| `h2h_team1_winrate` | Historical head-to-head win rate |
-| `home_team1/2` | Binary home advantage indicator |
-| `elo_x_momentum` | Interaction: Elo * momentum |
 | `momentum_diff` | Momentum difference between teams |
+| `h2h_team1_winrate` | Historical head-to-head win rate |
+| `h2h_matches` | Number of prior head-to-head encounters |
+| `home_team1/2` | Binary home advantage indicator |
+| `toss_winner_is_team1` | Whether team1 won the toss (known pre-match) |
+| `toss_chose_field` | Whether toss winner chose to field |
+| `venue_chase_bias` | Historical chase win% at the venue (no future leakage) |
+| `elo_x_momentum_t1/t2` | Interaction: Elo * momentum per team |
+| `elo_x_home_t1` | Interaction: Elo * home advantage |
+| `recency_weight` | Exponential decay weight for training (0.5-1.0) |
 
 ### Models
 
@@ -173,11 +208,13 @@ Source: [Kaggle IPL Complete Dataset](https://www.kaggle.com/datasets/patrickb19
 |------|-----------|------------|-----------------|
 | Classification | Random Forest | 100 trees, max_depth=10, balanced weights | 30% |
 | Classification | XGBoost | 200 estimators, L1/L2 regularization | 35% |
-| Classification | Gradient Boosting | 200 stages, lr=0.1, calibrated probabilities | 20% |
+| Classification | Gradient Boosting | 150 stages, lr=0.1 | 20% |
 | Classification | Logistic Regression | L2 regularization, baseline classifier | 15% |
+| Calibration | CalibratedClassifierCV | Sigmoid method, cv=3 (wraps all 4 models) | - |
+| Weighting | Season recency | Exponential decay: `0.5 + 0.5 * exp(-days/1500)` | - |
 | Validation | Monte Carlo Simulation | 10,000 matches, Gaussian noise (std=0.05) | - |
 
-All 4 classifiers use sklearn Pipelines with StandardScaler preprocessing and 5-fold stratified cross-validation. Predictions are combined via weighted average, then validated with Monte Carlo simulation.
+All 4 classifiers use sklearn Pipelines with StandardScaler preprocessing and 5-fold stratified cross-validation. Each model is optionally wrapped with `CalibratedClassifierCV` for well-calibrated probability estimates. Training uses season recency weighting so recent matches have more influence. Predictions are combined via weighted average, then validated with Monte Carlo simulation. The `predict_match()` function in `src/models.py` constructs feature vectors for unseen future matches.
 
 ### Hypothesis Testing
 
@@ -237,6 +274,10 @@ feature_flags:
   use_elo_ratings: true
   use_momentum_features: true
   use_home_advantage: true
+  use_toss_features: true
+  use_venue_chase_bias: true
+  use_recency_weight: true
+  calibrate_models: true
   run_hypothesis_tests: true
 ```
 
@@ -257,7 +298,7 @@ pytest tests/ --cov=src --cov-report=term-missing
 
 ### Toss Has No Significant Advantage
 
-Binomial test (two-sided) on 1,090 decided matches: the toss winner's match win rate (~50.8%) does not deviate meaningfully from 50%. p-value = 0.61 (alpha = 0.05). This is one of the most commonly asked IPL trivia questions, and the data provides a definitive answer.
+Binomial test (two-sided) on 1,160+ decided matches: the toss winner's match win rate (~50.8%) does not deviate meaningfully from 50%. p-value = 0.61 (alpha = 0.05). This is one of the most commonly asked IPL trivia questions, and the data provides a definitive answer.
 
 ### Elo Ratings Are the Strongest Predictor
 
