@@ -1,0 +1,21 @@
+{
+  "claim_id": "CLM-2024-HITL",
+  "policy_number": "POL-AUTO-789456",
+  "claimant_name": "Jane Smith",
+  "claimant_email": "jane.smith@email.com",
+  "claimant_phone": "555-123-4567",
+  "claimant_dob": "1985-03-15",
+  "incident_date": "2024-10-20",
+  "incident_type": "auto_theft",
+  "incident_description": "Vehicle stolen from parking garage overnight. No witnesses. Vehicle not recovered.",
+  "incident_location": "Houston, TX",
+  "police_report_number": "HPD-2024-112233",
+  "estimated_amount": 28000,
+  "vehicle_year": 2022,
+  "vehicle_make": "Honda",
+  "vehicle_model": "CR-V",
+  "documents": ["police_report.pdf", "proof_of_ownership.pdf"],
+  "is_appeal": false,
+  "original_claim_id": null,
+  "_test_note": "Amount >= $10K triggers HITL review regardless of fraud score"
+}

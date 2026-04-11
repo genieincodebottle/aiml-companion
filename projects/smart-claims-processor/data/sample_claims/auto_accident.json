@@ -1,0 +1,20 @@
+{
+  "claim_id": "CLM-2024-001234",
+  "policy_number": "POL-AUTO-789456",
+  "claimant_name": "Jane Smith",
+  "claimant_email": "jane.smith@email.com",
+  "claimant_phone": "555-123-4567",
+  "claimant_dob": "1985-03-15",
+  "incident_date": "2024-11-15",
+  "incident_type": "auto_collision",
+  "incident_description": "Rear-ended at intersection of Main St and 5th Ave. Significant trunk damage, broken tail lights. Other driver admitted fault. Police report filed.",
+  "incident_location": "Austin, TX",
+  "police_report_number": "APD-2024-567890",
+  "estimated_amount": 8500,
+  "vehicle_year": 2019,
+  "vehicle_make": "Toyota",
+  "vehicle_model": "Camry",
+  "documents": ["police_report.pdf", "damage_photos.zip", "repair_estimate.pdf"],
+  "is_appeal": false,
+  "original_claim_id": null
+}

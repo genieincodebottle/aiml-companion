@@ -1,0 +1,176 @@
+###############################################################
+# Smart Claims Processor - Base Configuration
+###############################################################
+
+# LLM Configuration
+llm:
+  provider: google
+  model: gemini-2.0-flash
+  temperature: 0.1
+  max_tokens: 8192
+  timeout_seconds: 60
+  retry_attempts: 3
+  retry_delay_seconds: 2
+
+# Agent Configuration
+agents:
+  intake:
+    name: "Claims Intake Agent"
+    max_retries: 2
+    confidence_threshold: 0.75
+    required_fields:
+      - claim_id
+      - policy_number
+      - incident_date
+      - incident_type
+      - estimated_amount
+
+  fraud_crew:
+    name: "Fraud Detection Crew"
+    framework: crewai
+    max_iterations: 5
+    fraud_threshold: 0.65           # Score above this = HIGH fraud risk
+    auto_reject_threshold: 0.90     # Score above this = auto reject (no HITL)
+    agents:
+      - role: "Pattern Analyst"
+        goal: "Compare claim against historical fraud patterns database"
+        backstory: "Expert fraud investigator with 15 years spotting staged accidents and inflated claims"
+      - role: "Anomaly Detector"
+        goal: "Identify statistical anomalies in claim timing, amounts, and frequency"
+        backstory: "Data scientist specializing in outlier detection in insurance claim datasets"
+      - role: "Social Validator"
+        goal: "Validate claimant's story consistency and identity signals"
+        backstory: "Background check specialist who cross-references claim details for consistency"
+
+  damage_assessor:
+    name: "Damage Assessment Agent"
+    confidence_threshold: 0.70
+    supported_types:
+      - auto_collision
+      - auto_theft
+      - property_fire
+      - property_water
+      - liability
+      - medical
+
+  policy_checker:
+    name: "Policy Compliance Agent"
+    confidence_threshold: 0.80
+    coverage_categories:
+      - collision
+      - comprehensive
+      - liability
+      - medical_payments
+      - uninsured_motorist
+      - rental_reimbursement
+
+  settlement_calculator:
+    name: "Settlement Calculator Agent"
+    depreciation_table:
+      auto:
+        year_1: 0.20
+        year_2: 0.15
+        year_3: 0.12
+        year_4_plus: 0.08
+      property:
+        year_1_5: 0.05
+        year_6_10: 0.08
+        year_11_plus: 0.10
+    max_payout_multiplier: 1.15     # Never pay more than 115% of assessed damage
+
+  communication:
+    name: "Communication Agent"
+    templates:
+      - approved
+      - approved_with_deductible
+      - pending_documents
+      - escalated_human_review
+      - denied
+      - fraud_investigation
+
+# Human-in-the-Loop Configuration
+hitl:
+  enabled: true
+  triggers:
+    min_amount_usd: 10000           # Claims >= $10K always get human review
+    fraud_score: 0.65               # Fraud score >= 0.65 triggers review
+    low_confidence: 0.65            # Agent confidence < 0.65 triggers review
+    first_claim_high_value: 5000    # First-time claimant + amount >= $5K
+    repeat_claims_window_days: 365  # Review if >2 claims in 365 days
+    inconsistent_documents: true    # Always trigger if docs conflict
+  priority_weights:
+    amount: 0.30
+    fraud_score: 0.35
+    confidence: 0.20
+    repeat_claimant: 0.15
+  sla_hours:
+    critical: 4                     # Priority score >= 80
+    high: 24                        # Priority score 60-79
+    normal: 72                      # Priority score < 60
+  api:
+    host: "0.0.0.0"
+    port: 8001
+
+# Guardrails Configuration
+guardrails:
+  max_agent_calls: 25
+  max_tokens_per_claim: 50000
+  max_cost_usd: 0.50
+  max_execution_seconds: 300
+  max_loop_iterations: 10
+  min_output_confidence: 0.60
+  hallucination_check: true
+  pii_masking: true                 # Mask PII before sending to LLM
+
+# Security Configuration
+security:
+  pii_fields:
+    - name
+    - email
+    - phone
+    - ssn
+    - dob
+    - address
+    - bank_account
+    - credit_card
+  audit_log:
+    enabled: true
+    path: "./data/audit_logs/"
+    retention_days: 2555            # 7 years for insurance compliance
+    include_agent_inputs: true
+    include_agent_outputs: true
+    hash_algorithm: "sha256"
+
+# Evaluation Configuration
+evaluation:
+  enabled: true
+  judge_model: gemini-2.0-flash
+  dimensions:
+    - accuracy                      # Is the settlement amount correct?
+    - completeness                  # Were all policy clauses checked?
+    - fairness                      # Is the decision consistent with similar claims?
+    - safety                        # Were guardrails followed?
+    - transparency                  # Is the reasoning clear and traceable?
+  min_score_to_release: 0.70       # Below this triggers re-evaluation
+  batch_eval_sample_rate: 0.10     # Evaluate 10% of auto-processed claims
+
+# Pipeline Configuration
+pipeline:
+  parallel_specialists: false       # Claims are sequential (CrewAI handles parallelism internally)
+  fast_mode:
+    enabled: true
+    max_amount: 500                 # Claims under $500 with clean history = fast mode
+    skip_agents:
+      - fraud_crew
+      - damage_assessor
+  enable_appeal_workflow: true
+  appeal_window_days: 30
+
+# Output Configuration
+output:
+  include_reasoning: true
+  include_agent_traces: true
+  include_cost_breakdown: true
+  format: json                      # json | text | both
+  save_to_db: true
+  db_path: "./data/claims.db"

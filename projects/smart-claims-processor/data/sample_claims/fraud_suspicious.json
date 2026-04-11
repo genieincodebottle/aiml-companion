@@ -1,0 +1,21 @@
+{
+  "claim_id": "CLM-2024-FRAUD",
+  "policy_number": "POL-HOME-334521",
+  "claimant_name": "Robert Johnson",
+  "claimant_email": "rjohnson99@gmail.com",
+  "claimant_phone": "555-999-8888",
+  "claimant_dob": "1972-07-22",
+  "incident_date": "2024-03-10",
+  "incident_type": "property_fire",
+  "incident_description": "Kitchen fire, total loss of appliances and cabinets. Fire started from electrical fault.",
+  "incident_location": "Dallas, TX",
+  "police_report_number": null,
+  "estimated_amount": 45000,
+  "vehicle_year": null,
+  "vehicle_make": null,
+  "vehicle_model": null,
+  "documents": ["damage_photos.zip"],
+  "is_appeal": false,
+  "original_claim_id": null,
+  "_test_note": "This claim triggers multiple fraud flags: round number, no fire report, prior claims, no police report for property fire"
+}
