@@ -1,0 +1,360 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 920" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="langgraphGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1E3A5F"/>
+      <stop offset="100%" stop-color="#0F2440"/>
+    </linearGradient>
+    <linearGradient id="crewaiGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3B1F6E"/>
+      <stop offset="100%" stop-color="#2D1854"/>
+    </linearGradient>
+    <linearGradient id="agentGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E40AF"/>
+      <stop offset="100%" stop-color="#1E3A8A"/>
+    </linearGradient>
+    <linearGradient id="crewAgentGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#6D28D9"/>
+    </linearGradient>
+    <linearGradient id="securityGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#065F46"/>
+      <stop offset="100%" stop-color="#064E3B"/>
+    </linearGradient>
+    <linearGradient id="guardrailGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#92400E"/>
+      <stop offset="100%" stop-color="#78350F"/>
+    </linearGradient>
+    <linearGradient id="hitlGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#DC2626"/>
+      <stop offset="100%" stop-color="#B91C1C"/>
+    </linearGradient>
+    <linearGradient id="evalGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0E7490"/>
+      <stop offset="100%" stop-color="#0C4A6E"/>
+    </linearGradient>
+    <linearGradient id="dbGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="uiGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#BE185D"/>
+      <stop offset="100%" stop-color="#9D174D"/>
+    </linearGradient>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#60A5FA"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#34D399"/>
+    </marker>
+    <marker id="arrowAmber" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#FBBF24"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#F87171"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#A78BFA"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="920" rx="16" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="600" y="36" text-anchor="middle" fill="#F1F5F9" font-size="22" font-weight="700" letter-spacing="0.5">Smart Claims Processor - System Architecture</text>
+  <text x="600" y="56" text-anchor="middle" fill="#64748B" font-size="12">LangGraph (Orchestration) + CrewAI (Fraud Detection) + Gemini 2.0 Flash</text>
+
+  <!-- ============================================================ -->
+  <!-- UI LAYER - Top -->
+  <!-- ============================================================ -->
+
+  <!-- Streamlit Dashboard -->
+  <rect x="40" y="76" width="220" height="80" rx="12" fill="url(#uiGrad)" filter="url(#shadow)"/>
+  <text x="150" y="101" text-anchor="middle" fill="#FFF" font-size="13" font-weight="700">Streamlit Dashboard</text>
+  <text x="150" y="118" text-anchor="middle" fill="#FBCFE8" font-size="10">Process Claims | HITL Review</text>
+  <text x="150" y="133" text-anchor="middle" fill="#FBCFE8" font-size="10">Analytics | 3 Tabs</text>
+  <text x="150" y="148" text-anchor="middle" fill="#F9A8D4" font-size="9" font-style="italic">port 8501</text>
+
+  <!-- CLI -->
+  <rect x="280" y="76" width="160" height="80" rx="12" fill="url(#dbGrad)" filter="url(#shadow)" stroke="#475569" stroke-width="1"/>
+  <text x="360" y="101" text-anchor="middle" fill="#F1F5F9" font-size="13" font-weight="700">CLI Interface</text>
+  <text x="360" y="118" text-anchor="middle" fill="#94A3B8" font-size="10">python main.py --demo</text>
+  <text x="360" y="133" text-anchor="middle" fill="#94A3B8" font-size="10">python main.py --claim</text>
+  <text x="360" y="148" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Terminal</text>
+
+  <!-- HITL API -->
+  <rect x="940" y="76" width="220" height="80" rx="12" fill="url(#hitlGrad)" filter="url(#shadow)"/>
+  <text x="1050" y="101" text-anchor="middle" fill="#FFF" font-size="13" font-weight="700">FastAPI HITL Server</text>
+  <text x="1050" y="118" text-anchor="middle" fill="#FECACA" font-size="10">GET /hitl/queue</text>
+  <text x="1050" y="133" text-anchor="middle" fill="#FECACA" font-size="10">POST /hitl/decide/{id}</text>
+  <text x="1050" y="148" text-anchor="middle" fill="#FCA5A5" font-size="9" font-style="italic">port 8001 (optional)</text>
+
+  <!-- Arrows from UI to pipeline -->
+  <line x1="150" y1="156" x2="150" y2="190" stroke="#F472B6" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <line x1="360" y1="156" x2="360" y2="190" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrowGray)"/>
+
+  <!-- Arrow from HITL API down to HITL Queue -->
+  <line x1="1050" y1="156" x2="1050" y2="580" stroke="#F87171" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowRed)"/>
+  <text x="1062" y="400" fill="#F87171" font-size="9" transform="rotate(90, 1062, 400)">enqueue / resolve</text>
+
+  <!-- ============================================================ -->
+  <!-- SECURITY LAYER -->
+  <!-- ============================================================ -->
+  <rect x="30" y="190" width="900" height="52" rx="10" fill="url(#securityGrad)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="60" y="212" fill="#6EE7B7" font-size="11" font-weight="700">SECURITY LAYER</text>
+  <text x="60" y="230" fill="#A7F3D0" font-size="10">PII Masking (email, phone, SSN, DOB, names -> [REDACTED])</text>
+  <text x="520" y="212" fill="#6EE7B7" font-size="11" font-weight="700">AUDIT LOG</text>
+  <text x="520" y="230" fill="#A7F3D0" font-size="10">SHA-256 hashed NDJSON | Every agent action recorded | 7-year retention</text>
+  <!-- Lock icon -->
+  <circle cx="46" cy="218" r="8" fill="none" stroke="#34D399" stroke-width="1.5"/>
+  <text x="46" y="222" text-anchor="middle" fill="#34D399" font-size="10">🔒</text>
+
+  <!-- ============================================================ -->
+  <!-- GUARDRAILS LAYER -->
+  <!-- ============================================================ -->
+  <rect x="30" y="250" width="900" height="42" rx="10" fill="url(#guardrailGrad)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="60" y="268" fill="#FDE68A" font-size="11" font-weight="700">GUARDRAILS LAYER</text>
+  <text x="250" y="268" fill="#FCD34D" font-size="10">Pre: tokens &lt; 50K | cost &lt; $0.50 | calls &lt; 25 | loop detect | timeout</text>
+  <text x="700" y="268" fill="#FCD34D" font-size="10">Post: confidence check | hallucination detect</text>
+  <text x="60" y="282" fill="#F59E0B" font-size="9" font-style="italic">Wraps every agent call</text>
+
+  <!-- ============================================================ -->
+  <!-- LANGGRAPH PIPELINE - Main Area -->
+  <!-- ============================================================ -->
+  <rect x="30" y="300" width="900" height="370" rx="14" fill="url(#langgraphGrad)" filter="url(#shadow)"/>
+  <text x="50" y="324" fill="#93C5FD" font-size="13" font-weight="700">LANGGRAPH STATE MACHINE</text>
+  <text x="280" y="324" fill="#60A5FA" font-size="10">(5 conditional routing paths)</text>
+
+  <!-- Agent 1: Intake -->
+  <rect x="55" y="340" width="160" height="70" rx="10" fill="url(#agentGrad)" filter="url(#shadow)"/>
+  <text x="135" y="361" text-anchor="middle" fill="#FFF" font-size="12" font-weight="700">1. Intake Agent</text>
+  <text x="135" y="377" text-anchor="middle" fill="#BFDBFE" font-size="9">Validate claim</text>
+  <text x="135" y="389" text-anchor="middle" fill="#BFDBFE" font-size="9">Policy lookup</text>
+  <text x="135" y="401" text-anchor="middle" fill="#93C5FD" font-size="8" font-style="italic">PII mask first</text>
+
+  <!-- Arrow Intake -> Fraud Crew -->
+  <line x1="215" y1="375" x2="250" y2="375" stroke="#60A5FA" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Agent 2: Fraud Crew (CrewAI) - Larger box -->
+  <rect x="260" y="334" width="240" height="82" rx="10" fill="url(#crewaiGrad)" filter="url(#shadow)" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="380" y="353" text-anchor="middle" fill="#C4B5FD" font-size="11" font-weight="700">2. Fraud Detection Crew</text>
+  <text x="380" y="366" text-anchor="middle" fill="#A78BFA" font-size="9" font-weight="600">CrewAI - 3 Expert Agents</text>
+  <!-- Sub-agents -->
+  <rect x="272" y="374" width="68" height="34" rx="6" fill="url(#crewAgentGrad)"/>
+  <text x="306" y="389" text-anchor="middle" fill="#EDE9FE" font-size="8" font-weight="600">Pattern</text>
+  <text x="306" y="400" text-anchor="middle" fill="#DDD6FE" font-size="7">Analyst</text>
+
+  <rect x="346" y="374" width="68" height="34" rx="6" fill="url(#crewAgentGrad)"/>
+  <text x="380" y="389" text-anchor="middle" fill="#EDE9FE" font-size="8" font-weight="600">Anomaly</text>
+  <text x="380" y="400" text-anchor="middle" fill="#DDD6FE" font-size="7">Detector</text>
+
+  <rect x="420" y="374" width="68" height="34" rx="6" fill="url(#crewAgentGrad)"/>
+  <text x="454" y="389" text-anchor="middle" fill="#EDE9FE" font-size="8" font-weight="600">Story</text>
+  <text x="454" y="400" text-anchor="middle" fill="#DDD6FE" font-size="7">Validator</text>
+
+  <!-- Arrow Fraud -> Damage -->
+  <line x1="500" y1="375" x2="535" y2="375" stroke="#A78BFA" stroke-width="2" marker-end="url(#arrowPurple)"/>
+
+  <!-- Agent 3: Damage Assessor -->
+  <rect x="545" y="340" width="150" height="70" rx="10" fill="url(#agentGrad)" filter="url(#shadow)"/>
+  <text x="620" y="361" text-anchor="middle" fill="#FFF" font-size="12" font-weight="700">3. Damage</text>
+  <text x="620" y="377" text-anchor="middle" fill="#BFDBFE" font-size="9">Assess damage</text>
+  <text x="620" y="389" text-anchor="middle" fill="#BFDBFE" font-size="9">ACV + total loss</text>
+  <text x="620" y="401" text-anchor="middle" fill="#93C5FD" font-size="8" font-style="italic">repair/replace/totaled</text>
+
+  <!-- Arrow Damage -> Policy -->
+  <line x1="695" y1="375" x2="730" y2="375" stroke="#60A5FA" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Agent 4: Policy Checker -->
+  <rect x="740" y="340" width="150" height="70" rx="10" fill="url(#agentGrad)" filter="url(#shadow)"/>
+  <text x="815" y="361" text-anchor="middle" fill="#FFF" font-size="12" font-weight="700">4. Policy</text>
+  <text x="815" y="377" text-anchor="middle" fill="#BFDBFE" font-size="9">Coverage check</text>
+  <text x="815" y="389" text-anchor="middle" fill="#BFDBFE" font-size="9">Deductible calc</text>
+  <text x="815" y="401" text-anchor="middle" fill="#93C5FD" font-size="8" font-style="italic">exclusions</text>
+
+  <!-- Arrow Policy -> Settlement (goes down) -->
+  <path d="M815,410 L815,435 L135,435 L135,460" fill="none" stroke="#60A5FA" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Agent 5: Settlement Calculator -->
+  <rect x="55" y="460" width="160" height="70" rx="10" fill="url(#agentGrad)" filter="url(#shadow)"/>
+  <text x="135" y="481" text-anchor="middle" fill="#FFF" font-size="12" font-weight="700">5. Settlement</text>
+  <text x="135" y="497" text-anchor="middle" fill="#BFDBFE" font-size="9">damage - depreciation</text>
+  <text x="135" y="509" text-anchor="middle" fill="#BFDBFE" font-size="9">- deductible = payout</text>
+  <text x="135" y="521" text-anchor="middle" fill="#93C5FD" font-size="8" font-style="italic">safety cap: 115% max</text>
+
+  <!-- Arrow Settlement -> Evaluator -->
+  <line x1="215" y1="495" x2="310" y2="495" stroke="#60A5FA" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Agent 6: LLM-as-Judge Evaluator -->
+  <rect x="320" y="460" width="190" height="70" rx="10" fill="url(#evalGrad)" filter="url(#shadow)"/>
+  <text x="415" y="481" text-anchor="middle" fill="#FFF" font-size="12" font-weight="700">6. LLM-as-Judge</text>
+  <text x="415" y="497" text-anchor="middle" fill="#A5F3FC" font-size="9">5-dimension scoring</text>
+  <text x="415" y="509" text-anchor="middle" fill="#A5F3FC" font-size="9">accuracy | fairness | safety</text>
+  <text x="415" y="521" text-anchor="middle" fill="#67E8F9" font-size="8" font-style="italic">quality gate: 0.70</text>
+
+  <!-- Arrow Evaluator -> Communication -->
+  <line x1="510" y1="495" x2="575" y2="495" stroke="#22D3EE" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <text x="543" y="488" text-anchor="middle" fill="#34D399" font-size="9" font-weight="600">PASS</text>
+
+  <!-- Agent 7: Communication -->
+  <rect x="585" y="460" width="160" height="70" rx="10" fill="url(#agentGrad)" filter="url(#shadow)"/>
+  <text x="665" y="481" text-anchor="middle" fill="#FFF" font-size="12" font-weight="700">7. Communication</text>
+  <text x="665" y="497" text-anchor="middle" fill="#BFDBFE" font-size="9">Claimant notification</text>
+  <text x="665" y="509" text-anchor="middle" fill="#BFDBFE" font-size="9">Internal adjuster notes</text>
+  <text x="665" y="521" text-anchor="middle" fill="#93C5FD" font-size="8" font-style="italic">appeal instructions</text>
+
+  <!-- Arrow Communication -> END -->
+  <line x1="745" y1="495" x2="800" y2="495" stroke="#34D399" stroke-width="2.5" marker-end="url(#arrowGreen)"/>
+  <rect x="810" y="480" width="70" height="30" rx="8" fill="#065F46" stroke="#10B981" stroke-width="1.5"/>
+  <text x="845" y="500" text-anchor="middle" fill="#6EE7B7" font-size="13" font-weight="700">END</text>
+
+  <!-- ============================================================ -->
+  <!-- CONDITIONAL BRANCHES (colored arrows) -->
+  <!-- ============================================================ -->
+
+  <!-- PATH D: Intake -> Denial (red) -->
+  <path d="M135,410 L135,432 L55,432 L55,495 L55,555" fill="none" stroke="#F87171" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="38" y="470" fill="#FCA5A5" font-size="9" font-weight="600" transform="rotate(-90, 38, 470)">INVALID</text>
+  <rect x="22" y="555" width="110" height="28" rx="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
+  <text x="77" y="574" text-anchor="middle" fill="#FCA5A5" font-size="10" font-weight="600">PATH D: Denied</text>
+
+  <!-- PATH C: Fraud -> Auto Reject (red) -->
+  <path d="M380,416 L380,440 L380,555" fill="none" stroke="#F87171" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="392" y="445" fill="#FCA5A5" font-size="8" font-weight="600">fraud >= 0.90</text>
+  <rect x="320" y="555" width="120" height="28" rx="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
+  <text x="380" y="574" text-anchor="middle" fill="#FCA5A5" font-size="10" font-weight="600">PATH C: Reject</text>
+
+  <!-- HITL Checkpoint box -->
+  <rect x="790" y="555" width="130" height="44" rx="10" fill="url(#hitlGrad)" filter="url(#shadow)"/>
+  <text x="855" y="575" text-anchor="middle" fill="#FFF" font-size="11" font-weight="700">HITL Checkpoint</text>
+  <text x="855" y="590" text-anchor="middle" fill="#FECACA" font-size="9">Human Review Queue</text>
+
+  <!-- PATH B: Fraud High -> HITL (amber) -->
+  <path d="M460,416 L460,440 L855,440 L855,555" fill="none" stroke="#FBBF24" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="650" y="436" fill="#FCD34D" font-size="8" font-weight="600">fraud >= 0.65</text>
+
+  <!-- Eval FAIL -> HITL (amber) -->
+  <path d="M415,530 L415,545 L855,545 L855,555" fill="none" stroke="#FBBF24" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="630" y="543" fill="#FCD34D" font-size="8" font-weight="600">eval score &lt; 0.70</text>
+
+  <!-- PATH B label -->
+  <rect x="620" y="555" width="150" height="28" rx="6" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
+  <text x="695" y="574" text-anchor="middle" fill="#FDE68A" font-size="10" font-weight="600">PATH B: HITL Review</text>
+
+  <!-- HITL -> Communication (dotted, human decides) -->
+  <path d="M855,599 L855,640 L665,640 L665,530" fill="none" stroke="#F87171" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowRed)"/>
+  <text x="770" y="650" fill="#FCA5A5" font-size="8">human decides -> comms</text>
+
+  <!-- ============================================================ -->
+  <!-- INFRASTRUCTURE LAYER - Bottom -->
+  <!-- ============================================================ -->
+
+  <!-- SQLite -->
+  <rect x="40" y="700" width="200" height="70" rx="12" fill="url(#dbGrad)" filter="url(#shadow)" stroke="#475569" stroke-width="1"/>
+  <text x="140" y="724" text-anchor="middle" fill="#F1F5F9" font-size="12" font-weight="700">SQLite Databases</text>
+  <text x="140" y="740" text-anchor="middle" fill="#94A3B8" font-size="10">HITL Queue | Policy DB</text>
+  <text x="140" y="754" text-anchor="middle" fill="#94A3B8" font-size="10">Claims State</text>
+  <circle cx="60" y="724" r="10" fill="#334155" stroke="#64748B" stroke-width="1"/>
+  <text x="60" y="728" text-anchor="middle" fill="#94A3B8" font-size="10">💾</text>
+
+  <!-- Audit Logs -->
+  <rect x="280" y="700" width="200" height="70" rx="12" fill="url(#securityGrad)" filter="url(#shadow)"/>
+  <text x="380" y="724" text-anchor="middle" fill="#F1F5F9" font-size="12" font-weight="700">Audit Logs</text>
+  <text x="380" y="740" text-anchor="middle" fill="#A7F3D0" font-size="10">NDJSON + SHA-256 hash</text>
+  <text x="380" y="754" text-anchor="middle" fill="#A7F3D0" font-size="10">7-year retention</text>
+
+  <!-- Guardrails Config -->
+  <rect x="520" y="700" width="200" height="70" rx="12" fill="url(#guardrailGrad)" filter="url(#shadow)"/>
+  <text x="620" y="724" text-anchor="middle" fill="#F1F5F9" font-size="12" font-weight="700">Guardrails Manager</text>
+  <text x="620" y="740" text-anchor="middle" fill="#FDE68A" font-size="10">Budget: 50K tokens | $0.50</text>
+  <text x="620" y="754" text-anchor="middle" fill="#FDE68A" font-size="10">Loop detect | Timeout 300s</text>
+
+  <!-- Pydantic Schemas -->
+  <rect x="760" y="700" width="200" height="70" rx="12" fill="url(#evalGrad)" filter="url(#shadow)"/>
+  <text x="860" y="724" text-anchor="middle" fill="#F1F5F9" font-size="12" font-weight="700">Pydantic v2 Schemas</text>
+  <text x="860" y="740" text-anchor="middle" fill="#A5F3FC" font-size="10">11 typed output models</text>
+  <text x="860" y="754" text-anchor="middle" fill="#A5F3FC" font-size="10">Zero parsing errors</text>
+
+  <!-- ============================================================ -->
+  <!-- GEMINI LLM - Right side -->
+  <!-- ============================================================ -->
+  <rect x="955" y="300" width="215" height="250" rx="14" fill="#1a1a2e" filter="url(#shadow)" stroke="#475569" stroke-width="1"/>
+  <text x="1062" y="328" text-anchor="middle" fill="#F1F5F9" font-size="13" font-weight="700">Google Gemini</text>
+  <text x="1062" y="345" text-anchor="middle" fill="#64748B" font-size="10">2.0 Flash (Free Tier)</text>
+
+  <text x="980" y="375" fill="#94A3B8" font-size="10">LLM Calls:</text>
+  <text x="985" y="395" fill="#60A5FA" font-size="10">1. Intake validation</text>
+  <text x="985" y="413" fill="#A78BFA" font-size="10">2. Pattern analysis</text>
+  <text x="985" y="431" fill="#A78BFA" font-size="10">3. Anomaly detection</text>
+  <text x="985" y="449" fill="#A78BFA" font-size="10">4. Story validation</text>
+  <text x="985" y="467" fill="#60A5FA" font-size="10">5. Damage assessment</text>
+  <text x="985" y="485" fill="#60A5FA" font-size="10">6. Policy compliance</text>
+  <text x="985" y="503" fill="#60A5FA" font-size="10">7. Settlement calc</text>
+  <text x="985" y="521" fill="#22D3EE" font-size="10">8. LLM-as-Judge eval</text>
+  <text x="985" y="539" fill="#60A5FA" font-size="10">9. Communication</text>
+
+  <!-- Arrow from pipeline to Gemini -->
+  <line x1="930" y1="400" x2="955" y2="400" stroke="#475569" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="943" y="395" fill="#64748B" font-size="8">API</text>
+
+  <!-- ============================================================ -->
+  <!-- LEGEND -->
+  <!-- ============================================================ -->
+  <rect x="40" y="790" width="1120" height="110" rx="12" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="60" y="815" fill="#F1F5F9" font-size="12" font-weight="700">LEGEND</text>
+
+  <!-- Path colors -->
+  <line x1="60" y1="840" x2="90" y2="840" stroke="#60A5FA" stroke-width="2.5"/>
+  <text x="95" y="844" fill="#94A3B8" font-size="10">Normal flow (Path A)</text>
+
+  <line x1="60" y1="860" x2="90" y2="860" stroke="#A78BFA" stroke-width="2.5"/>
+  <text x="95" y="864" fill="#94A3B8" font-size="10">CrewAI internal flow</text>
+
+  <line x1="60" y1="880" x2="90" y2="880" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <text x="95" y="884" fill="#94A3B8" font-size="10">HITL escalation (Path B)</text>
+
+  <line x1="280" y1="840" x2="310" y2="840" stroke="#F87171" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <text x="315" y="844" fill="#94A3B8" font-size="10">Rejection/denial (Path C, D)</text>
+
+  <line x1="280" y1="860" x2="310" y2="860" stroke="#34D399" stroke-width="2.5"/>
+  <text x="315" y="864" fill="#94A3B8" font-size="10">Pipeline completion</text>
+
+  <line x1="280" y1="880" x2="310" y2="880" stroke="#475569" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="315" y="884" fill="#94A3B8" font-size="10">External API call</text>
+
+  <!-- Framework badges -->
+  <rect x="540" y="830" width="100" height="24" rx="12" fill="#1E40AF"/>
+  <text x="590" y="847" text-anchor="middle" fill="#FFF" font-size="10" font-weight="600">LangGraph</text>
+
+  <rect x="650" y="830" width="80" height="24" rx="12" fill="#7C3AED"/>
+  <text x="690" y="847" text-anchor="middle" fill="#FFF" font-size="10" font-weight="600">CrewAI</text>
+
+  <rect x="740" y="830" width="100" height="24" rx="12" fill="#065F46"/>
+  <text x="790" y="847" text-anchor="middle" fill="#FFF" font-size="10" font-weight="600">Security</text>
+
+  <rect x="850" y="830" width="100" height="24" rx="12" fill="#92400E"/>
+  <text x="900" y="847" text-anchor="middle" fill="#FFF" font-size="10" font-weight="600">Guardrails</text>
+
+  <rect x="960" y="830" width="70" height="24" rx="12" fill="#DC2626"/>
+  <text x="995" y="847" text-anchor="middle" fill="#FFF" font-size="10" font-weight="600">HITL</text>
+
+  <rect x="1040" y="830" width="100" height="24" rx="12" fill="#0E7490"/>
+  <text x="1090" y="847" text-anchor="middle" fill="#FFF" font-size="10" font-weight="600">Evaluation</text>
+
+  <!-- Stats -->
+  <text x="560" y="880" fill="#64748B" font-size="10">47 tests | 53 files | 7,774 lines | 4 sample scenarios | ~$0.03 per demo run</text>
+</svg>

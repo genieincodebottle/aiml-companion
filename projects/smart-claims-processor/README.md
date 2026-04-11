@@ -152,46 +152,9 @@ This project uses **two AI frameworks together**:
 
 ## Full System Architecture
 
-```
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                           SYSTEM OVERVIEW                                    │
-│                                                                              │
-│  ┌─────────────┐     ┌──────────────────────────────────────────────────┐   │
-│  │  Streamlit   │◄───►│           FastAPI HITL Server                   │   │
-│  │  Dashboard   │     │  POST /hitl/decide/{id}  GET /hitl/queue       │   │
-│  │  (port 8501) │     │  (port 8001, optional)                         │   │
-│  └──────┬───────┘     └────────────────────┬────────���────────────────────┘   │
-│         │                                   │                                │
-│         │ Process claim                     │ Enqueue/resolve tickets        │
-│         ▼                                   ▼                                │
-│  ┌──────────────────────────────────────────────────────────────────────┐   │
-│  │                    LANGGRAPH STATE MACHINE                           │   │
-│  │                                                                      │   │
-│  │  ┌─────────┐   ┌────────────┐   ┌──────────┐   ┌──────────────┐   │   │
-│  │  │ INTAKE  │──►│ FRAUD CREW │──►│ DAMAGE   │──►│ POLICY       │   │   │
-│  │  │ AGENT   │   │ (CrewAI)   │   │ ASSESSOR │   │ CHECKER      │   │   │
-│  │  └────┬────┘   └─────┬──────┘   └──────────┘   └──────┬───────┘   │   │
-│  │       │              │                                  │           │   │
-│  │  [PII Mask]    [3 Expert Agents]                  [Policy DB]      │   │
-│  │                                                         │           │   │
-│  │       ┌──────────────────────────────────────────────────┘           │   │
-│  │       ▼                                                              │   │
-│  │  ┌──────────┐   ┌──────────────┐   ┌──────────────────┐            │   │
-│  │  │SETTLEMENT│──►│ LLM-AS-JUDGE │──►│ COMMUNICATION    │            │   │
-│  │  │CALCULATOR│   │ EVALUATOR    │   │ AGENT            │            │   │
-│  │  └──────────┘   └──────┬───────┘   └──────────────────┘            │   │
-│  │                        │                                             │   │
-│  │                 [Quality gate]                                       │   │
-│  │                 Score < 0.70? ──► HITL Checkpoint                    │   │
-│  └──────────────────────────────────────────────────────────────────────┘   │
-│                                                                              │
-│  ┌─────────────┐   ┌──────────────┐   ┌──────────────────┐                 │
-│  │ SQLite      │   │ Audit Logs   │   │ Guardrails       │                 │
-│  │ HITL Queue  │   │ (NDJSON +    │   │ Manager          │                 │
-│  │ + Policies  │   │  SHA-256)    │   │ (pre/post check) │                 │
-│  └─────────────┘   └──────────────┘   └──────────────────┘                 │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+<p align="center">
+  <img src="docs/images/system-architecture.svg" alt="System Architecture" width="100%"/>
+</p>
 
 **Three layers run on every claim:**
 1. **Security Layer** - PII masked before any LLM call. Audit log records every action with SHA-256 hash.
@@ -218,32 +181,9 @@ This project uses **two AI frameworks together**:
 
 The pipeline doesn't always run all 7 agents. Based on claim characteristics, it takes one of 5 paths:
 
-```
-START
-  └─ 1. INTAKE AGENT
-       │
-       ├─ [Policy invalid/lapsed] ─────────────────► 7. COMMS (denial) ──► END
-       │                                              PATH D: 2 agents, ~$0.001
-       │
-       ├─ [Amount < $500 + clean history] ──────────► 5. SETTLEMENT ──► 7. COMMS ──► END
-       │                                              PATH E: 3 agents, ~$0.003
-       │
-       └─ 2. FRAUD CREW (CrewAI)
-            │
-            ├─ [Confirmed fraud >= 0.90] ───────────► AUTO-REJECT ──► 7. COMMS ──► END
-            │                                         PATH C: 2 agents, ~$0.004
-            │
-            ├─ [High fraud >= 0.65] ────────────────► HITL CHECKPOINT ──► 7. COMMS ──► END
-            │                                         PATH B: human review required
-            │
-            └─ 3. DAMAGE ──► 4. POLICY ──► 5. SETTLEMENT ──► 6. EVALUATOR
-                                                                │
-                                    ├─ [Score >= 0.70] ────────► 7. COMMS ──► END
-                                    │                            PATH A: 7 agents, ~$0.008
-                                    │
-                                    └─ [Score < 0.70] ─────────► HITL ──► 7. COMMS ──► END
-                                                                 PATH B: quality gate failed
-```
+<p align="center">
+  <img src="docs/images/pipeline-paths.svg" alt="5 Pipeline Paths" width="100%"/>
+</p>
 
 ---
 
