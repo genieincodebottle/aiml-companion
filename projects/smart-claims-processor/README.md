@@ -5,6 +5,9 @@
 ![FastAPI](https://img.shields.io/badge/API-FastAPI-009688.svg)
 ![React](https://img.shields.io/badge/UI-React%20%2B%20MUI-61DAFB.svg)
 
+> **Learn AI/ML interactively at [AI-ML Companion](https://aimlcompanion.ai/)** - Guided walkthroughs, architecture decisions, hands-on challenges, and narrated overviews for every project.
+
+
 # Smart Claims Processor
 
 > **Who this is for** - anyone learning how multi-agent AI systems (LangGraph + CrewAI), production guardrails (cost caps, token limits, PII masking), human-in-the-loop approvals (interrupt/resume with durable checkpointing), agentic evaluation (LLM-as-judge), agent memory (ChromaDB + semantic search), pluggable LLM providers, and country-aware configuration fit together in a real-world full-stack app. Basic Python + a terminal is all you need.
