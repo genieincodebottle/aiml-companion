@@ -7,6 +7,7 @@
 
 > **Learn AI/ML interactively at [AI-ML Companion](https://aimlcompanion.ai/)** - Guided walkthroughs, architecture decisions, hands-on challenges, and narrated overviews for every project.
 
+> **Explore the blog for this project [Blog Link](https://aimlcompanion.ai/module/aiAgents/smartClaimsProcessor)**
 
 # Smart Claims Processor
 
