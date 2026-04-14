@@ -3,11 +3,11 @@
 > **Learn AI/ML interactively at [AI-ML Companion](https://aimlcompanion.ai/)** - Guided walkthroughs, architecture decisions, hands-on challenges, and narrated overviews for every project.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![Projects](https://img.shields.io/badge/Projects-9-orange)
+![Projects](https://img.shields.io/badge/Projects-10-orange)
 ![Status](https://img.shields.io/badge/Status-Portfolio_Ready-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-> A comprehensive AI/ML learning platform with 9 end-to-end projects covering the full spectrum, from classical ML to production LLM systems. Every project follows **industry best-practice structure**.
+> A comprehensive AI/ML learning platform with 10 end-to-end projects covering the full spectrum, from classical ML to production LLM systems. Every project follows **industry best-practice structure**.
 
 ---
 
@@ -24,6 +24,7 @@
 | 7 | [AI Agents](projects/ai-agents-project/) | LLM Agent Orchestration | Advanced | LangGraph, OpenAI, Tavily | [Learn →](https://aimlcompanion.ai/module/aiAgents/agentsCapstone) |
 | 8 | [Content Moderation](projects/content-moderation-project/) | Multi-Agentic AI | Advanced | LangGraph, Multi-Agent | [Learn →](https://aimlcompanion.ai/module/aiAgents/contentModerationProject) |
 | 9 | [Due Diligence Agent](projects/due-diligence-agent/) | Multi-Agent Research | Advanced | LangGraph, Gemini, Streamlit | [Learn →](https://aimlcompanion.ai/module/aiAgents/dueDiligenceProject) |
+| 10 | [Smart Claims Processor](projects/smart-claims-processor/) | Multi-Agent Insurance Claims | Advanced | LangGraph, CrewAI, Gemini, FastAPI, React | [Learn →](https://aimlcompanion.ai/module/aiAgents/smartClaimsProcessor) |
 
 ---
 
@@ -117,6 +118,16 @@ Enterprise-grade company research powered by 6 AI agents with parallel execution
 
 ---
 
+### 10. Smart Claims Processor - Multi-Agent Insurance System
+
+Production-style multi-agent insurance claims system built with LangGraph (orchestration) and CrewAI (fraud detection). 7 specialist agents handle intake validation, fraud detection, damage assessment, policy compliance, settlement calculation, LLM-as-judge evaluation, and claimant notification.
+
+**Highlights:** LangGraph + CrewAI hybrid | Human-in-the-Loop with durable checkpointing | Per-agent confidence gates | Country-aware (US/India) | Pluggable LLMs (Gemini/Groq) | React UI with Agent Trace panel
+
+[Interactive Walkthrough](https://aimlcompanion.ai/module/aiAgents/smartClaimsProcessor)
+
+---
+
 ## Industry Best-Practice Project Structure
 
 Every project follows a consistent structure adapted from top ML teams:
@@ -178,6 +189,8 @@ make all                          # train -> evaluate -> test
 8. Content Moderation    -> Multi-agentic content pipelines
        |
 9. Due Diligence Agent   -> Enterprise multi-agent research, fact-checking, debate
+       |
+10. Smart Claims Processor -> Multi-agent insurance, HITL, hybrid orchestration
 ```
 
 ## Repository Structure
@@ -193,7 +206,8 @@ aiml-companion/
 │   ├── rag-expert-assistant/       # RAG + Security
 │   ├── ai-agents-project/          # Multi-Agent + LangGraph
 │   ├── content-moderation-project/ # Multi-Agentic Content Moderation
-│   └── due-diligence-agent/        # Multi-Agent Company Research
+│   ├── due-diligence-agent/        # Multi-Agent Company Research
+│   └── smart-claims-processor/    # Multi-Agent Insurance Claims
 └── README.md                       # This file
 ```
 
