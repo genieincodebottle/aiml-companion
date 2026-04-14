@@ -1,0 +1,117 @@
+{
+  "_doc": "Test data for all 5 pipeline paths - US (use with POL-AUTO-TEST-US or POL-HOME-TEST-US)",
+  "_paths": {
+    "A": "Normal:       intake -> fraud_crew -> damage_assessor -> policy_checker -> settlement -> evaluator -> communication",
+    "B": "HITL:         intake -> fraud_crew -> hitl_checkpoint -> [paused for reviewer] -> communication",
+    "C": "Auto-Reject:  intake -> fraud_crew -> auto_reject -> communication",
+    "D": "Intake Fail:  intake -> communication (instant denial)",
+    "E": "Fast Mode:    intake -> settlement -> communication (skips fraud + damage)"
+  },
+  "_policies_required": {
+    "auto": "POL-AUTO-TEST-US (auto, $50K collision/comprehensive, $500 deductible, active 2025-01 to 2027-01)",
+    "homeowners": "POL-HOME-TEST-US (homeowners, $350K dwelling, $2500 deductible, active 2025-01 to 2027-01)"
+  },
+  "_how_to_use": "Switch country to US in Settings, then submit each claim via UI or POST to /api/claims/submit.",
+
+  "path_a_normal_approved": {
+    "_path": "A - Normal (low fraud, full pipeline, expected: approved with deductible)",
+    "_trigger": "Reasonable amount, detailed description with specifics, proper documentation, low fraud signals",
+    "_expected_outcome": "Approved or approved_partial (~$7,500 - $500 deductible - depreciation)",
+    "policy_number": "POL-AUTO-TEST-US",
+    "incident_type": "auto_collision",
+    "incident_date": "2026-04-10",
+    "incident_description": "I was rear-ended at a red light on the intersection of Main Street and 5th Avenue in downtown Los Angeles. The other driver ran a red light and hit my vehicle from behind at approximately 25 mph. Significant damage to the rear bumper, trunk lid, and tail light assembly. The other driver's insurance information was exchanged at the scene. A police officer arrived and filed a report. No injuries sustained. Vehicle was drivable but rear trunk does not close properly.",
+    "incident_location": "Main St & 5th Ave, Los Angeles, CA",
+    "police_report_number": "LAPD-2026-78432",
+    "estimated_amount": 7500,
+    "vehicle_year": 2022,
+    "vehicle_make": "Toyota",
+    "vehicle_model": "Camry",
+    "documents": ["police_report.pdf", "damage_photos.zip", "repair_estimate.pdf"]
+  },
+
+  "path_b_hitl_high_fraud": {
+    "_path": "B - HITL Required (fraud score >= 0.65, pipeline pauses for human review)",
+    "_trigger": "Brand new policy + theft + max coverage claim + no police report + suspicious circumstances",
+    "_expected_outcome": "Pipeline pauses at hitl_checkpoint, status = pending_human_review",
+    "policy_number": "POL-AUTO-TEST-US",
+    "incident_type": "auto_theft",
+    "incident_date": "2026-04-12",
+    "incident_description": "My vehicle was stolen from my driveway overnight. I just purchased this insurance policy 10 days ago. The car was unlocked with the keys left in the ignition. There are no security cameras in the neighborhood. I have no LoJack or GPS tracker. I am claiming the full coverage amount. I recently had significant financial difficulties and was behind on car payments.",
+    "incident_location": "1234 Oak Street, Houston, TX",
+    "police_report_number": "",
+    "estimated_amount": 50000,
+    "vehicle_year": 2025,
+    "vehicle_make": "Ford",
+    "vehicle_model": "F-150",
+    "documents": []
+  },
+
+  "path_c_auto_reject_confirmed_fraud": {
+    "_path": "C - Auto-Reject (fraud score >= 0.90 + CONFIRMED risk level, no human review needed)",
+    "_trigger": "Blatant fraud self-admission + impossible frequency + fabricated scenario",
+    "_expected_outcome": "Auto-rejected immediately, settlement = $0, no HITL",
+    "policy_number": "POL-AUTO-TEST-US",
+    "incident_type": "auto_theft",
+    "incident_date": "2026-04-13",
+    "incident_description": "Vehicle stolen. I arranged for my friend to take the car and I am filing a false police report. This is my 4th staged theft claim this year across different insurance companies including State Farm, Geico, and Progressive. The VIN on my registration is altered and does not match the actual vehicle. I intend to collect the insurance payout and split it with my accomplice. The car is currently hidden in a storage unit in New Jersey.",
+    "incident_location": "456 Fake Street, Newark, NJ",
+    "police_report_number": "",
+    "estimated_amount": 50000,
+    "vehicle_year": 2025,
+    "vehicle_make": "Mercedes-Benz",
+    "vehicle_model": "GLE 450",
+    "documents": []
+  },
+
+  "path_d_intake_failure_invalid_claim": {
+    "_path": "D - Intake Failure (policy inactive on incident date -> instant denial at intake)",
+    "_trigger": "Incident date 2024-06-15 is BEFORE policy start date 2025-01-01 -> policy not active",
+    "_expected_outcome": "Denied at intake, only 2 agents run (intake + communication), no fraud/damage/settlement",
+    "policy_number": "POL-AUTO-TEST-US",
+    "incident_type": "auto_collision",
+    "incident_date": "2024-06-15",
+    "incident_description": "Fender bender in a Walmart parking lot last summer. Just discovered I had insurance coverage and filing the claim now, several months after the incident.",
+    "incident_location": "Walmart Parking Lot, Phoenix, AZ",
+    "police_report_number": "",
+    "estimated_amount": 3000,
+    "vehicle_year": 2019,
+    "vehicle_make": "Honda",
+    "vehicle_model": "Civic",
+    "documents": []
+  },
+
+  "path_e_fast_mode_small_claim": {
+    "_path": "E - Fast Mode (amount < $500 threshold, skips fraud_crew + damage_assessor)",
+    "_trigger": "Estimated amount $350 < fast_mode.max_amount (500) -> skip directly to settlement",
+    "_expected_outcome": "Likely denied (deductible $500 > claim $350). Shows fast mode path correctly.",
+    "policy_number": "POL-AUTO-TEST-US",
+    "incident_type": "auto_collision",
+    "incident_date": "2026-04-10",
+    "incident_description": "Minor parking lot scratch while backing out of a spot at the grocery store. Small paint scrape on the rear quarter panel, approximately 6 inches long. No dent, cosmetic damage only.",
+    "incident_location": "Trader Joe's Parking Lot, San Francisco, CA",
+    "police_report_number": "",
+    "estimated_amount": 350,
+    "vehicle_year": 2023,
+    "vehicle_make": "Honda",
+    "vehicle_model": "CR-V",
+    "documents": ["scratch_photo.jpg"]
+  },
+
+  "path_e_fast_mode_homeowners_variant": {
+    "_path": "E - Fast Mode with homeowners policy (amount < $500, but $2500 deductible)",
+    "_trigger": "Amount $450 < 500 threshold -> fast mode. But deductible $2500 >> claim -> denied",
+    "_expected_outcome": "Denied (deductible far exceeds claim). Demonstrates fast-mode denial with reasoning.",
+    "policy_number": "POL-HOME-TEST-US",
+    "incident_type": "property_water",
+    "incident_date": "2026-04-08",
+    "incident_description": "Small water leak under the kitchen sink caused minor water damage to the cabinet base. Noticed a damp spot and fixed the pipe myself. Just the cabinet bottom needs replacing.",
+    "incident_location": "123 Maple Drive, Portland, OR",
+    "police_report_number": "",
+    "estimated_amount": 450,
+    "vehicle_year": null,
+    "vehicle_make": "",
+    "vehicle_model": "",
+    "documents": ["water_damage_photo.jpg"]
+  }
+}

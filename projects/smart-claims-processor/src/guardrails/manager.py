@@ -23,16 +23,9 @@ from __future__ import annotations
 
 import logging
 import time
-from typing import Any, Optional
+from typing import Any
 
 from src.config import get_guardrails_config
-from src.models.schemas import (
-    DamageAssessmentOutput,
-    FraudAssessmentOutput,
-    IntakeValidationOutput,
-    PolicyCheckOutput,
-    SettlementOutput,
-)
 
 logger = logging.getLogger(__name__)
 
@@ -57,7 +50,6 @@ _GROUNDING_KEYWORDS = [
 
 class GuardrailsViolation(Exception):
     """Raised when a hard guardrail is breached."""
-    pass
 
 
 class GuardrailsManager:
@@ -105,7 +97,9 @@ class GuardrailsManager:
             raise GuardrailsViolation(violation)
 
         if self.total_cost >= self.cfg["max_cost_usd"]:
-            violation = f"Cost budget exceeded (${self.total_cost:.4f}/${self.cfg['max_cost_usd']:.2f})"
+            from src.utils import currency_symbol
+            cs = currency_symbol()
+            violation = f"Cost budget exceeded ({cs}{self.total_cost:.4f}/{cs}{self.cfg['max_cost_usd']:.2f})"
             self.violations.append(violation)
             raise GuardrailsViolation(violation)
 

@@ -1,254 +1,258 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 680" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
   <defs>
-    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#0F172A"/>
-      <stop offset="100%" stop-color="#1E293B"/>
-    </linearGradient>
-    <linearGradient id="nodeBlue" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#1E40AF"/>
-      <stop offset="100%" stop-color="#1E3A8A"/>
-    </linearGradient>
-    <linearGradient id="nodePurple" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#7C3AED"/>
-      <stop offset="100%" stop-color="#6D28D9"/>
-    </linearGradient>
-    <linearGradient id="nodeTeal" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#0E7490"/>
-      <stop offset="100%" stop-color="#0C4A6E"/>
-    </linearGradient>
-    <linearGradient id="nodeRed" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#DC2626"/>
-      <stop offset="100%" stop-color="#B91C1C"/>
-    </linearGradient>
-    <linearGradient id="nodeGreen" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#065F46"/>
-      <stop offset="100%" stop-color="#064E3B"/>
-    </linearGradient>
-    <linearGradient id="nodeAmber" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#92400E"/>
-      <stop offset="100%" stop-color="#78350F"/>
-    </linearGradient>
-    <filter id="sh" x="-4%" y="-4%" width="108%" height="108%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.3"/>
-    </filter>
-    <marker id="aB" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#60A5FA"/>
+    <marker id="aE" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,1 L8,5 L0,9 z" fill="#15803D"/>
     </marker>
-    <marker id="aR" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#F87171"/>
+    <marker id="aS" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,1 L8,5 L0,9 z" fill="#0284C7"/>
     </marker>
-    <marker id="aA" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#FBBF24"/>
+    <marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,1 L8,5 L0,9 z" fill="#DC2626"/>
     </marker>
-    <marker id="aG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#34D399"/>
+    <marker id="aD" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,1 L8,5 L0,9 z" fill="#DC2626"/>
     </marker>
-    <marker id="aP" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#A78BFA"/>
+    <marker id="aA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,1 L8,5 L0,9 z" fill="#B45309"/>
     </marker>
-    <marker id="aC" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#22D3EE"/>
+    <marker id="aG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,1 L8,5 L0,9 z" fill="#7E22CE"/>
     </marker>
+    <style>
+      text { fill: #1E293B; }
+      .title  { font-size: 34px; font-weight: 700; }
+      .sub    { font-size: 16px; fill: #475569; }
+      .ch     { font-size: 16px; font-weight: 600; fill: #475569; text-transform: uppercase; }
+      .chH    { font-size: 16px; font-weight: 700; fill: #B45309; text-transform: uppercase; }
+      .rl     { font-size: 20px; font-weight: 700; }
+      .rs     { font-size: 14px; fill: #475569; }
+      .bl     { font-size: 16px; font-weight: 600; }
+      .el     { font-size: 14px; fill: #475569; font-weight: 500; }
+      .ct     { font-size: 19px; font-weight: 700; fill: #B45309; }
+      .cb     { font-size: 16px; fill: #334155; }
+      .cm     { font-size: 15px; fill: #B45309; font-family: 'JetBrains Mono', Consolas, monospace; }
+
+      .eN { fill:none; stroke:#16A34A; stroke-width:2; }
+      .eF { fill:none; stroke:#0EA5E9; stroke-width:2; }
+      .eI { fill:none; stroke:#EF4444; stroke-width:2; stroke-dasharray:5 3; }
+      .eR { fill:none; stroke:#EF4444; stroke-width:2; stroke-dasharray:5 3; }
+      .eH { fill:none; stroke:#D97706; stroke-width:2.4; }
+      .eG { fill:none; stroke:#9333EA; stroke-width:2; stroke-dasharray:8 4; }
+    </style>
   </defs>
 
-  <rect width="1000" height="680" rx="14" fill="url(#bg2)"/>
-  <text x="500" y="32" text-anchor="middle" fill="#F1F5F9" font-size="20" font-weight="700">5 Pipeline Paths - Conditional Routing</text>
+  <rect width="1600" height="1100" fill="#FAFBFC"/>
 
-  <!-- ============================================================ -->
-  <!-- START node -->
-  <!-- ============================================================ -->
-  <circle cx="80" cy="100" r="24" fill="#334155" stroke="#64748B" stroke-width="2"/>
-  <text x="80" y="105" text-anchor="middle" fill="#F1F5F9" font-size="11" font-weight="700">START</text>
+  <text x="800" y="42" class="title" text-anchor="middle">Pipeline Execution Paths</text>
+  <text x="800" y="66" class="sub" text-anchor="middle">Five conditional routes + per-agent confidence gates - country-agnostic pipeline, config-driven rules</text>
 
-  <!-- Arrow START -> Intake -->
-  <line x1="104" y1="100" x2="150" y2="100" stroke="#60A5FA" stroke-width="2" marker-end="url(#aB)"/>
+  <text x="260" y="108" class="ch" text-anchor="middle">START</text>
+  <text x="390" y="108" class="ch" text-anchor="middle">Intake</text>
+  <text x="520" y="108" class="ch" text-anchor="middle">Fraud</text>
+  <text x="650" y="108" class="ch" text-anchor="middle">Damage</text>
+  <text x="780" y="108" class="ch" text-anchor="middle">Policy</text>
+  <text x="910" y="108" class="ch" text-anchor="middle">Settle</text>
+  <text x="1040" y="108" class="ch" text-anchor="middle">Eval</text>
+  <text x="1170" y="108" class="chH" text-anchor="middle">HITL</text>
+  <text x="1300" y="108" class="ch" text-anchor="middle">Comm</text>
+  <text x="1430" y="108" class="ch" text-anchor="middle">END</text>
+  <line x1="150" y1="122" x2="1500" y2="122" stroke="#E2E8F0" stroke-width="1"/>
 
-  <!-- INTAKE -->
-  <rect x="160" y="74" width="130" height="52" rx="10" fill="url(#nodeBlue)" filter="url(#sh)"/>
-  <text x="225" y="96" text-anchor="middle" fill="#FFF" font-size="12" font-weight="700">Intake Agent</text>
-  <text x="225" y="112" text-anchor="middle" fill="#BFDBFE" font-size="9">validate + PII mask</text>
+  <!-- ROW 1 - NORMAL (Path A) -->
+  <text x="20" y="178" class="rl">A Normal</text>
+  <text x="20" y="198" class="rs">happy path - 7 agents</text>
 
-  <!-- ============================================================ -->
-  <!-- Decision diamond after Intake -->
-  <!-- ============================================================ -->
-  <polygon points="370,100 405,75 440,100 405,125" fill="#334155" stroke="#64748B" stroke-width="1.5"/>
-  <text x="405" y="104" text-anchor="middle" fill="#F1F5F9" font-size="9" font-weight="600">valid?</text>
-  <line x1="290" y1="100" x2="370" y2="100" stroke="#60A5FA" stroke-width="2" marker-end="url(#aB)"/>
+  <rect x="205" y="152" width="110" height="56" rx="10" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.2"/>
+  <text x="260" y="185" class="bl" text-anchor="middle" fill="#15803D">START</text>
+  <rect x="335" y="152" width="110" height="56" rx="10" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.2"/>
+  <text x="390" y="185" class="bl" text-anchor="middle" fill="#15803D">Intake</text>
+  <rect x="465" y="152" width="110" height="56" rx="10" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.2"/>
+  <text x="520" y="185" class="bl" text-anchor="middle" fill="#15803D">Fraud Crew</text>
+  <rect x="595" y="152" width="110" height="56" rx="10" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.2"/>
+  <text x="650" y="185" class="bl" text-anchor="middle" fill="#15803D">Damage</text>
+  <rect x="725" y="152" width="110" height="56" rx="10" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.2"/>
+  <text x="780" y="185" class="bl" text-anchor="middle" fill="#15803D">Policy</text>
+  <rect x="855" y="152" width="110" height="56" rx="10" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.2"/>
+  <text x="910" y="185" class="bl" text-anchor="middle" fill="#15803D">Settlement</text>
+  <rect x="985" y="152" width="110" height="56" rx="10" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.2"/>
+  <text x="1040" y="185" class="bl" text-anchor="middle" fill="#15803D">Evaluator</text>
+  <rect x="1245" y="152" width="110" height="56" rx="10" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.2"/>
+  <text x="1300" y="185" class="bl" text-anchor="middle" fill="#15803D">Comm</text>
+  <rect x="1375" y="152" width="110" height="56" rx="10" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.2"/>
+  <text x="1430" y="185" class="bl" text-anchor="middle" fill="#15803D">END</text>
 
-  <!-- PATH D: Invalid -> Comms -> END (red, going down) -->
-  <path d="M405,125 L405,180" fill="none" stroke="#F87171" stroke-width="2" marker-end="url(#aR)"/>
-  <text x="418" y="155" fill="#FCA5A5" font-size="9" font-weight="600">NO</text>
+  <line x1="315" y1="180" x2="335" y2="180" class="eN" marker-end="url(#aE)"/>
+  <line x1="445" y1="180" x2="465" y2="180" class="eN" marker-end="url(#aE)"/>
+  <line x1="575" y1="180" x2="595" y2="180" class="eN" marker-end="url(#aE)"/>
+  <line x1="705" y1="180" x2="725" y2="180" class="eN" marker-end="url(#aE)"/>
+  <line x1="835" y1="180" x2="855" y2="180" class="eN" marker-end="url(#aE)"/>
+  <line x1="965" y1="180" x2="985" y2="180" class="eN" marker-end="url(#aE)"/>
+  <line x1="1095" y1="180" x2="1245" y2="180" class="eN" marker-end="url(#aE)"/>
+  <text x="1170" y="170" class="el" text-anchor="middle">eval passed</text>
+  <line x1="1355" y1="180" x2="1375" y2="180" class="eN" marker-end="url(#aE)"/>
 
-  <rect x="345" y="185" width="120" height="40" rx="8" fill="url(#nodeBlue)" filter="url(#sh)"/>
-  <text x="405" y="205" text-anchor="middle" fill="#FFF" font-size="10" font-weight="600">Communication</text>
-  <text x="405" y="217" text-anchor="middle" fill="#BFDBFE" font-size="8">denial letter</text>
+  <!-- ROW 2 - FAST MODE (Path E) -->
+  <text x="20" y="298" class="rl">E Fast</text>
+  <text x="20" y="318" class="rs">amount &lt; $500</text>
 
-  <line x1="465" y1="205" x2="510" y2="205" stroke="#F87171" stroke-width="2" marker-end="url(#aR)"/>
-  <rect x="515" y="190" width="60" height="30" rx="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
-  <text x="545" y="210" text-anchor="middle" fill="#FCA5A5" font-size="10" font-weight="700">END</text>
+  <rect x="205" y="272" width="110" height="56" rx="10" fill="#EFF6FF" stroke="#0EA5E9" stroke-width="1.2"/>
+  <text x="260" y="305" class="bl" text-anchor="middle" fill="#0369A1">START</text>
+  <rect x="335" y="272" width="110" height="56" rx="10" fill="#EFF6FF" stroke="#0EA5E9" stroke-width="1.2"/>
+  <text x="390" y="305" class="bl" text-anchor="middle" fill="#0369A1">Intake</text>
+  <rect x="855" y="272" width="110" height="56" rx="10" fill="#EFF6FF" stroke="#0EA5E9" stroke-width="1.2"/>
+  <text x="910" y="305" class="bl" text-anchor="middle" fill="#0369A1">Settlement</text>
+  <rect x="1245" y="272" width="110" height="56" rx="10" fill="#EFF6FF" stroke="#0EA5E9" stroke-width="1.2"/>
+  <text x="1300" y="305" class="bl" text-anchor="middle" fill="#0369A1">Comm</text>
+  <rect x="1375" y="272" width="110" height="56" rx="10" fill="#EFF6FF" stroke="#0EA5E9" stroke-width="1.2"/>
+  <text x="1430" y="305" class="bl" text-anchor="middle" fill="#0369A1">END</text>
 
-  <!-- PATH D label -->
-  <rect x="600" y="190" width="160" height="30" rx="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
-  <text x="680" y="210" text-anchor="middle" fill="#FCA5A5" font-size="10" font-weight="600">PATH D: Intake Reject</text>
+  <line x1="315" y1="300" x2="335" y2="300" class="eF" marker-end="url(#aS)"/>
+  <line x1="445" y1="300" x2="855" y2="300" class="eF" marker-end="url(#aS)"/>
+  <text x="650" y="290" class="el" text-anchor="middle">fast_mode - skip fraud/damage/policy</text>
+  <line x1="965" y1="300" x2="1245" y2="300" class="eF" marker-end="url(#aS)"/>
+  <line x1="1355" y1="300" x2="1375" y2="300" class="eF" marker-end="url(#aS)"/>
 
-  <!-- YES path continues right -->
-  <line x1="440" y1="100" x2="480" y2="100" stroke="#60A5FA" stroke-width="2"/>
-  <text x="460" y="92" fill="#60A5FA" font-size="9" font-weight="600">YES</text>
+  <!-- ROW 3 - INVALID (Path D) -->
+  <text x="20" y="418" class="rl">D Invalid</text>
+  <text x="20" y="438" class="rs">intake failed - deny</text>
 
-  <!-- Decision: fast mode? -->
-  <polygon points="530,100 560,80 590,100 560,120" fill="#334155" stroke="#64748B" stroke-width="1.5"/>
-  <text x="560" y="98" text-anchor="middle" fill="#F1F5F9" font-size="7" font-weight="600">&lt;$500</text>
-  <text x="560" y="108" text-anchor="middle" fill="#F1F5F9" font-size="7" font-weight="600">clean?</text>
-  <line x1="480" y1="100" x2="530" y2="100" stroke="#60A5FA" stroke-width="2" marker-end="url(#aB)"/>
+  <rect x="205" y="392" width="110" height="56" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.2"/>
+  <text x="260" y="425" class="bl" text-anchor="middle" fill="#B91C1C">START</text>
+  <rect x="335" y="392" width="110" height="56" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.2"/>
+  <text x="390" y="425" class="bl" text-anchor="middle" fill="#B91C1C">Intake</text>
+  <rect x="1245" y="392" width="110" height="56" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.2"/>
+  <text x="1300" y="425" class="bl" text-anchor="middle" fill="#B91C1C">Comm</text>
+  <rect x="1375" y="392" width="110" height="56" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.2"/>
+  <text x="1430" y="425" class="bl" text-anchor="middle" fill="#B91C1C">END</text>
 
-  <!-- PATH E: Fast mode -> Settlement -> Comms -> END (green) -->
-  <path d="M560,80 L560,52 L680,52" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#aG)"/>
-  <text x="600" y="46" fill="#34D399" font-size="9" font-weight="600">YES</text>
+  <line x1="315" y1="420" x2="335" y2="420" class="eI" marker-end="url(#aR)"/>
+  <line x1="445" y1="420" x2="1245" y2="420" class="eI" marker-end="url(#aR)"/>
+  <text x="845" y="410" class="el" text-anchor="middle">invalid intake - denial with specific reasons</text>
+  <line x1="1355" y1="420" x2="1375" y2="420" class="eI" marker-end="url(#aR)"/>
 
-  <rect x="685" y="36" width="100" height="34" rx="8" fill="url(#nodeBlue)" filter="url(#sh)"/>
-  <text x="735" y="58" text-anchor="middle" fill="#FFF" font-size="10" font-weight="600">Settlement</text>
+  <!-- ROW 4 - AUTO-REJECT (Path C) -->
+  <text x="20" y="538" class="rl">C Reject</text>
+  <text x="20" y="558" class="rs">confirmed fraud</text>
 
-  <line x1="785" y1="53" x2="815" y2="53" stroke="#34D399" stroke-width="2" marker-end="url(#aG)"/>
+  <rect x="205" y="512" width="110" height="56" rx="10" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.2"/>
+  <text x="260" y="545" class="bl" text-anchor="middle" fill="#991B1B">START</text>
+  <rect x="335" y="512" width="110" height="56" rx="10" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.2"/>
+  <text x="390" y="545" class="bl" text-anchor="middle" fill="#991B1B">Intake</text>
+  <rect x="465" y="512" width="110" height="56" rx="10" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.2"/>
+  <text x="520" y="545" class="bl" text-anchor="middle" fill="#991B1B">Fraud Crew</text>
+  <rect x="1245" y="512" width="110" height="56" rx="10" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.2"/>
+  <text x="1300" y="545" class="bl" text-anchor="middle" fill="#991B1B">Comm</text>
+  <rect x="1375" y="512" width="110" height="56" rx="10" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.2"/>
+  <text x="1430" y="545" class="bl" text-anchor="middle" fill="#991B1B">END</text>
 
-  <rect x="820" y="36" width="80" height="34" rx="8" fill="url(#nodeBlue)" filter="url(#sh)"/>
-  <text x="860" y="58" text-anchor="middle" fill="#FFF" font-size="10" font-weight="600">Comms</text>
+  <line x1="315" y1="540" x2="335" y2="540" class="eR" marker-end="url(#aD)"/>
+  <line x1="445" y1="540" x2="465" y2="540" class="eR" marker-end="url(#aD)"/>
+  <line x1="575" y1="540" x2="1245" y2="540" class="eR" marker-end="url(#aD)"/>
+  <text x="910" y="530" class="el" text-anchor="middle">fraud_score >= 0.90 + CONFIRMED - auto_reject</text>
+  <line x1="1355" y1="540" x2="1375" y2="540" class="eR" marker-end="url(#aD)"/>
 
-  <line x1="900" y1="53" x2="930" y2="53" stroke="#34D399" stroke-width="2" marker-end="url(#aG)"/>
-  <rect x="935" y="38" width="45" height="28" rx="8" fill="#065F46" stroke="#10B981" stroke-width="1.5"/>
-  <text x="957" y="57" text-anchor="middle" fill="#6EE7B7" font-size="10" font-weight="700">END</text>
+  <!-- ROW 5 - HITL (Path B) - fraud/eval triggered -->
+  <text x="20" y="658" class="rl" fill="#B45309">B HITL</text>
+  <text x="20" y="678" class="rs">fraud >= 0.65 or eval fail</text>
 
-  <rect x="600" y="36" width="80" height="18" rx="4" fill="#065F46"/>
-  <text x="640" y="49" text-anchor="middle" fill="#6EE7B7" font-size="8" font-weight="600">PATH E: Fast</text>
+  <rect x="205" y="632" width="110" height="56" rx="10" fill="#FFFBEB" stroke="#D97706" stroke-width="1.2"/>
+  <text x="260" y="665" class="bl" text-anchor="middle" fill="#92400E">START</text>
+  <rect x="335" y="632" width="110" height="56" rx="10" fill="#FFFBEB" stroke="#D97706" stroke-width="1.2"/>
+  <text x="390" y="665" class="bl" text-anchor="middle" fill="#92400E">Intake</text>
+  <rect x="465" y="632" width="110" height="56" rx="10" fill="#FFFBEB" stroke="#D97706" stroke-width="1.2"/>
+  <text x="520" y="665" class="bl" text-anchor="middle" fill="#92400E">Fraud Crew</text>
 
-  <!-- NO -> Fraud Crew -->
-  <line x1="590" y1="100" x2="640" y2="100" stroke="#60A5FA" stroke-width="2"/>
-  <text x="615" y="92" fill="#60A5FA" font-size="9" font-weight="600">NO</text>
+  <rect x="670" y="628" width="120" height="64" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+  <text x="730" y="656" font-size="19" font-weight="700" text-anchor="middle" fill="#92400E">PAUSE</text>
+  <text x="730" y="678" font-size="15" text-anchor="middle" fill="#92400E">interrupt()</text>
 
-  <!-- FRAUD CREW -->
-  <rect x="645" y="74" width="150" height="52" rx="10" fill="url(#nodePurple)" filter="url(#sh)" stroke="#8B5CF6" stroke-width="1.5"/>
-  <text x="720" y="96" text-anchor="middle" fill="#FFF" font-size="12" font-weight="700">Fraud Crew</text>
-  <text x="720" y="112" text-anchor="middle" fill="#DDD6FE" font-size="9">CrewAI: 3 agents</text>
-  <line x1="640" y1="100" x2="645" y2="100" stroke="#A78BFA" stroke-width="2" marker-end="url(#aP)"/>
+  <rect x="1245" y="632" width="110" height="56" rx="10" fill="#FFFBEB" stroke="#D97706" stroke-width="1.2"/>
+  <text x="1300" y="665" class="bl" text-anchor="middle" fill="#92400E">Comm</text>
+  <rect x="1375" y="632" width="110" height="56" rx="10" fill="#FFFBEB" stroke="#D97706" stroke-width="1.2"/>
+  <text x="1430" y="665" class="bl" text-anchor="middle" fill="#92400E">END</text>
 
-  <!-- Decision diamond after Fraud -->
-  <polygon points="130,310 175,280 220,310 175,340" fill="#334155" stroke="#64748B" stroke-width="1.5"/>
-  <text x="175" y="308" text-anchor="middle" fill="#F1F5F9" font-size="8" font-weight="600">fraud</text>
-  <text x="175" y="320" text-anchor="middle" fill="#F1F5F9" font-size="8" font-weight="600">score?</text>
-  <path d="M720,126 L720,170 L175,170 L175,280" fill="none" stroke="#A78BFA" stroke-width="2" marker-end="url(#aP)"/>
+  <line x1="315" y1="660" x2="335" y2="660" class="eH" marker-end="url(#aA)"/>
+  <line x1="445" y1="660" x2="465" y2="660" class="eH" marker-end="url(#aA)"/>
+  <line x1="575" y1="660" x2="670" y2="660" class="eH" marker-end="url(#aA)"/>
+  <line x1="790" y1="660" x2="1245" y2="660" class="eH" marker-end="url(#aA)"/>
+  <text x="1020" y="650" class="el" text-anchor="middle" fill="#B45309">resume(decision)</text>
+  <line x1="1355" y1="660" x2="1375" y2="660" class="eH" marker-end="url(#aA)"/>
 
-  <!-- PATH C: >= 0.90 Auto Reject -->
-  <path d="M175,340 L175,400" fill="none" stroke="#F87171" stroke-width="2" marker-end="url(#aR)"/>
-  <text x="145" y="370" fill="#FCA5A5" font-size="9" font-weight="600">>= 0.90</text>
+  <!-- ROW 6 - CONFIDENCE GATES (new) -->
+  <text x="20" y="778" class="rl" fill="#7E22CE">Confidence</text>
+  <text x="20" y="798" class="rs">any agent &lt; threshold</text>
 
-  <rect x="115" y="405" width="120" height="36" rx="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
-  <text x="175" y="422" text-anchor="middle" fill="#FCA5A5" font-size="11" font-weight="700">Auto Reject</text>
-  <text x="175" y="435" text-anchor="middle" fill="#FCA5A5" font-size="8">confirmed fraud</text>
+  <rect x="205" y="752" width="110" height="56" rx="10" fill="#FAF5FF" stroke="#9333EA" stroke-width="1.2"/>
+  <text x="260" y="785" class="bl" text-anchor="middle" fill="#7E22CE">START</text>
+  <rect x="335" y="752" width="110" height="56" rx="10" fill="#FAF5FF" stroke="#9333EA" stroke-width="1.2"/>
+  <text x="390" y="785" class="bl" text-anchor="middle" fill="#7E22CE">Intake</text>
+  <rect x="465" y="752" width="110" height="56" rx="10" fill="#FAF5FF" stroke="#9333EA" stroke-width="1.2"/>
+  <text x="520" y="785" class="bl" text-anchor="middle" fill="#7E22CE">Fraud Crew</text>
+  <rect x="595" y="752" width="110" height="56" rx="10" fill="#FAF5FF" stroke="#9333EA" stroke-width="1.2"/>
+  <text x="650" y="785" class="bl" text-anchor="middle" fill="#7E22CE">Damage</text>
+  <rect x="725" y="752" width="110" height="56" rx="10" fill="#FAF5FF" stroke="#9333EA" stroke-width="1.2"/>
+  <text x="780" y="785" class="bl" text-anchor="middle" fill="#7E22CE">Policy</text>
+  <rect x="855" y="752" width="110" height="56" rx="10" fill="#FAF5FF" stroke="#9333EA" stroke-width="1.2"/>
+  <text x="910" y="785" class="bl" text-anchor="middle" fill="#7E22CE">Settlement</text>
 
-  <line x1="235" y1="423" x2="275" y2="423" stroke="#F87171" stroke-width="2" marker-end="url(#aR)"/>
-  <rect x="280" y="408" width="80" height="30" rx="8" fill="url(#nodeBlue)" filter="url(#sh)"/>
-  <text x="320" y="428" text-anchor="middle" fill="#FFF" font-size="10" font-weight="600">Comms</text>
-  <line x1="360" y1="423" x2="400" y2="423" stroke="#F87171" stroke-width="2" marker-end="url(#aR)"/>
-  <rect x="405" y="408" width="50" height="28" rx="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
-  <text x="430" y="427" text-anchor="middle" fill="#FCA5A5" font-size="10" font-weight="700">END</text>
+  <rect x="1010" y="748" width="120" height="64" rx="12" fill="#F3E8FF" stroke="#9333EA" stroke-width="2"/>
+  <text x="1070" y="776" font-size="18" font-weight="700" text-anchor="middle" fill="#7E22CE">PAUSE</text>
+  <text x="1070" y="798" font-size="14" text-anchor="middle" fill="#7E22CE">conf &lt; threshold</text>
 
-  <rect x="475" y="408" width="150" height="28" rx="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
-  <text x="550" y="427" text-anchor="middle" fill="#FCA5A5" font-size="10" font-weight="600">PATH C: Auto Reject</text>
+  <rect x="1245" y="752" width="110" height="56" rx="10" fill="#FAF5FF" stroke="#9333EA" stroke-width="1.2"/>
+  <text x="1300" y="785" class="bl" text-anchor="middle" fill="#7E22CE">Comm</text>
+  <rect x="1375" y="752" width="110" height="56" rx="10" fill="#FAF5FF" stroke="#9333EA" stroke-width="1.2"/>
+  <text x="1430" y="785" class="bl" text-anchor="middle" fill="#7E22CE">END</text>
 
-  <!-- PATH B: >= 0.65 HITL -->
-  <path d="M130,310 L70,310 L70,530" fill="none" stroke="#FBBF24" stroke-width="2" marker-end="url(#aA)"/>
-  <text x="50" y="365" fill="#FCD34D" font-size="9" font-weight="600">>= 0.65</text>
+  <line x1="315" y1="780" x2="335" y2="780" class="eG" marker-end="url(#aG)"/>
+  <line x1="445" y1="780" x2="465" y2="780" class="eG" marker-end="url(#aG)"/>
+  <line x1="575" y1="780" x2="595" y2="780" class="eG" marker-end="url(#aG)"/>
+  <line x1="705" y1="780" x2="725" y2="780" class="eG" marker-end="url(#aG)"/>
+  <line x1="835" y1="780" x2="855" y2="780" class="eG" marker-end="url(#aG)"/>
+  <line x1="965" y1="780" x2="1010" y2="780" class="eG" marker-end="url(#aG)"/>
+  <line x1="1130" y1="780" x2="1245" y2="780" class="eG" marker-end="url(#aG)"/>
+  <text x="1190" y="740" class="el" text-anchor="middle" fill="#7E22CE">resume -> next agent</text>
+  <line x1="1355" y1="780" x2="1375" y2="780" class="eG" marker-end="url(#aG)"/>
 
-  <rect x="30" y="535" width="120" height="40" rx="8" fill="url(#nodeRed)" filter="url(#sh)"/>
-  <text x="90" y="555" text-anchor="middle" fill="#FFF" font-size="11" font-weight="700">HITL Review</text>
-  <text x="90" y="568" text-anchor="middle" fill="#FECACA" font-size="8">human decides</text>
+  <text x="800" y="836" class="el" text-anchor="middle" fill="#7E22CE">gates after every agent: intake(0.55)  fraud(0.50)  damage(0.60)  policy(0.60)  settlement(0.65)</text>
 
-  <line x1="150" y1="555" x2="190" y2="555" stroke="#FBBF24" stroke-width="2" marker-end="url(#aA)"/>
-  <rect x="195" y="540" width="80" height="30" rx="8" fill="url(#nodeBlue)" filter="url(#sh)"/>
-  <text x="235" y="560" text-anchor="middle" fill="#FFF" font-size="10" font-weight="600">Comms</text>
-  <line x1="275" y1="555" x2="315" y2="555" stroke="#FBBF24" stroke-width="2" marker-end="url(#aA)"/>
-  <rect x="320" y="540" width="50" height="28" rx="8" fill="#78350F" stroke="#F59E0B" stroke-width="1.5"/>
-  <text x="345" y="559" text-anchor="middle" fill="#FDE68A" font-size="10" font-weight="700">END</text>
+  <!-- CALLOUT -->
+  <rect x="80" y="860" width="1440" height="190" rx="14" fill="#F8FAFC" stroke="#D97706" stroke-width="1.6"/>
+  <text x="108" y="892" class="ct" fill="#0F172A">Agent Transparency + Confidence-Based HITL</text>
 
-  <rect x="390" y="540" width="155" height="28" rx="6" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
-  <text x="468" y="559" text-anchor="middle" fill="#FDE68A" font-size="10" font-weight="600">PATH B: HITL Review</text>
+  <text x="108" y="920" class="cb">
+    <tspan>Every agent produces: </tspan>
+    <tspan class="cm" fill="#B45309">confidence</tspan>
+    <tspan> (0-1), </tspan>
+    <tspan class="cm" fill="#B45309">decision</tspan>
+    <tspan>, </tspan>
+    <tspan class="cm" fill="#B45309">reasoning</tspan>
+    <tspan>, </tspan>
+    <tspan class="cm" fill="#B45309">flags</tspan>
+    <tspan>, and </tspan>
+    <tspan class="cm" fill="#B45309">findings</tspan>
+    <tspan> - all persisted and visible in the Agent Trace panel.</tspan>
+  </text>
+  <text x="108" y="948" class="cb">
+    <tspan>If any agent's confidence falls below its configured threshold, the pipeline pauses at a dedicated HITL node.</tspan>
+  </text>
+  <text x="108" y="976" class="cb">
+    <tspan>Each HITL gate resumes to the correct next agent: </tspan>
+    <tspan class="cm" fill="#7E22CE">hitl_after_damage -> policy_checker</tspan>
+    <tspan>, </tspan>
+    <tspan class="cm" fill="#7E22CE">hitl_after_policy -> settlement</tspan>
+    <tspan>, etc.</tspan>
+  </text>
+  <text x="108" y="1004" class="cb">
+    <tspan>HITL triggers: fraud >= 0.65, eval quality gate failed, agent confidence below threshold, amount >= $10K / Rs5L</tspan>
+  </text>
+  <text x="108" y="1032" class="cb">
+    <tspan>Pipeline checkpointed by </tspan>
+    <tspan class="cm" fill="#B45309">SqliteSaver</tspan>
+    <tspan> - durable across server restarts. Reviewer resumes via </tspan>
+    <tspan class="cm" fill="#B45309">Command(resume=decision)</tspan>
+    <tspan>.</tspan>
+  </text>
 
-  <!-- PATH A: Normal < 0.65 -->
-  <line x1="220" y1="310" x2="280" y2="310" stroke="#60A5FA" stroke-width="2" marker-end="url(#aB)"/>
-  <text x="250" y="302" fill="#60A5FA" font-size="9" font-weight="600">&lt; 0.65</text>
-
-  <!-- Damage -->
-  <rect x="285" y="290" width="110" height="40" rx="8" fill="url(#nodeBlue)" filter="url(#sh)"/>
-  <text x="340" y="315" text-anchor="middle" fill="#FFF" font-size="11" font-weight="600">Damage</text>
-
-  <line x1="395" y1="310" x2="430" y2="310" stroke="#60A5FA" stroke-width="2" marker-end="url(#aB)"/>
-
-  <!-- Policy -->
-  <rect x="435" y="290" width="110" height="40" rx="8" fill="url(#nodeBlue)" filter="url(#sh)"/>
-  <text x="490" y="315" text-anchor="middle" fill="#FFF" font-size="11" font-weight="600">Policy</text>
-
-  <line x1="545" y1="310" x2="580" y2="310" stroke="#60A5FA" stroke-width="2" marker-end="url(#aB)"/>
-
-  <!-- Settlement -->
-  <rect x="585" y="290" width="110" height="40" rx="8" fill="url(#nodeBlue)" filter="url(#sh)"/>
-  <text x="640" y="315" text-anchor="middle" fill="#FFF" font-size="11" font-weight="600">Settlement</text>
-
-  <line x1="695" y1="310" x2="730" y2="310" stroke="#60A5FA" stroke-width="2" marker-end="url(#aB)"/>
-
-  <!-- Evaluator -->
-  <rect x="735" y="290" width="110" height="40" rx="8" fill="url(#nodeTeal)" filter="url(#sh)"/>
-  <text x="790" y="310" text-anchor="middle" fill="#FFF" font-size="11" font-weight="600">Evaluator</text>
-  <text x="790" y="323" text-anchor="middle" fill="#A5F3FC" font-size="8">LLM-as-Judge</text>
-
-  <!-- Decision after evaluator -->
-  <polygon points="870,310 905,288 940,310 905,332" fill="#334155" stroke="#64748B" stroke-width="1.5"/>
-  <text x="905" y="308" text-anchor="middle" fill="#F1F5F9" font-size="7" font-weight="600">score</text>
-  <text x="905" y="318" text-anchor="middle" fill="#F1F5F9" font-size="7" font-weight="600">>0.70?</text>
-  <line x1="845" y1="310" x2="870" y2="310" stroke="#22D3EE" stroke-width="2" marker-end="url(#aC)"/>
-
-  <!-- PASS -> Comms -> END -->
-  <path d="M940,310 L960,310 L960,400" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#aG)"/>
-  <text x="968" y="350" fill="#34D399" font-size="9" font-weight="600">PASS</text>
-
-  <rect x="920" y="405" width="60" height="30" rx="8" fill="url(#nodeBlue)" filter="url(#sh)"/>
-  <text x="950" y="425" text-anchor="middle" fill="#FFF" font-size="10" font-weight="600">Comms</text>
-
-  <line x1="950" y1="435" x2="950" y2="470" stroke="#34D399" stroke-width="2" marker-end="url(#aG)"/>
-  <rect x="925" y="475" width="50" height="28" rx="8" fill="#065F46" stroke="#10B981" stroke-width="1.5"/>
-  <text x="950" y="494" text-anchor="middle" fill="#6EE7B7" font-size="10" font-weight="700">END</text>
-
-  <rect x="830" y="475" width="85" height="24" rx="6" fill="#065F46" stroke="#10B981" stroke-width="1"/>
-  <text x="872" y="492" text-anchor="middle" fill="#6EE7B7" font-size="9" font-weight="600">PATH A</text>
-
-  <!-- FAIL -> HITL -->
-  <path d="M905,332 L905,420 L600,420 L600,530 L90,530 L90,535" fill="none" stroke="#FBBF24" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#aA)"/>
-  <text x="910" y="380" fill="#FCD34D" font-size="9" font-weight="600">FAIL</text>
-
-  <!-- ============================================================ -->
-  <!-- LEGEND -->
-  <!-- ============================================================ -->
-  <rect x="30" y="600" width="940" height="65" rx="10" fill="#0F172A" stroke="#334155" stroke-width="1"/>
-
-  <rect x="55" y="617" width="130" height="22" rx="4" fill="#065F46"/>
-  <text x="120" y="632" text-anchor="middle" fill="#6EE7B7" font-size="10" font-weight="600">PATH A: Normal</text>
-  <text x="120" y="649" text-anchor="middle" fill="#64748B" font-size="9">7 agents | ~$0.008 | ~30s</text>
-
-  <rect x="210" y="617" width="130" height="22" rx="4" fill="#78350F"/>
-  <text x="275" y="632" text-anchor="middle" fill="#FDE68A" font-size="10" font-weight="600">PATH B: HITL</text>
-  <text x="275" y="649" text-anchor="middle" fill="#64748B" font-size="9">9 agents | ~$0.014 | ~60s</text>
-
-  <rect x="365" y="617" width="130" height="22" rx="4" fill="#7F1D1D"/>
-  <text x="430" y="632" text-anchor="middle" fill="#FCA5A5" font-size="10" font-weight="600">PATH C: Reject</text>
-  <text x="430" y="649" text-anchor="middle" fill="#64748B" font-size="9">2 agents | ~$0.004 | ~10s</text>
-
-  <rect x="520" y="617" width="140" height="22" rx="4" fill="#7F1D1D"/>
-  <text x="590" y="632" text-anchor="middle" fill="#FCA5A5" font-size="10" font-weight="600">PATH D: Intake Deny</text>
-  <text x="590" y="649" text-anchor="middle" fill="#64748B" font-size="9">2 agents | ~$0.001 | ~8s</text>
-
-  <rect x="685" y="617" width="130" height="22" rx="4" fill="#065F46"/>
-  <text x="750" y="632" text-anchor="middle" fill="#6EE7B7" font-size="10" font-weight="600">PATH E: Fast</text>
-  <text x="750" y="649" text-anchor="middle" fill="#64748B" font-size="9">3 agents | ~$0.003 | ~8s</text>
-
-  <rect x="840" y="617" width="120" height="22" rx="4" fill="#6D28D9"/>
-  <text x="900" y="632" text-anchor="middle" fill="#DDD6FE" font-size="10" font-weight="600">CrewAI Node</text>
-  <text x="900" y="649" text-anchor="middle" fill="#64748B" font-size="9">3 sub-agents inside</text>
+  <text x="800" y="1080" class="sub" text-anchor="middle">LangGraph 1.x  -  SqliteSaver  -  CrewAI Fraud Crew  -  Agent Memory (ChromaDB)  -  Country Profiles (US / India)  -  Pluggable LLM  -  Token/Cost Tracking</text>
 </svg>

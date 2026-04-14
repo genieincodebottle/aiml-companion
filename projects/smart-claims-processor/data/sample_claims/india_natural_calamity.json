@@ -1,0 +1,20 @@
+{
+  "claim_id": "CLM-IN-NC-001",
+  "policy_number": "POL-COMP-IN-TEST",
+  "claimant_name": "Sneha Desai",
+  "claimant_email": "sneha.desai@email.com",
+  "claimant_phone": "+91 9876012345",
+  "claimant_dob": "05/06/1988",
+  "incident_date": "2026-03-20",
+  "incident_type": "natural_calamity",
+  "incident_description": "Vehicle submerged in waterlogging during heavy Mumbai monsoon rains in Sion area. Water level reached above the dashboard. Engine hydrolocked when attempting to start after water receded. Interior completely waterlogged - seats, carpet, electrical systems damaged. Vehicle towed to authorized Honda service center. Weather department confirmed extremely heavy rainfall (200mm+) on that date. Garage assessment indicates engine replacement and full interior restoration needed.",
+  "incident_location": "Sion Circle underpass, Mumbai 400022, Maharashtra",
+  "police_report_number": null,
+  "estimated_amount": 420000,
+  "vehicle_year": 2022,
+  "vehicle_make": "Honda",
+  "vehicle_model": "City",
+  "documents": ["photos_submerged.jpg", "photos_interior.jpg", "garage_estimate.pdf", "weather_report.pdf", "rc_book.pdf", "driving_licence.pdf"],
+  "is_appeal": false,
+  "original_claim_id": null
+}

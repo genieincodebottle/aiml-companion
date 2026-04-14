@@ -8,11 +8,10 @@ All agent outputs are typed; missing fields default to None.
 from __future__ import annotations
 
 import operator
-from typing import Annotated, Any, Optional, TypedDict
+from typing import Annotated, Optional, TypedDict
 
 from src.models.schemas import (
     ClaimDecision,
-    ClaimType,
     DamageAssessmentOutput,
     EvaluationOutput,
     FraudAssessmentOutput,
@@ -107,35 +106,29 @@ class ClaimsState(TypedDict):
 
 
 def initial_state(claim: ClaimInput) -> ClaimsState:
-    """Build a fresh state from a raw claim input."""
-    return ClaimsState(
-        claim=claim,
-        masked_claim=None,
-        intake_output=None,
-        fraud_output=None,
-        damage_output=None,
-        policy_output=None,
-        settlement_output=None,
-        evaluation_output=None,
-        evaluation_passed=None,
-        communication_output=None,
-        hitl_required=False,
-        hitl_triggers=[],
-        hitl_priority=None,
-        hitl_priority_score=None,
-        hitl_ticket_id=None,
-        human_decision=None,
-        human_reviewer_id=None,
-        human_notes=None,
-        human_override=False,
-        final_decision=None,
-        final_amount_usd=None,
-        guardrails_passed=True,
-        guardrails_violations=[],
-        agent_call_count=0,
-        total_tokens_used=0,
-        total_cost_usd=0.0,
-        execution_start_time=None,
-        pipeline_trace=[],
-        error_log=[],
-    )
+    """Build a fresh state from a raw claim input.
+
+    Most fields start as None (TypedDict Optional fields). Only non-None
+    defaults and required fields are listed explicitly.
+    """
+    state: dict = {
+        "claim": claim,
+        # Booleans that default to False
+        "hitl_required": False,
+        "human_override": False,
+        "guardrails_passed": True,
+        # Numeric defaults
+        "agent_call_count": 0,
+        "total_tokens_used": 0,
+        "total_cost_usd": 0.0,
+        # Append-only lists (operator.add needs a starting list)
+        "hitl_triggers": [],
+        "guardrails_violations": [],
+        "pipeline_trace": [],
+        "error_log": [],
+    }
+    # All remaining Optional fields default to None
+    for key in ClaimsState.__annotations__:
+        if key not in state:
+            state[key] = None
+    return ClaimsState(**state)

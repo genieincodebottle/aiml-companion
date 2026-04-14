@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
-from datetime import date, timedelta
+from datetime import date
 from pathlib import Path
 from typing import Optional
 
@@ -73,7 +73,14 @@ SAMPLE_POLICIES = [
 ]
 
 
-def _setup_db():
+_db_initialized = False
+
+
+def _ensure_db():
+    """Initialize DB and seed sample data (once per process)."""
+    global _db_initialized
+    if _db_initialized:
+        return
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(str(DB_PATH))
     conn.execute("""
@@ -82,7 +89,6 @@ def _setup_db():
             data TEXT NOT NULL
         )
     """)
-    # Seed sample data
     for p in SAMPLE_POLICIES:
         conn.execute(
             "INSERT OR IGNORE INTO policies (policy_number, data) VALUES (?, ?)",
@@ -90,6 +96,7 @@ def _setup_db():
         )
     conn.commit()
     conn.close()
+    _db_initialized = True
 
 
 def lookup_policy(policy_number: str) -> Optional[dict]:
@@ -97,7 +104,7 @@ def lookup_policy(policy_number: str) -> Optional[dict]:
     Retrieve full policy details by policy number.
     Returns None if policy not found.
     """
-    _setup_db()
+    _ensure_db()
     conn = sqlite3.connect(str(DB_PATH))
     try:
         row = conn.execute(
@@ -139,15 +146,20 @@ def get_coverage_for_claim_type(policy: dict, claim_type: str) -> dict:
     exclusions = policy.get("exclusions", [])
     deductible = policy.get("deductible", 0)
 
-    # Mapping from claim type to coverage key
-    claim_to_coverage = {
-        "auto_collision": "collision",
-        "auto_theft": "comprehensive",
-        "property_fire": "dwelling",
-        "property_water": "dwelling",
-        "liability": "liability",
-        "medical": "medical_payments",
-    }
+    # Country-aware mapping from claim type to coverage key.
+    # Falls back to a US default if the config loader isn't available yet.
+    try:
+        from src.config import get_coverage_mapping
+        claim_to_coverage = get_coverage_mapping()
+    except Exception:
+        claim_to_coverage = {
+            "auto_collision": "collision",
+            "auto_theft": "comprehensive",
+            "property_fire": "dwelling",
+            "property_water": "dwelling",
+            "liability": "liability",
+            "medical": "medical_payments",
+        }
 
     coverage_key = claim_to_coverage.get(claim_type, "")
     covered_amount = coverage.get(coverage_key, 0)

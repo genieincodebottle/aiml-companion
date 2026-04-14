@@ -21,7 +21,16 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from src.llm import get_structured_llm
 from src.models.schemas import ClaimDecision, CommunicationOutput
 from src.models.state import ClaimsState
+from src.config import get_communication_config
 from src.security.audit_log import log_agent_action, log_final_decision
+from src.utils import currency_symbol as _currency_symbol
+
+
+def _get_appeal_instructions() -> str:
+    comm = get_communication_config()
+    phone = comm.get("contact_phone", "our claims department")
+    text = comm.get("appeal_window_text", "You have 30 days to file an appeal.")
+    return f"Contact {phone}. {text}"
 
 logger = logging.getLogger(__name__)
 AGENT_NAME = "communication_agent"
@@ -62,11 +71,11 @@ def run_communication_agent(state: ClaimsState) -> dict:
     hitl_context = ""
     if hitl_required and human_decision:
         hitl_context = f"""
-NOTE: This claim was escalated for human review.
-Human reviewer decision: {human_decision}
-Human override of AI recommendation: {state.get('human_override', False)}
-Reviewer notes: {state.get('human_notes', 'None')}
-"""
+        NOTE: This claim was escalated for human review.
+        Human reviewer decision: {human_decision}
+        Human override of AI recommendation: {state.get('human_override', False)}
+        Reviewer notes: {state.get('human_notes', 'None')}
+        """
 
     fraud_context = ""
     if fraud_output and fraud_output.fraud_score > 0.5:
@@ -76,36 +85,53 @@ Reviewer notes: {state.get('human_notes', 'None')}
     if evaluation:
         eval_context = f"Decision quality score: {evaluation.overall_score:.2f}/1.0"
 
+    # Build denial reasons from settlement output or intake flags
+    intake = state.get("intake_output")
+    if settlement and settlement.denial_reasons:
+        denial_reasons_text = ", ".join(settlement.denial_reasons)
+    elif intake and intake.validation_flags:
+        denial_reasons_text = ", ".join(intake.validation_flags)
+    else:
+        denial_reasons_text = "N/A"
+
+    intake_notes_text = intake.intake_notes if intake else "N/A"
+
     prompt = f"""
-Generate the final claimant communication for this claim:
+    Generate the final claimant communication for this claim:
 
-CLAIM: {claim_id}
-POLICY: {claim.get('policy_number')}
-CLAIMANT NAME: [CLAIMANT] (use this placeholder - name will be merged separately)
-INCIDENT TYPE: {claim.get('incident_type', 'unknown').replace('_', ' ').title()}
-INCIDENT DATE: {claim.get('incident_date')}
+    CLAIM: {claim_id}
+    POLICY: {claim.get('policy_number')}
+    CLAIMANT NAME: [CLAIMANT] (use this placeholder - name will be merged separately)
+    INCIDENT TYPE: {claim.get('incident_type', 'unknown').replace('_', ' ').title()}
+    INCIDENT DATE: {claim.get('incident_date')}
 
-FINAL DECISION: {decision_str.upper().replace('_', ' ')}
-SETTLEMENT AMOUNT: ${final_amount:,.2f}
+    FINAL DECISION: {decision_str.upper().replace('_', ' ')}
+    SETTLEMENT AMOUNT: {_currency_symbol()}{final_amount:,.2f}
 
-CALCULATION SUMMARY:
-{chr(10).join(settlement.calculation_breakdown) if settlement else 'N/A'}
+    CALCULATION SUMMARY:
+    {chr(10).join(settlement.calculation_breakdown) if settlement else 'N/A'}
 
-DENIAL REASONS (if denied): {', '.join(settlement.denial_reasons) if settlement and settlement.denial_reasons else 'N/A'}
-EXCLUSIONS: {', '.join(state.get('policy_output').exclusions_triggered) if state.get('policy_output') else 'N/A'}
-{hitl_context}
-{fraud_context}
-{eval_context}
+    DENIAL REASONS (if denied): {denial_reasons_text}
+    INTAKE NOTES: {intake_notes_text}
+    EXCLUSIONS: {', '.join(state.get('policy_output').exclusions_triggered) if state.get('policy_output') else 'N/A'}
+    {hitl_context}
+    {fraud_context}
+    {eval_context}
 
-Write:
-1. A professional email notification to the claimant explaining the decision
-2. Next steps they need to take
-3. Appeal instructions if denied or partially denied
-4. Internal adjuster notes (technical, for the claims file)
+    Write:
+    1. A professional email notification to the claimant explaining the decision.
+       IMPORTANT: If the claim is denied, you MUST include the SPECIFIC reasons
+       for denial in the email (e.g. "deductible exceeds claim amount",
+       "policy was inactive on incident date", "claim type not covered").
+       Never send a generic "does not meet criteria" without explaining which
+       criteria and why. The claimant deserves to know exactly why.
+    2. Next steps they need to take
+    3. Appeal instructions if denied or partially denied
+    4. Internal adjuster notes (technical, for the claims file)
 
-Keep the claimant email warm but professional. Under 300 words.
-Internal notes should be complete and factual. Can be longer.
-"""
+    Keep the claimant email warm but professional. Under 300 words.
+    Internal notes should be complete and factual. Can be longer.
+    """
 
     try:
         output = llm.invoke([
@@ -119,7 +145,7 @@ Internal notes should be complete and factual. Can be longer.
             message=_fallback_message(claim_id, decision_str, final_amount),
             internal_notes=f"Communication LLM error: {str(e)}. Fallback template used.",
             next_steps=["Contact your agent for details"],
-            appeal_instructions="Contact 1-800-CLAIMS within 30 days to appeal." if "denied" in decision_str else None,
+            appeal_instructions=_get_appeal_instructions() if "denied" in decision_str else None,
         )
 
     duration_ms = int((time.time() - start_time) * 1000)
@@ -152,26 +178,44 @@ Internal notes should be complete and factual. Can be longer.
             "decision": decision_str,
             "amount_usd": final_amount,
             "duration_ms": duration_ms,
+            "confidence": 1.0,
+            "reasoning": output.internal_notes,
+            "flags": [],
+            "findings": {
+                "subject": output.subject,
+                "next_steps": output.next_steps,
+                "has_appeal_instructions": bool(output.appeal_instructions),
+            },
         }],
     }
 
 
 def _fallback_message(claim_id: str, decision: str, amount: float) -> str:
+    sym = _currency_symbol()
+    comm = get_communication_config()
+    phone = comm.get("contact_phone", "our claims department")
+    email = comm.get("contact_email", "claims@insurance.com")
+    footer = comm.get("regulatory_footer", "")
+    appeal_text = comm.get("appeal_window_text", "You have 30 days to file an appeal.")
+
     decision_text = {
-        "approved": f"We are pleased to inform you that your claim has been approved for a settlement of ${amount:,.2f}.",
+        "approved": f"We are pleased to inform you that your claim has been approved for a settlement of {sym}{amount:,.2f}.",
         "denied": "We regret to inform you that your claim has been denied based on our policy review.",
-        "approved_partial": f"Your claim has been partially approved. A settlement of ${amount:,.2f} will be processed.",
+        "approved_partial": f"Your claim has been partially approved. A settlement of {sym}{amount:,.2f} will be processed.",
         "escalated_human_review": "Your claim is under additional review. We will contact you within 3-5 business days.",
         "fraud_investigation": "Your claim requires additional verification. Please expect contact from our team.",
     }.get(decision, f"Your claim status has been updated. Reference: {claim_id}")
 
+    denied_line = f"\n{appeal_text}" if "denied" in decision else ""
+
     return f"""Dear Claimant,
 
-Re: Claim Reference {claim_id}
+    Re: Claim Reference {claim_id}
 
-{decision_text}
+    {decision_text}{denied_line}
 
-Please contact us at 1-800-CLAIMS or claims@insurance.com if you have questions.
+    Please contact us at {phone} or {email} if you have questions.
 
-Sincerely,
-Claims Processing Team"""
+    {footer}
+    Sincerely,
+    Claims Processing Team"""

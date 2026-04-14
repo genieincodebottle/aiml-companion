@@ -1,0 +1,379 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1220 1400" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,1 L8,5 L0,9 z" fill="#64748B"/>
+    </marker>
+    <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,1 L8,5 L0,9 z" fill="#D97706"/>
+    </marker>
+    <marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,1 L8,5 L0,9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="aUp" viewBox="0 0 10 10" refX="5" refY="1" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,1 L8,5 L0,9 z" fill="#16A34A"/>
+    </marker>
+
+    <style>
+      text { fill: #1E293B; }
+      .title { font-size: 32px; font-weight: 800; fill: #0F172A; }
+      .subtitle { font-size: 14px; fill: #475569; letter-spacing: 0.2px; }
+      .layerLabel { font-size: 13px; font-weight: 700; fill: #334155; letter-spacing: 1.8px; text-transform: uppercase; }
+      .boxTitle { font-size: 16px; font-weight: 700; }
+      .boxSub { font-size: 12.5px; fill: #475569; }
+      .agentName { font-size: 13px; font-weight: 700; }
+      .agentSub { font-size: 11px; fill: #475569; }
+      .tag { font-size: 11px; font-weight: 600; letter-spacing: 0.3px; }
+      .note { font-size: 11.5px; fill: #475569; }
+      .flowLine { fill: none; stroke: #CBD5E1; stroke-width: 2.2; }
+      .flowMain { fill: none; stroke: #94A3B8; stroke-width: 2.5; }
+      .flowHitl { fill: none; stroke: #D97706; stroke-width: 2.2; stroke-dasharray: 7 4; }
+      .flowReturn { fill: none; stroke: #16A34A; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1220" height="1400" fill="#FAFBFC"/>
+
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <!-- TITLE -->
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <text x="600" y="44" class="title" text-anchor="middle">Smart Claims Processor</text>
+  <text x="600" y="68" class="subtitle" text-anchor="middle">Multi-Agent Insurance Claims Pipeline  ·  LangGraph + CrewAI  ·  React + FastAPI  ·  Human-in-the-Loop</text>
+
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <!-- ROW 1: USERS + FRONTEND + BACKEND + DECISION -->
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <text x="600" y="108" class="layerLabel" text-anchor="middle">Users · Frontend · Backend</text>
+
+  <!-- Claimant -->
+  <rect x="30" y="128" width="140" height="80" rx="12" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="100" y="157" class="boxTitle" text-anchor="middle" fill="#15803D">Claimant</text>
+  <text x="100" y="176" class="boxSub" text-anchor="middle">files claims</text>
+  <text x="100" y="194" class="boxSub" text-anchor="middle">tracks status</text>
+
+  <!-- Reviewer -->
+  <rect x="30" y="224" width="140" height="80" rx="12" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/>
+  <text x="100" y="253" class="boxTitle" text-anchor="middle" fill="#B45309">Reviewer</text>
+  <text x="100" y="272" class="boxSub" text-anchor="middle">approves HITL</text>
+  <text x="100" y="290" class="boxSub" text-anchor="middle">overrides AI</text>
+
+  <!-- Arrow: Users -> Frontend (long enough to see clearly) -->
+  <line x1="170" y1="210" x2="230" y2="210" class="flowMain" marker-end="url(#a1)"/>
+
+  <!-- React Frontend -->
+  <rect x="236" y="128" width="240" height="176" rx="14" fill="#F0F9FF" stroke="#0EA5E9" stroke-width="1.5"/>
+  <text x="356" y="157" class="boxTitle" text-anchor="middle" fill="#0369A1">React Frontend</text>
+  <text x="356" y="176" class="boxSub" text-anchor="middle">Vite + Zustand + MUI</text>
+
+  <rect x="256" y="194" width="200" height="30" rx="7" fill="#E0F2FE" stroke="#7DD3FC" stroke-width="1"/>
+  <text x="356" y="214" class="agentName" text-anchor="middle" fill="#0284C7">Claims Dashboard</text>
+
+  <rect x="256" y="232" width="200" height="30" rx="7" fill="#E0F2FE" stroke="#7DD3FC" stroke-width="1"/>
+  <text x="356" y="252" class="agentName" text-anchor="middle" fill="#0284C7">HITL Review Queue</text>
+
+  <rect x="256" y="270" width="200" height="30" rx="7" fill="#E0F2FE" stroke="#7DD3FC" stroke-width="1"/>
+  <text x="356" y="290" class="agentName" text-anchor="middle" fill="#0284C7">Analytics Dashboard</text>
+
+  <!-- Arrow: Frontend -> Backend (wide gap) -->
+  <line x1="476" y1="210" x2="546" y2="210" class="flowMain" marker-end="url(#a1)"/>
+  <text x="511" y="200" class="note" text-anchor="middle">JSON</text>
+
+  <!-- FastAPI Backend -->
+  <rect x="552" y="128" width="252" height="176" rx="14" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="678" y="157" class="boxTitle" text-anchor="middle" fill="#1D4ED8">FastAPI Backend</text>
+  <text x="678" y="176" class="boxSub" text-anchor="middle">JWT · RBAC · SQLModel</text>
+
+  <rect x="572" y="194" width="212" height="30" rx="7" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
+  <text x="678" y="214" class="agentName" text-anchor="middle" fill="#2563EB">/api/claims · /api/auth</text>
+
+  <rect x="572" y="232" width="212" height="30" rx="7" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
+  <text x="678" y="252" class="agentName" text-anchor="middle" fill="#2563EB">/api/hitl · /api/appeals</text>
+
+  <rect x="572" y="270" width="212" height="30" rx="7" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
+  <text x="678" y="290" class="agentName" text-anchor="middle" fill="#2563EB">/api/analytics · /api/settings</text>
+
+  <!-- Decision Output -->
+  <rect x="880" y="128" width="260" height="176" rx="14" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="1010" y="157" class="boxTitle" text-anchor="middle" fill="#15803D">Decision Output</text>
+  <text x="1010" y="180" class="boxSub" text-anchor="middle">approved · denied</text>
+  <text x="1010" y="198" class="boxSub" text-anchor="middle">escalated · auto-rejected</text>
+
+  <rect x="900" y="216" width="220" height="30" rx="7" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+  <text x="1010" y="236" class="agentName" text-anchor="middle" fill="#15803D">+ Agent Trace panel</text>
+
+  <text x="1010" y="268" class="boxSub" text-anchor="middle">confidence · reasoning</text>
+  <text x="1010" y="286" class="boxSub" text-anchor="middle">flags · findings</text>
+
+  <!-- Arrow: Decision -> Frontend (return path along bottom) -->
+  <path d="M1010,304 L1010,338 Q1010,348 1000,348 L366,348 Q356,348 356,338 L356,304" class="flowReturn" marker-end="url(#a4)"/>
+  <text x="356" y="342" class="note" text-anchor="middle" fill="#16A34A">result + agent traces → dashboard</text>
+
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <!-- ROW 2: LANGGRAPH PIPELINE -->
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+
+  <!-- Arrow: Backend down to Pipeline -->
+  <line x1="678" y1="304" x2="678" y2="388" class="flowMain" marker-end="url(#a1)"/>
+
+  <text x="600" y="410" class="layerLabel" text-anchor="middle">LangGraph Pipeline · 7 Agents · Conditional Routing</text>
+
+  <!-- Pipeline container -->
+  <rect x="30" y="428" width="1130" height="178" rx="16" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+
+  <!-- 7 agent boxes: 134px wide, 22px gap between arrows -->
+  <!-- 1. Intake -->
+  <rect x="48" y="448" width="134" height="78" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.4"/>
+  <text x="115" y="476" class="agentName" text-anchor="middle" fill="#1D4ED8">Intake</text>
+  <text x="115" y="494" class="agentSub" text-anchor="middle">validate claim</text>
+  <text x="115" y="510" class="agentSub" text-anchor="middle">mask PII</text>
+
+  <!-- Arrow 1->2 -->
+  <line x1="182" y1="487" x2="210" y2="487" class="flowLine" marker-end="url(#a1)"/>
+
+  <!-- 2. Fraud Crew -->
+  <rect x="214" y="448" width="134" height="78" rx="10" fill="#FAF5FF" stroke="#9333EA" stroke-width="1.4"/>
+  <text x="281" y="472" class="agentName" text-anchor="middle" fill="#7E22CE">Fraud Crew</text>
+  <text x="281" y="490" class="agentSub" text-anchor="middle">CrewAI · 3 roles</text>
+  <text x="281" y="506" class="agentSub" text-anchor="middle">pattern · anomaly · social</text>
+
+  <!-- Arrow 2->3 -->
+  <line x1="348" y1="487" x2="376" y2="487" class="flowLine" marker-end="url(#a1)"/>
+
+  <!-- 3. Damage -->
+  <rect x="380" y="448" width="134" height="78" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.4"/>
+  <text x="447" y="476" class="agentName" text-anchor="middle" fill="#1D4ED8">Damage</text>
+  <text x="447" y="494" class="agentSub" text-anchor="middle">assess severity</text>
+  <text x="447" y="510" class="agentSub" text-anchor="middle">estimate cost</text>
+
+  <!-- Arrow 3->4 -->
+  <line x1="514" y1="487" x2="542" y2="487" class="flowLine" marker-end="url(#a1)"/>
+
+  <!-- 4. Policy -->
+  <rect x="546" y="448" width="134" height="78" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.4"/>
+  <text x="613" y="476" class="agentName" text-anchor="middle" fill="#1D4ED8">Policy</text>
+  <text x="613" y="494" class="agentSub" text-anchor="middle">coverage check</text>
+  <text x="613" y="510" class="agentSub" text-anchor="middle">compliance</text>
+
+  <!-- Arrow 4->5 -->
+  <line x1="680" y1="487" x2="708" y2="487" class="flowLine" marker-end="url(#a1)"/>
+
+  <!-- 5. Settlement -->
+  <rect x="712" y="448" width="134" height="78" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.4"/>
+  <text x="779" y="476" class="agentName" text-anchor="middle" fill="#1D4ED8">Settlement</text>
+  <text x="779" y="494" class="agentSub" text-anchor="middle">compute payout</text>
+  <text x="779" y="510" class="agentSub" text-anchor="middle">depreciation</text>
+
+  <!-- Arrow 5->6 -->
+  <line x1="846" y1="487" x2="874" y2="487" class="flowLine" marker-end="url(#a1)"/>
+
+  <!-- 6. Evaluator -->
+  <rect x="878" y="448" width="134" height="78" rx="10" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.4"/>
+  <text x="945" y="476" class="agentName" text-anchor="middle" fill="#15803D">Evaluator</text>
+  <text x="945" y="494" class="agentSub" text-anchor="middle">LLM-as-judge</text>
+  <text x="945" y="510" class="agentSub" text-anchor="middle">5 dimensions</text>
+
+  <!-- Arrow 6->7 (Evaluator -> Comm, clear 28px gap) -->
+  <line x1="1012" y1="487" x2="1040" y2="487" class="flowLine" marker-end="url(#a1)"/>
+
+  <!-- 7. Communication -->
+  <rect x="1044" y="448" width="94" height="78" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.4"/>
+  <text x="1091" y="478" class="agentName" text-anchor="middle" fill="#1D4ED8">Comm</text>
+  <text x="1091" y="496" class="agentSub" text-anchor="middle">notify</text>
+  <text x="1091" y="512" class="agentSub" text-anchor="middle">claimant</text>
+
+  <!-- Arrow: Comm -> right edge -> up to Decision Output (runs outside pipeline) -->
+  <path d="M1138,487 L1170,487 Q1180,487 1180,477 L1180,220 Q1180,210 1170,210 L1140,210" class="flowReturn" marker-end="url(#a4)"/>
+  <text x="1196" y="384" class="note" fill="#16A34A" text-anchor="start" transform="rotate(-90,1196,384)">result</text>
+
+  <!-- Structured output bar -->
+  <rect x="48" y="542" width="1090" height="38" rx="8" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="100" y="566" class="note" fill="#475569">Every agent outputs:</text>
+  <text x="272" y="566" class="tag" text-anchor="middle" fill="#B45309">confidence</text>
+  <text x="396" y="566" class="tag" text-anchor="middle" fill="#B45309">decision</text>
+  <text x="520" y="566" class="tag" text-anchor="middle" fill="#B45309">reasoning</text>
+  <text x="640" y="566" class="tag" text-anchor="middle" fill="#B45309">flags</text>
+  <text x="754" y="566" class="tag" text-anchor="middle" fill="#B45309">findings</text>
+  <text x="950" y="566" class="note" text-anchor="middle" fill="#64748B">→  visible in Agent Trace panel</text>
+
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <!-- ROW 3: HITL SECTION -->
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <text x="760" y="630" class="layerLabel" text-anchor="middle">Human-in-the-Loop · Pause / Resume</text>
+
+  <!-- HITL Checkpoint box -->
+  <rect x="80" y="650" width="480" height="162" rx="14" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/>
+
+  <!-- Pause icon -->
+  <rect x="110" y="676" width="56" height="56" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="126" y="692" width="8" height="24" rx="2" fill="#D97706"/>
+  <rect x="142" y="692" width="8" height="24" rx="2" fill="#D97706"/>
+
+  <text x="190" y="694" class="boxTitle" fill="#92400E">HITL Checkpoint</text>
+  <text x="190" y="716" class="boxSub">Pipeline pauses via LangGraph interrupt()</text>
+  <text x="190" y="736" class="boxSub">Reviewer approves or denies in the UI</text>
+  <text x="190" y="756" class="boxSub">Resumes via Command(resume=decision)</text>
+
+  <!-- Trigger tags -->
+  <rect x="110" y="774" width="118" height="28" rx="6" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1"/>
+  <text x="169" y="793" class="tag" text-anchor="middle" fill="#92400E">fraud ≥ 0.45</text>
+
+  <rect x="240" y="774" width="134" height="28" rx="6" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1"/>
+  <text x="307" y="793" class="tag" text-anchor="middle" fill="#92400E">high value claim</text>
+
+  <rect x="386" y="774" width="134" height="28" rx="6" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1"/>
+  <text x="453" y="793" class="tag" text-anchor="middle" fill="#92400E">low confidence</text>
+
+  <!-- SqliteSaver -->
+  <rect x="640" y="660" width="240" height="130" rx="14" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/>
+  <text x="760" y="696" class="boxTitle" text-anchor="middle" fill="#92400E">SqliteSaver</text>
+  <text x="760" y="720" class="boxSub" text-anchor="middle">durable LangGraph checkpoints</text>
+  <text x="760" y="740" class="boxSub" text-anchor="middle">survives server restarts</text>
+  <text x="760" y="760" class="boxSub" text-anchor="middle">thread_id = claim_id</text>
+
+  <!-- Arrow: HITL -> SqliteSaver (horizontal with clear gap) -->
+  <line x1="560" y1="725" x2="640" y2="725" class="flowHitl" marker-end="url(#a2)"/>
+  <text x="600" y="716" class="note" text-anchor="middle" fill="#D97706">persist</text>
+
+  <!-- Arrow: Pipeline down to HITL -->
+  <path d="M400,580 L400,650" class="flowHitl" marker-end="url(#a2)"/>
+  <text x="426" y="620" class="note" fill="#D97706">conditional</text>
+  <text x="426" y="634" class="note" fill="#D97706">pause</text>
+
+  <!-- Arrow: HITL back up to Pipeline -->
+  <path d="M520,650 L520,580" class="flowHitl" marker-end="url(#a2)"/>
+  <text x="546" y="620" class="note" fill="#D97706">resume</text>
+
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <!-- ROW 4: SUPPORTING INFRASTRUCTURE (2x3 grid) -->
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <text x="600" y="854" class="layerLabel" text-anchor="middle">Supporting Infrastructure</text>
+
+  <!-- Row 1 of grid: 3 cards -->
+  <!-- LLM Providers -->
+  <rect x="30" y="876" width="360" height="148" rx="14" fill="#FAF5FF" stroke="#9333EA" stroke-width="1.5"/>
+  <text x="210" y="906" class="boxTitle" text-anchor="middle" fill="#7E22CE">LLM Providers</text>
+  <text x="210" y="926" class="boxSub" text-anchor="middle">pluggable · runtime switchable via API</text>
+
+  <rect x="52" y="946" width="154" height="56" rx="8" fill="#F3E8FF" stroke="#C084FC" stroke-width="1"/>
+  <text x="129" y="970" class="agentName" text-anchor="middle" fill="#7E22CE">Gemini</text>
+  <text x="129" y="990" class="agentSub" text-anchor="middle">2.5-flash / 2.5-flash-lite</text>
+
+  <rect x="222" y="946" width="154" height="56" rx="8" fill="#F3E8FF" stroke="#C084FC" stroke-width="1"/>
+  <text x="299" y="970" class="agentName" text-anchor="middle" fill="#7E22CE">Groq</text>
+  <text x="299" y="990" class="agentSub" text-anchor="middle">llama-3.3-70b / 3.1-8b</text>
+
+  <!-- Country Profiles -->
+  <rect x="416" y="876" width="360" height="148" rx="14" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="596" y="906" class="boxTitle" text-anchor="middle" fill="#15803D">Country Profiles</text>
+  <text x="596" y="926" class="boxSub" text-anchor="middle">PII · depreciation · settlement rules</text>
+
+  <rect x="438" y="946" width="154" height="56" rx="8" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+  <text x="515" y="970" class="agentName" text-anchor="middle" fill="#15803D">US</text>
+  <text x="515" y="990" class="agentSub" text-anchor="middle">$ · SSN · year-based</text>
+
+  <rect x="608" y="946" width="154" height="56" rx="8" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+  <text x="685" y="970" class="agentName" text-anchor="middle" fill="#15803D">India</text>
+  <text x="685" y="990" class="agentSub" text-anchor="middle">₹ · Aadhaar · IRDAI</text>
+
+  <!-- Agent Memory -->
+  <rect x="802" y="876" width="360" height="148" rx="14" fill="#F0F9FF" stroke="#0EA5E9" stroke-width="1.5"/>
+  <text x="982" y="906" class="boxTitle" text-anchor="middle" fill="#0369A1">Agent Memory</text>
+  <text x="982" y="926" class="boxSub" text-anchor="middle">ChromaDB + HuggingFace embeddings</text>
+
+  <rect x="824" y="946" width="154" height="56" rx="8" fill="#E0F2FE" stroke="#7DD3FC" stroke-width="1"/>
+  <text x="901" y="970" class="agentName" text-anchor="middle" fill="#0284C7">Long-term</text>
+  <text x="901" y="990" class="agentSub" text-anchor="middle">past claim outcomes</text>
+
+  <rect x="994" y="946" width="154" height="56" rx="8" fill="#E0F2FE" stroke="#7DD3FC" stroke-width="1"/>
+  <text x="1071" y="970" class="agentName" text-anchor="middle" fill="#0284C7">Episodic</text>
+  <text x="1071" y="990" class="agentSub" text-anchor="middle">overrides · fraud</text>
+
+  <!-- Row 2 of grid: 3 cards -->
+  <!-- Guardrails -->
+  <rect x="30" y="1044" width="360" height="148" rx="14" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="210" y="1074" class="boxTitle" text-anchor="middle" fill="#DC2626">Guardrails</text>
+  <text x="210" y="1094" class="boxSub" text-anchor="middle">per-claim safety caps</text>
+
+  <rect x="52" y="1114" width="100" height="56" rx="8" fill="#FEE2E2" stroke="#FCA5A5" stroke-width="1"/>
+  <text x="102" y="1138" class="agentName" text-anchor="middle" fill="#DC2626">tokens</text>
+  <text x="102" y="1158" class="agentSub" text-anchor="middle">50K max</text>
+
+  <rect x="166" y="1114" width="100" height="56" rx="8" fill="#FEE2E2" stroke="#FCA5A5" stroke-width="1"/>
+  <text x="216" y="1138" class="agentName" text-anchor="middle" fill="#DC2626">cost</text>
+  <text x="216" y="1158" class="agentSub" text-anchor="middle">$0.50 cap</text>
+
+  <rect x="280" y="1114" width="96" height="56" rx="8" fill="#FEE2E2" stroke="#FCA5A5" stroke-width="1"/>
+  <text x="328" y="1138" class="agentName" text-anchor="middle" fill="#DC2626">PII</text>
+  <text x="328" y="1158" class="agentSub" text-anchor="middle">masking</text>
+
+  <!-- SQLite Storage -->
+  <rect x="416" y="1044" width="360" height="148" rx="14" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="596" y="1074" class="boxTitle" text-anchor="middle" fill="#1D4ED8">SQLite Storage</text>
+  <text x="596" y="1094" class="boxSub" text-anchor="middle">SQLModel · 7-year audit log</text>
+
+  <rect x="438" y="1114" width="100" height="56" rx="8" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
+  <text x="488" y="1146" class="agentName" text-anchor="middle" fill="#2563EB">users</text>
+
+  <rect x="552" y="1114" width="100" height="56" rx="8" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
+  <text x="602" y="1146" class="agentName" text-anchor="middle" fill="#2563EB">claims</text>
+
+  <rect x="666" y="1114" width="96" height="56" rx="8" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
+  <text x="714" y="1146" class="agentName" text-anchor="middle" fill="#2563EB">HITL</text>
+
+  <!-- Evaluation -->
+  <rect x="802" y="1044" width="360" height="148" rx="14" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="982" y="1074" class="boxTitle" text-anchor="middle" fill="#15803D">Evaluation</text>
+  <text x="982" y="1094" class="boxSub" text-anchor="middle">LLM-as-judge quality gates</text>
+
+  <rect x="824" y="1114" width="154" height="56" rx="8" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+  <text x="901" y="1138" class="agentName" text-anchor="middle" fill="#15803D">5 dimensions</text>
+  <text x="901" y="1158" class="agentSub" text-anchor="middle">accuracy · fairness</text>
+
+  <rect x="994" y="1114" width="154" height="56" rx="8" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+  <text x="1071" y="1138" class="agentName" text-anchor="middle" fill="#15803D">quality gate</text>
+  <text x="1071" y="1158" class="agentSub" text-anchor="middle">min score 0.70</text>
+
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <!-- FOOTER -->
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <line x1="30" y1="1226" x2="1162" y2="1226" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- Tech tags -->
+  <rect x="94" y="1244" width="90" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="139" y="1262" class="tag" text-anchor="middle" fill="#475569">Python 3.11+</text>
+
+  <rect x="196" y="1244" width="86" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="239" y="1262" class="tag" text-anchor="middle" fill="#475569">LangGraph</text>
+
+  <rect x="294" y="1244" width="66" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="327" y="1262" class="tag" text-anchor="middle" fill="#475569">CrewAI</text>
+
+  <rect x="372" y="1244" width="66" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="405" y="1262" class="tag" text-anchor="middle" fill="#475569">FastAPI</text>
+
+  <rect x="450" y="1244" width="60" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="480" y="1262" class="tag" text-anchor="middle" fill="#475569">React</text>
+
+  <rect x="522" y="1244" width="66" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="555" y="1262" class="tag" text-anchor="middle" fill="#475569">Zustand</text>
+
+  <rect x="600" y="1244" width="50" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="625" y="1262" class="tag" text-anchor="middle" fill="#475569">MUI</text>
+
+  <rect x="662" y="1244" width="76" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="700" y="1262" class="tag" text-anchor="middle" fill="#475569">SQLModel</text>
+
+  <rect x="750" y="1244" width="82" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="791" y="1262" class="tag" text-anchor="middle" fill="#475569">ChromaDB</text>
+
+  <rect x="844" y="1244" width="100" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="894" y="1262" class="tag" text-anchor="middle" fill="#475569">HuggingFace</text>
+
+  <!-- Five pipeline paths -->
+  <rect x="30" y="1290" width="1132" height="80" rx="12" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="600" y="1316" class="boxSub" text-anchor="middle" fill="#475569" font-weight="600">Five Pipeline Paths</text>
+  <text x="600" y="1338" class="boxSub" text-anchor="middle">
+    A  Normal (7 agents)  ·  B  HITL (pause/resume)  ·  C  Auto-Reject (fraud ≥ 0.90)  ·  D  Invalid (intake fail)  ·  E  Fast Mode (&lt; $500)
+  </text>
+  <text x="600" y="1358" class="note" text-anchor="middle">Pipeline learns from decisions via semantic memory  ·  Every outcome stored  ·  Agents recall similar claims + fraud episodes</text>
+</svg>

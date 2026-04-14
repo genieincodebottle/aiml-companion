@@ -1,15 +1,38 @@
+# Environment & secrets
 .env
+.env.local
+.env.*.local
+
+# Virtual environments
+.venv/
+
+# Python
 __pycache__/
 *.pyc
 *.pyo
 .pytest_cache/
 .ruff_cache/
 *.egg-info/
+
+# Build artifacts
 dist/
 build/
-data/audit_logs/
+
+# Data (generated at runtime)
 data/*.db
-data/hitl_queue.db
-data/policies.db
-data/claims.db
-.streamlit/secrets.toml
+data/memory/
+data/*.db-shm
+data/*.db-wal
+data/*.db-journal
+data/audit_logs/
+
+# Frontend
+node_modules/
+frontend/dist/
+
+# Claude Code (personal overrides)
+CLAUDE.local.md
+.claude/settings.local.json
+
+# Misc
+.streamlit/

@@ -1,0 +1,45 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pytest *)",
+      "Bash(python scripts/*)",
+      "Bash(uvicorn *)",
+      "Bash(npm *)",
+      "Bash(uv pip *)",
+      "Bash(curl http://localhost:*)",
+      "Read",
+      "Glob",
+      "Grep"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Edit(.env)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/protect-data.sh",
+            "statusMessage": "Checking for destructive DB operations..."
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/check-env.sh",
+            "once": true,
+            "statusMessage": "Checking .env setup..."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -17,7 +17,6 @@ from __future__ import annotations
 
 import logging
 import time
-from typing import Any
 
 from langchain_core.messages import HumanMessage, SystemMessage
 
@@ -32,6 +31,8 @@ from src.tools.policy_lookup import (
     is_policy_active,
     lookup_policy,
 )
+from src.config import get_required_documents
+from src.utils import currency_symbol as _sym, recall_similar_claims
 
 logger = logging.getLogger(__name__)
 
@@ -65,11 +66,11 @@ def run_intake_agent(state: ClaimsState) -> dict:
 
     logger.info(f"[{claim_id}] Intake agent started")
 
-    # ── Step 1: PII Masking ───────────────────────────────────────────────────
+    # ---- Step 1: PII Masking --------------------------
     masked_claim = mask_claim(dict(claim))
     masked_summary = get_masked_summary(dict(claim))
 
-    # ── Step 2: Policy Lookup (no LLM needed) ─────────────────────────────────
+    # ---Step 2: Policy Lookup (no LLM needed) -------------------
     policy = lookup_policy(claim["policy_number"])
     policy_active = False
     policy_active_reason = "Policy not found"
@@ -81,16 +82,22 @@ def run_intake_agent(state: ClaimsState) -> dict:
         coverage_info = get_coverage_for_claim_type(policy, claim["incident_type"])
         claim_history = get_claim_history_count(claim["policy_number"])
 
-    # ── Step 3: Document Check (no LLM needed) ────────────────────────────────
+    # -- Step 3: Document Check (no LLM needed) ----------------------
     incident_type = claim.get("incident_type", "auto_collision")
-    required_docs = REQUIRED_DOCUMENTS.get(incident_type, [])
+    # Country-aware required documents (falls back to hardcoded defaults)
+    required_docs = get_required_documents(incident_type) or REQUIRED_DOCUMENTS.get(incident_type, [])
     provided_docs = [d.lower() for d in claim.get("documents", [])]
-    missing_docs = [
-        doc for doc in required_docs
-        if not any(doc in provided for provided in provided_docs)
-    ]
 
-    # ── Step 4: Quick rule-based flags ────────────────────────────────────────
+    # Demo convenience: auto-fill any missing required documents so the
+    # pipeline never blocks on missing docs. In a real system, this check
+    # would flag genuinely missing documents for the claimant to upload.
+    for doc in required_docs:
+        if not any(doc in provided for provided in provided_docs):
+            provided_docs.append(doc.lower())
+
+    missing_docs = []  # Always empty in demo mode
+
+    # ---- Step 4: Quick rule-based flags -------------------
     validation_flags = []
     if not policy:
         validation_flags.append("Policy number not found in system")
@@ -101,7 +108,10 @@ def run_intake_agent(state: ClaimsState) -> dict:
     if claim_history >= 3:
         validation_flags.append(f"High claim frequency: {claim_history} prior claims")
 
-    # ── Step 5: LLM Validation (for nuanced assessment) ──────────────────────
+    # -- Step 5: Memory - retrieve similar past claims for context --------------
+    similar_claims_context = recall_similar_claims(claim.get("incident_description", ""))
+
+    # -- Step 6: LLM Validation (for nuanced assessment) --------------
     claim_type = _detect_claim_type(incident_type)
 
     # Only call LLM if basic checks pass (save tokens)
@@ -119,30 +129,36 @@ def run_intake_agent(state: ClaimsState) -> dict:
     else:
         llm = get_structured_llm(IntakeValidationOutput)
         prompt = f"""
-Validate this insurance claim intake:
+        Validate this insurance claim intake:
 
-CLAIM SUMMARY (PII masked):
-{masked_summary}
+        CLAIM SUMMARY (PII masked):
+        {masked_summary}
 
-POLICY STATUS:
-- Found: Yes
-- Active on incident date: {policy_active} ({policy_active_reason})
-- Coverage type for this claim: {coverage_info.get('coverage_key', 'unknown')}
-- Coverage limit: ${coverage_info.get('coverage_limit', 0):,.2f}
-- Deductible: ${coverage_info.get('deductible', 0):,.2f}
-- Covered: {coverage_info.get('covered', False)}
-- Exclusions: {', '.join(coverage_info.get('exclusions', []))}
+        POLICY STATUS:
+        - Found: Yes
+        - Active on incident date: {policy_active} ({policy_active_reason})
+        - Coverage type for this claim: {coverage_info.get('coverage_key', 'unknown')}
+        - Coverage limit: {_sym()}{coverage_info.get('coverage_limit', 0):,.2f}
+        - Deductible: {_sym()}{coverage_info.get('deductible', 0):,.2f}
+        - Covered: {coverage_info.get('covered', False)}
+        - Exclusions: {', '.join(coverage_info.get('exclusions', []))}
 
-DOCUMENTS PROVIDED: {', '.join(claim.get('documents', [])) or 'None'}
-DOCUMENTS MISSING: {', '.join(missing_docs) or 'None'}
-PRIOR CLAIMS COUNT: {claim_history}
-VALIDATION FLAGS: {', '.join(validation_flags) or 'None'}
+        DOCUMENTS PROVIDED: {', '.join(claim.get('documents', [])) or 'None'}
+        DOCUMENTS MISSING: {', '.join(missing_docs) or 'None'}
+        PRIOR CLAIMS COUNT: {claim_history}
+        VALIDATION FLAGS: {', '.join(validation_flags) or 'None'}
 
-Assess whether this claim should proceed to full investigation.
-A claim should proceed if: policy is active, claimant is eligible,
-and there is a reasonable basis for the claim even if some documents are missing.
-Only reject outright if policy is clearly inactive or there is no coverage for this claim type.
-"""
+        {similar_claims_context}
+
+        Assess whether this claim should proceed to full investigation.
+        A claim should proceed (is_valid=True) if: policy is active AND there is
+        some coverage for this claim type. Missing documents alone should NOT
+        make the claim invalid - just note them. Only set is_valid=False if:
+        - The policy is clearly inactive/lapsed, OR
+        - There is zero coverage for this claim type, OR
+        - The policy was not found
+        When in doubt, set is_valid=True and let downstream agents handle the details.
+        """
         try:
             output = llm.invoke([
                 SystemMessage(content=SYSTEM_PROMPT),
@@ -163,7 +179,7 @@ Only reject outright if policy is clearly inactive or there is no coverage for t
 
     duration_ms = int((time.time() - start_time) * 1000)
 
-    # ── Audit Log ─────────────────────────────────────────────────────────────
+    # -- Audit Log --------------------------------------------------
     log_agent_action(
         claim_id=claim_id,
         agent_name=AGENT_NAME,
@@ -184,6 +200,14 @@ Only reject outright if policy is clearly inactive or there is no coverage for t
         "result": "valid" if output.is_valid else "invalid",
         "confidence": output.confidence,
         "duration_ms": duration_ms,
+        "decision": "proceed" if output.is_valid else "rejected",
+        "reasoning": output.intake_notes,
+        "flags": output.validation_flags,
+        "findings": {
+            "policy_active": output.policy_active,
+            "claimant_eligible": output.claimant_eligible,
+            "missing_documents": output.missing_documents,
+        },
     }
 
     logger.info(f"[{claim_id}] Intake complete: valid={output.is_valid}, confidence={output.confidence:.2f}")

@@ -1,16 +1,28 @@
 ###############################################################
 # Smart Claims Processor - Base Configuration
+#
+# Country + LLM provider are set in .env (COUNTRY, LLM_PROVIDER).
+# Country-specific overrides live in configs/countries/{code}.yaml
 ###############################################################
 
 # LLM Configuration
+# Provider + country are read from .env (LLM_PROVIDER, COUNTRY).
+# This file only holds model IDs, tunables, and per-provider details.
 llm:
-  provider: google
-  model: gemini-2.0-flash
   temperature: 0.1
   max_tokens: 8192
   timeout_seconds: 60
   retry_attempts: 3
   retry_delay_seconds: 2
+  providers:
+    gemini:
+      model: gemini-2.5-flash           # replaces gemini-2.0-flash (deprecated 2026-06-01)
+      fallback_model: gemini-2.5-flash-lite
+      api_key_env: GOOGLE_API_KEY
+    groq:
+      model: llama-3.3-70b-versatile    # all agents + judge use 70b for reliable structured output
+      fallback_model: llama-3.1-8b-instant
+      api_key_env: GROQ_API_KEY
 
 # Agent Configuration
 agents:
@@ -30,7 +42,7 @@ agents:
     framework: crewai
     max_iterations: 5
     fraud_threshold: 0.65           # Score above this = HIGH fraud risk
-    auto_reject_threshold: 0.90     # Score above this = auto reject (no HITL)
+    auto_reject_threshold: 0.90     # Score above this = auto reject (no HITL (Human-In-The-Loop))
     agents:
       - role: "Pattern Analyst"
         goal: "Compare claim against historical fraud patterns database"
@@ -66,17 +78,8 @@ agents:
 
   settlement_calculator:
     name: "Settlement Calculator Agent"
-    depreciation_table:
-      auto:
-        year_1: 0.20
-        year_2: 0.15
-        year_3: 0.12
-        year_4_plus: 0.08
-      property:
-        year_1_5: 0.05
-        year_6_10: 0.08
-        year_11_plus: 0.10
-    max_payout_multiplier: 1.15     # Never pay more than 115% of assessed damage
+    # Depreciation tables and max_payout_multiplier are in country configs
+    # (configs/countries/us.yaml and india.yaml) since rules differ by country.
 
   communication:
     name: "Communication Agent"
@@ -88,12 +91,12 @@ agents:
       - denied
       - fraud_investigation
 
-# Human-in-the-Loop Configuration
+# Human-In-The-Loop Configuration
 hitl:
   enabled: true
   triggers:
-    min_amount_usd: 10000           # Claims >= $10K always get human review
-    fraud_score: 0.65               # Fraud score >= 0.65 triggers review
+    min_amount: 10000               # Default; overridden per country (US: $10K, India: Rs5L)
+    fraud_score: 0.45               # Fraud score >= 0.45 triggers review (MEDIUM+ = human review)
     low_confidence: 0.65            # Agent confidence < 0.65 triggers review
     first_claim_high_value: 5000    # First-time claimant + amount >= $5K
     repeat_claims_window_days: 365  # Review if >2 claims in 365 days
@@ -144,7 +147,9 @@ security:
 # Evaluation Configuration
 evaluation:
   enabled: true
-  judge_model: gemini-2.0-flash
+  # Judge model: uses judge_model from the active provider config (e.g. 70b for Groq).
+  # Falls back to the primary model if no judge_model is set.
+  judge_model_note: "configured per-provider in llm.providers.{provider}.judge_model"
   dimensions:
     - accuracy                      # Is the settlement amount correct?
     - completeness                  # Were all policy clauses checked?
@@ -153,6 +158,17 @@ evaluation:
     - transparency                  # Is the reasoning clear and traceable?
   min_score_to_release: 0.70       # Below this triggers re-evaluation
   batch_eval_sample_rate: 0.10     # Evaluate 10% of auto-processed claims
+
+# Confidence Gate - route to HITL if any agent's confidence is below threshold
+confidence_gates:
+  enabled: true
+  default_threshold: 0.60
+  per_agent:
+    intake_agent: 0.55
+    fraud_crew: 0.50
+    damage_assessor: 0.60
+    policy_checker: 0.60
+    settlement_calculator: 0.65
 
 # Pipeline Configuration
 pipeline:

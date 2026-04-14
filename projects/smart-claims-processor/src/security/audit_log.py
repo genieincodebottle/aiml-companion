@@ -16,10 +16,9 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
-import os
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Optional
 
 from src.config import get_security_config
 
@@ -39,9 +38,20 @@ def _get_log_path(claim_id: str) -> Path:
     cfg = get_security_config()
     base = Path(cfg["audit_log"]["path"])
     base.mkdir(parents=True, exist_ok=True)
-    # One file per day per claim for easy retention management
     date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     return base / f"audit_{date_str}.ndjson"
+
+
+def _write_entry(claim_id: str, entry: dict) -> str:
+    """Hash, append to daily log file, return SHA-256 hash."""
+    entry_hash = _hash_entry(entry)
+    entry["hash"] = entry_hash
+    try:
+        with open(_get_log_path(claim_id), "a", encoding="utf-8") as f:
+            f.write(json.dumps(entry, default=str) + "\n")
+    except Exception as e:
+        logger.error(f"AUDIT LOG WRITE FAILED for {claim_id}: {e}")
+    return entry_hash
 
 
 def log_agent_action(
@@ -55,11 +65,8 @@ def log_agent_action(
     duration_ms: int = 0,
     error: Optional[str] = None,
 ) -> str:
-    """
-    Record a single agent action. Returns the SHA-256 hash of the entry.
-    Entry is appended atomically to the daily audit log file.
-    """
-    entry = {
+    """Record a single agent action. Returns the SHA-256 hash of the entry."""
+    return _write_entry(claim_id, {
         "timestamp": _now_iso(),
         "claim_id": claim_id,
         "agent": agent_name,
@@ -70,19 +77,7 @@ def log_agent_action(
         "cost_usd": cost_usd,
         "duration_ms": duration_ms,
         "error": error,
-    }
-    entry_hash = _hash_entry(entry)
-    entry["hash"] = entry_hash
-
-    log_path = _get_log_path(claim_id)
-    try:
-        with open(log_path, "a", encoding="utf-8") as f:
-            f.write(json.dumps(entry, default=str) + "\n")
-    except Exception as e:
-        # Audit failures must not crash the pipeline - but always alert
-        logger.error(f"AUDIT LOG WRITE FAILED for {claim_id}: {e}")
-
-    return entry_hash
+    })
 
 
 def log_hitl_event(
@@ -96,7 +91,7 @@ def log_hitl_event(
     override_ai: bool = False,
 ) -> str:
     """Record HITL queue events and human decisions."""
-    entry = {
+    return _write_entry(claim_id, {
         "timestamp": _now_iso(),
         "claim_id": claim_id,
         "event_type": "HITL",
@@ -107,18 +102,7 @@ def log_hitl_event(
         "human_decision": human_decision,
         "human_notes": human_notes,
         "override_ai": override_ai,
-    }
-    entry_hash = _hash_entry(entry)
-    entry["hash"] = entry_hash
-
-    log_path = _get_log_path(claim_id)
-    try:
-        with open(log_path, "a", encoding="utf-8") as f:
-            f.write(json.dumps(entry, default=str) + "\n")
-    except Exception as e:
-        logger.error(f"AUDIT LOG WRITE FAILED (HITL) for {claim_id}: {e}")
-
-    return entry_hash
+    })
 
 
 def log_final_decision(
@@ -131,7 +115,7 @@ def log_final_decision(
     human_reviewed: bool = False,
 ) -> str:
     """Record the final claim decision for compliance audit trail."""
-    entry = {
+    return _write_entry(claim_id, {
         "timestamp": _now_iso(),
         "claim_id": claim_id,
         "event_type": "FINAL_DECISION",
@@ -141,18 +125,7 @@ def log_final_decision(
         "total_cost_usd": total_cost_usd,
         "evaluation_score": evaluation_score,
         "human_reviewed": human_reviewed,
-    }
-    entry_hash = _hash_entry(entry)
-    entry["hash"] = entry_hash
-
-    log_path = _get_log_path(claim_id)
-    try:
-        with open(log_path, "a", encoding="utf-8") as f:
-            f.write(json.dumps(entry, default=str) + "\n")
-    except Exception as e:
-        logger.error(f"AUDIT LOG WRITE FAILED (FINAL) for {claim_id}: {e}")
-
-    return entry_hash
+    })
 
 
 def get_claim_audit_trail(claim_id: str, days_back: int = 30) -> list[dict]:

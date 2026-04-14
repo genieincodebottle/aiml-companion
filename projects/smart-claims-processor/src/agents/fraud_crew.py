@@ -37,11 +37,13 @@ from src.models.state import ClaimsState
 from src.security.audit_log import log_agent_action
 from src.security.pii_masker import mask_claim
 from src.tools.fraud_patterns import (
-    CLAIM_BASELINES,
     check_known_patterns,
     get_statistical_anomaly,
+    _get_baselines,
+    _get_default_baseline,
 )
 from src.tools.policy_lookup import lookup_policy
+from src.utils import currency_symbol as _sym
 
 logger = logging.getLogger(__name__)
 AGENT_NAME = "fraud_crew"
@@ -61,10 +63,11 @@ def check_fraud_patterns_tool(claim_json: str) -> str:
         claim = data.get("claim", {})
         policy = data.get("policy", {})
         matched, score = check_known_patterns(claim, policy)
+        from src.tools.fraud_patterns import get_patterns
         return json.dumps({
             "matched_patterns": matched,
             "pattern_risk_score": round(score, 3),
-            "patterns_checked": 6,
+            "patterns_checked": len(get_patterns()),
         })
     except Exception as e:
         return json.dumps({"error": str(e), "pattern_risk_score": 0.5})
@@ -86,17 +89,59 @@ def claim_baseline_tool(claim_type: str) -> str:
     Retrieve statistical baseline for a given claim type.
     Returns average, median, and 95th percentile amounts.
     """
-    baseline = CLAIM_BASELINES.get(claim_type, CLAIM_BASELINES.get("auto_collision", {}))
+    baselines = _get_baselines()
+    baseline = baselines.get(claim_type, _get_default_baseline())
     return json.dumps(baseline)
 
 
 def _get_crewai_llm():
-    """Create an LLM compatible with CrewAI v1.x (uses LiteLLM under the hood)."""
-    return LLM(
-        model="gemini/gemini-2.0-flash",
-        api_key=os.getenv("GOOGLE_API_KEY"),
-        temperature=0.1,
-    )
+    """Create an LLM compatible with CrewAI v1.x.
+
+    CrewAI natively supports Gemini but needs LiteLLM for Groq.
+    - If provider is gemini: use it directly via CrewAI's native support.
+    - If provider is groq and LiteLLM is installed: use groq/<model>.
+    - If provider is groq and no LiteLLM: fall back to Gemini with GOOGLE_API_KEY.
+    """
+    from src.config import get_llm_config
+    cfg = get_llm_config()
+    provider = cfg["provider"]
+    model_id = cfg["model"]
+    temperature = cfg.get("temperature", 0.1)
+
+    if provider == "gemini":
+        return LLM(
+            model=f"gemini/{model_id}",
+            api_key=os.getenv("GOOGLE_API_KEY"),
+            temperature=temperature,
+        )
+
+    # Groq: try LiteLLM path first, fall back to Gemini
+    try:
+        llm = LLM(
+            model=f"groq/{model_id}",
+            api_key=os.getenv("GROQ_API_KEY"),
+            temperature=temperature,
+        )
+        return llm
+    except Exception:
+        # LiteLLM not installed - fall back to Gemini if key available
+        gemini_key = os.getenv("GOOGLE_API_KEY")
+        if gemini_key:
+            import logging
+            logging.getLogger(__name__).warning(
+                "CrewAI doesn't natively support Groq (needs `pip install litellm`). "
+                "Falling back to Gemini for fraud crew."
+            )
+            return LLM(
+                model="gemini/gemini-2.5-flash",
+                api_key=gemini_key,
+                temperature=temperature,
+            )
+        raise EnvironmentError(
+            "CrewAI fraud crew needs either: (1) LLM_PROVIDER=gemini with GOOGLE_API_KEY, "
+            "or (2) `pip install litellm` for Groq support. "
+            "See: https://docs.crewai.com/en/learn/llm-connections"
+        )
 
 
 # ── Crew Assembly ─────────────────────────────────────────────────────────────
@@ -162,19 +207,19 @@ def _build_fraud_crew(masked_claim: dict, policy: dict) -> tuple[Crew, dict]:
 
     pattern_task = Task(
         description=f"""
-Analyze this insurance claim for known fraud patterns.
+        Analyze this insurance claim for known fraud patterns.
 
-CLAIM DATA (PII masked):
-{context_json}
+        CLAIM DATA (PII masked):
+        {context_json}
 
-Steps:
-1. Use the 'Check Known Fraud Patterns' tool with the claim and policy JSON
-2. Review each matched pattern and explain why it applies
-3. Assess the pattern-based fraud risk score
-4. Note any patterns that were checked but did NOT match (showing due diligence)
+        Steps:
+        1. Use the 'Check Known Fraud Patterns' tool with the claim and policy JSON
+        2. Review each matched pattern and explain why it applies
+        3. Assess the pattern-based fraud risk score
+        4. Note any patterns that were checked but did NOT match (showing due diligence)
 
-Provide a concise, evidence-based assessment.
-""",
+        Provide a concise, evidence-based assessment.
+        """,
         agent=pattern_analyst,
         expected_output=(
             "JSON with fields: pattern_matches (list), risk_indicators (list), "
@@ -184,23 +229,23 @@ Provide a concise, evidence-based assessment.
 
     anomaly_task = Task(
         description=f"""
-Run statistical anomaly detection on this insurance claim.
+        Run statistical anomaly detection on this insurance claim.
 
-CLAIM DATA (PII masked):
-{context_json}
+        CLAIM DATA (PII masked):
+        {context_json}
 
-Claim type: {masked_claim.get('incident_type', 'unknown')}
-Claimed amount: ${float(masked_claim.get('estimated_amount', 0)):,.2f}
+        Claim type: {masked_claim.get('incident_type', 'unknown')}
+        Claimed amount: {_sym()}{float(masked_claim.get('estimated_amount', 0)):,.2f}
 
-Steps:
-1. Use the 'Statistical Anomaly Detection' tool with the claim type and amount
-2. Use the 'Claim Baseline Lookup' tool to get baseline statistics
-3. Calculate how many standard deviations above/below average this claim is
-4. Check claim timing (days since policy start if available)
-5. Assess overall anomaly risk
+        Steps:
+        1. Use the 'Statistical Anomaly Detection' tool with the claim type and amount
+        2. Use the 'Claim Baseline Lookup' tool to get baseline statistics
+        3. Calculate how many standard deviations above/below average this claim is
+        4. Check claim timing (days since policy start if available)
+        5. Assess overall anomaly risk
 
-Provide a data-driven assessment.
-""",
+        Provide a data-driven assessment.
+        """,
         agent=anomaly_detector,
         expected_output=(
             "JSON with fields: statistical_anomalies (list), claim_frequency_flag (bool), "
@@ -210,21 +255,21 @@ Provide a data-driven assessment.
 
     validation_task = Task(
         description=f"""
-Assess the internal consistency and plausibility of this insurance claim.
+        Assess the internal consistency and plausibility of this insurance claim.
 
-CLAIM DATA (PII masked):
-{context_json}
+        CLAIM DATA (PII masked):
+        {context_json}
 
-Focus on:
-1. Does the damage description match the claimed incident type?
-2. Are the location, timing, and circumstances plausible?
-3. Is the estimated amount consistent with the described damage?
-4. Are there any red flags in how the incident is described?
-5. Do the documents provided match what you would expect for this type of claim?
+        Focus on:
+        1. Does the damage description match the claimed incident type?
+        2. Are the location, timing, and circumstances plausible?
+        3. Is the estimated amount consistent with the described damage?
+        4. Are there any red flags in how the incident is described?
+        5. Do the documents provided match what you would expect for this type of claim?
 
-Be fair - inconsistencies can occur in genuine claims due to stress or confusion.
-Flag only genuine inconsistencies that increase fraud risk.
-""",
+        Be fair - inconsistencies can occur in genuine claims due to stress or confusion.
+        Flag only genuine inconsistencies that increase fraud risk.
+        """,
         agent=social_validator,
         expected_output=(
             "JSON with fields: story_consistent (bool), inconsistencies (list), "
@@ -309,6 +354,16 @@ def run_fraud_crew(state: ClaimsState) -> dict:
         "fraud_score": output.fraud_score,
         "risk_level": output.fraud_risk_level.value,
         "duration_ms": duration_ms,
+        "confidence": 1.0 - output.fraud_score,  # Higher fraud = lower confidence in legitimacy
+        "decision": output.recommendation,
+        "reasoning": output.crew_summary,
+        "flags": output.primary_concerns,
+        "findings": {
+            "pattern_score": output.pattern_score,
+            "anomaly_score": output.anomaly_score,
+            "consistency_score": output.consistency_score,
+            "risk_level": output.fraud_risk_level.value,
+        },
     }
 
     logger.info(
@@ -339,31 +394,48 @@ def _synthesize_crew_output(
         claim.get("incident_type", "auto_collision"),
         float(claim.get("estimated_amount", 0)),
     )
-    anomaly_score = 0.7 if anomaly_data["is_extreme_outlier"] else (
-        0.4 if anomaly_data["is_outlier"] else 0.15
-    )
+    if anomaly_data["is_extreme_outlier"]:
+        anomaly_score = 0.7
+    elif anomaly_data["is_outlier"]:
+        anomaly_score = 0.4
+    else:
+        anomaly_score = 0.15
 
-    # Extract crew narrative (last task output)
+    # Extract crew narrative (last task output) and clean up raw JSON/markdown
     crew_text = str(crew_result) if crew_result else ""
+    # Strip markdown code fences that LLMs often wrap JSON in
+    crew_text = crew_text.strip()
+    if crew_text.startswith("```"):
+        # Remove opening ```json and closing ```
+        lines = crew_text.split("\n")
+        lines = [l for l in lines if not l.strip().startswith("```")]
+        crew_text = "\n".join(lines)
+    # Try to extract the "analysis" field if it's JSON
+    try:
+        parsed = json.loads(crew_text)
+        if isinstance(parsed, dict) and "analysis" in parsed:
+            crew_text = parsed["analysis"]
+    except (json.JSONDecodeError, TypeError):
+        pass
 
-    # Composite fraud score (weighted)
-    consistency_score = 0.5  # Default if we can't parse crew output
+    # Composite fraud score (weighted average of the three signals)
+    PATTERN_WEIGHT = 0.50
+    ANOMALY_WEIGHT = 0.50
     composite_score = (
-        pattern_score * 0.40 +
-        anomaly_score * 0.35 +
-        (1 - consistency_score) * 0.25  # Invert: low consistency = high fraud risk
+        pattern_score * PATTERN_WEIGHT +
+        anomaly_score * ANOMALY_WEIGHT
     )
 
-    # Classify risk level
+    # Classify risk level (aligned with HITL threshold of 0.45)
     if composite_score >= 0.80:
         risk_level = FraudRiskLevel.CONFIRMED
         recommendation = "reject"
-    elif composite_score >= 0.65:
+    elif composite_score >= 0.60:
         risk_level = FraudRiskLevel.HIGH
         recommendation = "escalate"
-    elif composite_score >= 0.35:
+    elif composite_score >= 0.45:
         risk_level = FraudRiskLevel.MEDIUM
-        recommendation = "proceed"
+        recommendation = "escalate"
     else:
         risk_level = FraudRiskLevel.LOW
         recommendation = "proceed"
@@ -371,9 +443,13 @@ def _synthesize_crew_output(
     primary_concerns = matched_patterns[:3] if matched_patterns else []
     if anomaly_data["is_outlier"]:
         primary_concerns.append(
-            f"Amount ${float(claim.get('estimated_amount', 0)):,.0f} is "
+            f"Amount {_sym()}{float(claim.get('estimated_amount', 0)):,.0f} is "
             f"{anomaly_data['percentile_estimate']} for {claim.get('incident_type', 'this type')}"
         )
+
+    # consistency_score: CrewAI's narrative output isn't parsed into a score,
+    # so we use a neutral 0.5. The composite score above uses only pattern + anomaly.
+    consistency_score = 0.5
 
     return FraudAssessmentOutput(
         fraud_risk_level=risk_level,
@@ -383,5 +459,5 @@ def _synthesize_crew_output(
         crew_summary=crew_text[:1000] if crew_text else "Crew analysis complete",
         pattern_score=round(pattern_score, 3),
         anomaly_score=round(anomaly_score, 3),
-        consistency_score=round(consistency_score, 3),
+        consistency_score=consistency_score,
     )

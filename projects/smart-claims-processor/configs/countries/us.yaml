@@ -1,0 +1,111 @@
+###############################################################
+# Country Profile: United States
+###############################################################
+
+country:
+  code: US
+  name: United States
+  currency: USD
+  currency_symbol: "$"
+  regulator: State Insurance Commissioner
+  timezone: America/New_York
+
+# PII fields to mask before LLM calls (regex-matched + field-name-matched)
+pii:
+  fields:
+    - name
+    - email
+    - phone
+    - ssn
+    - dob
+    - address
+    - bank_account
+    - credit_card
+    - driver_license
+  # Regex patterns for content-level masking (applied to free-text fields)
+  patterns:
+    ssn: '\b\d{3}-\d{2}-\d{4}\b'
+    phone: '\b(?:\+1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b'
+    email: '\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
+    zip_code: '\b\d{5}(?:-\d{4})?\b'
+    credit_card: '\b(?:\d[ -]*?){13,19}\b'
+    dob: '\b(?:0[1-9]|1[0-2])/(?:0[1-9]|[12]\d|3[01])/(?:19|20)\d{2}\b'
+  # Fields to fully redact (replace entire value, not regex-match)
+  redact_fields:
+    - claimant_dob
+    - ssn
+    - bank_account
+    - credit_card
+
+# Claim types available in this country
+claim_types:
+  - auto_collision
+  - auto_theft
+  - property_fire
+  - property_water
+  - liability
+  - medical
+
+# Policy / coverage mapping: which claim type maps to which coverage category
+coverage_mapping:
+  auto_collision: collision
+  auto_theft: comprehensive
+  property_fire: dwelling
+  property_water: dwelling
+  liability: liability
+  medical: medical_payments
+
+# Depreciation method
+depreciation:
+  method: year_based
+  table:
+    auto:
+      year_1: 0.20
+      year_2: 0.15
+      year_3: 0.12
+      year_4_plus: 0.08
+    property:
+      year_1_5: 0.05
+      year_6_10: 0.08
+      year_11_plus: 0.10
+
+# Settlement rules
+settlement:
+  basis: assessed_damage           # payout based on damage assessment
+  max_payout_multiplier: 1.15      # never pay > 115% of assessed damage
+  tax_on_payout: 0.0               # no tax on insurance payouts in US
+
+# HITL thresholds (override base.yaml)
+hitl:
+  triggers:
+    min_amount: 10000              # $10K
+    first_claim_high_value: 5000   # $5K
+
+# Fraud baselines (average amounts per claim type for anomaly detection)
+fraud_baselines:
+  auto_collision: { avg_amount: 6500, std_dev: 4200, max_normal: 25000 }
+  auto_theft: { avg_amount: 15000, std_dev: 8000, max_normal: 45000 }
+  property_fire: { avg_amount: 35000, std_dev: 20000, max_normal: 150000 }
+  property_water: { avg_amount: 8000, std_dev: 5000, max_normal: 30000 }
+  liability: { avg_amount: 12000, std_dev: 8000, max_normal: 50000 }
+  medical: { avg_amount: 5000, std_dev: 3000, max_normal: 20000 }
+
+# Communication
+communication:
+  languages: [en]
+  contact_phone: "1-800-555-CLAIM"
+  contact_email: "claims@smartinsurance.com"
+  regulatory_footer: >
+    This decision is subject to the regulations of your state's
+    Department of Insurance. You may file a complaint with your state's
+    insurance commissioner if you believe this decision is unjust.
+  appeal_window_text: "You have 30 days to file an appeal."
+
+# Required documents per claim type
+required_documents:
+  auto_collision: [photos, police_report, other_driver_info]
+  auto_theft: [police_report, proof_of_ownership, key_affidavit]
+  property_fire: [fire_department_report, photos, inventory_list]
+  property_water: [photos, plumber_report, repair_estimate]
+  liability: [incident_report, witness_statements]
+  medical: [medical_records, bills, provider_statements]

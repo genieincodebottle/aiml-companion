@@ -1,549 +1,396 @@
 ![Python](https://img.shields.io/badge/python-3.11+-blue.svg)
 ![LangGraph](https://img.shields.io/badge/orchestration-LangGraph-orange.svg)
 ![CrewAI](https://img.shields.io/badge/fraud_crew-CrewAI-purple.svg)
-![Gemini](https://img.shields.io/badge/LLM-Google%20Gemini%202.0-green.svg)
-![FastAPI](https://img.shields.io/badge/HITL_API-FastAPI-009688.svg)
-![Streamlit](https://img.shields.io/badge/dashboard-Streamlit-FF4B4B.svg)
-![Tests](https://img.shields.io/badge/tests-47%20passing-brightgreen.svg)
+![LLM](https://img.shields.io/badge/LLM-Gemini%20%7C%20Groq-green.svg)
+![FastAPI](https://img.shields.io/badge/API-FastAPI-009688.svg)
+![React](https://img.shields.io/badge/UI-React%20%2B%20MUI-61DAFB.svg)
 
 # Smart Claims Processor
 
-An **AI-powered Insurance Claims Processing System** that demonstrates production-grade multi-agent architecture using **LangGraph** (main orchestration) and **CrewAI** (fraud detection sub-crew).
+> **Who this is for** - anyone learning how multi-agent AI systems (LangGraph + CrewAI), production guardrails (cost caps, token limits, PII masking), human-in-the-loop approvals (interrupt/resume with durable checkpointing), agentic evaluation (LLM-as-judge), agent memory (ChromaDB + semantic search), pluggable LLM providers, and country-aware configuration fit together in a real-world full-stack app. Basic Python + a terminal is all you need.
 
-> **Who is this for?** Anyone learning to build production-grade multi-agent AI systems. If you know basic Python and want to understand how LangGraph, CrewAI, guardrails, human-in-the-loop, and LLM evaluation work together in a real use case - this project is for you.
+> **Using Claude Code?** This project is fully set up for [Claude Code](https://claude.ai/code) - custom slash commands (`/test`, `/submit-claim`, `/reset-data`), safety hooks, permission rules, and a `CLAUDE.md` context file. See the **[Claude Code Guide](docs/claude-code-guide.md)** to learn how to use skills, hooks, memory, subagents, and more to work with this codebase effectively.
+
+![High-Level Architecture](docs/images/high-level-architecture.svg)
+
+A production-style **multi-agent insurance claims system** built with **LangGraph** (orchestration) and **CrewAI** (fraud detection). A claimant submits a claim through a React UI, and the backend runs it through **7 specialist agents** - intake validation, fraud detection (3-agent CrewAI crew), damage assessment, policy compliance, settlement calculation, LLM-as-judge evaluation, and claimant notification.
+
+**What makes it more than a demo:**
+
+- **Transparent decisions** - every agent outputs confidence, reasoning, flags, and findings, visible in an expandable Agent Trace panel. No black boxes.
+- **Human-in-the-Loop** - risky claims (high fraud score, high value, or low agent confidence) **pause mid-pipeline** via LangGraph's `interrupt()` and wait for a human reviewer. The reviewer's decision resumes the pipeline from the exact checkpoint, durably persisted by `SqliteSaver`.
+- **Per-agent confidence gates** - if any agent is uncertain, the pipeline pauses at that step and asks a human before proceeding.
+- **Pluggable LLMs** - switch between Gemini 2.5 Flash and Groq Llama 3.3 70B at runtime.
+- **Country-aware** - US and India profiles with different PII fields, depreciation methods, settlement rules, currencies, and HITL thresholds.
 
 ---
 
-## Get Started in 3 Minutes
+## What, Why, When, How
+
+| | |
+|---|---|
+| **What** | Multi-agent claims pipeline with a React frontend, FastAPI backend, LangGraph orchestration, CrewAI fraud sub-crew, and native pause/resume HITL (Human-In-The-Loop). |
+| **Why** | Demonstrates the *hard* parts of production agentic systems: cost/token guardrails, PII masking, LLM-as-judge evaluation, role-based approvals, and checkpointed pause/resume - not a toy demo. |
+| **When** | Use it as a reference when you need to build a workflow where some decisions are automatic and some must be escalated to humans with full context. |
+| **How** | `uv` installs deps, a single `.env` selects Gemini or Groq as the LLM, and two commands (`uvicorn` + `npm run dev`) start the full stack. First install takes a few minutes due to ML model downloads. |
+
+---
+
+## Features
+
+- **Multi-agent pipeline** - LangGraph state machine with 7 agents, CrewAI sub-crew for fraud (pattern analyst, anomaly detector, social validator).
+- **Per-agent transparency** - every agent outputs confidence, reasoning, flags, and findings. All persisted to DB and visible in an expandable **Agent Trace panel** in the claim detail view. No black-box decisions.
+- **Confidence-based HITL at every step** - configurable per-agent confidence thresholds (`configs/base.yaml` -> `confidence_gates`). If any agent's confidence drops below its threshold, the pipeline pauses at a dedicated HITL node for that agent and resumes to the correct next agent after review.
+- **Pluggable LLM provider** - switch between **Gemini 2.5 Flash** and **Groq Llama 3.3 70B** via `.env` or the `/api/settings/llm` endpoint at runtime. Models are verified non-deprecated as of 2026-04.
+- **Manual-approval HITL** - high-risk/high-value claims pause at an `interrupt()` checkpoint. A reviewer approves via the UI, the pipeline resumes with their decision, durably persisted by LangGraph's `SqliteSaver`.
+- **Token/cost tracking** - LLM token usage and estimated cost tracked per-pipeline-run via a LangChain callback handler. Visible in claim details as "Total LLM Cost (USD)".
+- **Denial transparency** - denied claims show specific reasons to both claimant and reviewer. Communication agent is instructed to always include concrete denial reasons, not generic messages.
+- **Role-based auth** - JWT + bcrypt, seeded `admin / admin123`, roles: `user`, `reviewer`, `admin`.
+- **Guardrails** - per-claim caps on agent calls, tokens, and cost, PII masking before LLM calls, 7-year audit log.
+- **Country-aware currency** - all agent prompts, frontend labels, and amounts use the active country's currency symbol ($ or ₹). LLM cost is always shown in USD.
+- **Analytics** - approval rate, HITL rate, cost breakdown, fraud trends, evaluator pass rate.
+- **Agent memory** - three-tier memory using ChromaDB + HuggingFace embeddings (`all-MiniLM-L6-v2`): short-term (LangGraph state), long-term (past claim outcomes for similar-claim retrieval), episodic (human overrides, confirmed fraud, quality gate failures). Agents call `search_similar_claims` and `search_fraud_episodes` via LangChain `@tool` decorator - the LLM decides when to search memory, not the code.
+- **React frontend** - Vite + Zustand + MUI (Material UI), mirrors the full API surface (claims, appeals, HITL queue, analytics).
+- **Test data** - sample claims for all 5 pipeline paths in both US and India (`data/sample_claims/test_all_paths_*.json`).
+
+---
+
+## Architecture
+
+![System Architecture](docs/images/system-architecture.svg)
+
+![Pipeline Paths](docs/images/pipeline-paths.svg)
+
+---
+
+## Prerequisites
+
+- **Python 3.11+**
+- **Node.js 18+** (for the frontend)
+- **[uv](https://docs.astral.sh/uv/)** - modern Python env + package manager. Install once:
+  ```bash
+  pip install uv                   # easiest if you already have Python
+
+  # Or install standalone:
+  # Windows PowerShell
+  powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+  # Linux / macOS
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+  ```
+- **One LLM API key** (free tier works). Default provider is **Groq**:
+  - Groq (default) -> <https://console.groq.com/keys>
+  - Gemini (alternative) -> <https://aistudio.google.com/app/apikey>
+- **Internet access on first run** - `sentence-transformers` downloads the HuggingFace `all-MiniLM-L6-v2` embedding model (~80 MB) the first time the backend starts. Subsequent runs use the cached model.
+
+---
+
+## Quickstart
+
+> **Tip:** After cloning, open the project folder in **VS Code** and use the built-in terminal (`` Ctrl+` ``) to run all commands below. This gives you split terminals for backend + frontend side by side.
 
 ```bash
-# 1. Check Python version (need 3.11+)
-python --version
-
-# 2. Clone and enter project
+# 1. Clone and open project folder in VS Code (or any IDE)
 git clone https://github.com/genieincodebottle/aiml-companion.git
 cd aiml-companion/projects/smart-claims-processor
 
-# 3. Create virtual environment
-python -m venv .venv
-source .venv/bin/activate          # Linux/Mac
-# .venv\Scripts\activate           # Windows (use this instead)
+# 2. Create venv + install backend deps in the VSCode (or any IDE)
+uv venv
+.venv\Scripts\activate           # Windows (cmd / PowerShell)
+#source .venv/bin/activate       # Linux / macOS
 
-# 4. Install dependencies
-pip install -r requirements.txt
 
-# 5. Set up API key (free - takes 30 seconds)
-cp .env.example .env               # Linux/Mac
-# copy .env.example .env           # Windows (use this instead)
-# Edit .env and paste your GOOGLE_API_KEY (see "Get Your API Key" below)
+uv pip install -r requirements.txt
+# ⏳ First install takes a few minutes - sentence-transformers pulls PyTorch + the
+#    all-MiniLM-L6-v2 embedding model (~80 MB download, cached after first run).
 
-# 6. Verify setup (no API key needed)
-pytest tests/ -q
-# Expected: 47 passed
+# 3. Configure env (Copy the env details in actual .env file)
+copy .env.example .env                    # Windows
+#cp .env.example .env                     # Linux / macOS
 
-# 7. Run the demo (processes 4 sample insurance claims)
-python main.py --demo
+
+# 4. Edit .env - set your LLM API key
+#    The default provider is groq. Paste your key next to GROQ_API_KEY=
+#    Or switch to Gemini: set LLM_PROVIDER=gemini and paste your key next to GOOGLE_API_KEY=
+#
+#    The default country is india (amounts in ₹, IRDAI rules).
+#    To use US mode instead: set COUNTRY=us in .env
+
+# 5. Generate a strong JWT signing key and write it to .env
+python scripts/generate_secret_key.py        # fills API_SECRET_KEY if missing
+
+# 6. Seed test insurance policies (US + India) for experimenting with UI with valid dates
+python scripts/seed_policies.py
+
+# 7. Start the backend (port 8000)
+uvicorn api.main:app --port 8000
 ```
 
-### Get Your API Key (Free, 30 Seconds)
-
-1. Go to [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
-2. Sign in with your Google account
-3. Click **"Create API key"**
-4. Click **"Copy"** to copy the key
-5. Open the `.env` file in your editor and replace `your_gemini_api_key_here` with your key:
-   ```
-   GOOGLE_API_KEY=AIzaSy...your_key_here
-   ```
-6. Save the file
-
-> **Free tier:** Google Gemini 2.0 Flash is free for development. The entire demo costs < $0.05.
-
-### Verify API Key Works
+In a **second terminal (You can do split terminal in the VSCode)**, start the frontend (no venv needed - this is Node.js):
 
 ```bash
-python -c "from src.llm import get_llm; llm = get_llm(); print('API key works!' if llm else 'Failed')"
+cd aiml-companion/projects/smart-claims-processor/frontend
+npm install
+npm run dev        # starts http://localhost:3000
 ```
 
----
+> **Important:** The backend must be running before you open the frontend. Vite proxies all `/api` requests to `localhost:8000`, so if the backend is down you'll see network errors.
 
-## What Success Looks Like
+Open <http://localhost:3000>. The backend seeds four dev accounts on first startup so every role in the approval flow is testable immediately:
 
-When you run `python main.py --demo`, you should see output like this for each of the 4 sample claims:
+| Username    | Password     | Role       | Use it for                                    |
+|-------------|--------------|------------|-----------------------------------------------|
+| `admin`     | `admin123`   | `admin`    | manage users, switch LLM provider, view all   |
+| `reviewer1` | `review123`  | `reviewer` | approve HITL tickets (primary approver)       |
+| `reviewer2` | `review123`  | `reviewer` | second approver for parallel testing          |
+| `claimant`  | `claim123`   | `user`     | file claims, track own status                 |
 
-```
-============================================================
-  SMART CLAIMS PROCESSOR - RESULT
-============================================================
-  Claim ID:    CLM-2024-001234
-  Decision:    APPROVED PARTIAL
-  Settlement:  $2,659.73
-  Fraud Risk:  LOW (score: 0.18)
-  HITL:        No
-  Agents Used: 7
-  Cost:        $0.0000
-  Tokens:      0
+> These are dev-only credentials. Change them (or delete them via `DELETE /api/auth/users/{id}`) before any non-local deployment. They're defined in [api/security.py](api/security.py) -> `SEED_USERS`.
 
-------------------------------------------------------------
-  CLAIMANT NOTIFICATION:
-------------------------------------------------------------
-  Subject: Update on Your Auto Claim (CLM-2024-001234)
+### Try it end-to-end (5-minute walkthrough)
 
-  Dear [CLAIMANT],
+1. **Log in as `claimant` / `claim123`** and click "Submit Claim".
+2. **Fill in a test claim.** You can type your own or copy values from one of the sample files in `data/sample_claims/`. Since the default country is India, use `data/sample_claims/test_all_paths_india.json`. To trigger the HITL flow, use the `path_b_hitl_high_fraud` entry - paste the field values into the form.
+3. **Click Submit.** The pipeline runs. Watch the backend terminal - you'll see each agent executing. If the claim triggers HITL, the status will change to `pending_human_review`.
+4. **Log out, then log in as `reviewer1` / `review123`.** Open the HITL Queue page. You'll see the pending ticket with the AI's analysis, fraud score, and a review brief.
+5. **Click Approve or Deny.** The pipeline resumes from its checkpoint, runs the remaining agents, and the claim reaches a final status.
+6. **Check the claim detail page.** Expand the Agent Trace panel to see every agent's structured output - confidence scores, reasoning, flags, and findings.
 
-  We've completed the review of your claim...
-============================================================
-```
+> **Tip:** The sample files in `data/sample_claims/` cover all 5 pipeline paths (normal approval, HITL, auto-reject, intake failure, fast mode). Each entry has `_path`, `_trigger`, and `_expected_outcome` fields that explain what should happen.
 
-**The 4 demo scenarios and expected results:**
+### Useful scripts
 
-| # | Claim File | What It Tests | Expected Decision | Expected Settlement |
-|---|-----------|--------------|-------------------|-------------------|
-| 1 | `auto_accident.json` | Normal $8.5K auto collision | APPROVED or APPROVED_PARTIAL | $1,000 - $7,000 |
-| 2 | `fraud_suspicious.json` | $45K property fire with fraud flags | APPROVED (with elevated fraud score) | $30,000 - $40,000 |
-| 3 | `high_value_hitl.json` | $28K vehicle theft (triggers HITL) | APPROVED (with evaluation) | $5,000 - $15,000 |
-| 4 | `lapsed_policy.json` | $2.2K claim on expired policy | DENIED | $0.00 |
-
-> **Note:** Exact amounts vary between runs because the LLM makes independent assessments each time. The decision direction (approved vs denied) should be consistent.
+| Command | What it does |
+|---|---|
+| `pytest tests/ -q` | Run test suite |
+| `python scripts/seed_policies.py` | Re-seed test policies (US + India) |
+| `python scripts/clean_data.py` | Clean claims/appeals/HITL (keeps users + policies) |
+| `python scripts/clean_data.py --all` | Full reset (deletes everything including users) |
+| `python scripts/clean_data.py --dry-run` | Preview what would be deleted |
 
 ---
 
-## Table of Contents
+## Claude Code
 
-- [Get Started in 3 Minutes](#get-started-in-3-minutes)
-- [What Success Looks Like](#what-success-looks-like)
-- [How It Works (Simple Explanation)](#how-it-works-simple-explanation)
-- [Full System Architecture](#full-system-architecture)
-- [The 7 Agents](#the-7-agents)
-- [5 Pipeline Paths](#5-pipeline-paths)
-- [Launch the Dashboard](#launch-the-dashboard)
-- [HITL Review System](#hitl-review-system)
-- [LLM-as-Judge Evaluation](#llm-as-judge-evaluation)
-- [Production Features](#production-features)
-- [All Commands Reference](#all-commands-reference)
-- [Project Structure](#project-structure)
-- [Configuration](#configuration)
-- [Testing](#testing)
-- [Cost Profile](#cost-profile)
-- [Troubleshooting](#troubleshooting)
-- [What You Will Learn](#what-you-will-learn)
-- [Deep Dive Architecture](#deep-dive-architecture)
+This project is set up for [Claude Code](https://claude.ai/code) with custom slash commands, safety hooks, and a `CLAUDE.md` context file. Type `/` to see available commands:
+
+| Command | What it does |
+|---|---|
+| `/test [name]` | Run tests — all, by file, or by keyword (e.g. `/test pii_masker`) |
+| `/seed` | Seed US + India test policies into the database |
+| `/submit-claim [file]` | Submit a sample claim to the running backend |
+| `/check-backend` | Verify backend is running and auth works |
+| `/reset-data [all]` | Clean data + re-seed policies |
+
+Safety hooks block accidental deletion of SQLite databases and audit logs, and warn on missing `.env` configuration.
+
+**[Full Claude Code guide](docs/claude-code-guide.md)** — covers memory (making Claude smarter over time), creating your own slash commands and hooks, effective prompting tips, and customization.
 
 ---
 
-## How It Works (Simple Explanation)
+## Environment Variables
 
-Insurance claims processing is the perfect multi-agent use case because it needs:
-- **Multiple expert perspectives** (fraud detection, damage assessment, policy law)
-- **Human oversight** (regulations mandate review above certain amounts)
-- **Audit trails** (every decision must be traceable)
-- **Safety guardrails** (budget limits, confidence checks, loop detection)
+Copy from `.env.example`. Key variables for first run:
 
-This project uses **two AI frameworks together**:
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `LLM_PROVIDER` | yes | `groq` | `groq` or `gemini` |
+| `GROQ_API_KEY` | if provider=groq | - | Groq API key |
+| `GOOGLE_API_KEY` | if provider=gemini | - | Gemini API key |
+| `COUNTRY` | yes | `india` | `us` or `india` - controls currency, PII rules, depreciation, etc. |
+| `API_SECRET_KEY` | recommended | placeholder | JWT signing key. Run `python scripts/generate_secret_key.py` to set it. |
+| `API_CORS_ORIGINS` | no | `localhost` regex | Comma-separated list of allowed origins. |
 
-| Framework | Used For | Think of it as... |
-|-----------|---------|-------------------|
-| **LangGraph** | Main pipeline orchestration | A **flowchart** with IF/ELSE branches. "If fraud score > 0.90, reject. If amount > $10K, send to human." |
-| **CrewAI** | Fraud detection crew (3 agents) | A **panel of 3 experts** debating. Pattern Analyst + Anomaly Detector + Story Validator each give their opinion, then synthesize a verdict. |
+> **Note:** `LLM_PROVIDER` and `COUNTRY` are set **only** in `.env`. `configs/base.yaml` holds model IDs, tunables, and per-provider details - not which provider or country is active.
 
-**Why both?** LangGraph alone would make the 3-expert fraud analysis awkward. CrewAI alone can't handle the complex 5-path conditional routing of the full pipeline. Together, they play to each other's strengths.
+HITL thresholds and guardrail caps are also configurable - see the commented-out sections in `.env.example`.
 
----
+### Generating a secure `API_SECRET_KEY`
 
-## Full System Architecture
-
-<p align="center">
-  <img src="docs/images/system-architecture.svg" alt="System Architecture" width="100%"/>
-</p>
-
-**Three layers run on every claim:**
-1. **Security Layer** - PII masked before any LLM call. Audit log records every action with SHA-256 hash.
-2. **Guardrails Layer** - Before each agent: check budget (tokens, cost, calls). After each agent: check confidence, detect hallucination.
-3. **Pipeline Layer** - 7 agents in sequence with conditional routing (5 possible paths).
-
----
-
-## The 7 Agents
-
-| # | Agent | Framework | What It Does (One Sentence) |
-|---|-------|-----------|---------------------------|
-| 1 | **Intake Agent** | LangGraph | Validates the claim, looks up the policy, masks PII, and decides if the claim should proceed. |
-| 2 | **Fraud Detection Crew** | CrewAI (3 agents) | Three experts (Pattern Analyst, Anomaly Detector, Story Validator) independently analyze the claim for fraud and synthesize a risk score. |
-| 3 | **Damage Assessor** | LangGraph | Independently assesses the damage amount (may differ from what the claimant estimated), calculates vehicle value, and recommends repair vs. replace vs. total loss. |
-| 4 | **Policy Checker** | LangGraph | Reads the insurance policy to determine what's covered, what's excluded, and calculates the deductible and coverage limits. |
-| 5 | **Settlement Calculator** | LangGraph | Does the math: assessed damage - depreciation - deductible = settlement amount. Caps at policy limits. |
-| 6 | **LLM-as-Judge Evaluator** | LangGraph | A separate LLM call that scores the entire decision on 5 dimensions (accuracy, completeness, fairness, safety, transparency). Quality gate at 0.70. |
-| 7 | **Communication Agent** | LangGraph | Writes the claimant notification email and internal adjuster notes. Never mentions fraud to the claimant. |
-
----
-
-## 5 Pipeline Paths
-
-The pipeline doesn't always run all 7 agents. Based on claim characteristics, it takes one of 5 paths:
-
-<p align="center">
-  <img src="docs/images/pipeline-paths.svg" alt="5 Pipeline Paths" width="100%"/>
-</p>
-
----
-
-## Launch the Dashboard
-
-The Streamlit dashboard gives you a visual interface with 3 tabs:
+`API_SECRET_KEY` signs JWT login tokens. The Quickstart already runs `python scripts/generate_secret_key.py` which fills it in `.env` automatically. If you ever need to regenerate it:
 
 ```bash
-streamlit run app.py
-# Opens at http://localhost:8501
+python scripts/generate_secret_key.py --write   # overwrite existing key in .env
 ```
 
-**Tab 1 - Process Claim:** Fill in a form and submit a claim. See results with fraud scores, settlement breakdown, and claimant notification.
-
-**Tab 2 - HITL Review Queue:** See claims waiting for human review. Submit decisions (approve, deny, override AI).
-
-**Tab 3 - Analytics:** Cost estimates, architecture overview, configuration details.
-
-**Quick test scenarios:** The dashboard has 4 buttons at the top that pre-fill the form with test data:
-- ✅ Normal Claim ($8.5K) - should be approved
-- ⚠️ HITL Review ($28K) - triggers human review
-- 🚨 Fraud Flags ($45K) - elevated fraud score
-- 🚫 Lapsed Policy ($2.2K) - should be denied
-
-> **Note:** The dashboard handles HITL reviews directly through its built-in queue interface. You do NOT need to start a separate HITL server for the dashboard to work.
+After changing the key, restart the backend. All logged-in users will need to log in again.
 
 ---
 
-## HITL Review System
+## The Manual-Approval HITL Flow (the core feature)
 
-### When Does a Claim Need Human Review?
+This is what makes the project more than a demo. Here's exactly what happens:
 
-| Trigger | Threshold | Why |
-|---------|-----------|-----|
-| Claim amount | >= $10,000 | Legal requirement for large claims |
-| Fraud score | >= 0.65 | High enough to warrant human judgment |
-| Agent confidence | < 0.65 | AI is uncertain, human should decide |
-| First-time + high value | >= $5,000 | New claimant with big claim |
-| Repeat claimant | > 2 claims/year | Potential abuse pattern |
-| Appeal | Always | Appeals always get human review |
-| Evaluation score | < 0.70 | LLM-as-Judge quality gate failed |
+1. **Submit a high-value claim.** For India, set `estimated_amount` above ₹5,00,000. For US, set it above $10,000. These thresholds trigger HITL by default.
+2. **Pipeline pauses.** Backend log shows `Pausing pipeline for manual approval (ticket=HITL-XXXXXX)`. The claim row status flips to `pending_human_review`. Internally, LangGraph's `interrupt()` suspends the graph and `SqliteSaver` persists the checkpoint to `data/claims_checkpoints.db`.
+3. **An approver logs in.** `reviewer1 / review123` is seeded on first startup - no registration needed. (If you want another reviewer, admins can create one via `POST /api/auth/register` with `"role":"reviewer"`.)
+4. **Reviewer opens the HITL queue.** They see the ticket with priority, triggers, review brief, and a PII-masked state snapshot.
+5. **Reviewer approves or denies.** Clicking approve calls `POST /api/hitl/decide/{ticket_id}` with the decision. The endpoint:
+   - Marks the HITL ticket `resolved` and returns immediately.
+   - A background thread resumes the pipeline via `graph.invoke(Command(resume=decision))`.
+   - LangGraph re-enters the checkpoint node, `interrupt()` returns the decision dict, and the pipeline **continues through the remaining agents** (damage assessor → policy checker → settlement calculator → evaluator → communication agent → `END`).
+6. **Claim completes.** The row now has `status=approved` or `status=denied`, `decided_by=reviewer1`, and `decided_at` timestamp. The AI agents still run the full assessment, but the settlement calculator respects the human's decision - if the reviewer approved, the AI won't override to denied (and vice versa).
 
-### How HITL Works (Step by Step)
+**Durability test:** Kill `uvicorn` while a claim is `pending_human_review`, restart it, and approve - the pipeline resumes from the exact checkpoint. That's the `SqliteSaver` earning its keep.
 
+### Confidence Gates (per-agent HITL)
+
+Beyond the fixed triggers above, every agent has a configurable **confidence threshold** in `configs/base.yaml` -> `confidence_gates`. If an agent's confidence score falls below its threshold, the pipeline pauses at a dedicated HITL node for that agent:
+
+| Agent | Threshold | HITL Node | Resumes To |
+|---|---|---|---|
+| Intake | 0.55 | `hitl_after_intake` | `fraud_crew` |
+| Fraud Crew | 0.50 | `hitl_after_fraud` | `damage_assessor` |
+| Damage Assessor | 0.60 | `hitl_after_damage` | `policy_checker` |
+| Policy Checker | 0.60 | `hitl_after_policy` | `settlement_calculator` |
+| Settlement Calculator | 0.65 | `hitl_after_settlement` | `evaluator` |
+
+This means the system never blindly proceeds when an agent is uncertain - it always asks a human.
+
+---
+
+## Switching LLM Provider
+
+Two ways:
+
+**At startup:** edit `.env` and restart the backend ->
 ```
-1. Pipeline detects HITL trigger (e.g., amount >= $10K)
-        │
-2. Priority score calculated (0-100)
-   Weighted: amount(30%) + fraud(35%) + confidence(20%) + repeat(15%)
-        │
-3. Ticket created in SQLite queue
-   Priority: CRITICAL (>= 80, 4h SLA) | HIGH (60-79, 24h SLA) | NORMAL (< 60, 72h SLA)
-        │
-4. Pipeline pauses, marks claim as "ESCALATED_HUMAN_REVIEW"
-        │
-5. Human reviewer opens Streamlit dashboard, Tab 2
-   Sees: review brief, fraud analysis, AI recommendation
-        │
-6. Human submits decision (approve/deny/override AI)
-   Decision recorded in audit log
-        │
-7. Pipeline resumes, communication agent generates notification
+LLM_PROVIDER=gemini
+GOOGLE_API_KEY=AIza...
 ```
 
-### HITL REST API (Optional, for Custom Integrations)
-
-If you want to build your own review interface instead of using Streamlit:
-
+**At runtime (admin only, lasts until restart):**
 ```bash
-# Start the HITL API server (separate terminal)
-uvicorn src.hitl.queue:router --host 0.0.0.0 --port 8001
-
-# Or use make:
-make serve-hitl
+curl -X PUT http://localhost:8000/api/settings/llm \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"provider":"gemini"}'
 ```
+Or use the Settings page in the frontend (admin login required).
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/hitl/queue` | List pending reviews by priority |
-| `GET` | `/hitl/ticket/{id}` | Get full review brief and state |
-| `POST` | `/hitl/decide/{id}` | Submit human decision |
-| `GET` | `/hitl/stats` | Queue statistics |
+Model IDs in `configs/base.yaml` (verified non-deprecated as of 2026-04):
 
----
-
-## LLM-as-Judge Evaluation
-
-A **separate LLM call** (not the same one that made the decision) evaluates every high-stakes decision:
-
-| Dimension | Weight | What It Measures |
-|-----------|--------|-----------------|
-| **Accuracy** | 25% | Is the settlement math correct? |
-| **Completeness** | 20% | Were all policy clauses checked? |
-| **Fairness** | 20% | Would a human adjuster agree? |
-| **Safety** | 20% | Were fraud signals handled properly? |
-| **Transparency** | 15% | Is the reasoning traceable? |
-
-- **Pass threshold:** 0.70 overall score
-- **If failed:** Claim is automatically routed to HITL for human review
-- **Always evaluated:** Claims > $10K, HITL claims, human overrides
-- **Sampled:** 10% of routine auto-processed claims (saves cost)
+| Provider | Primary | Fallback |
+|---|---|---|
+| Gemini | `gemini-2.5-flash` | `gemini-2.5-flash-lite` |
+| Groq | `llama-3.3-70b-versatile` | `llama-3.1-8b-instant` |
 
 ---
 
-## Production Features
+## Country Profiles (US / India)
 
-| Feature | What It Does |
-|---------|-------------|
-| **PII Masking** | Regex + field-level masking. Email, phone, SSN, DOB, names are replaced with `[EMAIL]`, `[PHONE]`, `[REDACTED]` etc. before any LLM call. Original data never leaves your machine. |
-| **Audit Logs** | SHA-256 hashed NDJSON files. Every agent action, HITL event, and final decision recorded. 7-year retention for insurance compliance. Tamper-detectable. |
-| **Guardrails (Pre)** | Before each agent: check token budget (50K), cost ceiling ($0.50), agent call limit (25), loop detection, timeout (300s). Hard stop if breached. |
-| **Guardrails (Post)** | After each agent: verify output confidence meets threshold, check reasoning fields aren't empty (hallucination proxy). |
-| **HITL Queue** | SQLite-backed priority queue. REST API for custom integrations. SLA tracking (4h/24h/72h). Human override audit trail. |
-| **LLM-as-Judge** | Separate evaluation call. 5-dimension scoring. Quality gate at 0.70. Failed claims auto-escalate to HITL. |
-| **Structured Output** | Pydantic v2 schemas for all 11 agent outputs. Zero parsing errors via `.with_structured_output()`. |
-| **Graceful Degradation** | Every agent has a fallback: LLM error -> rule-based calculation -> HITL escalation. Pipeline never crashes silently. |
-| **Rule-Based Grounding** | Fraud patterns and damage calculators run BEFORE the LLM, providing factual grounding that reduces hallucination. |
+The pipeline is country-agnostic. What changes per country is **configuration** - PII fields, depreciation method, claim types, settlement rules, fraud baselines, HITL thresholds, regulatory footer, and required documents.
 
----
+Two complete profiles ship out of the box:
 
-## All Commands Reference
+| | US | India |
+|---|---|---|
+| Currency | USD ($) | INR (₹) |
+| PII masked | SSN, driver license, US phone | Aadhaar, PAN, Indian mobile, RC number |
+| Depreciation | Year-based (20%/15%/12%) | Part-wise IRDAI (rubber 50%, metal 5%, glass 0%) |
+| Settlement basis | Assessed damage | IDV (Insured Declared Value) |
+| Max payout | 115% of assessed damage | 100% of IDV (never exceeds) |
+| HITL threshold | $10,000 | ₹5,00,000 |
+| Regulator | State Insurance Commissioner | IRDAI |
+| Languages | English | English + Hindi |
 
-### Python Commands
+**Switch at startup:** `.env` -> `COUNTRY=india`
 
+**Switch at runtime (admin only):**
 ```bash
-python main.py --demo                              # Run all 4 sample claims
-python main.py --claim data/sample_claims/auto_accident.json  # Single claim
-python main.py --claim data/sample_claims/auto_accident.json --verbose  # With trace
-streamlit run app.py                                # Launch dashboard (port 8501)
-pytest tests/ -v                                    # Run all 47 tests
-pytest tests/ -v --cov=src --cov-report=term-missing  # Tests with coverage
-python evaluation/run_eval.py                       # Batch evaluation
+curl -X PUT http://localhost:8000/api/settings/country \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"country":"india"}'
 ```
 
-### Makefile Commands (Optional Shortcuts)
-
-If you have `make` installed (comes with most Linux/Mac, install via `choco install make` on Windows):
-
-| Command | What It Does |
-|---------|-------------|
-| `make setup` | Copies .env, installs deps, creates data directories |
-| `make install` | Just installs pip dependencies |
-| `make demo` | Runs `python main.py --demo` |
-| `make test-claim` | Runs single auto_accident claim with verbose output |
-| `make test` | Runs pytest |
-| `make test-cov` | Runs pytest with coverage report |
-| `make dashboard` | Launches Streamlit on port 8501 |
-| `make serve-hitl` | Starts HITL REST API on port 8001 |
-| `make eval` | Runs batch evaluation |
-| `make lint` | Runs ruff code linter |
-| `make clean` | Deletes generated files (audit logs, DB files, pycache) |
-| `make queue-stats` | Prints HITL queue statistics as JSON |
+**Add a new country:** create `configs/countries/{code}.yaml` following the structure in `configs/countries/us.yaml`. The config loader auto-discovers it.
 
 ---
 
-## Project Structure
+## API at a Glance
+
+Once the backend is running, open <http://localhost:8000/docs> for interactive Swagger docs where you can try every endpoint.
+
+| Area | Key Endpoints |
+|---|---|
+| Auth | `POST /api/auth/login`, `POST /api/auth/register`, `GET /api/auth/current-user` |
+| Claims | `POST /api/claims/submit`, `GET /api/claims/all`, `GET /api/claims/{claim_id}` |
+| HITL | `GET /api/hitl/queue`, `POST /api/hitl/decide/{ticket_id}` *(reviewer only - resumes pipeline)* |
+| Appeals | `POST /api/appeals/submit`, `GET /api/appeals/pending` |
+| Analytics | `GET /api/analytics/metrics`, `GET /api/analytics/fraud-trends` |
+| Settings | `PUT /api/settings/llm`, `PUT /api/settings/country` *(admin only)* |
+
+---
+
+## Project Layout
 
 ```
 smart-claims-processor/
-├── .streamlit/config.toml          # Streamlit theme (dark mode)
-├── configs/base.yaml               # Master configuration (agents, HITL, guardrails, security)
-├── data/
-│   ├── sample_claims/              # 4 test scenarios (auto, fraud, HITL, lapsed)
-│   └── fraud_patterns/             # Known fraud pattern database
-├── docs/architecture.md            # Architecture deep-dive
-├── evaluation/
-│   ├── run_eval.py                 # Batch evaluation runner
-│   └── judge_prompt.py             # LLM-as-judge prompt templates with rubrics
-├── notebooks/
-│   └── Smart_Claims_Processor.ipynb  # Step-by-step walkthrough (run each agent individually)
-├── scripts/run_pipeline.sh         # Shell runner (demo, claim, test, dashboard, eval)
-├── src/
-│   ├── agents/
-│   │   ├── graph.py                # LangGraph workflow (5 conditional paths)
-│   │   ├── intake_agent.py         # Claim validation + PII masking
-│   │   ├── fraud_crew.py           # CrewAI fraud crew (3 role-based agents)
-│   │   ├── damage_assessor.py      # Independent damage assessment
-│   │   ├── policy_checker.py       # Coverage + exclusion analysis
-│   │   ├── settlement_calculator.py # Payout computation with safety caps
-│   │   └── communication_agent.py  # Notification generation
-│   ├── guardrails/manager.py       # Pre/post execution safety checks
-│   ├── hitl/
-│   │   ├── checkpoint.py           # HITL trigger logic + priority scoring
-│   │   └── queue.py                # SQLite queue + FastAPI endpoints
-│   ├── models/
-│   │   ├── schemas.py              # 11 Pydantic v2 output schemas
-│   │   └── state.py                # LangGraph state definition (TypedDict)
-│   ├── security/
-│   │   ├── pii_masker.py           # PII detection + masking
-│   │   └── audit_log.py            # Immutable SHA-256 audit trail
-│   ├── tools/
-│   │   ├── policy_lookup.py        # Mock policy database (SQLite)
-│   │   ├── fraud_patterns.py       # Rule-based fraud pattern matching
-│   │   └── damage_calculator.py    # Depreciation, ACV, total-loss calculations
-│   ├── evaluation/evaluator.py     # LLM-as-judge 5-dimension scoring
-│   ├── config.py                   # YAML + env variable config loader
-│   └── llm.py                      # Gemini LLM factory with fallback
-├── tests/                          # 47 tests (all run without API key)
-├── app.py                          # Streamlit dashboard (3 tabs, custom CSS)
-├── main.py                         # CLI entry point
-├── END_TO_END_ARCHITECTURE.md      # Complete architecture document
-├── requirements.txt
-├── Makefile
-├── .env.example
-└── .gitignore
+├── api/                    # FastAPI backend (auth, claims, hitl, appeals, analytics, settings)
+│   ├── main.py             # app + CORS + startup (seeds admin, creates tables)
+│   ├── db.py               # SQLModel: User, Claim, Appeal
+│   ├── security.py         # JWT + bcrypt + role guards
+│   └── routes_*.py         # one file per domain
+├── src/                    # Pipeline core
+│   ├── agents/             # intake, fraud_crew, damage, policy, settlement, communication
+│   │   └── graph.py        # LangGraph state machine + SqliteSaver + interrupt/resume
+│   ├── hitl/               # queue.py (review tickets) + checkpoint.py (trigger rules)
+│   ├── evaluation/         # LLM-as-judge
+│   ├── guardrails/         # cost/token/call caps
+│   ├── security/           # PII masker + audit log
+│   ├── memory/             # Agent memory (ChromaDB + HuggingFace embeddings)
+│   │   ├── embeddings.py   # HuggingFace all-MiniLM-L6-v2 embedding model
+│   │   ├── store.py        # ChromaDB collections (long-term, episodic, fraud knowledge)
+│   │   └── manager.py      # MemoryManager: store/recall claims, episodes, fraud patterns
+│   ├── llm.py              # Pluggable provider factory (gemini | groq)
+│   └── config.py           # Loads .env + base.yaml + country YAML
+├── frontend/               # React + Vite + Zustand + MUI (Material UI)
+│   └── src/
+│       ├── services/api.js # axios client, auto-attaches JWT
+│       ├── store/          # auth + claims state
+│       └── components/     # Auth, Claims, HITL, Analytics, Layout
+├── configs/
+│   ├── base.yaml             # Shared tunables (agents, HITL, guardrails, providers)
+│   └── countries/            # Country profiles (us.yaml, india.yaml)
+├── data/                   # SQLite DBs (api.db, hitl_queue.db, claims_checkpoints.db)
+│   └── sample_claims/      # Test data for all 5 pipeline paths (US + India)
+├── scripts/
+│   ├── seed_policies.py    # Seed US + India test policies
+│   ├── clean_data.py       # Clean claims data (keeps users) or full reset
+│   └── generate_secret_key.py
+├── docs/images/            # Architecture SVGs
+├── tests/                  # pytest suite
+└── requirements.txt
 ```
-
----
-
-## Configuration
-
-All configuration lives in `configs/base.yaml`. Environment variables override YAML values.
-
-**Precedence:** Environment variable > YAML value > default
-
-### Key Configuration Sections
-
-| Section | What It Controls | Key Settings |
-|---------|-----------------|-------------|
-| `llm` | Model, temperature, timeout | `model: gemini-2.0-flash`, `temperature: 0.1` |
-| `agents.fraud_crew` | CrewAI roles, goals, backstories | 3 agent definitions with expertise framing |
-| `hitl.triggers` | When human review is required | `min_amount_usd: 10000`, `fraud_score: 0.65` |
-| `hitl.sla_hours` | Response deadlines | `critical: 4h`, `high: 24h`, `normal: 72h` |
-| `guardrails` | Budget limits | `max_tokens: 50000`, `max_cost: $0.50`, `max_calls: 25` |
-| `security` | PII fields, audit retention | `retention_days: 2555` (7 years), `hash: sha256` |
-| `evaluation` | Judge model, pass threshold | `min_score: 0.70`, `sample_rate: 0.10` |
-| `pipeline.fast_mode` | Skip agents for tiny claims | `max_amount: 500`, skip fraud + damage |
-
-### Environment Variable Overrides
-
-```bash
-# Override HITL thresholds without editing YAML
-HITL_MIN_AMOUNT=25000        # Raise review threshold to $25K
-HITL_FRAUD_THRESHOLD=0.80    # Only flag very high fraud scores
-MAX_TOKENS_PER_CLAIM=100000  # Double the token budget
-```
-
-See `configs/base.yaml` for all settings with inline comments.
-
----
-
-## Testing
-
-```bash
-# Run all tests (no API key needed - tests use mock data)
-pytest tests/ -v
-
-# Expected output: 47 passed
-```
-
-| Test File | Tests | What's Verified |
-|-----------|-------|----------------|
-| `test_pii_masker.py` | 8 | Email/phone/SSN masking, name redaction, nested objects, structure preservation |
-| `test_guardrails.py` | 8 | Budget limits, loop detection, timeout, confidence thresholds, hallucination check |
-| `test_fraud_patterns.py` | 8 | Pattern matching, anomaly detection, score bounds, clean vs suspicious claims |
-| `test_hitl_checkpoint.py` | 6 | HITL triggers, priority scoring, appeal handling, low confidence detection |
-| `test_policy_lookup.py` | 8 | Policy lookup, active/lapsed detection, coverage mapping, net payout calculation |
-| `test_damage_calculator.py` | 9 | Vehicle ACV, total loss, depreciation, age-based rates, max depreciation cap |
-
-> **Why no API-dependent tests?** Tests that call the LLM are flaky (network, rate limits, non-deterministic output). All 47 tests verify the deterministic logic (tools, guardrails, routing, security) that doesn't need an API call.
-
----
-
-## Cost Profile
-
-| Claim Path | Agents | Tokens | Cost | Time |
-|-----------|--------|--------|------|------|
-| Fast mode (<$500) | 3 | ~8K | ~$0.003 | ~8s |
-| Standard auto | 7 | ~22K | ~$0.008 | ~30s |
-| Complex + HITL | 9 | ~38K | ~$0.014 | ~60s |
-| Fraud flagged | 7 | ~28K | ~$0.010 | ~40s |
-| Intake reject (lapsed) | 2 | ~4K | ~$0.001 | ~8s |
-| **Full demo (4 claims)** | - | ~80K | **~$0.03** | ~2min |
-
-> All costs with Google Gemini 2.0 Flash. Free tier is more than enough for development and testing.
 
 ---
 
 ## Troubleshooting
 
-### Setup Issues
-
-| Problem | Solution |
-|---------|---------|
-| `python: command not found` | Install Python 3.11+: [python.org/downloads](https://python.org/downloads). On Mac: `brew install python@3.11` |
-| `python --version` shows 3.10 or older | Install 3.11+. Use `python3.11` or `python3` if multiple versions installed |
-| `cp: command not found` (Windows) | Use `copy .env.example .env` instead. Or use Git Bash / WSL |
-| `pip install` fails with version conflict | Try: `pip install --upgrade pip` then retry. Or create a fresh venv |
-| `ModuleNotFoundError: No module named 'crewai'` | `pip install -r requirements.txt` in your activated virtual environment |
-| CrewAI version conflict | `pip install --upgrade crewai crewai-tools` (need >= 0.80.0) |
-
-### API Key Issues
-
-| Problem | Solution |
-|---------|---------|
-| `GOOGLE_API_KEY not set` | Check `.env` file exists and contains the key. Must be in project root. |
-| `API key invalid` or `403` | Verify key at [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey). Regenerate if needed. |
-| `429 rate limit exceeded` | Wait 60 seconds and retry. Free tier has rate limits. |
-| `Connection timeout` | Check internet connection. Try: `curl https://generativelanguage.googleapis.com` |
-| Key works in browser but not here | Check for extra spaces or quotes in `.env`. Should be: `GOOGLE_API_KEY=AIzaSy...` (no quotes) |
-
-### Runtime Issues
-
-| Problem | Solution |
-|---------|---------|
-| `Audit log permission error` | Create directory: `mkdir -p data/audit_logs` (Linux/Mac) or `mkdir data\audit_logs` (Windows) |
-| HITL queue empty in dashboard | Process a high-value ($10K+) or fraud-flagged claim first |
-| Streamlit won't start | Check port: `lsof -i :8501` (Mac/Linux) or `netstat -an | findstr 8501` (Windows). Kill existing process or use `--server.port 8502` |
-| Tests fail with import error | Run from project root: `cd smart-claims-processor && pytest tests/` |
-| Pipeline hangs / takes > 2 min | Check network. Gemini API may be slow. Timeout is 300s by default. |
+| Symptom | Cause | Fix |
+|---|---|---|
+| `GOOGLE_API_KEY not set` or `GROQ_API_KEY not set` | Active provider has no key in `.env` | Set the matching API key in `.env` and restart the backend |
+| `401` on every request | JWT expired (24h) or `API_SECRET_KEY` changed | Log in again |
+| Pipeline crashes at import | Missing package | `uv pip install -r requirements.txt` |
+| `Claim X is not awaiting review` on decide | Claim already completed or already resumed | Submit a new HITL-triggering claim (above the country's HITL threshold) |
+| Groq returns `model_not_found` | Groq rotated models | Update `configs/base.yaml` -> `llm.providers.groq.model` |
+| Frontend CORS error | Vite on non-default port | Set `API_CORS_ORIGINS=http://localhost:<port>` in `.env` |
+| `bcrypt` version error | Old passlib | Already fixed - direct `bcrypt` use in `api/security.py` |
+| First startup is very slow | HuggingFace embedding model downloading (~80 MB) | One-time download, cached in `~/.cache/huggingface/`. Wait for it to finish. |
+| `pip install` takes forever | `sentence-transformers` pulls PyTorch | Normal on first install. ~1-3 min depending on network. |
 
 ---
 
-## What You Will Learn
+## Running Tests
 
-After studying this project, you will understand:
+```bash
+pytest tests/ -q
+```
 
-1. **Dual-framework orchestration** - When to use LangGraph vs CrewAI and how to combine them
-2. **CrewAI role-based agents** - Analyst, Validator, Manager patterns with delegation and synthesis
-3. **LangGraph conditional routing** - Complex multi-path workflows with 5 branching conditions
-4. **Production HITL** - Priority queues, SLA tracking, REST APIs, human override audit trails
-5. **Guardrail layers** - Pre/post execution safety with budget enforcement and loop detection
-6. **LLM-as-judge evaluation** - Automated 5-dimension quality scoring that gates decision release
-7. **Security in AI pipelines** - PII masking, immutable audit trails, tamper detection
-8. **Structured state management** - Pydantic v2 + TypedDict for zero-error multi-agent communication
-9. **Graceful degradation** - Every agent has a fallback path (LLM error -> rule-based -> HITL)
-10. **Rule-based grounding** - Running deterministic checks BEFORE LLM to reduce hallucination and cost
-
-### Next Steps After the Demo
-
-| Step | What To Do | Why |
-|------|-----------|-----|
-| 1 | Run `streamlit run app.py` | See the visual dashboard, try the 4 scenarios |
-| 2 | Open `notebooks/Smart_Claims_Processor.ipynb` | Walk through each agent step-by-step, see intermediate outputs |
-| 3 | Read `src/agents/graph.py` | Understand the LangGraph routing logic |
-| 4 | Read `src/agents/fraud_crew.py` | Understand how CrewAI agents are defined and orchestrated |
-| 5 | Read `src/guardrails/manager.py` | See the pre/post execution safety checks |
-| 6 | Modify `configs/base.yaml` | Change thresholds and see how behavior changes |
-| 7 | Add a new agent | Try adding a "document verification agent" to the pipeline |
+Tests do not require an API key - the LLM layer is mocked. `pytest` is already included in `requirements.txt`.
 
 ---
 
-## Deep Dive Architecture
+## License
 
-For a comprehensive technical architecture document covering data flow, database schemas, security details, guardrails architecture, and HITL implementation, see:
-
-**[END_TO_END_ARCHITECTURE.md](END_TO_END_ARCHITECTURE.md)**
-
----
-
-## Tech Stack
-
-| Component | Technology |
-|-----------|-----------|
-| Orchestration | LangGraph 0.2+ |
-| Fraud Crew | CrewAI 0.80+ |
-| LLM | Google Gemini 2.0 Flash (free tier) |
-| Structured Output | Pydantic v2 + `.with_structured_output()` |
-| HITL Queue | SQLite + FastAPI |
-| Dashboard | Streamlit 1.40+ with custom CSS (dark theme) |
-| Configuration | YAML + python-dotenv (env overrides) |
-| Audit Logging | NDJSON + SHA-256 hashing |
-| Testing | pytest 8.0+ (47 tests, no API key needed) |
+MIT

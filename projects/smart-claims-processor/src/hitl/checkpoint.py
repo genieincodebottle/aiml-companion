@@ -1,5 +1,5 @@
 """
-HITL Checkpoint - determines whether a claim needs human review.
+HITL (Human-In-The-Loop) Checkpoint - determines whether a claim needs human review.
 
 Trigger logic:
   1. Check each trigger rule against current state
@@ -39,6 +39,9 @@ def check_hitl_required(
     triggers_cfg = cfg["triggers"]
     weights = cfg["priority_weights"]
 
+    from src.utils import currency_symbol
+    _sym = currency_symbol()
+
     triggers: list[str] = []
     priority_components: dict[str, float] = {}
 
@@ -46,9 +49,9 @@ def check_hitl_required(
     is_appeal = claim.get("is_appeal", False)
 
     # ── Trigger 1: High claim amount ──────────────────────────────────────────
-    min_amount = triggers_cfg.get("min_amount_usd", 10000)
+    min_amount = triggers_cfg.get("min_amount", 10000)
     if estimated_amount >= min_amount:
-        triggers.append(f"Claim amount ${estimated_amount:,.0f} exceeds review threshold ${min_amount:,.0f}")
+        triggers.append(f"Claim amount {_sym}{estimated_amount:,.0f} exceeds review threshold {_sym}{min_amount:,.0f}")
         priority_components["amount"] = min(estimated_amount / min_amount / 5, 1.0)
     else:
         priority_components["amount"] = 0.0
@@ -81,7 +84,7 @@ def check_hitl_required(
     first_claim_threshold = triggers_cfg.get("first_claim_high_value", 5000)
     if claim_history_count == 0 and estimated_amount >= first_claim_threshold:
         triggers.append(
-            f"First-time claimant with high-value claim (${estimated_amount:,.0f})"
+            f"First-time claimant with high-value claim ({_sym}{estimated_amount:,.0f})"
         )
         priority_components["repeat_claimant"] = 0.5
     # ── Trigger 5: Repeat claimant (possible abuse) ───────────────────────────
@@ -154,11 +157,14 @@ def format_hitl_brief(
             f"Top Concerns: {', '.join(fraud_output.primary_concerns[:3]) if fraud_output.primary_concerns else 'None'}"
         )
 
+    from src.utils import currency_symbol
+    sym = currency_symbol()
+
     return f"""
 === HUMAN REVIEW BRIEF ===
 Claim: {claim.get('claim_id')} | Policy: {claim.get('policy_number')}
-Type: {claim.get('incident_type', 'UNKNOWN').upper()} | Amount: ${float(claim.get('estimated_amount', 0)):,.2f}
-AI Damage Assessment: ${damage_assessed_usd:,.2f}
+Type: {claim.get('incident_type', 'UNKNOWN').upper()} | Amount: {sym}{float(claim.get('estimated_amount', 0)):,.2f}
+AI Damage Assessment: {sym}{damage_assessed_usd:,.2f}
 Priority: {priority.value.upper()}
 {fraud_section}
 

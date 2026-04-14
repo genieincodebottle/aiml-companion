@@ -25,10 +25,11 @@ import time
 from langchain_core.messages import HumanMessage, SystemMessage
 
 from src.config import get_evaluation_config
-from src.llm import get_structured_llm
+from src.llm import get_judge_llm
 from src.models.schemas import EvaluationOutput
 from src.models.state import ClaimsState
 from src.security.audit_log import log_agent_action
+from src.utils import currency_symbol
 
 logger = logging.getLogger(__name__)
 AGENT_NAME = "evaluator"
@@ -58,13 +59,14 @@ def run_evaluator(state: ClaimsState) -> dict:
     # Skip evaluation based on sample rate (for batch processing efficiency)
     import random
     sample_rate = cfg.get("batch_eval_sample_rate", 1.0)
-    hitl_required = state.get("hitl_required", False)
 
-    # Always evaluate HITL claims and high-value claims; sample the rest
+    # Always evaluate HITL claims, high-value claims, and human overrides
+    from src.config import get_hitl_config
+    high_value_threshold = get_hitl_config()["triggers"].get("min_amount", 10000)
     always_eval = (
-        hitl_required or
-        float(claim.get("estimated_amount", 0)) >= 10000 or
-        state.get("human_override", False)
+        state.get("hitl_required", False)
+        or float(claim.get("estimated_amount", 0)) >= high_value_threshold
+        or state.get("human_override", False)
     )
 
     if not always_eval and random.random() > sample_rate:
@@ -82,16 +84,17 @@ def run_evaluator(state: ClaimsState) -> dict:
     damage = state.get("damage_output")
     guardrails_violations = state.get("guardrails_violations", [])
 
-    llm = get_structured_llm(EvaluationOutput)
+    llm = get_judge_llm().with_structured_output(EvaluationOutput)
+    _sym = currency_symbol()
 
     settlement_summary = "No settlement computed"
     if settlement:
         settlement_summary = f"""
 Decision: {settlement.decision.value}
-Settlement Amount: ${settlement.settlement_amount_usd:,.2f}
-Gross Damage: ${settlement.gross_damage_usd:,.2f}
-Deductible Applied: ${settlement.deductible_applied_usd:,.2f}
-Depreciation Applied: ${settlement.depreciation_applied_usd:,.2f}
+Settlement Amount: {_sym}{settlement.settlement_amount_usd:,.2f}
+Gross Damage: {_sym}{settlement.gross_damage_usd:,.2f}
+Deductible Applied: {_sym}{settlement.deductible_applied_usd:,.2f}
+Depreciation Applied: {_sym}{settlement.depreciation_applied_usd:,.2f}
 Calculation Steps: {chr(10).join(settlement.calculation_breakdown)}
 Denial Reasons: {', '.join(settlement.denial_reasons) or 'N/A'}
 Confidence: {settlement.confidence:.2f}
@@ -101,8 +104,8 @@ Confidence: {settlement.confidence:.2f}
     if policy_check:
         policy_summary = f"""
 Coverage Status: {policy_check.coverage_status.value}
-Covered Amount: ${policy_check.covered_amount_usd:,.2f}
-Deductible: ${policy_check.deductible_usd:,.2f}
+Covered Amount: {_sym}{policy_check.covered_amount_usd:,.2f}
+Deductible: {_sym}{policy_check.deductible_usd:,.2f}
 Exclusions Checked: {', '.join(policy_check.exclusions_triggered) or 'None triggered'}
 Compliance Flags: {', '.join(policy_check.compliance_flags) or 'None'}
 Confidence: {policy_check.confidence:.2f}
@@ -114,11 +117,11 @@ Evaluate the quality of this insurance claim decision:
 === CLAIM ===
 ID: {claim_id}
 Type: {claim.get('incident_type')}
-Estimated Amount: ${float(claim.get('estimated_amount', 0)):,.2f}
+Estimated Amount: {_sym}{float(claim.get('estimated_amount', 0)):,.2f}
 Description: {claim.get('incident_description', 'N/A')}
 
 === DAMAGE ASSESSMENT ===
-Assessed Amount: ${(damage.assessed_damage_usd if damage else 0):,.2f}
+Assessed Amount: {_sym}{(damage.assessed_damage_usd if damage else 0):,.2f}
 Confidence: {(damage.assessment_confidence if damage else 0):.2f}
 Recommendation: {damage.repair_vs_replace if damage else 'N/A'}
 
@@ -194,6 +197,17 @@ Flag any critical issues that require immediate attention.
             "overall_score": output.overall_score,
             "passed": passed,
             "duration_ms": duration_ms,
+            "confidence": output.overall_score,
+            "decision": "passed" if passed else "failed",
+            "reasoning": output.feedback,
+            "flags": output.flags,
+            "findings": {
+                "accuracy": output.accuracy_score,
+                "completeness": output.completeness_score,
+                "fairness": output.fairness_score,
+                "safety": output.safety_score,
+                "transparency": output.transparency_score,
+            },
         }],
         "agent_call_count": state.get("agent_call_count", 0) + 1,
     }

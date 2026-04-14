@@ -1,0 +1,20 @@
+{
+  "claim_id": "CLM-IN-OD-001",
+  "policy_number": "POL-COMP-IN-TEST",
+  "claimant_name": "Rajesh Kumar",
+  "claimant_email": "rajesh.kumar@email.com",
+  "claimant_phone": "+91 9876543210",
+  "claimant_dob": "15/03/1985",
+  "incident_date": "2026-03-15",
+  "incident_type": "own_damage",
+  "incident_description": "Vehicle hit a road divider on Mumbai-Pune Expressway during heavy rain and poor visibility near Lonavala. Significant front-end damage: bumper cracked, bonnet dented, left headlamp assembly broken, radiator leaking, AC condenser damaged. Vehicle was towed to nearest Maruti Suzuki authorized service center. Detailed repair estimate from garage is attached. No third party involved. FIR not required as it is own damage without third party.",
+  "incident_location": "Mumbai-Pune Expressway, km marker 42, Lonavala, Maharashtra",
+  "police_report_number": null,
+  "estimated_amount": 85000,
+  "vehicle_year": 2022,
+  "vehicle_make": "Maruti Suzuki",
+  "vehicle_model": "Brezza",
+  "documents": ["photos_front_damage.jpg", "photos_engine_bay.jpg", "garage_estimate.pdf", "rc_book.pdf", "driving_licence.pdf"],
+  "is_appeal": false,
+  "original_claim_id": null
+}

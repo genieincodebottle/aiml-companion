@@ -1,5 +1,5 @@
 """
-HITL Review Queue with FastAPI endpoints.
+HITL (Human-In-The-Loop) Review Queue with FastAPI endpoints.
 
 Architecture:
   - SQLite-backed queue (no extra services required)
@@ -121,7 +121,8 @@ def enqueue_claim(
 
     ticket_id = f"HITL-{uuid.uuid4().hex[:8].upper()}"
     now = datetime.now(timezone.utc)
-    sla_deadline = now.replace(hour=now.hour + sla_hours % 24)
+    from datetime import timedelta
+    sla_deadline = now + timedelta(hours=sla_hours)
 
     conn = _get_db()
     try:

@@ -1,0 +1,20 @@
+{
+  "claim_id": "CLM-IN-TP-001",
+  "policy_number": "POL-COMP-IN-TEST",
+  "claimant_name": "Amit Patel",
+  "claimant_email": "amit.patel@email.com",
+  "claimant_phone": "+91 9988776655",
+  "claimant_dob": "10/12/1978",
+  "incident_date": "2026-03-28",
+  "incident_type": "third_party_injury",
+  "incident_description": "Vehicle collided with a two-wheeler at Sarkhej-Gandhinagar Highway junction due to the two-wheeler running a red light. The two-wheeler rider sustained fractures to the left arm and abrasions. Rider was immediately taken to Sterling Hospital for treatment. Police arrived at scene and filed FIR. Third party medical expenses estimated at Rs 2.5 lakh. Vehicle sustained minor front bumper damage. Multiple witnesses present including traffic police personnel.",
+  "incident_location": "Sarkhej-Gandhinagar Highway, SG Road junction, Ahmedabad, Gujarat",
+  "police_report_number": "FIR-SGR-2026-03-4567",
+  "estimated_amount": 350000,
+  "vehicle_year": 2021,
+  "vehicle_make": "Tata",
+  "vehicle_model": "Nexon",
+  "documents": ["fir_copy.pdf", "medical_reports.pdf", "rc_book.pdf", "driving_licence.pdf", "witness_statements.pdf", "photos_scene.jpg"],
+  "is_appeal": false,
+  "original_claim_id": null
+}

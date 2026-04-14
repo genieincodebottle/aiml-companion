@@ -1,0 +1,20 @@
+{
+  "claim_id": "CLM-IN-TH-001",
+  "policy_number": "POL-COMP-IN-TEST",
+  "claimant_name": "Priya Sharma",
+  "claimant_email": "priya.sharma@email.com",
+  "claimant_phone": "+91 9123456780",
+  "claimant_dob": "22/08/1990",
+  "incident_date": "2026-04-01",
+  "incident_type": "theft",
+  "incident_description": "Vehicle stolen from residential parking in Andheri West, Mumbai during the night. Discovered missing at 7 AM. No signs of forced entry to the parking area, CCTV footage from society gate shows an unknown person driving the vehicle out at approximately 2:30 AM. All original keys are with the owner. FIR filed at Andheri police station. Non-traceable certificate pending from RTO.",
+  "incident_location": "Lotus Residency parking, Andheri West, Mumbai 400058",
+  "police_report_number": "FIR-ANW-2026-04-1122",
+  "estimated_amount": 650000,
+  "vehicle_year": 2023,
+  "vehicle_make": "Hyundai",
+  "vehicle_model": "Creta",
+  "documents": ["fir_copy.pdf", "rc_book.pdf", "driving_licence.pdf", "key_set_photo.jpg", "cctv_screenshot.jpg"],
+  "is_appeal": false,
+  "original_claim_id": null
+}

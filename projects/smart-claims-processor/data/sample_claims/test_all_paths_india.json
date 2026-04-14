@@ -1,0 +1,114 @@
+{
+  "_doc": "Test data for all 5 pipeline paths - INDIA (use with POL-COMP-IN-TEST or POL-TP-IN-TEST)",
+  "_paths": {
+    "A": "Normal:       intake -> fraud_crew -> damage_assessor -> policy_checker -> settlement -> evaluator -> communication",
+    "B": "HITL:         intake -> fraud_crew -> hitl_checkpoint -> [paused for reviewer] -> communication",
+    "C": "Auto-Reject:  intake -> fraud_crew -> auto_reject -> communication",
+    "D": "Intake Fail:  intake -> communication (instant denial)",
+    "E": "Fast Mode:    intake -> settlement -> communication (skips fraud + damage)"
+  },
+  "_policy_required": "POL-COMP-IN-TEST (comprehensive, ₹8L coverage, ₹2K deductible, active 2025-06 to 2027-06)",
+  "_how_to_use": "Submit each claim via the UI (Submit Claim page) or POST to /api/claims/submit. Use the holder_name that matches your logged-in user.",
+
+  "path_a_normal_approved": {
+    "_path": "A - Normal (low fraud, full pipeline, expected: approved with deductible)",
+    "_trigger": "Reasonable amount (~avg for own_damage), detailed description, proper docs, low fraud signals",
+    "_expected_outcome": "Approved or approved_partial after deductible (₹85K - ₹2K deductible - depreciation)",
+    "policy_number": "POL-COMP-IN-TEST",
+    "incident_type": "own_damage",
+    "incident_date": "2026-04-10",
+    "incident_description": "My car was hit by a truck while parked at MG Road, Bengaluru. The front bumper, left headlight assembly, and hood are significantly damaged. I have photographs of the damage and a detailed repair estimate from the authorized Maruti Suzuki service center at Koramangala. The truck driver fled the scene. A bystander witnessed the incident and provided a statement. No injuries occurred.",
+    "incident_location": "MG Road, Bengaluru, Karnataka",
+    "police_report_number": "FIR-2026-44501",
+    "estimated_amount": 85000,
+    "vehicle_year": 2022,
+    "vehicle_make": "Maruti Suzuki",
+    "vehicle_model": "Swift",
+    "documents": ["damage_photos.zip", "repair_estimate.pdf", "driving_licence.pdf", "rc_book.pdf"]
+  },
+
+  "path_b_hitl_high_fraud": {
+    "_path": "B - HITL Required (fraud score >= 0.65, pipeline pauses for human review)",
+    "_trigger": "Brand new policy + theft + max amount (= IDV) + no police report + lost all keys -> fraud score >= 0.65",
+    "_expected_outcome": "Pipeline pauses at hitl_checkpoint, status = pending_human_review",
+    "policy_number": "POL-COMP-IN-TEST",
+    "incident_type": "theft",
+    "incident_date": "2026-04-12",
+    "incident_description": "My brand new car was stolen from outside my house last night. I had just purchased this insurance policy 2 weeks ago. The car was parked on the street with no CCTV coverage. I have no GPS tracker installed. I lost all duplicate keys as well. The entire vehicle is gone. I am claiming the full insured declared value.",
+    "incident_location": "Dwarka Sector 12, New Delhi",
+    "police_report_number": "",
+    "estimated_amount": 750000,
+    "vehicle_year": 2026,
+    "vehicle_make": "Hyundai",
+    "vehicle_model": "Creta",
+    "documents": []
+  },
+
+  "path_c_auto_reject_confirmed_fraud": {
+    "_path": "C - Auto-Reject (fraud score >= 0.90 + CONFIRMED risk level, no human review needed)",
+    "_trigger": "Blatant fraud self-admission + impossible claim frequency + fabricated vehicle",
+    "_expected_outcome": "Auto-rejected immediately, settlement = ₹0, no HITL",
+    "policy_number": "POL-COMP-IN-TEST",
+    "incident_type": "theft",
+    "incident_date": "2026-04-13",
+    "incident_description": "Vehicle stolen. I bought this policy yesterday specifically because I knew my car would be stolen tonight. This is my 5th theft claim this year on different policies with different insurers. I have been filing fraudulent claims across ICICI Lombard, HDFC Ergo, and Bajaj Allianz. The car registration number is fake and the vehicle does not actually exist. I am doing this intentionally for the insurance money.",
+    "incident_location": "Andheri West, Mumbai, Maharashtra",
+    "police_report_number": "",
+    "estimated_amount": 750000,
+    "vehicle_year": 2026,
+    "vehicle_make": "BMW",
+    "vehicle_model": "X5",
+    "documents": []
+  },
+
+  "path_d_intake_failure_invalid_claim": {
+    "_path": "D - Intake Failure (policy inactive on incident date -> instant denial at intake)",
+    "_trigger": "Incident date 2024-01-15 is BEFORE policy start date 2025-06-01 -> policy not active",
+    "_expected_outcome": "Denied at intake, only 2 agents run (intake + communication), no fraud/damage/settlement",
+    "policy_number": "POL-COMP-IN-TEST",
+    "incident_type": "own_damage",
+    "incident_date": "2024-01-15",
+    "incident_description": "Car was damaged in an accident two years ago near Electronic City, Bengaluru. Filing the claim now as I only recently learned about the insurance coverage.",
+    "incident_location": "Electronic City, Bengaluru, Karnataka",
+    "police_report_number": "",
+    "estimated_amount": 50000,
+    "vehicle_year": 2018,
+    "vehicle_make": "Tata",
+    "vehicle_model": "Nexon",
+    "documents": []
+  },
+
+  "path_e_fast_mode_small_claim": {
+    "_path": "E - Fast Mode (amount < ₹500 threshold, skips fraud_crew + damage_assessor)",
+    "_trigger": "Estimated amount ₹400 < fast_mode.max_amount (500) -> skip directly to settlement",
+    "_expected_outcome": "Likely denied (deductible ₹2K > claim ₹400). To test fast-mode APPROVAL, use POL-TP-IN-TEST (₹0 deductible) with third_party_property type.",
+    "policy_number": "POL-COMP-IN-TEST",
+    "incident_type": "own_damage",
+    "incident_date": "2026-04-10",
+    "incident_description": "Minor scratch on the rear bumper while reversing in the apartment parking lot at Whitefield, Bengaluru. Small paint damage only, no structural dent. Cosmetic repair needed.",
+    "incident_location": "Whitefield, Bengaluru, Karnataka",
+    "police_report_number": "",
+    "estimated_amount": 400,
+    "vehicle_year": 2023,
+    "vehicle_make": "Hyundai",
+    "vehicle_model": "i20",
+    "documents": ["scratch_photo.jpg"]
+  },
+
+  "path_e_fast_mode_approved_variant": {
+    "_path": "E - Fast Mode APPROVAL variant (₹0 deductible policy, small claim -> approved)",
+    "_trigger": "Amount ₹400 < 500 threshold + TP policy has ₹0 deductible -> should be approved",
+    "_expected_outcome": "Approved, settlement ~₹400 (no deductible on TP policy)",
+    "policy_number": "POL-TP-IN-TEST",
+    "incident_type": "third_party_property",
+    "incident_date": "2026-04-10",
+    "incident_description": "My vehicle slightly scraped a parked scooter while navigating a narrow lane in Koregaon Park, Pune. Minor scratch on the scooter's side panel. Owner is requesting ₹400 for repair.",
+    "incident_location": "Koregaon Park, Pune, Maharashtra",
+    "police_report_number": "",
+    "estimated_amount": 400,
+    "vehicle_year": 2023,
+    "vehicle_make": "Maruti Suzuki",
+    "vehicle_model": "Baleno",
+    "documents": ["damage_photo.jpg"]
+  }
+}
