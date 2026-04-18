@@ -16,6 +16,7 @@ This guide covers how to use these features effectively - and how to build up Cl
 - [Memory - Making Claude Code Smarter Over Time](#memory--making-claude-code-smarter-over-time)
 - [Subagents - Explore and Plan](#subagents--explore-and-plan)
 - [The /loop Command - Recurring Tasks](#the-loop-command--recurring-tasks)
+- [GitHub Automation - Commits, PRs, Issues, and Code Review](#github-automation--commits-prs-issues-and-code-review)
 - [Effective Prompting Tips](#effective-prompting-tips)
 - [Customizing for Your Workflow](#customizing-for-your-workflow)
 
@@ -560,6 +561,145 @@ If there are pending HITL tickets, mention them.
 ```
 
 Then just run `/loop 5m` to repeat that check.
+
+---
+
+## GitHub Automation - Commits, PRs, Issues, and Code Review
+
+Claude Code works with Git and GitHub natively through the `gh` CLI. No plugins, no extra setup - just configure Git and `gh` once, then use natural language for everything.
+
+### Prerequisites - One-Time Setup
+
+Claude Code uses `git` and `gh` (GitHub CLI) under the hood. Both need to be configured before any GitHub automation works.
+
+**Step 1: Configure Git identity**
+
+```bash
+# Set your name and email (used in commits)
+git config --global user.name "Your Name"
+git config --global user.email "your-email@example.com"
+
+# Verify
+git config --global --list | grep user
+```
+
+Use the same email as your GitHub account so commits are linked to your profile.
+
+**Step 2: Install GitHub CLI (`gh`)**
+
+```bash
+# macOS
+brew install gh
+
+# Windows
+winget install GitHub.cli
+
+# Ubuntu/Debian
+sudo apt install gh
+
+# Other Linux
+# https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+```
+
+**Step 3: Authenticate with GitHub**
+
+```bash
+gh auth login
+```
+
+This walks you through an interactive flow:
+1. Choose **GitHub.com** (or GitHub Enterprise if applicable)
+2. Choose **HTTPS** as preferred protocol
+3. Choose **Login with a web browser** (easiest) or paste a personal access token
+4. Browser opens, you authorize, done
+
+**Step 4: Verify everything works**
+
+```bash
+# Check git identity
+git config user.name && git config user.email
+
+# Check gh is authenticated
+gh auth status
+
+# Check gh can reach your repos
+gh repo list --limit 3
+```
+
+If all three commands succeed, you're ready. Claude Code will use these credentials automatically - no tokens in `.env`, no webhook configs needed.
+
+**Step 5 (Optional): Set default repository**
+
+If you've forked this project:
+
+```bash
+# Inside the project directory
+gh repo set-default your-username/smart-claims-processor
+```
+
+This tells `gh` which remote to use for PRs and issues when the repo has multiple remotes (origin + upstream).
+
+### Commits
+
+Claude reads your staged/unstaged changes, drafts a message, and commits:
+
+```
+> commit this with a good message
+> commit the auth fix, don't include the debug prints in utils.py
+```
+
+Claude checks `git log` to match your project's commit style. It never amends unless you ask.
+
+### Pull Requests
+
+```
+> create a PR for this branch
+> create a PR against develop with a detailed description
+> what's the status of PR #42?
+```
+
+Claude runs `gh pr create` with a summary of all commits on the branch (not just the latest). It adds a test plan section and links related issues if you mention them.
+
+### Issues
+
+```
+> create an issue: fraud_crew times out on claims with 10+ line items
+> list open issues labeled "bug"
+> close issue #18 with a comment explaining the fix
+> what issues are assigned to me?
+```
+
+### Code Review
+
+```
+> review PR #42
+> review the changes in PR #42, focus on security
+> check the CI status on PR #42
+> leave a comment on PR #42 about the missing error handling in line 87
+```
+
+Claude reads the diff, checks CI status, and can post review comments directly.
+
+### Branch Management
+
+```
+> create a branch for adding document-verification agent
+> what branches have unmerged work?
+> how far ahead/behind is this branch from main?
+```
+
+### Combining with project skills
+
+This is where it gets powerful - chain GitHub automation with project-specific skills:
+
+```
+> fix the pii_masker to handle Aadhaar numbers with spaces,
+  run /test pii_masker, then commit and create a PR
+
+> check if PR #42 broke anything - pull the branch, run /test, report back
+```
+
+> **Note:** GitHub Actions (CI/CD pipelines) are separate from Claude Code. Claude Code handles your **local development workflow** with GitHub - commits, PRs, issues, reviews. For automated pipelines that run on push/merge, you'd configure `.github/workflows/` as usual.
 
 ---
 
