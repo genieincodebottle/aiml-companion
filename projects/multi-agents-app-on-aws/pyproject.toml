@@ -1,0 +1,45 @@
+[project]
+name = "multi-agents-app-on-aws"
+version = "1.0.0"
+description = "Multi-agent AI system on AWS using Bedrock AgentCore"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [{name = "Rajesh Srivastava", email = "rajsrivastava2@gmail.com"}]
+keywords = ["ai-agents", "aws", "bedrock", "agentcore", "multi-agent"]
+
+dependencies = [
+    "boto3>=1.42.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+groq = [
+    "groq>=0.12.0",
+]
+gemini = [
+    "google-genai>=1.0.0",
+]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=5.0.0",
+    "ruff>=0.4.0",
+]
+deploy = [
+    "bedrock-agentcore>=1.4.0",
+    "bedrock-agentcore-starter-toolkit>=0.1.0",
+]
+ui = [
+    "streamlit>=1.38.0",
+]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

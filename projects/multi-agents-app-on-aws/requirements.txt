@@ -1,0 +1,13 @@
+# Core (always needed)
+python-dotenv>=1.0.0
+
+# LLM Provider packages - install the one you're using:
+# Groq (free tier, default in Quick Start)
+# groq>=0.12.0
+
+# Gemini (free tier)
+# google-genai>=1.0.0
+
+# AWS Bedrock (production - Phase 2)
+# boto3>=1.42.0
+# botocore>=1.42.0

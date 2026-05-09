@@ -1,0 +1,246 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 680" font-family="'Segoe UI', -apple-system, sans-serif">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="orchGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="resGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <linearGradient id="anaGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="wriGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="awsGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <linearGradient id="uiGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#64748b"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+
+    <!-- Drop shadows -->
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="116%">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+    <filter id="shadowSm" x="-4%" y="-4%" width="108%" height="116%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Arrowhead -->
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#a78bfa"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowAmber" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#34d399"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="680" rx="16" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" fill="#f1f5f9" font-size="20" font-weight="700" letter-spacing="0.5">Multi-Agent AI System Architecture</text>
+  <text x="450" y="58" text-anchor="middle" fill="#64748b" font-size="12" font-weight="400">AWS Bedrock AgentCore</text>
+
+  <!-- ==================== USER LAYER ==================== -->
+
+  <!-- User icon -->
+  <g transform="translate(450, 102)" filter="url(#shadowSm)">
+    <rect x="-120" y="-24" width="240" height="48" rx="12" fill="url(#uiGrad)" opacity="0.9"/>
+    <!-- User icon -->
+    <circle cx="-90" cy="0" r="10" fill="none" stroke="#e2e8f0" stroke-width="1.5"/>
+    <circle cx="-90" cy="-3" r="4" fill="#e2e8f0"/>
+    <path d="M-98,7 Q-90,14 -82,7" fill="none" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="0" y="1" text-anchor="middle" fill="#f1f5f9" font-size="14" font-weight="600" dy="0.35em">Streamlit UI / CLI</text>
+  </g>
+
+  <!-- Arrow: User -> Orchestrator -->
+  <line x1="450" y1="130" x2="450" y2="170" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="6,4"/>
+  <text x="470" y="155" fill="#64748b" font-size="10">query</text>
+
+  <!-- ==================== ORCHESTRATOR LAYER ==================== -->
+
+  <g transform="translate(450, 212)" filter="url(#shadow)">
+    <rect x="-160" y="-34" width="320" height="68" rx="14" fill="url(#orchGrad)"/>
+    <!-- Brain icon -->
+    <g transform="translate(-130, 0)">
+      <circle cx="0" cy="-2" r="11" fill="none" stroke="#e9d5ff" stroke-width="1.5"/>
+      <path d="M-5,-6 Q0,-14 5,-6" fill="none" stroke="#e9d5ff" stroke-width="1.2"/>
+      <path d="M-7,-1 Q-12,-4 -8,-9" fill="none" stroke="#e9d5ff" stroke-width="1.2"/>
+      <path d="M7,-1 Q12,-4 8,-9" fill="none" stroke="#e9d5ff" stroke-width="1.2"/>
+      <line x1="0" y1="-2" x2="0" y2="12" stroke="#e9d5ff" stroke-width="1.2"/>
+    </g>
+    <text x="10" y="-6" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">Orchestrator</text>
+    <text x="10" y="14" text-anchor="middle" fill="#e9d5ff" font-size="11" font-weight="400">Plans, delegates, assembles</text>
+  </g>
+
+  <!-- ==================== FLOW ARROWS: Orchestrator -> Agents ==================== -->
+
+  <!-- Left arrow: Orchestrator -> Research -->
+  <path d="M340,246 Q340,275 220,295" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowBlue)" opacity="0.8"/>
+  <text x="255" y="268" fill="#38bdf8" font-size="9" font-weight="500">Step 1</text>
+
+  <!-- Center arrow: Orchestrator -> Analyst -->
+  <line x1="450" y1="246" x2="450" y2="295" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrowAmber)" opacity="0.8"/>
+  <text x="462" y="275" fill="#fbbf24" font-size="9" font-weight="500">Step 2</text>
+
+  <!-- Right arrow: Orchestrator -> Writer -->
+  <path d="M560,246 Q560,275 680,295" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#arrowGreen)" opacity="0.8"/>
+  <text x="630" y="268" fill="#34d399" font-size="9" font-weight="500">Step 3</text>
+
+  <!-- ==================== AGENT CARDS ==================== -->
+
+  <!-- Research Agent -->
+  <g transform="translate(155, 345)" filter="url(#shadow)">
+    <rect x="-120" y="-42" width="240" height="84" rx="12" fill="#0f2340" stroke="#0ea5e9" stroke-width="1.5"/>
+    <!-- Search icon -->
+    <g transform="translate(-90, -10)">
+      <circle cx="0" cy="0" r="8" fill="none" stroke="#38bdf8" stroke-width="1.8"/>
+      <line x1="6" y1="6" x2="11" y2="11" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+    </g>
+    <text x="10" y="-12" text-anchor="middle" fill="#38bdf8" font-size="15" font-weight="700">Research Agent</text>
+    <text x="10" y="8" text-anchor="middle" fill="#94a3b8" font-size="11">Web search + summarize</text>
+    <text x="10" y="25" text-anchor="middle" fill="#64748b" font-size="10">Tavily API + Bedrock LLM</text>
+  </g>
+
+  <!-- Analyst Agent -->
+  <g transform="translate(450, 345)" filter="url(#shadow)">
+    <rect x="-120" y="-42" width="240" height="84" rx="12" fill="#1a1400" stroke="#f59e0b" stroke-width="1.5"/>
+    <!-- Chart icon -->
+    <g transform="translate(-90, -10)">
+      <rect x="-8" y="2" width="5" height="8" rx="1" fill="#fbbf24"/>
+      <rect x="-1" y="-4" width="5" height="14" rx="1" fill="#fbbf24"/>
+      <rect x="6" y="-1" width="5" height="11" rx="1" fill="#fbbf24"/>
+    </g>
+    <text x="10" y="-12" text-anchor="middle" fill="#fbbf24" font-size="15" font-weight="700">Analyst Agent</text>
+    <text x="10" y="8" text-anchor="middle" fill="#94a3b8" font-size="11">Compare + find patterns</text>
+    <text x="10" y="25" text-anchor="middle" fill="#64748b" font-size="10">Tables, rankings, insights</text>
+  </g>
+
+  <!-- Writer Agent -->
+  <g transform="translate(745, 345)" filter="url(#shadow)">
+    <rect x="-120" y="-42" width="240" height="84" rx="12" fill="#021a10" stroke="#10b981" stroke-width="1.5"/>
+    <!-- Pen icon -->
+    <g transform="translate(-90, -10)">
+      <path d="M-4,10 L4,-8 L8,-4 L0,10 Z" fill="none" stroke="#34d399" stroke-width="1.5"/>
+      <line x1="4" y1="-8" x2="8" y2="-4" stroke="#34d399" stroke-width="1.5"/>
+      <line x1="-5" y1="11" x2="1" y2="11" stroke="#34d399" stroke-width="1.5"/>
+    </g>
+    <text x="10" y="-12" text-anchor="middle" fill="#34d399" font-size="15" font-weight="700">Writer Agent</text>
+    <text x="10" y="8" text-anchor="middle" fill="#94a3b8" font-size="11">Structure + polish report</text>
+    <text x="10" y="25" text-anchor="middle" fill="#64748b" font-size="10">Executive summary + citations</text>
+  </g>
+
+  <!-- ==================== DATA FLOW ARROWS (between agents) ==================== -->
+
+  <!-- Research -> Analyst (findings) -->
+  <path d="M275,365 L330,365" fill="none" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)" stroke-dasharray="4,3"/>
+  <text x="302" y="358" text-anchor="middle" fill="#475569" font-size="8">findings</text>
+
+  <!-- Analyst -> Writer (analysis) -->
+  <path d="M570,365 L625,365" fill="none" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)" stroke-dasharray="4,3"/>
+  <text x="597" y="358" text-anchor="middle" fill="#475569" font-size="8">analysis</text>
+
+  <!-- ==================== AWS SERVICES LAYER ==================== -->
+
+  <!-- Divider line -->
+  <line x1="40" y1="430" x2="860" y2="430" stroke="#334155" stroke-width="1" stroke-dasharray="8,4"/>
+  <text x="450" y="450" text-anchor="middle" fill="#475569" font-size="11" font-weight="600" letter-spacing="2">AWS CLOUD SERVICES</text>
+
+  <!-- AgentCore Runtime -->
+  <g transform="translate(140, 510)" filter="url(#shadowSm)">
+    <rect x="-100" y="-32" width="200" height="64" rx="10" fill="#1e293b" stroke="#f97316" stroke-width="1.2"/>
+    <rect x="-100" y="-32" width="200" height="20" rx="10" fill="url(#awsGrad)" opacity="0.15"/>
+    <rect x="-100" y="-32" width="200" height="20" rx="10" fill="none"/>
+    <!-- AWS icon mini -->
+    <text x="0" y="-18" text-anchor="middle" fill="#fb923c" font-size="10" font-weight="700">AgentCore</text>
+    <text x="0" y="2" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">Runtime</text>
+    <text x="0" y="18" text-anchor="middle" fill="#64748b" font-size="9">Serverless microVMs</text>
+  </g>
+
+  <!-- Amazon Bedrock -->
+  <g transform="translate(370, 510)" filter="url(#shadowSm)">
+    <rect x="-100" y="-32" width="200" height="64" rx="10" fill="#1e293b" stroke="#f97316" stroke-width="1.2"/>
+    <rect x="-100" y="-32" width="200" height="20" rx="10" fill="url(#awsGrad)" opacity="0.15"/>
+    <text x="0" y="-18" text-anchor="middle" fill="#fb923c" font-size="10" font-weight="700">Amazon</text>
+    <text x="0" y="2" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">Bedrock LLMs</text>
+    <text x="0" y="18" text-anchor="middle" fill="#64748b" font-size="9">Claude, Nova, Llama</text>
+  </g>
+
+  <!-- AgentCore Memory -->
+  <g transform="translate(600, 510)" filter="url(#shadowSm)">
+    <rect x="-100" y="-32" width="200" height="64" rx="10" fill="#1e293b" stroke="#f97316" stroke-width="1.2"/>
+    <rect x="-100" y="-32" width="200" height="20" rx="10" fill="url(#awsGrad)" opacity="0.15"/>
+    <text x="0" y="-18" text-anchor="middle" fill="#fb923c" font-size="10" font-weight="700">AgentCore</text>
+    <text x="0" y="2" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">Memory</text>
+    <text x="0" y="18" text-anchor="middle" fill="#64748b" font-size="9">Short + long-term</text>
+  </g>
+
+  <!-- AgentCore Gateway -->
+  <g transform="translate(810, 510)" filter="url(#shadowSm)">
+    <rect x="-70" y="-32" width="140" height="64" rx="10" fill="#1e293b" stroke="#f97316" stroke-width="1.2"/>
+    <rect x="-70" y="-32" width="140" height="20" rx="10" fill="url(#awsGrad)" opacity="0.15"/>
+    <text x="0" y="-18" text-anchor="middle" fill="#fb923c" font-size="10" font-weight="700">AgentCore</text>
+    <text x="0" y="2" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">Gateway</text>
+    <text x="0" y="18" text-anchor="middle" fill="#64748b" font-size="9">Tool management</text>
+  </g>
+
+  <!-- ==================== CONNECT AGENTS TO AWS ==================== -->
+
+  <!-- Research -> Bedrock -->
+  <line x1="155" y1="387" x2="155" y2="420" stroke="#334155" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="155" y1="420" x2="155" y2="478" stroke="#334155" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- Analyst -> Bedrock -->
+  <line x1="450" y1="387" x2="450" y2="420" stroke="#334155" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="450" y1="420" x2="380" y2="478" stroke="#334155" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- Writer -> Bedrock -->
+  <line x1="745" y1="387" x2="745" y2="420" stroke="#334155" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="745" y1="420" x2="600" y2="478" stroke="#334155" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- ==================== COST BADGE ==================== -->
+
+  <g transform="translate(450, 620)">
+    <rect x="-170" y="-18" width="340" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="0" y="2" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="500" dy="0.35em">Estimated cost: ~$0.01-0.05 per research request</text>
+  </g>
+
+  <!-- ==================== DEPLOYMENT MODES (bottom corners) ==================== -->
+
+  <g transform="translate(80, 620)">
+    <rect x="-55" y="-14" width="110" height="28" rx="6" fill="#1e293b" stroke="#475569" stroke-width="0.8"/>
+    <text x="0" y="1" text-anchor="middle" fill="#64748b" font-size="9" font-weight="500" dy="0.35em">Local: python -m</text>
+  </g>
+
+  <g transform="translate(820, 620)">
+    <rect x="-60" y="-14" width="120" height="28" rx="6" fill="#1e293b" stroke="#475569" stroke-width="0.8"/>
+    <text x="0" y="1" text-anchor="middle" fill="#64748b" font-size="9" font-weight="500" dy="0.35em">Deploy: agentcore</text>
+  </g>
+
+</svg>
