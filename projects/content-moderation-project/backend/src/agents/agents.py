@@ -1876,7 +1876,7 @@ class ContentModerationAgents:
         - Policy violations (if any)
         - Action reason
         """
-        logger.info("\n🚀 FAST MODE AGENT - Single-Pass Moderation")
+        logger.info("\nFAST MODE AGENT - Single-Pass Moderation")
         logger.info("=" * 80)
 
         start_time = datetime.now()

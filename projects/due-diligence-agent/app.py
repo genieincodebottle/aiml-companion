@@ -30,7 +30,7 @@ import streamlit as st
 # Must be first Streamlit call
 st.set_page_config(
     page_title="Due Diligence Agent",
-    page_icon="🔍",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded",
 )

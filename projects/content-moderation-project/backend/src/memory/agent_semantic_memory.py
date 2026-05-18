@@ -180,7 +180,7 @@ class AgentSemanticMemory:
 
         self.thresholds[threshold_name] = new_value
 
-        change = "📈" if new_value > old_value else "📉"
+        change = "" if new_value > old_value else ""
         logger.info(f"{change} [{self.agent_name}] Threshold '{threshold_name}': "
               f"{old_value:.3f} -> {new_value:.3f}")
 

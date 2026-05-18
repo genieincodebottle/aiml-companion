@@ -32,7 +32,7 @@ from evaluation.run_eval import (
 # === Page Config ===
 st.set_page_config(
     page_title="Multi-Agent Research System",
-    page_icon="\U0001F50D",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -51,7 +51,7 @@ if "guardrail_status" not in st.session_state:
 # === Sidebar ===
 def render_sidebar():
     with st.sidebar:
-        st.title("\U0001F50D Research System")
+        st.title("Research System")
 
         # Model info
         try:
@@ -72,8 +72,8 @@ def render_sidebar():
         st.subheader("API Keys")
         google_ok = bool(os.environ.get("GOOGLE_API_KEY"))
         tavily_ok = bool(os.environ.get("TAVILY_API_KEY"))
-        st.markdown(f"{'🟢' if google_ok else '🔴'} Google AI (Gemini)")
-        st.markdown(f"{'🟢' if tavily_ok else '🔴'} Tavily Search")
+        st.markdown(f"{'[OK]' if google_ok else '[ERR]'} Google AI (Gemini)")
+        st.markdown(f"{'[OK]' if tavily_ok else '[ERR]'} Tavily Search")
 
         st.divider()
 
@@ -89,9 +89,9 @@ def render_sidebar():
         # Guardrail status
         st.subheader("Guardrails")
         gs = st.session_state.guardrail_status
-        status_icons = {"ok": "🟢", "idle": "⚪", "warning": "🟡", "error": "🔴"}
+        status_icons = {"ok": "[OK]", "idle": "[IDLE]", "warning": "[WARN]", "error": "[ERR]"}
         for label, key in [("PII Scrubbing", "pii"), ("URL Validation", "url"), ("Budget", "budget")]:
-            icon = status_icons.get(gs[key], "⚪")
+            icon = status_icons.get(gs[key], "[IDLE]")
             st.markdown(f"{icon} {label}")
 
         st.divider()
@@ -108,36 +108,36 @@ def render_sidebar():
 
 AGENT_CONFIG = {
     "planner": {
-        "label": "\U0001F4CB Planner",
-        "icon": "📋",
+        "label": "Planner",
+        "icon": "",
     },
     "researcher": {
-        "label": "\U0001F50D Researcher",
-        "icon": "🔍",
+        "label": "Researcher",
+        "icon": "",
     },
     "quality_gate": {
-        "label": "\U0001F6E1\uFE0F Quality Gate",
-        "icon": "🛡️",
+        "label": "Quality Gate",
+        "icon": "",
     },
     "retry_researcher": {
-        "label": "\U0001F504 Retry Research",
-        "icon": "🔄",
+        "label": "Retry Research",
+        "icon": "",
     },
     "analyst": {
-        "label": "\U0001F4CA Analyst",
-        "icon": "📊",
+        "label": "Analyst",
+        "icon": "",
     },
     "synthesizer": {
-        "label": "\U0001F517 Synthesizer",
-        "icon": "🔗",
+        "label": "Synthesizer",
+        "icon": "",
     },
     "writer": {
-        "label": "\u270D\uFE0F Writer",
-        "icon": "✍️",
+        "label": "\u270D Writer",
+        "icon": "✍",
     },
     "reviewer": {
-        "label": "\U0001F50E Reviewer",
-        "icon": "🔎",
+        "label": "Reviewer",
+        "icon": "",
     },
 }
 
@@ -177,7 +177,7 @@ def render_node_output(node_name, accumulated_state):
                 for r in ranking[:8]:
                     bar_pct = int(r.get("combined_score", 0) * 100)
                     st.markdown(
-                        f"{'🟢' if bar_pct > 60 else '🟡' if bar_pct > 30 else '🔴'} "
+                        f"{'[OK]' if bar_pct > 60 else '[WARN]' if bar_pct > 30 else '[ERR]'} "
                         f"**{r.get('title', '')[:40]}** - {bar_pct}%"
                     )
 
@@ -187,7 +187,7 @@ def render_node_output(node_name, accumulated_state):
         st.write(f"**{len(claims)} claims** extracted, **{len(conflicts)} conflicts** detected")
         for c in claims:
             conf = c.get("confidence", "medium").lower()
-            icon = {"high": "🟢", "medium": "🟡", "low": "🔴"}.get(conf, "⚪")
+            icon = {"high": "[OK]", "medium": "[WARN]", "low": "[ERR]"}.get(conf, "[IDLE]")
             st.markdown(f"{icon} {c.get('claim', '')} *(Source {c.get('source_idx', '?')}, {conf})*")
         if conflicts:
             st.warning(f"{len(conflicts)} conflict(s) detected between sources")
@@ -260,7 +260,7 @@ def render_research_tab():
         key="research_query",
     )
 
-    run_btn = st.button("\U0001F680 Run Research", type="primary")
+    run_btn = st.button("Run Research", type="primary")
 
     if run_btn and query:
         run_research_pipeline(query)
@@ -327,7 +327,7 @@ def run_research_pipeline(query):
     # Show errors
     errors = accumulated_state.get("errors", [])
     if errors:
-        with st.expander(f"\u26A0\uFE0F Errors ({len(errors)})", expanded=True):
+        with st.expander(f"[WARN] Errors ({len(errors)})", expanded=True):
             for err in errors:
                 st.error(err)
 
@@ -403,7 +403,7 @@ def render_evaluation_tab():
     with col2:
         st.caption(f"Will evaluate {num_q} question(s) from the 10-question test set")
 
-    eval_btn = st.button("\U0001F4CB Run Evaluation", type="primary")
+    eval_btn = st.button("Run Evaluation", type="primary")
 
     if eval_btn:
         run_evaluation(num_q)
@@ -505,12 +505,12 @@ def display_eval_results(results):
     multi_better = df_m["accuracy"].mean() > df_s["accuracy"].mean() * 1.2
     if multi_better:
         st.success(
-            "\U0001F3AF **Verdict: Multi-agent justified** - "
+            "**Verdict: Multi-agent justified** - "
             "significant quality improvement over single-agent baseline"
         )
     else:
         st.info(
-            "\U0001F4A1 **Verdict: Consider optimizing single-agent first** - "
+            "**Verdict: Consider optimizing single-agent first** - "
             "marginal improvement doesn't justify the added complexity and cost"
         )
 
@@ -543,7 +543,7 @@ def main():
 
     render_sidebar()
 
-    tab_research, tab_eval = st.tabs(["\U0001F50D Research Pipeline", "\U0001F4CB Evaluation"])
+    tab_research, tab_eval = st.tabs(["Research Pipeline", "Evaluation"])
 
     with tab_research:
         render_research_tab()

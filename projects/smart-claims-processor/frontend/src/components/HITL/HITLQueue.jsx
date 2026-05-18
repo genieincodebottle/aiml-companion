@@ -22,17 +22,17 @@ const DECISIONS = [
 ];
 
 const AGENT_LABELS = {
-  intake_output: { name: 'Intake Validation', icon: '📋' },
-  fraud_output: { name: 'Fraud Detection (CrewAI)', icon: '🔍' },
-  damage_output: { name: 'Damage Assessment', icon: '🔧' },
-  policy_output: { name: 'Policy Compliance', icon: '📄' },
-  settlement_output: { name: 'Settlement Calculation', icon: '💰' },
-  evaluation_output: { name: 'Quality Evaluation (LLM Judge)', icon: '⚖️' },
+  intake_output: { name: 'Intake Validation', icon: '' },
+  fraud_output: { name: 'Fraud Detection (CrewAI)', icon: '' },
+  damage_output: { name: 'Damage Assessment', icon: '' },
+  policy_output: { name: 'Policy Compliance', icon: '' },
+  settlement_output: { name: 'Settlement Calculation', icon: '' },
+  evaluation_output: { name: 'Quality Evaluation (LLM Judge)', icon: '⚖' },
 };
 
 function AgentTraceCard({ agentKey, data }) {
   const [open, setOpen] = useState(false);
-  const label = AGENT_LABELS[agentKey] || { name: agentKey, icon: '🤖' };
+  const label = AGENT_LABELS[agentKey] || { name: agentKey, icon: '' };
   const confidence = data?.confidence ?? data?.assessment_confidence ?? data?.overall_score;
   const decision = data?.decision?.value || data?.decision || data?.coverage_status?.value || data?.repair_vs_replace;
   const reasoning = data?.intake_notes || data?.crew_summary || data?.assessment_notes || data?.coverage_notes || data?.calculation_breakdown?.join('; ') || '';
