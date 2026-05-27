@@ -69,7 +69,7 @@ def prepare_features(
     matches_df: pd.DataFrame,
     feature_cols: Optional[List[str]] = None,
     cat_columns: Optional[List[str]] = None,
-    scale_numerical: bool = True,
+    scale_numerical: bool = False,
 ) -> Tuple[pd.DataFrame, List[str]]:
     """One-hot encode categorical columns and optionally scale numerics.
 
@@ -85,7 +85,17 @@ def prepare_features(
         ``['team1', 'team2', 'toss_winner', 'venue', 'city',
         'toss_decision']``.
     scale_numerical : bool
-        Whether to apply ``StandardScaler`` to numerical columns.
+        Whether to apply ``StandardScaler`` to numerical columns. Defaults
+        to ``False`` because every model pipeline built by
+        ``build_classifier``, ``build_xgb_classifier``, ``build_gb_classifier``,
+        ``build_lr_classifier``, and ``build_neural_classifier`` already
+        includes a ``StandardScaler`` as its first stage. Setting this to
+        ``True`` causes double-scaling: the external scaler transforms raw
+        features to roughly N(0,1), then the pipeline scaler re-fits on
+        that already-scaled distribution and shifts it again. Models
+        learn from doubly-transformed features and then break at inference
+        when handed raw input. Leave at ``False`` unless you have a model
+        that does NOT have its own scaler.
 
     Returns
     -------
@@ -690,6 +700,7 @@ def predict_match(
     toss_decision: str,
     feature_cols: Optional[List[str]] = None,
     contextual_adjustment: float = 0.0,
+    as_of_date: Optional[pd.Timestamp] = None,
 ) -> Dict[str, Any]:
     """Predict outcome of a future match using the trained ensemble.
 
@@ -722,6 +733,14 @@ def predict_match(
         Manual expert adjustment to add to ensemble probability
         (e.g., +0.05 for strong squad advantage). Clamped to [0.1, 0.9].
 
+    as_of_date : pd.Timestamp, optional
+        If provided, restrict Elo / momentum / H2H / venue-bias computation
+        to matches strictly BEFORE this date. Pass the date of the match
+        you are predicting to avoid target-row leakage (using the target
+        match's outcome to predict itself). For genuine forward prediction
+        of an unscheduled match, leave this ``None`` — all currently
+        completed matches will be used.
+
     Returns
     -------
     dict
@@ -730,10 +749,16 @@ def predict_match(
     """
     from src.features import _expected_score
 
-    # Get latest Elo ratings from the historical data
+    # Restrict historical data to matches BEFORE as_of_date (if provided) to
+    # prevent target-row leakage when this is used to "predict" a match that
+    # is already in matches_df with its winner filled in.
     from collections import defaultdict
-    ratings: Dict[str, float] = defaultdict(lambda: 1500.0)
     df_sorted = matches_df.sort_values("date").reset_index(drop=True)
+    if as_of_date is not None:
+        df_sorted = df_sorted[df_sorted["date"] < pd.Timestamp(as_of_date)].reset_index(drop=True)
+
+    # Get latest Elo ratings from the (filtered) historical data
+    ratings: Dict[str, float] = defaultdict(lambda: 1500.0)
 
     for _, row in df_sorted.iterrows():
         t1, t2 = row["team1"], row["team2"]
@@ -833,22 +858,43 @@ def predict_match(
         team1, elo_t1, mom_t1, team2, elo_t2, mom_t2,
     )
 
-    # Get per-model predictions
+    # Align X_pred to the training feature schema.
+    # The trained models expect ~46 columns (17 numerical + one-hot team1_X, team2_X,
+    # toss_decision_field). The feature_dict above only has the 17 numerical features.
+    # We add the one-hot columns the model was trained on, then reindex to fill any
+    # missing one-hot columns with 0 (= categorical baseline, same convention as
+    # pd.get_dummies(drop_first=True) used in prepare_features).
+    feature_dict[f"team1_{team1}"] = 1
+    feature_dict[f"team2_{team2}"] = 1
+    feature_dict["toss_decision_field"] = 1 if toss_decision == "field" else 0
+
+    # Recover the training feature names from a fitted pipeline. CalibratedClassifierCV
+    # wraps the pipeline; we have to dig one level into calibrated_classifiers_ to find
+    # the original estimator's feature_names_in_.
     weights = models["weights"]
+    first_model = models[next(iter(weights.keys()))]
+    if hasattr(first_model, "feature_names_in_"):
+        train_features = list(first_model.feature_names_in_)
+    elif hasattr(first_model, "calibrated_classifiers_"):
+        # CalibratedClassifierCV path
+        train_features = list(first_model.calibrated_classifiers_[0].estimator.feature_names_in_)
+    elif feature_cols is not None:
+        train_features = feature_cols
+    else:
+        raise ValueError(
+            "Cannot recover training feature names from models. Pass feature_cols explicitly."
+        )
+
+    X_pred = pd.DataFrame([feature_dict]).reindex(columns=train_features, fill_value=0)
+
+    # Get per-model predictions. No silent fallback — if a model fails on properly-shaped
+    # input that's a real bug we want to surface, not paper over with Elo expectation.
     model_scores = {}
     ensemble_prob = 0.0
 
     for name, w in weights.items():
         model = models[name]
-        # Models need the same feature columns as training
-        # For now, use the numerical features only (skip categorical one-hot)
-        try:
-            X_pred = pd.DataFrame([feature_dict])
-            prob = model.predict_proba(X_pred)[:, 1][0]
-        except Exception:
-            # If model expects more features (one-hot encoded), use Elo-based estimate
-            prob = _expected_score(elo_t1, elo_t2)
-
+        prob = float(model.predict_proba(X_pred)[:, 1][0])
         model_scores[name] = round(prob * 100, 1)
         ensemble_prob += w * prob
 
