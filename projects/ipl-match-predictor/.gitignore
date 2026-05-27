@@ -2,6 +2,7 @@
 *.zip
 data/raw/*.csv
 !data/raw/matches.csv
+!data/raw/matches_2026.csv
 
 # Artifacts (generated outputs)
 artifacts/results/ipl-dataset-analysis-executed.ipynb

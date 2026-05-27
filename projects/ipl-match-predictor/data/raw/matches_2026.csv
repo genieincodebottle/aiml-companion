@@ -1,0 +1,73 @@
+id,season,city,date,match_type,player_of_match,venue,team1,team2,toss_winner,toss_decision,winner,result,result_margin,target_runs,target_overs,super_over,method,umpire1,umpire2,match_number
+250001,2026,Bengaluru,2026-03-28,League,Virat Kohli,M. Chinnaswamy Stadium; Bengaluru,Royal Challengers Bangalore,Sunrisers Hyderabad,Royal Challengers Bangalore,field,Royal Challengers Bangalore,wickets,6,,20.0,N,,,,1
+250002,2026,Mumbai,2026-03-29,League,Shardul Thakur,Wankhede Stadium; Mumbai,Mumbai Indians,Kolkata Knight Riders,Mumbai Indians,field,Mumbai Indians,,,,20.0,N,,,,2
+250003,2026,Guwahati,2026-03-30,League,Nandre Burger,Barsapara Cricket Stadium; Guwahati,Rajasthan Royals,Chennai Super Kings,Rajasthan Royals,field,Rajasthan Royals,,,,20.0,N,,,,3
+250004,2026,New Chandigarh,2026-03-31,League,Cooper Connolly,Maharaja Yadavindra Singh Intl Cricket Stadium; Mullanpur,Punjab Kings,Gujarat Titans,Punjab Kings,field,Punjab Kings,wickets,3,,20.0,N,,,,4
+250005,2026,Lucknow,2026-04-01,League,Sameer Rizvi,Ekana Cricket Stadium; Lucknow,Lucknow Super Giants,Delhi Capitals,Delhi Capitals,field,Delhi Capitals,,,,20.0,N,,,,5
+250006,2026,Kolkata,2026-04-02,League,Nitish Kumar Reddy,Eden Gardens; Kolkata,Kolkata Knight Riders,Sunrisers Hyderabad,Kolkata Knight Riders,field,Sunrisers Hyderabad,,,,20.0,N,,,,6
+250007,2026,Chennai,2026-04-03,League,Priyansh Arya,MA Chidambaram Stadium; Chennai,Chennai Super Kings,Punjab Kings,Punjab Kings,field,Punjab Kings,,,,20.0,N,,,,7
+250008,2026,Delhi,2026-04-04,League,Sameer Rizvi,Arun Jaitley Stadium; Delhi,Delhi Capitals,Mumbai Indians,,,Delhi Capitals,wickets,6,,20.0,N,,,,8
+250009,2026,Ahmedabad,2026-04-04,League,Ravi Bishnoi,Narendra Modi Stadium; Ahmedabad,Gujarat Titans,Rajasthan Royals,,,Rajasthan Royals,runs,6,,20.0,N,,,,9
+250010,2026,Hyderabad,2026-04-05,League,Mohammed Shami,Rajiv Gandhi Intl Stadium; Hyderabad,Sunrisers Hyderabad,Lucknow Super Giants,Lucknow Super Giants,field,Lucknow Super Giants,wickets,5,157,20.0,N,,,,10
+250011,2026,Bengaluru,2026-04-05,League,Tim David,M. Chinnaswamy Stadium; Bengaluru,Royal Challengers Bangalore,Chennai Super Kings,Chennai Super Kings,field,Royal Challengers Bangalore,runs,43,208,20.0,N,,,,11
+250012,2026,Kolkata,2026-04-06,League,,Eden Gardens; Kolkata,Kolkata Knight Riders,Punjab Kings,,,,no_result,,,20.0,N,,,,12
+250013,2026,Guwahati,2026-04-07,League,Yashasvi Jaiswal,Barsapara Cricket Stadium; Guwahati,Rajasthan Royals,Mumbai Indians,Mumbai Indians,field,Rajasthan Royals,runs,27,,20.0,N,,,,13
+250014,2026,Delhi,2026-04-08,League,,Arun Jaitley Stadium; Delhi,Delhi Capitals,Gujarat Titans,,,Gujarat Titans,runs,1,,20.0,N,,,,14
+250015,2026,Kolkata,2026-04-09,League,,Eden Gardens; Kolkata,Kolkata Knight Riders,Lucknow Super Giants,,,Lucknow Super Giants,wickets,3,182,20.0,N,,,,15
+250016,2026,Guwahati,2026-04-10,League,,Barsapara Cricket Stadium; Guwahati,Rajasthan Royals,Royal Challengers Bangalore,,,Rajasthan Royals,wickets,6,,20.0,N,,,,16
+250017,2026,New Chandigarh,2026-04-11,League,,Maharaja Yadavindra Singh Intl Cricket Stadium; Mullanpur,Punjab Kings,Sunrisers Hyderabad,,,Punjab Kings,wickets,6,,20.0,N,,,,17
+250018,2026,Chennai,2026-04-11,League,,MA Chidambaram Stadium; Chennai,Chennai Super Kings,Delhi Capitals,,,Chennai Super Kings,runs,23,190,20.0,N,,,,18
+250019,2026,Lucknow,2026-04-12,League,,Ekana Cricket Stadium; Lucknow,Lucknow Super Giants,Gujarat Titans,,,Gujarat Titans,wickets,7,165,20.0,N,,,,19
+250020,2026,Mumbai,2026-04-12,League,,Wankhede Stadium; Mumbai,Mumbai Indians,Royal Challengers Bangalore,,,Royal Challengers Bangalore,runs,18,,20.0,N,,,,20
+250021,2026,Hyderabad,2026-04-13,League,,Rajiv Gandhi Intl Stadium; Hyderabad,Sunrisers Hyderabad,Rajasthan Royals,,,Sunrisers Hyderabad,,,,20.0,N,,,,21
+250022,2026,Chennai,2026-04-14,League,,MA Chidambaram Stadium; Chennai,Chennai Super Kings,Kolkata Knight Riders,Kolkata Knight Riders,field,Chennai Super Kings,,,,20.0,N,,,,22
+250023,2026,Bengaluru,2026-04-15,League,,M. Chinnaswamy Stadium; Bengaluru,Royal Challengers Bangalore,Lucknow Super Giants,,,Royal Challengers Bangalore,,5,,20.0,N,,,,23
+250024,2026,Mumbai,2026-04-16,League,,Wankhede Stadium; Mumbai,Mumbai Indians,Punjab Kings,,,Punjab Kings,,7,,20.0,N,,,,24
+250025,2026,Ahmedabad,2026-04-17,League,,Narendra Modi Stadium; Ahmedabad,Gujarat Titans,Kolkata Knight Riders,,,Gujarat Titans,wickets,5,,20.0,N,,,,25
+250026,2026,Bengaluru,2026-04-18,League,,M. Chinnaswamy Stadium; Bengaluru,Royal Challengers Bangalore,Delhi Capitals,,,Delhi Capitals,wickets,6,176,20.0,N,,,,26
+250027,2026,Hyderabad,2026-04-18,League,,Rajiv Gandhi Intl Stadium; Hyderabad,Sunrisers Hyderabad,Chennai Super Kings,,,Sunrisers Hyderabad,runs,10,185,20.0,N,,,,27
+250028,2026,Kolkata,2026-04-19,League,,Eden Gardens; Kolkata,Kolkata Knight Riders,Rajasthan Royals,,,Kolkata Knight Riders,wickets,4,,20.0,N,,,,28
+250029,2026,New Chandigarh,2026-04-19,League,,Maharaja Yadavindra Singh Intl Cricket Stadium; Mullanpur,Punjab Kings,Lucknow Super Giants,,,Punjab Kings,runs,54,201,20.0,N,,,,29
+250030,2026,Ahmedabad,2026-04-20,League,,Narendra Modi Stadium; Ahmedabad,Gujarat Titans,Mumbai Indians,,,Mumbai Indians,runs,99,,20.0,N,,,,30
+250031,2026,Hyderabad,2026-04-21,League,,Rajiv Gandhi Intl Stadium; Hyderabad,Sunrisers Hyderabad,Delhi Capitals,,,Sunrisers Hyderabad,runs,47,196,20.0,N,,,,31
+250032,2026,Lucknow,2026-04-22,League,,Ekana Cricket Stadium; Lucknow,Lucknow Super Giants,Rajasthan Royals,,,Rajasthan Royals,runs,40,,20.0,N,,,,32
+250033,2026,Mumbai,2026-04-23,League,,Wankhede Stadium; Mumbai,Mumbai Indians,Chennai Super Kings,,,Chennai Super Kings,runs,103,,20.0,N,,,,33
+250034,2026,Bengaluru,2026-04-24,League,,M. Chinnaswamy Stadium; Bengaluru,Royal Challengers Bangalore,Gujarat Titans,,,Royal Challengers Bangalore,wickets,5,,20.0,N,,,,34
+250035,2026,Delhi,2026-04-25,League,,Arun Jaitley Stadium; Delhi,Delhi Capitals,Punjab Kings,,,Punjab Kings,wickets,6,265,20.0,N,,,,35
+250036,2026,Guwahati,2026-04-25,League,,Sawai Mansingh Stadium; Jaipur,Rajasthan Royals,Sunrisers Hyderabad,,,Sunrisers Hyderabad,wickets,5,229,20.0,N,,,,36
+250037,2026,Ahmedabad,2026-04-26,League,,M.A. Chidambaram Stadium; Chepauk; Chennai,Gujarat Titans,Chennai Super Kings,,,Gujarat Titans,wickets,8,,20.0,N,,,,37
+250038,2026,Lucknow,2026-04-26,League,,Ekana Cricket Stadium; Lucknow,Lucknow Super Giants,Kolkata Knight Riders,,,Kolkata Knight Riders,super_over,0,,20.0,N,,,,38
+250039,2026,Delhi,2026-04-27,League,,Arun Jaitley Stadium; Delhi,Delhi Capitals,Royal Challengers Bangalore,,,Royal Challengers Bangalore,wickets,9,76,20.0,N,,,,39
+250040,2026,New Chandigarh,2026-04-28,League,,Maharaja Yadavindra Singh Intl Cricket Stadium; Mullanpur,Punjab Kings,Rajasthan Royals,,,Rajasthan Royals,wickets,6,223,20.0,N,,,,40
+250041,2026,Mumbai,2026-04-29,League,,Wankhede Stadium; Mumbai,Mumbai Indians,Sunrisers Hyderabad,,,Sunrisers Hyderabad,,,,20.0,N,,,,41
+250042,2026,Ahmedabad,2026-04-30,League,,Narendra Modi Stadium; Ahmedabad,Gujarat Titans,Royal Challengers Bangalore,,,Gujarat Titans,,,,20.0,N,,,,42
+250043,2026,Guwahati,2026-05-01,League,KL Rahul,Barsapara Cricket Stadium; Guwahati,Rajasthan Royals,Delhi Capitals,,,Delhi Capitals,wickets,7,226,20.0,N,,,,43
+250044,2026,Chennai,2026-05-02,League,Ruturaj Gaikwad,MA Chidambaram Stadium; Chennai,Chennai Super Kings,Mumbai Indians,,,Chennai Super Kings,wickets,8,,20.0,N,,,,44
+250045,2026,Hyderabad,2026-05-03,League,Varun Chakravarthy,Rajiv Gandhi Intl Stadium; Hyderabad,Sunrisers Hyderabad,Kolkata Knight Riders,,,Kolkata Knight Riders,wickets,7,166,20.0,N,,,,45
+250046,2026,Ahmedabad,2026-05-03,League,Washington Sundar,Narendra Modi Stadium; Ahmedabad,Gujarat Titans,Punjab Kings,,,Gujarat Titans,wickets,4,,20.0,N,,,,46
+250047,2026,Mumbai,2026-05-04,League,Ryan Rickelton,Wankhede Stadium; Mumbai,Mumbai Indians,Lucknow Super Giants,,,Mumbai Indians,wickets,6,,20.0,N,,,,47
+250048,2026,Delhi,2026-05-05,League,Sanju Samson,Arun Jaitley Stadium; Delhi,Delhi Capitals,Chennai Super Kings,,,Chennai Super Kings,wickets,8,156,20.0,N,,,,48
+250049,2026,Hyderabad,2026-05-06,League,,Rajiv Gandhi Intl Stadium; Hyderabad,Sunrisers Hyderabad,Punjab Kings,,,Sunrisers Hyderabad,runs,33,203,20.0,N,,,,49
+250050,2026,Lucknow,2026-05-07,League,,Ekana Cricket Stadium; Lucknow,Lucknow Super Giants,Royal Challengers Bangalore,,,Lucknow Super Giants,runs,9,204,20.0,N,,,,50
+250051,2026,Delhi,2026-05-08,League,,Arun Jaitley Stadium; Delhi,Delhi Capitals,Kolkata Knight Riders,,,Kolkata Knight Riders,wickets,8,143,20.0,N,,,,51
+250052,2026,Guwahati,2026-05-09,League,,Sawai Mansingh Stadium; Jaipur,Rajasthan Royals,Gujarat Titans,,,Gujarat Titans,runs,77,,20.0,N,,,,52
+250053,2026,Chennai,2026-05-10,League,,MA Chidambaram Stadium; Chennai,Chennai Super Kings,Lucknow Super Giants,,,Chennai Super Kings,wickets,5,,20.0,N,,,,53
+250054,2026,Bengaluru,2026-05-10,League,,Shaheed Veer Narayan Singh Stadium; Raipur,Royal Challengers Bangalore,Mumbai Indians,,,Royal Challengers Bangalore,wickets,2,,20.0,N,,,,54
+250055,2026,New Chandigarh,2026-05-11,League,,Maharaja Yadavindra Singh Intl Cricket Stadium; Mullanpur,Punjab Kings,Delhi Capitals,,,Delhi Capitals,wickets,3,211,20.0,N,,,,55
+250056,2026,Ahmedabad,2026-05-12,League,,Narendra Modi Stadium; Ahmedabad,Gujarat Titans,Sunrisers Hyderabad,,,Gujarat Titans,runs,82,87,20.0,N,,,,56
+250057,2026,Bengaluru,2026-05-13,League,,M. Chinnaswamy Stadium; Bengaluru,Royal Challengers Bangalore,Kolkata Knight Riders,,,Royal Challengers Bangalore,wickets,6,,20.0,N,,,,57
+250058,2026,New Chandigarh,2026-05-14,League,,Maharaja Yadavindra Singh Intl Cricket Stadium; Mullanpur,Punjab Kings,Mumbai Indians,,,Mumbai Indians,wickets,6,201,20.0,N,,,,58
+250059,2026,Lucknow,2026-05-15,League,,Ekana Cricket Stadium; Lucknow,Lucknow Super Giants,Chennai Super Kings,,,Lucknow Super Giants,,,,20.0,N,,,,59
+250060,2026,Kolkata,2026-05-16,League,,Eden Gardens; Kolkata,Kolkata Knight Riders,Gujarat Titans,,,Kolkata Knight Riders,runs,29,219,20.0,N,,,,60
+250061,2026,New Chandigarh,2026-05-17,League,,Maharaja Yadavindra Singh Intl Cricket Stadium; Mullanpur,Punjab Kings,Royal Challengers Bangalore,,,Royal Challengers Bangalore,runs,23,,20.0,N,,,,61
+250062,2026,Delhi,2026-05-17,League,,Arun Jaitley Stadium; Delhi,Delhi Capitals,Rajasthan Royals,,,Delhi Capitals,wickets,5,,20.0,N,,,,62
+250063,2026,Chennai,2026-05-18,League,,MA Chidambaram Stadium; Chennai,Chennai Super Kings,Sunrisers Hyderabad,,,Sunrisers Hyderabad,wickets,5,181,20.0,N,,,,63
+250064,2026,Guwahati,2026-05-19,League,,Barsapara Cricket Stadium; Guwahati,Rajasthan Royals,Lucknow Super Giants,,,Rajasthan Royals,wickets,7,,20.0,N,,,,64
+250065,2026,Kolkata,2026-05-20,League,,Eden Gardens; Kolkata,Kolkata Knight Riders,Mumbai Indians,,,Kolkata Knight Riders,wickets,4,,20.0,N,,,,65
+250066,2026,Chennai,2026-05-21,League,,MA Chidambaram Stadium; Chennai,Chennai Super Kings,Gujarat Titans,,,Gujarat Titans,runs,89,,20.0,N,,,,66
+250067,2026,Hyderabad,2026-05-22,League,,Rajiv Gandhi Intl Stadium; Hyderabad,Sunrisers Hyderabad,Royal Challengers Bangalore,,,Sunrisers Hyderabad,runs,55,201,20.0,N,,,,67
+250068,2026,Lucknow,2026-05-23,League,,Ekana Cricket Stadium; Lucknow,Lucknow Super Giants,Punjab Kings,,,Punjab Kings,wickets,7,197,20.0,N,,,,68
+250069,2026,Mumbai,2026-05-24,League,,Wankhede Stadium; Mumbai,Mumbai Indians,Rajasthan Royals,,,Rajasthan Royals,runs,30,,20.0,N,,,,69
+250070,2026,Kolkata,2026-05-24,League,,Eden Gardens; Kolkata,Kolkata Knight Riders,Delhi Capitals,,,Delhi Capitals,runs,40,,20.0,N,,,,70
+250071,2026,Dharamshala,2026-05-26,Playoff,,HPCA Stadium; Dharamshala,Royal Challengers Bangalore,Gujarat Titans,Gujarat Titans,field,Royal Challengers Bangalore,runs,92,163,20.0,N,,,,71
+250072,2026,New Chandigarh,2026-05-27,Playoff,,Maharaja Yadavindra Singh Intl Cricket Stadium; Mullanpur,Sunrisers Hyderabad,Rajasthan Royals,,,,,,,20.0,N,,,,72
