@@ -123,7 +123,7 @@ svg = '''<svg viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" font-fami
   <!-- RF annotation callout -->
   <rect x="355" y="98" width="190" height="42" rx="6"
         fill="#fffbeb" stroke="#fcd34d" stroke-width="1.2"/>
-  <text x="450" y="116" text-anchor="middle" font-size="10.5" fill="#92400e" font-weight="600">⚠ RF at 49.7% — near coin flip</text>
+  <text x="450" y="116" text-anchor="middle" font-size="10.5" fill="#92400e" font-weight="600">[WARN] RF at 49.7% — near coin flip</text>
   <text x="450" y="132" text-anchor="middle" font-size="10" fill="#b45309">Signals genuine match uncertainty</text>
   <!-- callout pointer -->
   <line x1="426" y1="140" x2="426" y2="236" stroke="#fcd34d" stroke-width="1" stroke-dasharray="3,2"/>

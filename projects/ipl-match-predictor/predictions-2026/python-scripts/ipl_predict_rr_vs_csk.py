@@ -741,11 +741,11 @@ import json
 ml_features_obj = {
     "modelScores": {"rf": rf_winner_pct, "xgb": xgb_winner_pct, "gb": gb_winner_pct, "lr": lr_winner_pct},
     "keyFeatures": {
-        "elo": {"icon": "\U0001f4ca", "label": "Elo Rating", "team1": str(round(rr_elo)), "team2": str(round(csk_elo))},
-        "h2h": {"icon": "\u2694\ufe0f", "label": "Head to Head", "team1": f"{round(rr_h2h_winrate*100)}%", "team2": f"{round((1-rr_h2h_winrate)*100)}%"},
-        "form": {"icon": "\U0001f3c6", "label": "Season Form (2025)", "team1": "7W, 7L", "team2": "8W, 6L"},
-        "venue": {"icon": "\U0001f3df\ufe0f", "label": "Venue", "value": "Neutral (Guwahati)"},
-        "momentum": {"icon": "\U0001f4c8", "label": "Momentum (Last 5)", "team1": f"{round(rr_momentum*100)}%", "team2": f"{round(csk_momentum*100)}%"},
+        "elo": {"icon": "", "label": "Elo Rating", "team1": str(round(rr_elo)), "team2": str(round(csk_elo))},
+        "h2h": {"icon": "", "label": "Head to Head", "team1": f"{round(rr_h2h_winrate*100)}%", "team2": f"{round((1-rr_h2h_winrate)*100)}%"},
+        "form": {"icon": "", "label": "Season Form (2025)", "team1": "7W, 7L", "team2": "8W, 6L"},
+        "venue": {"icon": "", "label": "Venue", "value": "Neutral (Guwahati)"},
+        "momentum": {"icon": "", "label": "Momentum (Last 5)", "team1": f"{round(rr_momentum*100)}%", "team2": f"{round(csk_momentum*100)}%"},
     },
     "keyFactors": (
         [

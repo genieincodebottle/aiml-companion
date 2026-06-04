@@ -5,7 +5,7 @@ This module demonstrates CrewAI's role-based multi-agent pattern inside
 a LangGraph workflow. The fraud crew is a self-contained sub-pipeline:
 
   Pattern Analyst   ─┐
-  Anomaly Detector  ─┤── Crew Manager ──► FraudAssessmentOutput
+  Anomaly Detector  ─┤── Crew Manager ──> FraudAssessmentOutput
   Social Validator  ─┘
 
 Why CrewAI here instead of LangGraph?

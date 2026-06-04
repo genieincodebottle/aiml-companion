@@ -34,12 +34,12 @@ echo "Deleting AgentCore agents..."
 AGENTS=$(aws bedrock-agent-runtime list-agent-runtimes --query "agentRuntimes[?contains(name, 'multi-agents')].[name,arn]" --output text 2>/dev/null || echo "")
 
 if [ -z "$AGENTS" ]; then
-    echo -e "  ${GREEN}✓${NC} No AgentCore agents found to delete"
+    echo -e "  ${GREEN}[OK]${NC} No AgentCore agents found to delete"
 else
     while IFS=$'\t' read -r name arn; do
         echo "  Deleting: $name"
         aws bedrock-agent-runtime delete-agent-runtime --agent-runtime-arn "$arn" 2>/dev/null || true
-        echo -e "  ${GREEN}✓${NC} Deleted $name"
+        echo -e "  ${GREEN}[OK]${NC} Deleted $name"
     done <<< "$AGENTS"
 fi
 
@@ -53,7 +53,7 @@ if [ -f "deploy/terraform/terraform.tfstate" ]; then
     cd deploy/terraform
     terraform destroy -auto-approve -var="aws_region=$(aws configure get region || echo us-east-1)"
     cd ../..
-    echo -e "  ${GREEN}✓${NC} Terraform resources destroyed"
+    echo -e "  ${GREEN}[OK]${NC} Terraform resources destroyed"
 fi
 
 # ---------------------------------------------------------------------------

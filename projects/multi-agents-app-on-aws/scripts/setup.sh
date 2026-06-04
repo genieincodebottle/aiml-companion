@@ -31,7 +31,7 @@ fi
 
 PYTHON=$(command -v python3 || command -v python)
 PY_VERSION=$($PYTHON --version 2>&1 | grep -oP '\d+\.\d+')
-echo -e "  ${GREEN}✓${NC} Python $PY_VERSION found"
+echo -e "  ${GREEN}[OK]${NC} Python $PY_VERSION found"
 
 # uv
 if ! command -v uv &> /dev/null; then
@@ -44,14 +44,14 @@ if ! command -v uv &> /dev/null; then
         exit 1
     fi
 fi
-echo -e "  ${GREEN}✓${NC} uv $(uv --version) found"
+echo -e "  ${GREEN}[OK]${NC} uv $(uv --version) found"
 
 # AWS CLI
 if ! command -v aws &> /dev/null; then
     echo -e "${RED}ERROR: AWS CLI v2 is required. Install from https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html${NC}"
     exit 1
 fi
-echo -e "  ${GREEN}✓${NC} AWS CLI found"
+echo -e "  ${GREEN}[OK]${NC} AWS CLI found"
 
 # AWS credentials
 if ! aws sts get-caller-identity &> /dev/null; then
@@ -63,7 +63,7 @@ fi
 
 AWS_ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
 AWS_REGION=$(aws configure get region || echo "us-east-1")
-echo -e "  ${GREEN}✓${NC} AWS credentials valid (Account: $AWS_ACCOUNT, Region: $AWS_REGION)"
+echo -e "  ${GREEN}[OK]${NC} AWS credentials valid (Account: $AWS_ACCOUNT, Region: $AWS_REGION)"
 
 # ---------------------------------------------------------------------------
 # 2. Create virtual environment
@@ -74,14 +74,14 @@ echo "Setting up Python virtual environment..."
 
 if [ ! -d ".venv" ]; then
     uv venv
-    echo -e "  ${GREEN}✓${NC} Virtual environment created (.venv/)"
+    echo -e "  ${GREEN}[OK]${NC} Virtual environment created (.venv/)"
 else
-    echo -e "  ${GREEN}✓${NC} Virtual environment already exists"
+    echo -e "  ${GREEN}[OK]${NC} Virtual environment already exists"
 fi
 
 # Activate
 source .venv/bin/activate 2>/dev/null || source .venv/Scripts/activate 2>/dev/null
-echo -e "  ${GREEN}✓${NC} Virtual environment activated"
+echo -e "  ${GREEN}[OK]${NC} Virtual environment activated"
 
 # ---------------------------------------------------------------------------
 # 3. Install dependencies
@@ -90,7 +90,7 @@ echo -e "  ${GREEN}✓${NC} Virtual environment activated"
 echo ""
 echo "Installing Python dependencies..."
 uv pip install -r requirements.txt -q
-echo -e "  ${GREEN}✓${NC} Dependencies installed"
+echo -e "  ${GREEN}[OK]${NC} Dependencies installed"
 
 # ---------------------------------------------------------------------------
 # 4. Create .env file
@@ -98,10 +98,10 @@ echo -e "  ${GREEN}✓${NC} Dependencies installed"
 
 if [ ! -f ".env" ]; then
     cp .env.example .env
-    echo -e "  ${GREEN}✓${NC} Created .env from template"
+    echo -e "  ${GREEN}[OK]${NC} Created .env from template"
     echo -e "  ${YELLOW}NOTE: Edit .env to add your TAVILY_API_KEY (optional, for web search)${NC}"
 else
-    echo -e "  ${GREEN}✓${NC} .env already exists"
+    echo -e "  ${GREEN}[OK]${NC} .env already exists"
 fi
 
 # ---------------------------------------------------------------------------
@@ -113,7 +113,7 @@ echo "Checking Bedrock model access..."
 
 MODEL_ID="us.anthropic.claude-sonnet-4-6-v1:0"
 if aws bedrock get-foundation-model --model-identifier "$MODEL_ID" --region "$AWS_REGION" &> /dev/null; then
-    echo -e "  ${GREEN}✓${NC} Bedrock model access confirmed ($MODEL_ID)"
+    echo -e "  ${GREEN}[OK]${NC} Bedrock model access confirmed ($MODEL_ID)"
 else
     echo -e "  ${YELLOW}WARNING: Could not verify Bedrock model access.${NC}"
     echo "  Go to https://console.aws.amazon.com/bedrock/home#/modelaccess"

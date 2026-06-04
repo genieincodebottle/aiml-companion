@@ -40,7 +40,7 @@ for agent in "${AGENTS[@]}"; do
     # Deploy
     agentcore launch
 
-    echo -e "${GREEN}✓ ${agent} deployed${NC}"
+    echo -e "${GREEN}[OK] ${agent} deployed${NC}"
 done
 
 # ---------------------------------------------------------------------------

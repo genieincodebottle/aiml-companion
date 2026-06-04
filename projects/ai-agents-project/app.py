@@ -132,8 +132,8 @@ AGENT_CONFIG = {
         "icon": "",
     },
     "writer": {
-        "label": "\u270D Writer",
-        "icon": "✍",
+        "label": "Writer",
+        "icon": "",
     },
     "reviewer": {
         "label": "Reviewer",

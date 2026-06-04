@@ -27,7 +27,7 @@ const AGENT_LABELS = {
   damage_output: { name: 'Damage Assessment', icon: '' },
   policy_output: { name: 'Policy Compliance', icon: '' },
   settlement_output: { name: 'Settlement Calculation', icon: '' },
-  evaluation_output: { name: 'Quality Evaluation (LLM Judge)', icon: '⚖' },
+  evaluation_output: { name: 'Quality Evaluation (LLM Judge)', icon: '' },
 };
 
 function AgentTraceCard({ agentKey, data }) {

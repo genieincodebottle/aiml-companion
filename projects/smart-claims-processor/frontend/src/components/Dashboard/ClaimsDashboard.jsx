@@ -301,7 +301,7 @@ const AGENT_DISPLAY = {
   damage_assessor: { label: 'Damage Assessment', icon: '', color: '#F59E0B' },
   policy_checker: { label: 'Policy Compliance', icon: '', color: '#8B5CF6' },
   settlement_calculator: { label: 'Settlement Calculation', icon: '', color: '#10B981' },
-  evaluator: { label: 'Quality Evaluation (LLM Judge)', icon: '⚖', color: '#06B6D4' },
+  evaluator: { label: 'Quality Evaluation (LLM Judge)', icon: '', color: '#06B6D4' },
   communication_agent: { label: 'Communication', icon: '', color: '#64748B' },
   auto_reject: { label: 'Auto Reject', icon: '', color: '#EF4444' },
   hitl_checkpoint: { label: 'HITL Review', icon: '', color: '#F59E0B' },
@@ -332,7 +332,7 @@ function AgentTracePanel({ agentOutputs }) {
   return (
     <Box sx={{ mt: 1 }}>
       {trace.map((entry, i) => {
-        const info = AGENT_DISPLAY[entry.agent] || { label: entry.agent, icon: '⚙', color: '#64748B' };
+        const info = AGENT_DISPLAY[entry.agent] || { label: entry.agent, icon: '', color: '#64748B' };
         const conf = entry.confidence;
         const isOpen = expanded[i];
         const confPct = conf != null ? `${(conf * 100).toFixed(0)}%` : null;

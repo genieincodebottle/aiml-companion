@@ -104,7 +104,7 @@ uv venv
 
 
 uv pip install -r requirements.txt
-# ⏳ First install takes a few minutes - sentence-transformers pulls PyTorch + the
+# First install takes a few minutes - sentence-transformers pulls PyTorch + the
 #    all-MiniLM-L6-v2 embedding model (~80 MB download, cached after first run).
 
 # 3. Configure env (Copy the env details in actual .env file)

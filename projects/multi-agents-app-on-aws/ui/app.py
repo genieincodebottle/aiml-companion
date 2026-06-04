@@ -111,12 +111,12 @@ if run_button and query.strip():
                 # Plan
                 with st.expander("Execution Plan", expanded=False):
                     for step in result["plan"]:
-                        agent_emoji = {"research": "", "analyst": "", "writer": "✍"}.get(step["agent"], "")
+                        agent_emoji = {"research": "", "analyst": "", "writer": ""}.get(step["agent"], "")
                         st.markdown(f"{agent_emoji} **{step['agent'].title()}**: {step['task']}")
 
                 # Step results
                 for step in result["steps"]:
-                    agent_emoji = {"research": "", "analyst": "", "writer": "✍"}.get(step["agent"], "")
+                    agent_emoji = {"research": "", "analyst": "", "writer": ""}.get(step["agent"], "")
                     with st.expander(f"Step {step['step']}: {agent_emoji} {step['agent'].title()} Agent", expanded=False):
                         st.markdown(step["result"])
 

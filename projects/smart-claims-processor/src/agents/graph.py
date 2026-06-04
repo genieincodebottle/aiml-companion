@@ -374,22 +374,22 @@ def _build_graph_object() -> StateGraph:
     Graph structure with confidence gates:
     START
       └─ intake_agent
-           ├─ [invalid] -------------------------------------------------► communication_agent
-           ├─ [low_confidence] ------------------------------------------► hitl_after_intake -> fraud_crew
-           ├─ [fast_mode] -----------------------------------------------► settlement_calculator
+           ├─ [invalid] -------------------------------------------------> communication_agent
+           ├─ [low_confidence] ------------------------------------------> hitl_after_intake -> fraud_crew
+           ├─ [fast_mode] -----------------------------------------------> settlement_calculator
            └─ fraud_crew
-                ├─ [confirmed_fraud] ------------------------------------► auto_reject -> communication_agent
-                ├─ [high_fraud] -----------------------------------------► hitl_checkpoint -> damage_assessor (continues pipeline)
-                ├─ [low_confidence] -------------------------------------► hitl_after_fraud -> damage_assessor
+                ├─ [confirmed_fraud] ------------------------------------> auto_reject -> communication_agent
+                ├─ [high_fraud] -----------------------------------------> hitl_checkpoint -> damage_assessor (continues pipeline)
+                ├─ [low_confidence] -------------------------------------> hitl_after_fraud -> damage_assessor
                 └─ damage_assessor
-                     ├─ [low_confidence] --------------------------------► hitl_after_damage -> policy_checker
+                     ├─ [low_confidence] --------------------------------> hitl_after_damage -> policy_checker
                      └─ policy_checker
-                          ├─ [low_confidence] ---------------------------► hitl_after_policy -> settlement_calculator
+                          ├─ [low_confidence] ---------------------------> hitl_after_policy -> settlement_calculator
                           └─ settlement_calculator
-                               ├─ [low_confidence] ---------------------► hitl_after_settlement -> evaluator
+                               ├─ [low_confidence] ---------------------> hitl_after_settlement -> evaluator
                                └─ evaluator
-                                    ├─ [passed] ----------------------------► communication_agent
-                                    └─ [failed] ----------------------------► hitl_checkpoint -> communication_agent (eval HITL)
+                                    ├─ [passed] ----------------------------> communication_agent
+                                    └─ [failed] ----------------------------> hitl_checkpoint -> communication_agent (eval HITL)
     """
     graph = StateGraph(ClaimsState)
 

@@ -87,7 +87,7 @@ ax.text(3.72, 50.25, "← 50% coin flip",
 
 # ── RF callout box ────────────────────────────────────────────────────────────
 ax.annotate(
-    "  ⚠  RF at 49.7% — near coin flip\n  Signals genuine match uncertainty  ",
+    "  [WARN]  RF at 49.7% — near coin flip\n  Signals genuine match uncertainty  ",
     xy=(2, 49.7), xytext=(2.5, 58.5),
     fontsize=8.5, color=AMBER_NOTE,
     ha="center", va="center",

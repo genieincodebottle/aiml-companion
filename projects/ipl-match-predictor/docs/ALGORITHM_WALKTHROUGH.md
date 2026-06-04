@@ -20,8 +20,8 @@ Three bugs in the original pipeline are now fixed in `src/models.py`:
 
 | Case | Match | Result |
 |------|-------|--------|
-| **1** (wrong, low confidence) | M71 Qualifier 1: RCB vs GT, 26 May 2026 | Ensemble said GT 64% — RCB won by 92 runs ✗ |
-| **2** (wrong, moderate confidence) | M10: SRH vs LSG, 5 Apr 2026 | Ensemble said SRH 61% — LSG won by 5 wickets ✗ |
+| **1** (wrong, low confidence) | M71 Qualifier 1: RCB vs GT, 26 May 2026 | Ensemble said GT 64% — RCB won by 92 runs [FAIL] |
+| **2** (wrong, moderate confidence) | M10: SRH vs LSG, 5 Apr 2026 | Ensemble said SRH 61% — LSG won by 5 wickets [FAIL] |
 
 Both case studies are predictions the model got wrong. This is intentional — the model is wrong on 36 of 70 matches, so two wrong cases are representative. The post-mortems show **why** the trained ensemble is barely better than random, and where a learner can intervene to improve it.
 
@@ -124,7 +124,7 @@ The per-model numbers are now genuinely different (RF and GB are close to coin f
 Pick: Gujarat Titans
 Confidence: 64% (= 100 - 35.7)
 Actual: Royal Challengers Bangalore (won by 92 runs)
-Outcome: ✗ WRONG
+Outcome: [FAIL] WRONG
 ```
 
 **Reading the result:** The model used Elo (slight RCB edge) + GT's momentum (+20%) and ended up confident in GT. In reality, RCB posted 254 and dismantled GT for 162. The model's signals — Elo nearly equal, GT momentum hot, neutral venue — were all defensible. They were just wrong about this specific match.
@@ -172,7 +172,7 @@ GB was the lone voice saying "actually LSG" (47.7%) but got outvoted. XGB was pa
 Pick: Sunrisers Hyderabad
 Confidence: 61%
 Actual: Lucknow Super Giants (won by 5 wickets, chase)
-Outcome: ✗ WRONG
+Outcome: [FAIL] WRONG
 ```
 
 ## What went wrong?
