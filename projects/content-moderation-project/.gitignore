@@ -245,3 +245,6 @@ config/secrets.yml
 *.rej
 .eslintcache
 .stylelintcache
+
+# Claude Code personal overrides (never shared)
+.claude/settings.local.json

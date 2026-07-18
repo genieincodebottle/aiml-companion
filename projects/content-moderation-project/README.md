@@ -614,3 +614,65 @@ This project demonstrates:
 - **Full-Stack Development** - React + FastAPI + SQLite + role-based access control
 - **State Management** - LangGraph checkpointing for async workflow pause/resume
 - **API Design** - RESTful endpoints with JWT authentication and Swagger documentation
+
+---
+
+## Claude Code Setup (Reference)
+
+This project doubles as a reference for running Claude Code cheaply on a real codebase. The setup lives in [`.claude/`](.claude/) and [`CLAUDE.md`](CLAUDE.md), and you can copy both into your own repo.
+
+The idea is to stop paying top-model prices for work a cheaper model can do. Tier the models by job, wrap generation in a scout-then-verify pipeline, put the recipes behind one command, and write the guardrails down once.
+
+```
+.claude/
++-- settings.json          # shared permissions + hooks (commit this)
++-- settings.local.json    # personal overrides (gitignored, not in this repo)
++-- agents/
+|   +-- Explore.md         # cheap search, pinned to a small model
+|   +-- author.md          # hard generation, pinned to the top model
+|   +-- reviewer.md        # mid-model verifier
++-- skills/
+|   +-- preship/
+|       +-- SKILL.md       # one command: review the diff before shipping
++-- workflows/
+|   +-- author.mjs         # scout, generate, verify, wired once
++-- hooks/
+|   +-- block-protected-paths.py  # PreToolUse: blocks writes to .env and databases
+|   +-- format-changed.py         # PostToolUse: formats every edited file
++-- docs/
+|   +-- TESTING.md         # loaded on demand, keeps CLAUDE.md small
++-- memory/
+|   +-- INDEX.md           # one line per fact, loaded each session
+|   +-- *.md               # one durable fact per file
+CLAUDE.md                  # hard rules, loaded every session
+```
+
+| File | Does |
+|------|------|
+| `.claude/agents/*.md` | Sets who runs the work and on which model. Cheap for search and verify, the top model only for generation. |
+| `.claude/workflows/author.mjs` | Scout on a cheap model, author on the top model, verify on mid models in parallel. Only the middle stage is expensive. |
+| `.claude/skills/preship/SKILL.md` | One command that reviews the current diff before shipping. |
+| `.claude/settings.json` | Enforced permissions. `deny` rules are blocked by the harness, `allow` rules cut permission prompts on safe read-only commands. |
+| `.claude/hooks/*.py` | Run on tool events. One blocks writes to secrets and local state, one formats every edited file. |
+| `CLAUDE.md` | The rules the tool must not break, loaded every session. Points to `.claude/docs/` for anything that would bloat it. |
+| `.claude/memory/*` | Durable facts so you can clear context between tasks and lose nothing. |
+
+### Two layers of safety
+
+`CLAUDE.md` is prose the model reads and follows. `.claude/settings.json` and the hooks are enforced by the harness, so the dangerous operations are blocked even if the prose is skipped. Production setups use both.
+
+### How a change ships
+
+1. Plan first for anything non-trivial (plan mode explores read-only until you approve).
+2. Author on the pinned top-model agent, or run the `author` workflow.
+3. Verify it actually runs. Drive the feature, do not trust a green test alone.
+4. Review the diff with `/code-review`, and `/security-review` for anything security-sensitive.
+5. Run `/preship`, then commit.
+
+### Config notes
+
+- `.claude/settings.local.json` is personal and gitignored. Put machine-specific overrides there, not in the shared `settings.json`.
+- MCP servers (databases, docs, browsers) go in a `.mcp.json` at the project root, committed. This project ships none by default.
+- Custom commands can live in `.claude/commands/*.md`. Skills (`.claude/skills/<name>/SKILL.md`) do the same and add supporting files plus auto-invocation, so prefer skills.
+
+Full walkthrough in the blog post [How to Run Claude Code Cheaply on a Big Codebase](https://aimlcompanion.ai/blog/run-claude-code-cheaply-big-codebase-2026).
