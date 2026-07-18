@@ -11,6 +11,33 @@
 
 ---
 
+## About the AI-ML Companion Platform
+
+These 10 projects are the hands-on companion to **[AI-ML Companion](https://aimlcompanion.ai)**, an interactive platform for learning AI and machine learning by watching it work. Instead of passive video, every concept is taught through **live, animated visualizations** and runnable code: gradient descent stepping down a loss surface, attention weights lighting up across tokens, a network training in real time.
+
+- **22 tracks, 300+ modules** from Python and math foundations to deep learning, LLMs, agentic AI, MLOps, and cloud GenAI.
+- **Interactive visualizations**, not slides. See the mechanism move, then experiment with it.
+- **Runnable Python** in the browser, quizzes, and progress tracking.
+- **Trilingual narration** (English, Hindi, Spanish) with technical terms kept in English.
+- **PWA**, works on phone and desktop, installable and offline-capable.
+- **Free tier:** 8 complete tracks (Foundations, Python for ML, Jupyter, Linear Algebra, ML Algorithms, Git, AI Tools, Interview Q&A) plus the first module of every Premium track. Premium unlocks the full catalog.
+
+**Curated learning paths:** Data Science and AI Engineering guide you end to end.
+
+**Explore:** [Curriculum](https://aimlcompanion.ai/curriculum) · [Roadmap](https://aimlcompanion.ai/roadmap) · [Blog](https://aimlcompanion.ai/blog)
+
+### FAQ
+
+**Is AI-ML Companion free?** Yes, there is a free tier: 8 complete tracks plus the opening module of every Premium track. Premium unlocks all 22 tracks and 300+ modules.
+
+**How is it different from video courses?** It is interactive. Concepts are taught through live visualizations and runnable code rather than passive video, so you can watch algorithms operate and experiment directly.
+
+**Who is it for?** Beginners wanting an intuition-first on-ramp, engineers moving into ML / MLOps / LLM / agentic AI roles, and anyone preparing for AI/ML interviews.
+
+**What languages are supported?** English, Hindi, and Spanish, with technical terminology kept in English.
+
+---
+
 ## Projects
 
 | # | Project | Domain | Difficulty | Key Tech | Walkthrough |
