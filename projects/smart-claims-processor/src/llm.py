@@ -27,9 +27,9 @@ logger = logging.getLogger(__name__)
 
 # Approximate pricing per 1M tokens (input/output) - update as rates change.
 _PRICING = {
-    # Gemini (current models in configs/base.yaml)
-    "gemini-2.5-flash":       {"input": 0.15, "output": 0.60},
-    "gemini-2.5-flash-lite":  {"input": 0.075, "output": 0.30},
+    # Gemini (current models in configs/base.yaml) - paid-tier $/1M tokens
+    "gemini-3.6-flash":       {"input": 1.50, "output": 7.50},
+    "gemini-3.5-flash-lite":  {"input": 0.30, "output": 2.50},
     # Groq (free tier shows 0, paid tier is very cheap)
     "llama-3.3-70b-versatile": {"input": 0.59, "output": 0.79},
     "llama-3.1-8b-instant":    {"input": 0.05, "output": 0.08},

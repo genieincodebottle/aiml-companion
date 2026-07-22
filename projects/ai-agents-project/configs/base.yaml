@@ -58,9 +58,9 @@ pipeline:
 
 # --- Model Configuration ---
 model:
-  name: "gemini-2.5-flash"
+  name: "gemini-3.6-flash"
   provider: "google"
-  fallback: "gemini-2.5-flash"   # Use same model as fallback for cost control
+  fallback: "gemini-3.6-flash"   # Use same model as fallback for cost control
 
 # --- Token Budget ---
 budget:
@@ -103,7 +103,7 @@ guardrails:
 
 # --- Evaluation ---
 evaluation:
-  judge_model: "gemini-2.5-flash"
+  judge_model: "gemini-3.6-flash"
   test_set_size: 10          # Number of questions in the evaluation test set
   default_run_size: 5        # Number of questions to evaluate in a default run
   scoring_dimensions:

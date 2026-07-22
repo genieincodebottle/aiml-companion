@@ -140,7 +140,7 @@ def get_llm(
     cfg = get_model_config()
 
     provider = provider or cfg.get("provider", "google")
-    model_name = model_name or cfg.get("name", "gemini-2.5-flash")
+    model_name = model_name or cfg.get("name", "gemini-3.6-flash")
     temperature = temperature if temperature is not None else cfg.get("temperature", 0.1)
     max_tokens = max_tokens or cfg.get("max_output_tokens", 4096)
 

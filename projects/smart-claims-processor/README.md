@@ -24,7 +24,7 @@ A production-style **multi-agent insurance claims system** built with **LangGrap
 - **Transparent decisions** - every agent outputs confidence, reasoning, flags, and findings, visible in an expandable Agent Trace panel. No black boxes.
 - **Human-in-the-Loop** - risky claims (high fraud score, high value, or low agent confidence) **pause mid-pipeline** via LangGraph's `interrupt()` and wait for a human reviewer. The reviewer's decision resumes the pipeline from the exact checkpoint, durably persisted by `SqliteSaver`.
 - **Per-agent confidence gates** - if any agent is uncertain, the pipeline pauses at that step and asks a human before proceeding.
-- **Pluggable LLMs** - switch between Gemini 2.5 Flash and Groq Llama 3.3 70B at runtime.
+- **Pluggable LLMs** - switch between Gemini 3.6 Flash and Groq Llama 3.3 70B at runtime.
 - **Country-aware** - US and India profiles with different PII fields, depreciation methods, settlement rules, currencies, and HITL thresholds.
 
 ---
@@ -45,7 +45,7 @@ A production-style **multi-agent insurance claims system** built with **LangGrap
 - **Multi-agent pipeline** - LangGraph state machine with 7 agents, CrewAI sub-crew for fraud (pattern analyst, anomaly detector, social validator).
 - **Per-agent transparency** - every agent outputs confidence, reasoning, flags, and findings. All persisted to DB and visible in an expandable **Agent Trace panel** in the claim detail view. No black-box decisions.
 - **Confidence-based HITL at every step** - configurable per-agent confidence thresholds (`configs/base.yaml` -> `confidence_gates`). If any agent's confidence drops below its threshold, the pipeline pauses at a dedicated HITL node for that agent and resumes to the correct next agent after review.
-- **Pluggable LLM provider** - switch between **Gemini 2.5 Flash** and **Groq Llama 3.3 70B** via `.env` or the `/api/settings/llm` endpoint at runtime. Models are verified non-deprecated as of 2026-04.
+- **Pluggable LLM provider** - switch between **Gemini 3.6 Flash** and **Groq Llama 3.3 70B** via `.env` or the `/api/settings/llm` endpoint at runtime. Models are verified non-deprecated as of 2026-04.
 - **Manual-approval HITL** - high-risk/high-value claims pause at an `interrupt()` checkpoint. A reviewer approves via the UI, the pipeline resumes with their decision, durably persisted by LangGraph's `SqliteSaver`.
 - **Token/cost tracking** - LLM token usage and estimated cost tracked per-pipeline-run via a LangChain callback handler. Visible in claim details as "Total LLM Cost (USD)".
 - **Denial transparency** - denied claims show specific reasons to both claimant and reviewer. Communication agent is instructed to always include concrete denial reasons, not generic messages.
@@ -275,7 +275,7 @@ Model IDs in `configs/base.yaml` (verified non-deprecated as of 2026-04):
 
 | Provider | Primary | Fallback |
 |---|---|---|
-| Gemini | `gemini-2.5-flash` | `gemini-2.5-flash-lite` |
+| Gemini | `gemini-3.6-flash` | `gemini-3.5-flash-lite` |
 | Groq | `llama-3.3-70b-versatile` | `llama-3.1-8b-instant` |
 
 ---

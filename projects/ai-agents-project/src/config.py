@@ -33,7 +33,7 @@ def load_config(path: str = None) -> dict:
 def _default_config() -> dict:
     """Fallback config when YAML is missing."""
     return {
-        "model": {"name": "gemini-2.5-flash", "provider": "google"},
+        "model": {"name": "gemini-3.6-flash", "provider": "google"},
         "budget": {"token_budget": 50000, "warn_at_percent": 80},
         "search": {"max_results": 5, "timeout_seconds": 10},
         "pipeline": {
@@ -48,7 +48,7 @@ def _default_config() -> dict:
 def get_model_name() -> str:
     """Get the configured LLM model name."""
     cfg = load_config()
-    return cfg.get("model", {}).get("name", "gemini-2.5-flash")
+    return cfg.get("model", {}).get("name", "gemini-3.6-flash")
 
 
 def get_agent_config(agent_name: str) -> dict:

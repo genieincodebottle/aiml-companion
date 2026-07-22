@@ -382,7 +382,7 @@ class LLMJudge:
         response = self.llm.invoke(prompt)
 
         try:
-            eval_data = self._extract_json_from_response(response.content)
+            eval_data = self._extract_json_from_response(response.text)
 
             return JudgeEvaluation(
                 decision_id=f"{decision.agent_name}_{datetime.now().timestamp()}",

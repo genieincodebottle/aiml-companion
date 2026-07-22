@@ -248,7 +248,7 @@ Google's Gemini models, also with a free tier.
 |--------|-------|
 | **Cost** | Free (15 req/min, 1,500 req/day) |
 | **Setup time** | 2 minutes |
-| **Best model** | `gemini-2.5-flash` |
+| **Best model** | `gemini-3.6-flash` |
 | **Get API key** | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) |
 
 ```bash
@@ -258,10 +258,10 @@ uv pip install google-genai
 ```env
 LLM_PROVIDER=gemini
 GEMINI_API_KEY=your_key_here
-GEMINI_MODEL_ID=gemini-2.5-flash
+GEMINI_MODEL_ID=gemini-3.6-flash
 ```
 
-Other models: `gemini-2.5-flash-lite` (faster, cheaper), `gemini-2.5-pro` (best quality)
+Other models: `gemini-3.5-flash-lite` (faster, cheaper), `gemini-3.1-pro-preview` (best quality)
 
 ### Option 3: AWS Bedrock (Production-Grade)
 
@@ -280,7 +280,7 @@ uv pip install boto3 botocore
 
 ```env
 LLM_PROVIDER=bedrock
-BEDROCK_MODEL_ID=us.anthropic.claude-sonnet-4-6-v1:0
+BEDROCK_MODEL_ID=us.anthropic.claude-sonnet-4-6
 ```
 
 For Bedrock setup, see [AWS Setup Guide](#aws-setup-guide) below.
@@ -290,7 +290,7 @@ For Bedrock setup, see [AWS Setup Guide](#aws-setup-guide) below.
 | Provider | Cost | Speed | Best Model | Quality |
 |----------|------|-------|------------|---------|
 | **Groq** | Free | Fastest (~5s) | GPT-OSS 120B | Good |
-| **Gemini** | Free | Medium (~17s) | Gemini 2.5 Flash | Good |
+| **Gemini** | Free | Medium (~17s) | Gemini 3.6 Flash | Good |
 | **Bedrock (Nova Lite)** | ~$0.001/req | Medium (~15s) | Nova Lite | Good |
 | **Bedrock (Claude Sonnet 4.6)** | ~$0.01-0.04/req | Medium (~15s) | Claude Sonnet 4.6 | Best |
 
@@ -461,10 +461,10 @@ You should see your account info. If you see an error, double-check your keys (t
 
 ```env
 LLM_PROVIDER=bedrock
-BEDROCK_MODEL_ID=us.anthropic.claude-sonnet-4-6-v1:0
+BEDROCK_MODEL_ID=us.anthropic.claude-sonnet-4-6
 ```
 
-> **Want to save money?** Use `BEDROCK_MODEL_ID=us.amazon.nova-lite-v1:0` (10x cheaper, great for testing).
+> **Want to save money?** Use `BEDROCK_MODEL_ID=us.amazon.nova-2-lite-v1:0` (10x cheaper, great for testing).
 
 > **Billing error?** If you see `INVALID_PAYMENT_INSTRUMENT`, add a payment method at [AWS Billing Console](https://console.aws.amazon.com/billing/) and retry after 2 minutes.
 
@@ -482,9 +482,9 @@ BEDROCK_MODEL_ID=us.anthropic.claude-sonnet-4-6-v1:0
 | `GROQ_API_KEY` | | Groq API key ([console.groq.com/keys](https://console.groq.com/keys)) |
 | `GROQ_MODEL_ID` | `openai/gpt-oss-120b` | Groq model ID |
 | `GEMINI_API_KEY` | | Gemini API key ([aistudio.google.com/apikey](https://aistudio.google.com/apikey)) |
-| `GEMINI_MODEL_ID` | `gemini-2.5-flash` | Gemini model ID |
+| `GEMINI_MODEL_ID` | `gemini-3.6-flash` | Gemini model ID |
 | `AWS_REGION` | `us-east-1` | AWS region (Bedrock only) |
-| `BEDROCK_MODEL_ID` | `us.anthropic.claude-sonnet-4-6-v1:0` | Bedrock model ID |
+| `BEDROCK_MODEL_ID` | `us.anthropic.claude-sonnet-4-6` | Bedrock model ID |
 | `TAVILY_API_KEY` | (optional) | Web search API key ([tavily.com](https://tavily.com) - free tier: 1000 searches/month) |
 | `LOG_LEVEL` | `INFO` | Logging verbosity (DEBUG, INFO, WARNING, ERROR) |
 | `MAX_RESEARCH_RESULTS` | `5` | Number of web search results per query |
@@ -495,10 +495,9 @@ BEDROCK_MODEL_ID=us.anthropic.claude-sonnet-4-6-v1:0
 
 | Model | Model ID | Cost (Input/Output per 1M tokens) |
 |-------|----------|-----------------------------------|
-| Claude Sonnet 4.6 | `us.anthropic.claude-sonnet-4-6-v1:0` | $3.00 / $15.00 |
-| Claude Haiku 4.5 | `us.anthropic.claude-haiku-4-5-20251001` | $0.80 / $4.00 |
-| Amazon Nova Pro | `us.amazon.nova-pro-v1:0` | $0.80 / $3.20 |
-| Amazon Nova Lite | `us.amazon.nova-lite-v1:0` | $0.06 / $0.24 |
+| Claude Sonnet 4.6 | `us.anthropic.claude-sonnet-4-6` | $3.00 / $15.00 |
+| Claude Haiku 4.5 | `us.anthropic.claude-haiku-4-5-20251001-v1:0` | $0.80 / $4.00 |
+| Amazon Nova 2 Lite | `us.amazon.nova-2-lite-v1:0` | $0.06 / $0.24 |
 | Llama 4 Scout | `us.meta.llama4-scout-17b-instruct-v1:0` | $0.27 / $0.35 |
 
 ---

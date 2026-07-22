@@ -79,7 +79,7 @@ def test_config_loader():
     from src.config import load_config, get_model_name, get_pipeline_config
     config = load_config()
     assert "model" in config
-    assert get_model_name() == "gemini-2.5-flash"
+    assert get_model_name() == "gemini-3.6-flash"
     pipeline = get_pipeline_config()
     assert "max_sub_topics" in pipeline
     assert "max_revisions" in pipeline

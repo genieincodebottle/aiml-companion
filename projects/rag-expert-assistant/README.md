@@ -158,7 +158,7 @@ rag-expert-assistant/
 | Reranking | FlashRank (local) | No API key needed, runs locally, fast |
 | Evaluation | RAGAS framework | Industry standard, separates retrieval vs generation quality |
 | Security | Regex PII + pattern blocking | Fast, no external deps, catches 90%+ of common threats |
-| Generation | Gemini 2.5 Flash Lite | Fast, cost-effective Gemini model for grounded RAG responses |
+| Generation | Gemini 3.5 Flash Lite | Fast, cost-effective Gemini model for grounded RAG responses |
 
 ## Experiment Log
 

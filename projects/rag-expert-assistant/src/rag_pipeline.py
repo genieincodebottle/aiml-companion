@@ -111,7 +111,7 @@ def format_docs_with_sources(docs: list) -> str:
     return "\n\n".join(formatted)
 
 
-def build_rag_chain(retriever, model: str = "gemini-2.5-flash-lite"):
+def build_rag_chain(retriever, model: str = "gemini-3.5-flash-lite"):
     """Build the RAG chain with citations."""
     llm = ChatGoogleGenerativeAI(
         model=model,

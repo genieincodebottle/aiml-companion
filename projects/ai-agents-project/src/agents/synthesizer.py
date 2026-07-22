@@ -83,10 +83,10 @@ def synthesizer(state: ResearchState) -> dict:
         ).get("total_tokens", 800)
 
         duration = int((time.time() - start) * 1000)
-        logger.info(f"Synthesizer: {len(response.content)} chars in {duration}ms")
+        logger.info(f"Synthesizer: {len(response.text)} chars in {duration}ms")
 
         return {
-            "synthesis": response.content,
+            "synthesis": response.text,
             "token_count": tokens,
             "pipeline_trace": [{
                 "agent": "synthesizer",

@@ -1,6 +1,6 @@
 # Cost Analysis: Multi-Agent Research System
 
-> Per-report cost breakdown using gpt-4o-mini pricing ($0.15/1M input, $0.60/1M output)
+> Per-report cost breakdown using Gemini 3.6 Flash paid-tier pricing ($1.50/1M input, $7.50/1M output). A free tier is also available (Google AI Studio), under which these reports cost $0; the figures below are the paid-tier ceiling.
 
 ## Per-Agent Token Breakdown
 
@@ -18,15 +18,15 @@
 
 | Configuration | Tokens/Report | Cost/Report | Reports/$1 |
 |--------------|--------------|-------------|------------|
-| Single-agent baseline | 1,850 | $0.0003 | ~3,300 |
-| Multi-agent (4 agents) | 5,200 | $0.0008 | ~1,250 |
-| Multi-agent + retries | 7,800 | $0.0012 | ~830 |
+| Single-agent baseline | 1,850 | $0.007 | ~140 |
+| Multi-agent (4 agents) | 5,200 | $0.020 | ~50 |
+| Multi-agent + retries | 7,800 | $0.030 | ~33 |
 
 ## Budget Enforcement
 
 | Parameter | Value | Rationale |
 |-----------|-------|-----------|
-| Total budget | 50,000 tokens | ~$0.008/report max |
+| Total budget | 50,000 tokens | ~$0.19/report max |
 | Per-agent limit | None (global only) | Simplicity; global cap prevents runaway |
 | Graceful degradation | Yes | Produces best report at budget limit |
 | Budget utilization | ~10% typical | Room for complex topics |
@@ -35,9 +35,9 @@
 
 | Usage Level | Reports/Month | Monthly Cost |
 |-------------|---------------|-------------|
-| Light (dev/testing) | 100 | $0.08 |
-| Moderate (production) | 1,000 | $0.80 |
-| Heavy (enterprise) | 10,000 | $8.00 |
+| Light (dev/testing) | 100 | $2.00 |
+| Moderate (production) | 1,000 | $20.00 |
+| Heavy (enterprise) | 10,000 | $200.00 |
 
 ## Cost Optimization Strategies
 

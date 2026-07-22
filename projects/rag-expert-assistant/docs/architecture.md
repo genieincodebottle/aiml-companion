@@ -91,7 +91,7 @@ FlashRank runs a cross-encoder model locally to re-score the top-20 candidates a
 The LLM generates a grounded response using the reranked context. The system prompt enforces citation rules, confidence ratings, and context-only answering to minimize hallucination.
 
 - **Entry point**: `src/rag_pipeline.py :: build_rag_chain()`
-- **Model**: `gemini-2.5-flash-lite` (temperature=0)
+- **Model**: `gemini-3.5-flash-lite` (temperature=0)
 - **Prompt strategy**: Grounded system prompt with `[Source N]` citation format
 - **Security**: Input sanitization before query, output PII filtering after generation
 - **Output**: Answer with citations and confidence rating

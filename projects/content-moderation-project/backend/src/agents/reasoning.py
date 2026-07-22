@@ -171,7 +171,7 @@ class ReActLoop:
         Provide your thought in 2-3 sentences:"""
 
         response = self.llm.invoke(prompt)
-        return response.content
+        return response.text
 
     def _select_and_execute_action(
         self,
@@ -264,7 +264,7 @@ class PlanExecuteAgent:
 
         # Parse the LLM response
         try:
-            plan_data = self._extract_json_from_response(response.content)
+            plan_data = self._extract_json_from_response(response.text)
 
             return ExecutionPlan(
                 plan_id=f"plan_{datetime.now().timestamp()}",
@@ -443,7 +443,7 @@ class ReflexionCritic:
         response = self.llm.invoke(prompt)
 
         try:
-            critique = self._extract_json_from_response(response.content)
+            critique = self._extract_json_from_response(response.text)
 
             self.reflection_history.append(ReasoningStep(
                 step_type=ReasoningStepType.CRITIQUE,
@@ -515,7 +515,7 @@ class ReflexionCritic:
             response = self.llm.invoke(improvement_prompt)
 
             try:
-                improved = self._extract_json_from_response(response.content)
+                improved = self._extract_json_from_response(response.text)
 
                 # Update decision
                 current_decision.decision = DecisionType(improved.get("decision", "needs_review"))

@@ -16,8 +16,8 @@ llm:
   retry_delay_seconds: 2
   providers:
     gemini:
-      model: gemini-2.5-flash           # replaces gemini-2.0-flash (deprecated 2026-06-01)
-      fallback_model: gemini-2.5-flash-lite
+      model: gemini-3.6-flash           # replaces gemini-3.6-flash (deprecated 2026-06-01)
+      fallback_model: gemini-3.5-flash-lite
       api_key_env: GOOGLE_API_KEY
     groq:
       model: llama-3.3-70b-versatile    # all agents + judge use 70b for reliable structured output

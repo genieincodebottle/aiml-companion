@@ -296,7 +296,7 @@ This section clarifies the different AI models and embedding systems used throug
 
 ### Google Gemini LLM (Primary AI Engine)
 
-**Model**: `gemini-1.5-flash` via Google Generative AI API
+**Model**: `gemini-3.5-flash-lite` via Google Generative AI API
 
 **Usage Locations**:
 1. **Content Analysis Agent** ([agents.py:58](content-moderation-system/backend/src/agents/agents.py#L58))
@@ -338,7 +338,7 @@ GOOGLE_API_KEY=your_api_key_here
 # LLM Client initialization
 from langchain_google_genai import ChatGoogleGenerativeAI
 llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash",
+    model="gemini-3.5-flash-lite",
     temperature=0.7,
     google_api_key=os.getenv("GOOGLE_API_KEY")
 )

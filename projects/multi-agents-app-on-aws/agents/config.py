@@ -28,11 +28,11 @@ LLM_PROVIDER = os.getenv("LLM_PROVIDER", "groq").lower()
 
 # Provider-specific settings
 AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
-BEDROCK_MODEL_ID = os.getenv("BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-4-6-v1:0")
+BEDROCK_MODEL_ID = os.getenv("BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-4-6")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 GROQ_MODEL_ID = os.getenv("GROQ_MODEL_ID", "openai/gpt-oss-120b")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
-GEMINI_MODEL_ID = os.getenv("GEMINI_MODEL_ID", "gemini-2.5-flash")
+GEMINI_MODEL_ID = os.getenv("GEMINI_MODEL_ID", "gemini-3.6-flash")
 
 # Resolve the active model ID based on provider
 if LLM_PROVIDER == "groq":
@@ -234,7 +234,7 @@ def _call_bedrock(system_prompt, user_message, model_id, max_tokens, temperature
                     f"  and enable 'Anthropic Claude Sonnet 4.6'.\n"
                     f"\n"
                     f"  Or use a cheaper model in .env:\n"
-                    f"  BEDROCK_MODEL_ID=us.amazon.nova-lite-v1:0\n"
+                    f"  BEDROCK_MODEL_ID=us.amazon.nova-2-lite-v1:0\n"
                     f"\n"
                     f"  Or switch to a free provider:\n"
                     f"  LLM_PROVIDER=groq\n"
@@ -251,7 +251,7 @@ def _call_bedrock(system_prompt, user_message, model_id, max_tokens, temperature
                     f"  Check available models at:\n"
                     f"  https://console.aws.amazon.com/bedrock/home#/modelaccess\n"
                     f"\n"
-                    f"  Try: BEDROCK_MODEL_ID=us.amazon.nova-lite-v1:0\n"
+                    f"  Try: BEDROCK_MODEL_ID=us.amazon.nova-2-lite-v1:0\n"
                     f"{'=' * 60}\n"
                 ) from e
 

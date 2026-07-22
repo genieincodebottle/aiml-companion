@@ -59,7 +59,7 @@ def render_sidebar():
             model_name = config["model"]["name"]
             provider = config["model"]["provider"]
         except Exception:
-            model_name = "gemini-2.5-flash"
+            model_name = "gemini-3.6-flash"
             provider = "google"
 
         st.subheader("Model")
@@ -538,7 +538,7 @@ def main():
     st.caption(
         "8-agent pipeline: Planner \u2192 Researcher (parallel) \u2192 Quality Gate \u2192 "
         "Analyst \u2192 Synthesizer \u2192 Writer \u2192 Reviewer | "
-        "Powered by Gemini 2.5 Flash (free tier) + Tavily Search + Wikipedia"
+        "Powered by Gemini 3.6 Flash (free tier) + Tavily Search + Wikipedia"
     )
 
     render_sidebar()

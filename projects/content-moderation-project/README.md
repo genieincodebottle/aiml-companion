@@ -38,7 +38,7 @@ An enterprise-grade content moderation system that automates content safety usin
 - Routes short content through a **Fast Mode** single-pass path (1-2 seconds vs 6-12 seconds for full pipeline)
 - Escalates edge cases to human reviewers via a **priority-based HITL queue**
 - Learns from outcomes using **3-tier memory** (ChromaDB vector store + episodic + semantic)
-- Prevents failures with **6 production guardrails** (loop detection, budget tracking, hallucination detection, consistency checking, rate limiting, prompt injection detection)
+- Prevents failures with **5 production guardrails** (loop detection, budget tracking, hallucination detection, consistency checking, prompt injection detection)
 
 **Estimated time to complete: 10-12 hours**
 
@@ -288,7 +288,7 @@ Users can appeal moderation decisions. Reviewers see the original content, all a
 | **HITL with Priority Queue** | Configurable interrupt points (Critical/High/Medium/Low) |
 | **Hybrid Toxicity Detection** | HateBERT/DistilBERT ML + keyword fallback + Gemini LLM |
 | **3-Tier Memory** | ChromaDB vector store + episodic + semantic |
-| **5 Production Guardrails** | Loop detection, budget tracking, hallucination detection, consistency, rate limiting |
+| **5 Production Guardrails** | Loop detection, budget tracking, hallucination detection, consistency, prompt injection |
 | **Appeal Workflow** | UPHOLD / OVERTURN / PARTIAL outcomes with memory feedback |
 | **Dual SQLite Databases** | moderation_data.db (content/decisions) + moderation_auth.db (users/sessions) |
 | **Observability** | OpenTelemetry tracing for agent execution monitoring |
@@ -369,7 +369,7 @@ content-moderation-project/
 |       +-- ml/
 |       |   +-- ml_classifier.py         # HateBERT, DistilBERT classifiers
 |       |   +-- keyword_detectors.py     # Keyword-based fallback
-|       |   +-- guardrails.py            # 6 production guardrails
+|       |   +-- guardrails.py            # 5 production guardrails
 |       +-- utils/
 |           +-- evaluation.py            # Decision evaluation
 |           +-- observability.py         # OpenTelemetry tracing

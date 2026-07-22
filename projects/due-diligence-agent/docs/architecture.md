@@ -65,7 +65,7 @@ merged (appended), not overwritten. This prevents the last-writer-wins problem.
 Layer 1: LLM call with structured output
     |
     v (fails)
-Layer 2: Retry with fallback model (gemini-2.0-flash)
+Layer 2: Retry with fallback model (gemini-3.6-flash)
     |
     v (fails)
 Layer 3: Return degraded-but-valid output with error metadata
@@ -144,7 +144,7 @@ due-diligence-agent/
 
 ## Cost Analysis
 
-Using Google Gemini 2.5 Flash (free tier: 30 RPM, 1500 RPD):
+Using Google Gemini 3.6 Flash (free tier: 30 RPM, 1500 RPD):
 
 | Pipeline Stage | LLM Calls | Estimated Tokens | Cost |
 |---------------|-----------|-----------------|------|

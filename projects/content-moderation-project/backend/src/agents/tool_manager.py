@@ -433,11 +433,11 @@ Selected tools:"""
 
             # Extract JSON from response
             import json
-            start_idx = response.content.find('[')
-            end_idx = response.content.rfind(']')
+            start_idx = response.text.find('[')
+            end_idx = response.text.rfind(']')
 
             if start_idx != -1 and end_idx != -1:
-                json_str = response.content[start_idx:end_idx + 1]
+                json_str = response.text[start_idx:end_idx + 1]
                 selected_tools = json.loads(json_str)
 
                 # Validate tools exist

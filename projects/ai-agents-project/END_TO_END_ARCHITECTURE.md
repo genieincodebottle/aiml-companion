@@ -666,7 +666,7 @@ accessors for model, pipeline, agent, and budget settings.
 | Component | Type | Description |
 |-----------|------|-------------|
 | `load_config(path=None)` | Function | Loads and caches YAML config (singleton pattern) |
-| `get_model_name()` | Function | Returns configured LLM model name (default: "gemini-2.5-flash") |
+| `get_model_name()` | Function | Returns configured LLM model name (default: "gemini-3.6-flash") |
 | `get_agent_config(agent_name)` | Function | Returns per-agent config (temperature, max_tokens) |
 | `get_pipeline_config()` | Function | Returns pipeline thresholds (max_sub_topics, quality_threshold, etc.) |
 | `get_budget_config()` | Function | Returns budget settings (token_budget, warn_at_percent) |
@@ -675,7 +675,7 @@ accessors for model, pipeline, agent, and budget settings.
 If the YAML file is missing, `_default_config()` provides safe defaults:
 ```python
 {
-    "model": {"name": "gemini-2.5-flash", "provider": "google"},
+    "model": {"name": "gemini-3.6-flash", "provider": "google"},
     "budget": {"token_budget": 50000, "warn_at_percent": 80},
     "search": {"max_results": 5, "timeout_seconds": 10},
     "pipeline": {
@@ -757,13 +757,13 @@ source quality heatmap, and an evaluation tab.
 
 ## 3. LLM and Tool Integration
 
-### LLM: Google Gemini 2.5 Flash
+### LLM: Google Gemini 3.6 Flash
 
 All agent LLM calls use the same model via LangChain's `ChatGoogleGenerativeAI`.
 
 | Setting | Value |
 |---------|-------|
-| Model | `gemini-2.5-flash` |
+| Model | `gemini-3.6-flash` |
 | Provider | Google AI (via `langchain_google_genai`) |
 | Temperature | 0 (deterministic, all agents) |
 | API Key | `GOOGLE_API_KEY` environment variable |
@@ -1038,7 +1038,7 @@ rate_limiter.wait_if_needed()  # First call, no wait needed
 The planner calls Gemini with `with_structured_output(PlannerOutput)`:
 
 ```python
-llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
+llm = ChatGoogleGenerativeAI(model="gemini-3.6-flash", temperature=0)
 structured_llm = llm.with_structured_output(PlannerOutput)
 result = structured_llm.invoke(
     "You are a research planner. Break this research query into "
@@ -1948,7 +1948,7 @@ CREATE TABLE IF NOT EXISTS source_index (
 | Full pipeline (happy path) | 15-20s | 5 LLM calls + 2 search API calls |
 | Full pipeline (1 revision) | 20-25s | 7 LLM calls |
 | Full pipeline (quality retry + 2 revisions) | 25-35s | 9 LLM calls (worst case) |
-| Per-agent LLM call | 2-4s | Gemini 2.5 Flash average |
+| Per-agent LLM call | 2-4s | Gemini 3.6 Flash average |
 | Quality Gate (no LLM) | <100ms | Pure Python heuristics |
 | Cache hit (SQLite) | <10ms | Local file I/O |
 | Tavily search | 1-3s | Network dependent |
@@ -1991,7 +1991,7 @@ makes independent API calls (Tavily + Wikipedia), and their results merge via
 | 2 revisions | ~9,200 | $0.00 | Gemini free tier |
 | Single-agent baseline | ~1,850 | $0.00 | 1 LLM call |
 
-**Note:** All costs are $0.00 because Gemini 2.5 Flash provides a free tier.
+**Note:** All costs are $0.00 because Gemini 3.6 Flash provides a free tier.
 At paid pricing, the cost would be approximately $0.001 per query.
 
 ### Test Suite Performance
@@ -2103,9 +2103,9 @@ guardrails:
 
 ```yaml
 model:
-  name: "gemini-2.5-flash"     # LLM model for all agent calls
+  name: "gemini-3.6-flash"     # LLM model for all agent calls
   provider: "google"            # LLM provider (google, openai, etc.)
-  fallback: "gemini-2.5-flash"  # Fallback model (same for cost control)
+  fallback: "gemini-3.6-flash"  # Fallback model (same for cost control)
 ```
 
 | Key | Effect | Change Impact |
@@ -2250,7 +2250,7 @@ guardrails:
 
 ```yaml
 evaluation:
-  judge_model: "gemini-2.5-flash"
+  judge_model: "gemini-3.6-flash"
   test_set_size: 10
   default_run_size: 5
   scoring_dimensions: ["accuracy", "completeness", "citations"]

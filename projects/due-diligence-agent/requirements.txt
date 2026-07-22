@@ -1,7 +1,7 @@
 # Core LLM Framework
-langgraph>=0.2.0
-langchain>=0.3.0
-langchain-google-genai>=2.0.0
+langgraph>=1.0.0
+langchain>=1.2.0
+langchain-google-genai>=4.0.0
 langchain-openai>=0.2.0           # Optional: OpenAI support
 langchain-ollama>=0.2.0           # Optional: Local LLM support
 

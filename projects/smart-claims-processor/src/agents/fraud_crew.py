@@ -133,7 +133,7 @@ def _get_crewai_llm():
                 "Falling back to Gemini for fraud crew."
             )
             return LLM(
-                model="gemini/gemini-2.5-flash",
+                model="gemini/gemini-3.6-flash",
                 api_key=gemini_key,
                 temperature=temperature,
             )

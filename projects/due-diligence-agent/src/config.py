@@ -32,8 +32,8 @@ def _default_config() -> dict:
     return {
         "model": {
             "provider": "google",
-            "name": "gemini-2.5-flash",
-            "fallback_name": "gemini-2.0-flash",
+            "name": "gemini-3.6-flash",
+            "fallback_name": "gemini-3.5-flash-lite",
             "temperature": 0.1,
             "max_output_tokens": 4096,
             "timeout_seconds": 60,

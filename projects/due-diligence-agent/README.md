@@ -4,14 +4,14 @@
 
 ![Python 3.11+](https://img.shields.io/badge/Python-3.11+-blue.svg)
 ![LangGraph](https://img.shields.io/badge/LangGraph-0.2+-green.svg)
-![Gemini](https://img.shields.io/badge/Gemini-2.5_Flash-orange.svg)
+![Gemini](https://img.shields.io/badge/Gemini-3.6_Flash-orange.svg)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Status: Production](https://img.shields.io/badge/Status-Production-brightgreen.svg)
 
 Enterprise-grade company research powered by **6 AI agents** with parallel execution, fact-checking, contradiction resolution, and comprehensive guardrails.
 
 ```
-Input: "Tesla"  ──>  6 Agents (parallel)  ──>  Fact-Check  ──>  Debate  ──>  Final Report
+Input: "Tesla"  ──>  4 Agents (parallel)  ──>  Fact-Check  ──>  Debate  ──>  Final Report
                      Financial Analyst         Independent      Resolve       Risk Rating
                      News & Sentiment          Verification     Conflicts     Recommendation
                      Competitive Intel                                        Action Items
@@ -219,7 +219,7 @@ All parameters in `configs/base.yaml`. Override via environment variables:
 |-------------|-------------|---------|
 | `GOOGLE_API_KEY` | - | Required |
 | `TAVILY_API_KEY` | - | Optional (falls back to DuckDuckGo) |
-| `DD_MODEL_NAME` | model.name | gemini-2.5-flash |
+| `DD_MODEL_NAME` | model.name | gemini-3.6-flash |
 | `DD_MAX_COST_USD` | budget.max_cost_usd | 0.50 |
 | `DD_MAX_TOTAL_TOKENS` | budget.max_total_tokens | 100000 |
 | `DD_LOG_LEVEL` | logging.level | INFO |
@@ -238,7 +238,7 @@ Evaluates on 3 test companies (Tesla, Stripe, Anthropic) across 4 metrics:
 
 ## Cost
 
-Using Google Gemini 2.5 Flash free tier (30 RPM, 1500 RPD):
+Using Google Gemini 3.6 Flash free tier (30 RPM, 1500 RPD):
 
 | Depth | LLM Calls | Tokens | Cost | Duration |
 |-------|-----------|--------|------|----------|
@@ -251,7 +251,7 @@ Using Google Gemini 2.5 Flash free tier (30 RPM, 1500 RPD):
 | Component | Technology |
 |-----------|-----------|
 | Orchestration | LangGraph (StateGraph, Send, conditional edges) |
-| LLM | Google Gemini 2.5 Flash (free tier) |
+| LLM | Google Gemini 3.6 Flash (free tier) |
 | Structured Output | Pydantic v2 + `.with_structured_output()` |
 | Search | Tavily (paid) / DuckDuckGo (free fallback) |
 | Caching | SQLite (search results + TTL + LRU) |

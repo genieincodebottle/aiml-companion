@@ -7,8 +7,8 @@
 # --- LLM Model Settings ---
 model:
   provider: "google"                    # google | openai | ollama
-  name: "gemini-2.5-flash"             # Primary model
-  fallback_name: "gemini-2.0-flash"    # Fallback if primary fails
+  name: "gemini-3.6-flash"             # Primary model
+  fallback_name: "gemini-3.5-flash-lite"    # Fallback if primary fails
   temperature: 0.1                      # Low for factual research
   max_output_tokens: 4096
   timeout_seconds: 60
@@ -109,7 +109,7 @@ evaluation:
     - "source_diversity"                # Number of unique sources cited
     - "factual_consistency"             # Cross-agent agreement score
     - "actionability"                   # Practical recommendation quality
-  judge_model: "gemini-2.5-flash"
+  judge_model: "gemini-3.6-flash"
   num_eval_runs: 3
 
 # --- Output ---

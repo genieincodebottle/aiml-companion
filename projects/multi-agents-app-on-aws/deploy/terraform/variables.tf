@@ -19,7 +19,7 @@ variable "project_name" {
 variable "bedrock_model_id" {
   description = "Bedrock model ID for agent LLM calls"
   type        = string
-  default     = "us.anthropic.claude-sonnet-4-6-v1:0"
+  default     = "us.anthropic.claude-sonnet-4-6"
 }
 
 variable "tavily_api_key" {

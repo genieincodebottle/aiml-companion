@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 _client = None
-MODEL = "gemini-2.5-flash"
+MODEL = "gemini-3.6-flash"
 PRICE_PER_TOKEN = 0  # Gemini free tier - no cost
 
 

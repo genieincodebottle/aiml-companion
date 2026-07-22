@@ -52,7 +52,7 @@ def writer(state: ResearchState) -> dict:
         ).get("total_tokens", 1500)
 
         # Scrub PII from the draft
-        draft_text, pii_found = scrub_pii(response.content)
+        draft_text, pii_found = scrub_pii(response.text)
 
         # Track version
         version = revision_count + 1
