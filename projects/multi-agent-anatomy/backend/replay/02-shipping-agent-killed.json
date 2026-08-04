@@ -1,0 +1,681 @@
+{
+  "id": "02-shipping-agent-killed",
+  "title": "2. Partial failure: shipping agent killed",
+  "teaches": "The answer still goes out, built from the two branches that returned, with the gap stated instead of filled.",
+  "failures": {
+    "kill_shipping_agent": true
+  },
+  "question": "Where is my order ORD-4412 and can I still return it?",
+  "reply": "Your order ORD-4412 for the Aeron desk chair (743.0 USD) is currently delivered. It was delivered on 2026-07-08. I could not reach the courier system just now, so I have not included live tracking. Everything else below is confirmed. On returns: you can return this within 30 days of delivery. (Source: Return shipping fee, effective 2026-07-01.)",
+  "gaps": [
+    "live courier tracking was unavailable for this reply"
+  ],
+  "plan": {
+    "intent": "order_status_and_refund",
+    "order_id": "ORD-4412",
+    "customer_id": "cust-1001",
+    "branches": [
+      "order",
+      "shipping",
+      "policy"
+    ],
+    "policy_question": "Where is my order ORD-4412 and can I still return it?",
+    "needs_saga": false,
+    "reason": "three independent lookups, no ordering between them, so fan out"
+  },
+  "merge": {
+    "final_reply": "Your order ORD-4412 for the Aeron desk chair (743.0 USD) is currently delivered. It was delivered on 2026-07-08. I could not reach the courier system just now, so I have not included live tracking. Everything else below is confirmed. On returns: you can return this within 30 days of delivery. (Source: Return shipping fee, effective 2026-07-01.)",
+    "accepted_branches": [
+      "order",
+      "policy"
+    ],
+    "rejected_branches": [
+      "shipping"
+    ],
+    "unresolved": [
+      "shipping branch did not return"
+    ],
+    "confidence": 0.75
+  },
+  "trace": {
+    "summary": {
+      "request_id": "7ad568a8cd072099",
+      "tenant_id": "tenant-northwind",
+      "mode": "replay",
+      "total_cost_usd": 0.00682,
+      "total_tokens": 3351,
+      "cached_tokens": 1620,
+      "model_calls": 6,
+      "tool_calls": 2,
+      "spans_green": 18,
+      "spans_total": 20,
+      "semantic_warnings": 0
+    },
+    "spans": [
+      {
+        "span_id": "f30e7fd03fed",
+        "parent_id": null,
+        "name": "request",
+        "stage": 0,
+        "agent_id": "gateway",
+        "kind": "stage",
+        "prompt_version": null,
+        "model": null,
+        "input_tokens": 0,
+        "cached_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": 0.0,
+        "status": "ok",
+        "duration_ms": 1.4,
+        "deadline_remaining_s": 60.0,
+        "tokens_remaining": 60000,
+        "timeout_s": null,
+        "detail": {
+          "question": "Where is my order ORD-4412 and can I still return it?",
+          "canonical_request_id": "7ad568a8cd072099",
+          "is_retry_of_same_request": true,
+          "failures_active": [
+            "kill_shipping_agent"
+          ],
+          "mode": "replay"
+        },
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 0.0
+      },
+      {
+        "span_id": "edd0b0ba6163",
+        "parent_id": "f30e7fd03fed",
+        "name": "stage-1:input-guardrail",
+        "stage": 1,
+        "agent_id": "gateway",
+        "kind": "stage",
+        "prompt_version": null,
+        "model": null,
+        "input_tokens": 0,
+        "cached_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": 0.0,
+        "status": "ok",
+        "duration_ms": 0.0,
+        "deadline_remaining_s": 60.0,
+        "tokens_remaining": null,
+        "timeout_s": null,
+        "detail": {
+          "screen": {
+            "blocked": false,
+            "injection_patterns_hit": [],
+            "length_ok": true,
+            "coverage": "obvious patterns only; not a substitute for least privilege on tools"
+          },
+          "rate_limit_ok": true,
+          "rate_limit_reason": ""
+        },
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 0.0
+      },
+      {
+        "span_id": "1048ccba837b",
+        "parent_id": "f30e7fd03fed",
+        "name": "stage-2:classify-and-route",
+        "stage": 2,
+        "agent_id": "gateway",
+        "kind": "model",
+        "prompt_version": "v2",
+        "model": "gemini-3.5-flash-lite",
+        "input_tokens": 133,
+        "cached_tokens": 0,
+        "output_tokens": 2,
+        "cost_usd": 4.5e-05,
+        "status": "ok",
+        "duration_ms": 0.0,
+        "deadline_remaining_s": 60.0,
+        "tokens_remaining": null,
+        "timeout_s": null,
+        "detail": {
+          "route": "full",
+          "why": "cheap classification before any fan-out"
+        },
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 0.0
+      },
+      {
+        "span_id": "065835d3a53a",
+        "parent_id": "f30e7fd03fed",
+        "name": "stage-3:orchestrator-plan",
+        "stage": 3,
+        "agent_id": "orchestrator",
+        "kind": "stage",
+        "prompt_version": null,
+        "model": null,
+        "input_tokens": 0,
+        "cached_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": 0.0,
+        "status": "ok",
+        "duration_ms": 0.0,
+        "deadline_remaining_s": 60.0,
+        "tokens_remaining": 60000,
+        "timeout_s": null,
+        "detail": {
+          "plan": {
+            "intent": "order_status_and_refund",
+            "order_id": "ORD-4412",
+            "customer_id": "cust-1001",
+            "branches": [
+              "order",
+              "shipping",
+              "policy"
+            ],
+            "policy_question": "Where is my order ORD-4412 and can I still return it?",
+            "needs_saga": false,
+            "reason": "three independent lookups, no ordering between them, so fan out"
+          },
+          "checkpoint": "plan-v1"
+        },
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 0.0
+      },
+      {
+        "span_id": "a64d5cbe2769",
+        "parent_id": "065835d3a53a",
+        "name": "model:orchestrator",
+        "stage": 3,
+        "agent_id": "orchestrator",
+        "kind": "model",
+        "prompt_version": "v7",
+        "model": "gemini-3.1-pro-preview",
+        "input_tokens": 473,
+        "cached_tokens": 394,
+        "output_tokens": 77,
+        "cost_usd": 0.001161,
+        "status": "ok",
+        "duration_ms": 0.0,
+        "deadline_remaining_s": null,
+        "tokens_remaining": null,
+        "timeout_s": null,
+        "detail": {
+          "cache_hit_pct": 83
+        },
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 0.1
+      },
+      {
+        "span_id": "56978ff2cdbb",
+        "parent_id": "f30e7fd03fed",
+        "name": "stage-4:fan-out",
+        "stage": 4,
+        "agent_id": "orchestrator",
+        "kind": "stage",
+        "prompt_version": null,
+        "model": null,
+        "input_tokens": 0,
+        "cached_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": 0.0,
+        "status": "error",
+        "duration_ms": 1.2,
+        "deadline_remaining_s": 60.0,
+        "tokens_remaining": 59450,
+        "timeout_s": null,
+        "detail": {
+          "branches": [
+            "order",
+            "shipping",
+            "policy"
+          ],
+          "note": "three independent lookups with no ordering between them; the fan-out inherits its slowest branch",
+          "failed_branches": [
+            "shipping"
+          ]
+        },
+        "error": "1 branch(es) did not return",
+        "warnings": [],
+        "started_offset_ms": 0.1
+      },
+      {
+        "span_id": "91926f98252c",
+        "parent_id": "56978ff2cdbb",
+        "name": "agent:order-agent",
+        "stage": 4,
+        "agent_id": "order-agent",
+        "kind": "stage",
+        "prompt_version": null,
+        "model": null,
+        "input_tokens": 0,
+        "cached_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": 0.0,
+        "status": "ok",
+        "duration_ms": 0.9,
+        "deadline_remaining_s": 20.0,
+        "tokens_remaining": 59450,
+        "timeout_s": 20.0,
+        "detail": {},
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 0.1
+      },
+      {
+        "span_id": "d8b7c2a8eeae",
+        "parent_id": "91926f98252c",
+        "name": "tool:get_order",
+        "stage": 4,
+        "agent_id": "order-agent",
+        "kind": "tool",
+        "prompt_version": null,
+        "model": null,
+        "input_tokens": 0,
+        "cached_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": 0.0,
+        "status": "ok",
+        "duration_ms": 0.8,
+        "deadline_remaining_s": 20.0,
+        "tokens_remaining": 59450,
+        "timeout_s": 8.0,
+        "detail": {
+          "result": {
+            "order_id": "ORD-4412",
+            "tenant_id": "tenant-northwind",
+            "customer_id": "cust-1001",
+            "item": "Aeron desk chair",
+            "amount_usd": 743.0,
+            "currency": "USD",
+            "status": "delivered",
+            "placed_at": "2026-07-02T09:14:00Z",
+            "delivered_at": "2026-07-08T16:02:00Z"
+          }
+        },
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 0.2
+      },
+      {
+        "span_id": "4f8f1858eadc",
+        "parent_id": "91926f98252c",
+        "name": "model:order-agent",
+        "stage": 4,
+        "agent_id": "order-agent",
+        "kind": "model",
+        "prompt_version": "v4",
+        "model": "gemini-3.6-flash",
+        "input_tokens": 326,
+        "cached_tokens": 232,
+        "output_tokens": 57,
+        "cost_usd": 0.000603,
+        "status": "ok",
+        "duration_ms": 0.0,
+        "deadline_remaining_s": 20.0,
+        "tokens_remaining": 59450,
+        "timeout_s": 20.0,
+        "detail": {
+          "cache_hit_pct": 71
+        },
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 1.0
+      },
+      {
+        "span_id": "19293f2349cc",
+        "parent_id": "56978ff2cdbb",
+        "name": "agent:shipping-agent",
+        "stage": 4,
+        "agent_id": "shipping-agent",
+        "kind": "stage",
+        "prompt_version": null,
+        "model": null,
+        "input_tokens": 0,
+        "cached_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": 0.0,
+        "status": "killed",
+        "duration_ms": 0.0,
+        "deadline_remaining_s": 20.0,
+        "tokens_remaining": 59067,
+        "timeout_s": 20.0,
+        "detail": {},
+        "error": "shipping agent killed by failure injection",
+        "warnings": [],
+        "started_offset_ms": 1.1
+      },
+      {
+        "span_id": "c10dbd450bfd",
+        "parent_id": "56978ff2cdbb",
+        "name": "agent:policy-agent",
+        "stage": 4,
+        "agent_id": "policy-agent",
+        "kind": "stage",
+        "prompt_version": null,
+        "model": null,
+        "input_tokens": 0,
+        "cached_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": 0.0,
+        "status": "ok",
+        "duration_ms": 0.2,
+        "deadline_remaining_s": 25.0,
+        "tokens_remaining": 59067,
+        "timeout_s": 25.0,
+        "detail": {},
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 1.1
+      },
+      {
+        "span_id": "e75d5795d23c",
+        "parent_id": "c10dbd450bfd",
+        "name": "retrieval:policy-index",
+        "stage": 4,
+        "agent_id": "policy-agent",
+        "kind": "retrieval",
+        "prompt_version": null,
+        "model": null,
+        "input_tokens": 0,
+        "cached_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": 0.0,
+        "status": "ok",
+        "duration_ms": 0.1,
+        "deadline_remaining_s": 25.0,
+        "tokens_remaining": 59067,
+        "timeout_s": 25.0,
+        "detail": {
+          "tenant_scope": "tenant-northwind",
+          "passages": [
+            {
+              "chunk_id": "nw-refund-002",
+              "doc": "Northwind Refund Policy",
+              "section": "Return shipping fee",
+              "text": "Return shipping is free for gold tier customers. Standard tier customers are charged a flat 8.00 USD return shipping fee, deducted from the refund.",
+              "effective_from": "2026-07-01",
+              "indexed_at": "2026-07-01",
+              "index_age_days": 34
+            },
+            {
+              "chunk_id": "nw-refund-001",
+              "doc": "Northwind Refund Policy",
+              "section": "Return window",
+              "text": "Customers may return any item within 30 days of delivery for a full refund. The 30 day window is measured from the delivery date recorded by the courier, not the order date.",
+              "effective_from": "2026-07-01",
+              "indexed_at": "2026-07-01",
+              "index_age_days": 34
+            },
+            {
+              "chunk_id": "nw-refund-004",
+              "doc": "Northwind Refund Policy",
+              "section": "Damaged goods",
+              "text": "Items that arrive damaged are refunded in full with no return shipping fee regardless of tier, provided the damage is reported within 14 days of delivery.",
+              "effective_from": "2026-07-01",
+              "indexed_at": "2026-07-01",
+              "index_age_days": 34
+            }
+          ],
+          "max_index_age_days": 34,
+          "scoping": "tenant id inside the query, not a filter over results",
+          "cross_tenant_attempted": false,
+          "cross_tenant_passages_returned": 0
+        },
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 1.1
+      },
+      {
+        "span_id": "4cf603de89d5",
+        "parent_id": "c10dbd450bfd",
+        "name": "model:policy-agent",
+        "stage": 4,
+        "agent_id": "policy-agent",
+        "kind": "model",
+        "prompt_version": "v6",
+        "model": "gemini-3.6-flash",
+        "input_tokens": 683,
+        "cached_tokens": 364,
+        "output_tokens": 116,
+        "cost_usd": 0.001403,
+        "status": "ok",
+        "duration_ms": 0.0,
+        "deadline_remaining_s": 25.0,
+        "tokens_remaining": 59067,
+        "timeout_s": 25.0,
+        "detail": {
+          "cache_hit_pct": 53
+        },
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 1.2
+      },
+      {
+        "span_id": "2c48302fea57",
+        "parent_id": "f30e7fd03fed",
+        "name": "stage-5:writer",
+        "stage": 5,
+        "agent_id": "writer-agent",
+        "kind": "stage",
+        "prompt_version": null,
+        "model": null,
+        "input_tokens": 0,
+        "cached_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": 0.0,
+        "status": "ok",
+        "duration_ms": 0.1,
+        "deadline_remaining_s": 60.0,
+        "tokens_remaining": 58268,
+        "timeout_s": null,
+        "detail": {
+          "gaps": [
+            "live courier tracking was unavailable for this reply"
+          ]
+        },
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 1.3
+      },
+      {
+        "span_id": "d6fc96d4ce47",
+        "parent_id": "2c48302fea57",
+        "name": "agent:writer-agent",
+        "stage": 5,
+        "agent_id": "writer-agent",
+        "kind": "stage",
+        "prompt_version": null,
+        "model": null,
+        "input_tokens": 0,
+        "cached_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": 0.0,
+        "status": "ok",
+        "duration_ms": 0.1,
+        "deadline_remaining_s": 25.0,
+        "tokens_remaining": 58268,
+        "timeout_s": 25.0,
+        "detail": {},
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 1.3
+      },
+      {
+        "span_id": "2269d7e40a38",
+        "parent_id": "d6fc96d4ce47",
+        "name": "model:writer-agent",
+        "stage": 5,
+        "agent_id": "writer-agent",
+        "kind": "model",
+        "prompt_version": "v5",
+        "model": "gemini-3.6-flash",
+        "input_tokens": 490,
+        "cached_tokens": 236,
+        "output_tokens": 115,
+        "cost_usd": 0.001279,
+        "status": "ok",
+        "duration_ms": 0.0,
+        "deadline_remaining_s": 25.0,
+        "tokens_remaining": 58268,
+        "timeout_s": 25.0,
+        "detail": {
+          "cache_hit_pct": 48
+        },
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 1.3
+      },
+      {
+        "span_id": "b909ca51d0bd",
+        "parent_id": "f30e7fd03fed",
+        "name": "stage-6:orchestrator-merge",
+        "stage": 6,
+        "agent_id": "orchestrator",
+        "kind": "stage",
+        "prompt_version": null,
+        "model": null,
+        "input_tokens": 0,
+        "cached_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": 0.0,
+        "status": "ok",
+        "duration_ms": 0.0,
+        "deadline_remaining_s": 60.0,
+        "tokens_remaining": 57663,
+        "timeout_s": null,
+        "detail": {
+          "accepted": [
+            "order",
+            "policy"
+          ],
+          "rejected": [
+            "shipping"
+          ]
+        },
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 1.3
+      },
+      {
+        "span_id": "65dce0053e11",
+        "parent_id": "b909ca51d0bd",
+        "name": "model:orchestrator",
+        "stage": 6,
+        "agent_id": "orchestrator",
+        "kind": "model",
+        "prompt_version": "v7",
+        "model": "gemini-3.1-pro-preview",
+        "input_tokens": 751,
+        "cached_tokens": 394,
+        "output_tokens": 128,
+        "cost_usd": 0.002329,
+        "status": "ok",
+        "duration_ms": 0.0,
+        "deadline_remaining_s": null,
+        "tokens_remaining": null,
+        "timeout_s": null,
+        "detail": {
+          "cache_hit_pct": 52
+        },
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 1.4
+      },
+      {
+        "span_id": "111cc625c13e",
+        "parent_id": "f30e7fd03fed",
+        "name": "stage-7:output-guardrail",
+        "stage": 7,
+        "agent_id": "gateway",
+        "kind": "stage",
+        "prompt_version": null,
+        "model": null,
+        "input_tokens": 0,
+        "cached_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": 0.0,
+        "status": "ok",
+        "duration_ms": 0.0,
+        "deadline_remaining_s": 60.0,
+        "tokens_remaining": null,
+        "timeout_s": null,
+        "detail": {
+          "redacted": [],
+          "unresolved": [
+            "shipping branch did not return"
+          ]
+        },
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 1.4
+      },
+      {
+        "span_id": "13f7c7c01100",
+        "parent_id": "f30e7fd03fed",
+        "name": "stage-8:respond",
+        "stage": 8,
+        "agent_id": "gateway",
+        "kind": "stage",
+        "prompt_version": null,
+        "model": null,
+        "input_tokens": 0,
+        "cached_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": 0.0,
+        "status": "ok",
+        "duration_ms": 0.0,
+        "deadline_remaining_s": null,
+        "tokens_remaining": null,
+        "timeout_s": null,
+        "detail": {
+          "confidence": 0.75
+        },
+        "error": null,
+        "warnings": [],
+        "started_offset_ms": 1.4
+      }
+    ]
+  },
+  "semantic_warnings": [],
+  "all_spans_green": false,
+  "cost_by_model": {
+    "gemini-3.5-flash-lite": {
+      "calls": 1,
+      "input": 133,
+      "cached": 0,
+      "output": 2,
+      "usd": 4.5e-05,
+      "price": {
+        "name": "gemini-3.5-flash-lite",
+        "input_per_m": 0.3,
+        "cached_input_per_m": 0.03,
+        "output_per_m": 2.5
+      }
+    },
+    "gemini-3.1-pro-preview": {
+      "calls": 2,
+      "input": 1224,
+      "cached": 788,
+      "output": 205,
+      "usd": 0.00349,
+      "price": {
+        "name": "gemini-3.1-pro-preview",
+        "input_per_m": 2.0,
+        "cached_input_per_m": 0.2,
+        "output_per_m": 12.0
+      }
+    },
+    "gemini-3.6-flash": {
+      "calls": 3,
+      "input": 1499,
+      "cached": 832,
+      "output": 288,
+      "usd": 0.003285,
+      "price": {
+        "name": "gemini-3.6-flash",
+        "input_per_m": 1.5,
+        "cached_input_per_m": 0.15,
+        "output_per_m": 7.5
+      }
+    }
+  }
+}
