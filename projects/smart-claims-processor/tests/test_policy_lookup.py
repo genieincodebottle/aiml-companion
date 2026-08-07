@@ -1,11 +1,25 @@
 """Tests for policy lookup tools."""
 
 import pytest
+from src.tools import policy_lookup
 from src.tools.policy_lookup import (
     lookup_policy,
     is_policy_active,
     get_coverage_for_claim_type,
 )
+
+
+@pytest.fixture(autouse=True)
+def isolated_policy_db(tmp_path, monkeypatch):
+    """Run every test against a fresh temp DB seeded from SAMPLE_POLICIES.
+
+    The shared data/policies.db is demo state: scripts/seed_policies.py
+    overwrites the sample policy numbers with different dates/status, so
+    tests asserting SAMPLE_POLICIES values must not read that file.
+    """
+    monkeypatch.setattr(policy_lookup, "DB_PATH", tmp_path / "policies.db")
+    monkeypatch.setattr(policy_lookup, "_db_initialized", False)
+    yield
 
 
 def test_lookup_existing_policy():

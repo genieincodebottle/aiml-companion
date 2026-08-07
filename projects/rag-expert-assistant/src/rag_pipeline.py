@@ -139,7 +139,7 @@ def query_pipeline(rag_chain, retriever, question: str) -> dict:
 
     return {
         "question": question,
-        "answer": response.content,
+        "answer": response.text,
         "sources": [
             {
                 "source": doc.metadata.get("source", "unknown"),

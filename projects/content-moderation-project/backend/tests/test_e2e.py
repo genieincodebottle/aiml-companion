@@ -30,6 +30,7 @@ results_by_category = {}
 
 # Shared state across tests
 tokens = {}
+user_ids = {}  # resolved at runtime via /api/auth/current-user (DB IDs vary per machine)
 created_content_ids = []
 created_story_ids = []
 created_appeal_ids = []
@@ -197,6 +198,18 @@ def test_auth():
     if data:
         tokens["admin"] = data["token"]
 
+    # Resolve DB user IDs dynamically - they differ per environment,
+    # so tests must never hardcode them.
+    for key in ("user", "moderator"):
+        if key in tokens:
+            try:
+                resp = requests.get(f"{BASE_URL}/api/auth/current-user",
+                                    headers={"Authorization": f"Bearer {tokens[key]}"},
+                                    timeout=30)
+                user_ids[key] = str(resp.json()["user_id"])
+            except Exception:
+                pass
+
     # Get current user
     test("Auth", "Get current user",
          "GET", "/api/auth/current-user",
@@ -268,7 +281,7 @@ def test_stories():
 
     # Get user's stories
     test("Stories", "Get user stories",
-         "GET", "/api/stories/user/93",
+         "GET", f"/api/stories/user/{user_ids.get('user', '93')}",
          headers=auth_header("user"),
          check_fn=lambda d: isinstance(d, dict))
 
@@ -390,7 +403,7 @@ def test_appeals():
         data = test("Appeals", "Submit appeal for removed content",
                     "POST", "/api/appeals/submit",
                     headers=auth_header("user"),
-                    json_data={"content_id": removed_id, "user_id": "93", "appeal_reason": "E2E test: I believe this was incorrectly flagged."},
+                    json_data={"content_id": removed_id, "user_id": "e2e_test", "appeal_reason": "E2E test: I believe this was incorrectly flagged."},
                     check_fn=lambda d: d.get("success") is True)
         if data:
             created_appeal_ids.append(data.get("appeal_id", ""))
@@ -401,7 +414,7 @@ def test_appeals():
         data = test("Appeals", "Submit appeal",
                     "POST", "/api/appeals/submit",
                     headers=auth_header("user"),
-                    json_data={"content_id": appeal_content_id, "user_id": "93", "appeal_reason": "E2E test: I believe this was incorrectly flagged."},
+                    json_data={"content_id": appeal_content_id, "user_id": "e2e_test", "appeal_reason": "E2E test: I believe this was incorrectly flagged."},
                     check_fn=lambda d: d.get("success") is True or "appeal_id" in d)
 
     # Get pending appeals
@@ -428,7 +441,7 @@ def test_appeals():
         data = test("Appeals", "Process appeal through AI agent",
                     "POST", "/api/content/appeal",
                     headers=auth_header("policy"),
-                    json_data={"content_id": appeal_content_id, "user_id": "93", "appeal_reason": "E2E test appeal processing"},
+                    json_data={"content_id": appeal_content_id, "user_id": "e2e_test", "appeal_reason": "E2E test appeal processing"},
                     check_fn=lambda d: "decision" in d)
 
 
@@ -482,12 +495,12 @@ def test_admin():
          check_fn=lambda d: "moderators" in d)
 
     test("Admin", "Get specific moderator stats",
-         "GET", "/api/auth/moderator-stats/96",
+         "GET", f"/api/auth/moderator-stats/{user_ids.get('moderator', '96')}",
          headers=auth_header("admin"),
          check_fn=lambda d: isinstance(d, dict))
 
     test("Admin", "Get specific user details",
-         "GET", "/api/auth/users/93",
+         "GET", f"/api/auth/users/{user_ids.get('user', '93')}",
          headers=auth_header("admin"),
          check_fn=lambda d: isinstance(d, dict))
 
@@ -502,17 +515,17 @@ def test_admin():
 # ═══════════════════════════════════════════════════════════════════════════════
 def test_profile():
     test("Profile", "Get user profile",
-         "GET", "/api/users/93",
+         "GET", "/api/users/e2e_test",
          headers=auth_header("admin"),
          check_fn=lambda d: "username" in d or "user_id" in d)
 
     test("Profile", "Get user reputation",
-         "GET", "/api/users/93/reputation",
+         "GET", "/api/users/e2e_test/reputation",
          headers=auth_header("admin"),
          check_fn=lambda d: "reputation_score" in d)
 
     test("Profile", "Get user history",
-         "GET", "/api/users/93/history",
+         "GET", "/api/users/e2e_test/history",
          headers=auth_header("admin"),
          check_fn=lambda d: isinstance(d, dict))
 

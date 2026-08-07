@@ -51,11 +51,13 @@ MOCK_ANALYST_RESPONSE = MagicMock(
 
 MOCK_SYNTHESIS_RESPONSE = MagicMock(
     content="AI agents represent a paradigm shift in software design. LangGraph enables stateful multi-agent pipelines.",
+    text="AI agents represent a paradigm shift in software design. LangGraph enables stateful multi-agent pipelines.",
     response_metadata={"token_metadata": {"output_token_count": {"total_tokens": 150}}},
 )
 
 MOCK_WRITER_RESPONSE = MagicMock(
     content="## Introduction\nAI agents are transforming software.\n## Key Findings\n...\n## Sources\n[1] arxiv.org",
+    text="## Introduction\nAI agents are transforming software.\n## Key Findings\n...\n## Sources\n[1] arxiv.org",
     response_metadata={"token_metadata": {"output_token_count": {"total_tokens": 300}}},
 )
 

@@ -13,7 +13,10 @@ from datetime import date
 from pathlib import Path
 from typing import Optional
 
-DB_PATH = Path("./data/policies.db")
+# Project-root anchored so the DB is the same regardless of the CWD the
+# server or scripts are launched from (matches scripts/seed_policies.py).
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DB_PATH = PROJECT_ROOT / "data" / "policies.db"
 
 SAMPLE_POLICIES = [
     {

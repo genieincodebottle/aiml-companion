@@ -225,7 +225,7 @@ After changing the key, restart the backend. All logged-in users will need to lo
 This is what makes the project more than a demo. Here's exactly what happens:
 
 1. **Submit a high-value claim.** For India, set `estimated_amount` above ₹5,00,000. For US, set it above $10,000. These thresholds trigger HITL by default.
-2. **Pipeline pauses.** Backend log shows `Pausing pipeline for manual approval (ticket=HITL-XXXXXX)`. The claim row status flips to `pending_human_review`. Internally, LangGraph's `interrupt()` suspends the graph and `SqliteSaver` persists the checkpoint to `data/claims_checkpoints.db`.
+2. **Pipeline pauses.** Backend log shows `Pausing pipeline for manual approval (ticket=HITL-XXXXXX)`. The claim row status flips to `pending_human_review`. Internally, LangGraph's `interrupt()` suspends the graph and `SqliteSaver` persists the checkpoint to `src/data/claims_checkpoints.db`.
 3. **An approver logs in.** `reviewer1 / review123` is seeded on first startup - no registration needed. (If you want another reviewer, admins can create one via `POST /api/auth/register` with `"role":"reviewer"`.)
 4. **Reviewer opens the HITL queue.** They see the ticket with priority, triggers, review brief, and a PII-masked state snapshot.
 5. **Reviewer approves or denies.** Clicking approve calls `POST /api/hitl/decide/{ticket_id}` with the decision. The endpoint:
@@ -356,8 +356,9 @@ smart-claims-processor/
 ├── configs/
 │   ├── base.yaml             # Shared tunables (agents, HITL, guardrails, providers)
 │   └── countries/            # Country profiles (us.yaml, india.yaml)
-├── data/                   # SQLite DBs (api.db, hitl_queue.db, claims_checkpoints.db)
+├── data/                   # SQLite DBs (api.db, hitl_queue.db, policies.db) + Chroma memory
 │   └── sample_claims/      # Test data for all 5 pipeline paths (US + India)
+├── src/data/               # claims_checkpoints.db (SqliteSaver, written by src/agents/graph.py)
 ├── scripts/
 │   ├── seed_policies.py    # Seed US + India test policies
 │   ├── clean_data.py       # Clean claims data (keeps users) or full reset

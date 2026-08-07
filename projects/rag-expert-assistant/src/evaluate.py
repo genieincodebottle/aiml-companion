@@ -8,15 +8,25 @@
 import os
 from dotenv import load_dotenv
 from ragas import evaluate
-from ragas.metrics.collections import (
+# NOTE: `ragas.metrics.collections` exposes submodules, not metric instances -
+# passing those to evaluate() raises TypeError. The instances live in
+# `ragas.metrics` (deprecated alias until ragas 1.0, but the only form
+# evaluate() accepts together with a custom llm/embeddings).
+from ragas.metrics import (
     faithfulness,
     answer_relevancy,
     context_precision,
     context_recall,
 )
 from datasets import Dataset
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 
 load_dotenv()
+
+# RAGAS defaults its judge LLM to OpenAI. This project is Gemini-only
+# (single GOOGLE_API_KEY), so pass the judge + embeddings explicitly.
+JUDGE_MODEL = "gemini-3.5-flash-lite"
+EMBEDDING_MODEL = "models/gemini-embedding-001"
 
 # ---- Evaluation Dataset ----
 # In production: build 50-100 examples from real user queries
@@ -79,18 +89,23 @@ def run_evaluation(eval_data: dict = None) -> dict:
             context_precision,
             context_recall,
         ],
+        llm=ChatGoogleGenerativeAI(model=JUDGE_MODEL),
+        embeddings=GoogleGenerativeAIEmbeddings(model=EMBEDDING_MODEL),
     )
 
-    # Display results
+    # Display results (EvaluationResult has no .items(); read the DataFrame)
     print("=" * 60)
     print("RAG EVALUATION RESULTS (RAGAS)")
     print("=" * 60)
 
-    for metric, score in results.items():
-        if isinstance(score, (int, float)):
-            status = "PASS" if score >= 0.85 else "NEEDS WORK" if score >= 0.70 else "FAILING"
-            bar = "#" * int(score * 20) + "-" * (20 - int(score * 20))
-            print(f"  {metric:<25} {bar} {score:.3f}  [{status}]")
+    df = results.to_pandas()
+    metric_names = ["faithfulness", "answer_relevancy",
+                    "context_precision", "context_recall"]
+    for metric in [m for m in metric_names if m in df.columns]:
+        score = float(df[metric].mean())
+        status = "PASS" if score >= 0.85 else "NEEDS WORK" if score >= 0.70 else "FAILING"
+        bar = "#" * int(score * 20) + "-" * (20 - int(score * 20))
+        print(f"  {metric:<25} {bar} {score:.3f}  [{status}]")
 
     print("\n" + "-" * 60)
     print("INTERPRETATION GUIDE:")
