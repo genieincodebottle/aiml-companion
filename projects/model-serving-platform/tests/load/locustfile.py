@@ -5,8 +5,9 @@ Usage:
     locust -f tests/load/locustfile.py --host http://localhost:8000
     Target: 100 users, spawn rate 10/s, run for 5 minutes
 """
-from locust import HttpUser, task, between
 import random
+
+from locust import HttpUser, between, task
 
 
 class ModelUser(HttpUser):

@@ -96,3 +96,63 @@ class TestCheckDataQuality:
         df = pd.DataFrame({"a": [1, 1, 1], "b": [2, 2, 2]})
         result = check_data_quality(df)
         assert any(i["type"] == "duplicates" for i in result["issues"])
+
+
+class TestCheckAlerts:
+    """Tests for check_alerts()."""
+
+    def _drift(self, psi):
+        status = classify_psi(psi)
+        return {"feat": {"psi": psi, "status": status, "action": "x"}}
+
+    def test_no_alerts_when_stable(self):
+        from src.monitor import check_alerts
+        alerts = check_alerts(self._drift(0.02), {"issues": []})
+        assert alerts == []
+
+    def test_warning_on_moderate_drift(self):
+        from src.monitor import check_alerts
+        alerts = check_alerts(self._drift(0.15), {"issues": []})
+        assert len(alerts) == 1
+        assert alerts[0]["severity"] == "warning"
+        assert alerts[0]["source"] == "drift"
+
+    def test_critical_on_significant_drift(self):
+        from src.monitor import check_alerts
+        alerts = check_alerts(self._drift(0.40), {"issues": []})
+        assert alerts[0]["severity"] == "critical"
+
+    def test_critical_quality_issue_raises_alert(self):
+        from src.monitor import check_alerts
+        quality = {"issues": [{"type": "out_of_range", "column": "age",
+                               "detail": "negative", "severity": "critical"}]}
+        alerts = check_alerts(self._drift(0.02), quality)
+        assert alerts[0]["source"] == "data_quality"
+
+    def test_custom_thresholds_from_config(self):
+        from src.monitor import check_alerts
+        cfg = {"monitoring": {"psi_alert_threshold": 0.05, "psi_warn_threshold": 0.01}}
+        alerts = check_alerts(self._drift(0.06), {"issues": []}, cfg)
+        assert alerts[0]["severity"] == "critical"
+
+
+class TestDailyMonitoringSummary:
+    """Tests for daily_monitoring_summary()."""
+
+    def test_healthy_when_no_drift(self):
+        from src.monitor import daily_monitoring_summary
+        np.random.seed(42)
+        df = pd.DataFrame({"a": np.random.normal(0, 1, 500)})
+        result = daily_monitoring_summary(df, df.copy())
+        assert result["healthy"] is True
+        assert result["alerts"] == []
+        assert "Drift Monitoring Report" in result["report"]
+
+    def test_unhealthy_on_significant_drift(self):
+        from src.monitor import daily_monitoring_summary
+        np.random.seed(42)
+        ref = pd.DataFrame({"a": np.random.normal(0, 1, 500)})
+        cur = pd.DataFrame({"a": np.random.normal(5, 1, 500)})
+        result = daily_monitoring_summary(ref, cur)
+        assert result["healthy"] is False
+        assert any(a["severity"] == "critical" for a in result["alerts"])

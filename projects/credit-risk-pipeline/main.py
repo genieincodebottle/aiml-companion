@@ -8,6 +8,7 @@ Usage:
     python main.py --stage features    # Run only feature engineering
     python main.py --stage train       # Run only model training
     python main.py --stage evaluate    # Run only evaluation
+    python main.py --stage serve       # Start the FastAPI prediction server
     python main.py --verbose           # Enable debug logging
 
 Stages (run in order):
@@ -16,6 +17,7 @@ Stages (run in order):
     features   Engineer domain features (DTI, utilization, loan burden)
     train      Train LR + GBC pipelines with cross-validation
     evaluate   Cost-sensitive threshold tuning, confusion matrix, reports
+    serve      Launch the FastAPI server (requires a trained model)
 """
 
 from __future__ import annotations
@@ -100,14 +102,49 @@ def stage_evaluate(df: "pd.DataFrame", results: dict, cfg: dict) -> None:
     report_path.write_text(report["markdown"], encoding="utf-8")
     print(f"     Report saved to: {report_path}")
 
+    # Save tuned threshold for the serving API (src/serve.py reads this)
+    import json
+
+    threshold_path = PROJECT_ROOT / "artifacts" / "results" / "threshold.json"
+    threshold_path.write_text(
+        json.dumps(
+            {
+                "threshold": round(float(report["optimal_threshold"]), 4),
+                "min_cost": float(report["min_cost"]),
+                "best_model": report["best_model"],
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    print(f"     Threshold saved to: {threshold_path}")
+
 
 # ---------------------------------------------------------------------------
 # Pipeline orchestrator
 # ---------------------------------------------------------------------------
 
+def stage_serve() -> None:
+    """Launch the FastAPI prediction server (blocks until stopped)."""
+    import uvicorn
+
+    model_path = PROJECT_ROOT / "artifacts" / "results" / "best_model.joblib"
+    if not model_path.exists():
+        print(f"[FAIL] No trained model at {model_path}. Run `python main.py` first.")
+        sys.exit(1)
+
+    print("Starting API server at http://localhost:8000 (Ctrl+C to stop)")
+    uvicorn.run("src.serve:app", host="127.0.0.1", port=8000)
+
+
 def run_pipeline(stage: str | None = None) -> None:
     """Run the full pipeline or a specific stage."""
     from src.data_loader import load_config
+
+    # Serve does not need the data pipeline
+    if stage == "serve":
+        stage_serve()
+        return
 
     cfg = load_config()
 
@@ -154,7 +191,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--stage",
-        choices=["clean", "eda", "features", "train", "evaluate"],
+        choices=["clean", "eda", "features", "train", "evaluate", "serve"],
         default=None,
         help="Run a specific pipeline stage (default: run all stages)",
     )
@@ -171,6 +208,9 @@ def main() -> None:
         format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
         datefmt="%H:%M:%S",
     )
+    # Third-party debug output drowns out pipeline logs under --verbose
+    logging.getLogger("matplotlib").setLevel(logging.INFO)
+    logging.getLogger("PIL").setLevel(logging.INFO)
 
     t0 = time.time()
     try:

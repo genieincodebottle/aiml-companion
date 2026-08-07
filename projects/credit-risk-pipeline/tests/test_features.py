@@ -112,15 +112,17 @@ class TestLogTransforms:
     """Tests for add_log_transforms()."""
 
     def test_adds_log_columns_for_skewed(self, cfg):
-        # Create highly skewed data
+        # Create highly skewed data. Lognormal with sigma=2 has sample skew
+        # well above the 2.0 threshold (exponential hovers near it and can
+        # fall below for small samples).
         np.random.seed(42)
         df = pd.DataFrame({
-            "credit_amount": np.random.exponential(5000, 100),
+            "credit_amount": np.random.lognormal(8, 2, 100),
             "duration": np.random.normal(24, 6, 100),
             "target": np.random.choice([0, 1], 100),
         })
         result = add_log_transforms(df, cfg)
-        # credit_amount is exponential (skewed), should get log transform
+        # credit_amount is lognormal (heavily skewed), should get log transform
         log_cols = [c for c in result.columns if c.startswith("log_")]
         assert len(log_cols) >= 1
 

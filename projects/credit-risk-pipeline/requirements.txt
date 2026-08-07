@@ -10,6 +10,10 @@ seaborn>=0.12.0
 
 # Explainability
 shap>=0.42.0
+# Explicit floors for shap's numba/llvmlite chain - without these, uv's
+# resolver can backtrack to llvmlite 0.36 which fails on Python >= 3.10
+numba>=0.59.0
+llvmlite>=0.42.0
 
 # API serving
 fastapi>=0.100.0

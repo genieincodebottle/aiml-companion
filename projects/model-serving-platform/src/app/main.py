@@ -6,24 +6,48 @@ Lifespan model loading, graceful shutdown, Pydantic validation, health checks.
 Usage:
     uvicorn src.app.main:app --host 0.0.0.0 --port 8000
 """
+import logging
+import os
 import signal
 import sys
 import time
+from contextlib import asynccontextmanager
+from pathlib import Path
+
+import joblib
 import numpy as np
+import yaml
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import PlainTextResponse
+from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from pydantic import BaseModel, ConfigDict, Field
-from contextlib import asynccontextmanager
-import joblib
-import logging
-from src.app.metrics import track_prediction, track_error, PREDICTION_LATENCY, PREDICTION_COUNT, ERROR_COUNT
-from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+
+from src.app.metrics import track_error, track_prediction
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Resolve paths relative to project root so the server starts
+# regardless of the working directory uvicorn was launched from.
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+CONFIG_PATH = PROJECT_ROOT / "configs" / "base.yaml"
+
+
+def load_config():
+    """Load configs/base.yaml; fall back to defaults if absent."""
+    if CONFIG_PATH.exists():
+        with open(CONFIG_PATH, encoding="utf-8") as f:
+            return yaml.safe_load(f) or {}
+    logger.warning(f"Config not found at {CONFIG_PATH}, using defaults")
+    return {}
+
+
+_config = load_config()
+MODEL_PATH = PROJECT_ROOT / _config.get("model", {}).get("path", "artifacts/models/model.joblib")
+
 model = None
-model_version = "v1.0.0"
+# Environment beats config so docker-compose can pin a version per deploy
+model_version = os.environ.get("MODEL_VERSION") or _config.get("model", {}).get("version", "v1.0.0")
 start_time = None
 
 
@@ -33,7 +57,7 @@ async def lifespan(app: FastAPI):
     global model, start_time
     logger.info("Loading model at startup...")
     try:
-        model = joblib.load("artifacts/models/model.joblib")
+        model = joblib.load(MODEL_PATH)
         start_time = time.time()
         logger.info(f"Model {model_version} loaded successfully")
     except Exception as e:

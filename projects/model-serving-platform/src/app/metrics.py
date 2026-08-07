@@ -6,8 +6,7 @@ Latency histogram, prediction counter, error counter for monitoring.
 Usage:
     from src.app.metrics import PREDICTION_LATENCY, PREDICTION_COUNT, track_prediction
 """
-import time
-from prometheus_client import Histogram, Counter, start_http_server
+from prometheus_client import Counter, Histogram, start_http_server
 
 PREDICTION_LATENCY = Histogram(
     'prediction_latency_seconds',

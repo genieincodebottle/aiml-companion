@@ -19,7 +19,9 @@ POST /predict/batch    Batch predictions.
 
 from __future__ import annotations
 
+import json
 import logging
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Optional
 
@@ -33,6 +35,59 @@ logger = logging.getLogger(__name__)
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 MODEL_PATH = PROJECT_ROOT / "artifacts" / "results" / "best_model.joblib"
+THRESHOLD_PATH = PROJECT_ROOT / "artifacts" / "results" / "threshold.json"
+
+# Fallback when no tuned threshold artifact exists yet
+DEFAULT_THRESHOLD = 0.35
+
+# Globals loaded on startup
+_model = None
+_config: dict = {}
+_expected_columns: list[str] = []
+_categorical_columns: list[str] = []
+_threshold: float = DEFAULT_THRESHOLD
+
+
+def _load_artifacts() -> None:
+    """Load model, config, schema, and tuned threshold."""
+    global _model, _config, _expected_columns, _categorical_columns, _threshold
+
+    if MODEL_PATH.exists():
+        _model = joblib.load(MODEL_PATH)
+        logger.info(f"Model loaded from {MODEL_PATH}")
+
+        # Training schema: the ColumnTransformer requires these exact columns
+        _expected_columns = list(_model.feature_names_in_)
+        preprocessor = _model.named_steps["preprocessor"]
+        for name, _, cols in preprocessor.transformers_:
+            if name == "cat":
+                _categorical_columns = list(cols)
+    else:
+        logger.warning(f"No model found at {MODEL_PATH}. Train first.")
+
+    # Config drives serve-time feature engineering (same as training)
+    try:
+        from src.data_loader import load_config
+        _config = load_config()
+    except Exception as e:
+        logger.warning(f"Could not load config, feature engineering disabled: {e}")
+        _config = {}
+
+    # Cost-optimal threshold from the evaluate stage, if available
+    if THRESHOLD_PATH.exists():
+        try:
+            data = json.loads(THRESHOLD_PATH.read_text(encoding="utf-8"))
+            _threshold = float(data["threshold"])
+            logger.info(f"Using tuned threshold {_threshold:.2f} from {THRESHOLD_PATH}")
+        except Exception as e:
+            logger.warning(f"Could not read threshold artifact, using default: {e}")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Load artifacts on startup."""
+    _load_artifacts()
+    yield
 
 
 # ---------------------------------------------------------------------------
@@ -43,21 +98,8 @@ app = FastAPI(
     title="Credit Risk Prediction API",
     description="Predicts credit default probability using a trained ML pipeline.",
     version="0.1.0",
+    lifespan=lifespan,
 )
-
-# Global model reference (loaded on startup)
-_model = None
-
-
-@app.on_event("startup")
-def load_model() -> None:
-    """Load the trained model on startup."""
-    global _model
-    if MODEL_PATH.exists():
-        _model = joblib.load(MODEL_PATH)
-        logger.info(f"Model loaded from {MODEL_PATH}")
-    else:
-        logger.warning(f"No model found at {MODEL_PATH}. Train first.")
 
 
 # ---------------------------------------------------------------------------
@@ -75,8 +117,8 @@ class CreditApplication(BaseModel):
     housing: Optional[str] = Field(None, description="Housing type (own/rent/free)")
     purpose: Optional[str] = Field(None, description="Loan purpose")
 
-    class Config:
-        json_schema_extra = {
+    model_config = {
+        "json_schema_extra": {
             "example": {
                 "duration": 24,
                 "credit_amount": 5000,
@@ -88,6 +130,7 @@ class CreditApplication(BaseModel):
                 "purpose": "car",
             }
         }
+    }
 
 
 class PredictionResponse(BaseModel):
@@ -121,6 +164,7 @@ def health() -> dict:
         "status": "healthy",
         "model_loaded": _model is not None,
         "model_path": str(MODEL_PATH),
+        "threshold": _threshold,
     }
 
 
@@ -155,17 +199,41 @@ def predict_batch(request: BatchRequest) -> BatchResponse:
 # Scoring logic
 # ---------------------------------------------------------------------------
 
-DEFAULT_THRESHOLD = 0.35
+def _prepare_features(df: pd.DataFrame) -> pd.DataFrame:
+    """Align a request DataFrame with the model's training schema.
+
+    The pipeline was trained on the full dataset schema plus engineered
+    features, so we (1) run the same feature engineering, (2) reindex to
+    the training columns (absent ones become NaN and are handled by the
+    KNN imputer), and (3) fill absent categoricals with a placeholder
+    that the OneHotEncoder zero-encodes via handle_unknown='ignore'.
+    """
+    if _config:
+        try:
+            from src.features import engineer_features
+            df = engineer_features(df, _config)
+        except Exception as e:
+            logger.warning(f"Serve-time feature engineering failed: {e}")
+
+    df = df.reindex(columns=_expected_columns)
+    if _categorical_columns:
+        df[_categorical_columns] = (
+            df[_categorical_columns].astype(object).where(
+                df[_categorical_columns].notna(), "missing"
+            ).astype(str)
+        )
+    return df
 
 
 def _score_single(df: pd.DataFrame) -> PredictionResponse:
     """Score a single row DataFrame and return prediction."""
     try:
-        proba = _model.predict_proba(df)[0, 1]
+        features = _prepare_features(df)
+        proba = _model.predict_proba(features)[0, 1]
     except Exception as e:
         raise HTTPException(status_code=422, detail=f"Prediction failed: {e}")
 
-    prediction = int(proba >= DEFAULT_THRESHOLD)
+    prediction = int(proba >= _threshold)
 
     # Risk category
     if proba < 0.15:
@@ -183,7 +251,7 @@ def _score_single(df: pd.DataFrame) -> PredictionResponse:
     return PredictionResponse(
         default_probability=round(float(proba), 4),
         risk_category=category,
-        threshold=DEFAULT_THRESHOLD,
+        threshold=_threshold,
         prediction=prediction,
         adverse_action_reasons=reasons,
     )
@@ -214,7 +282,7 @@ def _get_adverse_reasons(df: pd.DataFrame, proba: float) -> list[str]:
         if row["credit_amount"] / max(row["income"], 1) > 0.3:
             reasons.append("High debt-to-income ratio")
 
-    if not reasons and proba > DEFAULT_THRESHOLD:
+    if not reasons and proba > _threshold:
         reasons.append("Combined risk factors exceed threshold")
 
     return reasons

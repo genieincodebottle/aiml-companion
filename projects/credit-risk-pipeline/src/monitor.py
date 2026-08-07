@@ -15,10 +15,12 @@ Industry thresholds:
 
 Functions
 ---------
-compute_psi           Calculate PSI for a single feature.
-monitor_drift         Check all features for drift.
-generate_drift_report Generate a drift monitoring report.
-check_data_quality    Run data quality checks on incoming data.
+compute_psi              Calculate PSI for a single feature.
+monitor_drift            Check all features for drift.
+generate_drift_report    Generate a drift monitoring report.
+check_data_quality       Run data quality checks on incoming data.
+check_alerts             Turn drift + quality results into actionable alerts.
+daily_monitoring_summary One-call daily monitoring job (drift + quality + alerts).
 """
 
 from __future__ import annotations
@@ -244,6 +246,121 @@ def check_data_quality(df: pd.DataFrame) -> dict:
     stats["pass"] = len([i for i in issues if i["severity"] == "critical"]) == 0
 
     return stats
+
+
+# ---------------------------------------------------------------------------
+# Alerting
+# ---------------------------------------------------------------------------
+
+def check_alerts(
+    drift_results: dict,
+    quality_results: dict,
+    cfg: dict | None = None,
+) -> list[dict]:
+    """Turn drift and quality results into actionable alerts.
+
+    Alert rules (thresholds configurable via ``monitoring`` config section):
+    - PSI above the alert threshold  -> critical alert (retrain)
+    - PSI above the warn threshold   -> warning alert (investigate)
+    - Any critical data quality issue -> critical alert
+
+    Parameters
+    ----------
+    drift_results : dict
+        Output from ``monitor_drift()``.
+    quality_results : dict
+        Output from ``check_data_quality()``.
+    cfg : dict, optional
+        Pipeline config; reads ``monitoring.psi_alert_threshold`` and
+        ``monitoring.psi_warn_threshold``.
+
+    Returns
+    -------
+    list[dict]
+        Alerts with ``severity``, ``source``, ``feature``, ``message``.
+    """
+    mon_cfg = (cfg or {}).get("monitoring", {})
+    alert_threshold = mon_cfg.get("psi_alert_threshold", 0.25)
+    warn_threshold = mon_cfg.get("psi_warn_threshold", 0.10)
+
+    alerts = []
+    for feat, info in drift_results.items():
+        psi = info["psi"]
+        if psi >= alert_threshold:
+            alerts.append({
+                "severity": "critical",
+                "source": "drift",
+                "feature": feat,
+                "message": f"PSI={psi:.4f} >= {alert_threshold} - retrain recommended",
+            })
+        elif psi >= warn_threshold:
+            alerts.append({
+                "severity": "warning",
+                "source": "drift",
+                "feature": feat,
+                "message": f"PSI={psi:.4f} >= {warn_threshold} - investigate distribution shift",
+            })
+
+    for issue in quality_results.get("issues", []):
+        if issue["severity"] == "critical":
+            alerts.append({
+                "severity": "critical",
+                "source": "data_quality",
+                "feature": issue.get("column"),
+                "message": f"{issue['type']}: {issue['detail']}",
+            })
+
+    for alert in alerts:
+        log = logger.error if alert["severity"] == "critical" else logger.warning
+        log(f"[ALERT:{alert['severity']}] {alert['source']}/{alert['feature']}: {alert['message']}")
+
+    return alerts
+
+
+def daily_monitoring_summary(
+    reference_df: pd.DataFrame,
+    current_df: pd.DataFrame,
+    cfg: dict | None = None,
+) -> dict:
+    """Run the full daily monitoring job in one call.
+
+    Combines drift detection, data quality checks, and alerting into a
+    single summary suitable for a scheduled (e.g. cron) monitoring run.
+
+    Parameters
+    ----------
+    reference_df : pd.DataFrame
+        Reference (training) dataset.
+    current_df : pd.DataFrame
+        Current (production) dataset for the monitoring window.
+    cfg : dict, optional
+        Pipeline config with optional ``monitoring`` section.
+
+    Returns
+    -------
+    dict
+        ``drift``, ``quality``, ``alerts``, ``healthy`` (no critical
+        alerts), and ``report`` (Markdown).
+    """
+    drift = monitor_drift(reference_df, current_df)
+    quality = check_data_quality(current_df)
+    alerts = check_alerts(drift, quality, cfg)
+
+    healthy = not any(a["severity"] == "critical" for a in alerts)
+    report = generate_drift_report(drift, quality)
+
+    logger.info(
+        f"Daily monitoring: {len(drift)} features checked, "
+        f"{len(alerts)} alerts, healthy={healthy}"
+    )
+
+    return {
+        "drift": drift,
+        "quality": quality,
+        "alerts": alerts,
+        "healthy": healthy,
+        "report": report,
+    }
 
 
 # ---------------------------------------------------------------------------

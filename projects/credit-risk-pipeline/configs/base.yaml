@@ -61,5 +61,10 @@ gradient_boosting:
 cost_false_negative: 10   # Cost of missing a defaulter
 cost_false_positive: 1    # Cost of denying a good borrower
 
+# Monitoring / alerting (used by src/monitor.py check_alerts)
+monitoring:
+  psi_warn_threshold: 0.10    # PSI above this -> warning alert (investigate)
+  psi_alert_threshold: 0.25   # PSI above this -> critical alert (retrain)
+
 # Output
 output_dir: "artifacts"

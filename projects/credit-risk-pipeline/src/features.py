@@ -177,9 +177,10 @@ def add_loan_burden(df: pd.DataFrame, cfg: dict) -> pd.DataFrame:
     """
     df = df.copy()
     col_map = cfg.get("burden_columns", {})
-    amount_col = col_map.get("amount", _find_column(df, ["credit_amount", "loan_amount", "amount"]))
-    duration_col = col_map.get("duration", _find_column(df, ["duration", "term", "installment_rate"]))
-    income_col = col_map.get("income", _find_column(df, ["income", "annual_income"]))
+    # `or` (not .get default) so a null config value still auto-detects
+    amount_col = col_map.get("amount") or _find_column(df, ["credit_amount", "loan_amount", "amount"])
+    duration_col = col_map.get("duration") or _find_column(df, ["duration", "term", "installment_rate"])
+    income_col = col_map.get("income") or _find_column(df, ["income", "annual_income"])
 
     if amount_col and duration_col:
         amount = pd.to_numeric(df[amount_col], errors="coerce").fillna(0)
@@ -216,7 +217,8 @@ def add_age_buckets(df: pd.DataFrame, cfg: dict) -> pd.DataFrame:
         Data with ``age_group`` column added.
     """
     df = df.copy()
-    age_col = cfg.get("age_column", _find_column(df, ["age", "age_years"]))
+    # `or` (not .get default) so `age_column: null` in config still auto-detects
+    age_col = cfg.get("age_column") or _find_column(df, ["age", "age_years"])
 
     if age_col:
         bins = cfg.get("age_bins", [0, 25, 35, 45, 55, 100])

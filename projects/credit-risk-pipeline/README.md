@@ -9,7 +9,7 @@ End-to-end ML pipeline for credit default prediction. Demonstrates data cleaning
 ```bash
 # Clone and setup
 git clone https://github.com/genieincodebottle/aiml-companion.git
-cd projects/credit-risk-pipeline
+cd aiml-companion/projects/credit-risk-pipeline
 python -m venv .venv
 source .venv/Scripts/activate    # Windows
 # source .venv/bin/activate      # Mac/Linux
@@ -51,7 +51,7 @@ credit-risk-pipeline/
 │   ├── test_models.py       # Model pipeline tests
 │   └── test_monitor.py      # Monitoring tests
 ├── notebooks/
-│   └── Credit_Risk_Pipeline.ipynb
+│   └── credit-risk-pipeline.ipynb
 ├── data/raw/                # Raw data files
 ├── artifacts/
 │   ├── figures/             # EDA and evaluation charts
@@ -76,7 +76,8 @@ credit-risk-pipeline/
 ## Serve the Model
 
 ```bash
-# Train first
+# Train first (also writes the tuned decision threshold to
+# artifacts/results/threshold.json, which the API loads on startup)
 python main.py
 
 # Start API server
