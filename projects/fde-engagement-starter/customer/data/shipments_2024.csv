@@ -1,0 +1,401 @@
+shipment_id,customer_id,origin_city,dest_city,dest_address,ship_date,delivery_date,status,failure_reason,weight_kg
+SH2410000,5309,Bremen,Rotterdam,190 Mill Lane,2024-04-08,2024-03-24,returned,nan,8.32
+SH2410001,4061,Hamburg,Bilbao,60 Main St,2024-09-07,2024-12-21,failed,recipient_absent,40.93
+SH2410002,4013,Marseille,Dublin,88 Mill Lane,2024-03-07,,delivered,N/A,54.84
+SH2410003,5494,Aarhus,Bremen,"237 Bridge St, Unit 3",2024-09-10,2024-11-20,delivered,nan,17.81
+SH2410004,5354,Porto,Gdansk,21 Station Rd,2024-02-13,2024-05-15,delivered,NULL,33.82
+SH2410005,4546,Hamburg,Marseille,137 Station Rd,2024-03-15,2024-07-09,returned,nan,20.27
+SH2410006,4114,Porto,Antwerp,207 Dock Approach,2024-07-09,2024-02-07,in_transit,N/A,19.64
+SH2410007,5316,Aarhus,Lyon,68 Kingsway,2024-04-24,2024-09-18,in_transit,-,81.30
+SH2410008,4449,Lyon,Malmo,24 Main St,2024-02-05,2024-11-06,failed,site_access_denied,6.22
+SH2410009,4958,Turin,Rotterdam,175 Harbour Rd,2024-11-18,2024-05-25,delivered,N/A,39.63
+SH2410010,5478,Turin,Marseille,130 Harbour Rd,2024-11-10,2024-11-17,delivered,N/A,69.13
+SH2410011,5086,Rotterdam,Utrecht,126 Main St,2024-02-12,nan,delivered,,66.37
+SH2410012,5090,Lyon,Lyon,169 Elm Grove,2024-09-06,2024-05-17,failed,recipient_absent,84.10
+SH2410013,5412,Bilbao,Gdansk,103 Dock Approach,2024-08-17,2024-08-04,delivered,N/A,2.39
+SH2410014,5205,Porto,Rotterdam,19 Main St,2024-04-03,2024-01-28,in_transit,NULL,25.56
+SH2410015,5104,Lyon,Malmo,63 Elm Grove,2024-07-07,2024-02-04,delivered,-,37.50
+SH2410016,4110,Bremen,Antwerp,104 Dock Approach,2024-02-08,2024-04-07,delivered,-,17.01
+SH2410017,4154,Aarhus,Bremen,13 Main St,2024-02-25,2024-04-06,failed,recipient_absent,78.32
+SH2410018,4337,Manchester,Rotterdam,100 Mill Lane,2024-08-10,2024-07-23,in_transit,-,14.43
+SH2410019,4119,Antwerp,Utrecht,15 Main St,2024-10-16,2024-09-28,delivered,nan,7.71
+SH2410020,5218,Hamburg,Porto,104 Harbour Rd,2024-10-08,,failed,site_access_denied,51.37
+SH2410021,4534,Bilbao,Utrecht,62 Mill Lane,2024-07-05,2024-11-21,delivered,,1.34
+SH2410022,5153,Bremen,Hamburg,138 Station Rd,2024-09-09,2024-03-12,delivered,N/A,26.15
+SH2410023,5112,Gdansk,Rotterdam,171 Mill Lane,2024-11-04,2024-03-09,delivered,nan,14.49
+SH2410024,4431,Utrecht,Bilbao,176 Mill Lane,2024-09-16,-,delivered,,0.82
+SH2410025,5304,Turin,Marseille,190 Elm Grove,2024-09-23,,returned,NULL,49.60
+SH2410026,5192,Lyon,Dublin,33 Main St,2024-05-12,2024-01-12,delivered,,32.33
+SH2410027,4832,Lyon,Porto,222 Kingsway,2024-03-14,2024-01-06,delivered,-,72.70
+SH2410028,4508,Turin,Marseille,202 Harbour Rd,2024-07-28,2024-01-28,delivered,-,31.97
+SH2410029,4466,Porto,Rotterdam,169 Station Rd,2024-07-11,N/A,delivered,nan,36.47
+SH2410030,5098,Utrecht,Rotterdam,30 Mill Lane,2024-03-19,2024-05-02,failed,damaged_in_transit,66.07
+SH2410031,5241,Bremen,Manchester,231 Station Rd,2024-05-02,nan,returned,NULL,33.28
+SH2410032,5360,Utrecht,Utrecht,170 Harbour Rd,2024-12-10,2024-09-10,delivered,-,63.25
+SH2410033,4392,Dublin,Manchester,174 Kingsway,2024-10-19,2024-05-13,delivered,N/A,26.32
+SH2410034,5187,Utrecht,Aarhus,114 Elm Grove,2024-11-07,2024-09-16,returned,NULL,59.80
+SH2410035,5359,Utrecht,Hamburg,210 Station Rd,2024-11-10,2024-04-26,delivered,,22.54
+SH2410036,4149,Aarhus,Dublin,227 Station Rd,2024-12-23,2024-07-16,delivered,,80.84
+SH2410037,4218,Dublin,Porto,46 Elm Grove,2024-01-18,2024-04-28,delivered,-,60.58
+SH2410038,5219,Utrecht,Aarhus,157 Bridge St,2024-09-15,2024-03-24,failed,damaged_in_transit,68.16
+SH2410039,4567,Malmo,Porto,71 Elm Grove,2024-02-23,2024-05-08,delivered,nan,7.75
+SH2410040,4784,Lyon,Bilbao,17 Bridge St,2024-07-11,2024-09-15,delivered,-,35.55
+SH2410041,5424,Rotterdam,Manchester,123 Main St,2024-06-10,2024-07-28,failed,site_access_denied,67.78
+SH2410042,5235,Porto,Malmo,57 Mill Lane,2024-07-16,2024-01-13,returned,-,65.68
+SH2410043,4261,Rotterdam,Manchester,152 Main St,2024-02-21,2024-07-05,delivered,,23.91
+SH2410044,4931,Utrecht,Utrecht,195 Bridge St,2024-05-25,2024-07-09,failed,address_incorrect,67.91
+SH2410045,4716,Porto,Hamburg,200 Main St,2024-01-08,NULL,delivered,NULL,43.12
+SH2410046,4446,Aarhus,Turin,197 Dock Approach,2024-03-20,2024-10-24,delivered,N/A,N/A
+SH2410047,5179,Manchester,Manchester,184 Station Rd,2024-02-19,2024-12-27,delivered,N/A,77.03
+SH2410048,4247,Antwerp,Leeds,137 Bridge St,2024-11-12,2024-02-17,delivered,-,74.51
+SH2410049,4741,Aarhus,Lyon,112 Kingsway,2024-12-17,2024-11-09,in_transit,-,42.34
+SH2410050,5213,Turin,Utrecht,219 Station Rd,2024-02-09,2024-08-08,in_transit,nan,60.64
+SH2410051,5012,Utrecht,Marseille,125 Station Rd,2024-06-26,2024-05-11,in_transit,N/A,50.52
+SH2410052,4391,Hamburg,Porto,185 Bridge St,2024-08-18,2024-04-23,returned,-,N/A
+SH2410053,4453,Manchester,Porto,79 Dock Approach,2024-08-18,2024-09-12,returned,nan,30.27
+SH2410054,4554,Gdansk,Turin,60 Harbour Rd,2024-12-07,2024-06-04,returned,NULL,17.74
+SH2410055,4566,Gdansk,Bremen,214 Station Rd,2024-05-08,2024-06-06,returned,nan,
+SH2410056,5133,Gdansk,Lyon,164 Elm Grove,2024-02-28,2024-01-19,failed,customs_hold,31.16
+SH2410057,4517,Malmo,Bremen,211 Harbour Rd,2024-07-16,2024-02-19,delivered,NULL,13.93
+SH2410058,4622,Hamburg,Porto,31 Bridge St,2024-10-20,2024-10-08,failed,customs_hold,82.27
+SH2410059,5205,Dublin,Gdansk,146 Main St,2024-10-24,2024-02-25,delivered,N/A,59.94
+SH2410060,4355,Hamburg,Marseille,1 Bridge St,2024-08-23,2024-10-16,delivered,N/A,64.13
+SH2410061,4929,Hamburg,Porto,237 Mill Lane,2024-11-19,2024-11-26,failed,address_incorrect,49.51
+SH2410062,4544,Lyon,Hamburg,16 Kingsway,2024-05-20,2024-12-27,delivered,-,11.69
+SH2410063,5433,Manchester,Turin,129 Elm Grove,2024-08-03,2024-10-02,returned,N/A,NULL
+SH2410064,5380,Rotterdam,Turin,"148 Main St, Unit 25",2024-03-16,2024-09-21,delivered,NULL,90.23
+SH2410065,5007,Hamburg,Malmo,90 Bridge St,2024-06-11,2024-11-04,delivered,-,62.93
+SH2410066,4820,Antwerp,Aarhus,23 Dock Approach,2024-05-11,2024-02-25,in_transit,,59.69
+SH2410067,4846,Antwerp,Bilbao,133 Dock Approach,2024-10-25,2024-08-21,delivered,NULL,24.54
+SH2410068,4589,Aarhus,Malmo,32 Main St,2024-11-20,2024-04-23,in_transit,,50.20
+SH2410069,4232,Aarhus,Bremen,166 Kingsway,2024-08-23,2024-05-17,failed,customs_hold,88.72
+SH2410070,5128,Lyon,Manchester,49 Kingsway,2024-02-09,2024-07-11,in_transit,N/A,74.35
+SH2410071,4611,Malmo,Lyon,115 Elm Grove,2024-06-11,2024-09-25,failed,damaged_in_transit,78.76
+SH2410072,4489,Manchester,Porto,220 Bridge St,2024-01-11,2024-12-16,failed,customs_hold,89.46
+SH2410073,5335,Lyon,Malmo,10 Kingsway,2024-09-19,2024-06-28,failed,address_incorrect,47.84
+SH2410074,5479,Lyon,Dublin,223 Kingsway,2024-02-16,2024-05-11,failed,address_incorrect,77.16
+SH2410075,5092,Manchester,Utrecht,161 Elm Grove,2024-09-02,2024-10-03,returned,N/A,90.27
+SH2410076,4888,Bremen,Bremen,114 Kingsway,2024-12-10,2024-01-02,delivered,N/A,32.76
+SH2410077,4500,Dublin,Marseille,44 Kingsway,2024-02-20,2024-07-20,failed,site_access_denied,13.38
+SH2410078,4520,Aarhus,Turin,171 Main St,2024-08-10,2024-11-18,failed,damaged_in_transit,89.39
+SH2410079,4868,Turin,Aarhus,217 Mill Lane,2024-04-13,2024-08-04,in_transit,N/A,52.23
+SH2410080,4604,Rotterdam,Manchester,71 Main St,2024-10-28,2024-11-25,delivered,nan,67.57
+SH2410081,4586,Porto,Leeds,57 Station Rd,2024-10-09,2024-11-25,returned,NULL,57.04
+SH2410082,5323,Antwerp,Gdansk,202 Elm Grove,2024-01-19,2024-06-24,delivered,N/A,67.77
+SH2410083,4270,Leeds,Turin,213 Kingsway,2024-05-27,2024-08-26,delivered,,42.65
+SH2410084,4462,Manchester,Leeds,24 Bridge St,2024-01-09,2024-09-04,returned,N/A,53.11
+SH2410085,4760,Bremen,Porto,121 Main St,2024-10-18,2024-06-20,delivered,-,82.34
+SH2410086,4836,Bremen,Lyon,12 Main St,2024-05-16,2024-02-04,in_transit,NULL,35.48
+SH2410087,5426,Dublin,Lyon,227 Bridge St,2024-11-04,2024-08-20,delivered,,62.63
+SH2410088,4910,Porto,Leeds,26 Dock Approach,2024-09-21,2024-06-02,delivered,,85.91
+SH2410089,4187,Bilbao,Rotterdam,13 Dock Approach,2024-04-05,nan,delivered,nan,19.94
+SH2410090,4672,Lyon,Rotterdam,71 Kingsway,2024-03-18,2024-05-26,returned,,12.36
+SH2410091,4487,Utrecht,Rotterdam,45 Mill Lane,2024-01-05,2024-12-14,returned,,43.36
+SH2410092,5051,Bremen,Aarhus,129 Station Rd,2024-10-02,2024-12-26,returned,nan,27.65
+SH2410093,4063,Antwerp,Malmo,217 Bridge St,2024-07-22,2024-02-16,failed,address_incorrect,81.43
+SH2410094,4303,Hamburg,Lyon,71 Dock Approach,2024-07-20,2024-09-10,in_transit,-,9.43
+SH2410095,5340,Bilbao,Dublin,116 Station Rd,2024-07-11,2024-08-13,delivered,N/A,38.91
+SH2410096,4766,Lyon,Malmo,18 Harbour Rd,2024-02-03,2024-07-04,delivered,NULL,50.57
+SH2410097,5150,Utrecht,Bremen,106 Dock Approach,2024-11-25,2024-07-28,delivered,N/A,54.54
+SH2410098,5183,Bilbao,Lyon,169 Elm Grove,2024-04-28,2024-02-12,delivered,,69.13
+SH2410099,4878,Rotterdam,Turin,8 Kingsway,2024-05-23,2024-05-11,delivered,NULL,51.47
+SH2410100,4290,Rotterdam,Hamburg,192 Station Rd,2024-07-14,2024-08-11,delivered,N/A,70.42
+SH2410101,4173,Antwerp,Lyon,41 Main St,2024-11-03,2024-05-15,failed,site_access_denied,40.28
+SH2410102,5049,Bremen,Leeds,111 Harbour Rd,2024-05-22,2024-11-19,returned,N/A,4.59
+SH2410103,5227,Antwerp,Rotterdam,53 Mill Lane,2024-04-25,2024-03-25,delivered,,1.20
+SH2410104,4359,Lyon,Manchester,137 Station Rd,2024-09-18,2024-11-26,failed,address_incorrect,39.76
+SH2410105,4159,Utrecht,Dublin,147 Bridge St,2024-12-21,2024-07-10,delivered,N/A,15.97
+SH2410106,4942,Leeds,Hamburg,112 Harbour Rd,2024-04-14,2024-10-13,failed,damaged_in_transit,67.62
+SH2410107,4344,Hamburg,Bremen,136 Station Rd,2024-06-12,2024-12-27,delivered,NULL,9.75
+SH2410108,4355,Lyon,Hamburg,46 Elm Grove,2024-08-25,2024-10-25,returned,nan,58.37
+SH2410109,4661,Utrecht,Lyon,113 Harbour Rd,2024-08-15,2024-11-10,in_transit,,32.17
+SH2410110,4945,Aarhus,Antwerp,15 Dock Approach,2024-05-03,2024-11-28,delivered,nan,53.97
+SH2410111,5188,Antwerp,Aarhus,233 Station Rd,2024-06-20,2024-08-17,delivered,-,9.82
+SH2410112,4703,Hamburg,Marseille,11 Station Rd,2024-12-15,2024-08-17,delivered,N/A,34.06
+SH2410113,4837,Utrecht,Antwerp,203 Dock Approach,2024-02-11,2024-02-18,delivered,N/A,65.64
+SH2410114,5234,Lyon,Utrecht,21 Kingsway,2024-06-10,2024-11-23,delivered,nan,64.30
+SH2410115,5144,Manchester,Utrecht,209 Kingsway,2024-11-23,2024-12-22,delivered,-,N/A
+SH2410116,4369,Bilbao,Utrecht,197 Elm Grove,2024-04-08,,in_transit,nan,75.66
+SH2410117,4077,Utrecht,Lyon,153 Bridge St,2024-03-06,2024-03-27,in_transit,NULL,N/A
+SH2410118,5385,Porto,Aarhus,157 Mill Lane,2024-12-26,2024-08-08,delivered,-,81.86
+SH2410119,5389,Aarhus,Aarhus,197 Mill Lane,2024-07-17,2024-09-14,delivered,nan,12.96
+SH2410120,5313,Malmo,Leeds,142 Harbour Rd,2024-12-28,2024-09-28,delivered,NULL,25.05
+SH2410121,4301,Dublin,Hamburg,234 Station Rd,2024-08-12,nan,delivered,NULL,35.25
+SH2410122,4459,Rotterdam,Utrecht,239 Harbour Rd,2024-12-21,2024-06-26,delivered,N/A,83.07
+SH2410123,4284,Malmo,Aarhus,158 Main St,2024-02-01,2024-05-07,in_transit,nan,48.00
+SH2410124,4590,Porto,Gdansk,32 Main St,2024-04-14,2024-11-26,delivered,,75.80
+SH2410125,5097,Rotterdam,Porto,"184 Kingsway, Unit 10",2024-07-01,2024-10-12,failed,recipient_absent,60.29
+SH2410126,4738,Hamburg,Rotterdam,100 Elm Grove,2024-01-21,2024-07-12,delivered,N/A,71.47
+SH2410127,5345,Bremen,Utrecht,35 Main St,2024-06-18,2024-06-27,returned,-,88.77
+SH2410128,4373,Lyon,Hamburg,184 Elm Grove,2024-01-10,2024-04-02,delivered,N/A,84.50
+SH2410129,5112,Malmo,Turin,10 Station Rd,2024-05-12,2024-01-28,delivered,,72.44
+SH2410130,4819,Aarhus,Manchester,87 Kingsway,2024-08-23,2024-08-12,in_transit,N/A,72.60
+SH2410131,4161,Dublin,Marseille,140 Mill Lane,2024-06-04,2024-02-11,delivered,-,54.74
+SH2410132,5412,Aarhus,Leeds,115 Main St,2024-12-28,2024-06-20,delivered,,7.25
+SH2410133,4744,Marseille,Rotterdam,37 Elm Grove,2024-01-05,2024-02-08,delivered,N/A,34.96
+SH2410134,5239,Lyon,Aarhus,95 Dock Approach,2024-08-25,2024-02-19,delivered,-,28.79
+SH2410135,4232,Rotterdam,Marseille,128 Bridge St,2024-09-04,2024-05-25,failed,recipient_absent,90.17
+SH2410136,5005,Bilbao,Bremen,35 Harbour Rd,2024-08-06,2024-12-15,returned,N/A,60.61
+SH2410137,5126,Gdansk,Gdansk,218 Kingsway,2024-12-23,2024-12-21,delivered,nan,20.68
+SH2410138,4284,Porto,Malmo,7 Dock Approach,2024-09-19,2024-06-15,in_transit,NULL,55.58
+SH2410139,4633,Manchester,Malmo,135 Bridge St,2024-07-27,2024-10-03,delivered,,41.00
+SH2410140,4705,Lyon,Marseille,197 Kingsway,2024-07-17,2024-01-27,delivered,N/A,15.32
+SH2410141,5452,Porto,Leeds,133 Mill Lane,2024-02-09,2024-04-21,delivered,NULL,56.75
+SH2410142,4191,Marseille,Lyon,44 Dock Approach,2024-10-02,nan,delivered,NULL,69.53
+SH2410143,5308,Rotterdam,Malmo,228 Mill Lane,2024-11-10,2024-08-08,returned,-,27.27
+SH2410144,4122,Marseille,Aarhus,107 Elm Grove,2024-08-07,2024-06-20,returned,N/A,66.58
+SH2410145,4816,Lyon,Leeds,132 Harbour Rd,2024-06-08,2024-08-04,delivered,NULL,9.21
+SH2410146,4786,Dublin,Porto,222 Kingsway,2024-06-19,2024-12-11,delivered,-,90.14
+SH2410147,4631,Malmo,Rotterdam,24 Bridge St,2024-09-15,2024-04-07,delivered,,25.82
+SH2410148,5339,Malmo,Gdansk,138 Main St,2024-02-14,2024-03-09,failed,damaged_in_transit,4.57
+SH2410149,5150,Bilbao,Leeds,142 Mill Lane,2024-02-13,2024-09-15,delivered,nan,61.74
+SH2410150,4198,Manchester,Leeds,204 Dock Approach,2024-09-12,2024-03-07,failed,site_access_denied,N/A
+SH2410151,4970,Aarhus,Lyon,156 Kingsway,2024-06-20,2024-06-06,in_transit,N/A,53.94
+SH2410152,5043,Malmo,Gdansk,122 Main St,2024-06-11,2024-11-04,in_transit,N/A,72.21
+SH2410153,5409,Rotterdam,Malmo,68 Station Rd,2024-12-02,2024-10-16,returned,nan,70.21
+SH2410154,5394,Porto,Antwerp,147 Harbour Rd,2024-04-01,2024-08-11,failed,recipient_absent,37.43
+SH2410155,4965,Antwerp,Lyon,133 Station Rd,2024-09-11,2024-11-16,delivered,NULL,41.87
+SH2410156,5118,Leeds,Turin,157 Elm Grove,2024-04-08,2024-05-18,delivered,N/A,63.94
+SH2410157,5001,Utrecht,Malmo,90 Mill Lane,2024-05-04,2024-10-22,failed,damaged_in_transit,86.41
+SH2410158,4594,Antwerp,Gdansk,183 Harbour Rd,2024-06-15,2024-11-09,delivered,NULL,75.02
+SH2410159,5151,Turin,Lyon,28 Station Rd,2024-04-02,2024-11-17,delivered,,9.52
+SH2410160,4967,Bremen,Lyon,2 Kingsway,2024-07-21,2024-08-16,delivered,N/A,26.19
+SH2410161,4183,Porto,Antwerp,234 Kingsway,2024-07-27,2024-03-02,failed,customs_hold,17.27
+SH2410162,4592,Antwerp,Rotterdam,77 Harbour Rd,2024-06-10,2024-08-21,failed,recipient_absent,77.10
+SH2410163,4394,Bremen,Utrecht,42 Elm Grove,2024-11-09,N/A,delivered,nan,61.20
+SH2410164,5251,Manchester,Dublin,132 Dock Approach,2024-02-13,2024-11-04,delivered,-,29.62
+SH2410165,4534,Manchester,Porto,115 Mill Lane,2024-06-10,2024-10-24,delivered,N/A,62.85
+SH2410166,4242,Aarhus,Gdansk,41 Bridge St,2024-11-17,2024-12-25,delivered,N/A,33.58
+SH2410167,4273,Malmo,Lyon,117 Dock Approach,2024-07-23,2024-09-16,returned,NULL,69.07
+SH2410168,5220,Hamburg,Aarhus,136 Dock Approach,2024-02-19,2024-02-02,in_transit,NULL,52.04
+SH2410169,4671,Aarhus,Bremen,175 Station Rd,2024-12-19,2024-08-03,failed,address_incorrect,41.31
+SH2410170,4935,Antwerp,Aarhus,173 Mill Lane,2024-12-01,2024-07-09,returned,NULL,N/A
+SH2410171,5434,Hamburg,Antwerp,240 Harbour Rd,2024-08-02,2024-05-14,delivered,-,34.20
+SH2410172,4918,Manchester,Manchester,21 Kingsway,2024-11-28,2024-06-04,in_transit,-,48.10
+SH2410173,4456,Rotterdam,Rotterdam,77 Elm Grove,2024-11-24,2024-09-14,delivered,NULL,41.96
+SH2410174,4386,Bremen,Antwerp,208 Bridge St,2024-10-25,2024-01-08,delivered,nan,3.52
+SH2410175,5440,Antwerp,Porto,190 Main St,2024-07-15,2024-04-18,delivered,NULL,45.85
+SH2410176,5498,Utrecht,Utrecht,61 Mill Lane,2024-03-22,2024-09-08,delivered,,50.60
+SH2410177,4358,Dublin,Malmo,13 Dock Approach,2024-11-22,2024-07-26,returned,-,37.24
+SH2410178,4376,Malmo,Porto,218 Station Rd,2024-05-28,2024-12-05,delivered,nan,37.64
+SH2410179,5085,Lyon,Manchester,63 Mill Lane,2024-04-11,2024-11-03,delivered,,48.71
+SH2410180,4105,Turin,Manchester,173 Main St,2024-02-07,2024-10-24,delivered,-,19.30
+SH2410181,4620,Rotterdam,Bilbao,240 Station Rd,2024-12-04,2024-12-25,delivered,nan,63.84
+SH2410182,4490,Utrecht,Gdansk,98 Elm Grove,2024-09-21,2024-06-10,in_transit,-,42.44
+SH2410183,5479,Malmo,Utrecht,235 Station Rd,2024-06-11,2024-07-02,delivered,NULL,1.96
+SH2410184,5196,Dublin,Gdansk,40 Station Rd,2024-06-08,2024-07-19,failed,site_access_denied,59.41
+SH2410185,4527,Malmo,Malmo,118 Kingsway,2024-12-26,2024-06-06,in_transit,-,17.06
+SH2410186,5314,Antwerp,Antwerp,"215 Harbour Rd, Unit 27",2024-11-02,2024-01-14,returned,NULL,6.62
+SH2410187,4447,Aarhus,Leeds,16 Elm Grove,2024-11-16,2024-01-01,failed,address_incorrect,2.01
+SH2410188,5097,Gdansk,Rotterdam,129 Bridge St,2024-03-04,2024-02-17,delivered,nan,47.88
+SH2410189,4547,Manchester,Hamburg,96 Bridge St,2024-08-19,2024-04-23,returned,,59.34
+SH2410190,4064,Hamburg,Manchester,98 Bridge St,2024-09-16,NULL,delivered,-,76.58
+SH2410191,4678,Bremen,Antwerp,59 Station Rd,2024-12-19,,returned,N/A,81.44
+SH2410192,4067,Marseille,Utrecht,5 Station Rd,2024-10-05,2024-12-27,delivered,N/A,15.12
+SH2410193,4796,Utrecht,Manchester,194 Kingsway,2024-12-24,2024-02-17,delivered,,9.29
+SH2410194,4155,Utrecht,Manchester,199 Dock Approach,2024-01-21,2024-05-26,failed,recipient_absent,32.52
+SH2410195,4884,Marseille,Manchester,22 Mill Lane,2024-04-23,2024-02-03,failed,recipient_absent,67.07
+SH2410196,4218,Hamburg,Rotterdam,79 Elm Grove,2024-06-25,2024-05-04,delivered,-,40.90
+SH2410197,4835,Bremen,Rotterdam,23 Dock Approach,2024-09-03,2024-10-20,failed,address_incorrect,26.77
+SH2410198,4173,Porto,Marseille,176 Bridge St,2024-03-05,2024-05-10,delivered,,15.55
+SH2410199,4613,Malmo,Hamburg,93 Mill Lane,2024-04-24,2024-11-16,delivered,-,10.13
+SH2410200,4810,Utrecht,Manchester,206 Dock Approach,2024-08-11,2024-07-27,returned,nan,12.75
+SH2410201,5423,Bilbao,Malmo,81 Kingsway,2024-07-11,2024-05-24,failed,site_access_denied,70.88
+SH2410202,4574,Manchester,Leeds,30 Station Rd,2024-10-18,2024-03-22,delivered,-,85.37
+SH2410203,4596,Hamburg,Dublin,173 Elm Grove,2024-03-21,2024-05-08,delivered,-,71.52
+SH2410204,5224,Malmo,Manchester,137 Bridge St,2024-09-02,2024-06-23,in_transit,nan,57.94
+SH2410205,4508,Leeds,Marseille,166 Main St,2024-10-21,2024-11-21,delivered,-,10.04
+SH2410206,4454,Porto,Aarhus,96 Bridge St,2024-08-25,2024-11-19,delivered,N/A,90.29
+SH2410207,4605,Dublin,Hamburg,30 Kingsway,2024-06-10,2024-06-15,in_transit,-,31.85
+SH2410208,5478,Aarhus,Utrecht,18 Mill Lane,2024-01-26,N/A,returned,,61.44
+SH2410209,4499,Marseille,Marseille,85 Bridge St,2024-08-08,2024-07-21,returned,-,36.10
+SH2410210,4404,Aarhus,Dublin,100 Main St,2024-12-07,2024-04-09,delivered,nan,9.66
+SH2410211,4382,Leeds,Utrecht,51 Elm Grove,2024-02-09,2024-11-28,returned,N/A,54.23
+SH2410212,5202,Bremen,Leeds,91 Elm Grove,2024-10-06,2024-11-23,in_transit,nan,8.13
+SH2410213,4241,Porto,Gdansk,30 Kingsway,2024-06-23,2024-03-17,in_transit,NULL,52.23
+SH2410214,4996,Marseille,Marseille,126 Mill Lane,2024-03-06,2024-06-27,delivered,N/A,86.17
+SH2410215,4399,Manchester,Malmo,105 Elm Grove,2024-07-23,2024-08-16,in_transit,,72.13
+SH2410216,4066,Turin,Porto,138 Mill Lane,2024-03-25,2024-08-19,failed,site_access_denied,46.47
+SH2410217,4548,Leeds,Antwerp,195 Elm Grove,2024-09-07,2024-07-04,returned,NULL,27.29
+SH2410218,4921,Turin,Leeds,221 Harbour Rd,2024-08-28,2024-02-25,delivered,nan,62.52
+SH2410219,5249,Dublin,Marseille,158 Kingsway,2024-04-27,N/A,in_transit,N/A,54.22
+SH2410220,5441,Gdansk,Gdansk,147 Mill Lane,2024-09-22,2024-02-05,failed,address_incorrect,89.82
+SH2410221,4259,Lyon,Porto,38 Dock Approach,2024-04-25,2024-11-13,in_transit,N/A,57.00
+SH2410222,4154,Hamburg,Manchester,132 Mill Lane,2024-12-12,2024-08-16,delivered,,66.28
+SH2410223,5360,Leeds,Hamburg,204 Bridge St,2024-04-14,2024-04-16,delivered,N/A,49.76
+SH2410224,4993,Utrecht,Antwerp,12 Harbour Rd,2024-11-26,2024-08-01,delivered,-,41.59
+SH2410225,4876,Bilbao,Lyon,226 Mill Lane,2024-03-28,2024-05-03,delivered,,33.97
+SH2410226,4338,Antwerp,Manchester,161 Mill Lane,2024-12-23,2024-04-14,returned,,0.60
+SH2410227,4271,Porto,Aarhus,3 Main St,2024-12-11,2024-02-28,delivered,-,6.87
+SH2410228,5496,Bremen,Bremen,81 Dock Approach,2024-05-05,2024-07-25,delivered,NULL,6.66
+SH2410229,5249,Marseille,Aarhus,90 Station Rd,2024-11-24,2024-03-14,failed,recipient_absent,8.30
+SH2410230,4252,Manchester,Leeds,110 Dock Approach,2024-03-08,nan,in_transit,nan,65.41
+SH2410231,5414,Rotterdam,Gdansk,53 Station Rd,2024-12-13,NULL,failed,customs_hold,10.65
+SH2410232,5216,Hamburg,Rotterdam,93 Dock Approach,2024-03-13,2024-10-14,returned,NULL,69.15
+SH2410233,4149,Rotterdam,Hamburg,4 Mill Lane,2024-04-02,2024-01-26,delivered,nan,69.54
+SH2410234,4823,Hamburg,Lyon,72 Harbour Rd,2024-05-03,2024-09-07,delivered,nan,29.91
+SH2410235,5330,Hamburg,Gdansk,179 Bridge St,2024-12-28,2024-04-02,failed,address_incorrect,41.30
+SH2410236,4633,Marseille,Bremen,4 Kingsway,2024-12-01,2024-03-16,in_transit,nan,70.97
+SH2410237,4341,Leeds,Lyon,192 Mill Lane,2024-12-04,2024-01-11,delivered,nan,6.25
+SH2410238,5180,Hamburg,Malmo,117 Dock Approach,2024-01-16,2024-10-06,delivered,,80.98
+SH2410239,4236,Porto,Rotterdam,12 Main St,2024-04-02,2024-08-12,delivered,NULL,84.30
+SH2410240,5132,Dublin,Porto,83 Station Rd,2024-07-24,2024-06-09,in_transit,N/A,11.25
+SH2410241,4107,Marseille,Porto,206 Main St,2024-07-03,2024-08-28,delivered,N/A,8.27
+SH2410242,4755,Bilbao,Gdansk,145 Mill Lane,2024-12-20,2024-04-15,failed,recipient_absent,66.42
+SH2410243,4502,Lyon,Rotterdam,239 Bridge St,2024-01-08,2024-09-12,returned,,-
+SH2410244,5489,Gdansk,Bremen,53 Station Rd,2024-07-16,2024-01-05,delivered,,83.41
+SH2410245,5064,Dublin,Leeds,118 Harbour Rd,2024-10-04,2024-09-05,failed,address_incorrect,53.77
+SH2410246,5356,Lyon,Porto,75 Mill Lane,2024-06-26,2024-07-23,delivered,N/A,41.25
+SH2410247,4415,Lyon,Bremen,"40 Harbour Rd, Unit 6",2024-08-15,2024-06-14,delivered,NULL,41.17
+SH2410248,4245,Hamburg,Marseille,207 Mill Lane,2024-12-23,2024-10-02,delivered,NULL,8.71
+SH2410249,4728,Manchester,Antwerp,174 Mill Lane,2024-05-27,2024-03-01,failed,site_access_denied,67.83
+SH2410250,4946,Bremen,Lyon,32 Main St,2024-01-27,2024-04-05,failed,damaged_in_transit,62.27
+SH2410251,4172,Turin,Hamburg,6 Harbour Rd,2024-04-21,2024-08-26,delivered,,4.34
+SH2410252,4344,Dublin,Manchester,128 Main St,2024-07-22,2024-07-06,delivered,N/A,25.69
+SH2410253,4070,Porto,Gdansk,128 Bridge St,2024-09-16,2024-01-03,delivered,-,18.45
+SH2410254,5076,Porto,Rotterdam,98 Dock Approach,2024-08-18,2024-08-12,in_transit,N/A,35.45
+SH2410255,4653,Porto,Rotterdam,230 Mill Lane,2024-01-26,2024-08-17,in_transit,NULL,88.16
+SH2410256,5345,Porto,Turin,137 Main St,2024-04-19,2024-07-12,delivered,NULL,21.79
+SH2410257,5428,Leeds,Rotterdam,181 Dock Approach,2024-10-19,2024-03-19,failed,site_access_denied,28.31
+SH2410258,4184,Antwerp,Porto,155 Station Rd,2024-01-17,2024-08-01,in_transit,NULL,73.08
+SH2410259,4363,Utrecht,Antwerp,6 Kingsway,2024-10-23,2024-03-25,in_transit,N/A,86.95
+SH2410260,5356,Manchester,Bremen,87 Mill Lane,2024-06-05,2024-03-24,returned,-,58.93
+SH2410261,5150,Leeds,Porto,171 Kingsway,2024-07-10,2024-12-23,delivered,,85.89
+SH2410262,4801,Antwerp,Marseille,155 Dock Approach,2024-10-08,2024-11-19,failed,recipient_absent,30.31
+SH2410263,4710,Utrecht,Marseille,163 Harbour Rd,2024-12-22,2024-11-24,failed,address_incorrect,24.37
+SH2410264,4138,Leeds,Turin,202 Harbour Rd,2024-12-01,2024-01-13,failed,recipient_absent,80.11
+SH2410265,4775,Leeds,Manchester,26 Elm Grove,2024-10-21,2024-11-08,delivered,,27.04
+SH2410266,4214,Hamburg,Utrecht,44 Bridge St,2024-03-24,2024-02-18,delivered,N/A,53.96
+SH2410267,4988,Rotterdam,Dublin,168 Kingsway,2024-10-14,2024-03-02,delivered,NULL,37.34
+SH2410268,5494,Turin,Gdansk,77 Station Rd,2024-02-02,2024-07-19,failed,recipient_absent,
+SH2410269,4603,Malmo,Bilbao,25 Main St,2024-04-06,2024-11-10,failed,address_incorrect,28.25
+SH2410270,5001,Turin,Hamburg,165 Bridge St,2024-03-12,2024-07-12,delivered,N/A,40.08
+SH2410271,4550,Antwerp,Lyon,193 Harbour Rd,2024-02-22,2024-06-26,in_transit,NULL,50.32
+SH2410272,5070,Dublin,Malmo,147 Station Rd,2024-08-10,2024-02-13,returned,,45.69
+SH2410273,5170,Lyon,Bremen,194 Elm Grove,2024-03-06,2024-04-26,delivered,-,7.55
+SH2410274,4413,Lyon,Turin,82 Harbour Rd,2024-02-13,2024-09-13,delivered,nan,41.73
+SH2410275,5434,Dublin,Bremen,107 Kingsway,2024-03-19,2024-10-19,delivered,,51.14
+SH2410276,4585,Leeds,Dublin,68 Bridge St,2024-11-16,2024-10-20,delivered,N/A,36.77
+SH2410277,5394,Manchester,Antwerp,102 Dock Approach,2024-12-08,2024-01-24,delivered,N/A,2.32
+SH2410278,4620,Gdansk,Turin,216 Elm Grove,2024-12-22,2024-02-28,delivered,-,70.16
+SH2410279,5492,Dublin,Hamburg,49 Elm Grove,2024-04-27,2024-07-24,in_transit,N/A,74.39
+SH2410280,4325,Hamburg,Gdansk,182 Bridge St,2024-03-25,NULL,delivered,,22.95
+SH2410281,4738,Bilbao,Turin,95 Elm Grove,2024-09-13,2024-11-04,delivered,N/A,44.49
+SH2410282,4971,Leeds,Leeds,42 Mill Lane,2024-12-27,2024-12-03,failed,address_incorrect,15.16
+SH2410283,4438,Porto,Porto,174 Station Rd,2024-05-21,,failed,recipient_absent,58.76
+SH2410284,4017,Porto,Turin,156 Mill Lane,2024-12-23,2024-11-09,failed,damaged_in_transit,41.81
+SH2410285,4618,Manchester,Bremen,2 Dock Approach,2024-09-21,2024-10-20,returned,,43.86
+SH2410286,4566,Utrecht,Turin,67 Mill Lane,2024-04-05,2024-09-25,delivered,nan,36.87
+SH2410287,4286,Rotterdam,Malmo,76 Mill Lane,2024-07-13,nan,delivered,N/A,65.89
+SH2410288,5094,Malmo,Leeds,130 Mill Lane,2024-03-27,2024-11-18,delivered,-,12.01
+SH2410289,5144,Marseille,Utrecht,168 Harbour Rd,2024-04-12,2024-04-24,failed,damaged_in_transit,33.95
+SH2410290,4949,Bremen,Malmo,14 Harbour Rd,2024-08-07,2024-09-04,failed,site_access_denied,27.35
+SH2410291,4308,Lyon,Bilbao,88 Bridge St,2024-10-15,2024-03-11,delivered,,44.38
+SH2410292,4362,Utrecht,Antwerp,2 Elm Grove,2024-05-07,2024-03-19,failed,address_incorrect,12.15
+SH2410293,4879,Manchester,Dublin,123 Bridge St,2024-01-02,2024-09-07,delivered,N/A,68.62
+SH2410294,4036,Rotterdam,Porto,58 Dock Approach,2024-05-05,2024-02-13,delivered,NULL,N/A
+SH2410295,4933,Utrecht,Dublin,228 Kingsway,2024-06-16,2024-06-25,failed,address_incorrect,21.06
+SH2410296,4268,Bilbao,Rotterdam,151 Kingsway,2024-02-12,2024-12-21,failed,damaged_in_transit,69.91
+SH2410297,5216,Antwerp,Bremen,168 Main St,2024-01-23,2024-02-14,delivered,nan,23.25
+SH2410298,4420,Rotterdam,Gdansk,108 Harbour Rd,2024-11-17,2024-05-20,delivered,-,75.26
+SH2410299,5472,Bremen,Gdansk,30 Harbour Rd,2024-08-07,2024-10-07,in_transit,NULL,32.71
+SH2410300,4328,Antwerp,Malmo,234 Station Rd,2024-12-16,,delivered,nan,60.71
+SH2410301,4184,Hamburg,Bremen,232 Mill Lane,2024-11-08,2024-08-10,delivered,,73.69
+SH2410302,4595,Leeds,Utrecht,110 Harbour Rd,2024-02-28,2024-01-01,returned,NULL,30.08
+SH2410303,5273,Turin,Hamburg,96 Dock Approach,2024-03-04,2024-07-13,delivered,-,62.59
+SH2410304,4863,Marseille,Bremen,34 Main St,2024-03-04,2024-07-19,in_transit,-,16.81
+SH2410305,4734,Rotterdam,Lyon,124 Elm Grove,2024-02-14,N/A,delivered,nan,69.58
+SH2410306,5157,Porto,Utrecht,133 Harbour Rd,2024-07-22,2024-12-08,returned,-,13.88
+SH2410307,5255,Antwerp,Rotterdam,165 Kingsway,2024-09-28,2024-08-28,delivered,,68.13
+SH2410308,4677,Turin,Antwerp,"130 Station Rd, Unit 18",2024-11-13,2024-07-27,failed,customs_hold,72.61
+SH2410309,5020,Aarhus,Utrecht,31 Elm Grove,2024-12-21,2024-01-04,delivered,nan,49.92
+SH2410310,5237,Gdansk,Bilbao,168 Elm Grove,2024-06-12,2024-01-27,failed,damaged_in_transit,50.91
+SH2410311,4968,Leeds,Aarhus,30 Harbour Rd,2024-11-08,2024-01-11,returned,N/A,49.79
+SH2410312,4217,Antwerp,Marseille,127 Kingsway,2024-12-24,2024-12-14,in_transit,NULL,17.38
+SH2410313,4804,Bilbao,Aarhus,212 Station Rd,2024-12-11,2024-02-25,returned,nan,11.59
+SH2410314,4936,Lyon,Malmo,2 Main St,2024-09-14,2024-10-16,delivered,nan,16.13
+SH2410315,4212,Manchester,Utrecht,130 Bridge St,2024-07-20,2024-12-25,failed,damaged_in_transit,87.84
+SH2410316,4273,Lyon,Dublin,155 Mill Lane,2024-12-18,2024-06-23,in_transit,NULL,18.58
+SH2410317,4595,Leeds,Lyon,182 Kingsway,2024-09-18,2024-12-21,delivered,N/A,51.11
+SH2410318,5366,Dublin,Gdansk,225 Bridge St,2024-01-17,2024-02-01,delivered,,18.49
+SH2410319,4329,Gdansk,Turin,38 Main St,2024-12-26,2024-05-07,delivered,N/A,73.76
+SH2410320,5383,Porto,Manchester,61 Mill Lane,2024-12-22,2024-01-13,returned,N/A,87.42
+SH2410321,4514,Bilbao,Aarhus,213 Station Rd,2024-11-23,2024-12-21,in_transit,nan,66.96
+SH2410322,5484,Bilbao,Gdansk,115 Kingsway,2024-11-03,2024-03-06,delivered,-,4.16
+SH2410323,4541,Lyon,Marseille,150 Mill Lane,2024-01-11,2024-08-23,delivered,NULL,84.08
+SH2410324,5280,Gdansk,Malmo,203 Dock Approach,2024-02-26,2024-12-11,delivered,nan,6.64
+SH2410325,4851,Manchester,Hamburg,90 Station Rd,2024-04-22,2024-06-11,delivered,nan,48.24
+SH2410326,5329,Rotterdam,Bremen,172 Dock Approach,2024-08-08,2024-11-20,delivered,,61.93
+SH2410327,4232,Manchester,Turin,139 Mill Lane,2024-01-17,2024-06-17,failed,customs_hold,4.45
+SH2410328,4394,Utrecht,Hamburg,25 Kingsway,2024-09-18,NULL,returned,-,75.71
+SH2410329,5439,Dublin,Hamburg,192 Kingsway,2024-01-15,,delivered,NULL,71.98
+SH2410330,5177,Porto,Turin,105 Bridge St,2024-08-21,2024-07-14,failed,address_incorrect,48.64
+SH2410331,5266,Hamburg,Antwerp,180 Harbour Rd,2024-06-17,2024-02-10,delivered,nan,8.29
+SH2410332,4896,Manchester,Manchester,211 Main St,2024-08-06,2024-09-08,failed,site_access_denied,27.05
+SH2410333,4610,Leeds,Rotterdam,142 Kingsway,2024-02-02,2024-01-19,in_transit,nan,85.73
+SH2410334,5486,Leeds,Bilbao,106 Kingsway,2024-03-06,2024-04-20,delivered,,16.82
+SH2410335,4111,Aarhus,Hamburg,75 Harbour Rd,2024-05-04,2024-04-24,delivered,N/A,12.04
+SH2410336,4204,Gdansk,Hamburg,231 Station Rd,2024-06-16,2024-08-11,delivered,nan,14.22
+SH2410337,4647,Dublin,Marseille,2 Dock Approach,2024-04-26,2024-04-23,failed,damaged_in_transit,76.11
+SH2410338,4679,Malmo,Aarhus,115 Dock Approach,2024-05-16,2024-09-04,in_transit,,76.26
+SH2410339,4286,Bilbao,Turin,188 Harbour Rd,2024-12-03,2024-01-28,delivered,nan,52.60
+SH2410340,4435,Antwerp,Turin,140 Elm Grove,2024-11-25,2024-03-12,in_transit,N/A,12.55
+SH2410341,4185,Manchester,Leeds,129 Main St,2024-11-08,2024-10-22,in_transit,NULL,40.66
+SH2410342,5158,Lyon,Malmo,92 Main St,2024-04-25,N/A,delivered,,60.67
+SH2410343,4739,Manchester,Malmo,235 Elm Grove,2024-01-02,2024-11-11,in_transit,N/A,75.64
+SH2410344,5114,Marseille,Manchester,168 Bridge St,2024-06-19,N/A,failed,recipient_absent,46.97
+SH2410345,4706,Malmo,Malmo,228 Main St,2024-09-05,2024-08-06,in_transit,N/A,19.54
+SH2410346,4741,Bremen,Porto,107 Dock Approach,2024-12-04,2024-08-22,delivered,nan,15.01
+SH2410347,4045,Porto,Antwerp,33 Kingsway,2024-03-21,2024-09-02,delivered,,15.47
+SH2410348,5058,Manchester,Rotterdam,225 Mill Lane,2024-02-07,2024-08-20,failed,recipient_absent,20.24
+SH2410349,4292,Marseille,Turin,43 Dock Approach,2024-08-20,2024-10-03,failed,recipient_absent,10.27
+SH2410350,5032,Dublin,Lyon,156 Harbour Rd,2024-03-16,nan,in_transit,,8.89
+SH2410351,5235,Rotterdam,Dublin,134 Bridge St,2024-06-28,2024-01-23,delivered,-,71.56
+SH2410352,5206,Bremen,Dublin,35 Mill Lane,2024-08-25,nan,in_transit,-,
+SH2410353,5183,Bremen,Rotterdam,97 Station Rd,2024-12-26,2024-06-14,delivered,-,59.14
+SH2410354,5097,Dublin,Leeds,157 Mill Lane,2024-11-13,2024-04-14,in_transit,-,16.58
+SH2410355,4990,Turin,Gdansk,148 Dock Approach,2024-12-13,2024-12-05,returned,,67.80
+SH2410356,5432,Marseille,Bremen,55 Bridge St,2024-06-26,2024-09-20,returned,,14.97
+SH2410357,4010,Hamburg,Lyon,121 Bridge St,2024-02-03,2024-05-08,in_transit,,65.70
+SH2410358,4820,Gdansk,Antwerp,199 Kingsway,2024-11-16,2024-08-01,returned,nan,nan
+SH2410359,5045,Porto,Marseille,173 Main St,2024-06-08,2024-11-01,delivered,N/A,70.67
+SH2410360,4809,Manchester,Bilbao,133 Main St,2024-12-23,2024-02-03,returned,nan,82.85
+SH2410361,4566,Porto,Bilbao,117 Bridge St,2024-10-01,2024-05-06,delivered,nan,7.01
+SH2410362,4239,Turin,Turin,178 Elm Grove,2024-07-19,2024-08-25,delivered,-,61.84
+SH2410363,4056,Malmo,Bremen,67 Harbour Rd,2024-07-21,2024-04-22,delivered,-,86.49
+SH2410364,4019,Turin,Porto,74 Harbour Rd,2024-07-22,2024-12-27,in_transit,NULL,43.39
+SH2410365,5174,Turin,Marseille,192 Station Rd,2024-08-24,2024-04-08,delivered,NULL,21.13
+SH2410366,5266,Leeds,Lyon,200 Harbour Rd,2024-02-03,2024-11-22,delivered,nan,86.72
+SH2410367,4760,Utrecht,Malmo,230 Mill Lane,2024-08-06,2024-09-09,in_transit,NULL,5.37
+SH2410368,4979,Antwerp,Leeds,101 Kingsway,2024-08-04,2024-12-17,returned,,1.56
+SH2410369,5189,Bremen,Utrecht,"93 Mill Lane, Unit 6",2024-09-09,2024-04-09,in_transit,N/A,33.43
+SH2410370,4431,Dublin,Leeds,94 Bridge St,2024-05-15,2024-03-19,in_transit,NULL,73.78
+SH2410371,4482,Dublin,Manchester,51 Kingsway,2024-12-05,-,failed,recipient_absent,90.10
+SH2410372,5058,Utrecht,Malmo,77 Mill Lane,2024-09-28,2024-10-02,returned,NULL,5.90
+SH2410373,4975,Bremen,Aarhus,191 Dock Approach,2024-05-12,2024-06-18,delivered,N/A,2.29
+SH2410374,5391,Bilbao,Marseille,200 Mill Lane,2024-06-11,2024-11-17,returned,-,80.57
+SH2410375,4586,Aarhus,Lyon,223 Kingsway,2024-11-26,2024-06-14,in_transit,-,76.90
+SH2410376,4331,Utrecht,Porto,81 Dock Approach,2024-11-10,2024-12-09,failed,damaged_in_transit,80.39
+SH2410377,4743,Aarhus,Dublin,43 Kingsway,2024-01-05,2024-12-08,returned,,19.45
+SH2410378,4195,Hamburg,Malmo,141 Main St,2024-01-25,2024-07-17,delivered,,24.12
+SH2410379,5341,Manchester,Gdansk,59 Station Rd,2024-12-10,2024-08-21,in_transit,NULL,3.07
+SH2410380,4666,Malmo,Aarhus,223 Mill Lane,2024-09-15,2024-03-23,in_transit,nan,41.59
+SH2410381,5155,Dublin,Gdansk,233 Dock Approach,2024-08-18,N/A,delivered,-,23.88
+SH2410382,4000,Lyon,Leeds,74 Elm Grove,2024-09-01,2024-12-16,failed,damaged_in_transit,1.32
+SH2410383,4599,Porto,Rotterdam,141 Dock Approach,2024-04-14,2024-09-14,delivered,-,75.06
+SH2410384,4162,Dublin,Porto,133 Mill Lane,2024-05-21,2024-12-18,failed,recipient_absent,77.31
+SH2410385,4593,Bremen,Aarhus,159 Elm Grove,2024-05-23,2024-10-16,delivered,NULL,4.97
+SH2410386,4380,Bremen,Gdansk,69 Kingsway,2024-12-15,2024-12-01,delivered,,44.92
+SH2410387,4638,Malmo,Leeds,119 Main St,2024-06-03,2024-03-02,failed,address_incorrect,49.39
+SH2410388,4512,Manchester,Rotterdam,32 Station Rd,2024-07-25,2024-08-08,delivered,NULL,41.98
+SH2410389,5067,Bilbao,Malmo,100 Mill Lane,2024-06-06,nan,in_transit,,23.30
+SH2410390,4406,Leeds,Antwerp,222 Station Rd,2024-02-08,2024-11-14,delivered,N/A,53.12
+SH2410391,4497,Rotterdam,Antwerp,149 Elm Grove,2024-12-20,2024-03-12,delivered,NULL,45.49
+SH2410392,4693,Antwerp,Antwerp,92 Kingsway,2024-12-18,2024-02-05,delivered,nan,71.47
+SH2410393,4898,Bilbao,Rotterdam,177 Bridge St,2024-06-24,2024-03-09,failed,customs_hold,50.81
+SH2410394,5003,Bilbao,Marseille,140 Dock Approach,2024-06-24,2024-08-09,in_transit,nan,14.93
+SH2410395,4920,Gdansk,Turin,139 Dock Approach,2024-08-01,2024-11-17,delivered,,56.28
+SH2410396,5270,Porto,Utrecht,185 Harbour Rd,2024-11-18,2024-07-07,failed,site_access_denied,14.37
+SH2410397,4839,Utrecht,Bremen,25 Harbour Rd,2024-01-27,2024-03-06,delivered,,44.18
+SH2410398,5169,Manchester,Malmo,135 Mill Lane,2024-01-12,2024-04-20,delivered,NULL,59.52
+SH2410399,4163,Aarhus,Antwerp,93 Bridge St,2024-06-26,2024-12-02,delivered,nan,4.16

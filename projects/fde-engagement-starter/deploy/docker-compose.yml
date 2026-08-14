@@ -1,0 +1,98 @@
+# Northwind Freight - local mirror of the in-VPC topology
+#
+# This file exists to make one claim demonstrable rather than asserted:
+# the path that touches customer data has no route to the public internet.
+# You will be asked to prove that in the security review. "We do not send data
+# out" is a promise. A network with no gateway is a control.
+#
+# Run from the repository root:
+#   docker compose -f deploy/docker-compose.yml up --build
+
+services:
+
+  app:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    # RESIDENCY: attached ONLY to the internal network. There is no bridge to a
+    # network with a gateway, so this container cannot reach the internet even
+    # if a dependency tries. Adding a second network here is the single edit
+    # that silently breaks the residency claim. Review it as a security change.
+    networks:
+      - internal
+    # RESIDENCY: no `ports:` mapping. Nothing is published to the host. Ingress
+    # arrives through the customer's own load balancer in the real deployment,
+    # which is where their WAF and access logging already live.
+    expose:
+      - "8080"
+    environment:
+      # Non-secret configuration only. Secrets are injected by the orchestrator
+      # from the customer's secret manager. Never inline a token here, and never
+      # commit a populated .env next to this file.
+      APP_PORT: "8080"
+      FDE_LOG_LEVEL: "INFO"
+      LEGACY_API_URL: "http://legacy-api:8000"
+      # AUDIT: append-only log written to a mounted volume, so a container
+      # restart does not erase the record of who called what.
+      AUDIT_LOG_PATH: "/var/log/fde/audit_log.jsonl"
+      # OIDC settings for deploy/jwt_middleware.py. These are public values.
+      OIDC_ISSUER: "https://northwind.okta.com/oauth2/default"
+      OIDC_AUDIENCE: "api://northwind-dispatch-ai"
+    env_file:
+      # Optional. Absent on a fresh clone and that is fine - everything in this
+      # repo runs without a key.
+      - path: ../.env
+        required: false
+    volumes:
+      - audit-logs:/var/log/fde
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    restart: unless-stopped
+    depends_on:
+      - legacy-api
+
+  legacy-api:
+    # The customer's 2019 dispatch system, mocked. In the real engagement this
+    # is a host inside their VPC that you reach over a private route, which is
+    # why it is modelled here as a peer on the internal network rather than as
+    # an external URL.
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    command: ["python", "-m", "uvicorn", "customer.legacy_api.server:app", "--host", "0.0.0.0", "--port", "8000"]
+    networks:
+      - internal
+    expose:
+      - "8000"
+    environment:
+      FDE_LOG_LEVEL: "INFO"
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+networks:
+  internal:
+    driver: bridge
+    # RESIDENCY: internal:true removes the gateway. No container on this network
+    # can reach an external address. This one line is the technical substance of
+    # the "data does not leave the boundary" statement in deploy/VPC_RUNBOOK.md.
+    #
+    # Consequence you must plan for, not discover during the demo: a hosted
+    # model API is unreachable from here. If your design calls a public LLM, the
+    # residency claim is already false and the compose file will not let you
+    # pretend otherwise. Either the model runs inside the boundary, or you go
+    # through the customer's approved egress proxy with an explicit allowlist,
+    # and either way it belongs in an ADR.
+    internal: true
+
+volumes:
+  audit-logs:
+    # AUDIT: in the real deployment this is not a Docker volume. It is the
+    # customer's own log sink, so retention and access are governed by policy
+    # they already have rather than by a policy you invented. See VPC_RUNBOOK.md.
+    driver: local
