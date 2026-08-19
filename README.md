@@ -47,7 +47,7 @@ These 10 projects are the hands-on companion to **[AI-ML Companion](https://aiml
 | 3 | [Deep Learning](projects/deep-learning-project/) | Computer Vision / DL | Intermediate-Advanced | PyTorch, TorchVision | [Learn →](https://aimlcompanion.ai/module/deepLearning/dlCapstone) |
 | 4 | [ML Pipeline](projects/credit-risk-pipeline/) | Feature Engineering / Production ML | Advanced | Scikit-learn, FastAPI, Docker | [Learn →](https://aimlcompanion.ai/module/mlPipeline/mlPipelineCapstone) |
 | 5 | [MLOps](projects/model-serving-platform/) | Model Deployment / Infrastructure | Advanced | FastAPI, Docker, Prometheus, GitHub Actions | [Learn →](https://aimlcompanion.ai/module/mlOps/mlopsCapstone) |
-| 6 | [LLM/RAG](projects/rag-expert-assistant/) | Retrieval-Augmented Generation | Advanced | LangChain, ChromaDB | [Learn →](https://aimlcompanion.ai/module/aiAgents/ragExpertAssistant) |
+| 6 | [LLM/RAG](projects/rag-expert-assistant/) | Retrieval-Augmented Generation | Advanced | LangChain, ChromaDB | [Learn →](https://aimlcompanion.ai/module/llm/ragExpertAssistant) |
 | 7 | [AI Agents](projects/ai-agents-project/) | LLM Agent Orchestration | Advanced | LangGraph, OpenAI, Tavily | [Learn →](https://aimlcompanion.ai/module/aiAgents/agentsCapstone) |
 | 8 | [Content Moderation](projects/content-moderation-project/) | Multi-Agentic AI | Advanced | LangGraph, Multi-Agent | [Learn →](https://aimlcompanion.ai/module/aiAgents/contentModerationProject) |
 | 9 | [Due Diligence Agent](projects/due-diligence-agent/) | Multi-Agent Research | Advanced | LangGraph, Gemini, Streamlit | [Learn →](https://aimlcompanion.ai/module/aiAgents/dueDiligenceProject) |
