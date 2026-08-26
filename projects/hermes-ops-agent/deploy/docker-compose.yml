@@ -1,0 +1,60 @@
+# An always-on Hermes gateway.
+# Each block below maps to one of the eight documented security layers.
+
+services:
+  hermes-gateway:
+    image: python:3.11-slim
+    container_name: hermes-gateway
+    restart: unless-stopped
+    command: ["hermes", "gateway"]
+
+    # Layer 4 (container isolation): never root. The agent runs as a user
+    # that owns its own state directory and nothing else on the box.
+    user: "1000:1000"
+
+    environment:
+      - HERMES_HOME=/data/.hermes
+      # Layer 3 (file write safety): writes are confined to this subtree.
+      - HERMES_WRITE_SAFE_ROOT=/data/workspace
+      # Layer 1: NEVER set GATEWAY_ALLOW_ALL_USERS=true here.
+      # Authorised user IDs belong in config.yaml, explicitly.
+
+    env_file:
+      # Secrets stay in a 600 file on the host, out of this manifest and out
+      # of your shell history.
+      - ./secrets/hermes.env
+
+    volumes:
+      - ./data:/data
+      # Layer 4: mounting the docker socket lets the terminal tool use the
+      # docker backend. It is also a real privilege escalation path. Prefer
+      # terminal.backend: ssh or modal, and uncomment this only if you have
+      # accepted that trade.
+      # - /var/run/docker.sock:/var/run/docker.sock
+
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+    healthcheck:
+      test: ["CMD", "hermes", "status"]
+      interval: 60s
+      timeout: 15s
+      retries: 3
+      start_period: 30s
+
+# --- Operate ---
+#   chmod 600 ./secrets/hermes.env
+#   docker compose up -d
+#   docker compose logs -f
+#   docker compose exec hermes-gateway hermes doctor
+#
+# --- Verify the boundary before you publish the bot ---
+#   ../deploy/verify-allowlist.sh <bot-handle>

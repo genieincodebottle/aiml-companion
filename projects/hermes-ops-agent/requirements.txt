@@ -1,0 +1,12 @@
+# The harness itself is deliberately stdlib-only: sqlite3, argparse, json,
+# dataclasses. Nothing here is needed to run `make demo`.
+#
+# A learner should be able to clone this and see the measurement work before
+# installing anything, which is also why the fixture is checked in.
+
+# Testing
+pytest>=8.0.0
+pytest-cov>=5.0.0
+
+# Only used to validate configs/config.yaml and deploy/docker-compose.yml
+PyYAML>=6.0

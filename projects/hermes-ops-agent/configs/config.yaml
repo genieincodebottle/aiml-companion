@@ -1,0 +1,49 @@
+# Copy to ~/.hermes/config.yaml (or $HERMES_HOME/config.yaml).
+#
+# Secrets never appear here. They live in ~/.hermes/.env at mode 600 and are
+# referenced with ${VAR} where a value is genuinely needed. `hermes config set`
+# routes API keys to .env for you.
+#
+# Hermes ships fast. Check key names against `hermes config` for your version.
+
+model:
+  provider: "anthropic"
+  model: "claude-opus-4"
+  # Hard requirement: at least 64k context. The prompt carries identity,
+  # context files, skill metadata, memory and tool schemas before your
+  # message is appended.
+
+terminal:
+  backend: docker          # local | docker | ssh | modal | daytona | vercel_sandbox | singularity
+  timeout: 180
+  docker_image: "nikolaik/python-nodejs:python3.11-nodejs20"
+  docker_mount_cwd_to_workspace: true
+  container_memory: 5120
+
+memory:
+  memory_enabled: true
+  memory_char_limit: 2200  # MEMORY.md, roughly 800 tokens
+  user_char_limit: 1375    # USER.md, roughly 500 tokens
+  write_approval: true     # stage writes for review. Turn off once you have
+                           # read a month of what it wanted to save.
+
+skills:
+  write_approval: true     # a skill is instructions the agent follows later,
+                           # unsupervised. Read them before they land.
+
+# Compression on a cheaper model than the one doing the work.
+compression:
+  enabled: true
+  threshold: 0.50
+  target_ratio: 0.20
+
+auxiliary:
+  compression:
+    provider: openrouter
+    model: google/gemini-2.5-flash
+
+# Stop one runaway tool call from eating the whole window.
+tool_output:
+  max_bytes: 50000
+  max_lines: 2000
+file_read_max_chars: 100000
