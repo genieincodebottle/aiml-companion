@@ -1,0 +1,43 @@
+# Business and modelling configuration.
+# Everything an actuary or ops owner might need to change lives here, not in code.
+
+business:
+  # Grace period in days. A due is "lapsed" if no premium is received within it.
+  grace_days: 45
+  # Ordered time buckets for the primary model: [name, upper_bound_inclusive].
+  # The lapse tail is derived, not listed.
+  buckets:
+    - [d0_7, 7]
+    - [d8_15, 15]
+    - [d16_30, 30]
+    - [d31_grace, 45]
+  lapse_label: lapsed
+
+survival:
+  # Revival horizon for the discrete-time hazard model (days past due date).
+  horizon_days: 365
+  # Period granularity. Lower = finer timing, larger person-period table.
+  period_days: 7
+
+split:
+  # Cohorts are split by due date, never randomly.
+  valid_months: 3
+  test_months: 3
+
+decisioning:
+  # Share of the book the retention team can actually call.
+  capacity_pct: 0.20
+  # Contact this many days before the premium would have arrived anyway.
+  contact_lead_days: 5
+  # Assumed share of contacted lapses that are saved (for the business case).
+  assumed_save_rate: 0.25
+
+paths:
+  raw_data: data/dues.parquet
+  modelling_table: data/modelling_table.parquet
+  model_store: models
+  artifacts: artifacts
+
+run:
+  seed: 42
+  log_level: INFO

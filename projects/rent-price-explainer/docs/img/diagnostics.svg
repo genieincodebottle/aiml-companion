@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 500" width="940" height="500" role="img" aria-label="The seven assumption checks sorted into two classes: failures that bias coefficients and failures that only break the standard errors">
+  <style>
+    .t  { font-family: "Segoe UI", Helvetica, Arial, sans-serif; fill: #0f172a; }
+    .h  { font-size: 13px; font-weight: 700; letter-spacing: .04em; }
+    .b  { font-size: 12.5px; font-weight: 600; }
+    .n  { font-size: 11.5px; fill: #334155; }
+    .s  { font-size: 11px; fill: #64748b; }
+    .red   { fill: #fef2f2; stroke: #dc2626; stroke-width: 1.2; rx: 8; }
+    .amb   { fill: #fffbeb; stroke: #d97706; stroke-width: 1.2; rx: 8; }
+    .grn   { fill: #f0fdf4; stroke: #16a34a; stroke-width: 1.2; rx: 8; }
+    .item  { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; rx: 5; }
+    .arrow { stroke: #64748b; stroke-width: 2; fill: none; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <text class="t h" x="20" y="26">A FAILED CHECK IS NOT ONE KIND OF PROBLEM</text>
+  <text class="t s" x="20" y="44">Sort every failure by what it actually costs you. The two classes have different fixes and different urgency.</text>
+
+  <rect class="item" x="355" y="60" width="230" height="34"/>
+  <text class="t b" x="370" y="82">a check FAILS</text>
+  <path class="arrow" d="M420 94 L280 122" marker-end="url(#a)"/>
+  <path class="arrow" d="M520 94 L660 122" marker-end="url(#a)"/>
+
+  <!-- class 1 -->
+  <rect class="red" x="20" y="126" width="440" height="188"/>
+  <text class="t h" x="36" y="148" fill="#b91c1c">CLASS 1  BIASED COEFFICIENTS</text>
+  <text class="t n" x="36" y="166">The number you would quote is simply wrong.</text>
+  <text class="t s" x="36" y="181">Robust standard errors do not help. You must respecify.</text>
+  <rect class="item" x="36" y="192" width="408" height="52"/>
+  <text class="t b" x="48" y="210">functional form  (Ramsey RESET)</text>
+  <text class="t s" x="48" y="225">naive 401.4 -&gt; specified 106.3.  fix: log the target, log the area,</text>
+  <text class="t s" x="48" y="238">add the quadratic age term</text>
+  <rect class="item" x="36" y="250" width="408" height="52"/>
+  <text class="t b" x="48" y="268">omitted variable  (found via GBM SHAP)</text>
+  <text class="t s" x="48" y="283">metro_km biased 28.5% (-0.0617 vs true -0.048).  fix: add the</text>
+  <text class="t s" x="48" y="296">metro x premium interaction, error falls to 1.8%</text>
+
+  <!-- class 2 -->
+  <rect class="amb" x="480" y="126" width="440" height="188"/>
+  <text class="t h" x="496" y="148" fill="#b45309">CLASS 2  INFERENCE ONLY</text>
+  <text class="t n" x="496" y="166">Coefficients stay unbiased. The uncertainty around them is wrong.</text>
+  <text class="t s" x="496" y="181">Fix the standard errors, or accept the widened interval.</text>
+  <rect class="item" x="496" y="192" width="408" height="38"/>
+  <text class="t b" x="508" y="209">heteroscedasticity  (Breusch-Pagan)</text>
+  <text class="t s" x="508" y="223">fix: HC3 robust errors. Stays FAILED on purpose, and that is fine.</text>
+  <rect class="item" x="496" y="236" width="408" height="38"/>
+  <text class="t b" x="508" y="253">multicollinearity  (VIF, condition number)</text>
+  <text class="t s" x="508" y="267">VIF 355.6 -&gt; 6.6.  fix: drop the r=0.999 twin. Predictions unaffected.</text>
+  <rect class="item" x="496" y="280" width="408" height="22"/>
+  <text class="t s" x="508" y="295">normality, independence, influential points: read, rarely decisive</text>
+
+  <path class="arrow" d="M240 314 L240 348" marker-end="url(#a)"/>
+  <path class="arrow" d="M700 314 L700 348" marker-end="url(#a)"/>
+
+  <rect class="grn" x="20" y="352" width="900" height="130"/>
+  <text class="t h" x="36" y="374" fill="#15803d">WHAT THIS BUYS, MEASURED ON HELD-OUT DATA</text>
+  <text class="t n" x="36" y="396">median APE  8.04%  -&gt;  4.10%  -&gt;  3.77%        naive, specified, plus interaction</text>
+  <text class="t n" x="36" y="418">R squared    0.774  -&gt;  0.784  -&gt;  0.784        the dial that barely moved</text>
+  <text class="t n" x="36" y="440">coef error   n/a    -&gt;  7.9%   -&gt;  3.9%        the dial that mattered</text>
+  <text class="t s" x="36" y="464">Error fell 53% while R squared moved 1 point. Watching R squared would have told you nothing was happening.</text>
+</svg>

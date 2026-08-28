@@ -1,0 +1,22 @@
+# Pinned floors for a plain `pip install -r requirements.txt` workflow.
+# `pip install -e .` reads the same set from pyproject.toml -- use either.
+pandas>=2.0
+numpy>=1.24
+scipy>=1.10
+scikit-learn>=1.3
+lightgbm>=4.0
+xgboost>=2.0
+statsmodels>=0.14
+pyarrow>=14.0
+joblib>=1.3
+PyYAML>=6.0
+
+# notebook
+jupyter>=1.0
+matplotlib>=3.7
+
+# optional: only the deephit_mlp model in the bake-off needs this
+# torch>=2.0
+
+# dev
+pytest>=7.4
