@@ -82,10 +82,22 @@ def test_recommended_model_can_actually_be_calibrated(splits):
     assert monotonicity_violation(p) == 0.0
 
 
-def test_train_pipeline_refuses_to_silently_skip_calibration():
-    """calibrate=True on a model that cannot calibrate must raise, not shrug."""
+def test_train_pipeline_refuses_to_silently_skip_calibration(tmp_path):
+    """calibrate=True on a model that cannot calibrate must raise, not shrug.
+
+    Runs against a tmp_path config: the default CFG points at the project's real
+    data/ directory, and a test that writes a 200-policy ledger there would
+    poison the cache every documented command reads afterwards.
+    """
+    import dataclasses
+
     import pandas as pd
     from lapse_prediction.pipelines import train as train_mod
+
+    cfg = dataclasses.replace(
+        CFG, raw_data=str(tmp_path / "dues.parquet"),
+        modelling_table=str(tmp_path / "modelling.parquet"),
+        model_store=str(tmp_path / "models"), artifacts=str(tmp_path / "artifacts"))
 
     class Uncalibratable:
         def fit(self, tr, valid=None):
@@ -98,7 +110,8 @@ def test_train_pipeline_refuses_to_silently_skip_calibration():
     train_mod.MODELS["_dummy"] = Uncalibratable
     try:
         with pytest.raises(TypeError, match="cannot be calibrated"):
-            train_mod.run("_dummy", n_policies=200, calibrate=True, persist=False)
+            train_mod.run("_dummy", cfg, n_policies=200, calibrate=True,
+                          persist=False)
     finally:
         train_mod.MODELS.clear()
         train_mod.MODELS.update(original)

@@ -70,7 +70,7 @@ fixes.
 happening:
 
 - With 4,500 rows these tests reject *trivial* deviations. RESET falling from
-  401 to 106 matters more than the flag flipping. Read the effect size, not the
+  436 to 106 matters more than the flag flipping. Read the effect size, not the
   verdict.
 - Heteroscedasticity **stays** failed on purpose. The fix was never to
   transform it away, it is HC3 robust standard errors, which the specified

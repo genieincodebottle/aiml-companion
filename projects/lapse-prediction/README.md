@@ -95,11 +95,15 @@ lapse score                        # write the retention queue
 lapse models                       # list persisted versions
 ```
 
-**If `lapse` is not found**, this form always works and needs no install:
+**If `lapse` is not found**, either of these works and needs no install:
 
 ```bash
+python run.py train --model ordinal_chain
 python -m lapse_prediction.cli train --model ordinal_chain
 ```
+
+`run.py` puts `src/` on the path itself, so it works from a fresh clone with
+nothing installed but the requirements.
 
 **If `pip install -e .` fails**, you do not need it at all. Put the source
 directory on the path instead:
@@ -179,6 +183,7 @@ runs. If you change modelling logic, change it in `src/` first.
 | `make: command not found` | Windows has no `make` | use the `lapse` or `python -m` commands directly |
 | first command sits silent for ~40s | it is generating the synthetic book | expected once, it is cached to `data/` afterwards |
 | `lapse train` exits non-zero | the release gate rejected the model | read the logged reason, the gate is doing its job |
+| `--n 20000` seems to be ignored | a cached ledger already exists and wins | it warns and tells you the count it found, add `--refresh` to rebuild |
 
 ---
 

@@ -51,6 +51,17 @@ def load_ledger(path: str | Path | None = None, *, refresh: bool = False,
     if path.exists() and not refresh:
         df = read(path)
         log.info("loaded ledger from %s", path)
+        # A cache hit ignores n_policies, which is a silent trap: ask for 20,000
+        # and quietly get whatever is already on disk. Say so, and say how to
+        # fix it, rather than letting every downstream number be wrong.
+        wanted = gen_kwargs.get("n_policies")
+        if wanted is not None:
+            have = int(df["policy_id"].nunique())
+            if have != wanted:
+                log.warning(
+                    "cached ledger has %d policies but you asked for %d. The "
+                    "cache wins. Re-run with --refresh to rebuild it.",
+                    have, wanted)
     elif source == "synthetic":
         from lapse_prediction.data.generate import generate
         log.info("no cached ledger at %s -- generating synthetic book", path)

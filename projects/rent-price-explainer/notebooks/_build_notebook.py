@@ -709,26 +709,46 @@ where there is no coefficient to check it against.
 """)
 
 code('''
-import shap
+# shap is the one optional dependency. Kaggle ships it, Colab does not.
+# Install it when missing so "Run all" works everywhere, and carry on without
+# it when there is no internet to install from.
+try:
+    import shap
+except ModuleNotFoundError:
+    import subprocess, sys
+    print("shap not found, installing it (about 20s, needed on Colab only)...")
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "shap"], check=False)
+    try:
+        import shap
+    except ModuleNotFoundError:
+        shap = None
+        print("shap could not be installed, so the library cross-check and the")
+        print("tree attributions are skipped. Every other cell still runs.")
 
 Xs = design(test, **spec_kw).reindex(columns=spec_cols, fill_value=0.0)
 manual = pd.DataFrame({c: spec.params[c] * (Xs[c] - Xs[c].mean()) for c in spec_cols})
 ols_attr = manual.abs().mean().sort_values(ascending=False)
 
-lib = shap.LinearExplainer(
-    (spec.params[spec_cols].values, float(spec.params["const"])), Xs.values)
-lib_attr = pd.Series(np.abs(lib.shap_values(Xs.values)).mean(0), index=spec_cols)
+if shap is not None:
+    lib = shap.LinearExplainer(
+        (spec.params[spec_cols].values, float(spec.params["const"])), Xs.values)
+    lib_attr = pd.Series(np.abs(lib.shap_values(Xs.values)).mean(0), index=spec_cols)
 
-check = pd.DataFrame({"by hand": ols_attr, "shap library": lib_attr}).head(6).round(6)
-print(check.to_string())
-print(f"\\nmax disagreement: {float((ols_attr - lib_attr).abs().max()):.3e}  <- same thing")
+    check = pd.DataFrame({"by hand": ols_attr, "shap library": lib_attr}).head(6).round(6)
+    print(check.to_string())
+    print(f"\\nmax disagreement: {float((ols_attr - lib_attr).abs().max()):.3e}  <- same thing")
 
-Xg_test = gbm_design(test).reindex(columns=Xg.columns, fill_value=0)
-gbm_attr = pd.Series(
-    np.abs(shap.TreeExplainer(gbm).shap_values(Xg_test.sample(800, random_state=SEED))).mean(0),
-    index=Xg.columns).sort_values(ascending=False)
-print("\\nGBM top attributions:")
-print(gbm_attr.head(6).round(4).to_string())
+    Xg_test = gbm_design(test).reindex(columns=Xg.columns, fill_value=0)
+    gbm_attr = pd.Series(
+        np.abs(shap.TreeExplainer(gbm).shap_values(Xg_test.sample(800, random_state=SEED))).mean(0),
+        index=Xg.columns).sort_values(ascending=False)
+    print("\\nGBM top attributions:")
+    print(gbm_attr.head(6).round(4).to_string())
+else:
+    gbm_attr = None
+    print("by-hand OLS attributions (the identity below still holds, it just is")
+    print("not cross-checked against the library here):")
+    print(ols_attr.head(6).round(6).to_string())
 ''')
 
 md("""
@@ -746,12 +766,15 @@ regression-only problem; it is not.
 """)
 
 code('''
-twins = gbm_attr[gbm_attr.index.isin(["builtup_area", "carpet_area"])]
-print(f"GBM, size split across the twins : {dict(twins.round(4))}")
-print(f"GBM, combined                    : {twins.sum():.4f}")
-print(f"OLS, single log(area) term       : {ols_attr['log_builtup_area']:.4f}")
-print(f"\\nGBM's top-ranked single feature  : {gbm_attr.index[0]}")
-print(f"OLS's top-ranked single feature  : {ols_attr.index[0]}")
+if gbm_attr is None:
+    print("shap is unavailable, so the split-credit comparison cannot be shown.")
+else:
+    twins = gbm_attr[gbm_attr.index.isin(["builtup_area", "carpet_area"])]
+    print(f"GBM, size split across the twins : {dict(twins.round(4))}")
+    print(f"GBM, combined                    : {twins.sum():.4f}")
+    print(f"OLS, single log(area) term       : {ols_attr['log_builtup_area']:.4f}")
+    print(f"\\nGBM's top-ranked single feature  : {gbm_attr.index[0]}")
+    print(f"OLS's top-ranked single feature  : {ols_attr.index[0]}")
 ''')
 
 md("""

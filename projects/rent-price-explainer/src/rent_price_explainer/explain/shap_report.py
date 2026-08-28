@@ -18,6 +18,10 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
+from rent_price_explainer.utils.logging import get_logger
+
+log = get_logger(__name__)
+
 
 def linear_shap_identity(model, df: pd.DataFrame, tol: float = 1e-8) -> pd.DataFrame:
     """Verify SHAP(linear) == coef * (x - x_mean), by hand.
@@ -39,9 +43,29 @@ def linear_shap_identity(model, df: pd.DataFrame, tol: float = 1e-8) -> pd.DataF
                                            ignore_index=True))
 
 
+def shap_available() -> bool:
+    """Is the optional `shap` dependency importable?
+
+    It is the one heavy, optional install in this project. Everything except the
+    tree-attribution table works without it, so the absence is reported and
+    stepped over rather than crashing the command.
+    """
+    from importlib.util import find_spec
+    return find_spec("shap") is not None
+
+
 def gbm_shap(model, df: pd.DataFrame, sample: int = 800,
              seed: int = 42) -> pd.DataFrame:
-    """Mean |SHAP| per feature for the tree model, via TreeExplainer."""
+    """Mean |SHAP| per feature for the tree model, via TreeExplainer.
+
+    Returns an empty frame (not an exception) when `shap` is not installed, so a
+    partial install degrades the report instead of ending the run.
+    """
+    if not shap_available():
+        log.warning("shap is not installed, so the tree attributions are "
+                    "skipped. Install it with: pip install shap")
+        return pd.DataFrame(columns=["feature", "mean_abs_shap"])
+
     import shap
 
     X = model._prepare(df).reindex(columns=model.cols, fill_value=0.0)
@@ -65,6 +89,14 @@ def compare_attributions(ols_model, gbm_model, df: pd.DataFrame) -> pd.DataFrame
         columns={"mean_abs_shap": "ols_mean_abs_shap"})
     b = gbm_shap(gbm_model, df).rename(
         columns={"mean_abs_shap": "gbm_mean_abs_shap"})
+
+    # No shap, no tree side. Return the half that does exist and label it, so
+    # the reader is told what is missing instead of silently comparing one
+    # model against a column of blanks.
+    if b.empty:
+        a["gbm_mean_abs_shap"] = np.nan
+        a["present_in"] = "ols only (shap not installed)"
+        return a
 
     merged = a.merge(b, on="feature", how="outer")
 
@@ -94,6 +126,9 @@ def split_attribution_note(attribution: pd.DataFrame) -> str:
     combined term, shows size as the dominant driver it actually is. Same data,
     opposite impression of what matters.
     """
+    if attribution["gbm_mean_abs_shap"].isna().all():
+        return ("tree attributions unavailable (shap not installed), so the "
+                "collinear split cannot be shown; pip install shap to see it")
     gbm_only = attribution[attribution["present_in"] == "gbm only"]
     twins = gbm_only[gbm_only["feature"].isin(["builtup_area", "carpet_area"])]
     if len(twins) < 2:

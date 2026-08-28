@@ -32,7 +32,7 @@
   <text class="t s" x="36" y="181">Robust standard errors do not help. You must respecify.</text>
   <rect class="item" x="36" y="192" width="408" height="52"/>
   <text class="t b" x="48" y="210">functional form  (Ramsey RESET)</text>
-  <text class="t s" x="48" y="225">naive 401.4 -&gt; specified 106.3.  fix: log the target, log the area,</text>
+  <text class="t s" x="48" y="225">naive 436.0 -&gt; specified 106.3.  fix: log the target, log the area,</text>
   <text class="t s" x="48" y="238">add the quadratic age term</text>
   <rect class="item" x="36" y="250" width="408" height="52"/>
   <text class="t b" x="48" y="268">omitted variable  (found via GBM SHAP)</text>

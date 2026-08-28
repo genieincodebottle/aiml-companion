@@ -56,6 +56,6 @@ CI coverage of the true value: 83% of terms (`interaction_ols`).
 
 ## Reproducibility
 
-Fixed seeds throughout. `pytest` (24 tests) asserts that each planted violation
+Fixed seeds throughout. `pytest` (32 tests) asserts that each planted violation
 is still present, that the answer key never reaches fitting code, and that each
 documented lesson still holds.
