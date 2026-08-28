@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 470" width="980" height="470" role="img" aria-label="Pipeline from the generated inbox with its planted clusters through the design matrix, the four strategies, calibration, and the routing threshold that turns a probability into an action">
+  <style>
+    .t  { font-family: "Segoe UI", Helvetica, Arial, sans-serif; fill: #0f172a; }
+    .h  { font-size: 12.5px; font-weight: 700; letter-spacing: .04em; }
+    .b  { font-size: 12px; font-weight: 600; }
+    .s  { font-size: 10.5px; fill: #64748b; }
+    .box   { fill: #f1f5f9; stroke: #94a3b8; stroke-width: 1; rx: 8; }
+    .item  { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; rx: 5; }
+    .key   { fill: #fee2e2; stroke: #dc2626; stroke-width: 1.2; rx: 5; }
+    .serve { fill: #ecfdf5; stroke: #16a34a; stroke-width: 1.2; rx: 5; }
+    .arrow { stroke: #64748b; stroke-width: 2; fill: none; }
+    .keyline { stroke: #dc2626; stroke-width: 1.6; fill: none; stroke-dasharray: 5 4; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+    </marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <text class="t h" x="20" y="26">SUPPORT TICKET TRIAGE</text>
+  <text class="t s" x="20" y="44">Six categories, one 3% class, and an independence assumption that is false by construction and by a known amount.</text>
+
+  <rect class="box" x="20" y="60" width="205" height="238"/>
+  <text class="t h" x="34" y="82">1. THE INBOX</text>
+  <rect class="item" x="34" y="92" width="177" height="34"/>
+  <text class="t b" x="44" y="106">data/generate.py</text>
+  <text class="t s" x="44" y="120">9,000 tickets, 63 tokens</text>
+  <rect class="key" x="34" y="134" width="177" height="58"/>
+  <text class="t b" x="44" y="150" fill="#b91c1c">DEPENDENT_CLUSTERS</text>
+  <text class="t s" x="44" y="164">6 redundancy families, e.g.</text>
+  <text class="t s" x="44" y="176">card + charged + billed +</text>
+  <text class="t s" x="44" y="188">debited + statement</text>
+  <rect class="item" x="34" y="200" width="177" height="34"/>
+  <text class="t b" x="44" y="214">data/schema.py</text>
+  <text class="t s" x="44" y="228">ingest contract, fails loud</text>
+  <text class="t s" x="34" y="252">dependency_strength is the dial:</text>
+  <text class="t s" x="34" y="266">0.0 the assumption is TRUE,</text>
+  <text class="t s" x="34" y="280">0.95 five words say one thing</text>
+
+  <rect class="box" x="245" y="60" width="205" height="238"/>
+  <text class="t h" x="259" y="82">2. THE MATRIX</text>
+  <rect class="item" x="259" y="92" width="177" height="46"/>
+  <text class="t b" x="269" y="108">features/build.py</text>
+  <text class="t s" x="269" y="122">the bag of words IS the</text>
+  <text class="t s" x="269" y="134">matrix, no engineering</text>
+  <rect class="item" x="259" y="146" width="177" height="46"/>
+  <text class="t b" x="269" y="162">stratified split</text>
+  <text class="t s" x="269" y="176">at 3%, a random split can</text>
+  <text class="t s" x="269" y="188">hand the test set a</text>
+  <rect class="item" x="259" y="200" width="177" height="34"/>
+  <text class="t b" x="269" y="214">assert_no_leakage()</text>
+  <text class="t s" x="269" y="228">text and label held back</text>
+  <text class="t s" x="259" y="252">Nothing to hide behind here:</text>
+  <text class="t s" x="259" y="266">every difference downstream is</text>
+  <text class="t s" x="259" y="280">a difference in the model.</text>
+
+  <rect class="box" x="470" y="60" width="205" height="238"/>
+  <text class="t h" x="484" y="82">3. FOUR STRATEGIES</text>
+  <rect class="item" x="484" y="92" width="177" height="26"/>
+  <text class="t b" x="494" y="109">native_nb        1 model</text>
+  <rect class="item" x="484" y="124" width="177" height="26"/>
+  <text class="t b" x="494" y="141">ovr_nb           6 models</text>
+  <rect class="item" x="484" y="156" width="177" height="26"/>
+  <text class="t b" x="494" y="173">ovo_nb          15 models</text>
+  <rect class="item" x="484" y="188" width="177" height="26"/>
+  <text class="t b" x="494" y="205">softmax_lr       1 model</text>
+  <text class="t s" x="484" y="232">softmax makes no independence</text>
+  <text class="t s" x="484" y="246">assumption, so it is the control</text>
+  <text class="t s" x="484" y="260">that separates the cost of the</text>
+  <text class="t s" x="484" y="274">assumption from the data simply</text>
+  <text class="t s" x="484" y="288">carrying less information.</text>
+
+  <rect class="box" x="695" y="60" width="265" height="238"/>
+  <text class="t h" x="709" y="82">4. FROM SCORE TO ACTION</text>
+  <rect class="item" x="709" y="92" width="237" height="46"/>
+  <text class="t b" x="719" y="108">models/calibrate.py</text>
+  <text class="t s" x="719" y="122">isotonic, cross-validated. A monotone</text>
+  <text class="t s" x="719" y="134">map: fixes probabilities, keeps order.</text>
+  <rect class="item" x="709" y="146" width="237" height="46"/>
+  <text class="t b" x="719" y="162">evaluation/metrics.py</text>
+  <text class="t s" x="719" y="176">ranking: accuracy, macro-F1, rare recall</text>
+  <text class="t s" x="719" y="188">probability: Brier, ECE, reliability</text>
+  <rect class="serve" x="709" y="200" width="237" height="46"/>
+  <text class="t b" x="719" y="216">routing/decide.py</text>
+  <text class="t s" x="719" y="230">auto-route above the threshold,</text>
+  <text class="t s" x="719" y="242">human queue below it</text>
+  <text class="t s" x="709" y="266">The threshold is where calibration stops</text>
+  <text class="t s" x="709" y="280">being academic: 0.80 means nothing on</text>
+  <text class="t s" x="709" y="294">a score that is not a probability.</text>
+
+  <path class="arrow" d="M225 180 L242 180" marker-end="url(#a)"/>
+  <path class="arrow" d="M450 180 L467 180" marker-end="url(#a)"/>
+  <path class="arrow" d="M675 180 L692 180" marker-end="url(#a)"/>
+
+  <path class="keyline" d="M122 192 L122 340 L560 340" marker-end="url(#ar)"/>
+  <rect x="230" y="322" width="330" height="36" fill="#fef2f2" stroke="#dc2626" stroke-width="1" rx="6"/>
+  <text class="t b" x="244" y="338" fill="#b91c1c">the cluster list never reaches fitting code</text>
+  <text class="t s" x="244" y="352">a test walks every module and fails the build if it does</text>
+
+  <rect x="20" y="378" width="940" height="76" fill="#eff6ff" stroke="#2563eb" stroke-width="1" rx="8"/>
+  <text class="t h" x="36" y="400" fill="#1d4ed8">THE RESULT THE ROUTING LAYER EXISTS TO SHOW</text>
+  <text class="t s" x="36" y="422">At an identical 0.80 threshold, the uncalibrated model auto-routes 83.5% of tickets at a 3.6% error rate: 68 errors reach customers.</text>
+  <text class="t s" x="36" y="440">Calibrated, it routes 78.0% at 1.5%: 27 errors. Same model, same ranking, 60% fewer bad tickets sent, for 5 points more human review.</text>
+</svg>

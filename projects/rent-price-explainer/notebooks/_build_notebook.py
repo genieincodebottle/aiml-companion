@@ -153,7 +153,7 @@ look at it; it is used only to score the results at the end.
 pip install pandas numpy scikit-learn statsmodels shap matplotlib jupyter
 ```
 
-Runs in about 2 minutes. Nothing touches your filesystem.
+About 2 minutes top to bottom, 6 charts. Nothing touches your filesystem.
 
 ### Contents
 

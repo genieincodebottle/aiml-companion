@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 470" width="960" height="470" role="img" aria-label="The independence assumption stated, measured as a lift ratio, and shown to be false by a factor of about 1.9 on the planted token clusters">
+  <style>
+    .t  { font-family: "Segoe UI", Helvetica, Arial, sans-serif; fill: #0f172a; }
+    .h  { font-size: 13px; font-weight: 700; letter-spacing: .04em; }
+    .b  { font-size: 12.5px; font-weight: 600; }
+    .n  { font-size: 11.5px; fill: #334155; }
+    .s  { font-size: 11px; fill: #64748b; }
+    .m  { font-family: Consolas, "Courier New", monospace; font-size: 13px; fill: #0f172a; }
+    .item  { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; rx: 5; }
+    .claim { fill: #eff6ff; stroke: #2563eb; stroke-width: 1.3; rx: 8; }
+    .false { fill: #fef2f2; stroke: #dc2626; stroke-width: 1.3; rx: 8; }
+    .ok    { fill: #f0fdf4; stroke: #16a34a; stroke-width: 1.3; rx: 8; }
+    .arrow { stroke: #64748b; stroke-width: 2; fill: none; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <text class="t h" x="20" y="26">THE ASSUMPTION, AND HOW FALSE IT IS</text>
+  <text class="t s" x="20" y="44">Everyone says the independence assumption is wrong. Almost nobody measures it. One ratio does.</text>
+
+  <rect class="claim" x="20" y="60" width="920" height="76"/>
+  <text class="t b" x="36" y="82">What Naive Bayes believes about every pair of tokens, given the class:</text>
+  <rect x="36" y="92" width="500" height="32" fill="#ffffff" stroke="#bfdbfe" rx="5"/>
+  <text class="m" x="48" y="113">P(a, b | class)  ==  P(a | class) x P(b | class)</text>
+  <text class="t n" x="556" y="104">Divide one side by the other and you get a lift.</text>
+  <text class="t n" x="556" y="120">If the assumption holds, lift is 1.00. Nothing else to know.</text>
+
+  <rect class="false" x="20" y="152" width="450" height="180"/>
+  <text class="t h" x="36" y="174" fill="#b91c1c">WHAT THE INBOX ACTUALLY SHOWS</text>
+  <text class="t s" x="36" y="192">the planted clusters, measured (lift, 1.00 = assumption holds)</text>
+  <rect class="item" x="36" y="200" width="418" height="20"/>
+  <text class="t n" x="46" y="215">login_access   otp + 2fa</text>
+  <text class="t b" x="360" y="215" fill="#b91c1c">2.70</text>
+  <rect class="item" x="36" y="224" width="418" height="20"/>
+  <text class="t n" x="46" y="239">billing        card + charged</text>
+  <text class="t b" x="360" y="239" fill="#b91c1c">1.98</text>
+  <rect class="item" x="36" y="248" width="418" height="20"/>
+  <text class="t n" x="46" y="263">bug_crash      error + exception</text>
+  <text class="t b" x="360" y="263" fill="#b91c1c">1.95</text>
+  <rect class="item" x="36" y="272" width="418" height="20"/>
+  <text class="t n" x="46" y="287">shipping       delivery + tracking</text>
+  <text class="t b" x="360" y="287" fill="#b91c1c">1.72</text>
+  <text class="t s" x="36" y="308">Those pairs co-occur nearly twice as often as the model can represent.</text>
+  <text class="t s" x="36" y="322">The assumption is not approximately true here. It is plainly false.</text>
+
+  <rect class="ok" x="490" y="152" width="450" height="180"/>
+  <text class="t h" x="506" y="174" fill="#15803d">AND IT IS FINDABLE WITHOUT AN ANSWER KEY</text>
+  <text class="t n" x="506" y="194">The same ratio, swept blindly across every token pair with no</text>
+  <text class="t n" x="506" y="210">answer key, ranked by distance from 1.00:</text>
+  <rect class="item" x="506" y="220" width="418" height="58"/>
+  <text class="t s" x="518" y="238">top 27 flags   14 genuine   52% precision   52% recall</text>
+  <text class="t s" x="518" y="254">top 60 flags   25 genuine   42% precision   93% recall</text>
+  <text class="t s" x="518" y="270">top 100 flags  27 genuine   27% precision  100% recall</text>
+  <text class="t s" x="506" y="294">Widen the list and recall rises while precision falls. That is the</text>
+  <text class="t s" x="506" y="308">same trade you face on real tickets, where nothing tells you which</text>
+  <text class="t s" x="506" y="322">flags were real and the 3% class throws false positives on noise.</text>
+
+  <path class="arrow" d="M245 332 L245 366" marker-end="url(#a)"/>
+  <path class="arrow" d="M715 332 L715 366" marker-end="url(#a)"/>
+
+  <rect x="20" y="370" width="920" height="82" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1" rx="8"/>
+  <text class="t h" x="36" y="392">SO WHY MEASURE A RATIO AND NOT RUN A TEST?</text>
+  <text class="t n" x="36" y="414">A chi-square on these pairs returns p-values below 1e-40. It also returns p &lt; 0.001 for pairs whose lift is 1.02,</text>
+  <text class="t n" x="36" y="430">because at 9,000 tickets significance is cheap. The p-value tells you the violation is real; only the effect size</text>
+  <text class="t n" x="36" y="446">tells you whether it matters. Both columns are in the output, side by side, for exactly that reason.</text>
+</svg>

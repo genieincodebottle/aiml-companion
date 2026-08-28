@@ -55,7 +55,9 @@ CELL_HEADERS = [
      "mature() drops dues whose grace period has not elapsed; training on "
      "them would relabel not-yet-paid as lapsed."),
     ("4.2", "Bucket mix of the target",
-     "data", "bar chart of the five-bucket distribution", ""),
+     "data", "bar chart of the five-bucket distribution",
+     "Most premiums arrive in the first week. The lapse bucket is the small "
+     "tail on the right, and that imbalance is why PR-AUC beats AUC here."),
     ("5.1", "Fit the three competing designs",
      "train, test", "models dict: ordinal_chain, multiclass, hurdle_2stage",
      "All three return the same five-bucket shape, so they can be compared "
@@ -65,7 +67,9 @@ CELL_HEADERS = [
      "PR-AUC and decile capture, not accuracy: at a 10% lapse rate, "
      "predicting 'nobody lapses' scores 90%."),
     ("6.2", "Model comparison charts",
-     "results, valid", "PR-AUC and capture@20% bar charts", ""),
+     "results, valid", "PR-AUC and capture@20% bar charts",
+     "The bars sit almost on top of each other. That flatness IS the finding: "
+     "the algorithm barely matters once the features are fixed."),
     ("6.3", "Calibrate the best model and check it",
      "models, test, valid", "cal (calibrated probabilities), calibration plot",
      "Isotonic is fitted on TEST and measured on VALID. Calibrating on the "
@@ -77,7 +81,9 @@ CELL_HEADERS = [
      "cal, valid", "predicted vs actual share per bucket",
      "Checks the timing answer, not only the lapse tail."),
     ("6.6", "Feature importance",
-     "best model", "horizontal bar chart of the top 15 features", ""),
+     "best model", "horizontal bar chart of the top 15 features",
+     "Payment history dominates. That is the argument for spending your next "
+     "week on features rather than on another model family."),
     ("7.1", "Turn probabilities into a retention call list",
      "valid, cal", "build_queue(), queue, econ",
      "Ranks by premium at risk rather than probability, and times the call "
@@ -134,7 +140,8 @@ md("""
 # Policy Lapse & Time-to-Premium Prediction
 
 **Standalone notebook.** It generates its own data and defines every function it
-uses. No project install, no local imports. Runs top to bottom in a few minutes.
+uses. No project install, no local imports.
+About 3 to 4 minutes top to bottom, 10 charts.
 
 ### The problem
 
@@ -223,7 +230,7 @@ md("""
 
 One validated categorical palette used throughout, so every chart in the
 notebook reads as one system. The first three slots are colourblind-safe for
-**all** pairs (worst-pair CVD Î”E 9.2), which is why no chart below uses more
+**all** pairs (worst-pair CVD ΔE 9.2), which is why no chart below uses more
 than three colour-coded series. Three of the hues sit under 3:1 contrast on a
 light surface, so every chart carries **direct labels** rather than relying on
 colour alone.
@@ -675,7 +682,7 @@ buckets, so they can be compared honestly on identical data.
    *will the premium be in by day 7? by 15? by 30? by grace-end?* Differencing
    the cumulative curve reconstructs the bucket distribution. It respects the
    fact that the buckets are **ordered**, every sub-model trains on all rows, and
-   `P(lapse) = 1 âˆ’ F(grace)` is consistent with the timing answer by construction.
+   `P(lapse) = 1 − F(grace)` is consistent with the timing answer by construction.
 2. **Multiclass**: one softmax over the five buckets. Simple and strong, but it
    discards the ordering.
 3. **Two-stage hurdle**: the intuitive design, model lapse then model timing on
@@ -1033,7 +1040,7 @@ model output has to become an ordered worklist.
 Two decisions worth stating explicitly:
 
 - **Rank by money at risk, not by probability.** A 30% chance of losing a
-  â‚¹200,000 premium outranks an 80% chance of losing â‚¹20,000.
+  ₹200,000 premium outranks an 80% chance of losing ₹20,000.
 - **Time the call.** Someone who was going to pay on day 3 anyway does not need
   a call at all; contact just *before* the premium would otherwise arrive.
 """)
