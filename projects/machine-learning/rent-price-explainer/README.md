@@ -248,10 +248,8 @@ notebooks/                     standalone walkthrough
 
 ## 12. Track modules this covers
 
-`linReg` · `ols-intuition` · `coefficient-meaning` · `r-squared` ·
-`assumptions` · `multivariate` · `practical-workflow` · `shap` ·
-`shap-intuition` · `tree-importance` · `permutation-importance` ·
-`linear-vs-nonlinear`
+`linReg` · `regression` · `featureEngineering` · `featureImportance` ·
+`modelInterpretation` · `gradientBoosting` · `modelEval`
 
 ## 13. Honest limitations
 

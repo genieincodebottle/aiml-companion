@@ -1,0 +1,11 @@
+# Anchored with a leading slash on purpose. A bare `data/` also matches
+# src/cv_traps/data/, which silently excluded the entire data package from
+# the first commit of this project.
+/data/
+/artifacts/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/

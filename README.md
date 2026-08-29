@@ -3,17 +3,17 @@
 > **Learn AI/ML interactively at [AI-ML Companion](https://aimlcompanion.ai/)** - Guided walkthroughs, architecture decisions, hands-on challenges, and narrated overviews for every project.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![Projects](https://img.shields.io/badge/Projects-19-orange)
+![Projects](https://img.shields.io/badge/Projects-20-orange)
 ![Status](https://img.shields.io/badge/Status-Portfolio_Ready-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-> A complete AI/ML learning platform with 19 end-to-end projects covering the full spectrum, from classical ML to production LLM systems. Every project follows **industry best-practice structure**.
+> A complete AI/ML learning platform with 20 end-to-end projects covering the full spectrum, from classical ML to production LLM systems. Every project follows **industry best-practice structure**.
 
 ---
 
 ## About the AI-ML Companion Platform
 
-These 19 projects are the hands-on companion to **[AI-ML Companion](https://aimlcompanion.ai)**, an interactive platform for learning AI and machine learning by watching it work. Instead of passive video, every concept is taught through **live, animated visualizations** and runnable code: gradient descent stepping down a loss surface, attention weights lighting up across tokens, a network training in real time.
+These 20 projects are the hands-on companion to **[AI-ML Companion](https://aimlcompanion.ai)**, an interactive platform for learning AI and machine learning by watching it work. Instead of passive video, every concept is taught through **live, animated visualizations** and runnable code: gradient descent stepping down a loss surface, attention weights lighting up across tokens, a network training in real time.
 
 - **22 tracks, 300+ modules** from Python and math foundations to deep learning, LLMs, agentic AI, MLOps, and cloud GenAI.
 - **Interactive visualizations**, not slides. See the mechanism move, then experiment with it.
@@ -40,7 +40,7 @@ These 19 projects are the hands-on companion to **[AI-ML Companion](https://aiml
 
 ## Projects
 
-19 projects in six groups. Each is self-contained: its own README, requirements,
+20 projects in six groups. Each is self-contained: its own README, requirements,
 tests, and Makefile.
 
 ### `projects/machine-learning/`
@@ -51,6 +51,7 @@ tests, and Makefile.
 | [ML Algorithms](projects/machine-learning/algorithm-showdown/) | Classical ML / Interpretability | Intermediate | Scikit-learn, XGBoost, SHAP | [Learn →](https://aimlcompanion.ai/module/mlAlgorithms/mlAlgorithmsCapstone) |
 | [Rent Price Explainer](projects/machine-learning/rent-price-explainer/) | Regression / Diagnostics | Intermediate | Statsmodels, Scikit-learn, SHAP | [Learn →](https://aimlcompanion.ai/module/mlAlgorithms/rentPriceExplainer) |
 | [Support Ticket Triage](projects/machine-learning/support-ticket-triage/) | Naive Bayes / Multiclass / Calibration | Intermediate | Scikit-learn, SciPy | [README →](projects/machine-learning/support-ticket-triage/) |
+| [Cross-Validation Trap Lab](projects/machine-learning/cross-validation-traps/) | Validation / Leakage / Nested CV | Intermediate | Scikit-learn, Pandas | [README →](projects/machine-learning/cross-validation-traps/) |
 | [Lapse Prediction](projects/machine-learning/lapse-prediction/) | Ordinal Targets / Survival / Leakage | Advanced | LightGBM, Scikit-learn, Lifelines | [README →](projects/machine-learning/lapse-prediction/) |
 | [ML Pipeline](projects/machine-learning/credit-risk-pipeline/) | Feature Engineering / Production ML | Advanced | Scikit-learn, FastAPI, Docker | [Learn →](https://aimlcompanion.ai/module/mlPipeline/mlPipelineCapstone) |
 
@@ -135,6 +136,16 @@ The Naive Bayes assumption is provably false on ticket text, and the model works
 **Highlights:** Planted violation recovered blind, with the precision and recall trade shown | All four multiclass strategies (native, OvR, OvO, softmax) | Why a chi-square p-value is the wrong tool at n=9000 | Isotonic calibration cuts ECE 0.0255 to 0.0097 while keeping 95.4% of decisions | 33 tests
 
 [Project README](projects/machine-learning/support-ticket-triage/)
+
+---
+
+#### Cross-Validation Trap Lab - Measuring How Much CV Lies
+
+Everyone knows cross-validation can be optimistic. Almost nobody measures by how much, because on real data the truth is never observable. Here it is: a panel is split so that unseen customers in future periods are held back, and five validation traps are each scored by their distance from that. The result that reorganised the project is that the traps come in two families. Statistical traps, from how often you look, collapse from 0.18 to 0.0075 AUC as rows grow. Structural traps, from how you cut, do not shrink at all.
+
+**Highlights:** Every scheme scored against a real holdout rather than against each other | Fixing time alone recovers only half the error, because customers are still shared | No careful scheme lands on the truth, and the project says so | Controls that switch the traps off, so the claims are falsifiable | 36 tests
+
+[Project README](projects/machine-learning/cross-validation-traps/)
 
 ---
 
@@ -343,31 +354,32 @@ MACHINE LEARNING
   2. ML Algorithms          -> Classical ML, model comparison, interpretability
   3. Rent Price Explainer   -> Regression diagnostics, why specification beats algorithm
   4. Support Ticket Triage  -> Naive Bayes, multiclass strategies, calibration, routing
-  5. Lapse Prediction       -> Ordinal targets, leakage, cohort maturity, out-of-time splits
-  6. ML Pipeline            -> Feature engineering, end-to-end pipelines, monitoring
+  5. CV Trap Lab            -> Validation schemes, leakage, nested CV, what a fold allows
+  6. Lapse Prediction       -> Ordinal targets, leakage, cohort maturity, out-of-time splits
+  7. ML Pipeline            -> Feature engineering, end-to-end pipelines, monitoring
        |
 DEEP LEARNING
-  7. Deep Learning          -> Neural networks, progressive experimentation
+  8. Deep Learning          -> Neural networks, progressive experimentation
        |
 MLOPS
-  8. Model Serving Platform -> Deployment, CI/CD, load testing, infrastructure
+  9. Model Serving Platform -> Deployment, CI/CD, load testing, infrastructure
        |
 LLM
-  9. LLM/RAG                -> Retrieval-augmented generation, evaluation, security
- 10. AI Reasoning Patterns  -> Reasoning and agentic patterns, one per notebook
- 11. Muse Glimmer Lab       -> Open-weight model internals, KV cache, drafters
+ 10. LLM/RAG                -> Retrieval-augmented generation, evaluation, security
+ 11. AI Reasoning Patterns  -> Reasoning and agentic patterns, one per notebook
+ 12. Muse Glimmer Lab       -> Open-weight model internals, KV cache, drafters
        |
 AGENTIC AI
- 12. AI Agents              -> Multi-agent orchestration, guardrails, cost optimization
- 13. Content Moderation     -> Multi-agentic content pipelines
- 14. Due Diligence Agent    -> Enterprise multi-agent research, fact-checking, debate
- 15. Smart Claims Processor -> Multi-agent insurance, HITL, hybrid orchestration
- 16. Multi-Agents on AWS    -> Managed multi-agent infrastructure, Bedrock AgentCore
- 17. Hermes Ops Agent       -> Operating an agent, measuring its learning loop
- 18. Multi-Agent Anatomy    -> Production failure modes: partial failure, budgets, sagas
+ 13. AI Agents              -> Multi-agent orchestration, guardrails, cost optimization
+ 14. Content Moderation     -> Multi-agentic content pipelines
+ 15. Due Diligence Agent    -> Enterprise multi-agent research, fact-checking, debate
+ 16. Smart Claims Processor -> Multi-agent insurance, HITL, hybrid orchestration
+ 17. Multi-Agents on AWS    -> Managed multi-agent infrastructure, Bedrock AgentCore
+ 18. Hermes Ops Agent       -> Operating an agent, measuring its learning loop
+ 19. Multi-Agent Anatomy    -> Production failure modes: partial failure, budgets, sagas
        |
 FORWARD DEPLOYMENT
- 19. FDE Engagement Starter -> Embedded engagement simulation, portfolio artifact
+ 20. FDE Engagement Starter -> Embedded engagement simulation, portfolio artifact
 ```
 
 ## Repository Structure
@@ -380,6 +392,7 @@ aiml-companion/
 │   │   ├── algorithm-showdown/         # Classical ML + SHAP
 │   │   ├── rent-price-explainer/       # Regression Diagnostics + SHAP
 │   │   ├── support-ticket-triage/      # Naive Bayes + Multiclass + Calibration
+│   │   ├── cross-validation-traps/     # Validation + Leakage + Nested CV
 │   │   ├── lapse-prediction/           # Ordinal Targets + Leakage Discipline
 │   │   └── credit-risk-pipeline/       # Credit Risk + Monitoring
 │   ├── deep-learning/
