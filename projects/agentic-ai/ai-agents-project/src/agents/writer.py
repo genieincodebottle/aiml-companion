@@ -10,6 +10,7 @@ import logging
 from langchain_google_genai import ChatGoogleGenerativeAI
 from src.models.state import ResearchState
 from src.config import get_model_name
+from src.token_usage import token_count
 from src.guardrails import check_budget, scrub_pii
 
 logger = logging.getLogger(__name__)
@@ -47,9 +48,10 @@ def writer(state: ResearchState) -> dict:
             prompt = _build_revision_prompt(state)
 
         response = llm.invoke(prompt)
-        tokens = response.response_metadata.get(
-            "token_usage", {}
-        ).get("total_tokens", 1500)
+        # NOT response_metadata["token_usage"] -- that is the OpenAI shape and is
+        # absent on Gemini responses, so the old code silently took its 1500-token
+        # fallback on every call. See src/token_usage.py.
+        tokens = token_count(response)
 
         # Scrub PII from the draft
         draft_text, pii_found = scrub_pii(response.text)

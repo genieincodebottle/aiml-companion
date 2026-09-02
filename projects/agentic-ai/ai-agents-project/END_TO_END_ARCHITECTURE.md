@@ -700,12 +700,14 @@ token budget enforcement, and API rate limiting.
 |-----------|------|-------------|
 | `detect_pii(text)` | Function | Scans text for PII, returns {pii_type: [matches]} |
 | `scrub_pii(text)` | Function | Replaces PII with [REDACTED_TYPE], returns (cleaned_text, types_found) |
-| `validate_url(url, timeout=5)` | Function | HEAD request to check URL reachability |
+| `validate_url(url, timeout=5, allowlist=None)` | Function | Rejects non-HTTP(S) schemes and internal/loopback targets, optionally enforces an allowlist, then HEAD-checks reachability |
+| `is_internal_address(url)` | Function | True for loopback, private, link-local and metadata hosts (SSRF guard) |
+| `is_allowed_domain(url, allowlist=None)` | Function | Hostname-suffix match against ALLOWED_DOMAINS |
 | `check_budget(current, budget=50000)` | Function | Returns True if under budget |
 | `detect_injection(text)` | Function | Scans text for prompt injection patterns, returns (is_safe, matches) |
-| `RateLimiter(max_rpm=30)` | Class | Token bucket rate limiter for API calls |
+| `RateLimiter(max_rpm=30)` | Class | Fixed-spacing limiter (not a token bucket -- it never allows a burst) |
 | `rate_limiter` | Global | Singleton RateLimiter instance (30 RPM) |
-| `check_all_guardrails(state)` | Function | Runs all checks (budget, PII, injection, rate), returns summary dict |
+| `check_all_guardrails(state)` | Function | Budget, PII across state, injection in the query AND in retrieved snippets, rate; returns {budget_ok, pii_clean, pii_types, injection_safe, rate_ok, token_count, rate_limiter_calls, issues} |
 
 **PII Patterns (compiled regex):**
 
@@ -2060,12 +2062,25 @@ if not check_budget(state.get("token_count", 0)):
 
 ### URL Validation
 
-The scraper validates URLs before fetching:
+The scraper validates URLs before fetching. Reachability is not validity --
+the version above was the whole check, so `http://169.254.169.254/latest/meta-data/`
+(the cloud instance-metadata endpoint) passed and got scraped into a prompt:
+
 ```python
-def validate_url(url, timeout=5):
+def validate_url(url, timeout=5, allowlist=None):
+    if urlparse(url).scheme not in ("http", "https"):
+        return False
+    if is_internal_address(url):        # loopback, private, link-local, metadata
+        return False
+    if allowlist is not None and not is_allowed_domain(url, allowlist):
+        return False
     resp = requests.head(url, timeout=timeout, allow_redirects=True)
     return resp.status_code < 400
 ```
+
+The URLs reaching this function come from web search results and from page
+content, i.e. from strangers. The allowlist is opt-in because search returns
+arbitrary domains; the SSRF checks are not.
 
 ### No User Data Persistence
 

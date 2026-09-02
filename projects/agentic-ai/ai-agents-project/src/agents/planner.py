@@ -10,6 +10,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from src.models.state import ResearchState, PlannerOutput
 from src.config import get_model_name, get_pipeline_config
 from src.guardrails import check_budget
+from src.token_usage import structured_call
 
 logger = logging.getLogger(__name__)
 
@@ -35,9 +36,12 @@ def planner(state: ResearchState) -> dict:
         max_topics = cfg.get("max_sub_topics", 3)
 
         llm = ChatGoogleGenerativeAI(model=get_model_name(), temperature=0)
-        structured_llm = llm.with_structured_output(PlannerOutput)
+        # include_raw=True: keeps the raw message alongside the parsed model
+        # so the real token cost is available. See src/token_usage.py.
+        structured_llm = llm.with_structured_output(PlannerOutput, include_raw=True)
 
-        result = structured_llm.invoke(
+        result, tokens = structured_call(
+            structured_llm,
             f"You are a research planner. Break this research query into "
             f"1-{max_topics} focused sub-topics that can be researched independently. "
             f"Each sub-topic should be a specific, searchable question.\n\n"
@@ -54,11 +58,11 @@ def planner(state: ResearchState) -> dict:
         return {
             "sub_topics": sub_topics,
             "research_plan": result.research_plan,
-            "token_count": 500,
+            "token_count": tokens,
             "pipeline_trace": [{
                 "agent": "planner",
                 "duration_ms": duration,
-                "tokens": 500,
+                "tokens": tokens,
                 "summary": f"Decomposed into {len(sub_topics)} sub-topics",
             }],
         }

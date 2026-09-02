@@ -11,6 +11,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from src.models.state import ResearchState, ReviewOutput
 from src.config import get_model_name, get_pipeline_config
 from src.guardrails import check_budget
+from src.token_usage import structured_call
 
 logger = logging.getLogger(__name__)
 
@@ -54,14 +55,16 @@ def reviewer(state: ResearchState) -> dict:
 
     try:
         llm = ChatGoogleGenerativeAI(model=get_model_name(), temperature=0)
-        structured_llm = llm.with_structured_output(ReviewOutput)
+        # include_raw=True so the real token cost survives the parse.
+        structured_llm = llm.with_structured_output(ReviewOutput, include_raw=True)
 
         claims_text = "\n".join(
             f"- {c['claim']} [Source {c.get('source_idx', '?')}]"
             for c in state.get("key_claims", [])[:8]
         )
 
-        result = structured_llm.invoke(
+        result, tokens = structured_call(
+            structured_llm,
             f"You are a research report reviewer. Score this report 1-10.\n\n"
             f"Scoring criteria:\n"
             f"- Accuracy: Are claims supported by cited sources? (1-3 points)\n"
@@ -91,11 +94,11 @@ def reviewer(state: ResearchState) -> dict:
 
         output = {
             "review": review_data,
-            "token_count": 800,
+            "token_count": tokens,
             "pipeline_trace": [{
                 "agent": "reviewer",
                 "duration_ms": duration,
-                "tokens": 800,
+                "tokens": tokens,
                 "summary": f"Score {result.score}/10 - {status}",
             }],
         }

@@ -6,6 +6,7 @@
 # Teaches: conditional routing based on computed metrics, not LLM judgment.
 
 import logging
+from urllib.parse import urlparse
 from src.config import get_pipeline_config
 
 logger = logging.getLogger(__name__)
@@ -26,9 +27,25 @@ DOMAIN_TRUST = {
 
 
 def _domain_score(url: str) -> float:
-    """Score a source URL based on domain trustworthiness."""
+    """Score a source URL by the trustworthiness of its registered domain.
+
+    Matched against the parsed hostname, not the raw URL string. The obvious
+    version -- `if domain in url` -- reads the whole URL, so every one of these
+    scored as a top-tier source:
+
+        https://content-farm.example/arxiv.org/summary  -> 0.95
+        https://arxiv.org.attacker.test/paper           -> 0.95
+        https://blog.example/?ref=nature.com            -> 0.95
+
+    That matters more here than in most places: this score decides whether the
+    pipeline proceeds to analysis or goes back for better sources, so an
+    attacker who controls a URL string controls the routing.
+    """
+    host = (urlparse(url).hostname or "").lower()
+    if not host:
+        return 0.5
     for domain, score in DOMAIN_TRUST.items():
-        if domain in url:
+        if host == domain or host.endswith("." + domain):
             return score
     return 0.5  # Unknown domains get neutral score
 

@@ -10,6 +10,7 @@ import logging
 from langchain_google_genai import ChatGoogleGenerativeAI
 from src.models.state import ResearchState
 from src.config import get_model_name
+from src.token_usage import token_count
 from src.guardrails import check_budget
 
 logger = logging.getLogger(__name__)
@@ -78,9 +79,10 @@ def synthesizer(state: ResearchState) -> dict:
             f"Write 3-5 paragraphs of synthesis."
         )
 
-        tokens = response.response_metadata.get(
-            "token_usage", {}
-        ).get("total_tokens", 800)
+        # NOT response_metadata["token_usage"] -- that is the OpenAI shape and is
+        # absent on Gemini responses, so the old code silently took its 800-token
+        # fallback on every call. See src/token_usage.py.
+        tokens = token_count(response)
 
         duration = int((time.time() - start) * 1000)
         logger.info(f"Synthesizer: {len(response.text)} chars in {duration}ms")

@@ -299,11 +299,20 @@ def route_after_settlement(state: ClaimsState) -> Literal[
 def route_after_evaluation(state: ClaimsState) -> Literal[
     "hitl_checkpoint", "communication_agent"
 ]:
-    """If evaluation fails quality gate, route to HITL before release."""
-    evaluation_passed = state.get("evaluation_passed", True)
-    if not evaluation_passed:
+    """If evaluation FAILED the quality gate, route to HITL before release.
+
+    Three states, not two: True (judged, passed), False (judged, failed), None
+    (never judged -- the sampler skipped it). Only an explicit False diverts to
+    a human; an unevaluated claim continues, which is what sampling is for.
+    Writing this as `if not evaluation_passed` would send every skipped claim to
+    HITL and defeat the sampling entirely.
+    """
+    evaluation_passed = state.get("evaluation_passed")
+    if evaluation_passed is False:
         logger.info("Evaluation failed quality gate - routing to HITL")
         return "hitl_checkpoint"
+    if evaluation_passed is None:
+        logger.info("Claim was not evaluated (sampled out) - continuing unjudged")
     return "communication_agent"
 
 

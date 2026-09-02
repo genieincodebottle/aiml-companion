@@ -7,7 +7,7 @@ and produces a structured summary of findings with sources.
 import logging
 
 from agents.config import call_llm, logger
-from tools.web_search import web_search, format_search_results
+from tools.web_search import SearchUnavailable, web_search, format_search_results
 
 SYSTEM_PROMPT = """You are an expert research analyst. Your job is to research a given topic
 and provide comprehensive, well-sourced findings.
@@ -42,24 +42,48 @@ def run(input_data: dict) -> dict:
         input_data: {"query": "topic to research", "context": "optional context"}
 
     Returns:
-        {"result": "structured research findings", "sources": [...], "agent": "research"}
+        {"result", "sources", "agent", "search_mode"} where `search_mode` is
+        "live" (real hits), "placeholder" (no API key -- the findings are not
+        evidence) or "unavailable" (search was configured but failed).
+
+    A failed search returns an error result rather than research built on
+    placeholder text. The search tool used to swallow the failure and hand back
+    mock hits, so an outage produced a confident report citing example.com.
     """
     query = input_data.get("query", "")
     context = input_data.get("context", "")
 
     if not query:
-        return {"result": "Error: no research query provided", "sources": [], "agent": "research"}
+        return {"result": "Error: no research query provided", "sources": [],
+                "agent": "research", "search_mode": "none"}
 
     logger.info("Research Agent: searching for '%s'", query)
 
     # Step 1: Search the web
-    search_results = web_search(query)
+    try:
+        search_results = web_search(query)
 
-    # Step 2: If we have context (e.g., follow-up research), do a refined search
-    if context:
-        refined_query = f"{query} {context}"
-        additional_results = web_search(refined_query, max_results=3)
-        search_results.extend(additional_results)
+        # Step 2: With context (e.g. follow-up research), do a refined search
+        if context:
+            refined_query = f"{query} {context}"
+            search_results.extend(web_search(refined_query, max_results=3))
+    except SearchUnavailable as e:
+        # Fail visibly. Answering anyway from model memory would look identical
+        # to a researched answer, and the caller could not tell them apart.
+        logger.error("Research Agent: search unavailable - %s", e)
+        return {
+            "result": (
+                f"Research could not be completed: web search is configured but "
+                f"failed ({e}). No sources were retrieved, so no findings are "
+                f"reported. Retry once search is available."
+            ),
+            "sources": [],
+            "agent": "research",
+            "search_mode": "unavailable",
+        }
+
+    placeholders = [r for r in search_results if r.get("provenance") == "mock"]
+    search_mode = "placeholder" if placeholders else "live"
 
     # Step 3: Format search results for the LLM
     formatted_results = format_search_results(search_results)
@@ -79,15 +103,32 @@ def run(input_data: dict) -> dict:
         temperature=0.2,  # Lower temperature for factual research
     )
 
-    # Extract source URLs for metadata
-    sources = [{"title": r["title"], "url": r["url"]} for r in search_results]
+    # Extract source URLs for metadata, carrying provenance forward so a
+    # caller can distinguish a cited source from a placeholder.
+    sources = [
+        {"title": r["title"], "url": r["url"],
+         "provenance": r.get("provenance", "unknown")}
+        for r in search_results
+    ]
 
-    logger.info("Research Agent: completed research with %d sources", len(sources))
+    if search_mode == "placeholder":
+        result = (
+            "NOTE: web search was unavailable (no API key), so the findings "
+            "below rest on placeholder results and the model's own training "
+            "data. They are not researched and the citations are not real.\n\n"
+            + result
+        )
+
+    logger.info(
+        "Research Agent: completed with %d sources (search_mode=%s)",
+        len(sources), search_mode,
+    )
 
     return {
         "result": result,
         "sources": sources,
         "agent": "research",
+        "search_mode": search_mode,
     }
 
 

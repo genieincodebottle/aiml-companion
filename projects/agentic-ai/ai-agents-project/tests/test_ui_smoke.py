@@ -28,8 +28,11 @@ class TestUIImports:
         """Evaluation module should import without errors."""
         from evaluation.run_eval import (
             TEST_QUESTIONS, single_agent_research, multi_agent_research,
-            evaluate_report, PRICE_PER_TOKEN,
+            evaluate_report, PRICE_PER_1M_INPUT, PRICE_PER_1M_OUTPUT,
         )
+        # Unset by default on purpose: an unpriced run reports tokens and omits
+        # the currency column, rather than printing $0.0000 for both arms.
+        assert PRICE_PER_1M_INPUT is None and PRICE_PER_1M_OUTPUT is None
         assert len(TEST_QUESTIONS) == 10
         assert callable(single_agent_research)
         assert callable(multi_agent_research)

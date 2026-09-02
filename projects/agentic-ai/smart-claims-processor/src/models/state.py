@@ -72,7 +72,10 @@ class ClaimsState(TypedDict):
 
     # ── Evaluation ───────────────────────────────────────────────────────
     evaluation_output: Optional[EvaluationOutput]
+    # None = the sampler skipped this claim, so it was never judged. Distinct
+    # from False (judged and failed) and True (judged and passed).
     evaluation_passed: Optional[bool]
+    evaluation_skipped: Optional[bool]
 
     # ── Communication ────────────────────────────────────────────────────
     communication_output: Optional[CommunicationOutput]

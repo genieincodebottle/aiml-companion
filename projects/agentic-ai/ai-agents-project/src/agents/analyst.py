@@ -11,6 +11,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from src.models.state import ResearchState, AnalystOutput
 from src.config import get_model_name
 from src.guardrails import check_budget
+from src.token_usage import structured_call
 
 logger = logging.getLogger(__name__)
 
@@ -47,14 +48,16 @@ def analyst(state: ResearchState) -> dict:
 
     try:
         llm = ChatGoogleGenerativeAI(model=get_model_name(), temperature=0)
-        structured_llm = llm.with_structured_output(AnalystOutput)
+        # include_raw=True so the real token cost survives the parse.
+        structured_llm = llm.with_structured_output(AnalystOutput, include_raw=True)
 
         source_text = "\n".join(
             f"[{i+1}] {s.get('title', 'Untitled')}: {s.get('snippet', '')[:300]}"
             for i, s in enumerate(sources[:10])
         )
 
-        result = structured_llm.invoke(
+        result, tokens = structured_call(
+            structured_llm,
             f"You are a research analyst. Extract 5-8 key claims from these sources.\n\n"
             f"For each claim:\n"
             f"- Provide the factual claim\n"
@@ -82,11 +85,11 @@ def analyst(state: ResearchState) -> dict:
         return {
             "key_claims": claims,
             "conflicts": conflicts,
-            "token_count": 1200,
+            "token_count": tokens,
             "pipeline_trace": [{
                 "agent": "analyst",
                 "duration_ms": duration,
-                "tokens": 1200,
+                "tokens": tokens,
                 "summary": f"Extracted {len(claims)} claims, {len(conflicts)} conflicts",
             }],
         }

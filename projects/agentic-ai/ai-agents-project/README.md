@@ -98,14 +98,51 @@ Research Topic (user input)
 
 ### Single-Agent vs Multi-Agent Comparison
 
-| Metric | Single-Agent | Multi-Agent | Improvement |
-|--------|-------------|-------------|-------------|
-| Accuracy (0-3) | 2.2 | 2.6 | +18% |
-| Completeness (0-3) | 1.8 | 2.4 | +33% |
-| Citations (0-3) | 1.4 | 2.0 | +43% |
-| Avg Cost/Report | $0.0003 | $0.0008 | 2.8x |
+Measured 2026-09-02 with `python -m evaluation.run_eval`, model
+`gemini-3.6-flash`, the first **5** of the 10 test questions, one judge pass per
+report. Both arms answer the same questions, so the comparison is paired.
 
-**Verdict:** Multi-agent justified for synthesis tasks (+33% completeness). Route simple factual lookups to single-agent to save cost.
+| Metric | Single-Agent | Multi-Agent | Paired delta (SE) | Reads as |
+|--------|-------------|-------------|-------------------|----------|
+| Accuracy (0-3) | 3.00 (SD 0.00) | 2.60 (SD 0.55) | -0.40 +/- 0.24 | within noise |
+| Completeness (0-3) | 1.00 (SD 0.00) | 1.40 (SD 0.89) | +0.40 +/- 0.40 | within noise |
+| Citations (0-3) | 1.60 (SD 0.89) | 2.20 (SD 0.84) | +0.60 +/- 0.40 | within noise |
+| Avg tokens/report | 2,561 | 13,447 | **5.3x** | measured |
+| Avg latency | 19.2s | 67.9s | 3.5x | measured |
+| LLM calls | 1 | 3 | 3x | by construction |
+
+**Verdict: at n=5, this experiment cannot tell the two architectures apart on
+quality, and multi-agent costs 5.3x the tokens and 3.5x the wall clock.** Every
+quality delta is smaller than twice its own standard error. The honest reading
+is "no measured difference at a real cost", not "+18% accuracy" -- to claim a
+difference you would need more questions, repeated judge passes, or both.
+
+Cost in dollars is deliberately absent: set `PRICE_PER_1M_INPUT` and
+`PRICE_PER_1M_OUTPUT` in `evaluation/run_eval.py` with today's rates for your
+tier and it will be reported. Tokens are the measurement; dollars are a
+conversion.
+
+<details>
+<summary>What this table used to say, and why it is worth knowing</summary>
+
+It reported +18% / +33% / +43% and "Avg Cost/Report $0.0003 vs $0.0008 (2.8x)",
+with a verdict of "Multi-agent justified for synthesis tasks". Three problems:
+
+1. **The cost column could not have come from this code.** `PRICE_PER_TOKEN` was
+   `0`, so the script could only ever print `$0.0000` for both arms and
+   `Cost multiplier: 0.0x`.
+2. **The quality numbers had no n, no spread, and no date.** Five samples on a
+   four-point integer scale produce differences this size by chance routinely.
+3. **The harness was measuring truncation.** The per-call caps were 1000-2000
+   tokens, but `gemini-3.6-flash` spends ~940 tokens reasoning before it writes
+   anything, so reports were cut off mid-sentence and scored as incomplete. The
+   multi-agent arm suffered worst, because each truncated stage fed the next:
+   a run with the old caps scored it **0.00/3 on completeness**. That is a
+   measurement of a config value, not of an architecture.
+
+All three are fixed: prices are opt-in, the report carries n and standard
+errors, and a truncated response now raises instead of being quietly scored.
+</details>
 
 ---
 
@@ -411,10 +448,10 @@ ai-agents-project/
 > Three layers: (1) Writer constrained to cite ONLY from `state.sources`, (2) Analyst extracts claims with explicit evidence links to source indices, (3) Synthesizer detects cross-source conflicts and ranks sources by reliability.
 
 **Q: How do you control costs in a multi-agent system?**
-> Four mechanisms: (1) Global 50K token budget tracked in shared state, (2) Rate limiter caps at 30 requests/minute for Gemini free tier, (3) SQLite cache prevents duplicate searches (24h TTL), (4) Quality gate is pure Python (zero LLM cost). Worst case: 10 LLM calls per query at 2-second spacing.
+> Four mechanisms: (1) Global 50K token budget tracked in shared state -- against *real* usage read from `response.usage_metadata`; every agent used to report a hardcoded constant (500/300/1200/800/1500), so the budget was enforced against a number that never changed, (2) Rate limiter caps at 30 requests/minute for Gemini free tier, (3) SQLite cache prevents duplicate searches (24h TTL), (4) Quality gate is pure Python (zero LLM cost). Worst case: 10 LLM calls per query at 2-second spacing.
 
 **Q: What would you change for production deployment?**
-> (1) Swap SQLite cache for Redis for concurrent access, (2) Add human-in-the-loop for low-confidence claims, (3) Implement streaming output via LangGraph's `astream_events`, (4) Add LangSmith tracing for observability, (5) Route simple queries to single-agent to save 2.8x cost.
+> (1) Swap SQLite cache for Redis for concurrent access, (2) Add human-in-the-loop for low-confidence claims, (3) Implement streaming output via LangGraph's `astream_events`, (4) Add LangSmith tracing for observability, (5) Route simple queries to single-agent -- measured at 5.3x the tokens for no quality difference this experiment can resolve.
 
 **Q: How are the tests structured?**
 > 110 tests in 4 categories: (1) Unit tests for individual components (guardrails, quality gate, state, tools, cache), (2) Graph wiring tests verify routing logic without running the pipeline, (3) E2E tests mock all LLM calls and run the full pipeline to verify orchestration, (4) UI smoke tests verify all Streamlit imports work. All tests run without API keys.

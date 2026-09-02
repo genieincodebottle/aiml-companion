@@ -70,11 +70,14 @@ def researcher(state: dict) -> dict:
         return {
             "sources": unique_sources,
             "search_queries_used": queries_used,
-            "token_count": 300,
+            # The researcher calls search APIs, not the LLM -- it spends no
+            # tokens. It used to claim 300, which inflated every run and ate
+            # budget that the LLM agents actually needed.
+            "token_count": 0,
             "pipeline_trace": [{
                 "agent": "researcher",
                 "duration_ms": duration,
-                "tokens": 300,
+                "tokens": 0,
                 "summary": f"Found {len(unique_sources)} sources for '{query[:40]}'",
                 "tools_used": tools,
             }],

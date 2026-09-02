@@ -65,6 +65,9 @@ def run_batch_evaluation(claims_dir: str = "data/sample_claims") -> dict:
 
     # Aggregate stats
     successful = [r for r in results if "error" not in r]
+    # Only claims the judge actually scored. eval_passed is None when the
+    # sampler skipped the claim -- that is not a pass and not a failure.
+    evaluated = [r for r in successful if r.get("eval_passed") is not None]
     eval_scores = [r["eval_score"] for r in successful if r["eval_score"] is not None]
     total_cost = sum(r.get("cost_usd", 0) for r in successful)
 
@@ -73,8 +76,21 @@ def run_batch_evaluation(claims_dir: str = "data/sample_claims") -> dict:
         "successful": len(successful),
         "failed": len(results) - len(successful),
         "hitl_triggered": sum(1 for r in successful if r.get("hitl_required")),
+        # Denominators must match. `avg_eval_score` was already computed over
+        # the evaluated subset while `all_evals_passed` ran over every claim,
+        # counting sampled-out ones as passes because they carried
+        # evaluation_passed=True. At the configured sample rate of 0.10, that
+        # headline was ~90% claims nobody scored.
+        "evaluated": len(evaluated),
+        "skipped_by_sampling": len(successful) - len(evaluated),
         "avg_eval_score": sum(eval_scores) / len(eval_scores) if eval_scores else 0,
-        "all_evals_passed": all(r.get("eval_passed", False) for r in successful),
+        "eval_pass_rate": (
+            sum(1 for r in evaluated if r["eval_passed"]) / len(evaluated)
+            if evaluated else None
+        ),
+        "all_evaluated_claims_passed": (
+            all(r["eval_passed"] for r in evaluated) if evaluated else None
+        ),
         "total_cost_usd": round(total_cost, 4),
         "avg_agent_calls": sum(r.get("agent_calls", 0) for r in successful) / len(successful) if successful else 0,
     }

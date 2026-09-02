@@ -70,9 +70,20 @@ def run_evaluator(state: ClaimsState) -> dict:
     )
 
     if not always_eval and random.random() > sample_rate:
-        logger.info(f"[{claim_id}] Evaluation skipped (sample rate)")
+        logger.info(f"[{claim_id}] Evaluation skipped (sample rate {sample_rate})")
+        # `evaluation_passed: None`, NOT True. This used to return True, which
+        # meant "we did not look at this claim" was recorded as "this claim was
+        # judged and passed". At the configured batch_eval_sample_rate of 0.10
+        # that is 90% of auto-processed claims, so the quality metric derived
+        # from this field was ~90% claims nobody scored -- and it could only
+        # ever move in the direction of "everything is fine".
+        #
+        # Routing is unaffected (see route_after_evaluation: an unevaluated
+        # claim continues, which is the whole point of sampling). What changes
+        # is that the aggregate can now tell the two apart.
         return {
-            "evaluation_passed": True,
+            "evaluation_passed": None,
+            "evaluation_skipped": True,
             "pipeline_trace": [{"agent": AGENT_NAME, "status": "skipped_sampling"}],
         }
 
@@ -192,6 +203,7 @@ Flag any critical issues that require immediate attention.
     return {
         "evaluation_output": output,
         "evaluation_passed": passed,
+        "evaluation_skipped": False,
         "pipeline_trace": [{
             "agent": AGENT_NAME,
             "overall_score": output.overall_score,

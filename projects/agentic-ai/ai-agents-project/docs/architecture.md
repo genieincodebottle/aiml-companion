@@ -151,7 +151,22 @@ because it operates independently of the main pipeline:
 - **`run_eval.py`:** Runs single-agent vs multi-agent comparison across a test set
   of 10 research questions. Uses LLM-as-judge scoring on accuracy, completeness,
   and citation quality (0-3 scale).
-- **`judge_prompt.py`:** Contains the scoring prompts used by the LLM judge.
+- **`judge_prompt.py`:** The scoring prompts used by the LLM judge. `run_eval.py`
+  imports `COMBINED_PROMPT` from here. It used to inline its own copy, so the two
+  drifted and editing the rubric in this file changed nothing about the scores.
 
-The evaluation module uses the OpenAI SDK directly (not LangGraph) to keep the
-baseline comparison fair and the evaluation logic decoupled from the agent framework.
+The evaluation module calls the Gemini SDK (`google.genai`) directly rather than
+going through LangGraph, so the single-agent baseline is a genuine one call and not
+a framework wrapped around one call.
+
+Two things to know before reading its output:
+
+- **Token caps must leave room for reasoning.** Measured on gemini-3.6-flash, the
+  baseline prompt spends ~940 tokens thinking before emitting a word. The original
+  1000-2000 caps therefore truncated the reports being scored, and the harness was
+  measuring its own configuration rather than the architecture. Truncation is now
+  a hard error.
+- **Cost is not priced by default.** Tokens are the measurement; dollars are a
+  conversion you supply via `PRICE_PER_1M_INPUT` / `PRICE_PER_1M_OUTPUT`. The old
+  `PRICE_PER_TOKEN = 0` produced "$0.0000" for both arms and a "Cost multiplier:
+  0.0x" for a pipeline that makes three calls against a baseline of one.
