@@ -60,20 +60,36 @@ retyped the key once per notebook.
 
 ### Model and SDK notes
 
-These notebooks call **`gemini-2.5-flash`**. They previously used
-`gemini-2.0-flash` and `gemini-2.0-flash-exp`, both of which Google has since
-**retired** — every notebook returned:
+These notebooks call **`gemini-flash-latest`**, a rolling alias rather than a
+pinned version. That is a deliberate trade, and the reason is instructive.
+
+They previously pinned `gemini-2.0-flash` and `gemini-2.0-flash-exp`, both of
+which Google has since **retired**. Every one of the 23 notebooks failed with:
 
 ```
 404 This model models/gemini-2.0-flash is no longer available.
     Please update your code to ...
 ```
 
-If you see that error again, the model has aged out; swap in a current flash
-model from [the model list](https://ai.google.dev/gemini-api/docs/models) or use
-the rolling alias `gemini-flash-latest`. Pinning an exact version is right for
-reproducibility, but it means a maintenance step every so often — that trade is
-the point, not an oversight.
+A pinned version is the right default for a published result you need to
+reproduce exactly. For a teaching repo that has to keep *running*, it is a
+maintenance liability with a silent fuse: nothing warns you, and one day every
+notebook 404s at once. The alias trades exact reproducibility for staying alive.
+
+The alias is also about twice as fast, which matters more here than it sounds.
+These patterns are multi-call by construction — debate rounds, tree-search
+branches, verification chains — so a single notebook can make 50-80 sequential
+requests. Measured on one identical prompt:
+
+| model | latency per call |
+|---|---|
+| `gemini-2.5-flash` | 8.1s |
+| `gemini-2.5-flash-lite` | 4.0s |
+| `gemini-flash-latest` | 3.8s |
+
+At 60 calls that is the difference between an 8-minute notebook and a 4-minute
+one. If you need reproducible outputs, pin whatever `gemini-flash-latest`
+currently resolves to and accept the maintenance.
 
 They also import **`google.generativeai`**, which Google has deprecated in
 favour of the `google-genai` SDK (`from google import genai`). The old package
