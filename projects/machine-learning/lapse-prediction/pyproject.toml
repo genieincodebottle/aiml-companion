@@ -34,6 +34,13 @@ where = ["src"]
 testpaths = ["tests"]
 addopts = "-q --strict-markers"
 markers = ["slow: deselect with -m 'not slow'"]
+# Test THIS checkout, not whatever `lapse_prediction` happens to be installed.
+# Without this line an old `pip install -e .` from a previous location of the
+# project keeps a .pth file on sys.path, and the suite silently validates a
+# different copy of the source -- green tests, unchanged code. The other three
+# projects in this folder already pin it; this one did not, and it was the one
+# with the stale install.
+pythonpath = ["src"]
 
 [tool.ruff]
 line-length = 95

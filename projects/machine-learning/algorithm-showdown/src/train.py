@@ -109,29 +109,109 @@ def find_best_per_metric(results):
         print(f"  {metric:<12}: {best_algo} ({results[best_algo][metric]:.4f})")
 
 
-def tune_threshold(X, y, algorithms, target_recall=0.95):
-    """Tune decision threshold for cancer screening (~95% malignant recall target)."""
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, stratify=y, random_state=42
-    )
+def make_splits(X, y, seed=42):
+    """The one definition of train / validation / test used by every stage.
 
-    best_pipe = algorithms['XGBoost']
+    Defined once and imported by evaluate.py, because the two files used to
+    build their own splits independently. They happened to agree -- and that is
+    the problem: nothing enforced it, and evaluate.py was scoring the model on
+    the exact rows train.py had tuned the threshold on. A split is part of the
+    experiment's design, not a local detail of whichever script needs one.
+    """
+    X_train, X_tmp, y_train, y_tmp = train_test_split(
+        X, y, test_size=0.4, stratify=y, random_state=seed
+    )
+    X_val, X_test, y_val, y_test = train_test_split(
+        X_tmp, y_tmp, test_size=0.5, stratify=y_tmp, random_state=seed
+    )
+    return X_train, X_val, X_test, y_train, y_val, y_test
+
+
+def select_best(results, metric='roc_auc'):
+    """Pick the model to carry forward, from the comparison that was just run.
+
+    This used to be hardcoded to XGBoost, which quietly made the whole bake-off
+    decorative: six algorithms were compared and then the answer was ignored.
+    AUC is the selection metric because no threshold has been chosen yet at this
+    stage -- AUC scores the ranking across every threshold, which is exactly the
+    question "which model should I go on to tune?".
+    """
+    best = max(results, key=lambda a: results[a][metric])
+    print(f"\nSelected for threshold tuning: {best} "
+          f"({metric}={results[best][metric]:.4f}, chosen from the table above)")
+    return best
+
+
+def pick_threshold(y_true, y_proba_malign, target_recall):
+    """Smallest threshold that still reaches `target_recall` on malignant cases.
+
+    Note the asymmetry this encodes: a false alarm costs a biopsy, a miss can
+    cost a life. So we do not pick the threshold that maximises accuracy or F1.
+    We fix the recall we are willing to live with and accept the precision it
+    costs.
+    """
+    precisions, recalls, thresholds = precision_recall_curve(
+        (y_true == 0).astype(int),   # 1 = malignant (the positive class)
+        y_proba_malign
+    )
+    # precision_recall_curve returns len(thresholds) == len(recalls) - 1: the
+    # final (recall=0, precision=1) point has no threshold behind it. Trimming
+    # to the aligned prefix keeps one index valid for all three arrays, instead
+    # of the old `if idx < len(thresholds) else 0.5`, which silently shipped an
+    # untuned 0.5 as though it were a tuned threshold.
+    recalls, precisions = recalls[:-1], precisions[:-1]
+    idx = int(np.argmin(np.abs(recalls - target_recall)))
+    return float(thresholds[idx]), float(precisions[idx]), float(recalls[idx])
+
+
+def tune_threshold(X, y, algorithms, target_recall=0.95, best_name='XGBoost'):
+    """Fit the chosen model, tune its threshold, and report on untouched data.
+
+    THREE splits, not two, and the reason is the whole lesson of this function.
+
+    Choosing an operating threshold IS model selection: it is a parameter fitted
+    to data. Fit it on the same rows you then report and the report is circular.
+    The threshold was *defined* as the one hitting 95% recall on those rows, so
+    95% recall is what it prints -- every time, however good or bad the model
+    is. Measured over 30 seeds, that circular number had a standard deviation of
+    0.0005. It is not an estimate; it is the target echoed back.
+
+    Tuned on validation and reported on an untouched test split, the same
+    quantity has a standard deviation of 0.037 and ranges from 0.857 to 1.000.
+    On 42 malignant cases, 0.857 means six missed cancers. That spread is the
+    real uncertainty, and the two-split design hid it completely. Precision
+    moves too, in the direction you would expect: 0.917 in-sample, 0.833 held
+    out.
+
+        train      (60%)  fit the model
+        validation (20%)  choose the threshold
+        test       (20%)  report -- touched by neither of the above
+    """
+    X_train, X_val, X_test, y_train, y_val, y_test = make_splits(X, y)
+
+    best_pipe = algorithms[best_name]
     best_pipe.fit(X_train, y_train)
 
-    # For cancer screening: optimize MALIGNANT recall (catch maximum cancers)
-    y_proba_malign = best_pipe.predict_proba(X_test)[:, 0]  # P(malignant)
-
-    # Compute PR curve for malignant class (flip labels so malignant=1)
-    precisions, recalls, thresholds = precision_recall_curve(
-        (y_test == 0).astype(int),  # 1 = malignant (positive class)
-        y_proba_malign               # P(malignant)
+    # --- choose the threshold on VALIDATION
+    opt_threshold, val_prec, val_rec = pick_threshold(
+        y_val, best_pipe.predict_proba(X_val)[:, 0], target_recall
     )
+    print(f"\nThreshold tuned on VALIDATION for {target_recall:.0%} malignant "
+          f"recall: {opt_threshold:.3f}")
+    print(f"  validation: recall {val_rec:.3f}  precision {val_prec:.3f}  "
+          f"(in-sample for the threshold -- not a result)")
 
-    idx = np.argmin(np.abs(recalls - target_recall))
-    opt_threshold = thresholds[idx] if idx < len(thresholds) else 0.5
-
-    print(f"\nThreshold for {target_recall:.0%} malignant recall: {opt_threshold:.3f}")
-    print(f"  Precision at this threshold: {precisions[idx]:.3f}")
+    # --- report it on TEST, seen by neither the model nor the threshold
+    p_malign_test = best_pipe.predict_proba(X_test)[:, 0]
+    flagged = p_malign_test >= opt_threshold
+    is_malign = (y_test == 0)
+    test_rec = float(flagged[is_malign].mean())
+    test_prec = float(is_malign[flagged].mean()) if flagged.any() else float('nan')
+    print(f"  TEST (held out): recall {test_rec:.3f}  precision {test_prec:.3f}"
+          f"   <- the only honest number here")
+    if test_rec < target_recall:
+        print(f"  note: test recall missed the {target_recall:.0%} target. That "
+              f"is what a held-out set is for; the tuned number never could.")
 
     return best_pipe, opt_threshold
 
@@ -147,8 +227,9 @@ if __name__ == "__main__":
     # Best per metric
     find_best_per_metric(results)
 
-    # Threshold tuning for cancer screening
-    best_pipe, threshold = tune_threshold(X, y, algorithms)
+    # Threshold tuning for cancer screening, on the model the comparison chose
+    best_name = select_best(results)
+    best_pipe, threshold = tune_threshold(X, y, algorithms, best_name=best_name)
 
     # Save best model
     os.makedirs('artifacts/models', exist_ok=True)

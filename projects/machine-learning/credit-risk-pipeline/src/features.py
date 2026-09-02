@@ -16,6 +16,7 @@ add_utilization     Add credit utilization ratio.
 add_loan_burden     Add loan-to-income burden score.
 add_age_buckets     Add age group buckets.
 add_log_transforms  Apply log1p to skewed numeric features.
+drop_protected_attributes  Remove attributes a credit model may not use.
 """
 
 from __future__ import annotations
@@ -50,6 +51,7 @@ def engineer_features(df: pd.DataFrame, cfg: dict) -> pd.DataFrame:
     df = df.copy()
     n_cols_before = df.shape[1]
 
+    df = drop_protected_attributes(df, cfg)
     df = add_dti_ratio(df, cfg)
     df = add_utilization(df, cfg)
     df = add_loan_burden(df, cfg)
@@ -58,6 +60,58 @@ def engineer_features(df: pd.DataFrame, cfg: dict) -> pd.DataFrame:
 
     n_new = df.shape[1] - n_cols_before
     logger.info(f"Engineered {n_new} new features (total: {df.shape[1]})")
+    return df
+
+
+# ---------------------------------------------------------------------------
+# Protected attributes
+# ---------------------------------------------------------------------------
+
+#: Columns a credit model must not learn from, whatever they are called.
+#: `personal_status` in the German Credit data reads "male single", "female
+#: div/dep/mar" and so on -- it encodes SEX, and it was going into the model as
+#: an ordinary categorical.
+PROTECTED_COLUMNS = ("personal_status", "sex", "gender", "marital_status",
+                     "race", "ethnicity", "religion", "nationality")
+
+
+def drop_protected_attributes(df: pd.DataFrame, cfg: dict) -> pd.DataFrame:
+    """Remove attributes a lending model is not permitted to use.
+
+    This is not a modelling nicety, it is the law: ECOA / Regulation B in the
+    US and equivalent rules elsewhere prohibit using sex or marital status in a
+    credit decision. A model that has the column will use it.
+
+    What it costs here is worth knowing, because "we had to keep it for
+    accuracy" is the usual objection and it does not survive measurement:
+
+        cross-validated AUC with personal_status     0.7869
+        cross-validated AUC without it               0.7818
+
+    Half a point of AUC. And what it buys, from the same data: the female
+    default rate is 35.2% against 27.7% for men, so a model holding this column
+    learns to charge women more for being women. That is the trade in full --
+    0.005 AUC against disparate impact on 31% of applicants and an unlawful
+    model.
+
+    Kept as a returned column rather than deleted from the frame would be the
+    subtler mistake: proxies remain (this is why a real deployment needs a
+    disparate-impact audit, not just a dropped column), so removal is the floor
+    here, not the finish line.
+    """
+    df = df.copy()
+    if not cfg.get("drop_protected", True):
+        logger.warning(
+            "drop_protected is disabled: protected attributes will reach the "
+            "model. This is a legal exposure, not a hyperparameter.")
+        return df
+
+    extra = tuple(cfg.get("protected_columns", ()) or ())
+    found = [c for c in df.columns if c.lower() in
+             {p.lower() for p in PROTECTED_COLUMNS + extra}]
+    if found:
+        df = df.drop(columns=found)
+        logger.info(f"Dropped protected attributes: {found}")
     return df
 
 
@@ -91,11 +145,18 @@ def add_dti_ratio(df: pd.DataFrame, cfg: dict) -> pd.DataFrame:
 
     # Find columns by common naming patterns
     if debt_col is None:
-        debt_col = _find_column(df, ["existing_debt", "debt", "credit_amount"])
+        debt_col = _find_column(df, ["existing_debt", "debt"])
     if income_col is None:
-        income_col = _find_column(df, ["income", "annual_income", "personal_status"])
+        # NOTE the name that used to be third in this list: `personal_status`.
+        # The German Credit data has no income column at all, so DTI resolved
+        # income to a categorical field encoding sex and marital status.
+        # to_numeric() coerced every value to NaN, the imputer filled the gap,
+        # and the function logged "Added dti_ratio" -- a 100%-NaN column with a
+        # trustworthy name, silently doing nothing. Candidate lists must only
+        # contain columns that MEAN the same thing.
+        income_col = _find_column(df, ["income", "annual_income", "monthly_income"])
     if loan_col is None:
-        loan_col = _find_column(df, ["loan_amount", "credit_amount", "duration"])
+        loan_col = _find_column(df, ["loan_amount", "credit_amount"])
 
     if debt_col and income_col:
         income = pd.to_numeric(df[income_col], errors="coerce").replace(0, np.nan)
@@ -114,7 +175,12 @@ def add_dti_ratio(df: pd.DataFrame, cfg: dict) -> pd.DataFrame:
         df["dti_ratio"] = (loan / income).clip(upper=1.0)
         logger.info(f"Added dti_ratio (loan={loan_col}, income={income_col})")
     else:
-        logger.warning("Could not compute DTI - missing debt/income columns")
+        # Skipped, not faked. A feature that cannot be computed must be absent,
+        # so its absence is visible downstream, rather than present and null.
+        logger.warning(
+            "Skipping dti_ratio: this dataset has no income column. DTI is "
+            "undefined without one -- see the note above about what happened "
+            "when this fell back to guessing.")
 
     return df
 
@@ -141,10 +207,17 @@ def add_utilization(df: pd.DataFrame, cfg: dict) -> pd.DataFrame:
     balance_col = col_map.get("balance", None)
     limit_col = col_map.get("limit", None)
 
+    # Same discipline as DTI. These lists used to include `existing_credits`
+    # (a count of 1-4) and `credit_amount` (the size of THIS loan), so
+    # utilization came out as "number of open credits divided by loan amount":
+    # a column ranging 5e-05 to 0.01, named after a ratio it does not compute.
+    # Dropping it and dti_ratio together RAISED cross-validated AUC slightly
+    # (0.7869 -> 0.7873), which is what a feature contributing nothing looks
+    # like.
     if balance_col is None:
-        balance_col = _find_column(df, ["balance", "existing_credits", "credit_amount"])
+        balance_col = _find_column(df, ["balance", "current_balance"])
     if limit_col is None:
-        limit_col = _find_column(df, ["credit_limit", "limit", "credit_amount"])
+        limit_col = _find_column(df, ["credit_limit", "limit"])
 
     if balance_col and limit_col and balance_col != limit_col:
         limit = pd.to_numeric(df[limit_col], errors="coerce").replace(0, np.nan)
@@ -152,7 +225,9 @@ def add_utilization(df: pd.DataFrame, cfg: dict) -> pd.DataFrame:
         df["utilization_ratio"] = (balance / limit).clip(0, 1.5)
         logger.info(f"Added utilization_ratio (balance={balance_col}, limit={limit_col})")
     else:
-        logger.warning("Could not compute utilization - missing balance/limit columns")
+        logger.warning(
+            "Skipping utilization_ratio: needs a balance AND a credit limit, "
+            "and this dataset has neither.")
 
     return df
 

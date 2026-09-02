@@ -30,6 +30,17 @@ class Config:
     valid_months: int = 3
     test_months: int = 3
 
+    #: How the out-of-time TEST cohort is divided. Early stopping watches the
+    #: earlier share; the calibrator is fitted on the rest. They must be
+    #: disjoint: a cohort used to pick the tree count is partly in-sample, and
+    #: a calibrator fitted there corrects a distortion that fresh data does not
+    #: have.
+    early_stop_share: float = 0.5
+    #: 'platt' (strictly monotone, cannot reorder the queue) or 'isotonic'
+    #: (flexible, but ties scores together and cost real ranking here -- see
+    #: models/base.calibrate).
+    calibration_method: str = "platt"
+
     capacity_pct: float = 0.20
     contact_lead_days: int = 5
     assumed_save_rate: float = 0.25
@@ -101,6 +112,8 @@ def load_config(path: str | os.PathLike | None = None) -> Config:
         hazard_period_days=s.get("period_days", 7),
         valid_months=sp.get("valid_months", 3),
         test_months=sp.get("test_months", 3),
+        early_stop_share=sp.get("early_stop_share", 0.5),
+        calibration_method=sp.get("calibration_method", "platt"),
         capacity_pct=d.get("capacity_pct", 0.20),
         contact_lead_days=d.get("contact_lead_days", 5),
         assumed_save_rate=d.get("assumed_save_rate", 0.25),

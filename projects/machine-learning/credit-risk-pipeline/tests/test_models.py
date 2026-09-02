@@ -110,3 +110,61 @@ class TestGradientBoosting:
         assert proba.shape == (len(y), 2)
         # Probabilities should sum to 1
         np.testing.assert_allclose(proba.sum(axis=1), 1.0, atol=1e-6)
+
+
+def test_training_produces_out_of_fold_predictions():
+    """Evaluation must never score a model on its own training rows.
+
+    Regression test for the most expensive defect in this project. Evaluation
+    used to call `pipeline.predict_proba(X)` on a model fitted to all of X.
+    Gradient boosting memorises 1,000 rows easily, so it reported a total
+    misclassification cost of **1** against an honest out-of-fold cost of 712 --
+    and, worse than the flattering number, it picked its operating threshold
+    from those memorised scores. That threshold (0.30, where the honest optimum
+    is 0.05) was written to threshold.json and served, costing 1,372 in
+    reality: nearly double the properly tuned optimum.
+    """
+    import numpy as np
+    import pandas as pd
+    from src.models import train_and_evaluate
+
+    rng = np.random.default_rng(0)
+    n = 300
+    df = pd.DataFrame({
+        "num_a": rng.normal(size=n),
+        "num_b": rng.normal(size=n),
+        "cat_a": rng.choice(["x", "y", "z"], size=n),
+    })
+    df["target"] = (df["num_a"] + rng.normal(scale=1.5, size=n) > 0).astype(int)
+
+    # model_path=None: never touch the artifact the serving API loads
+    results = train_and_evaluate(
+        df, {"target_column": "target", "cv_folds": 3, "model_path": None})
+
+    for name, res in results.items():
+        assert "oof_proba" in res, f"{name} produced no out-of-fold predictions"
+        oof = res["oof_proba"]
+        assert len(oof) == len(df)
+        assert ((oof >= 0) & (oof <= 1)).all()
+
+        # The out-of-fold score must be meaningfully worse than the in-sample
+        # score. If they match, the OOF predictions are not really out-of-fold.
+        from sklearn.metrics import roc_auc_score
+        in_sample = res["pipeline"].predict_proba(df.drop(columns=["target"]))[:, 1]
+        assert roc_auc_score(df["target"], oof) <= roc_auc_score(
+            df["target"], in_sample) + 1e-9
+
+
+def test_evaluation_refuses_to_score_in_sample():
+    """full_evaluation must fail loudly rather than fall back to training rows."""
+    import numpy as np
+    import pandas as pd
+    import pytest
+    from src.evaluate import full_evaluation
+
+    df = pd.DataFrame({"num_a": np.arange(20.0), "target": [0, 1] * 10})
+    # results without 'oof_proba' -- the shape the old in-sample path produced
+    fake = {"M": {"roc_auc_mean": 0.9, "pipeline": object()}}
+
+    with pytest.raises(KeyError, match="out-of-fold"):
+        full_evaluation(df, fake, {"target_column": "target"})

@@ -53,6 +53,10 @@ coverage.xml
 *.swp
 *.swo
 
+# Miscellaneous
+docs/*
+.claude
+
 # OS files
 .DS_Store
 Thumbs.db

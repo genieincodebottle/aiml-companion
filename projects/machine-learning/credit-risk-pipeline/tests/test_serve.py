@@ -112,3 +112,33 @@ def test_predict_rejects_invalid_age(client):
 def test_predict_rejects_missing_required(client):
     resp = client.post("/predict", json={"age": 35})
     assert resp.status_code == 422
+
+
+@needs_model
+def test_missing_key_features_are_reported_not_hidden(client):
+    """Scoring without the model's main drivers must be visible to the caller.
+
+    The API used to accept duration, credit_amount, age and income. Income is
+    not even in the training data, and those three fields carry a
+    cross-validated AUC of 0.636 against 0.782 for the full schema --
+    `checking_status` ALONE scores 0.680. Requests were silently imputed up to
+    the training schema, so the served model was much weaker than the
+    evaluation report described, and nothing said so.
+    """
+    sparse = client.post(
+        "/predict",
+        json={"duration": 48, "credit_amount": 15000, "age": 22},
+    ).json()
+    assert sparse["missing_key_features"], (
+        "a request lacking every key driver must report them")
+
+    rich = client.post(
+        "/predict",
+        json={"duration": 48, "credit_amount": 15000, "age": 22,
+              "checking_status": "<0", "credit_history": "delayed previously",
+              "savings_status": "<100", "employment": "<1",
+              "purpose": "new car"},
+    ).json()
+    assert rich["missing_key_features"] == []
+    # the key features must actually move the score
+    assert rich["default_probability"] != sparse["default_probability"]

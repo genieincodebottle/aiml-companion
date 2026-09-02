@@ -32,7 +32,8 @@ from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.impute import KNNImputer
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import StratifiedKFold, cross_validate
+from sklearn.model_selection import (StratifiedKFold, cross_val_predict,
+                                     cross_validate)
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
@@ -111,13 +112,42 @@ def train_and_evaluate(df: pd.DataFrame, cfg: dict) -> dict:
             f"(+/-{results[name]['roc_auc_std']:.3f})"
         )
 
-        # Fit on full data for deployment
+        # Out-of-fold probabilities: every row scored by a copy of the model
+        # that did NOT train on it. This is what evaluation and threshold
+        # tuning must use.
+        #
+        # Evaluation used to call `pipeline.predict_proba(X)` on the
+        # deployment fit below -- a model that had seen all 1,000 rows scoring
+        # those same 1,000 rows. For gradient boosting that is close to reading
+        # back the labels: it reported a total misclassification cost of 1
+        # against an honest 712, and the threshold it chose from those
+        # memorised scores (0.30, where the honest optimum is 0.05) cost 1,372
+        # in reality. An in-sample curve does not just flatter the score, it
+        # moves the operating point to the wrong place and ships it.
+        results[name]["oof_proba"] = cross_val_predict(
+            pipeline, X, y, cv=cv, method="predict_proba", n_jobs=-1
+        )[:, 1]
+
+        # Fit on full data for deployment. Legitimate for the model you ship --
+        # never for the numbers you quote about it.
         pipeline.fit(X, y)
         results[name]["pipeline"] = pipeline
 
-    # Save best model
+    # Save best model.
+    #
+    # The destination comes from config so that callers scoring ad-hoc frames
+    # -- tests especially -- do not overwrite the artifact the serving API
+    # loads. This used to be a hardcoded path written on every call, so a test
+    # that trained on three synthetic columns silently replaced the deployed
+    # model with a toy, and the API then returned a constant 0.495 for every
+    # applicant. Pass `model_path: null` to skip persistence entirely.
     best_name = max(results, key=lambda k: results[k]["roc_auc_mean"])
-    model_path = PROJECT_ROOT / "artifacts" / "results" / "best_model.joblib"
+    if "model_path" in cfg and cfg["model_path"] is None:
+        logger.info(f"Best model ({best_name}) not persisted (model_path=null)")
+        return results
+
+    model_path = Path(cfg.get("model_path")
+                      or PROJECT_ROOT / "artifacts" / "results" / "best_model.joblib")
     model_path.parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(results[best_name]["pipeline"], model_path)
     logger.info(f"Best model ({best_name}) saved to {model_path}")

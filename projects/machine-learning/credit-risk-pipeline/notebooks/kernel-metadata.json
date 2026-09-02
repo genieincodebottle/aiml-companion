@@ -1,5 +1,5 @@
 {
-  "id": "genieincodebottle/credit-risk-pipeline",
+  "id": "genieincodebottle/credit-risk-pipeline-end-to-end-ml-project",
   "title": "Credit Risk Pipeline",
   "code_file": "credit-risk-pipeline.ipynb",
   "language": "python",
@@ -7,7 +7,13 @@
   "is_private": "false",
   "enable_gpu": "false",
   "enable_internet": "true",
-  "keywords": ["credit risk", "machine learning", "sklearn pipeline", "feature engineering", "cost-sensitive evaluation"],
+  "keywords": [
+    "credit risk",
+    "machine learning",
+    "sklearn pipeline",
+    "feature engineering",
+    "cost-sensitive evaluation"
+  ],
   "dataset_sources": [],
   "kernel_sources": [],
   "competition_sources": []

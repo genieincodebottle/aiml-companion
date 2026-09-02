@@ -33,7 +33,8 @@ PREMIUM_LOCALITIES = {"tech_park", "riverside"}
 def design_matrix(df: pd.DataFrame, *, log_area: bool = True,
                   drop_collinear: bool = True, add_age_curve: bool = True,
                   include_junk: bool = False,
-                  add_interaction: bool = False) -> pd.DataFrame:
+                  add_interaction: bool = False,
+                  age_center: float | None = None) -> pd.DataFrame:
     """Build the model matrix. Every argument corresponds to one diagnostic fix.
 
     log_area        -> the RESET test said the level-on-level form is wrong
@@ -44,6 +45,12 @@ def design_matrix(df: pd.DataFrame, *, log_area: bool = True,
                        penalty is steeper in premium localities. A linear model
                        can represent that perfectly well -- it just has to be
                        TOLD, which is the real difference between the families.
+    age_center      -> the constant the age curve is centred on. This is a
+                       FITTED PARAMETER, not a property of the rows in front of
+                       you, and it must be frozen on the training set and
+                       reused at inference. Pass it explicitly; `None` means
+                       "learn it from this frame", which is only ever correct
+                       on the training frame itself. See the note below.
     """
     X = df.drop(columns=[c for c in (TARGET, ID) if c in df.columns]).copy()
 
@@ -62,8 +69,18 @@ def design_matrix(df: pd.DataFrame, *, log_area: bool = True,
     if add_age_curve and "age_years" in X.columns:
         # The true effect is quadratic. Centring keeps the linear and squared
         # terms from becoming collinear with each other.
-        centred = X["age_years"] - X["age_years"].mean()
-        X["age_centred_sq"] = centred ** 2
+        #
+        # The centring constant is LEARNED FROM DATA, which makes it exactly as
+        # dangerous as a fitted scaler. Recomputing it on whatever rows you are
+        # scoring makes the design matrix depend on the batch: the same listing
+        # priced alone and priced inside a batch of 1,500 gets a different
+        # `age_centred_sq`, and therefore a different rent. That is not a
+        # rounding difference -- it moved predictions by up to 3.9% here, and a
+        # single-row request centres age on itself, sending the term to exactly
+        # 0 every time. Freeze it at fit and pass it back in.
+        centre = (float(X["age_years"].mean()) if age_center is None
+                  else float(age_center))
+        X["age_centred_sq"] = (X["age_years"] - centre) ** 2
 
     if add_interaction and {"metro_km", "locality"} <= set(X.columns):
         X["metro_km_x_premium"] = X["metro_km"] * X["locality"].isin(
@@ -79,3 +96,12 @@ def design_matrix(df: pd.DataFrame, *, log_area: bool = True,
 
 def feature_names(df: pd.DataFrame, **kw) -> list[str]:
     return list(design_matrix(df, **kw).columns)
+
+
+def learn_age_center(df: pd.DataFrame) -> float:
+    """The one place the age centring constant is estimated.
+
+    Named rather than inlined so that "this is fitted state" is visible at the
+    call site, and so a model can store it next to its coefficients.
+    """
+    return float(df["age_years"].mean())

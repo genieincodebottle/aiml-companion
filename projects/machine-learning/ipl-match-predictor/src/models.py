@@ -194,6 +194,78 @@ def split_data(
     )
 
 
+def split_data_by_season(
+    X: pd.DataFrame,
+    y: pd.Series,
+    seasons: "pd.Series | np.ndarray",
+    holdout_seasons: int = 2,
+) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+    """Train on earlier seasons, test on the most recent ones.
+
+    This is the split that matches what the project actually does: predict
+    matches that have not been played yet. A random split trains on 2025 to
+    predict 2024, which deployment never gets to do, and it quietly flatters
+    the model -- squad composition, rules and team strength all drift between
+    seasons, so interpolating across them is an easier problem than the real
+    one.
+
+    The gap is not subtle here, and neither is what it reveals:
+
+        random split                      0.5150
+        holdout 2025 (71 matches)         0.4507   majority baseline 0.5352
+        holdout 2024-25 (142 matches)     0.5000   majority baseline 0.5211
+        holdout 2023-25 (215 matches)     0.5070   majority baseline 0.5023
+
+    Under an honest temporal split the ensemble does not beat "always predict
+    the same team" in any recent season. That is the real state of IPL match
+    prediction from pre-match features, and it agrees with the 48.6% this
+    project measures on 2026. Report the baseline next to the accuracy or 0.53
+    reads like skill.
+
+    Parameters
+    ----------
+    X : pd.DataFrame
+        Feature matrix.
+    y : pd.Series
+        Target variable.
+    seasons : array-like
+        Season (year) for each row, aligned with X and y.
+    holdout_seasons : int
+        How many of the most recent seasons to hold out.
+
+    Returns
+    -------
+    tuple
+        ``(X_train, X_test, y_train, y_test)``
+    """
+    seasons = np.asarray(seasons)
+    unique = np.sort(np.unique(seasons))
+    if len(unique) <= holdout_seasons:
+        raise ValueError(
+            f"need more than {holdout_seasons} seasons to hold out "
+            f"{holdout_seasons}; found {len(unique)}")
+    cutoff = unique[-holdout_seasons]
+    train_mask, test_mask = seasons < cutoff, seasons >= cutoff
+
+    X_train = X[train_mask] if not hasattr(X, "iloc") else X.iloc[train_mask]
+    X_test = X[test_mask] if not hasattr(X, "iloc") else X.iloc[test_mask]
+    y_train = np.asarray(y)[train_mask]
+    y_test = np.asarray(y)[test_mask]
+    return X_train, X_test, y_train, y_test
+
+
+def majority_class_baseline(y_train, y_test) -> float:
+    """Accuracy of always predicting the most common training-set class.
+
+    The number every reported accuracy has to be read against. On this data it
+    sits near 0.52-0.54, so an ensemble scoring 0.53 has demonstrated nothing.
+    Quoting accuracy without it is how a coin flip gets described as a model.
+    """
+    y_train, y_test = np.asarray(y_train), np.asarray(y_test)
+    majority = 1 if y_train.mean() >= 0.5 else 0
+    return float((y_test == majority).mean())
+
+
 # ===================================================================
 # 2. Model builders
 # ===================================================================

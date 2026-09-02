@@ -116,3 +116,29 @@ def test_collinearity_splits_tree_attributions_too(fitted):
     assert ols_size > biggest, (
         "the single combined term should show size as more important than "
         "either half of the split pair")
+
+
+def test_predictions_do_not_depend_on_the_batch(fitted):
+    """A model's output for one listing must not move because of its neighbours.
+
+    `age_centred_sq` is a fitted parameter: it centres on a mean learned from
+    data. Recomputing that mean on whatever rows are being scored made the same
+    listing worth up to 3.9% more or less depending on what it was batched
+    with, and a single-row request centred age on itself, forcing the term to
+    exactly 0. Scoring one row at a time and scoring the whole frame must agree.
+    """
+    ms, _, test = fitted
+    for key in ("spec", "inter"):
+        model = ms[key]
+        batch = model.predict(test)
+        one_by_one = np.array([model.predict(test.iloc[[i]])[0]
+                               for i in range(40)])
+        assert np.allclose(one_by_one, batch[:40], rtol=1e-8), (
+            f"{key} predictions depend on batch composition")
+
+
+def test_the_age_centre_is_frozen_on_the_training_rows(fitted):
+    """The centring constant belongs to the fit, not to the scoring frame."""
+    ms, train, _ = fitted
+    for key in ("spec", "inter"):
+        assert ms[key].age_center_ == pytest.approx(train["age_years"].mean())

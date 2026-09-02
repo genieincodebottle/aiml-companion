@@ -5,7 +5,7 @@
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![LightGBM](https://img.shields.io/badge/LightGBM-4.0-green)
 ![XGBoost](https://img.shields.io/badge/XGBoost-2.0-red)
-![Tests](https://img.shields.io/badge/tests-57%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-59%20passing-brightgreen)
 
 Predicts, at the moment a policy is pulled up, **whether a renewal premium will
 lapse** and **when the premium is likely to arrive**, from one model rather
@@ -120,7 +120,7 @@ on Windows, so the commands above are the portable path.
 ### Run the tests
 
 ```bash
-pytest -p no:warnings          # 57 tests: leakage, schema, split, contracts, e2e
+pytest -p no:warnings          # 59 tests: leakage, schema, split, calibration, contracts, e2e
 ```
 
 ## 5. The notebook
@@ -135,7 +135,9 @@ explains the reasoning as it goes and needs no install, no config and no CLI.
 It covers why the timing distribution is bimodal and therefore why you must not
 regress on raw days, who lapses, the leakage rule *and a test that proves there
 is none*, cohort maturity, the out-of-time split, three competing model designs,
-calibration, decile capture, and the retention queue with its economics.
+calibration *measured on both axes it can affect* (the level it is meant to fix
+and the ranking it can silently break), decile capture, and the retention queue
+with its economics.
 
 Every code cell carries a header saying what it consumes and what it leaves
 behind, so you can land in the middle and still know where you are.
@@ -247,9 +249,38 @@ information about your features, not your algorithm.
    relabels not-yet-paid as lapsed. `labels.mature()`.
 3. **Out-of-time validation.** Split by due-date cohort, never randomly. Early
    stopping uses the TEST cohort so VALID stays untouched.
-4. **Calibration.** Ops treats the score as a risk number, not a ranking, so
-   isotonic recalibration is fitted on a cohort the model never trained on and
-   the remaining bucket mass is renormalised to keep rows summing to 1.
+4. **Calibration, and the audit that keeps it honest.** Ops reads the score as
+   a risk number *and* works the queue top down, so the **level** and the
+   **order** both have to survive. Those are separate requirements, and the
+   obvious calibrator breaks the second one.
+
+   The out-of-time cohort is split in two: early stopping watches the earlier
+   half, the calibrator is fitted on the later half. They must be disjoint --
+   early stopping makes a cohort partly in-sample, so a calibrator fitted there
+   learns to correct a distortion that fresh data does not have.
+
+   The calibrator itself is **Platt**, not isotonic, and that is a measured
+   choice. Isotonic is a step function; on this calibration cohort it collapsed
+   3,428 distinct scores into 32 levels, and rows inside a step are tied, so
+   the queue can no longer order them. Measured on the untouched validation
+   cohort:
+
+   | scores | PR-AUC (the queue) | Brier | ECE (the level) | distinct scores |
+   |---|---|---|---|---|
+   | raw | 0.3389 | 0.07134 | 0.01066 | 3428 |
+   | isotonic | 0.3119 | 0.07198 | 0.01179 | 32 |
+   | **platt** | **0.3389** | **0.07117** | **0.00728** | 3430 |
+
+   Isotonic moved every column the wrong way. Platt left the ranking untouched
+   to four decimals and cut ECE by a third.
+
+   Two transferable points. "Calibration preserves the ranking" is a property
+   of **strictly** monotone maps; isotonic is only weakly monotone and its ties
+   are where your ranking goes. And "calibration improves the probabilities" is
+   a hypothesis, not a guarantee -- LightGBM's binary objective is already a
+   proper scoring rule, so this model arrives nearly calibrated. `lapse train`
+   therefore prints a **calibration audit** on the validation cohort every run,
+   and shipping the raw scores is a legitimate outcome when the table says so.
 5. **Imbalance.** Report PR-AUC and decile lift alongside AUC.
 6. **Never regress on raw days.** Days-to-payment is skewed and spiky, with
    mass on day 0 and again at the grace deadline. Expected days is derived from

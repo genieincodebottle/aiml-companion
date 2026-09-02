@@ -2,39 +2,43 @@
 
 ## Classification: Match Winner Prediction
 
-- **Accuracy**: 0.5311
-- **F1 Score (weighted)**: 0.5311
+- **Accuracy**: 0.4507
+- **F1 Score (weighted)**: 0.4268
+- **Majority-class baseline**: 0.4789
+- **Lift over baseline**: -0.0282 -- the model does NOT beat the baseline
+
+> Evaluated on an **out-of-time** split: trained on earlier seasons, tested on the most recent two. A random split reads ~0.515 on this data because it lets the model train on 2025 to predict 2024, which is not a thing deployment can do.
 
 ### Confusion Matrix
 
 ```
                  Predicted
               Team2  Team1
-Actual Team2     70     64
-Actual Team1     64     75
+Actual Team2     48     26
+Actual Team1     52     16
 ```
 
 ### Per-Class Metrics
 
 | Class | Precision | Recall | F1 |
 |-------|-----------|--------|-----|
-| Team 2 Wins/Other | 0.522 | 0.522 | 0.522 |
-| Team 1 Wins | 0.540 | 0.540 | 0.540 |
+| Team 2 Wins/Other | 0.480 | 0.649 | 0.552 |
+| Team 1 Wins | 0.381 | 0.235 | 0.291 |
 
 ## Top Feature Importances
 
 | Rank | Feature | Importance |
 |------|---------|------------|
-| 1 | elo_diff | 0.1143 |
-| 2 | elo_team1 | 0.1126 |
-| 3 | elo_team2 | 0.1125 |
-| 4 | elo_expected | 0.1022 |
-| 5 | elo_x_momentum_t2 | 0.1017 |
-| 6 | elo_x_momentum_t1 | 0.0962 |
-| 7 | h2h_team1_winrate | 0.0808 |
-| 8 | momentum_diff | 0.0376 |
-| 9 | momentum_team1 | 0.0335 |
-| 10 | home_team1 | 0.0300 |
+| 1 | elo_team2 | 0.0891 |
+| 2 | elo_team1 | 0.0869 |
+| 3 | elo_diff | 0.0869 |
+| 4 | elo_expected | 0.0840 |
+| 5 | elo_x_momentum_t2 | 0.0716 |
+| 6 | elo_x_momentum_t1 | 0.0702 |
+| 7 | venue_chase_bias | 0.0677 |
+| 8 | h2h_team1_winrate | 0.0671 |
+| 9 | elo_x_home_t1 | 0.0665 |
+| 10 | h2h_matches | 0.0637 |
 
 ---
 

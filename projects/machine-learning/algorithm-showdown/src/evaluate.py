@@ -10,7 +10,6 @@ Usage:
 import numpy as np
 import os
 from sklearn.datasets import load_breast_cancer
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import (
     classification_report, confusion_matrix,
     precision_recall_curve, roc_auc_score
@@ -78,9 +77,12 @@ def threshold_analysis(y_test, y_proba_malign):
 if __name__ == "__main__":
     data = load_breast_cancer()
     X, y = data.data, data.target
-    _, X_test, _, y_test = train_test_split(
-        X, y, test_size=0.2, stratify=y, random_state=42
-    )
+    # The SAME split definition train.py used. Imported rather than re-derived:
+    # this file used to build its own two-way split that happened to coincide
+    # with the rows train.py tuned the threshold on, so every number below was
+    # scored on the threshold's own tuning data.
+    from src.train import make_splits
+    _, _, X_test, _, _, y_test = make_splits(X, y)
 
     model, config = load_model()
     threshold = config.get('threshold', 0.5)

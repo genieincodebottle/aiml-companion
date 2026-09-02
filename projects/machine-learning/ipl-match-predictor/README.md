@@ -33,13 +33,45 @@ matches.csv + deliveries.csv
 
 ## Key Results
 
+> **Read the first three rows together.** Accuracy on a near-balanced binary
+> problem means nothing on its own, and this model does not beat "always pick
+> the same team". That is the honest result, and the sections below explain
+> how it was arrived at rather than explaining it away.
+
 | Metric | Value | Method |
 |--------|-------|--------|
-| Match winner accuracy | ~50% | 4-model weighted ensemble, 5-fold CV |
+| Match winner accuracy | **0.451** | 4-model ensemble, **out-of-time** split (last 2 seasons) |
+| Majority-class baseline | **0.479** | Always predict the same team |
+| Lift over baseline | **-0.028** | The model **loses** to the trivial baseline |
 | Monte Carlo validation | 10,000 sims | Gaussian noise (std=0.05) stability check |
 | Toss advantage | Not significant | Binomial test (two-sided), p=0.61 |
 | Top predictive feature | Elo rating difference | Feature importance ranking |
 | Engineered features | 20+ | Elo, momentum, H2H, home, toss, venue chase bias, interactions |
+
+### Why the split is by season, not at random
+
+The deliverable here is predictions for matches that have not been played, so
+the test set has to sit in the *future* of the training set. A random split
+trains on 2025 to predict 2024 -- something deployment never gets to do -- and
+between seasons the squads, the rules and the team strengths all move, so
+interpolating across them is an easier problem than the real one.
+
+| evaluation | accuracy | majority baseline |
+|---|---|---|
+| random split (what this used to report) | 0.5150 | -- |
+| holdout 2025 (71 matches) | **0.4507** | 0.5352 |
+| holdout 2024-25 (142 matches) | 0.5000 | 0.5211 |
+| holdout 2023-25 (215 matches) | 0.5070 | 0.5023 |
+
+Under an honest temporal split the ensemble **does not beat the majority-class
+baseline in any recent season**. The random split was not wildly optimistic --
+about 6 points -- but it was pointed at the wrong question, and no baseline was
+printed next to it, which is how 0.53 comes to sound like skill.
+
+This also independently corroborates the 48.6% this project measures on the
+2026 season below. Two different honest evaluations agree that pre-match
+features do not predict IPL results, and that agreement is worth more than
+either number alone.
 | Probability calibration | CalibratedClassifierCV | Sigmoid method, cv=3 |
 | Training weighting | Season recency | Exponential decay (0.5 to 1.0) |
 

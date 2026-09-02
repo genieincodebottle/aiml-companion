@@ -45,9 +45,31 @@ def generate_report(results: Dict[str, Any]) -> str:
 
     clf = results.get("classification", {})
     if clf:
+        acc = clf.get("accuracy", 0)
+        baseline = clf.get("baseline_accuracy")
         lines.extend([
-            f"- **Accuracy**: {clf.get('accuracy', 0):.4f}",
+            f"- **Accuracy**: {acc:.4f}",
             f"- **F1 Score (weighted)**: {clf.get('f1', 0):.4f}",
+        ])
+        if baseline is not None:
+            # Accuracy alone is unreadable on a near-balanced binary problem.
+            # Always predicting the same team scores ~0.52-0.54 here, so a
+            # model at 0.53 has demonstrated nothing at all -- and printing the
+            # two numbers next to each other is the difference between a
+            # result and a coin flip wearing one.
+            lift = acc - baseline
+            verdict = ("BEATS the baseline" if lift > 0.01 else
+                       "does NOT beat the baseline")
+            lines.extend([
+                f"- **Majority-class baseline**: {baseline:.4f}",
+                f"- **Lift over baseline**: {lift:+.4f} -- the model {verdict}",
+            ])
+        lines.extend([
+            "",
+            "> Evaluated on an **out-of-time** split: trained on earlier "
+            "seasons, tested on the most recent two. A random split reads "
+            "~0.515 on this data because it lets the model train on 2025 to "
+            "predict 2024, which is not a thing deployment can do.",
             "",
         ])
 

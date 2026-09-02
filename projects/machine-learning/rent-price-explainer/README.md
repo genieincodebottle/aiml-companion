@@ -5,7 +5,7 @@
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![statsmodels](https://img.shields.io/badge/statsmodels-0.14-orange)
 ![SHAP](https://img.shields.io/badge/SHAP-0.44+-purple)
-![Tests](https://img.shields.io/badge/tests-32%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-34%20passing-brightgreen)
 
 **Your untested assumptions are the weak part, not the linear model.**
 
@@ -75,6 +75,27 @@ happening:
 - Heteroscedasticity **stays** failed on purpose. The fix was never to
   transform it away, it is HC3 robust standard errors, which the specified
   model uses. A failed test with the right remedy applied is a solved problem.
+
+### The fix that hides inside arithmetic
+
+One of those fixes is worth pausing on, because it is the project's own lesson
+turned back on itself. `add_age_curve` builds `(age - mean(age))**2`. That mean
+is **learned from data**, which makes it a fitted parameter exactly like a
+scaler's mean -- but it arrives as one line of arithmetic with no `.fit()`
+anywhere in sight, so it is easy to recompute wherever the feature is built.
+
+Recompute it on the rows being scored and the design matrix starts depending on
+the *batch*. The same flat priced alone and priced inside a frame of 1,500 got
+predictions differing by up to **3.9%** here, and a single-row request centres
+age on itself, forcing the term to exactly 0 every time. The model is not
+wrong; the feature pipeline is non-deterministic.
+
+So `learn_age_center()` estimates it once on the training rows, the model
+carries it next to its coefficients as `age_center_`, and
+`test_predictions_do_not_depend_on_the_batch` fails the suite if scoring one row
+at a time ever stops agreeing with scoring the frame. Learned constants hide in
+arithmetic, and "fit the transformer inside the fold" is advice about a habit,
+not about a class name.
 
 ## 6. The result
 
@@ -158,7 +179,7 @@ compare`). All forms run identical code.
 ### Run the tests
 
 ```bash
-pytest -p no:warnings          # 32 tests, no install needed
+pytest -p no:warnings          # 34 tests, no install needed
 ```
 
 The suite reads `src/` directly via `pythonpath` in `pyproject.toml`, so it

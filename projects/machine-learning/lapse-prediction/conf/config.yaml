@@ -23,6 +23,13 @@ split:
   # Cohorts are split by due date, never randomly.
   valid_months: 3
   test_months: 3
+  # The out-of-time TEST cohort does two jobs, and they must not overlap: the
+  # earlier share stops the boosting, the rest fits the calibrator. Reusing one
+  # cohort for both makes the calibrator learn from partly in-sample scores.
+  early_stop_share: 0.5
+  # 'platt' keeps the ranking exactly (strictly monotone); 'isotonic' is more
+  # flexible but ties scores into steps, which cost 0.026 PR-AUC here.
+  calibration_method: platt
 
 decisioning:
   # Share of the book the retention team can actually call.

@@ -16,7 +16,7 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 
-from rent_price_explainer.features.build import design_matrix
+from rent_price_explainer.features.build import design_matrix, learn_age_center
 
 TARGET = "monthly_rent"
 
@@ -29,12 +29,18 @@ class _OLSBase:
         self.cov_type = cov_type
         self.res = None
         self.cols: list[str] = []
+        #: Fitted state, frozen on the training frame and reused at inference.
+        #: Kept next to the coefficients because it is the same kind of thing:
+        #: a number estimated from the training rows that the model must carry
+        #: with it. See features/build.py for what recomputing it costs.
+        self.age_center_: float | None = None
 
     # -------------------------------------------------------------- interface
     def _prepare(self, df: pd.DataFrame) -> pd.DataFrame:
         raise NotImplementedError
 
     def fit(self, df: pd.DataFrame) -> "_OLSBase":
+        self.age_center_ = learn_age_center(df)
         X = self._prepare(df)
         self.cols = list(X.columns)
         y = np.log(df[TARGET]) if self.log_target else df[TARGET]
@@ -87,7 +93,8 @@ class SpecifiedOLS(_OLSBase):
 
     def _prepare(self, df):
         return design_matrix(df, log_area=True, drop_collinear=True,
-                             add_age_curve=True, include_junk=False)
+                             add_age_curve=True, include_junk=False,
+                             age_center=self.age_center_)
 
 
 class InteractionOLS(SpecifiedOLS):
@@ -102,4 +109,5 @@ class InteractionOLS(SpecifiedOLS):
     def _prepare(self, df):
         return design_matrix(df, log_area=True, drop_collinear=True,
                              add_age_curve=True, include_junk=False,
-                             add_interaction=True)
+                             add_interaction=True,
+                             age_center=self.age_center_)

@@ -138,3 +138,54 @@ class TestEngineerFeatures:
         result = engineer_features(sample_df, cfg)
         for col in sample_df.columns:
             assert col in result.columns
+
+
+def test_protected_attributes_never_reach_the_model():
+    """A credit model may not learn from sex or marital status.
+
+    `personal_status` in the German Credit data reads "male single", "female
+    div/dep/mar" -- it encodes sex, and it used to go into the model as an
+    ordinary categorical. ECOA / Regulation B prohibits that. Measured cost of
+    removing it: 0.005 AUC. Measured cost of keeping it: female default rate
+    35.2% against 27.7% for men, learned and applied.
+    """
+    import pandas as pd
+    from src.features import engineer_features, PROTECTED_COLUMNS
+
+    df = pd.DataFrame({
+        "personal_status": ["male single", "female div/dep/mar"] * 10,
+        "age": list(range(20, 40)),
+        "credit_amount": list(range(1000, 3000, 100)),
+        "duration": [12] * 20,
+        "target": [0, 1] * 10,
+    })
+    out = engineer_features(df, {})
+    assert "personal_status" not in out.columns
+    for col in out.columns:
+        assert col.lower() not in {p.lower() for p in PROTECTED_COLUMNS}
+
+
+def test_features_are_skipped_not_faked_when_inputs_are_missing():
+    """A feature that cannot be computed must be absent, not silently null.
+
+    dti_ratio used to resolve `income` to `personal_status` -- a categorical --
+    producing a 100%-NaN column that logged success and got imputed downstream.
+    A trustworthy name on an empty column is worse than no column.
+    """
+    import pandas as pd
+    from src.features import engineer_features
+
+    df = pd.DataFrame({           # no income, no balance, no credit limit
+        "age": list(range(20, 40)),
+        "credit_amount": list(range(1000, 3000, 100)),
+        "duration": [12] * 20,
+        "target": [0, 1] * 10,
+    })
+    out = engineer_features(df, {})
+
+    assert "dti_ratio" not in out.columns, "DTI is undefined without income"
+    assert "utilization_ratio" not in out.columns, "needs a balance and a limit"
+    # anything that IS created must carry real values
+    for col in set(out.columns) - set(df.columns):
+        if out[col].dtype.name not in ("category", "object"):
+            assert out[col].notna().any(), f"{col} is entirely null"

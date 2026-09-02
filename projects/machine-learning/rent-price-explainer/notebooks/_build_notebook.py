@@ -34,7 +34,9 @@ CELL_HEADERS = [
     ("2.1", "Fit the regression most people actually write",
      "train", "design(), fit_ols(), predict_ols(), naive model + R2",
      "Rent in levels, every column, non-robust errors. Not a straw man: it is "
-     "what a first pass looks like before anyone asks what OLS assumes."),
+     "what a first pass looks like before anyone asks what OLS assumes. Note "
+     "that fit_ols returns the age centre it learned -- that constant is "
+     "fitted state, and prediction has to be handed it back."),
     ("3.1", "The four diagnostic plots",
      "naive model, train", "residual, Q-Q, residual-vs-age and Cook's D plots",
      "Every violation in this dataset is visible here before any test is run."),
@@ -346,6 +348,23 @@ Every column, rent in levels, default standard errors. This is not a straw man;
 it is what a first pass looks like when nobody has asked what OLS assumes.
 """)
 
+md("""
+**One thing to notice in `design()` before we use it.** `age_centred_sq`
+subtracts a mean, and that mean is *learned from data*. It is a fitted
+parameter in exactly the way a `StandardScaler`'s mean is, even though it is
+one line of arithmetic and no `.fit()` is anywhere in sight.
+
+So it has to be frozen on the training rows and handed back at prediction
+time, which is why `fit_ols` returns it as a third value. Recompute it on the
+rows you happen to be scoring and the design matrix starts depending on the
+*batch*: the same flat priced on its own and priced inside a frame of 1,500
+gets a different `age_centred_sq` and a different rent. Score one row and the
+mean is that row's own age, so the term is exactly 0 every time.
+
+This is the same mistake as fitting a scaler before the split, wearing
+different clothes. Learned constants hide in arithmetic.
+""")
+
 code('''
 TARGET = "monthly_rent"
 CATEGORICAL = ["furnishing", "locality"]
@@ -356,7 +375,7 @@ REFERENCE = {"furnishing": "unfurnished", "locality": "old_town"}
 
 
 def design(df, log_area=True, drop_twin=True, age_curve=True,
-           interaction=False, junk=False):
+           interaction=False, junk=False, age_center=None):
     X = df.drop(columns=[TARGET]).copy()
     if not junk:
         X = X.drop(columns=[c for c in X.columns if c.startswith("junk_")])
@@ -367,7 +386,10 @@ def design(df, log_area=True, drop_twin=True, age_curve=True,
             if c in X:
                 X[f"log_{c}"] = np.log(X[c]); X = X.drop(columns=[c])
     if age_curve and "age_years" in X:
-        X["age_centred_sq"] = (X["age_years"] - X["age_years"].mean()) ** 2
+        # age_center is FITTED STATE. Recomputing this mean on the rows being
+        # scored makes a listing's rent depend on what it was batched with.
+        c = X["age_years"].mean() if age_center is None else age_center
+        X["age_centred_sq"] = (X["age_years"] - c) ** 2
     if interaction and {"metro_km", "locality"} <= set(X.columns):
         X["metro_km_x_premium"] = X["metro_km"] * X["locality"].isin(PREMIUM).astype(float)
     cats = [c for c in CATEGORICAL if c in X.columns]
@@ -377,13 +399,20 @@ def design(df, log_area=True, drop_twin=True, age_curve=True,
 
 
 def fit_ols(df, log_y=False, cov="nonrobust", **kw):
-    X = design(df, **kw)
+    """Returns the fit, its columns, AND the age centre it learned.
+
+    That third return value is the whole point: it is a parameter estimated
+    from the training rows, and prediction has to be handed it back.
+    """
+    centre = float(df["age_years"].mean())
+    X = design(df, age_center=centre, **kw)
     y = np.log(df[TARGET]) if log_y else df[TARGET]
-    return sm.OLS(y.astype(float), sm.add_constant(X, has_constant="add")).fit(cov_type=cov), list(X.columns)
+    res = sm.OLS(y.astype(float), sm.add_constant(X, has_constant="add")).fit(cov_type=cov)
+    return res, list(X.columns), centre
 
 
-def predict_ols(res, cols, df, log_y=False, **kw):
-    X = design(df, **kw).reindex(columns=cols, fill_value=0.0)
+def predict_ols(res, cols, df, log_y=False, age_center=None, **kw):
+    X = design(df, age_center=age_center, **kw).reindex(columns=cols, fill_value=0.0)
     p = res.predict(sm.add_constant(X, has_constant="add"))
     if not log_y:
         return np.asarray(p, float)
@@ -392,7 +421,7 @@ def predict_ols(res, cols, df, log_y=False, **kw):
 
 
 naive_kw = dict(log_area=False, drop_twin=False, age_curve=False, junk=True)
-naive, naive_cols = fit_ols(train, log_y=False, **naive_kw)
+naive, naive_cols, naive_c = fit_ols(train, log_y=False, **naive_kw)
 print(f"naive OLS   R2 = {naive.rsquared:.4f}   adj R2 = {naive.rsquared_adj:.4f}")
 print("\\nlooks respectable. Now ask whether it is allowed to be believed.")
 ''')
@@ -522,7 +551,7 @@ rows = []
 for seed in range(12):
     boot = train.sample(len(train), replace=True, random_state=seed)
     for keep in (True, False):
-        r, _ = fit_ols(boot, log_y=True, drop_twin=not keep)
+        r, _, _ = fit_ols(boot, log_y=True, drop_twin=not keep)
         rows.append({"spec": "both areas kept" if keep else "twin dropped",
                      "beta": float(r.params["log_builtup_area"])})
 spread = pd.DataFrame(rows).groupby("spec")["beta"].agg(["mean", "std", "min", "max"]).round(4)
@@ -612,7 +641,7 @@ Still a linear model. Same data. Same family.
 
 code('''
 spec_kw = dict(log_area=True, drop_twin=True, age_curve=True)
-spec, spec_cols = fit_ols(train, log_y=True, cov="HC3", **spec_kw)
+spec, spec_cols, spec_c = fit_ols(train, log_y=True, cov="HC3", **spec_kw)
 
 def report(y_true, y_pred, k, label):
     y_true = np.asarray(y_true, float)
@@ -624,9 +653,9 @@ def report(y_true, y_pred, k, label):
             "n_features": k}
 
 res_rows = [
-    report(test[TARGET], predict_ols(naive, naive_cols, test, **naive_kw),
+    report(test[TARGET], predict_ols(naive, naive_cols, test, age_center=naive_c, **naive_kw),
            len(naive_cols), "naive_ols"),
-    report(test[TARGET], predict_ols(spec, spec_cols, test, log_y=True, **spec_kw),
+    report(test[TARGET], predict_ols(spec, spec_cols, test, log_y=True, age_center=spec_c, **spec_kw),
            len(spec_cols), "specified_ols"),
 ]
 print(pd.DataFrame(res_rows).to_string(index=False))
@@ -725,7 +754,7 @@ except ModuleNotFoundError:
         print("shap could not be installed, so the library cross-check and the")
         print("tree attributions are skipped. Every other cell still runs.")
 
-Xs = design(test, **spec_kw).reindex(columns=spec_cols, fill_value=0.0)
+Xs = design(test, age_center=spec_c, **spec_kw).reindex(columns=spec_cols, fill_value=0.0)
 manual = pd.DataFrame({c: spec.params[c] * (Xs[c] - Xs[c].mean()) for c in spec_cols})
 ols_attr = manual.abs().mean().sort_values(ascending=False)
 
@@ -830,9 +859,9 @@ supply the structure, not how powerful they are.
 
 code('''
 int_kw = dict(log_area=True, drop_twin=True, age_curve=True, interaction=True)
-inter, inter_cols = fit_ols(train, log_y=True, cov="HC3", **int_kw)
+inter, inter_cols, inter_c = fit_ols(train, log_y=True, cov="HC3", **int_kw)
 res_rows.append(report(test[TARGET],
-                       predict_ols(inter, inter_cols, test, log_y=True, **int_kw),
+                       predict_ols(inter, inter_cols, test, log_y=True, age_center=inter_c, **int_kw),
                        len(inter_cols), "interaction_ols"))
 
 final = pd.DataFrame(res_rows).sort_values("median_ape", ignore_index=True)

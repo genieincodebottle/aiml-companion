@@ -106,16 +106,58 @@ app = FastAPI(
 # Request/Response schemas
 # ---------------------------------------------------------------------------
 
+#: Features the model leans on hardest. Scoring without them is legal and
+#: silent and produces a much weaker model than the evaluation report
+#: describes, so their absence is reported rather than imputed away.
+#:
+#: Measured, cross-validated AUC:
+#:     full training schema                    0.782
+#:     only duration + credit_amount + age     0.636   <- what this API used
+#:                                                        to accept
+#:     checking_status ALONE                   0.680
+#:
+#: One categorical the API did not expose carried more signal than every
+#: numeric field it did. The served model and the evaluated model were not the
+#: same system.
+KEY_FEATURES = ("checking_status", "credit_history", "savings_status",
+                "employment", "purpose")
+
+
 class CreditApplication(BaseModel):
-    """Single credit application for scoring."""
+    """Single credit application for scoring.
+
+    The optional fields are optional only in the sense that the request will
+    not be rejected without them. Omit the ones in KEY_FEATURES and the model
+    is scoring mostly imputed values -- the response says so in
+    `missing_key_features`.
+    """
     duration: int = Field(..., ge=1, description="Loan duration in months")
     credit_amount: float = Field(..., gt=0, description="Loan amount")
     age: int = Field(..., ge=18, description="Applicant age")
+
+    # --- the features that actually drive the score
+    checking_status: Optional[str] = Field(
+        None, description="Checking account status, e.g. '<0', '0<=X<200', "
+                          "'>=200', 'no checking' -- the single strongest "
+                          "predictor in this model")
+    credit_history: Optional[str] = Field(
+        None, description="e.g. 'critical/other existing credit', "
+                          "'existing paid', 'delayed previously'")
+    savings_status: Optional[str] = Field(
+        None, description="e.g. '<100', '100<=X<500', 'no known savings'")
+    employment: Optional[str] = Field(
+        None, description="Years employed, e.g. '<1', '1<=X<4', '>=7'")
+    purpose: Optional[str] = Field(None, description="Loan purpose")
+
+    # --- minor extras
     employment_since: Optional[float] = Field(None, description="Years at current job")
-    income: Optional[float] = Field(None, description="Annual income")
     existing_credits: Optional[int] = Field(None, description="Number of existing credits")
     housing: Optional[str] = Field(None, description="Housing type (own/rent/free)")
-    purpose: Optional[str] = Field(None, description="Loan purpose")
+    income: Optional[float] = Field(
+        None, description="Annual income. NOTE: the German Credit training "
+                          "data has no income column, so this is accepted for "
+                          "forward compatibility and does NOT affect the "
+                          "score.")
 
     model_config = {
         "json_schema_extra": {
@@ -123,11 +165,13 @@ class CreditApplication(BaseModel):
                 "duration": 24,
                 "credit_amount": 5000,
                 "age": 35,
-                "employment_since": 4.0,
-                "income": 45000,
-                "existing_credits": 1,
-                "housing": "own",
+                "checking_status": "<0",
+                "credit_history": "existing paid",
+                "savings_status": "<100",
+                "employment": "1<=X<4",
                 "purpose": "car",
+                "housing": "own",
+                "existing_credits": 1,
             }
         }
     }
@@ -140,6 +184,9 @@ class PredictionResponse(BaseModel):
     threshold: float
     prediction: int
     adverse_action_reasons: list[str]
+    #: Key drivers absent from the request and therefore imputed. A non-empty
+    #: list means this score is weaker than the evaluation report implies.
+    missing_key_features: list[str] = []
 
 
 class BatchRequest(BaseModel):
@@ -227,6 +274,9 @@ def _prepare_features(df: pd.DataFrame) -> pd.DataFrame:
 
 def _score_single(df: pd.DataFrame) -> PredictionResponse:
     """Score a single row DataFrame and return prediction."""
+    # Recorded BEFORE _prepare_features imputes them out of existence.
+    missing_key = [c for c in KEY_FEATURES
+                   if c not in df.columns or df[c].isna().all()]
     try:
         features = _prepare_features(df)
         proba = _model.predict_proba(features)[0, 1]
@@ -254,6 +304,7 @@ def _score_single(df: pd.DataFrame) -> PredictionResponse:
         threshold=_threshold,
         prediction=prediction,
         adverse_action_reasons=reasons,
+        missing_key_features=missing_key,
     )
 
 

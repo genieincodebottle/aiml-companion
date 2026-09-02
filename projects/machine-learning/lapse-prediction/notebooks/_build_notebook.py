@@ -70,10 +70,12 @@ CELL_HEADERS = [
      "results, valid", "PR-AUC and capture@20% bar charts",
      "The bars sit almost on top of each other. That flatness IS the finding: "
      "the algorithm barely matters once the features are fixed."),
-    ("6.3", "Calibrate the best model and check it",
-     "models, test, valid", "cal (calibrated probabilities), calibration plot",
-     "Isotonic is fitted on TEST and measured on VALID. Calibrating on the "
-     "rows you score is how you fool yourself."),
+    ("6.3", "Calibrate the best model, and audit what it cost",
+     "models, test, valid",
+     "audit table (isotonic vs platt), cal (calibrated probabilities), plot",
+     "Fitted on TEST, measured on VALID -- calibrating on the rows you score "
+     "is how you fool yourself. Both calibrators are scored on the level they "
+     "are meant to fix AND the ranking they can silently break."),
     ("6.4", "Decile lift and cumulative capture",
      "cal, valid", "risk-decile and capture charts",
      "This is what a retention team actually experiences."),
@@ -215,6 +217,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import PercentFormatter
 
 from sklearn.isotonic import IsotonicRegression
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (average_precision_score, brier_score_loss,
                              log_loss, roc_auc_score)
 from lightgbm import LGBMClassifier
@@ -884,12 +887,22 @@ md("""
 ### Calibration, the property ops depends on
 
 The retention team reads `p_lapse` as a number ("this one is 40% likely to go"),
-so the *level* has to be right, not just the ordering. Isotonic regression fitted
-on the out-of-time **test** cohort corrects the level; the remaining bucket mass
-is renormalised so each row still sums to 1.
+so the *level* has to be right. But the team also works a **queue**, top down,
+until the day runs out -- so the *ordering* has to survive whatever we do to the
+level. Those are two different requirements and a calibrator can satisfy one
+while quietly wrecking the other.
 
-Note the discipline: calibrate on `test`, measure on `valid`. Calibrating on the
-same rows you score is how you fool yourself.
+The usual advice is "fit isotonic regression on a held-out cohort", and isotonic
+is a step function: it maps ranges of scores onto a single value. When the
+calibration cohort is small relative to the number of distinct scores, those
+steps get wide, and every row inside a step is now **tied**. Ties have no order.
+That is how a calibrator ends up reordering the retention queue.
+
+So we fit both isotonic and Platt (a two-parameter logistic on the log-odds,
+strictly monotone and therefore incapable of reordering anything) and score them
+on the axis each is supposed to serve. Note the discipline too: fit the
+calibrator on `test`, measure on `valid`. Calibrating on the rows you score is
+how you fool yourself.
 """)
 
 code('''
@@ -897,10 +910,47 @@ BEST = results.iloc[0]["model"]
 best = models[BEST]
 
 raw_test = best.predict_proba(test)[:, LAPSE_IDX]
-iso = IsotonicRegression(out_of_bounds="clip").fit(raw_test, test["lapsed"].values)
+y_test = test["lapsed"].values
+
+def _logit(p):
+    p = np.clip(p, 1e-6, 1 - 1e-6)
+    return np.log(p / (1 - p)).reshape(-1, 1)
+
+iso = IsotonicRegression(out_of_bounds="clip").fit(raw_test, y_test)
+platt = LogisticRegression().fit(_logit(raw_test), y_test)
 
 raw_valid = probas[BEST]
-cal_lapse = np.clip(iso.predict(raw_valid[:, LAPSE_IDX]), 1e-6, 1 - 1e-6)
+raw_lapse = raw_valid[:, LAPSE_IDX]
+maps = {
+    "raw":      raw_lapse,
+    "isotonic": np.clip(iso.predict(raw_lapse), 1e-6, 1 - 1e-6),
+    "platt":    platt.predict_proba(_logit(raw_lapse))[:, 1],
+}
+
+
+def ece(y, p, n_bins=12):
+    """Mean gap between what the score claimed and what actually happened."""
+    edges, total = np.linspace(0, 1, n_bins + 1), 0.0
+    for lo, hi in zip(edges[:-1], edges[1:]):
+        m = (p > lo) & (p <= hi)
+        if m.any():
+            total += m.mean() * abs(y[m].mean() - p[m].mean())
+    return total
+
+
+y = valid["lapsed"].values
+audit = pd.DataFrame([{
+    "scores": k,
+    "PR-AUC (the queue)": round(average_precision_score(y, p), 4),
+    "Brier": round(brier_score_loss(y, p), 5),
+    "ECE (the level)": round(ece(y, p), 5),
+    "distinct scores": len(np.unique(np.round(p, 6))),
+} for k, p in maps.items()])
+print(audit.to_string(index=False))
+print("\\nRead the 'distinct scores' column first -- it explains the PR-AUC column.")
+
+# Rebuild the full bucket distribution using the calibrator that kept the order.
+cal_lapse = maps["platt"]
 rest = raw_valid[:, :LAPSE_IDX]
 rest = rest / np.clip(rest.sum(axis=1, keepdims=True), 1e-9, None)
 cal = np.column_stack([rest * (1 - cal_lapse)[:, None], cal_lapse])
@@ -942,14 +992,27 @@ print(f"Brier  raw {brier_score_loss(y, raw_valid[:, LAPSE_IDX]):.4f}  ->  "
 ''')
 
 md("""
-**Read the Brier numbers honestly.** On a validation cohort this small (a few
-thousand dues, a few hundred lapses) isotonic regression has little data to fit
-its step function and can move Brier slightly in either direction. Recalibration
-is not guaranteed to improve a model that was already close to calibrated. What
-it *does* reliably fix is a systematic level shift, which is the failure that
-actually hurts ops. On a full book the calibration cohort is large enough for the
-correction to be a clear win; the discipline of fitting it on a cohort you did
-not train on matters more than the second-decimal movement here.
+**Read that table honestly, and read it column by column.**
+
+*Ranking.* Platt returns the PR-AUC unchanged, to four decimals. It cannot do
+otherwise: a strictly monotone map moves scores without ever swapping two of
+them. Isotonic collapses thousands of distinct scores into a few dozen levels,
+and every tie it creates is a pair of policies the queue can no longer tell
+apart. On the full `src/` run this cost 0.026 PR-AUC -- about 8% of the model's
+ranking power -- for a queue the retention team works top down.
+
+*Level.* This is the only thing calibration was supposed to buy, and it is not
+guaranteed either. LightGBM's binary objective is a proper scoring rule, so this
+model arrives close to calibrated already; on a cohort this small the correction
+can move in either direction. On the full run Platt cut ECE by about a third
+while isotonic made it worse.
+
+*The general lesson.* "Calibration preserves the ranking" is a claim about
+**strictly** monotone maps. Isotonic is only weakly monotone, and its ties are
+exactly where your ranking goes. And "calibration improves probabilities" is a
+hypothesis, not a property -- so measure it on a cohort used for neither
+fitting, early stopping nor calibrating, the way this table does, and be willing
+to ship the raw scores when the table says so.
 """)
 
 code('''

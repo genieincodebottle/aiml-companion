@@ -10,6 +10,17 @@ openml_id: 31
 # Target
 target_column: "target"
 
+# --- Fair lending -------------------------------------------------------
+# Attributes a credit model may not learn from. ECOA / Regulation B (and the
+# EU equivalents) prohibit sex and marital status in a credit decision, and
+# `personal_status` in this dataset encodes both ("male single", "female
+# div/dep/mar"). Measured cost of removing it: AUC 0.7869 -> 0.7818. Measured
+# cost of keeping it: the female default rate is 35.2% against 27.7% for men,
+# so the model prices women differently for being women.
+# Turning this off is a legal exposure, not a tuning knob.
+drop_protected: true
+protected_columns: []      # extra names to drop, on top of the built-in list
+
 # Numeric columns for type coercion
 numeric_columns:
   - duration

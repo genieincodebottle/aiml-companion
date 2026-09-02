@@ -31,3 +31,27 @@ def time_split(df: pd.DataFrame, cfg=CFG):
     return (df[df["due_date"] < t0].copy(),
             df[(df["due_date"] >= t0) & (df["due_date"] < v0)].copy(),
             df[df["due_date"] >= v0].copy())
+
+
+def split_oot_cohort(test: pd.DataFrame, cfg=CFG):
+    """Divide the out-of-time cohort into (early_stop, calibration), by date.
+
+    Two different jobs need held-out rows during training, and they need
+    DIFFERENT held-out rows:
+
+      * early stopping picks the number of boosting rounds by watching a
+        cohort, which makes that cohort partly in-sample
+      * the calibrator maps raw scores onto honest probabilities, and has to
+        see scores as fresh data will see them
+
+    Reuse one cohort for both and the calibrator is fitted on scores the model
+    was tuned to get right, so it corrects a distortion that does not exist off
+    that cohort. Split by due date rather than at random, for the same reason
+    the outer split is temporal: the calibration cohort should sit after the
+    early-stopping one, the way deployment sits after training.
+    """
+    if test.empty:
+        return test, test
+    ordered = test.sort_values("due_date")
+    cut = int(len(ordered) * cfg.early_stop_share)
+    return ordered.iloc[:cut].copy(), ordered.iloc[cut:].copy()

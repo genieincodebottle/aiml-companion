@@ -74,8 +74,21 @@ def full_evaluation(df: pd.DataFrame, results: dict, cfg: dict) -> dict:
     best_name = max(results, key=lambda k: results[k]["roc_auc_mean"])
     pipeline = results[best_name]["pipeline"]
 
-    # Get predicted probabilities
-    y_proba = pipeline.predict_proba(X)[:, 1]
+    # Out-of-fold probabilities: each row scored by a model that never trained
+    # on it. Everything downstream -- the cost curve, the chosen threshold, the
+    # confusion matrix, the classification report, the threshold handed to the
+    # serving API -- depends on these being honest.
+    #
+    # This line used to read `pipeline.predict_proba(X)`, scoring the
+    # deployment fit on its own training rows. See models.train_and_evaluate
+    # for what that cost: a reported total cost of 1 against a real 712.
+    y_proba = results[best_name].get("oof_proba")
+    if y_proba is None:
+        raise KeyError(
+            f"{best_name} has no out-of-fold predictions. Evaluation must not "
+            "fall back to in-sample scoring -- re-run training so "
+            "train_and_evaluate() can produce them."
+        )
 
     # Cost-sensitive threshold tuning
     cost_fn = cfg.get("cost_false_negative", 10)

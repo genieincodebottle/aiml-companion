@@ -50,6 +50,8 @@ from src.models import (
     get_feature_importances,
     prepare_features,
     split_data,
+    split_data_by_season,
+    majority_class_baseline,
     _HAS_XGBOOST,
     _HAS_TORCH,
 )
@@ -173,7 +175,26 @@ def stage_train(
     X_encoded, feature_names = prepare_features(valid, scale_numerical=False)
     y_clf = valid.loc[X_encoded.index, "team1_won"]
 
-    X_train, X_test, y_train, y_test = split_data(X_encoded, y_clf)
+    # Out-of-time split: train on earlier seasons, test on the most recent.
+    #
+    # This project predicts matches that have not been played, so the test set
+    # has to sit in the future of the training set. A random split trains on
+    # 2025 to predict 2024 -- an easier problem than the real one, and it read
+    # 0.5150 where the honest 2025 holdout reads 0.4507.
+    seasons = pd.to_datetime(valid.loc[X_encoded.index, "date"]).dt.year
+    try:
+        X_train, X_test, y_train, y_test = split_data_by_season(
+            X_encoded, y_clf, seasons, holdout_seasons=2)
+        baseline = majority_class_baseline(y_train, y_test)
+        logger.info(
+            "Out-of-time split: train=%d (through %d), test=%d (%d onwards). "
+            "Majority-class baseline on the test seasons: %.4f",
+            len(y_train), int(seasons.max()) - 2, len(y_test),
+            int(seasons.max()) - 1, baseline)
+    except ValueError as e:
+        logger.warning("Falling back to a random split: %s", e)
+        X_train, X_test, y_train, y_test = split_data(X_encoded, y_clf)
+        baseline = majority_class_baseline(y_train, y_test)
 
     classifiers = {}
     cv_results = {}
@@ -248,6 +269,8 @@ def stage_train(
         "X_encoded": X_encoded,
         "y_clf": y_clf,
         "feature_names": feature_names,
+        # The number every accuracy below has to be read against.
+        "baseline_accuracy": baseline,
     }
 
 
@@ -294,7 +317,10 @@ def stage_evaluate(train_output: dict) -> dict:
             logger.info("Feature importances from Random Forest (best model has none)")
 
     results = {
-        "classification": all_metrics[best_name],
+        # Carry the baseline into the report: accuracy on a near-balanced
+        # binary problem is unreadable without it.
+        "classification": {**all_metrics[best_name],
+                           "baseline_accuracy": train_output.get("baseline_accuracy")},
         "all_classifiers": {
             name: {"accuracy": m["accuracy"], "f1": m["f1"]}
             for name, m in all_metrics.items()

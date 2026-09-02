@@ -1,5 +1,5 @@
 {
-  "threshold": 0.21,
-  "min_cost": 528.0,
-  "best_model": "LogisticRegression"
+  "threshold": 0.05,
+  "min_cost": 685.0,
+  "best_model": "GradientBoosting"
 }

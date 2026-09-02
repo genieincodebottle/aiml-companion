@@ -13,8 +13,10 @@ from lapse_prediction.config import CFG, Config
 from lapse_prediction.data.io import load_ledger, save
 from lapse_prediction.evaluation import metrics, report
 from lapse_prediction.features.build import build
-from lapse_prediction.features.labels import add_labels, mature, time_split
+from lapse_prediction.features.labels import (add_labels, mature,
+                                             split_oot_cohort, time_split)
 from lapse_prediction.models import registry
+from lapse_prediction.models.base import calibration_audit
 from lapse_prediction.models.bucket import BucketModel
 from lapse_prediction.models.ordinal import OrdinalChain
 from lapse_prediction.utils.logging import get_logger
@@ -42,12 +44,16 @@ def run(model_name: str = "ordinal_chain", cfg: Config = CFG,
         calibrate: bool = True, persist: bool = True) -> dict:
     df = prepare(cfg, n_policies=n_policies, refresh=refresh)
     train, test, valid = time_split(df, cfg)
-    log.info("split  train=%d  test(OOT)=%d  valid=%d  lapse_rate(valid)=%.4f",
-             len(train), len(test), len(valid), valid["lapsed"].mean())
+    # The OOT cohort does two jobs that must not share rows: stopping the
+    # boosting, and fitting the calibrator. See features/labels.split_oot_cohort.
+    early_stop, calib = split_oot_cohort(test, cfg)
+    log.info("split  train=%d  test(OOT)=%d [early_stop=%d calib=%d]  valid=%d  "
+             "lapse_rate(valid)=%.4f", len(train), len(test), len(early_stop),
+             len(calib), len(valid), valid["lapsed"].mean())
 
     if model_name not in MODELS:
         raise KeyError(f"unknown model {model_name!r}; choose from {list(MODELS)}")
-    model = MODELS[model_name]().fit(train, valid=test)
+    model = MODELS[model_name]().fit(train, valid=early_stop)
 
     if calibrate:
         if not hasattr(model, "calibrate"):
@@ -57,8 +63,9 @@ def run(model_name: str = "ordinal_chain", cfg: Config = CFG,
                 f"{model_name} cannot be calibrated but calibrate=True. "
                 f"Implement _raw_proba/calibrate, or pass --no-calibrate "
                 f"and accept that the scores are rankings, not probabilities.")
-        model.calibrate(test)          # isotonic on a cohort never trained on
-        log.info("calibrated %s on the out-of-time cohort", model_name)
+        model.calibrate(calib)   # a cohort used for neither fit nor early stop
+        log.info("calibrated %s (%s) on %d held-out rows", model_name,
+                 cfg.calibration_method, len(calib))
     else:
         log.warning("%s is NOT calibrated -- treat its scores as rankings only",
                     model_name)
@@ -66,6 +73,15 @@ def run(model_name: str = "ordinal_chain", cfg: Config = CFG,
     proba = model.predict_proba(valid)
     scores = report.full_report(valid, proba, cfg)
     report.log_report(scores, log)
+
+    # Did calibration earn its place? Asked on VALID, which is untouched by
+    # fitting, early stopping and calibration alike. A calibrator that costs
+    # ranking and buys no accuracy of level should not ship, and the only way
+    # to know which happened is to print both.
+    audit = calibration_audit(model, valid, cfg)
+    log.info("calibration audit (on the untouched validation cohort)\n%s",
+             audit.to_string(index=False))
+    scores["calibration_audit"] = audit
 
     if persist:
         card = registry.build_card(
