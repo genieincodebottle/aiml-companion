@@ -44,6 +44,62 @@ Complete ML model deployment with CI/CD, monitoring, load testing, and graceful 
 
 A trained ML model is worthless without production infrastructure. This project builds the operational layer: containerized serving with health checks, CI/CD pipeline, Prometheus metrics, load testing, and documented operational procedures.
 
+## Three failures that look like features
+
+Operational code fails differently from modelling code: it does not throw, it
+reassures. All three of these passed their tests and read correctly.
+
+### The drift monitor was silent when drift was total
+
+PSI bins are quantiles of the reference distribution, and `np.histogram`
+**discards values outside the bin range**. So a production distribution that had
+moved far enough to share no support with reference produced an all-zero
+histogram, which after the epsilon floor is uniform — the same shape as a
+reference histogram that is uniform by construction. PSI came out at ~0.
+
+| current, vs reference ~ N(0,1) | PSI before | verdict before | PSI after |
+|---|---|---|---|
+| N(0, 1) — no drift | 0.0055 | stable | 0.0054 stable |
+| N(0.5, 1) | 0.2492 | moderate | 0.2531 |
+| N(2, 1) | 3.1664 | significant | 3.3246 |
+| **N(10, 1) — catastrophic** | **0.0000** | **stable** | **8.2811 significant** |
+| **N(100, 1)** | **0.0000** | **stable** | **8.2811 significant** |
+| **constant 999** | **0.0000** | **stable** | **8.2811 significant** |
+
+The alarm was loudest for mild drift and completely silent for total drift. The
+fix is one line — open the outer bins to ±∞ so out-of-range mass is counted —
+and PSI is now monotone in drift severity.
+
+### The health check reported 200 while saying "unhealthy"
+
+`/health` returned HTTP 200 with `status: "unhealthy"` in the body. But `curl
+-f` — what the Dockerfile and docker-compose healthchecks actually run — fails
+only on HTTP ≥ 400, and load balancers route on the status code, not on JSON.
+
+A server with no model was therefore reported **healthy** and kept receiving
+traffic, with every request failing 503 at `/predict`. The one component whose
+job was to notice the outage was the one insisting nothing was wrong. It now
+returns **503** when the model is not loaded.
+
+Worth separating while you are here: this is a **readiness** probe ("can I serve
+right now"). **Liveness** ("is the process wedged, restart me") is a different
+question and needs an endpoint that does *not* depend on the model — otherwise a
+pod that cannot load a model crash-loops forever instead of being marked unready
+and left alone.
+
+### The graceful shutdown code prevented graceful shutdown
+
+`main.py` registered SIGTERM/SIGINT handlers at import time that called
+`sys.exit(0)`. Uvicorn installs its own handlers, which stop accepting new
+connections, drain in-flight requests, and *then* run the lifespan shutdown.
+Overriding them with an immediate exit kills the process mid-request and skips
+the "Shutting down gracefully" path entirely.
+
+Registering handlers at import is also unsound on its own terms: signal handlers
+can only be set from the main thread, so importing the module from a worker
+thread or some test runners raises `ValueError`. The handlers are gone; cleanup
+belongs after the `yield` in `lifespan()`.
+
 ## Quick Start
 
 ### 1. Clone and Install
@@ -170,7 +226,7 @@ model-serving-platform/
 
 ### "What was the hardest part?"
 
-"Getting graceful shutdown right. When Kubernetes sends SIGTERM, the server needs to finish in-flight requests before exiting. I used FastAPI's lifespan context manager for startup/shutdown and signal handlers for SIGTERM. The health endpoint also serves as a readiness probe for load balancers."
+"Realising that operational code fails by reassuring you. Three things here looked correct and were actively harmful. The drift monitor returned PSI 0.0 'stable' for a distribution that had moved a hundred standard deviations, because the histogram silently dropped out-of-range values — it was loudest for mild drift and mute for total drift. The health endpoint returned HTTP 200 with 'unhealthy' in the body, so `curl -f` and every load balancer saw a healthy server with no model and kept routing to it. And the SIGTERM handlers I was proudest of called sys.exit(0) at import time, which pre-empted uvicorn's own draining logic — the graceful-shutdown code was the thing preventing graceful shutdown. Now shutdown is left to uvicorn plus the lifespan block, /health answers 503 when it cannot serve, and PSI counts out-of-range mass. The lesson I actually took: for infrastructure, test the failure path, because the success path tests all passed the whole time."
 
 ### "What would you do differently?"
 

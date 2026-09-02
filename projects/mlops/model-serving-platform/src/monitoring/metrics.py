@@ -29,6 +29,29 @@ def compute_psi(reference, current, n_bins=10):
     if len(breakpoints) < 2:
         return 0.0
 
+    # Open the outer bins to +/- infinity so that values falling OUTSIDE the
+    # reference range are counted instead of dropped.
+    #
+    # This is the difference between a drift monitor and a decoration.
+    # np.histogram silently discards out-of-range values, and because the bins
+    # are reference QUANTILES, the reference histogram is uniform by
+    # construction. A production distribution that has moved so far it shares
+    # no support with reference also produces a uniform histogram -- every
+    # count zero, floored to the same epsilon -- so PSI came out at ~0.0 and
+    # the monitor said "stable, no action".
+    #
+    # Measured on the old code, reference ~ N(0,1):
+    #     current ~ N(0.5, 1)   PSI 0.2492  moderate_shift
+    #     current ~ N(2, 1)     PSI 3.1664  significant_shift
+    #     current ~ N(10, 1)    PSI 0.0000  STABLE      <- catastrophic drift
+    #     current ~ N(100, 1)   PSI 0.0000  STABLE
+    #     current == 999        PSI 0.0000  STABLE
+    #
+    # The alarm was loudest for mild drift and completely silent for total
+    # drift. Anything that fails safe must fail LOUD.
+    breakpoints = breakpoints.astype(float).copy()
+    breakpoints[0], breakpoints[-1] = -np.inf, np.inf
+
     ref_counts = np.histogram(reference, bins=breakpoints)[0]
     cur_counts = np.histogram(current, bins=breakpoints)[0]
 

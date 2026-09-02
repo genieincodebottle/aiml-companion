@@ -110,3 +110,60 @@ def test_metrics_endpoint(client):
     assert resp.status_code == 200
     assert "predictions_total" in resp.text
     assert "prediction_latency_seconds" in resp.text
+
+
+# ---------------------------------------------------------------------------
+# Drift monitoring
+# ---------------------------------------------------------------------------
+
+def test_psi_detects_drift_that_leaves_the_reference_range():
+    """The monitor must be loudest when drift is worst, not silent.
+
+    Regression test for a defect that made the drift monitor actively
+    dangerous. np.histogram drops out-of-range values, and because PSI bins are
+    reference QUANTILES the reference histogram is uniform by construction --
+    so a production distribution sharing no support with reference produced an
+    all-zero (hence uniform) histogram and PSI ~ 0.0 "stable".
+
+    Measured on the old code with reference ~ N(0,1):
+        N(0.5, 1)  -> 0.2492 moderate_shift
+        N(2, 1)    -> 3.1664 significant_shift
+        N(10, 1)   -> 0.0000 STABLE          <- catastrophic drift, no alarm
+        N(100, 1)  -> 0.0000 STABLE
+        constant   -> 0.0000 STABLE
+    """
+    import numpy as np
+    from src.monitoring.metrics import compute_psi, classify_psi
+
+    rng = np.random.default_rng(0)
+    reference = rng.normal(0, 1, 5000)
+
+    same = compute_psi(reference, rng.normal(0, 1, 5000))
+    assert classify_psi(same) == "stable", "identical distributions must not alarm"
+
+    # The cases that used to report 0.0
+    for shift in (10, 100):
+        psi = compute_psi(reference, rng.normal(shift, 1, 5000))
+        assert psi > 1.0, f"shift of {shift} reported PSI={psi}"
+        assert classify_psi(psi) == "significant_shift"
+
+    constant = compute_psi(reference, np.full(5000, 999.0))
+    assert classify_psi(constant) == "significant_shift"
+
+    # PSI must not fall as drift gets worse
+    mild = compute_psi(reference, rng.normal(0.5, 1, 5000))
+    severe = compute_psi(reference, rng.normal(3, 1, 5000))
+    extreme = compute_psi(reference, rng.normal(50, 1, 5000))
+    assert mild < severe < extreme, (
+        f"PSI is not monotone in drift severity: {mild:.3f}, {severe:.3f}, "
+        f"{extreme:.3f}")
+
+
+def test_psi_is_zero_for_the_same_data():
+    """Sanity anchor: a distribution cannot have drifted from itself."""
+    import numpy as np
+    from src.monitoring.metrics import compute_psi
+
+    rng = np.random.default_rng(7)
+    data = rng.normal(0, 1, 2000)
+    assert compute_psi(data, data) < 1e-6

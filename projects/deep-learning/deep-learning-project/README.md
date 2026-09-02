@@ -40,7 +40,7 @@ Deep learning is an iterative process. This project demonstrates systematic expe
 
 ## Approach
 
-| # | Experiment | Key Change | Test Acc |
+| # | Experiment | Key Change | Reported Acc |
 |---|---|---|---|
 | 1 | baseline_cnn | 3-layer CNN, Adam | 65.0% |
 | 2 | add_augmentation | RandomCrop + HorizontalFlip | 75.0% |
@@ -49,7 +49,47 @@ Deep learning is an iterative process. This project demonstrates systematic expe
 | 5 | mixed_precision | torch.amp GradScaler | 92.0% |
 | 6 | cutmix_final | CutMix + label smoothing | **93.4%** |
 
-> Sample results. Your results may vary slightly due to random seed differences.
+> ⚠️ **These numbers were selected on the test set and are not held-out
+> estimates.** They pre-date the fix described below and are kept here as a
+> record of the progression, not as validated results. Re-run on a GPU to get
+> honest figures; expect them to come in a few tenths of a point lower.
+
+### The number was a maximum, not a measurement
+
+CIFAR-10 ships 50,000 train and 10,000 test images and **no validation split**,
+so this project did what most tutorials do: it evaluated on the *test* set every
+10 epochs, kept the best test accuracy it ever saw, early-stopped on that, and
+then reported it as the result.
+
+Every one of those is a decision fitted to the test set, and the figure you end
+up quoting is a **maximum over ~20 evaluations**. A maximum over noisy draws is
+biased upward even when the model is not improving at all: at ~93% accuracy on
+10,000 images the binomial standard error alone is 0.26pp, so best-of-20 buys
+several tenths of a point for nothing. And because test was also the selection
+signal, no held-out data remained to check the claim against.
+
+Two more defects sat inside the same loop:
+
+- **The reported accuracy did not belong to the saved model.** `best_acc =
+  max(best_acc, acc)` recorded a *number*; the function returned whatever state
+  the model happened to end in, and that is what `torch.save` wrote to disk. The
+  headline described a model nobody had.
+- **Early stopping could not fire.** Evaluation ran every 10 epochs while
+  `patience` counted *evaluations*, so `patience=20` meant 200 epochs without
+  improvement — longer than the entire run. It was dead code shaped like a
+  safeguard.
+
+**What the pipeline does now:** 45,000 train / 5,000 validation (seeded, so the
+split is stable across experiments) / 10,000 test. Validation drives early
+stopping and checkpoint selection, the best `state_dict` is deep-copied on
+improvement and restored before returning, and **the test set is read exactly
+once**, in `final_evaluation`. Validation is not augmented — augmentation is a
+training-time regulariser, and measuring on randomly cropped images puts noise
+straight into checkpoint selection.
+
+A test score slightly below the best validation score is the healthy outcome:
+validation picked the checkpoint, so it keeps a little optimism. A large gap
+means the validation set is too small or has been reused too often.
 
 ## Quick Start
 

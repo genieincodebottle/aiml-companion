@@ -35,22 +35,81 @@ transform_test = T.Compose([
 ])
 
 
-def get_data_loaders(use_augmentation=True):
-    """Create train and test data loaders."""
+def get_data_loaders(use_augmentation=True, val_size=5000, seed=42,
+                     num_workers=2):
+    """Create train / validation / test loaders.
+
+    CIFAR-10 ships 50,000 train and 10,000 test images and no validation split,
+    so almost every tutorial quietly uses the test set as one. That is what this
+    project used to do: it evaluated on test every 10 epochs, kept the best test
+    accuracy it ever saw, early-stopped on test accuracy, and then reported that
+    same best test number as the result.
+
+    Every one of those is a decision fitted to the test set. The reported
+    accuracy is then a MAXIMUM over ~20 evaluations, and a maximum over noisy
+    draws is biased upward even if the model never improves: on 10,000 test
+    images at ~93% accuracy the binomial standard error alone is 0.26pp, so
+    taking the best of 20 looks are worth several tenths of a point for free.
+    Worse, there is no held-out data left to check it against.
+
+    So the 50,000 training images are split: 45,000 to train on, 5,000 held back
+    for validation. Early stopping and checkpoint selection use VALIDATION.
+    The test set is touched exactly once, at the very end.
+
+    The split is seeded, so the same images land in validation on every run --
+    a validation set that reshuffles between experiments cannot be used to
+    compare them.
+    """
     train_transform = transform_augmented if use_augmentation else transform_baseline
-    trainset = torchvision.datasets.CIFAR10(
+
+    # Two views of the same 50,000 images: the training slice gets augmented,
+    # the validation slice must NOT be -- augmentation is a training-time
+    # regulariser, and measuring on randomly cropped, flipped images would make
+    # validation accuracy noisy and pessimistic for no reason.
+    train_full = torchvision.datasets.CIFAR10(
         root='./data', train=True, download=True, transform=train_transform
     )
-    trainloader = torch.utils.data.DataLoader(
-        trainset, batch_size=128, shuffle=True, num_workers=2
+    val_full = torchvision.datasets.CIFAR10(
+        root='./data', train=True, download=True, transform=transform_test
     )
+
+    n_train = len(train_full) - val_size
+    generator = torch.Generator().manual_seed(seed)
+    perm = torch.randperm(len(train_full), generator=generator).tolist()
+    train_idx, val_idx = perm[:n_train], perm[n_train:]
+
+    trainset = torch.utils.data.Subset(train_full, train_idx)
+    valset = torch.utils.data.Subset(val_full, val_idx)
     testset = torchvision.datasets.CIFAR10(
         root='./data', train=False, transform=transform_test
     )
-    testloader = torch.utils.data.DataLoader(
-        testset, batch_size=256, shuffle=False, num_workers=2
+
+    # num_workers is a parameter, not a constant: worker processes have to
+    # pickle the dataset, which breaks on Windows and inside notebooks. Pass 0
+    # there.
+    trainloader = torch.utils.data.DataLoader(
+        trainset, batch_size=128, shuffle=True, num_workers=num_workers
     )
-    return trainloader, testloader
+    valloader = torch.utils.data.DataLoader(
+        valset, batch_size=256, shuffle=False, num_workers=num_workers
+    )
+    testloader = torch.utils.data.DataLoader(
+        testset, batch_size=256, shuffle=False, num_workers=num_workers
+    )
+    return trainloader, valloader, testloader
+
+
+@torch.no_grad()
+def evaluate(model, loader, device):
+    """Top-1 accuracy in percent."""
+    model.eval()
+    correct = total = 0
+    for images, labels in loader:
+        images, labels = images.to(device), labels.to(device)
+        predicted = model(images).max(1)[1]
+        total += labels.size(0)
+        correct += predicted.eq(labels).sum().item()
+    return 100.0 * correct / max(total, 1)
 
 
 class ResBlock(nn.Module):
@@ -122,18 +181,48 @@ class CIFAR10Net(nn.Module):
 # Batch size:   128
 # Epochs:       200 with early stopping patience 20
 
-def train(num_epochs=200, use_skip=True, use_augmentation=True):
-    """Full training loop with mixed precision and early stopping."""
+def train(num_epochs=200, use_skip=True, use_augmentation=True, patience=20,
+          eval_every=1, val_size=5000, num_workers=2):
+    """Train, selecting the checkpoint and stopping point on VALIDATION.
+
+    Three things here used to be wrong, and they compounded.
+
+    1. Selection ran on the test set. Fixed by the validation split in
+       get_data_loaders; the test set is now untouched until final_evaluation.
+
+    2. The best accuracy was tracked but the best MODEL was never kept.
+       `best_acc = max(best_acc, acc)` records a number; the function then
+       returned whatever state the model happened to end in, and that is what
+       got saved to disk. So the reported figure and the shipped weights could
+       come from different epochs -- the headline described a model nobody had.
+       Now the state_dict is deep-copied whenever validation improves and
+       restored before returning.
+
+    3. Early stopping could not fire. Evaluation ran every 10 epochs while
+       `patience` counted evaluations, not epochs, so a patience of 20 meant
+       200 epochs without improvement -- longer than the whole run. It was dead
+       code that looked like a safeguard. Patience is now counted in
+       evaluations with `eval_every` stated explicitly, and validation is cheap
+       (5,000 images) so it runs every epoch by default.
+    """
+    import copy
+
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"Training on: {device}")
 
-    trainloader, testloader = get_data_loaders(use_augmentation)
+    trainloader, valloader, testloader = get_data_loaders(
+        use_augmentation, val_size=val_size, num_workers=num_workers)
     model = CIFAR10Net(use_skip=use_skip).to(device)
     criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
     optimizer = optim.SGD(model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4)
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=num_epochs)
-    scaler = torch.amp.GradScaler()
-    best_acc = 0.0
+    # GradScaler is a no-op safeguard on CPU; enable it only where it applies.
+    use_amp = device.type == 'cuda'
+    scaler = torch.amp.GradScaler(enabled=use_amp)
+
+    best_val = 0.0
+    best_state = copy.deepcopy(model.state_dict())
+    best_epoch = 0
     patience_counter = 0
 
     for epoch in range(num_epochs):
@@ -141,7 +230,8 @@ def train(num_epochs=200, use_skip=True, use_augmentation=True):
         running_loss = 0.0
         for images, labels in trainloader:
             images, labels = images.to(device), labels.to(device)
-            with torch.amp.autocast(device_type=device.type, dtype=torch.float16):
+            with torch.amp.autocast(device_type=device.type,
+                                    dtype=torch.float16, enabled=use_amp):
                 outputs = model(images)
                 loss = criterion(outputs, labels)
             optimizer.zero_grad()
@@ -153,31 +243,32 @@ def train(num_epochs=200, use_skip=True, use_augmentation=True):
             running_loss += loss.item()
         scheduler.step()
 
-        if (epoch + 1) % 10 == 0:
-            model.eval()
-            correct, total = 0, 0
-            with torch.no_grad():
-                for images, labels in testloader:
-                    images, labels = images.to(device), labels.to(device)
-                    outputs = model(images)
-                    _, predicted = outputs.max(1)
-                    total += labels.size(0)
-                    correct += predicted.eq(labels).sum().item()
-            acc = 100.0 * correct / total
-            prev_best = best_acc
-            best_acc = max(best_acc, acc)
-            lr = scheduler.get_last_lr()[0]
-            print(f"Epoch {epoch+1:3d} | Loss: {running_loss/len(trainloader):.4f} "
-                  f"| Acc: {acc:.1f}% | Best: {best_acc:.1f}% | LR: {lr:.6f}")
-            if acc > prev_best:
+        if (epoch + 1) % eval_every == 0:
+            val_acc = evaluate(model, valloader, device)
+            if val_acc > best_val:
+                best_val = val_acc
+                # Keep the WEIGHTS, not just the number.
+                best_state = copy.deepcopy(model.state_dict())
+                best_epoch = epoch + 1
                 patience_counter = 0
             else:
                 patience_counter += 1
-            if patience_counter >= 20:
-                print(f"Early stopping at epoch {epoch+1}")
+
+            print(f"Epoch {epoch+1:3d} | Loss: {running_loss/len(trainloader):.4f} "
+                  f"| Val: {val_acc:.1f}% | Best val: {best_val:.1f}% "
+                  f"(epoch {best_epoch}) | LR: {scheduler.get_last_lr()[0]:.6f}")
+
+            if patience_counter >= patience:
+                print(f"Early stopping at epoch {epoch+1}: no validation "
+                      f"improvement for {patience} evaluations "
+                      f"(best was epoch {best_epoch} at {best_val:.1f}%)")
                 break
 
-    return model, testloader, device, best_acc
+    # Restore the checkpoint validation actually chose.
+    model.load_state_dict(best_state)
+    print(f"\nRestored best checkpoint from epoch {best_epoch} "
+          f"(validation {best_val:.2f}%)")
+    return model, valloader, testloader, device, best_val
 
 
 def final_evaluation(model, testloader, device):
@@ -214,8 +305,18 @@ if __name__ == "__main__":
     print("=" * 60)
     print("CIFAR-10 Progressive Classifier")
     print("=" * 60)
-    model, testloader, device, best_acc = train(num_epochs=200)
+    model, valloader, testloader, device, best_val = train(num_epochs=200)
+
+    # The test set is read HERE and nowhere else in the whole run. Everything
+    # that shaped the model -- epochs, checkpoint, early stopping -- was
+    # decided on validation, so this number is an estimate rather than a
+    # maximum the training loop was allowed to chase.
     test_acc = final_evaluation(model, testloader, device)
-    os.makedirs('checkpoints', exist_ok=True)
-    torch.save(model.state_dict(), 'checkpoints/cifar10_best.pt')
-    print(f"\nModel saved to checkpoints/cifar10_best.pt")
+    print(f"\nvalidation {best_val:.2f}%  ->  test {test_acc:.2f}%")
+    print("A test score below validation is normal and healthy: validation "
+          "picked the checkpoint, so it keeps a little optimism. A large gap "
+          "means the validation set is too small or was reused too often.")
+
+    os.makedirs('artifacts/checkpoints', exist_ok=True)
+    torch.save(model.state_dict(), 'artifacts/checkpoints/cifar10_best.pt')
+    print("Model saved to artifacts/checkpoints/cifar10_best.pt")

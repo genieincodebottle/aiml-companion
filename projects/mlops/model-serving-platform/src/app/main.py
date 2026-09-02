@@ -8,7 +8,6 @@ Usage:
 """
 import logging
 import os
-import signal
 import sys
 import time
 from contextlib import asynccontextmanager
@@ -17,7 +16,7 @@ from pathlib import Path
 import joblib
 import numpy as np
 import yaml
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 from fastapi.responses import PlainTextResponse
 from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from pydantic import BaseModel, ConfigDict, Field
@@ -90,11 +89,30 @@ class HealthResponse(BaseModel):
 
 
 @app.get("/health", response_model=HealthResponse)
-async def health():
-    """Health check - used by Docker HEALTHCHECK and load balancers."""
+async def health(response: Response):
+    """Readiness check - used by Docker HEALTHCHECK and load balancers.
+
+    Returns **503** when the model is not loaded, not 200 with a sad string in
+    the body. This matters more than it looks: `curl -f` (what the Dockerfile
+    and docker-compose healthchecks use) fails only on HTTP >= 400, and load
+    balancers route on status code. This endpoint used to answer 200 with
+    `status="unhealthy"`, so a server with no model was reported healthy and
+    kept receiving production traffic -- every request then failing with a 503
+    from /predict. The one component whose job is to notice the outage was the
+    one reporting everything fine.
+
+    This is a READINESS probe: "can I serve requests right now". Liveness --
+    "is the process wedged, restart me" -- is a different question, and in
+    Kubernetes it belongs on a separate endpoint that does not depend on the
+    model, or a crash-looping pod that fails to load a model will be restarted
+    forever instead of being marked unready and left alone.
+    """
+    ready = model is not None
+    if not ready:
+        response.status_code = 503
     return HealthResponse(
-        status="healthy" if model is not None else "unhealthy",
-        model_loaded=model is not None,
+        status="healthy" if ready else "unhealthy",
+        model_loaded=ready,
         model_version=model_version,
         uptime_seconds=time.time() - start_time if start_time else 0
     )
@@ -129,9 +147,18 @@ async def metrics():
     return PlainTextResponse(generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
 
-def shutdown_handler(signum, frame):
-    logger.info(f"Received signal {signum}, shutting down...")
-    sys.exit(0)
-
-signal.signal(signal.SIGTERM, shutdown_handler)
-signal.signal(signal.SIGINT, shutdown_handler)
+# NOTE: no signal handlers are installed here, deliberately.
+#
+# This module used to register SIGTERM/SIGINT handlers that called sys.exit(0)
+# at import time. That defeats the graceful shutdown the lifespan block exists
+# to provide: uvicorn installs its own handlers, which stop accepting new
+# connections, let in-flight requests finish, and then run the lifespan
+# shutdown. Overriding them with an immediate sys.exit kills the process
+# mid-request and skips the "Shutting down gracefully" path entirely -- so the
+# code advertising graceful shutdown was the code preventing it.
+#
+# Registering handlers at import time is also wrong on its own terms: signal
+# handlers can only be set from the main thread, so importing this module from
+# a worker thread or a test runner raises ValueError.
+#
+# If you need cleanup on shutdown, put it after the `yield` in lifespan().
