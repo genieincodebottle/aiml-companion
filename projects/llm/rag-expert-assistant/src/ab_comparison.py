@@ -3,8 +3,9 @@
 # Measure the impact of each optimization
 # ============================================================
 
-import time
+import hashlib
 import random
+import time
 from dataclasses import dataclass
 
 
@@ -41,11 +42,39 @@ optimized_config = RAGConfig(
 
 
 # ---- Evaluation Framework ----
-def evaluate_rag(config: RAGConfig, test_questions: list, ground_truth: list) -> dict:
+def evaluate_rag(config: RAGConfig, test_questions: list, ground_truth: list,
+                 allow_mock: bool = False) -> dict:
+    """Evaluate a RAG configuration using RAGAS-style metrics. **SKELETON.**
+
+    This function does not measure anything yet, and that used to be far too
+    easy to miss. It drew scores from `random.uniform` around a base of 0.65
+    for "Naive RAG" and 0.88 for "Optimized RAG" -- so the optimized config won
+    by roughly 0.23 every time, not because it retrieves better but because the
+    number 0.88 is larger than the number 0.65. The conclusion was hardcoded
+    and the output was formatted exactly like a real result table.
+
+    That is the failure mode this whole project is supposed to teach against.
+    A/B numbers you did not measure are worse than no numbers: they end up in
+    the README, then in a slide, then in someone's decision.
+
+    So the mock is now opt-in. Pass `allow_mock=True` to see the report shape
+    while you wire up the real thing; without it this raises. To implement:
+
+      1. Build the pipeline from `config`:
+           chunk_documents(docs, config.chunk_size, config.chunk_overlap)
+           build_retriever(vs, config.use_reranking, top_k=config.retriever_k)
+           if config.use_hybrid_search: add BM25 + reciprocal rank fusion
+      2. Run each question through `build_rag_chain(...)`
+      3. Score the real answers with RAGAS `evaluate()` (see src/evaluate.py)
+      4. Append those scores instead of the placeholders below
     """
-    Evaluate a RAG configuration using RAGAS-style metrics.
-    Replace the mock scores with your actual RAGAS evaluation.
-    """
+    if not allow_mock:
+        raise NotImplementedError(
+            "evaluate_rag is a skeleton: it returns invented numbers, not "
+            "measurements. Wire it to the real pipeline (see the docstring), "
+            "or pass allow_mock=True if you only want to see the report "
+            "layout. Do not publish anything it prints."
+        )
     results = {
         "faithfulness": [],
         "answer_relevancy": [],
@@ -69,8 +98,15 @@ def evaluate_rag(config: RAGConfig, test_questions: list, ground_truth: list) ->
         # 3. Score with RAGAS evaluate()
         # 4. Append scores to results lists
         #
-        # Mock scores for demonstration:
-        random.seed(hash(question) + hash(config.name))
+        # PLACEHOLDER SCORES -- not a measurement. See the docstring.
+        #
+        # Seeded from a stable hash, not the builtin hash(): Python randomises
+        # str hashing per process (PYTHONHASHSEED), so the original version was
+        # not even reproducible between runs -- two runs of the same "A/B test"
+        # disagreed.
+        seed = int(hashlib.sha256(
+            f"{question}{config.name}".encode("utf-8")).hexdigest()[:8], 16)
+        random.seed(seed)
         base = 0.65 if config.name == "Naive RAG" else 0.88
         for metric in results:
             score = min(1.0, max(0.0, base + random.uniform(-0.1, 0.1)))
@@ -81,16 +117,30 @@ def evaluate_rag(config: RAGConfig, test_questions: list, ground_truth: list) ->
 
 
 # ---- Comparison Report ----
-def run_ab_comparison(test_questions: list, ground_truth: list):
-    """Compare naive vs optimized RAG configurations."""
+def run_ab_comparison(test_questions: list, ground_truth: list,
+                      allow_mock: bool = False):
+    """Compare naive vs optimized RAG configurations.
+
+    `allow_mock=True` prints the report LAYOUT using placeholder scores. It is
+    not an experiment, and the banner says so on every run.
+    """
+    if allow_mock:
+        print("!" * 62)
+        print("!! PLACEHOLDER RUN -- the numbers below are invented, not")
+        print("!! measured. evaluate_rag() is still a skeleton. Nothing here")
+        print("!! may be quoted, screenshotted, or put in a README.")
+        print("!" * 62)
+
     print("Running Naive RAG evaluation...")
     t0 = time.time()
-    naive_scores = evaluate_rag(naive_config, test_questions, ground_truth)
+    naive_scores = evaluate_rag(naive_config, test_questions, ground_truth,
+                                allow_mock=allow_mock)
     naive_time = time.time() - t0
 
     print("Running Optimized RAG evaluation...")
     t0 = time.time()
-    opt_scores = evaluate_rag(optimized_config, test_questions, ground_truth)
+    opt_scores = evaluate_rag(optimized_config, test_questions, ground_truth,
+                              allow_mock=allow_mock)
     opt_time = time.time() - t0
 
     # Print comparison table
@@ -114,7 +164,9 @@ def run_ab_comparison(test_questions: list, ground_truth: list):
     improvements = sum(1 for m in naive_scores if opt_scores[m] > naive_scores[m])
     print(f"\nResult: Optimized RAG improved {improvements}/{len(naive_scores)} metrics")
 
-    if all(opt_scores[m] >= 0.85 for m in opt_scores):
+    if allow_mock:
+        print("Status: NOT MEASURED -- placeholder scores, see the banner above")
+    elif all(opt_scores[m] >= 0.85 for m in opt_scores):
         print("Status: PRODUCTION READY (all metrics >= 0.85)")
     else:
         failing = [m for m in opt_scores if opt_scores[m] < 0.85]
@@ -151,4 +203,12 @@ GROUND_TRUTH = [
 ]
 
 if __name__ == "__main__":
-    run_ab_comparison(TEST_QUESTIONS, GROUND_TRUTH)
+    import argparse
+
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument(
+        "--allow-mock", action="store_true",
+        help="print the report layout using PLACEHOLDER scores. Not a "
+             "measurement; the output is labelled as such.")
+    run_ab_comparison(TEST_QUESTIONS, GROUND_TRUTH,
+                      allow_mock=ap.parse_args().allow_mock)

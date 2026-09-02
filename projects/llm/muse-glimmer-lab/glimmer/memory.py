@@ -76,9 +76,15 @@ def kv_cache_bytes(
     kv_heads = arch.kv_heads if use_gqa else arch.q_heads
     per_token_per_layer = 2 * kv_heads * arch.head_dim * bytes_per_value
 
-    period = len(arch.attention_pattern)
-    globals_per_period = arch.attention_pattern.count("global")
-    n_global = arch.layers // period * globals_per_period
+    # Count the layers by walking them, rather than multiplying whole periods
+    # and assuming the remainder is all local. That shortcut happens to be
+    # right for Glimmer -- 52 layers is exactly 13 periods of (l,l,l,g) -- and
+    # silently wrong the moment either number changes. With the global layer
+    # first in the pattern, 54 layers has 14 global layers and the arithmetic
+    # version returns 13, understating the cache by a full layer.
+    pattern = arch.attention_pattern
+    kinds = [pattern[i % len(pattern)] for i in range(arch.layers)]
+    n_global = kinds.count("global")
     n_local = arch.layers - n_global
 
     if not use_sliding_window:

@@ -61,14 +61,36 @@ def test_ab_comparison_imports():
     assert len(GROUND_TRUTH) == 10
 
 
-def test_ab_evaluate_rag():
+def test_ab_evaluate_rag_refuses_to_return_fake_scores_by_default():
+    """A stubbed evaluation harness must fail loudly, not return plausible floats.
+
+    evaluate_rag() invented its scores (random.uniform around 0.65 for "Naive"
+    and 0.88 for "Optimized"), so the A/B conclusion was hardcoded. Those
+    numbers reached the README as a results table. The mock is now opt-in.
+    """
+    import pytest
     from src.ab_comparison import evaluate_rag, naive_config, TEST_QUESTIONS, GROUND_TRUTH
-    scores = evaluate_rag(naive_config, TEST_QUESTIONS[:3], GROUND_TRUTH[:3])
+
+    with pytest.raises(NotImplementedError, match="skeleton"):
+        evaluate_rag(naive_config, TEST_QUESTIONS[:3], GROUND_TRUTH[:3])
+
+
+def test_ab_mock_shape_is_still_inspectable():
+    """The placeholder path still works when asked for explicitly."""
+    from src.ab_comparison import evaluate_rag, naive_config, TEST_QUESTIONS, GROUND_TRUTH
+    scores = evaluate_rag(naive_config, TEST_QUESTIONS[:3], GROUND_TRUTH[:3],
+                          allow_mock=True)
     assert "faithfulness" in scores
     assert "answer_relevancy" in scores
     assert "context_precision" in scores
     assert "context_recall" in scores
     assert all(0 <= v <= 1 for v in scores.values())
+
+    # and it must be reproducible: the original seeded from builtin hash(),
+    # which Python randomises per process, so two runs disagreed.
+    again = evaluate_rag(naive_config, TEST_QUESTIONS[:3], GROUND_TRUTH[:3],
+                         allow_mock=True)
+    assert scores == again
 
 
 def test_security_sanitizer_imports():
@@ -115,3 +137,58 @@ def test_sample_docs_exist():
     assert os.path.isdir(docs_dir)
     files = os.listdir(docs_dir)
     assert len(files) >= 3
+
+
+def test_chunk_ids_are_deterministic_and_content_addressed():
+    """Re-indexing must upsert, not append.
+
+    Regression test for the defect that broke retrieval outright.
+    `Chroma.from_documents(persist_directory=...)` APPENDS to an existing
+    collection, so every pipeline re-run added another full copy of every
+    chunk. The committed store had accumulated 54 rows for 9 distinct chunks.
+
+    Duplicates share an embedding, so they score identically: a top-20
+    similarity search returned the same few chunks repeatedly, the reranker
+    ranked those duplicates faithfully, and the top 5 handed to the model were
+    5 copies of ONE chunk.
+
+        before: 'What is the refund policy?' -> returned 5, distinct 1
+        after:  'What is the refund policy?' -> returned 5, distinct 5
+
+    Content-addressed IDs make re-indexing idempotent.
+    """
+    from langchain_core.documents import Document
+    from src.rag_pipeline import chunk_id
+
+    a = Document(page_content="refund within 30 days", metadata={"source": "refund.txt"})
+    a_again = Document(page_content="refund within 30 days", metadata={"source": "refund.txt"})
+    b = Document(page_content="refund within 60 days", metadata={"source": "refund.txt"})
+    c = Document(page_content="refund within 30 days", metadata={"source": "other.txt"})
+
+    assert chunk_id(a) == chunk_id(a_again), "same chunk must map to the same id"
+    assert chunk_id(a) != chunk_id(b), "different text must map to different ids"
+    assert chunk_id(a) != chunk_id(c), "same text from another source is a distinct chunk"
+    assert len(chunk_id(a)) == 64
+
+
+def test_indexing_the_same_chunks_twice_does_not_duplicate():
+    """The property that matters, asserted on ids rather than on a live store.
+
+    Building the real vector store needs an API key and network, so the check
+    that survives CI is that the id set is stable: indexing the same chunks
+    again addresses exactly the same rows.
+    """
+    from langchain_core.documents import Document
+    from src.rag_pipeline import chunk_id
+
+    chunks = [
+        Document(page_content=f"chunk number {i}", metadata={"source": "d.txt"})
+        for i in range(9)
+    ]
+    first = [chunk_id(c) for c in chunks]
+    second = [chunk_id(c) for c in chunks]
+
+    assert first == second
+    assert len(set(first)) == 9, "9 distinct chunks must produce 9 distinct ids"
+    # indexing twice addresses the same 9 rows, not 18
+    assert len(set(first) | set(second)) == 9

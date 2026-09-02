@@ -63,12 +63,29 @@ Documents (PDF/MD/TXT)
 
 ### Naive vs Optimized RAG (A/B Comparison)
 
+> ⚠️ **Not measured. This table is the report LAYOUT, not a result.**
+> `src/ab_comparison.py` is a skeleton: `evaluate_rag()` never ran a pipeline.
+> It drew scores from `random.uniform` around a hardcoded base of **0.65 for
+> "Naive"** and **0.88 for "Optimized"**, so the optimized config won by ~0.23
+> every single run — not because it retrieves better, but because 0.88 is a
+> bigger number than 0.65. The conclusion was written before the experiment.
+>
+> The function now **raises** unless you pass `--allow-mock`, and the mock run
+> prints a banner on every invocation. Wire it to the real pipeline (the
+> docstring lists the four steps) and replace these figures with measurements.
+
 | Metric | Naive | Optimized | Delta |
 |--------|-------|-----------|-------|
-| Faithfulness | 0.652 | 0.892 | +0.240 |
-| Answer Relevancy | 0.618 | 0.875 | +0.257 |
-| Context Precision | 0.680 | 0.850 | +0.170 |
-| Context Recall | 0.595 | 0.810 | +0.215 |
+| Faithfulness | *not measured* | *not measured* | — |
+| Answer Relevancy | *not measured* | *not measured* | — |
+| Context Precision | *not measured* | *not measured* | — |
+| Context Recall | *not measured* | *not measured* | — |
+
+**The lesson this replaced a fake table to teach:** A/B numbers you did not
+measure are worse than no numbers. They travel — into a README, then a slide,
+then a decision — and nothing about their formatting distinguishes them from
+real ones. If an evaluation harness is a stub, it must fail loudly rather than
+return plausible floats.
 
 ### Security Test Suite: 15/15 passed (100%)
 
@@ -162,12 +179,45 @@ rag-expert-assistant/
 
 ## Experiment Log
 
+> ⚠️ Illustrative targets showing the *shape* of a tuning progression, not
+> measurements. See the A/B note above. Fill these in from a real
+> `evaluate_rag()` run.
+
 | # | Experiment | Faithfulness | Precision | Key Change |
 |---|-----------|-------------|-----------|------------|
-| 1 | Naive (1000 chunks, top-3) | 0.65 | 0.68 | Baseline |
-| 2 | Smaller chunks (512, overlap 50) | 0.75 | 0.78 | +13% precision |
-| 3 | Add reranking | 0.85 | 0.85 | +7% precision |
-| 4 | Grounded system prompt | 0.92 | 0.85 | +7% faithfulness |
+| 1 | Naive (1000 chunks, top-3) | — | — | Baseline |
+| 2 | Smaller chunks (512, overlap 50) | — | — | Chunking |
+| 3 | Add reranking | — | — | Cross-encoder rerank |
+| 4 | Grounded system prompt | — | — | Prompt constraint |
+
+## The bug that made retrieval return one document
+
+Worth reading even if you skip the rest, because nothing failed and nothing
+warned.
+
+`Chroma.from_documents(..., persist_directory=...)` **appends** to an existing
+collection — it does not replace it. So every re-run of the pipeline added
+another full copy of every chunk. The store committed here had reached **54
+rows for 9 distinct chunks**: six identical copies of everything.
+
+Duplicates carry identical embeddings, so they score identically. A top-20
+similarity search returned the same handful of chunks over and over, the
+reranker faithfully ranked those duplicates, and the top 5 passed to the model
+were **five copies of one chunk**:
+
+| | returned | distinct |
+|---|---|---|
+| before | 5 | **1** |
+| after | 5 | **5** |
+
+A retrieval system that returns one document is not a retrieval system: the
+other eight chunks were unreachable, the context window filled with the same
+paragraph, and you paid for the tokens. Indexing is now idempotent — each chunk
+gets a content-addressed SHA-256 id, so re-running upserts instead of appending
+and the collection size stays equal to the number of distinct chunks.
+
+**Generalise it:** any indexing step you run more than once needs an identity
+story. "It got bigger" is not "it got better".
 
 ## Interview Guide
 
@@ -178,7 +228,7 @@ rag-expert-assistant/
 > RAGAS framework with 4 metrics: faithfulness (does the answer stick to context?), answer relevancy (does it address the question?), context precision (are retrieved chunks relevant?), context recall (did retrieval find all relevant info?). Each metric isolates a different failure mode.
 
 **Q: Why rerank instead of just increasing top-k?**
-> Cosine similarity misses semantic relevance. Retrieving top-20 with dense search then reranking to top-5 with a cross-encoder captures both lexical and semantic matches. Our A/B test shows +17% context precision with reranking.
+> Cosine similarity ranks on embedding distance alone, which is lexically blunt; a cross-encoder scores the query and passage *together* and catches relevance that distance misses. So retrieve top-20 cheaply with dense search, then rerank to top-5. I am deliberately **not** quoting a number for the gain here: the A/B harness in this repo is still a stub, and the "+17%" this answer used to cite came from `random.uniform`, not an experiment. Measuring it is the next task.
 
 **Q: How do you prevent prompt injection?**
 > Defense in depth: (1) Input sanitization strips known injection patterns, (2) System prompt constrains the model to context-only answers, (3) Output PII filter redacts any leaked personal data. We test with a 5-case injection suite.

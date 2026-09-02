@@ -126,10 +126,13 @@ def _tokens(text: str) -> set[str]:
 # ---------------------------------------------------------------------------
 
 # Keyword evidence per failure mode. This is not a model. It is a tripwire, and
-# it exists so the gate produces a number with no API key. Note how thin it is:
-# "seal number does not match the manifest" carries no word in the damaged_goods
-# list, which is precisely the kind of case a real judge should catch and this
-# one will not. That gap is the argument for replacing it.
+# it exists so the gate produces a number with no API key.
+#
+# Note how thin it is. "the pallet was compromised in transit" is plainly a
+# damaged_goods answer and contains none of these words, so it scores as no
+# mode at all. That gap is the argument for replacing this with a real judge,
+# and it is why every HeuristicJudge number is a lower bound rather than a
+# grade.
 MODE_KEYWORDS: dict[str, tuple[str, ...]] = {
     "wrong_address": (
         "address", "postcode", "postal", "street", "unit", "geocode",
@@ -213,10 +216,22 @@ class HeuristicJudge:
 
     @staticmethod
     def _predict_mode(actual: str) -> str:
-        text = (actual or "").lower()
+        # Match WHOLE TOKENS, not substrings.
+        #
+        # This used to be `if kw in text`, which fires on any word that merely
+        # contains a keyword. "unit" is in the wrong_address list, so
+        # "opportunity" and "community" both scored as wrong_address, and
+        # "shrink wrap failed, units spilled across the trailer" was confidently
+        # classified as an address problem. A tripwire that fires on
+        # "opportunity" trains people to ignore it.
+        #
+        # Nothing is lost by tightening this: the keyword lists already spell
+        # out their own variants ("claim" and "claims", "misdeliver" and
+        # "misdelivery"), so substring matching was redundant as well as wrong.
+        tokens = {t for t in re.split(r"[^a-z0-9]+", (actual or "").lower()) if t}
         best, best_hits = "", 0
         for mode in FAILURE_MODES:
-            hits = sum(1 for kw in MODE_KEYWORDS[mode] if kw in text)
+            hits = sum(1 for kw in MODE_KEYWORDS[mode] if kw in tokens)
             if hits > best_hits:
                 best, best_hits = mode, hits
         return best

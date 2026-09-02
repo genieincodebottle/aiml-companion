@@ -6,6 +6,7 @@
 # pip install chromadb flashrank
 # ============================================================
 
+import hashlib
 import os
 from dotenv import load_dotenv
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
@@ -21,14 +22,28 @@ load_dotenv()
 
 # ---- Step 1: Load Documents ----
 def load_documents(data_dir: str = "data/sample_docs/") -> list:
-    """Load all .txt and .md files from a directory."""
-    loader = DirectoryLoader(
-        data_dir,
-        glob="**/*.txt",
-        loader_cls=TextLoader,
-        show_progress=True
-    )
-    raw_docs = loader.load()
+    """Load .txt and .md files from a directory.
+
+    The glob used to be `**/*.txt` while this docstring promised .md as well,
+    so markdown dropped into the corpus was skipped in silence -- no error, no
+    warning, just answers that could not cite documents the user believed were
+    indexed. An empty corpus is loud; a quietly partial one is not.
+    """
+    raw_docs = []
+    for pattern in ("**/*.txt", "**/*.md"):
+        loader = DirectoryLoader(
+            data_dir,
+            glob=pattern,
+            loader_cls=TextLoader,
+            show_progress=True,
+        )
+        raw_docs.extend(loader.load())
+
+    if not raw_docs:
+        raise FileNotFoundError(
+            f"No .txt or .md files found under {data_dir!r}. Indexing an empty "
+            f"corpus would build a vector store that answers every question "
+            f"with nothing.")
     print(f"Loaded {len(raw_docs)} documents")
     return raw_docs
 
@@ -49,19 +64,70 @@ def chunk_documents(docs: list, chunk_size: int = 512, chunk_overlap: int = 50) 
 
 
 # ---- Step 3: Create Embeddings + Vector Store ----
+def chunk_id(chunk) -> str:
+    """A stable ID derived from the chunk's own content and source.
+
+    The same chunk always hashes to the same ID, which is what turns indexing
+    from "append" into "upsert" -- see build_vectorstore for why that matters.
+    """
+    source = chunk.metadata.get("source", "")
+    return hashlib.sha256(f"{source}::{chunk.page_content}".encode("utf-8")).hexdigest()
+
+
 def build_vectorstore(chunks: list, persist_dir: str = "./chroma_db") -> Chroma:
-    """Create ChromaDB vector store from document chunks."""
+    """Create (or update) the ChromaDB vector store from document chunks.
+
+    INDEXING MUST BE IDEMPOTENT, and this is the bug that taught it.
+
+    `Chroma.from_documents(..., persist_directory=...)` APPENDS to whatever
+    collection is already on disk. It does not replace it. So every re-run of
+    the pipeline added a second, third, fourth copy of every chunk, and nothing
+    anywhere reported a problem: no error, no warning, and a vector store that
+    looks healthy because it is merely larger.
+
+    What it does to retrieval is not subtle. The committed store here had
+    accumulated **54 rows for 9 distinct chunks** -- six identical copies of
+    everything. Because duplicates have identical embeddings they score
+    identically, so a similarity search for the top 20 returns the same handful
+    of chunks over and over, the reranker faithfully ranks those duplicates,
+    and the top 5 handed to the model were **5 copies of one chunk**:
+
+        query "What is the refund policy?"  -> returned 5, distinct 1
+        query "What are the rate limits?"   -> returned 5, distinct 1
+
+    A retrieval system that returns one document is not a retrieval system. The
+    context window fills with the same paragraph repeated, the other eight
+    chunks become unreachable, and you pay for the tokens.
+
+    The fix is to give each chunk a deterministic ID derived from its content,
+    so re-indexing UPSERTS rather than appends. Re-running is now free and the
+    collection size stays equal to the number of distinct chunks.
+    """
     embeddings = GoogleGenerativeAIEmbeddings(
         model="models/gemini-embedding-001",
         google_api_key=os.getenv("GOOGLE_API_KEY"),
     )
+    ids = [chunk_id(c) for c in chunks]
+    n_unique = len(set(ids))
+    if n_unique != len(ids):
+        # Identical text in two places is legitimate (a shared boilerplate
+        # paragraph); say so rather than silently collapsing them.
+        print(f"note: {len(ids) - n_unique} chunks are byte-identical to another "
+              f"chunk and will share an ID")
+
     vectorstore = Chroma.from_documents(
         documents=chunks,
         embedding=embeddings,
         persist_directory=persist_dir,
-        collection_name="product_docs"
+        collection_name="product_docs",
+        ids=ids,
     )
-    print(f"Indexed {len(chunks)} chunks in ChromaDB")
+    total = vectorstore._collection.count()
+    print(f"Indexed {n_unique} unique chunks; collection now holds {total}")
+    if total > n_unique:
+        print(f"WARNING: the collection holds {total} rows for {n_unique} unique "
+              f"chunks, so it still carries duplicates from an older run. "
+              f"Delete '{persist_dir}' and re-index to clear them.")
     return vectorstore
 
 

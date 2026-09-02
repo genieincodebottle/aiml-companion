@@ -46,3 +46,38 @@ jupyter notebook
 ```
 
 You'll need a free Google Gemini API key: [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
+
+Set it once as an environment variable and every notebook picks it up:
+
+```bash
+export GOOGLE_API_KEY="your-key"     # or GEMINI_API_KEY
+```
+
+Each notebook still prompts with `getpass` if the variable is unset, so nothing
+breaks in Colab. The fallback exists because prompting *only* meant the
+notebooks could not be run non-interactively (nbconvert, papermill, CI) and you
+retyped the key once per notebook.
+
+### Model and SDK notes
+
+These notebooks call **`gemini-2.5-flash`**. They previously used
+`gemini-2.0-flash` and `gemini-2.0-flash-exp`, both of which Google has since
+**retired** — every notebook returned:
+
+```
+404 This model models/gemini-2.0-flash is no longer available.
+    Please update your code to ...
+```
+
+If you see that error again, the model has aged out; swap in a current flash
+model from [the model list](https://ai.google.dev/gemini-api/docs/models) or use
+the rolling alias `gemini-flash-latest`. Pinning an exact version is right for
+reproducibility, but it means a maintenance step every so often — that trade is
+the point, not an oversight.
+
+They also import **`google.generativeai`**, which Google has deprecated in
+favour of the `google-genai` SDK (`from google import genai`). The old package
+still works today and every notebook here runs against it, but new work should
+start on the new SDK: the call shape changes from
+`genai.GenerativeModel(name).generate_content(...)` to
+`client.models.generate_content(model=name, contents=...)`.
