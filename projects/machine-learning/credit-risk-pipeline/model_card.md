@@ -26,23 +26,40 @@
 
 | Metric | Logistic Regression | Gradient Boosting |
 |--------|-------------------|-------------------|
-| ROC-AUC | ~0.76 | ~0.79 |
-| Recall | ~0.65 | ~0.62 |
-| F1 | ~0.55 | ~0.57 |
+| ROC-AUC | 0.783 (+/- 0.025) | 0.784 (+/- 0.025) |
+| Recall | 0.700 | 0.493 |
+| F1 | 0.595 | 0.557 |
 
-*Metrics from 5-fold stratified cross-validation. Actual values depend on random seed and preprocessing.*
+*Metrics from 5-fold stratified cross-validation, measured on the current pipeline.*
+
+**The 0.001 ROC-AUC gap is noise, not a result.** It is far inside the 0.025
+cross-validation standard deviation, and which model comes out ahead changes with
+the seed and the feature set - the notebook usually picks Logistic Regression,
+the CLI usually picks Gradient Boosting. Logistic Regression is the one to ship
+regardless, because ECOA adverse-action notices are easier to defend from
+coefficients than from an ensemble.
 
 ## Cost-Sensitive Threshold
 
-- Default threshold: 0.35 (tuned for 10:1 FN/FP cost ratio)
-- Rationale: Missing a defaulter (FN) costs ~10x more than denying a good borrower (FP)
-- Optimal threshold determined by minimizing: Cost = FN * 10 + FP * 1
+- Tuned threshold: **0.01**, chosen by minimising Cost = FN * 10 + FP * 1 over
+  out-of-fold predictions, and written to `artifacts/results/threshold.json`
+- Rationale: missing a defaulter (FN) is priced at 10x denying a good borrower (FP)
+
+**This threshold is a degenerate corner and must not be deployed as-is.** At 0.01
+the model flags about 91% of applicants and rejects 612 of the 700 borrowers who
+would have repaid. It minimises the stated cost because the objective contains no
+approval-rate or capital constraint - not because it is a sensible lending policy.
+The pipeline warns about this on every run rather than hiding it. A real
+deployment adds the missing constraint to `configs/base.yaml` first.
 
 ## Limitations
 
 - **Small dataset**: Only 1,000 samples limits generalization
 - **Historical bias**: Dataset from 1994 German banking, may reflect outdated patterns
-- **No protected attributes audit**: Fairness analysis not included in base pipeline
+- **Fairness stops at one dropped column**: `personal_status` encodes sex and is
+  dropped by default (`drop_protected`), which costs about 0.006 AUC. Proxies
+  survive in `purpose`, `housing` and `job`, and there is **no disparate-impact
+  audit on outcomes**, which a real deployment would require
 - **Feature simplicity**: Real credit scoring uses 100+ features (bureau data, payment history)
 - **Not for production**: This is an educational project, not a production credit scoring system
 

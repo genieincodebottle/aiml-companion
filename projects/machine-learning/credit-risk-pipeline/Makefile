@@ -1,45 +1,63 @@
-.PHONY: setup run clean eda features train evaluate serve test lint docker
+# Convenience wrapper only. `make` is NOT installed by default on Windows, so
+# nothing here is the documented way in -- `python run.py` is, and it does
+# everything these targets do. See README.md.
+#
+# The setup target used to read `.venv/Scripts/pip`, a Windows-only path inside
+# a Unix-only tool, so it could not work on either platform. It detects now.
 
-# Setup virtual environment and install dependencies
+.PHONY: setup run clean eda features train evaluate serve test test-cov clean-artifacts docker-build docker-run
+
+ifeq ($(OS),Windows_NT)
+VENV_BIN := .venv/Scripts
+RM_ARTIFACTS := del /Q artifacts\figures\*.png artifacts\results\*.joblib artifacts\results\*.md
+else
+VENV_BIN := .venv/bin
+RM_ARTIFACTS := rm -f artifacts/figures/*.png artifacts/results/*.joblib artifacts/results/*.md
+endif
+
+# Create a virtual environment and install dependencies
 setup:
 	python -m venv .venv
-	.venv/Scripts/pip install -r requirements.txt
-	@echo "[OK] Setup complete. Activate with: source .venv/Scripts/activate"
+	$(VENV_BIN)/python -m pip install --upgrade pip
+	$(VENV_BIN)/python -m pip install -r requirements.txt
+	@echo "[OK] Setup complete. Activate with:"
+	@echo "     Windows: .venv\Scripts\activate"
+	@echo "     macOS/Linux: source .venv/bin/activate"
 
-# Run full pipeline
+# Run the full pipeline
 run:
-	python main.py --verbose
+	python run.py --verbose
 
-# Run individual stages
+# Individual stages (each runs the stages before it)
 clean:
-	python main.py --stage clean
+	python run.py clean
 
 eda:
-	python main.py --stage eda
+	python run.py eda
 
 features:
-	python main.py --stage features
+	python run.py features
 
 train:
-	python main.py --stage train
+	python run.py train
 
 evaluate:
-	python main.py --stage evaluate
+	python run.py evaluate
 
-# Serve model via FastAPI
+# Serve the model via FastAPI
 serve:
-	uvicorn src.serve:app --reload --port 8000
+	python run.py serve
 
-# Run tests
+# Tests
 test:
 	pytest tests/ -v --tb=short
 
 test-cov:
 	pytest tests/ -v --cov=src --cov-report=term-missing
 
-# Clean artifacts
+# Remove generated artifacts
 clean-artifacts:
-	rm -rf artifacts/figures/*.png artifacts/results/*.joblib artifacts/results/*.md
+	$(RM_ARTIFACTS)
 
 # Docker
 docker-build:

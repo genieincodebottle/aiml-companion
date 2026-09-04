@@ -64,9 +64,23 @@ def stage_features(df: "pd.DataFrame", cfg: dict) -> "pd.DataFrame":
     from src.features import engineer_features
 
     logger.info("Stage: features - engineering domain features")
+    # Diff the actual columns. This used to filter on a hardcoded prefix list
+    # -- ("dti_", "utilization_", "log_", "age_") -- which did not include
+    # `loan_burden`, so the engineered feature that ends up THIRD by SHAP
+    # importance was missing from the count. The line read "Engineered 1 new
+    # features" while the model was using two, and it also never mentioned the
+    # protected column being dropped. Compare the frames instead of guessing
+    # at names.
+    before = list(df.columns)
     df = engineer_features(df, cfg)
-    new_cols = [c for c in df.columns if c.startswith(("dti_", "utilization_", "log_", "age_"))]
-    print(f"[OK] Engineered {len(new_cols)} new features: {new_cols}")
+    after = list(df.columns)
+
+    added = [c for c in after if c not in before]
+    removed = [c for c in before if c not in after]
+
+    print(f"[OK] Engineered {len(added)} new features: {added}")
+    if removed:
+        print(f"     Dropped {len(removed)} protected/unused columns: {removed}")
     return df
 
 
@@ -92,6 +106,15 @@ def stage_evaluate(df: "pd.DataFrame", results: dict, cfg: dict) -> None:
 
     logger.info("Stage: evaluate - cost-sensitive evaluation")
     report = full_evaluation(df, results, cfg)
+    if report.get("shap_error"):
+        # SHAP is the adverse-action half of this project. It failed
+        # silently for a long time: caught, logged at WARNING, and the
+        # run still ended with "completed successfully" while a stale
+        # shap_importance.png sat in artifacts looking current.
+        print("[WARN] SHAP explanations NOT computed: "
+              + report["shap_error"])
+        print("       No adverse-action reasons in this report.")
+
     print(f"\n[OK] Evaluation complete")
     print(f"     Optimal threshold: {report['optimal_threshold']:.2f}")
     print(f"     Minimum cost: ${report['min_cost']:,.0f}")

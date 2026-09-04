@@ -27,6 +27,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.sparse import issparse
 import pandas as pd
 from sklearn.metrics import (
     classification_report,
@@ -102,12 +103,18 @@ def full_evaluation(df: pd.DataFrame, results: dict, cfg: dict) -> dict:
     plot_precision_recall(y, y_proba, optimal_threshold)
     plot_confusion_matrix(y, y_pred, best_name)
 
-    # SHAP (optional, may not be available)
+    # SHAP. Optional in the sense that a missing `shap` install must not take
+    # the pipeline down -- but NOT optional in the sense of "quietly absent".
+    # Adverse-action reasons are the regulatory point of this project, so a
+    # failure here is carried into the report and surfaced by the caller
+    # instead of vanishing into a log line nobody reads.
     shap_summary = None
+    shap_error = None
     try:
         shap_summary = compute_shap_values(pipeline, X, cfg)
     except Exception as e:
-        logger.warning(f"SHAP analysis skipped: {e}")
+        shap_error = f"{type(e).__name__}: {e}"
+        logger.warning(f"SHAP analysis FAILED: {shap_error}")
 
     # Classification report
     cls_report = classification_report(y, y_pred, output_dict=True)
@@ -121,6 +128,7 @@ def full_evaluation(df: pd.DataFrame, results: dict, cfg: dict) -> dict:
         cls_report=cls_report,
         shap_summary=shap_summary,
         cfg=cfg,
+        shap_error=shap_error,
     )
 
     return {
@@ -129,6 +137,7 @@ def full_evaluation(df: pd.DataFrame, results: dict, cfg: dict) -> dict:
         "classification_report": cls_report,
         "best_model": best_name,
         "markdown": markdown,
+        "shap_error": shap_error,
     }
 
 
@@ -162,7 +171,13 @@ def find_optimal_threshold(
     tuple[float, float]
         (optimal_threshold, minimum_cost)
     """
-    thresholds = np.arange(0.05, 0.95, 0.01)
+    # The lower bound used to be 0.05, and on this dataset the search returned
+    # exactly 0.05 -- the first value it was allowed to try. That is a search
+    # hitting its own wall, not a minimum: cost at 0.01 is lower still. A grid
+    # whose argmin sits on its boundary has not found an optimum, so the bound
+    # starts at the bottom now and _warn_if_degenerate() below says so out loud
+    # when the answer is still a corner.
+    thresholds = np.arange(0.01, 0.95, 0.01)
     best_threshold = 0.5
     best_cost = float("inf")
 
@@ -177,11 +192,48 @@ def find_optimal_threshold(
             best_cost = total_cost
             best_threshold = thresh
 
+    _warn_if_degenerate(y_true, y_proba, best_threshold, thresholds)
+
     logger.info(
         f"Optimal threshold: {best_threshold:.2f} "
         f"(cost: ${best_cost:,.0f}, FN cost={cost_fn}, FP cost={cost_fp})"
     )
     return best_threshold, best_cost
+
+
+def _warn_if_degenerate(
+    y_true: np.ndarray,
+    y_proba: np.ndarray,
+    threshold: float,
+    grid: np.ndarray,
+) -> None:
+    """Say out loud when the cost-minimising threshold is not a usable one.
+
+    A 10:1 FN/FP ratio with no constraint on approval rate has an obvious
+    degenerate answer: flag nearly everybody. It minimises the stated cost and
+    it is not a lending policy anybody could ship. The number still gets
+    written to threshold.json and handed to the serving API, so the one thing
+    that must not happen is for it to go out unremarked.
+    """
+    y_true = np.asarray(y_true)
+    flagged = float((np.asarray(y_proba) >= threshold).mean())
+
+    if threshold <= grid[0] + 1e-9:
+        logger.warning(
+            "Optimal threshold %.2f is the LOWEST value in the search grid. "
+            "The cost curve may still be falling past the edge, so this is a "
+            "boundary hit rather than a minimum.", threshold)
+
+    if flagged >= 0.5:
+        negatives = int((y_true == 0).sum())
+        rejected_good = int(((np.asarray(y_proba) >= threshold) & (y_true == 0)).sum())
+        logger.warning(
+            "Threshold %.2f flags %.0f%% of all applicants and rejects %d of "
+            "%d good borrowers. Cost-minimising, but not a shippable policy: a "
+            "real deployment constrains approval rate or capital, and the "
+            "10:1 cost ratio alone does not. Treat this number as the "
+            "unconstrained corner it is.",
+            threshold, flagged * 100, rejected_good, negatives)
 
 
 # ---------------------------------------------------------------------------
@@ -283,15 +335,30 @@ def compute_shap_values(pipeline: object, X: pd.DataFrame, cfg: dict) -> dict:
     # Get feature names after transformation
     feature_names = preprocessor.get_feature_names_out()
 
-    # Compute SHAP values (use sample for speed)
+    # Compute SHAP values (use sample for speed).
+    #
+    # This used to read `shap.Explainer(classifier, X_sample)` -- passing the
+    # sample as a BACKGROUND dataset, which makes shap pick the interventional
+    # perturbation path. On this gradient-boosted model that path failed its
+    # own additivity check every run ("sum of the SHAP values was -2.239625,
+    # while the model output was -2.379934"), the exception was caught below,
+    # and the pipeline printed "completed successfully" with no SHAP at all.
+    # The figure on disk was left over from an older run, so nothing looked
+    # wrong. TreeExplainer with no background uses the exact path-dependent
+    # algorithm, which is both faster and additive by construction.
     n_sample = min(len(X), 500)
-    X_sample = X_transformed[:n_sample] if hasattr(X_transformed, "__getitem__") else X_transformed
+    X_dense = X_transformed.toarray() if issparse(X_transformed) else np.asarray(X_transformed)
+    X_sample = X_dense[:n_sample]
 
-    explainer = shap.Explainer(classifier, X_sample)
-    shap_values = explainer(X_sample)
+    explainer = shap.TreeExplainer(classifier)
+    shap_values = np.asarray(explainer.shap_values(X_sample))
+
+    # Binary classifiers may return (n, features, 2). Keep the positive class.
+    if shap_values.ndim == 3:
+        shap_values = shap_values[:, :, -1]
 
     # Mean absolute SHAP values
-    mean_abs = np.abs(shap_values.values).mean(axis=0)
+    mean_abs = np.abs(shap_values).mean(axis=0)
     importance = dict(zip(feature_names, mean_abs))
     importance = dict(sorted(importance.items(), key=lambda x: x[1], reverse=True))
 
@@ -326,6 +393,7 @@ def generate_report(
     cls_report: dict,
     shap_summary: dict | None,
     cfg: dict,
+    shap_error: str | None = None,
 ) -> str:
     """Generate Markdown evaluation report.
 
@@ -386,7 +454,15 @@ def generate_report(
                 f"{m['f1-score']:.3f} | {m['support']:.0f} |"
             )
 
-    if shap_summary and "top_features" in shap_summary:
+    if shap_error:
+        lines += [
+            "\n## Top Features (SHAP)\n",
+            f"> **NOT COMPUTED.** SHAP failed with `{shap_error}`.",
+            "> There are no adverse-action reasons in this report. Any",
+            "> `shap_importance.png` in artifacts/figures is from an earlier",
+            "> run and does not describe this model.\n",
+        ]
+    elif shap_summary and "top_features" in shap_summary:
         lines.extend([
             "\n## Top Features (SHAP)\n",
             "| Rank | Feature | Mean |SHAP| |",
