@@ -96,7 +96,7 @@ python main.py                    # Full pipeline
 
 ### Option 2: Kaggle Notebook
 
-1. Open: [IPL Dataset Analysis on Kaggle](https://www.kaggle.com/code/genieincodebottle/ipl-dataset-analysis)
+1. Open: [IPL Dataset Analysis on Kaggle](https://www.kaggle.com/code/genieincodebottle/ipl-dataset-analysis-2008-2025)
 2. Click **"Copy & Edit"** (top-right)
 3. Click **"Run All"** (`Shift + Ctrl + Enter`)
 
