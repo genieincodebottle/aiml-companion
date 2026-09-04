@@ -3,17 +3,17 @@
 > **Learn AI/ML interactively at [AI-ML Companion](https://aimlcompanion.ai/)** - Guided walkthroughs, architecture decisions, hands-on challenges, and narrated overviews for every project.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![Projects](https://img.shields.io/badge/Projects-20-orange)
+![Projects](https://img.shields.io/badge/Projects-23-orange)
 ![Status](https://img.shields.io/badge/Status-Portfolio_Ready-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-> A complete AI/ML learning platform with 20 end-to-end projects covering the full spectrum, from classical ML to production LLM systems. Every project follows **industry best-practice structure**.
+> A complete AI/ML learning platform with 23 end-to-end projects covering the full spectrum, from classical ML to production LLM systems. Every project follows **industry best-practice structure**.
 
 ---
 
 ## About the AI-ML Companion Platform
 
-These 20 projects are the hands-on companion to **[AI-ML Companion](https://aimlcompanion.ai)**, an interactive platform for learning AI and machine learning by watching it work. Instead of passive video, every concept is taught through **live, animated visualizations** and runnable code: gradient descent stepping down a loss surface, attention weights lighting up across tokens, a network training in real time.
+These 23 projects are the hands-on companion to **[AI-ML Companion](https://aimlcompanion.ai)**, an interactive platform for learning AI and machine learning by watching it work. Instead of passive video, every concept is taught through **live, animated visualizations** and runnable code: gradient descent stepping down a loss surface, attention weights lighting up across tokens, a network training in real time.
 
 - **22 tracks, 300+ modules** from Python and math foundations to deep learning, LLMs, agentic AI, MLOps, and cloud GenAI.
 - **Interactive visualizations**, not slides. See the mechanism move, then experiment with it.
@@ -40,7 +40,7 @@ These 20 projects are the hands-on companion to **[AI-ML Companion](https://aiml
 
 ## Projects
 
-20 projects in six groups. Each is self-contained: its own README, requirements,
+23 projects in seven groups. Each is self-contained: its own README, requirements,
 tests, and Makefile.
 
 ### `projects/machine-learning/`
@@ -72,6 +72,7 @@ tests, and Makefile.
 
 | Project | Domain | Difficulty | Key Tech | Walkthrough |
 |---|---|---|---|---|
+| [GraphRAG Supply Chain Intelligence](projects/llm/graphrag-supply-chain/) | GraphRAG / Knowledge Graphs / Multi-Hop Retrieval | Advanced | Neo4j, Gemini, FastAPI, Streamlit | [README →](projects/llm/graphrag-supply-chain/) |
 | [LLM/RAG Expert Assistant](projects/llm/rag-expert-assistant/) | Retrieval-Augmented Generation | Advanced | LangChain, ChromaDB | [Learn →](https://aimlcompanion.ai/module/aiAgents/ragExpertAssistant) |
 | [AI Reasoning Patterns](projects/llm/ai-patterns/) | Reasoning and Agentic Patterns | Intermediate | Jupyter, Colab | [README →](projects/llm/ai-patterns/) |
 | [Muse Glimmer Lab](projects/llm/muse-glimmer-lab/) | Open-Weight Model Internals | Advanced | Transformers, PyTorch (GPU optional) | [Blog →](https://aimlcompanion.ai/blog/meta-muse-glimmer-explained-2026) |
@@ -238,6 +239,19 @@ Systematically improve a CIFAR-10 image classifier from 60% to 93%+ accuracy acr
 ---
 
 ### LLM
+
+#### GraphRAG Supply Chain Intelligence - When a Join Beats a Search
+
+Multi-tier supply chain risk on a real Neo4j graph. Answers questions whose
+answer exists in no single document, because it is a traversal across five
+relationships rather than a passage in a chunk. Ships a 12-question benchmark
+that deliberately includes cases where GraphRAG loses to plain RAG.
+
+**Highlights:** Neo4j graph + vector index in one store | hybrid vector/BM25/graph retrieval | LLM extraction with provenance and evidence quotes on every edge | three-stage guardrails against graph poisoning | measured comparison, including its own losses
+
+[Project README](projects/llm/graphrag-supply-chain/)
+
+---
 
 #### LLM/RAG - Expert Assistant
 
@@ -417,25 +431,30 @@ MACHINE LEARNING
 DEEP LEARNING
   8. Deep Learning          -> Neural networks, progressive experimentation
        |
+COMPUTER VISION
+  9. Visual Defect Triage   -> Vision transformers, calibration, slice analysis
+ 10. Site Safety Monitor    -> Object detection, tracking, edge latency budgets
+       |
 MLOPS
-  9. Model Serving Platform -> Deployment, CI/CD, load testing, infrastructure
+ 11. Model Serving Platform -> Deployment, CI/CD, load testing, infrastructure
        |
 LLM
- 10. LLM/RAG                -> Retrieval-augmented generation, evaluation, security
- 11. AI Reasoning Patterns  -> Reasoning and agentic patterns, one per notebook
- 12. Muse Glimmer Lab       -> Open-weight model internals, KV cache, drafters
+ 12. LLM/RAG                -> Retrieval-augmented generation, evaluation, security
+ 13. GraphRAG Supply Chain  -> Knowledge graphs, multi-hop retrieval, when a join beats a search
+ 14. AI Reasoning Patterns  -> Reasoning and agentic patterns, one per notebook
+ 15. Muse Glimmer Lab       -> Open-weight model internals, KV cache, drafters
        |
 AGENTIC AI
- 13. AI Agents              -> Multi-agent orchestration, guardrails, cost optimization
- 14. Content Moderation     -> Multi-agentic content pipelines
- 15. Due Diligence Agent    -> Enterprise multi-agent research, fact-checking, debate
- 16. Smart Claims Processor -> Multi-agent insurance, HITL, hybrid orchestration
- 17. Multi-Agents on AWS    -> Managed multi-agent infrastructure, Bedrock AgentCore
- 18. Hermes Ops Agent       -> Operating an agent, measuring its learning loop
- 19. Multi-Agent Anatomy    -> Production failure modes: partial failure, budgets, sagas
+ 16. AI Agents              -> Multi-agent orchestration, guardrails, cost optimization
+ 17. Content Moderation     -> Multi-agentic content pipelines
+ 18. Due Diligence Agent    -> Enterprise multi-agent research, fact-checking, debate
+ 19. Smart Claims Processor -> Multi-agent insurance, HITL, hybrid orchestration
+ 20. Multi-Agents on AWS    -> Managed multi-agent infrastructure, Bedrock AgentCore
+ 21. Hermes Ops Agent       -> Operating an agent, measuring its learning loop
+ 22. Multi-Agent Anatomy    -> Production failure modes: partial failure, budgets, sagas
        |
 FORWARD DEPLOYMENT
- 20. FDE Engagement Starter -> Embedded engagement simulation, portfolio artifact
+ 23. FDE Engagement Starter -> Embedded engagement simulation, portfolio artifact
 ```
 
 ## Repository Structure
@@ -453,7 +472,11 @@ aiml-companion/
 │   │   └── credit-risk-pipeline/       # Credit Risk + Monitoring
 │   ├── deep-learning/
 │   │   └── deep-learning-project/      # CIFAR-10 + PyTorch
+│   ├── computer-vision/
+│   │   ├── visual-defect-triage/       # ViT + Calibration + Slice Analysis
+│   │   └── site-safety-monitor/        # YOLO + Tracking + Edge Latency
 │   ├── llm/
+│   │   ├── graphrag-supply-chain/      # GraphRAG + Neo4j + Multi-Hop Retrieval
 │   │   ├── rag-expert-assistant/       # RAG + Security
 │   │   ├── ai-patterns/                # 23 Reasoning Pattern Notebooks
 │   │   └── muse-glimmer-lab/           # Open-Weight Model Internals
