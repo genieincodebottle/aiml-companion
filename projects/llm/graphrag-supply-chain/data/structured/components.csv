@@ -1,0 +1,12 @@
+component_id,name,category,unit_cost_usd,lead_time_days
+CMP-PCBA7,PCB-A7 Main Controller Board,electronics,84.00,63
+CMP-PCBB2,PCB-B2 Sensor Interface Board,electronics,37.50,56
+CMP-DSP3300,DSP-3300 5.5in TFT Display Module,display,52.00,84
+CMP-LI18650,LI-18650 Battery Pack,power,44.00,70
+CMP-PMP77,PMP-77 Peristaltic Pump Head,fluidics,96.00,98
+CMP-SENIR12,SEN-IR12 Infrared Sensor Array,sensor,131.00,112
+CMP-SENPM25,SEN-PM25 Particulate Sensor,sensor,28.00,49
+CMP-ENC500,ENC-500 Polymer Enclosure,mechanical,19.00,35
+CMP-ENC220,ENC-220 Polymer Enclosure,mechanical,17.50,35
+CMP-ENCTX9,ENC-TX9 Polymer Enclosure,mechanical,22.00,42
+CMP-ENCAQ,ENC-AQ Polymer Enclosure,mechanical,11.00,28

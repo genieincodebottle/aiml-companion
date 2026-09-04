@@ -1,0 +1,9 @@
+site_id,supplier_id,name,location_name,country
+SIT-MER-PEN,SUP-MERIDIAN,Meridian Penang Plant,Penang,Malaysia
+SIT-KAI-KHH,SUP-KAIGAN,Kaigan Kaohsiung Fab,Kaohsiung,Taiwan
+SIT-VOL-ULS,SUP-VOLTA,Volta Ulsan Cell Plant,Ulsan,South Korea
+SIT-NOR-SKE,SUP-NORDCELL,Nordcell Skelleftea Plant,Skelleftea,Sweden
+SIT-PRA-PUN,SUP-PRAHARA,Prahara Pune Moulding Works,Pune,India
+SIT-HEL-EIN,SUP-HELIOS,Helios Eindhoven Works,Eindhoven,Netherlands
+SIT-SEN-KHH,SUP-SENTINEL,Sentinel Kaohsiung Optics Plant,Kaohsiung,Taiwan
+SIT-AER-DRE,SUP-AERONOVA,Aeronova Dresden Plant,Dresden,Germany
