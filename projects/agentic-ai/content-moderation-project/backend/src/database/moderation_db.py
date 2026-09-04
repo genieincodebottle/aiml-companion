@@ -34,6 +34,13 @@ class ModerationDatabase:
             self.db_path = str(backend_dir / db_path)
         else:
             self.db_path = db_path
+
+        # sqlite3.connect creates the file but NOT its parent directory. This
+        # directory used to exist only because the .db files were committed, so
+        # untracking them broke every entry point with
+        # "unable to open database file".
+        Path(self.db_path).parent.mkdir(parents=True, exist_ok=True)
+
         self.init_database()
 
     @contextmanager

@@ -42,6 +42,9 @@ class ModerationMemoryManager:
         self.persist_directory = persist_directory
 
         # Initialize ChromaDB client
+        # Chroma creates its own store, but not a missing parent.
+        os.makedirs(self.persist_directory, exist_ok=True)
+
         self.client = chromadb.PersistentClient(
             path=persist_directory,
             settings=Settings(

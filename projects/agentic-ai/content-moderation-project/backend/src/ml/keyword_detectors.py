@@ -6,7 +6,36 @@ as a fallback when ML models are not available. Separated from tools.py
 to avoid circular dependencies with ml_classifier.py.
 """
 
-from typing import Dict, Any
+import re
+from functools import lru_cache
+from typing import Any, Dict, Iterable, List
+
+
+@lru_cache(maxsize=64)
+def _matcher(terms: tuple) -> "re.Pattern":
+    """Compile one alternation that matches any term on a word boundary.
+
+    Built once per list and cached, rather than rebuilt on every call.
+    Terms are sorted longest-first so "beat up" wins over "beat", and
+    escaped so hyphens and spaces in entries like "pea-brain" and
+    "ethnic cleansing" are matched literally.
+    """
+    ordered = sorted(terms, key=len, reverse=True)
+    # The trailing (?:e?s)? keeps plurals matching. A bare word boundary made
+    # "idiots" miss while "idiot" hit, which quietly HALVED the score of a
+    # real insult when boundaries were first introduced.
+    body = "|".join(re.escape(t) for t in ordered)
+    return re.compile(r"\b(?:" + body + r")(?:e?s)?\b")
+
+
+def _found(terms: Iterable[str], text_lower: str) -> List[str]:
+    """The distinct terms from `terms` that appear in `text_lower` as words.
+
+    This replaced ``[w for w in terms if w in text_lower]``, which was a
+    substring test: "hell" fired on "Hello" and "ass" on "class", so a
+    greeting could out-score an insult.
+    """
+    return sorted(set(_matcher(tuple(terms)).findall(text_lower)))
 
 
 def keyword_toxicity_detection(text: str) -> Dict[str, Any]:
@@ -61,19 +90,19 @@ def keyword_toxicity_detection(text: str) -> Dict[str, Any]:
     toxicity_score = 0.0
 
     # Check profanity
-    profanity_count = sum(1 for word in profanity_words if word in text_lower)
+    profanity_count = len(_found(profanity_words, text_lower))
     if profanity_count > 0:
         categories.append("profanity")
         toxicity_score += min(profanity_count * 0.15, 0.3)
 
     # Check insults
-    insult_count = sum(1 for word in insult_words if word in text_lower)
+    insult_count = len(_found(insult_words, text_lower))
     if insult_count > 0:
         categories.append("insult")
         toxicity_score += min(insult_count * 0.2, 0.4)
 
     # Check threats
-    threat_count = sum(1 for word in threat_words if word in text_lower)
+    threat_count = len(_found(threat_words, text_lower))
     if threat_count > 0:
         categories.append("threat")
         toxicity_score += min(threat_count * 0.3, 0.6)
@@ -136,16 +165,15 @@ def keyword_hate_speech_detection(text: str) -> Dict[str, Any]:
     hate_score = 0.0
 
     # Check for hate keywords
-    for keyword in hate_keywords:
-        if keyword in text_lower:
-            detected_patterns.append(keyword)
-            hate_score += 0.3
+    for keyword in _found(hate_keywords, text_lower):
+        detected_patterns.append(keyword)
+        hate_score += 0.3
 
     # Patterns that indicate dehumanization
     dehumanizing_terms = ['animal', 'vermin', 'pest', 'disease', 'cockroach', 'parasite']
-    if any(term in text_lower for term in dehumanizing_terms):
+    if _found(dehumanizing_terms, text_lower):
         context_indicators = ['they are', 'those', 'these people', 'all of them', 'their kind']
-        if any(ind in text_lower for ind in context_indicators):
+        if _found(context_indicators, text_lower):
             detected_patterns.append("dehumanization")
             hate_score += 0.4
 
@@ -153,13 +181,13 @@ def keyword_hate_speech_detection(text: str) -> Dict[str, Any]:
     group_targets = ['immigrants', 'refugees', 'muslims', 'jews', 'blacks', 'whites', 'asians', 'women', 'gays']
     negative_generalizations = ['all', 'every', 'always', 'never', 'typical']
 
-    for target in group_targets:
-        if target in text_lower:
-            for neg in negative_generalizations:
-                if neg in text_lower:
-                    detected_patterns.append(f"group_generalization:{target}")
-                    hate_score += 0.25
-                    break
+    # 'all' used to be a substring test, so "finally" or "really" anywhere in a
+    # sentence mentioning a group noun scored as a hostile generalisation.
+    generalising = bool(_found(negative_generalizations, text_lower))
+    for target in _found(group_targets, text_lower):
+        if generalising:
+            detected_patterns.append(f"group_generalization:{target}")
+            hate_score += 0.25
 
     hate_score = min(hate_score, 1.0)
 

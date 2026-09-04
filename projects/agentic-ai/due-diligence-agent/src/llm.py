@@ -113,10 +113,20 @@ def _get_ollama_llm(model_name: str, temperature: float, max_tokens: int):
     )
 
 
+def _get_offline_llm(model_name: str, temperature: float, max_tokens: int):
+    """No key, no network. See src/llm_offline.py for what it does and does
+    not do. It is a real part of the product, not a test double: it is how a
+    reader sees the pipeline work before deciding to get a key."""
+    from src.llm_offline import get_offline_llm
+
+    return get_offline_llm(model_name, temperature, max_tokens)
+
+
 _PROVIDER_FACTORY = {
     "google": _get_google_llm,
     "openai": _get_openai_llm,
     "ollama": _get_ollama_llm,
+    "offline": _get_offline_llm,
 }
 
 
@@ -139,7 +149,8 @@ def get_llm(
     """
     cfg = get_model_config()
 
-    provider = provider or cfg.get("provider", "google")
+    # The environment wins, so `LLM_PROVIDER=offline` needs no config edit.
+    provider = provider or os.getenv("LLM_PROVIDER") or cfg.get("provider", "google")
     model_name = model_name or cfg.get("name", "gemini-3.6-flash")
     temperature = temperature if temperature is not None else cfg.get("temperature", 0.1)
     max_tokens = max_tokens or cfg.get("max_output_tokens", 4096)

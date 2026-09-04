@@ -1,6 +1,6 @@
 # Multi-Agent Due Diligence Analyst
 
-> **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)** - Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
+> **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/module/aiAgents/dueDiligenceProject)**. Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
 
 ![Python 3.11+](https://img.shields.io/badge/Python-3.11+-blue.svg)
 ![LangGraph](https://img.shields.io/badge/LangGraph-0.2+-green.svg)
@@ -19,6 +19,33 @@ Input: "Tesla"  ──>  4 Agents (parallel)  ──>  Fact-Check  ──>  Deba
 ```
 
 ## Quick Start
+
+### Run it with no API key at all
+
+The fastest way to see what this does. No key, no network, about a second.
+
+```bash
+git clone https://github.com/genieincodebottle/aiml-companion.git
+cd aiml-companion/projects/agentic-ai/due-diligence-agent
+pip install -r requirements.txt
+
+python run.py demo
+```
+
+`run.py` needs no install of the project and works where `make` does not.
+
+The offline provider is not a stub. Its fixtures deliberately **disagree**: the
+financial analyst reports revenue growth accelerating while the news agent
+reports guidance withdrawn in the same quarter. So the fact-check pass flags a
+cross-agent contradiction, the lead analyst's debate runs, and one claim is
+left `unverifiable` rather than quietly assumed. A demo where all six agents
+agree exercises the graph and shows you nothing.
+
+```bash
+python run.py test        # 92 tests, about a second, no key needed
+```
+
+### Then run it for real
 
 ```bash
 # 1. Clone and install
@@ -312,3 +339,21 @@ Pre-execution checks block agents that would exceed any limit. The system degrad
 ## License
 
 MIT
+
+---
+
+## Related modules
+
+The concepts this project uses, each with its own walkthrough on AI-ML Companion:
+
+| Module | Topic |
+|--------|-------|
+| [`langgraphAgents`](https://aimlcompanion.ai/module/aiAgents/langgraphAgents) | LangGraph Agents |
+| [`multiAgentPatterns`](https://aimlcompanion.ai/module/aiAgents/multiAgentPatterns) | Multi-Agent Design Patterns |
+| [`agentGuardrails`](https://aimlcompanion.ai/module/aiAgents/agentGuardrails) | Agent Safety & Guardrails |
+| [`structuredOutputs`](https://aimlcompanion.ai/module/aiAgents/structuredOutputs) | Structured Outputs |
+| [`agentEvaluation`](https://aimlcompanion.ai/module/aiAgents/agentEvaluation) | Agent Evaluation |
+| [`reactPattern`](https://aimlcompanion.ai/module/aiAgents/reactPattern) | ReAct Pattern |
+
+The project itself is written up in full at
+[Multi-Agent Due Diligence Analyst](https://aimlcompanion.ai/module/aiAgents/dueDiligenceProject).

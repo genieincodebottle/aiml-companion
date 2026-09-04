@@ -82,11 +82,11 @@ class TestFullPipelineMocked:
     @patch("src.agents.researcher.web_search")
     @patch("src.agents.researcher.wiki_search")
     @patch("src.agents.researcher.select_tools")
-    @patch("src.agents.planner.ChatGoogleGenerativeAI")
-    @patch("src.agents.analyst.ChatGoogleGenerativeAI")
-    @patch("src.agents.synthesizer.ChatGoogleGenerativeAI")
-    @patch("src.agents.writer.ChatGoogleGenerativeAI")
-    @patch("src.agents.reviewer.ChatGoogleGenerativeAI")
+    @patch("src.agents.planner.get_llm")
+    @patch("src.agents.analyst.get_llm")
+    @patch("src.agents.synthesizer.get_llm")
+    @patch("src.agents.writer.get_llm")
+    @patch("src.agents.reviewer.get_llm")
     def test_full_pipeline_happy_path(
         self, mock_reviewer_llm, mock_writer_llm, mock_synth_llm,
         mock_analyst_llm, mock_planner_llm,
@@ -125,11 +125,11 @@ class TestFullPipelineMocked:
     @patch("src.agents.researcher.web_search")
     @patch("src.agents.researcher.wiki_search")
     @patch("src.agents.researcher.select_tools")
-    @patch("src.agents.planner.ChatGoogleGenerativeAI")
-    @patch("src.agents.analyst.ChatGoogleGenerativeAI")
-    @patch("src.agents.synthesizer.ChatGoogleGenerativeAI")
-    @patch("src.agents.writer.ChatGoogleGenerativeAI")
-    @patch("src.agents.reviewer.ChatGoogleGenerativeAI")
+    @patch("src.agents.planner.get_llm")
+    @patch("src.agents.analyst.get_llm")
+    @patch("src.agents.synthesizer.get_llm")
+    @patch("src.agents.writer.get_llm")
+    @patch("src.agents.reviewer.get_llm")
     def test_pipeline_trace_agent_order(
         self, mock_reviewer_llm, mock_writer_llm, mock_synth_llm,
         mock_analyst_llm, mock_planner_llm,

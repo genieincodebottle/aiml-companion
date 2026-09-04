@@ -1,7 +1,7 @@
 langchain>=1.2.0
-langchain-google-genai>=4.2.0
+langchain-google-genai>=4.4.0
 langchain-tavily>=0.2.0
-langgraph>=1.0.0
+langgraph>=1.2.11
 python-dotenv>=1.0.0
 requests>=2.32.0
 beautifulsoup4>=4.12.0

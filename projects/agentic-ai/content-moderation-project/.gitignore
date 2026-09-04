@@ -248,3 +248,17 @@ config/secrets.yml
 
 # Claude Code personal overrides (never shared)
 .claude/settings.local.json
+
+# Local database state - SQLite and Chroma.
+#
+# These were TRACKED while .claude/memory/gotcha-never-commit-databases-or-env.md
+# asserted they were ignored. Adding a path here does nothing to files git is
+# already tracking, so the rule read as satisfied while every `git add` re-staged
+# a 256KB binary diff. They are untracked now, and this makes the rule true.
+#
+# Only chroma.sqlite3 was ever tracked, never the .bin segment files beside it,
+# so a clone received a vector index with no vectors behind it.
+#
+# Regenerate with: python scripts/initialize_users.py
+backend/databases/
+!backend/databases/README.md

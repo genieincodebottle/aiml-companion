@@ -141,6 +141,16 @@ class WebSearchTool:
         self.provider = self.config.get("provider", "duckduckgo")
         self.max_results = self.config.get("max_results_per_query", 5)
 
+        # Offline mode swaps the whole tool out. The DuckDuckGo fallback needs
+        # no key but still needs a connection, so a reader without one could
+        # not run the pipeline at all. Delegating here rather than in each of
+        # the five agents keeps the agents unaware, which is the point.
+        self._offline = None
+        if os.getenv("LLM_PROVIDER") == "offline" or os.getenv("OFFLINE") == "1":
+            from src.tools.search_offline import OfflineSearch
+
+            self._offline = OfflineSearch()
+
         # Initialize cache
         cache_config = load_config().get("cache", {})
         self.cache = None
@@ -168,6 +178,8 @@ class WebSearchTool:
         Returns:
             List of SearchResult objects.
         """
+        if self._offline is not None:
+            return self._offline.search(query, max_results or self.max_results)
         max_results = max_results or self.max_results
 
         # Check cache first

@@ -42,6 +42,7 @@ from src.core.models import (
     HITL_CONFIG
 )
 from src.utils.tools import generate_content_id, generate_user_id
+from src.core.state_factory import build_initial_state
 from src.ml.ml_classifier import preload_ml_models, get_ml_status, MLConfig
 from src.utils.observability import ObservabilityManager, LogLevel
 
@@ -691,125 +692,28 @@ async def submit_content(submission: ContentSubmission, background_tasks: Backgr
             verified=submission.verified,
             follower_count=submission.follower_count
         )
-        # Create content metadata
-        metadata = ContentMetadata(
-            content_id=content_id,
+        # Build the workflow state.
+        #
+        # This was a ~130-line literal inline. It now lives in
+        # src/core/state_factory.py so the API, the demo in run.py and the
+        # tests all construct the same thing. ContentState has around eighty
+        # keys and the agents read many of them without a default, so a
+        # hand-built state fails inside an agent, which catches and swallows it.
+        initial_state: ContentState = build_initial_state(
+            submission.content_text,
+            user_profile=user_profile,
             content_type=submission.content_type,
             platform=submission.platform,
-            created_at=datetime.now().isoformat(),
-            language=submission.language
+            language=submission.language,
+            content_id=content_id,
+            metadata=ContentMetadata(
+                content_id=content_id,
+                content_type=submission.content_type,
+                platform=submission.platform,
+                created_at=datetime.now().isoformat(),
+                language=submission.language,
+            ),
         )
-
-        # Create initial state with ALL required fields
-        initial_state: ContentState = {
-            # Core identifiers
-            "content_id": content_id,
-            "submission_id": f"SUB-{content_id}",
-            "submission_timestamp": datetime.now().isoformat(),
-
-            # Content details
-            "content_text": submission.content_text,
-            "content_type": submission.content_type,
-            "content_metadata": metadata,
-
-            # Image/video analysis (for multimodal content)
-            "image_urls": [],
-            "video_urls": [],
-            "image_descriptions": [],
-            "detected_objects": [],
-            "detected_text_in_media": [],
-
-            # User information
-            "user_profile": user_profile,
-            "user_id": user_id,
-            "username": username,
-
-            # Content Analysis (populated by Content Analysis Agent)
-            "content_category": None,
-            "content_sentiment": None,
-            "content_topics": [],
-            "contains_sensitive_content": False,
-            "explicit_content_detected": False,
-
-            # Toxicity Detection (populated by Toxicity Detection Agent)
-            "toxicity_score": None,
-            "toxicity_level": None,
-            "toxicity_categories": [],
-            "hate_speech_detected": False,
-            "harassment_detected": False,
-
-            # Policy Violation (populated by Policy Violation Agent)
-            "policy_violations": [],
-            "violation_severity": None,
-            "policy_flags": [],
-            "recommended_action": None,
-
-            # Reputation Scoring (populated by Reputation Agent)
-            "user_reputation_score": None,
-            "user_reputation_tier": None,
-            "user_risk_score": None,
-            "user_history_flags": [],
-            "similar_violations_count": 0,
-
-            # Appeal Information (for Appeal Review Agent)
-            "is_appeal": False,
-            "appeal_reason": None,
-            "original_decision": None,
-            "appeal_timestamp": None,
-
-            # Action Enforcement (populated by Action Enforcement Agent)
-            "moderation_action": None,
-            "action_reason": "",
-            "action_timestamp": None,
-            "user_notified": False,
-            "content_removed": False,
-            "user_suspended": False,
-            "suspension_duration_days": None,
-
-            # Agent decisions tracking
-            "agent_decisions": [],
-            "current_agent": None,
-
-            # Workflow control
-            "status": ContentStatus.SUBMITTED.value,
-            "requires_human_review": False,
-            "human_review_reason": None,
-            "overall_confidence": 0.0,
-
-            # Manual review
-            "reviewer_name": None,
-            "review_notes": None,
-            "review_decision": None,
-            "review_timestamp": None,
-
-            # Timestamps
-            "created_at": datetime.now().isoformat(),
-            "processed_at": None,
-
-            # Memory/learning
-            "similar_content": None,
-            "historical_patterns": None,
-
-            # ReAct Loop (Think-Act-Observe synthesis)
-            "react_think_output": None,
-            "react_act_decision": None,
-            "react_observe_result": None,
-            "react_confidence": None,
-            "react_reasoning": None,
-
-            # Human-in-the-Loop (HITL) fields
-            "hitl_required": False,
-            "hitl_trigger_reasons": [],
-            "hitl_checkpoint": None,
-            "hitl_priority": None,
-            "hitl_assigned_to": None,
-            "hitl_queue_position": None,
-            "hitl_waiting_since": None,
-            "hitl_human_decision": None,
-            "hitl_human_notes": None,
-            "hitl_human_confidence_override": None,
-            "hitl_resolution_timestamp": None,
-        }
 
         # Store in database
         db.create_content_submission({

@@ -1,6 +1,6 @@
 # Content Moderation & Community Safety Platform
 
-> **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)** - Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
+> **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/module/aiAgents/contentModerationProject)**. Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
 
 AI-powered multi-agent content moderation system with React frontend, FastAPI backend, and LangGraph orchestration.
 
@@ -16,7 +16,8 @@ AI-powered multi-agent content moderation system with React frontend, FastAPI ba
 ## Table of Contents
 
 - [Overview](#overview)
-- [Quick Start](#quick-start)
+- [Run it in five minutes](#run-it-in-five-minutes)
+- [Quick Start (full stack)](#quick-start-full-stack)
 - [Architecture](#architecture)
 - [Features](#features)
 - [Project Structure](#project-structure)
@@ -46,7 +47,66 @@ An enterprise-grade content moderation system that automates content safety usin
 
 ---
 
-## Quick Start
+## Run it in five minutes
+
+No API key, no Node, no database setup, one terminal. This runs the real
+six-agent graph against a deterministic stand-in for the model, so you can watch
+the orchestration before you decide whether to set the rest up.
+
+```bash
+git clone https://github.com/genieincodebottle/aiml-companion.git
+cd aiml-companion/projects/agentic-ai/content-moderation-project
+
+cd backend && pip install uv && uv venv
+# macOS/Linux:
+source .venv/bin/activate
+# Windows:
+.venv\Scripts\activate
+uv pip install -r requirements.txt
+cd ..
+
+python run.py demo
+```
+
+> **Checkpoint:** six posts are moderated and a results table appears. One post
+> is handled by a single agent, another by six, and two identical sentences get
+> different outcomes because the accounts behind them differ.
+
+Four commands, all offline:
+
+| Command | What it does |
+|---------|--------------|
+| `python run.py demo` | Six posts through the full six-agent pipeline |
+| `python run.py fast` | The same posts through the single-pass fast path |
+| `python run.py keywords` | What the keyword layer alone sees, and where it is wrong |
+| `python run.py test` | The test suite, 40 tests, about six seconds |
+
+Add `-v` to any of them to see the agents' own logs.
+
+> **On databases:** none are shipped in the repo. The SQLite and Chroma stores
+> are local state, and they are created automatically on first run, so the
+> commands above need no setup. The full-stack path below has one extra step to
+> seed the demo accounts.
+
+**Prefer a notebook?** The same ideas, rebuilt from scratch in standard library
+Python with nothing to install:
+
+- [Open in Colab](https://colab.research.google.com/github/genieincodebottle/aiml-companion/blob/main/projects/agentic-ai/content-moderation-project/notebooks/content_moderation_standalone.ipynb)
+- [Open on Kaggle](https://www.kaggle.com/code/genieincodebottle/content-moderation-multi-agent)
+
+**What the offline mode is.** It is a rule engine that answers the ten prompts
+the agents send, in the shapes they parse. It is not a model and does not
+pretend to be one. Toxicity numbers come from this project's own keyword
+detector, so they are the same numbers the real pipeline computes; what a real
+model adds on top is context. Everything in `run.py serve` and the full stack
+below uses Gemini properly once you supply a key.
+
+---
+
+## Quick Start (full stack)
+
+The React UI, the API, the database and real Gemini analysis. This is the
+version to run if you want to click through moderation queues and appeals.
 
 ### Prerequisites
 
@@ -59,6 +119,8 @@ git --version       # Any recent version
 ```
 
 You also need a **Google Gemini API Key** (free): [Get one here](https://aistudio.google.com/app/apikey)
+
+> Only for this full-stack path. The five-minute path above needs no key.
 
 ---
 
@@ -109,6 +171,12 @@ Installs FastAPI, LangGraph, LangChain, ChromaDB, and all dependencies in second
 
 > **Fallback:** If not using uv, run `pip install -r requirements.txt` instead.
 
+> **Note:** `torch` and `transformers` are deliberately NOT in this file. They
+> are only imported when `USE_ML_MODELS=true`, which is off by default, and
+> torch is the largest dependency in the project. If you want the local
+> HateBERT/DistilBERT classifier, run `uv pip install -r requirements-ml.txt`
+> and set `USE_ML_MODELS=true`.
+
 
 **Step 4: Configure environment variables**
 
@@ -140,6 +208,9 @@ ML_DEVICE=auto
 > **Checkpoint:** Run `cat .env` (macOS/Linux) or `type .env` (Windows) and verify your API key is present.
 
 **Step 5: Initialize database and demo users**
+
+The databases are not committed to the repo, so this step creates them. It is
+required before you can log in.
 
 ```bash
 python scripts/initialize_users.py
@@ -676,3 +747,21 @@ CLAUDE.md                  # hard rules, loaded every session
 - Custom commands can live in `.claude/commands/*.md`. Skills (`.claude/skills/<name>/SKILL.md`) do the same and add supporting files plus auto-invocation, so prefer skills.
 
 Full walkthrough in the blog post [How to Run Claude Code Cheaply on a Big Codebase](https://aimlcompanion.ai/blog/run-claude-code-cheaply-big-codebase-2026).
+
+---
+
+## Related modules
+
+The concepts this project uses, each with its own walkthrough on AI-ML Companion:
+
+| Module | Topic |
+|--------|-------|
+| [`langgraphAgents`](https://aimlcompanion.ai/module/aiAgents/langgraphAgents) | LangGraph Agents |
+| [`agentGuardrails`](https://aimlcompanion.ai/module/aiAgents/agentGuardrails) | Agent Safety & Guardrails |
+| [`agentMemory`](https://aimlcompanion.ai/module/aiAgents/agentMemory) | Agent Memory Systems |
+| [`multiAgentPatterns`](https://aimlcompanion.ai/module/aiAgents/multiAgentPatterns) | Multi-Agent Design Patterns |
+| [`agentFullStack`](https://aimlcompanion.ai/module/aiAgents/agentFullStack) | Full-Stack GenAI Application |
+| [`structuredOutputs`](https://aimlcompanion.ai/module/aiAgents/structuredOutputs) | Structured Outputs |
+
+The project itself is written up in full at
+[Content Moderation System](https://aimlcompanion.ai/module/aiAgents/contentModerationProject).

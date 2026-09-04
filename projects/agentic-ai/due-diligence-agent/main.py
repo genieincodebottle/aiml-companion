@@ -33,10 +33,36 @@ except ImportError:
     pass  # python-dotenv not installed, rely on shell environment variables
 
 
+_PLACEHOLDER_MARKERS = ("your-", "your_", "changeme", "xxx", "here")
+
+
+def _has_real_key(name: str) -> bool:
+    """True only when the value could actually be a key.
+
+    `.env.example` ships `GOOGLE_API_KEY=your_key_here`, and a placeholder is a
+    non-empty string. A plain truthiness test therefore says a key is present,
+    this check passes, and the failure surfaces later inside the client.
+    """
+    value = (os.getenv(name) or "").strip().strip('"').strip("'")
+    if len(value) < 12:
+        return False
+    return not any(m in value.lower() for m in _PLACEHOLDER_MARKERS)
+
+
 def _check_api_key():
-    """Validate API key is set before running the pipeline."""
-    if not os.getenv("GOOGLE_API_KEY") and not os.getenv("GEMINI_API_KEY"):
+    """Validate API key is set before running the pipeline.
+
+    Offline mode needs no key: that is the entire point of it. `run.py demo`
+    sets LLM_PROVIDER=offline and then called this, which exited 1 and told the
+    reader to go and get a key for a demo advertised as needing none.
+    """
+    if os.getenv("LLM_PROVIDER", "").strip().lower() == "offline":
+        return
+
+    if not _has_real_key("GOOGLE_API_KEY") and not _has_real_key("GEMINI_API_KEY"):
         print("\nError: No API key found.")
+        print("")
+        print("Run `python run.py demo` instead - it needs no key at all.")
         print("")
         print("Option 1 - Create a .env file:")
         print("  1. Copy .env.example to .env")

@@ -7,7 +7,7 @@
 
 import time
 import logging
-from langchain_google_genai import ChatGoogleGenerativeAI
+from ..llm import get_llm
 from src.models.state import ResearchState, AnalystOutput
 from src.config import get_model_name
 from src.guardrails import check_budget
@@ -47,7 +47,7 @@ def analyst(state: ResearchState) -> dict:
         }
 
     try:
-        llm = ChatGoogleGenerativeAI(model=get_model_name(), temperature=0)
+        llm = get_llm(temperature=0)
         # include_raw=True so the real token cost survives the parse.
         structured_llm = llm.with_structured_output(AnalystOutput, include_raw=True)
 

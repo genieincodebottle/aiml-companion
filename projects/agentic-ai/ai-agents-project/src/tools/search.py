@@ -3,6 +3,7 @@
 # ============================================
 
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +23,21 @@ def web_search(query: str, max_results: int = 5) -> list[dict]:
     """Search the web using Tavily API.
 
     Returns list of {title, url, snippet, date, tool} dicts.
+
+    With no TAVILY_API_KEY this used to log an error and return [], every
+    researcher came back empty, the quality gate reported "no sources to
+    evaluate", and the run finished with an empty report and exit code 0.
+    Offline mode returns deterministic stand-in sources instead, so the
+    pipeline is watchable without a key.
     """
+    from ..llm import has_real_key, is_offline
+
+    # `not os.getenv(...)` was the test here, and the placeholder in .env.example
+    # is a non-empty string, so this branch was skipped whenever a .env existed.
+    if is_offline() or not has_real_key("TAVILY_API_KEY"):
+        from .search_offline import offline_search
+        return offline_search(query, max_results)
+
     try:
         raw = _get_search().invoke(query)
         results = raw.get("results", []) if isinstance(raw, dict) else raw

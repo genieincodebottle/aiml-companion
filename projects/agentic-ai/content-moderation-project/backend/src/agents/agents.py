@@ -21,6 +21,12 @@ from typing import Dict, List, Any
 from datetime import datetime
 
 from langchain_google_genai import ChatGoogleGenerativeAI
+
+from .llm_offline import OfflineLLM
+
+# One place to change the model, rather than two string literals that can
+# drift apart.
+MODEL_NAME = "gemini-3.5-flash-lite"
 from ..core.models import (
     ContentState,
     AgentDecision,
@@ -65,29 +71,48 @@ class ContentModerationAgents:
         logger.info("\nInitializing ContentModerationAgents...")
 
         google_api_key = os.getenv("GOOGLE_API_KEY")
-        if not google_api_key:
-            logger.error("WARNING: GOOGLE_API_KEY is not set!")
+        force_offline = os.getenv("MODERATION_OFFLINE", "").lower() in ("1", "true", "yes")
+        self.offline = force_offline or not google_api_key
 
-        logger.info("Initializing LLM...")
-        try:
-            self.llm_flash = ChatGoogleGenerativeAI(
-                model="gemini-3.5-flash-lite",
-                temperature=0.1,
-                google_api_key=google_api_key
-            )
-        except Exception as e:
-            logger.error(f"Failed to initialize llm_flash: {e}")
-            raise
+        if self.offline:
+            # No key, or MODERATION_OFFLINE was asked for explicitly. Use the
+            # deterministic stand-in so the whole graph still runs.
+            #
+            # This used to log a warning and then build ChatGoogleGenerativeAI
+            # anyway, which validates the key in its own constructor. The
+            # warning was decorative: without a key the graph could not be
+            # built, so a reader had no way to watch the pipeline work.
+            reason = "MODERATION_OFFLINE is set" if force_offline else "no GOOGLE_API_KEY found"
+            logger.info(f"Running in OFFLINE mode ({reason}).")
+            logger.info("Replies are rule-based, not model output. Set a key for real analysis.")
+            self.llm_flash = OfflineLLM("flash")
+            self.llm_pro = OfflineLLM("pro")
+        else:
+            logger.info("Initializing LLM...")
+            # NOTE: no temperature here, deliberately.
+            #
+            # gemini-3.5-flash-lite is in langchain-google-genai's
+            # _FIXED_SAMPLING_AND_NO_PREFILL_MODELS set, which discards
+            # temperature, top_k and top_p and warns on every request. This code
+            # used to pass temperature=0.1 and the documentation explained the
+            # system's consistency in terms of it. The model never received it.
+            try:
+                self.llm_flash = ChatGoogleGenerativeAI(
+                    model=MODEL_NAME,
+                    google_api_key=google_api_key
+                )
+            except Exception as e:
+                logger.error(f"Failed to initialize llm_flash: {e}")
+                raise
 
-        try:
-            self.llm_pro = ChatGoogleGenerativeAI(
-                model="gemini-3.5-flash-lite",
-                temperature=0.1,
-                google_api_key=google_api_key
-            )
-        except Exception as e:
-            logger.error(f"Failed to initialize llm_pro: {e}")
-            raise
+            try:
+                self.llm_pro = ChatGoogleGenerativeAI(
+                    model=MODEL_NAME,
+                    google_api_key=google_api_key
+                )
+            except Exception as e:
+                logger.error(f"Failed to initialize llm_pro: {e}")
+                raise
 
         logger.info("Initializing ModerationMemoryManager...")
         try:
@@ -1210,13 +1235,32 @@ class ContentModerationAgents:
             state["current_agent"] = "Action Enforcement Agent"
             state["processed_at"] = datetime.now().isoformat()
 
-            # Set final status
-            if final_action == DecisionType.REMOVE.value:
+            # Set final status.
+            #
+            # SUSPEND_USER and BAN_USER must be listed explicitly. They used to
+            # fall into the `else` and were recorded as APPROVED, so a banned
+            # user's post showed content_removed=True and status="approved" at
+            # the same time, and the ban was invisible to the moderator queue,
+            # the analytics counts and the user's own view.
+            if final_action in (
+                DecisionType.REMOVE.value,
+                DecisionType.SUSPEND_USER.value,
+                DecisionType.BAN_USER.value,
+            ):
                 state["status"] = ContentStatus.REMOVED.value
             elif final_action == DecisionType.WARN.value:
                 state["status"] = ContentStatus.WARNED.value
-            else:
+            elif final_action == DecisionType.APPROVE.value:
                 state["status"] = ContentStatus.APPROVED.value
+            else:
+                # An action nobody mapped. Escalate rather than assume approval,
+                # because defaulting an unknown enforcement outcome to APPROVED
+                # is how the bug above stayed invisible.
+                logger.warning(
+                    f"Unmapped enforcement action {final_action!r}; sending for review."
+                )
+                state["status"] = ContentStatus.UNDER_REVIEW.value
+                state["requires_human_review"] = True
 
         except Exception as e:
             logger.error(f"\nError in Action Enforcement Agent: {e}")

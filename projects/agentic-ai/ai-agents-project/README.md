@@ -1,10 +1,10 @@
 # Multi-Agent Research System
 
-> **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)** - Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
+> **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/module/aiAgents/agentsCapstone)**. Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![LangGraph](https://img.shields.io/badge/LangGraph-orchestration-green.svg)](https://langchain-ai.github.io/langgraph/)
-[![Tests](https://img.shields.io/badge/tests-110%20passing-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/tests-197%20passing-brightgreen.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 > 7-agent orchestrated research pipeline (8 graph nodes) with quality-gated routing, parallel fan-out, iterative refinement, and production guardrails
@@ -146,6 +146,50 @@ errors, and a truncated response now raises instead of being quietly scored.
 
 ---
 
+## Run it in five minutes
+
+No API keys, no Streamlit, one terminal. This runs the real eight-node graph
+against a deterministic stand-in for the model and for web search, so you can
+watch the orchestration before deciding whether to set up keys.
+
+```bash
+git clone https://github.com/genieincodebottle/aiml-companion.git
+cd aiml-companion/projects/agentic-ai/ai-agents-project
+
+python -m venv .venv
+# macOS/Linux:
+source .venv/bin/activate
+# Windows:
+.venv\Scripts\activate
+pip install -r requirements.txt
+
+python run.py demo
+```
+
+> **Checkpoint:** you should see the node-by-node route printed before the
+> report, with `researcher` appearing three times (the parallel fan-out) and
+> `writer` and `reviewer` appearing twice each (the reviewer rejected the first
+> draft and the graph went backwards).
+
+| Command | What it does |
+|---------|--------------|
+| `python run.py demo` | Research one topic through all eight nodes, and show the route |
+| `python run.py research <topic>` | The same, on a topic you choose |
+| `python run.py trace` | Just the route and the numbers, no report |
+| `python run.py test` | The test suite, 197 tests, about a second |
+| `python run.py ui` | The Streamlit app |
+
+Add `-v` to any of them for the agents' own logs.
+
+**What offline mode is.** A rule engine that answers the prompts these five
+agents send, in the shapes they parse. It is not a model and does not pretend to
+be one. The stand-in sources deliberately disagree with each other, so the
+analyst's conflict detection and the reviewer's revision loop both fire on your
+first run rather than sitting idle. Supply `GOOGLE_API_KEY` and `TAVILY_API_KEY`
+and the same graph runs for real.
+
+---
+
 ## Setup
 
 > **100% free to run.** This project uses Google Gemini (free tier) and Tavily Search (free tier). No credit card, no payment, no trial period. You just need two free API keys (takes 2 minutes to get both).
@@ -184,12 +228,12 @@ cp .env.example .env
 
 ## Testing Guide
 
-This project has **110 automated tests** across 8 test files covering unit tests, integration tests, end-to-end pipeline tests, and UI smoke tests.
+This project has **197 automated tests** across 11 test files covering unit tests, integration tests, end-to-end pipeline tests, and UI smoke tests.
 
 ### Quick Start: Run All Tests
 
 ```bash
-# Run all 110 tests (no API keys needed)
+# Run all 197 tests (no API keys needed)
 make test
 
 # Or directly with pytest
@@ -198,16 +242,19 @@ pytest tests/ -v
 
 **Expected output:**
 ```
-tests/test_cache.py          5 passed    - SQLite cache operations
-tests/test_e2e_pipeline.py  37 passed    - Full pipeline with mocked LLM
-tests/test_graph.py          9 passed    - Graph wiring and routing
-tests/test_guardrails.py    14 passed    - PII, budget, rate limiting
-tests/test_quality_gate.py   8 passed    - Source quality scoring
-tests/test_state.py          6 passed    - State schema validation
-tests/test_tools.py          5 passed    - Tool selector logic
-tests/test_ui_smoke.py      26 passed    - Streamlit UI imports
-───────────────────────────────────────
-                           110 passed
+tests/test_cache.py                     5 passed    - SQLite cache operations
+tests/test_e2e_pipeline.py             37 passed    - Full pipeline with mocked LLM
+tests/test_graph.py                     9 passed    - Graph wiring and routing
+tests/test_guardrail_enforcement.py    38 passed    - Guardrails actually block, not just detect
+tests/test_guardrails.py               14 passed    - PII, budget, rate limiting
+tests/test_offline_mode.py             37 passed    - Offline stand-in, placeholder keys, silent success
+tests/test_quality_gate.py              8 passed    - Source quality scoring
+tests/test_state.py                     6 passed    - State schema validation
+tests/test_token_accounting.py         12 passed    - Real token usage, not estimates
+tests/test_tools.py                     5 passed    - Tool selector logic
+tests/test_ui_smoke.py                 26 passed    - Streamlit UI imports
+---------------------------------------------------------------
+                                      197 passed
 ```
 
 ### Test Categories Explained
@@ -308,7 +355,7 @@ pytest tests/test_ui_smoke.py -v
 
 ### Testing Without API Keys
 
-All 110 tests run **without any API keys**. The e2e tests use `unittest.mock.patch` to mock LLM calls, so you can verify the full pipeline logic locally.
+All 197 tests run **without any API keys**. The e2e tests use `unittest.mock.patch` to mock LLM calls, so you can verify the full pipeline logic locally.
 
 ---
 
@@ -381,7 +428,7 @@ ai-agents-project/
 │   │   └── state.py                # ResearchState TypedDict + Pydantic schemas
 │   ├── config.py                   # YAML config loader
 │   └── guardrails.py               # PII detection, budget cap, rate limiter, prompt injection detection
-├── tests/                          # 110 tests across 8 files
+├── tests/                          # 197 tests across 11 files
 │   ├── test_e2e_pipeline.py        # Full pipeline e2e (37 tests, mocked LLM)
 │   ├── test_ui_smoke.py            # Streamlit UI imports (26 tests)
 │   ├── test_guardrails.py          # Guardrails unit tests (14 tests)
@@ -454,7 +501,7 @@ ai-agents-project/
 > (1) Swap SQLite cache for Redis for concurrent access, (2) Add human-in-the-loop for low-confidence claims, (3) Implement streaming output via LangGraph's `astream_events`, (4) Add LangSmith tracing for observability, (5) Route simple queries to single-agent -- measured at 5.3x the tokens for no quality difference this experiment can resolve.
 
 **Q: How are the tests structured?**
-> 110 tests in 4 categories: (1) Unit tests for individual components (guardrails, quality gate, state, tools, cache), (2) Graph wiring tests verify routing logic without running the pipeline, (3) E2E tests mock all LLM calls and run the full pipeline to verify orchestration, (4) UI smoke tests verify all Streamlit imports work. All tests run without API keys.
+> 197 tests in 4 categories: (1) Unit tests for individual components (guardrails, quality gate, state, tools, cache), (2) Graph wiring tests verify routing logic without running the pipeline, (3) E2E tests mock all LLM calls and run the full pipeline to verify orchestration, (4) UI smoke tests verify all Streamlit imports work. All tests run without API keys.
 
 ## Architecture Deep-Dive
 
@@ -464,7 +511,7 @@ For a comprehensive 2400+ line walkthrough of the entire system, see [END_TO_END
 - State schema with all 18+ fields and reducer annotations
 - Database schema (SQLite cache tables)
 - Performance metrics, security, and configuration guide
-- Full testing architecture (all 110 tests explained)
+- Full testing architecture (all 197 tests explained)
 
 ## References
 

@@ -6,7 +6,7 @@
 
 import time
 import logging
-from langchain_google_genai import ChatGoogleGenerativeAI
+from ..llm import get_llm
 from src.models.state import ResearchState, PlannerOutput
 from src.config import get_model_name, get_pipeline_config
 from src.guardrails import check_budget
@@ -35,7 +35,7 @@ def planner(state: ResearchState) -> dict:
         cfg = get_pipeline_config()
         max_topics = cfg.get("max_sub_topics", 3)
 
-        llm = ChatGoogleGenerativeAI(model=get_model_name(), temperature=0)
+        llm = get_llm(temperature=0)
         # include_raw=True: keeps the raw message alongside the parsed model
         # so the real token cost is available. See src/token_usage.py.
         structured_llm = llm.with_structured_output(PlannerOutput, include_raw=True)

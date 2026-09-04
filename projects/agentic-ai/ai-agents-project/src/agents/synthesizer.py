@@ -7,7 +7,7 @@
 
 import time
 import logging
-from langchain_google_genai import ChatGoogleGenerativeAI
+from ..llm import get_llm
 from src.models.state import ResearchState
 from src.config import get_model_name
 from src.token_usage import token_count
@@ -46,7 +46,7 @@ def synthesizer(state: ResearchState) -> dict:
         }
 
     try:
-        llm = ChatGoogleGenerativeAI(model=get_model_name(), temperature=0)
+        llm = get_llm(temperature=0)
 
         claims_text = "\n".join(
             f"- [{c.get('confidence', 'medium').upper()}] {c['claim']} "
