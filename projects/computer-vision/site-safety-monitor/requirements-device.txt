@@ -1,0 +1,17 @@
+# The edge device only. Install on top of requirements.txt.
+#
+#     pip install -r requirements.txt -r requirements-device.txt
+#
+# Nothing in src/ imports these at module level, which is why the whole
+# repository runs without them. opencv is used by src/capture.py inside its
+# constructor and by src/preprocess.py behind a numpy fallback.
+opencv-python==4.10.0.84
+ultralytics==8.3.0
+
+# Serving the review endpoint
+fastapi==0.115.0
+uvicorn==0.30.6
+
+# torch and TensorRT are deliberately absent. Their correct versions depend on
+# the device's CUDA build, so pinning them here would be wrong more often than
+# right. Install the pair your JetPack or CUDA release ships with.

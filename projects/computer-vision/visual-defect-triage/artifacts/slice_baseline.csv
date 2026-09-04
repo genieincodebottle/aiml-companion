@@ -1,0 +1,8 @@
+slice,accuracy
+contamination,1.0
+dent,1.0
+discolour,1.0
+hairline_crack,0.6809
+pass,0.9739
+scratch,1.0
+weld_void,1.0

@@ -61,6 +61,13 @@ tests, and Makefile.
 |---|---|---|---|---|
 | [Deep Learning](projects/deep-learning/deep-learning-project/) | Computer Vision / DL | Intermediate-Advanced | PyTorch, TorchVision | [Learn →](https://aimlcompanion.ai/module/deepLearning/dlCapstone) |
 
+### `projects/computer-vision/`
+
+| Project | Domain | Difficulty | Key Tech | Walkthrough |
+|---|---|---|---|---|
+| [Visual Defect Triage](projects/computer-vision/visual-defect-triage/) | Vision Transformers / Calibration / Slice Analysis | Advanced | PyTorch, timm, FAISS, FastAPI | [Learn →](https://aimlcompanion.ai/module/computerVision/cvVitCapstone) |
+| [Site Safety Monitor](projects/computer-vision/site-safety-monitor/) | Object Detection / Tracking / Edge Latency | Advanced | YOLO, ByteTrack, TensorRT, NumPy | [Learn →](https://aimlcompanion.ai/module/computerVision/cvYoloCapstone) |
+
 ### `projects/llm/`
 
 | Project | Domain | Difficulty | Key Tech | Walkthrough |
@@ -168,6 +175,55 @@ End-to-end pipeline from messy bank data to deployed model with KNN imputation, 
 [Interactive Walkthrough](https://aimlcompanion.ai/module/mlPipeline/mlPipelineCapstone)
 
 ---
+
+### Computer Vision
+
+#### Visual Defect Triage - Calibration Is What Makes a Gate Possible
+
+A frozen vision transformer with a linear probe over 3,000 labels, and
+the machinery that decides which predictions a human should see. Fits a
+single temperature on validation, which cannot reorder logits and so
+leaves accuracy untouched while halving expected calibration error, then
+sets a confidence gate against a review budget.
+
+The result worth reading is the slice report. Overall accuracy 0.975
+hides a hairline-crack class at 0.681, and because that class is 2.6 per
+cent of traffic its entire improvement ceiling is 0.0083 against the
+healthy class's 0.0167. The run asserts the ceilings sum to the error
+budget, so the report says where work is worth doing rather than only
+where the model is weak.
+
+Runs offline on numpy alone. Torch and timm sit behind lazy imports.
+
+**Highlights:** One backbone pass feeding a classifier, a retrieval index and a
+drift monitor | Temperature scaling that cannot change a prediction, ECE 0.013
+to 0.009 | Slice ceilings that sum to the error budget | Mined review decisions
+tagged so they can never enter the evaluation set | 29 tests
+
+[Project README](projects/computer-vision/visual-defect-triage/) · [Interactive Walkthrough](https://aimlcompanion.ai/module/computerVision/cvVitCapstone) · [Kaggle Notebook](https://www.kaggle.com/code/genieincodebottle/visual-defect-triage-vit)
+
+#### Site Safety Monitor - The Frame Budget Decides the Architecture
+
+Two cameras at 15 fps into one edge device is 33.33 ms a frame. A frame
+that runs the detector costs 33.50 ms, so it does not fit, and inference
+is 53.7 per cent of it, which caps what optimising the network can ever
+be worth at 2.16x. Detecting on every second frame and letting ByteTrack
+carry the gap averages 22.50 ms.
+
+The pipeline turns 6,091 raw violation detections into 59 alerts, about
+103 to one, and none of that comes from the detector. It comes from a
+majority class vote, a point-in-polygon test on the worker's feet rather
+than their box centre, a three second dwell timer, and deduplication by
+zone and violation.
+
+Runs offline on numpy alone. OpenCV and TensorRT are optional, and the geometry
+is numpy rather than shapely so the pipeline carries no extra dependency.
+
+**Highlights:** A frame budget derived from camera count, not typed | Amdahl
+ceiling of 2.16x on the obvious optimisation | ByteTrack's low-confidence second
+pass | A CI gate written in false alerts per shift | 53 tests
+
+[Project README](projects/computer-vision/site-safety-monitor/) · [Interactive Walkthrough](https://aimlcompanion.ai/module/computerVision/cvYoloCapstone) · [Kaggle Notebook](https://www.kaggle.com/code/genieincodebottle/site-safety-monitor-yolo)
 
 ### Deep Learning
 

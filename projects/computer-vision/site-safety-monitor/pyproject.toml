@@ -1,0 +1,15 @@
+[project]
+name = "site-safety-monitor"
+version = "0.1.0"
+description = "PPE violation alerting for two site cameras on one edge device"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+# So tests import src/ without an editable install.
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"

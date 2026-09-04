@@ -1,0 +1,5 @@
+accept_above,reject_below,auto_accept_share,auto_reject_share,review_share,escaped_errors,escape_rate
+0.9,0.02,0.9211,0.0,0.0789,17,0.0103
+0.95,0.02,0.8733,0.0,0.1267,11,0.007
+0.98,0.02,0.7961,0.0,0.2039,6,0.0042
+0.99,0.02,0.7194,0.0,0.2806,5,0.0039

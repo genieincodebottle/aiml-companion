@@ -1,0 +1,11 @@
+# Everything the demo, the pipeline and the tests need. Small, and CPU only.
+#
+# The backbone is NOT here on purpose. `python run.py demo` runs on synthetic
+# embeddings and never loads a network, so installing 2.5 GB of torch to see
+# the pipeline work would be friction with nothing behind it. Install
+# requirements-backbone.txt only when you want to embed real images.
+numpy==1.26.4
+pydantic==2.9.2
+pydantic-settings==2.5.2
+PyYAML==6.0.2
+pytest==8.3.3

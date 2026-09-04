@@ -1,0 +1,29 @@
+# Read by src/site_config.py. Editing this file changes the running system:
+# the zone polygons, the cameras, and which camera sees which zone.
+#
+# The frame budget is deliberately NOT here. It is derived from cameras x fps
+# in src/config.py, and a second copy of 33.33 would drift the moment someone
+# added a camera.
+
+# Zone polygons in ORIGINAL image pixels, ordered around the boundary.
+# src/zones.py tests the BOTTOM CENTRE of a person's box against these, not
+# the centre, because a tall worker's midpoint projects past their feet.
+zones:
+  crane_radius:
+    - [60.0, 260.0]
+    - [520.0, 260.0]
+    - [560.0, 470.0]
+    - [20.0, 470.0]
+  excavation:
+    - [700.0, 300.0]
+    - [1180.0, 300.0]
+    - [1220.0, 470.0]
+    - [660.0, 470.0]
+
+cameras:
+  - id: cam_north
+    url: rtsp://site/north
+    zones: [crane_radius]
+  - id: cam_south
+    url: rtsp://site/south
+    zones: [excavation]

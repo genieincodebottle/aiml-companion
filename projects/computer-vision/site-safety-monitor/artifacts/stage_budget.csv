@@ -1,0 +1,9 @@
+stage,ms,share_of_detected_frame
+capture,4.00,0.1194
+decode,3.00,0.0896
+letterbox,2.00,0.0597
+inference,18.00,0.5373
+nms,4.00,0.1194
+track,1.50,0.0448
+zone,0.50,0.0149
+emit,0.50,0.0149

@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Model checkpoints and embeddings
+*.pt
+*.pth
+*.onnx
+*.npy
+*.faiss
+artifacts/embeddings/
+artifacts/index.faiss
+
+# Data
+data/*.jsonl
+data/images/
+
+# Keep the committed example outputs
+!artifacts/report.md
+!artifacts/slice_report.csv
+!artifacts/threshold_sweep.csv
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Virtual environments
+.venv/
+venv/
+.env
