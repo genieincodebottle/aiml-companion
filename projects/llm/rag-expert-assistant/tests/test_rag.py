@@ -61,36 +61,71 @@ def test_ab_comparison_imports():
     assert len(GROUND_TRUTH) == 10
 
 
-def test_ab_evaluate_rag_refuses_to_return_fake_scores_by_default():
-    """A stubbed evaluation harness must fail loudly, not return plausible floats.
+def test_ab_harness_contains_no_random_number_generator():
+    """The A/B harness must measure, never invent.
 
-    evaluate_rag() invented its scores (random.uniform around 0.65 for "Naive"
-    and 0.88 for "Optimized"), so the A/B conclusion was hardcoded. Those
-    numbers reached the README as a results table. The mock is now opt-in.
+    evaluate_rag() used to draw its scores from random.uniform around a base of
+    0.65 for "Naive" and 0.88 for "Optimized", so the optimized arm won by ~0.23
+    every run and the conclusion was written before the experiment. The output
+    was formatted exactly like a real table, which is how it reached the README.
+
+    This inspects the parsed syntax tree, not the text. A substring search would
+    also match the word in this project's own comments explaining the bug, and a
+    test that fails on its own documentation gets deleted rather than fixed.
     """
-    import pytest
-    from src.ab_comparison import evaluate_rag, naive_config, TEST_QUESTIONS, GROUND_TRUTH
+    import ast
+    import inspect
+    import src.ab_comparison as ab
 
-    with pytest.raises(NotImplementedError, match="skeleton"):
-        evaluate_rag(naive_config, TEST_QUESTIONS[:3], GROUND_TRUTH[:3])
+    tree = ast.parse(inspect.getsource(ab))
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                assert alias.name.split(".")[0] != "random", (
+                    "src/ab_comparison.py imports `random` again. A/B scores "
+                    "must come from a model, not a distribution.")
+        if isinstance(node, ast.ImportFrom):
+            assert (node.module or "").split(".")[0] != "random", (
+                "src/ab_comparison.py imports from `random` again.")
+        if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
+            assert node.value.id != "random", (
+                "src/ab_comparison.py calls random.%s again." % node.attr)
 
 
-def test_ab_mock_shape_is_still_inspectable():
-    """The placeholder path still works when asked for explicitly."""
-    from src.ab_comparison import evaluate_rag, naive_config, TEST_QUESTIONS, GROUND_TRUTH
-    scores = evaluate_rag(naive_config, TEST_QUESTIONS[:3], GROUND_TRUTH[:3],
-                          allow_mock=True)
-    assert "faithfulness" in scores
-    assert "answer_relevancy" in scores
-    assert "context_precision" in scores
-    assert "context_recall" in scores
-    assert all(0 <= v <= 1 for v in scores.values())
+def test_ab_configs_differ_only_in_the_documented_ways():
+    """Both arms must be the configs the README says they are."""
+    from src.ab_comparison import naive_config, optimized_config
 
-    # and it must be reproducible: the original seeded from builtin hash(),
-    # which Python randomises per process, so two runs disagreed.
-    again = evaluate_rag(naive_config, TEST_QUESTIONS[:3], GROUND_TRUTH[:3],
-                         allow_mock=True)
-    assert scores == again
+    assert (naive_config.chunk_size, naive_config.chunk_overlap) == (1000, 0)
+    assert (optimized_config.chunk_size, optimized_config.chunk_overlap) == (512, 50)
+    assert naive_config.use_reranking is False
+    assert optimized_config.use_reranking is True
+    assert naive_config.grounded_prompt is False
+    assert optimized_config.grounded_prompt is True
+    assert optimized_config.retriever_k > optimized_config.rerank_top_n
+
+
+def test_ab_has_no_flag_that_is_wired_to_nothing():
+    """`use_hybrid_search` was a config field no code ever read.
+
+    There is no BM25 retriever in this repo and rank_bm25 is not a dependency,
+    so the flag advertised a capability that did not exist. A switch wired to
+    nothing is a claim you cannot cash.
+    """
+    from src.ab_comparison import optimized_config
+
+    assert not hasattr(optimized_config, "use_hybrid_search")
+
+
+def test_ab_gives_each_config_its_own_vector_store():
+    """Sharing one collection would mix 1000-token and 512-token chunks, and
+    then neither arm of the A/B is the config it claims to be."""
+    import inspect
+    from src.ab_comparison import _pipeline_for
+
+    source = inspect.getsource(_pipeline_for)
+    assert "chroma_db_ab/" in source
+    assert "config.name" in source and "slug" in source
 
 
 def test_security_sanitizer_imports():

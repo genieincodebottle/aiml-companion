@@ -79,7 +79,7 @@ Given a user query, the retriever performs dense similarity search against Chrom
 
 ### 5. Rerank
 
-FlashRank runs a cross-encoder model locally to re-score the top-20 candidates and select the top-5 most relevant chunks. Reranking captures semantic relevance that cosine similarity misses, providing a +17% improvement in context precision. No API key needed - the model runs entirely on your machine.
+FlashRank runs a cross-encoder model locally to re-score the top-20 candidates and select the top-5 most relevant chunks. Reranking captures semantic relevance that cosine similarity misses. The "+17% improvement in context precision" previously claimed here was never measured; it came from a random number generator in the A/B stub. Measured on this repo's 9-chunk demo corpus the gain is 0.000, because top-20 over 9 chunks retrieves everything and leaves the reranker nothing to rescue. Expect the technique to pay off on a corpus large enough for top-k to be a real filter, and measure it there before quoting a figure. No API key needed - the model runs entirely on your machine.
 
 - **Entry point**: `src/rag_pipeline.py :: build_retriever()` (with `use_reranking=True`)
 - **Model**: FlashRank (ms-marco-MiniLM-L-12-v2, runs locally)

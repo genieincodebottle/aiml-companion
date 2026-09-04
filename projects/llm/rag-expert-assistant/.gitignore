@@ -10,6 +10,9 @@ __pycache__/
 *.pth
 checkpoints/
 chroma_db/
+# The A/B builds one throwaway store per arm. Committing vector binaries is how
+# a clone ends up with an index nobody can regenerate or review.
+chroma_db_ab/
 wandb/
 mlruns/
 .ipynb_checkpoints/

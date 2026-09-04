@@ -260,5 +260,8 @@ config/secrets.yml
 # so a clone received a vector index with no vectors behind it.
 #
 # Regenerate with: python scripts/initialize_users.py
-backend/databases/
+# Note the trailing /* rather than /. Excluding the DIRECTORY makes the
+# negation below impossible: git will not re-include a file whose parent
+# directory is excluded. Excluding its CONTENTS keeps README.md tracked.
+backend/databases/*
 !backend/databases/README.md

@@ -35,7 +35,7 @@ Documents (PDF/MD/TXT)
     |                          +---------------------+
     v                                   |
 +--------------------------+            |
-|  Generation (Gemini 2.5   |<----------+
+|  Generation (Gemini 3.5   |<----------+
 |  Flash Lite)              |
 |  Grounded prompt          |
 |  + Citation extraction    |
@@ -54,38 +54,74 @@ Documents (PDF/MD/TXT)
 
 ### RAGAS Evaluation Scores
 
-| Metric | Score | Status |
-|--------|-------|--------|
-| Faithfulness | 0.920 | PASS |
-| Answer Relevancy | 0.875 | PASS |
-| Context Precision | 0.850 | PASS |
-| Context Recall | 0.810 | NEEDS WORK |
+Measured over three runs of `python -m src.evaluate`, judged by
+`gemini-3.5-flash-lite`. RAGAS is an LLM-judged metric, so the spread across
+runs is part of the result and is reported here rather than hidden behind a
+single decimal.
+
+| Metric | Run 1 | Run 2 | Run 3 | Status |
+|--------|-------|-------|-------|--------|
+| Faithfulness | 0.938 | 0.938 | 0.938 | PASS |
+| Answer Relevancy | 0.827 | 0.825 | 0.824 | NEEDS WORK (< 0.85) |
+| Context Precision | 0.750 | 0.750 | 0.875 | UNSTABLE |
+| Context Recall | 1.000 | 1.000 | 1.000 | PASS |
+
+The previously published table (0.920 / 0.875 / 0.850 / 0.810) does not
+reproduce. Context recall in particular was reported as the **weakest** metric
+at 0.810; measured, it is the **strongest** at a perfect 1.000, and every piece
+of "next steps" advice built on recall being the bottleneck was aimed at the
+wrong metric.
+
+**Read this table with its caveat.** `src/evaluate.py` scores a fixed dataset of
+four hand-written question/answer/context examples. The contexts are typed into
+the file, not retrieved by the pipeline. So `context_precision` here grades a
+fixture, not the retriever, and this evaluation cannot tell you whether
+chunking or reranking is working. For that, see the A/B below, which does run
+the real pipeline.
 
 ### Naive vs Optimized RAG (A/B Comparison)
 
-> ⚠️ **Not measured. This table is the report LAYOUT, not a result.**
-> `src/ab_comparison.py` is a skeleton: `evaluate_rag()` never ran a pipeline.
-> It drew scores from `random.uniform` around a hardcoded base of **0.65 for
-> "Naive"** and **0.88 for "Optimized"**, so the optimized config won by ~0.23
-> every single run — not because it retrieves better, but because 0.88 is a
-> bigger number than 0.65. The conclusion was written before the experiment.
->
-> The function now **raises** unless you pass `--allow-mock`, and the mock run
-> prints a banner on every invocation. Wire it to the real pipeline (the
-> docstring lists the four steps) and replace these figures with measurements.
+`src/ab_comparison.py` used to be a skeleton that invented its own
+results: `evaluate_rag()` drew scores from `random.uniform` around a hardcoded
+base of **0.65 for "Naive"** and **0.88 for "Optimized"**, so the optimized
+config won by ~0.23 every run, formatted exactly like a real table. It now
+builds both pipelines against the real corpus, runs the real questions, and
+scores the real answers with RAGAS.
 
-| Metric | Naive | Optimized | Delta |
-|--------|-------|-----------|-------|
-| Faithfulness | *not measured* | *not measured* | — |
-| Answer Relevancy | *not measured* | *not measured* | — |
-| Context Precision | *not measured* | *not measured* | — |
-| Context Recall | *not measured* | *not measured* | — |
+Measured over three runs, 10 questions per arm:
 
-**The lesson this replaced a fake table to teach:** A/B numbers you did not
-measure are worse than no numbers. They travel — into a README, then a slide,
-then a decision — and nothing about their formatting distinguishes them from
-real ones. If an evaluation harness is a stub, it must fail loudly rather than
-return plausible floats.
+| Metric | Naive | Optimized | Delta | Runs agreeing |
+|--------|-------|-----------|-------|---------------|
+| Faithfulness | 0.983 / 1.000 / 1.000 | 0.913 / 0.980 / 0.942 | **-0.020 to -0.070** | WORSE in 3/3 |
+| Answer Relevancy | 0.832 / 0.821 / 0.837 | 0.842 / 0.838 / 0.847 | +0.010 to +0.016 | BETTER in 3/3 |
+| Context Precision | 0.950 / 0.950 / 0.950 | 0.950 / 0.950 / 0.950 | **0.000** | SAME in 3/3 |
+| Context Recall | 0.967 / 0.967 / 0.967 | 1.000 / 1.000 / 1.000 | +0.033 | BETTER in 3/3 |
+
+Optimized wins 2 of 4 metrics, loses faithfulness, and is roughly **4x slower**
+(213 s vs 55 s per run). The old fabricated table claimed it won all four, with
+"+24% faithfulness" and "+17% context precision".
+
+**Why the optimizations do nothing here, and it is not because they are bad
+ideas.** The demo corpus is 4 documents totalling **3,396 characters** -- about
+one page of text. That splits into **5 chunks** under the naive config and
+**9 chunks** under the optimized one. The optimized retriever asks for the top
+20 candidates from a store containing 9, so stage one returns *the entire
+corpus* and the reranker's job reduces to discarding 4 of 9 chunks. Two-stage
+retrieval cannot improve precision when the first stage already returns
+everything, which is exactly why context precision is identical to three
+decimal places in all three runs: both arms score the same candidate pool.
+
+Faithfulness drops because the optimized arm hands the model 5 chunks where the
+naive arm hands it 3. On a corpus this small the extra chunks are not missing
+evidence, they are distractors, and more text to blend means more opportunity
+for an unsupported detail.
+
+Reranking earns its latency at corpus scale, where dense search over thousands
+of chunks genuinely returns near-misses in positions 6 through 20. To
+demonstrate that here you would need a corpus large enough for top-k to be a
+real filter. **The honest conclusion from this experiment is not "reranking is
+useless" but "this benchmark is too small to measure reranking".** Reporting
+the first would be as wrong as the fabricated table was.
 
 ### Security Test Suite: 15/15 passed (100%)
 
@@ -94,50 +130,84 @@ return plausible floats.
 ### 1. Setup
 
 ```bash
-# Create virtual environment
+git clone https://github.com/genieincodebottle/aiml-companion.git
+cd aiml-companion/projects/llm/rag-expert-assistant
+
 python -m venv .venv
 
 # Activate (Windows)
 .venv\Scripts\activate
-
 # Activate (Linux/Mac)
 # source .venv/bin/activate
 
-# Install uv (fast package installer, one-time setup)
 pip install uv
-
-# Install dependencies
 uv pip install -r requirements.txt
 ```
 
-### 2. Set API Key
+FlashRank downloads a ~4MB cross-encoder model the first time it runs and
+caches it after. There is no GPU requirement anywhere in this project.
+
+### 2. Run the parts that need no API key
+
+Start here. These 32 checks exercise the chunking, the id derivation, the
+injection defence and the PII filters without a single network call.
 
 ```bash
-# Copy the example and add your Google API key
-cp .env.example .env
-# Edit .env with your key from https://aistudio.google.com/app/apikey
+python run.py test        # 32 tests
+python run.py security    # injection + PII suite, prints its results
 ```
 
-Only one API key needed - Google API key (free tier). No other keys required.
+`run.py` works the same on Windows, macOS and Linux. The `scripts/*.sh` files
+still exist for anyone who prefers them, but they need bash.
 
-### 3. Run
+### 3. Add an API key for the parts that call a model
 
 ```bash
-# Run the RAG pipeline (ingest, chunk, embed, retrieve, generate)
+cp .env.example .env      # Windows: copy .env.example .env
+# then edit .env and replace the placeholder with your key
+```
+
+Get a free key at https://aistudio.google.com/app/apikey. Only one key is
+needed for the whole project: the same `GOOGLE_API_KEY` covers embeddings and
+generation, and FlashRank runs locally.
+
+Copying `.env.example` without editing it is not enough. It ships
+`GOOGLE_API_KEY=your-google-api-key-here`, and a placeholder is a perfectly
+truthy string, so an "is the key set?" check passes and the run fails much
+later inside an HTTP 400. `run.py` rejects placeholder values up front.
+
+### 4. Run the pipeline and the evaluations
+
+```bash
+python run.py pipeline    # index the corpus, answer one question with citations
+python run.py eval        # RAGAS scores over the fixed evaluation set
+python run.py ab          # measured naive vs optimized comparison
+```
+
+`python run.py ab` builds two complete pipelines, runs 10 questions through
+each and scores every answer with RAGAS. It makes a few hundred API calls and
+takes several minutes. Results are written to
+`artifacts/results/ab_comparison.json`.
+
+Watch the indexing line from `python run.py pipeline`. It prints the number of
+unique chunks alongside the collection total and warns when they disagree,
+which is how a duplicated index shows up as a message rather than as silently
+worse retrieval.
+
+### Running a module directly
+
+`run.py` is a thin wrapper. Every step can be run on its own:
+
+```bash
 python -m src.rag_pipeline
-
-# Run evaluation (RAGAS metrics)
 python -m src.evaluate
-
-# Run A/B comparison (naive vs optimized)
 python -m src.ab_comparison
-
-# Run security tests (injection + PII)
 python -m src.security.sanitizer
-
-# Run unit tests
-pytest tests/ -v
+pytest tests/ src/security/test_security.py -v
 ```
+
+Note the test path. `pytest tests/` alone collects 17 tests; the other 15 are
+in `src/security/test_security.py`.
 
 ## Project Structure
 
@@ -160,8 +230,10 @@ rag-expert-assistant/
 │   └── test_rag.py            # Unit tests for pipeline, security, and evaluation
 ├── docs/
 │   └── architecture.md        # RAG pipeline architecture documentation
+├── scripts/                   # bash wrappers (run.py covers the same ground)
 ├── .env.example               # API key template (Google only)
 ├── requirements.txt           # Dependencies
+├── run.py                     # Cross-platform entry point: test, security, pipeline, eval, ab
 └── README.md
 ```
 
@@ -228,13 +300,13 @@ story. "It got bigger" is not "it got better".
 > RAGAS framework with 4 metrics: faithfulness (does the answer stick to context?), answer relevancy (does it address the question?), context precision (are retrieved chunks relevant?), context recall (did retrieval find all relevant info?). Each metric isolates a different failure mode.
 
 **Q: Why rerank instead of just increasing top-k?**
-> Cosine similarity ranks on embedding distance alone, which is lexically blunt; a cross-encoder scores the query and passage *together* and catches relevance that distance misses. So retrieve top-20 cheaply with dense search, then rerank to top-5. I am deliberately **not** quoting a number for the gain here: the A/B harness in this repo is still a stub, and the "+17%" this answer used to cite came from `random.uniform`, not an experiment. Measuring it is the next task.
+> Cosine similarity ranks on embedding distance alone, which is lexically blunt; a cross-encoder scores the query and passage *together* and catches relevance that distance misses. So retrieve top-20 cheaply with dense search, then rerank to top-5. On **this** repo's corpus the measured gain is **exactly zero** (context precision 0.950 in both arms, three runs), because 9 chunks means "top-20" already returns the whole corpus and the reranker has nothing to rescue. The earlier "+17%" came from `random.uniform`, not an experiment. I would expect a real gain at corpus scale, and I would want to measure it there before quoting a number.
 
 **Q: How do you prevent prompt injection?**
 > Defense in depth: (1) Input sanitization strips known injection patterns, (2) System prompt constrains the model to context-only answers, (3) Output PII filter redacts any leaked personal data. We test with a 5-case injection suite.
 
 **Q: What's the biggest limitation of this system?**
-> Context recall (0.81) is the weakest metric - some relevant chunks aren't retrieved. Next steps: add BM25 hybrid search for keyword-heavy queries and query expansion for ambiguous questions.
+> That the demo corpus is too small to evaluate it. 4 documents and 3,396 characters means retrieval is trivially perfect (context recall measures 1.000) and the reranking and chunking work cannot show any benefit -- the measured A/B has the optimized pipeline *losing* on faithfulness and tying on precision. The fix is a bigger evaluation corpus and a question set with genuine near-misses, not another retrieval trick. An earlier version of this README named context recall (0.81) as the weakest metric; that number was not reproducible, and recall is in fact the strongest.
 
 ## References
 
