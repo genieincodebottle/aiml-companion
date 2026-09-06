@@ -2,19 +2,19 @@
 neo4j>=5.28.0,<7.0.0
 
 # --- LLM + embeddings (single provider, single SDK) -----------------------
-google-genai>=1.0.0
+google-genai>=1.0.0,<2.0.0
 
 # --- API (backend: all business logic lives behind this) ------------------
-fastapi>=0.115.0
-uvicorn[standard]>=0.32.0
-pydantic>=2.9.0
+fastapi>=0.115.0,<1.0.0
+uvicorn[standard]>=0.32.0,<1.0.0
+pydantic>=2.9.0,<3.0.0
 
 # --- UI (frontend: a thin HTTP client, no business logic) -----------------
-streamlit>=1.40.0
-httpx>=0.27.0
-pandas>=2.0.0
-pyyaml>=6.0
-python-dotenv>=1.0.0
+streamlit>=1.40.0,<2.0.0
+httpx>=0.27.0,<1.0.0
+pandas>=2.0.0,<3.0.0
+pyyaml>=6.0,<7.0
+python-dotenv>=1.0.0,<2.0.0
 
 # --- Tests ----------------------------------------------------------------
-pytest>=8.0.0
+pytest>=8.0.0,<9.0.0

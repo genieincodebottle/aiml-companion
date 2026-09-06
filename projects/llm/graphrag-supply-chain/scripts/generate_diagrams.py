@@ -92,6 +92,52 @@ class Canvas:
                       anchor=anchor, mono=mono)
         return y + max(len(rows) - 1, 0) * size * leading
 
+    # -- GRAPH PRIMITIVES --------------------------------------------------
+    # A schema drawn as rectangles teaches the reader that a graph database is
+    # a set of tables with arrows. Circles joined by labelled edges is what the
+    # data actually looks like, and it is the picture they will meet again in
+    # the Neo4j browser.
+
+    def node(self, x: float, y: float, r: float, label: str, sub: str = "", *,
+             stroke: str = LINE, fill: str = "#ffffff", width: float = 2.0) -> None:
+        """A graph node. Text is centred on the circle, one or two lines."""
+        self.add(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r:.1f}" fill="{fill}" '
+                 f'stroke="{stroke}" stroke-width="{width}"/>')
+        rows = [label] + ([sub] if sub else [])
+        first = y - (len(rows) - 1) * 8 + 4
+        for i, row in enumerate(rows):
+            self.text(x, first + i * 16, row,
+                      size=12.5 if i == 0 else 10, bold=(i == 0),
+                      fill=INK if i == 0 else MUTED)
+
+    def link(self, a: tuple[float, float, float], b: tuple[float, float, float],
+             label: str = "", *, stroke: str = GREY, width: float = 1.6,
+             dash: str = "", label_size: float = 9.5,
+             label_side: float = 1.0) -> None:
+        """An edge between two nodes, trimmed to both circle boundaries.
+
+        Trimming is the whole point. An edge drawn centre to centre puts its
+        arrowhead INSIDE the target node, and the label lands on top of the
+        line rather than beside it.
+        """
+        (x1, y1, r1), (x2, y2, r2) = a, b
+        dx, dy = x2 - x1, y2 - y1
+        length = (dx * dx + dy * dy) ** 0.5 or 1.0
+        ux, uy = dx / length, dy / length
+        sx, sy = x1 + ux * r1, y1 + uy * r1
+        ex, ey = x2 - ux * (r2 + 9), y2 - uy * (r2 + 9)
+        d = f' stroke-dasharray="{dash}"' if dash else ""
+        self.add(f'<line x1="{sx:.1f}" y1="{sy:.1f}" x2="{ex:.1f}" y2="{ey:.1f}" '
+                 f'stroke="{stroke}" stroke-width="{width}"{d} '
+                 f'marker-end="url(#arrow-{stroke.lstrip("#")})"/>')
+        self._marker(stroke)
+        if label:
+            # Off the line, on the perpendicular, so the label never sits on
+            # top of the edge it names.
+            off = 13 * label_side
+            self.text((x1 + x2) / 2 - uy * off, (y1 + y2) / 2 + ux * off + 4,
+                      label, size=label_size, fill=stroke)
+
     def arrow(self, x1: float, y1: float, x2: float, y2: float, *,
               stroke: str = GREY, width: float = 1.6, dash: str = "",
               label: str = "", label_size: float = 11,
@@ -415,80 +461,71 @@ def diagram_query_flow() -> None:
 # 6. Schema
 # ===========================================================================
 def diagram_schema() -> None:
-    c = Canvas(980, 560, "Neo4j graph schema")
+    """The schema, drawn as a graph rather than as a table diagram."""
+    c = Canvas(980, 600, "Neo4j graph schema, drawn as a graph")
     top = heading(c, "6. Neo4j schema",
-                  "Two subgraphs joined by one bridge relationship")
+                  "Circles are nodes, arrows are relationships, and both carry properties")
 
-    def node(x, y, label, kind, colour, w=None):
-        width = w or max(tw(label, 12.5, True), tw(kind, 10)) + 30
-        c.box(x - width / 2, y, width, 42, fill="#ffffff", stroke=colour, rx=6)
-        c.text(x, y + 18, label, size=12.5, bold=True)
-        c.text(x, y + 33, kind, size=10, fill=MUTED)
-        return width
+    # Positions are chosen so no edge passes through a node it does not
+    # terminate on. scripts/check_diagrams.py enforces that, because a
+    # node-link diagram whose edges cut through unrelated circles reads as
+    # scribble and the author never notices.
+    y0 = top + 42
+    N = {
+        "doc":   (110, y0 + 30, 46),
+        "chunk": (110, y0 + 196, 48),
+        "sup":   (360, y0 + 84, 54),
+        "loc":   (360, y0 + 258, 50),
+        "find":  (610, y0 + 258, 50),
+        "comp":  (610, y0 + 84, 54),
+        "prod":  (846, y0 + 84, 52),
+    }
 
-    # Text subgraph
-    ty = top + 16
-    c.box(36, ty, 300, 150, fill="#f5f8ff", stroke=BLUE, dash="6 4")
-    c.text(186, ty + 24, "TEXT SUBGRAPH", size=12, bold=True, fill=BLUE)
-    node(186, ty + 40, ":Document", "doc_id, title", BLUE, 190)
-    node(186, ty + 104, ":Chunk", "text, embedding", BLUE, 190)
-    c.arrow(186, ty + 100, 186, ty + 86, stroke=BLUE, width=1.4)
-    c.text(258, ty + 96, ":PART_OF", size=10, fill=BLUE)
+    c.node(*N["doc"], ":Document", "doc_id, title", stroke=BLUE, fill="#f5f8ff")
+    c.node(*N["chunk"], ":Chunk", "text, vector", stroke=BLUE, fill="#f5f8ff")
+    c.node(*N["sup"], ":Supplier", "name, aliases", stroke=GREEN, fill="#f4fbf6")
+    c.node(*N["loc"], ":Location", "name", stroke=GREEN, fill="#f4fbf6")
+    c.node(*N["find"], ":Finding", "status", stroke=RED, fill="#fff5f5")
+    c.node(*N["comp"], ":Component", "name", stroke=GREEN, fill="#f4fbf6")
+    c.node(*N["prod"], ":Product", "name", stroke=GREEN, fill="#f4fbf6")
 
-    # Knowledge subgraph
-    c.box(392, ty, 552, 300, fill="#f4fbf6", stroke=GREEN, dash="6 4")
-    c.text(668, ty + 24, "KNOWLEDGE SUBGRAPH", size=12, bold=True, fill=GREEN)
+    c.link(N["doc"], N["chunk"], ":PART_OF", stroke=BLUE)
+    c.link(N["chunk"], N["sup"], ":MENTIONS", stroke=PURPLE, width=2.0)
+    c.link(N["chunk"], N["loc"], ":MENTIONS", stroke=PURPLE, width=2.0)
+    c.link(N["sup"], N["comp"], ":SUPPLIES", stroke=GREEN)
+    c.link(N["prod"], N["comp"], ":CONTAINS", stroke=GREEN)
+    c.link(N["sup"], N["loc"], ":LOCATED_IN", stroke=GREEN)
+    c.link(N["find"], N["sup"], ":RAISED_AGAINST", stroke=RED)
 
-    # The right-hand column sits at x=852, not 880. At 880 a 140-wide node runs
-    # to x=950 while the panel ends at 944, so two nodes escaped their own
-    # container by six pixels - caught by scripts/check_diagrams.py, which is
-    # exactly the kind of defect an author never sees by looking at the picture.
-    node(470, ty + 44, ":Product", "name", GREEN, 130)
-    node(668, ty + 44, ":Component", "name", GREEN, 140)
-    node(852, ty + 44, ":Supplier", "name, aliases", GREEN, 140)
-    node(852, ty + 122, ":Site", "name", GREEN, 130)
-    node(852, ty + 200, ":Location", "name", GREEN, 140)
-    node(470, ty + 122, ":Finding", "status", GREEN, 130)
-    node(470, ty + 200, ":Regulation", "name", GREEN, 140)
-    node(668, ty + 200, ":Incident", "name", GREEN, 130)
+    # The self loop is the tier-2 structure: a supplier depending on another
+    # supplier is what the whole project exists to find.
+    sx, sy, sr = N["sup"]
+    c.add(f'<path d="M {sx - 30:.0f} {sy - sr + 8:.0f} '
+          f'C {sx - 84:.0f} {sy - 116:.0f} {sx + 84:.0f} {sy - 116:.0f} '
+          f'{sx + 24:.0f} {sy - sr + 4:.0f}" fill="none" stroke="{GREEN}" '
+          f'stroke-width="1.8" marker-end="url(#arrow-{GREEN.lstrip("#")})"/>')
+    c._marker(GREEN)
+    c.text(sx, sy - 104, ":DEPENDS_ON", size=10.5, fill=GREEN, bold=True)
+    c.text(sx, sy - 88, "tier 2 and deeper", size=9.5, fill=MUTED)
 
-    c.arrow(535, ty + 64, 598, ty + 64, stroke=GREEN, width=1.3, label=":CONTAINS",
-            label_size=9.5, label_dy=-6)
-    c.arrow(782, ty + 64, 738, ty + 64, stroke=GREEN, width=1.3, label=":SUPPLIES",
-            label_size=9.5, label_dy=-6)
-    c.arrow(852, ty + 86, 852, ty + 118, stroke=GREEN, width=1.3)
-    c.text(852, ty + 108, ":OPERATES", size=9.5, fill=GREEN, anchor="start")
-    c.arrow(852, ty + 164, 852, ty + 196, stroke=GREEN, width=1.3)
-    c.text(852, ty + 186, ":LOCATED_IN", size=9.5, fill=GREEN, anchor="start")
-    c.arrow(535, ty + 134, 782, ty + 70, stroke=GREEN, width=1.3)
-    c.text(650, ty + 118, ":RAISED_AGAINST", size=9.5, fill=GREEN)
-    c.arrow(540, ty + 212, 598, ty + 60, stroke=GREEN, width=1.2, dash="4 3")
-    c.text(566, ty + 150, ":APPLIES_TO", size=9.5, fill=GREEN)
-    c.arrow(733, ty + 214, 782, ty + 210, stroke=GREEN, width=1.3)
-    c.text(760, ty + 234, ":AFFECTS", size=9.5, fill=GREEN)
+    fy = y0 + 330
+    c.box(34, fy, 448, 92, fill="#faf5ff", stroke=PURPLE)
+    c.text(54, fy + 24, "The bridge, in one relationship", size=12.5, bold=True,
+           fill=PURPLE, anchor="start")
+    c.text(54, fy + 48, "(:Chunk)-[:MENTIONS]->(:Entity)", size=11.5, mono=True,
+           anchor="start")
+    c.text(54, fy + 72, "Forwards it turns a vector hit into anchors. Backwards it "
+                        "turns a traversal into quotable text.",
+           size=10.5, fill=MUTED, anchor="start")
 
-    # Self loop for DEPENDS_ON
-    c.add(f'<path d="M 908 {ty + 46} q 34 -22 34 8 q 0 26 -30 16" fill="none" '
-          f'stroke="{GREEN}" stroke-width="1.6" stroke-dasharray="5 3"/>')
-    c.text(900, ty + 22, ":DEPENDS_ON  (tier 2/3)", size=10, fill=GREEN, anchor="end")
-
-    # Bridge
-    byy = ty + 196
-    c.box(36, byy, 300, 76, fill="#faf5ff", stroke=PURPLE)
-    c.text(186, byy + 26, "THE BRIDGE", size=12, bold=True, fill=PURPLE)
-    c.text(186, byy + 50, "(:Chunk)-[:MENTIONS]->(:Entity)", size=11, mono=True)
-    c.arrow(186, ty + 150, 186, byy - 4, stroke=PURPLE, width=1.5)
-    c.arrow(336, byy + 38, 430, ty + 190, stroke=PURPLE, width=1.5)
-
-    fy = ty + 320
-    c.box(36, fy, 908, 84, fill="#ffffff", stroke=LINE)
-    c.text(56, fy + 24, "Every entity carries TWO labels: (:Entity:Supplier)", size=12.5,
-           bold=True, anchor="start")
+    c.box(498, fy, 448, 92, fill="#ffffff", stroke=LINE)
+    c.text(518, fy + 24, "Every entity carries TWO labels: (:Entity:Supplier)",
+           size=12.5, bold=True, anchor="start")
     c.lines(
-        56, fy + 46,
-        [":Entity  gives one uniqueness constraint, one full-text index and one generic traversal across all ten types.",
-         ":Supplier  is an index the planner can scan - WHERE n.type = 'Supplier' is not."],
-        size=11.5, fill=INK, anchor="start",
+        518, fy + 48,
+        [":Entity  one constraint, one full-text index, one generic traversal.",
+         ":Supplier  is an index the planner scans. A property filter is not."],
+        size=10.5, fill=INK, anchor="start",
     )
     c.save("06-schema.svg")
 
@@ -497,46 +534,53 @@ def diagram_schema() -> None:
 # 7. Multi-hop worked example
 # ===========================================================================
 def diagram_multihop() -> None:
-    c = Canvas(980, 480, "Multi-hop: the answer that exists in no document")
+    """The flagship traversal, drawn the way the database walks it."""
+    c = Canvas(980, 620, "Multi-hop traversal: the answer that exists in no document")
     top = heading(c, "7. Multi-hop, worked",
                   "\"A typhoon closes Kaohsiung. Which finished products are exposed?\"")
 
-    y = top + 16
-    chain = [
-        ("Kaohsiung", ":Location", "the event"),
-        ("Formosa Substrate\nMaterials", ":Supplier", "tier 2 - not in the ERP"),
-        ("Meridian Circuits", ":Supplier", "tier 1"),
-        ("PCB-A7", ":Component", "sole-sourced"),
-        ("NW-500 / NW-220", ":Product", "revenue"),
-    ]
-    x = 34
-    w = 172
-    for i, (name, kind, note) in enumerate(chain):
-        rows = name.split("\n")
-        c.box(x, y, w, 92, fill="#ffffff", stroke=GREEN)
-        for j, row in enumerate(rows):
-            c.text(x + w / 2, y + 28 + j * 15, row, size=12.5, bold=True)
-        c.text(x + w / 2, y + 62, kind, size=10.5, fill=GREEN, mono=True)
-        c.text(x + w / 2, y + 80, note, size=10, fill=MUTED)
-        if i < len(chain) - 1:
-            c.arrow(x + w, y + 46, x + w + 16, y + 46, stroke=GREEN, width=1.6)
-        x += w + 16
+    y0 = top + 40
+    N = {
+        "kao":      (96, y0 + 96, 52),
+        "formosa":  (302, y0 + 20, 56),
+        "kaigan":   (302, y0 + 176, 56),
+        "meridian": (512, y0 + 20, 56),
+        "pcb":      (700, y0 + 20, 48),
+        "dsp":      (700, y0 + 176, 48),
+        "nw500":    (884, y0 + 20, 46),
+        "nw220":    (884, y0 + 130, 46),
+    }
 
-    labels = ["LOCATED_IN", "DEPENDS_ON", "SUPPLIES", "CONTAINS"]
-    lx = 34 + w + 8
-    for label in labels:
-        c.text(lx, y + 110, label, size=9.5, fill=GREEN, mono=True)
-        lx += w + 16
+    c.node(*N["kao"], "Kaohsiung", ":Location", stroke=ORANGE, fill="#fff8ed")
+    c.node(*N["formosa"], "Formosa", "tier 2", stroke=GREEN, fill="#f4fbf6")
+    c.node(*N["kaigan"], "Kaigan", "tier 0", stroke=GREEN, fill="#f4fbf6")
+    c.node(*N["meridian"], "Meridian", "tier 1", stroke=GREEN, fill="#f4fbf6")
+    c.node(*N["pcb"], "PCB-A7", ":Component", stroke=GREY, fill="#ffffff")
+    c.node(*N["dsp"], "DSP-3300", ":Component", stroke=GREY, fill="#ffffff")
+    c.node(*N["nw500"], "NW-500", ":Product", stroke=PURPLE, fill="#faf5ff")
+    c.node(*N["nw220"], "NW-220", ":Product", stroke=PURPLE, fill="#faf5ff")
 
-    dy = y + 132
+    c.link(N["kao"], N["formosa"], "LOCATED_IN", stroke=GREEN)
+    c.link(N["kao"], N["kaigan"], "LOCATED_IN", stroke=GREEN, label_side=-1.0)
+    c.link(N["formosa"], N["meridian"], "DEPENDS_ON", stroke=GREEN, width=2.0)
+    c.link(N["meridian"], N["pcb"], "SUPPLIES", stroke=GREY)
+    c.link(N["kaigan"], N["dsp"], "SUPPLIES", stroke=GREY)
+    c.link(N["pcb"], N["nw500"], "CONTAINS", stroke=PURPLE)
+    c.link(N["pcb"], N["nw220"], "CONTAINS", stroke=PURPLE)
+    # DSP-3300 goes into NW-500 only. Check data/structured/bom.csv before
+    # changing this: an earlier draft pointed it at NW-220, which is a
+    # different product and makes NW-500 look single-sourced.
+    c.link(N["dsp"], N["nw500"], "CONTAINS", stroke=PURPLE, label_side=-1.0)
+
+    dy = y0 + 254
     c.box(34, dy, 912, 96, fill="#fff5f5", stroke=RED, dash="5 4")
     c.text(54, dy + 25, "Why no document contains this", size=13, bold=True,
            fill=RED, anchor="start")
     c.lines(
         54, dy + 48,
-        ["Each link lives in a DIFFERENT source: the incident bulletin names only the city, the sub-tier dossier names only",
+        ["Each edge lives in a DIFFERENT source: the incident bulletin names only the city, the sub-tier dossier names only",
          "Formosa's customer, the supplier profile names only the laminate, and the bill of materials is a CSV. The chain is",
-         "never written down anywhere - which is exactly what the 2026 mapping report says in its own words."],
+         "never written down anywhere, which is exactly what the 2026 mapping report says in its own words."],
         size=11.5, fill=INK, anchor="start",
     )
 
