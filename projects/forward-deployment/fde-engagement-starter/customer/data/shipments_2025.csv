@@ -1,0 +1,401 @@
+ï»¿shipment_id,cust_id,origin_city,dest_city,dest_address,ship_date,delivery_date,status,failure_reason,weight_kg,service_tier
+SH2510000,"0004622",Hamburg,Bilbao,133 Harbour Rd,2025-02-24,2025-04-18,delivered,nan,59.62,express
+SH2510001,"0005143",Dublin,Bremen,197 Dock Approach,2025-11-15,2025-12-22,delivered,NULL,71.82,economy
+SH2510002,"0005093",Aarhus,Leeds,232 Dock Approach,2025-09-11,2025-06-14,failed,damaged_in_transit,55.26,express
+SH2510003,"0005126",Turin,Leeds,116 Elm Grove,2025-07-01,2025-12-02,in_transit,,47.08,NULL
+SH2510004,"0004439",Utrecht,Rotterdam,198 Mill Lane,2025-09-17,2025-09-19,delivered,,3.90,express
+SH2510005,"0005192",Porto,Porto,66 Mill Lane,2025-02-19,2025-07-19,returned,,65.62,express
+SH2510006,"0005412",Bremen,Gdansk,10 Bridge St,2025-02-25,2025-01-25,failed,customs_hold,84.22,express
+SH2510007,"0005233",Rotterdam,Manchester,14 Mill Lane,2025-09-02,2025-06-18,delivered,nan,63.30,express_am
+SH2510008,"0005218",Hamburg,Porto,111 Mill Lane,2025-07-05,nan,returned,,49.83,express_am
+SH2510009,"0005429",Lyon,Lyon,124 Station Rd,2025-08-13,2025-11-19,in_transit,nan,22.66,express_am
+SH2510010,"0005179",Hamburg,Bremen,172 Bridge St,2025-07-12,2025-06-07,in_transit,,69.77,economy
+SH2510011,"0004905",Lyon,Aarhus,12 Station Rd,2025-04-22,2025-06-05,delivered,,67.06,express
+SH2510012,"0004589",Rotterdam,Utrecht,"178 Harbour Rd, Unit 10",2025-08-16,2025-01-11,in_transit,NULL,18.84,economy
+SH2510013,"0005275",Lyon,Rotterdam,97 Main St,2025-05-06,2025-01-10,returned,nan,24.92,standard
+SH2510014,"0005352",Turin,Leeds,222 Harbour Rd,2025-01-10,2025-11-13,failed,site_access_denied,88.40,economy
+SH2510015,"0005222",Hamburg,Marseille,51 Elm Grove,2025-09-23,2025-01-02,in_transit,N/A,30.52,N/A
+SH2510016,"0004727",Gdansk,Porto,129 Mill Lane,2025-01-21,2025-05-13,delivered,nan,85.92,economy
+SH2510017,"0005345",Lyon,Hamburg,187 Bridge St,2025-09-22,2025-10-28,delivered,-,22.13,economy
+SH2510018,"0004674",Aarhus,Lyon,53 Kingsway,2025-10-18,2025-11-26,delivered,N/A,62.47,express
+SH2510019,"0004297",Marseille,Utrecht,18 Harbour Rd,2025-03-11,N/A,failed,customs_hold,27.80,economy
+SH2510020,"0004384",Bremen,Lyon,48 Main St,2025-10-20,2025-05-20,delivered,nan,21.40,economy
+SH2510021,"0004976",Lyon,Malmo,183 Dock Approach,2025-03-28,2025-07-16,delivered,NULL,20.86,standard
+SH2510022,"0004845",Porto,Bilbao,194 Station Rd,2025-02-06,2025-08-28,returned,N/A,78.51,express_am
+SH2510023,"0004085",Manchester,Utrecht,101 Main St,2025-09-04,2025-08-15,delivered,NULL,47.18,standard
+SH2510024,"0005057",Antwerp,Bilbao,75 Elm Grove,2025-07-10,2025-05-15,delivered,nan,83.21,express
+SH2510025,"0005323",Aarhus,Hamburg,185 Harbour Rd,2025-03-25,2025-10-23,failed,customs_hold,-,express
+SH2510026,"0004184",Turin,Utrecht,178 Kingsway,2025-12-24,2025-02-03,failed,damaged_in_transit,8.18,express
+SH2510027,"0004779",Antwerp,Marseille,234 Dock Approach,2025-10-28,2025-11-28,delivered,NULL,69.72,economy
+SH2510028,"0004913",Gdansk,Marseille,31 Kingsway,2025-04-01,2025-10-25,failed,customs_hold,77.49,standard
+SH2510029,"0005010",Porto,Bilbao,151 Elm Grove,2025-08-14,2025-08-03,delivered,NULL,79.90,express
+SH2510030,"0004303",Antwerp,Leeds,10 Kingsway,2025-01-22,2025-10-27,delivered,,4.91,express
+SH2510031,"0004582",Marseille,Aarhus,192 Dock Approach,2025-01-03,2025-05-11,failed,address_incorrect,68.76,standard
+SH2510032,"0004275",Bremen,Turin,85 Bridge St,2025-09-07,2025-12-07,delivered,nan,66.18,standard
+SH2510033,"0005410",Gdansk,Málaga,156 Dock Approach,2025-05-17,2025-10-20,delivered,nan,51.14,express_am
+SH2510034,"0004368",Porto,Gdansk,50 Main St,2025-02-01,2025-08-21,returned,NULL,72.46,express_am
+SH2510035,"0004716",Bilbao,Rotterdam,164 Station Rd,2025-12-10,N/A,in_transit,nan,N/A,economy
+SH2510036,"0005165",Rotterdam,Marseille,50 Dock Approach,2025-06-22,2025-08-16,returned,NULL,43.83,economy
+SH2510037,"0004847",Antwerp,Gdansk,145 Dock Approach,2025-09-18,2025-01-07,delivered,N/A,6.46,standard
+SH2510038,"0004768",Marseille,Manchester,48 Harbour Rd,2025-05-23,-,delivered,-,79.43,economy
+SH2510039,"0004619",Marseille,Bremen,96 Main St,2025-04-03,-,in_transit,NULL,17.62,economy
+SH2510040,"0004293",Bremen,Lyon,"53 Main St, Unit 15",2025-07-23,,returned,nan,78.97,standard
+SH2510041,"0005349",Gdansk,Rotterdam,148 Mill Lane,2025-11-07,2025-06-07,delivered,nan,29.22,standard
+SH2510042,"0004322",Turin,Bremen,4 Harbour Rd,2025-04-18,2025-06-18,delivered,N/A,52.17,economy
+SH2510043,"0004693",Aarhus,Antwerp,34 Main St,2025-08-22,2025-01-04,delivered,-,35.77,express_am
+SH2510044,"0004639",Utrecht,Bilbao,183 Harbour Rd,2025-08-19,2025-03-03,returned,-,9.25,express_am
+SH2510045,"0004458",Lyon,Turin,234 Dock Approach,2025-07-06,2025-12-22,delivered,-,44.38,standard
+SH2510046,"0004944",Marseille,Gdansk,197 Dock Approach,2025-10-19,2025-03-17,returned,,29.83,economy
+SH2510047,"0004820",Dublin,Porto,159 Station Rd,2025-09-06,NULL,returned,nan,39.30,economy
+SH2510048,"0004483",Marseille,Hamburg,190 Elm Grove,2025-02-19,2025-10-15,delivered,-,16.36,standard
+SH2510049,"0005403",Manchester,Utrecht,127 Main St,2025-02-07,2025-03-19,returned,,68.64,express_am
+SH2510050,"0004798",Aarhus,Bilbao,53 Dock Approach,2025-05-19,2025-11-10,failed,damaged_in_transit,89.63,express_am
+SH2510051,"0004602",Antwerp,Leeds,231 Main St,2025-01-23,2025-09-27,delivered,N/A,78.41,express_am
+SH2510052,"0005457",Manchester,Manchester,98 Bridge St,2025-09-07,2025-11-06,delivered,nan,35.11,express_am
+SH2510053,"0005372",Lyon,Lyon,3 Harbour Rd,2025-11-01,2025-03-24,returned,-,88.25,express
+SH2510054,"0004851",Aarhus,Dublin,160 Kingsway,2025-08-17,2025-07-18,failed,damaged_in_transit,20.82,standard
+SH2510055,"0005496",Porto,Turin,106 Dock Approach,2025-01-02,2025-10-16,delivered,nan,43.84,express
+SH2510056,"0005078",Turin,Aarhus,133 Harbour Rd,2025-09-20,2025-02-08,returned,,62.07,economy
+SH2510057,"0004703",Rotterdam,Malmo,117 Elm Grove,2025-10-24,2025-06-14,delivered,N/A,15.58,economy,depot_5,scan_162
+SH2510058,"0005288",Malmo,Marseille,147 Main St,2025-11-10,-,delivered,NULL,46.00,economy
+SH2510059,"0005261",Turin,Turin,220 Mill Lane,2025-01-24,2025-02-20,in_transit,NULL,59.82,express
+SH2510060,"0005435",Porto,Malmo,47 Main St,2025-06-03,2025-03-20,delivered,-,68.25,express_am
+SH2510061,"0004901",Marseille,Bilbao,148 Dock Approach,2025-01-21,2025-05-25,delivered,NULL,42.26,express_am
+SH2510062,"0005090",Porto,Manchester,175 Bridge St,2025-08-09,2025-03-17,delivered,N/A,83.95,economy
+SH2510063,"0005398",Antwerp,Bremen,235 Dock Approach,2025-07-20,2025-11-28,delivered,N/A,72.71,express_am
+SH2510064,"0005382",Porto,Bilbao,134 Dock Approach,2025-11-23,2025-03-11,returned,,,standard
+SH2510065,"0004719",Porto,Gdansk,65 Station Rd,2025-01-01,nan,returned,NULL,86.04,standard
+SH2510066,"0005238",Lyon,Manchester,169 Kingsway,2025-02-23,2025-03-09,returned,,57.99,economy
+SH2510067,"0005417",Utrecht,Turin,42 Harbour Rd,2025-05-25,2025-01-13,delivered,N/A,86.50,express_am
+SH2510068,"0004410",Manchester,Marseille,166 Elm Grove,2025-02-05,2025-09-25,in_transit,,82.63,
+SH2510069,"0005170",Turin,Aarhus,5 Elm Grove,2025-03-21,2025-11-01,returned,-,24.48,express_am
+SH2510070,"0005055",Malmo,Malmo,112 Bridge St,2025-12-25,2025-02-18,failed,customs_hold,11.41,economy
+SH2510071,"0004620",Manchester,Antwerp,162 Harbour Rd,2025-06-18,2025-06-03,delivered,NULL,-,express
+SH2510072,"0004798",Bremen,Leeds,125 Harbour Rd,2025-11-15,2025-12-07,delivered,,65.28,express_am
+SH2510073,"0005107",Gdansk,Malmo,137 Elm Grove,2025-01-02,2025-06-02,returned,,37.00,express_am
+SH2510074,"0005098",Lyon,Porto,237 Harbour Rd,2025-01-24,2025-03-16,failed,site_access_denied
+SH2510075,"0004629",Bremen,Aarhus,157 Kingsway,2025-10-03,2025-02-04,in_transit,NULL,6.18,economy
+SH2510076,"0005389",Manchester,Utrecht,31 Kingsway,2025-06-27,NULL,delivered,,11.37,express_am
+SH2510077,"0004757",Marseille,Aarhus,63 Main St,2025-03-04,2025-11-20,delivered,,79.67,standard
+SH2510078,"0004182",Gdansk,Dublin,178 Elm Grove,2025-12-05,2025-04-05,in_transit,-,37.58,standard
+SH2510079,"0005468",Malmo,Hamburg,161 Mill Lane,2025-06-14,2025-01-18,delivered,nan,88.41,express
+SH2510080,"0005282",Bilbao,Turin,14 Station Rd,2025-02-26,2025-03-22,failed,customs_hold,16.37,standard
+SH2510081,"0004745",Gdansk,Bilbao,112 Mill Lane,2025-06-20,2025-08-02,delivered,nan,16.33,express_am
+SH2510082,"0004145",Porto,Aarhus,152 Dock Approach,2025-07-07,2025-12-22,delivered,,29.85,express_am
+SH2510083,"0004769",Porto,Hamburg,121 Elm Grove,2025-01-14,2025-03-07,failed,recipient_absent,35.36,express
+SH2510084,"0004552",Bilbao,Utrecht,33 Main St,2025-12-19,2025-01-09,failed,customs_hold,38.14,express
+SH2510085,"0005236",Marseille,Marseille,148 Station Rd,2025-02-14,2025-09-16,delivered,nan,43.11,standard
+SH2510086,"0004505",Porto,Utrecht,112 Station Rd,2025-10-05,2025-10-01,delivered,,89.71,standard
+SH2510087,"0004807",Malmo,Bremen,116 Elm Grove,2025-04-03,-,delivered,NULL,32.76,N/A
+SH2510088,"0004331",Aarhus,Rotterdam,"117 Elm Grove, Unit 25",2025-03-28,2025-12-13,delivered,-,,express_am
+SH2510089,"0004681",Antwerp,Gdansk,110 Mill Lane,2025-12-20,2025-09-19,returned,,56.34,standard
+SH2510090,"0005381",Leeds,Antwerp,29 Bridge St,2025-06-15,2025-10-02,delivered,nan,63.94,express
+SH2510091,"0004685",Porto,Bremen,167 Elm Grove,2025-12-25,2025-10-28,delivered,NULL,29.34,express_am
+SH2510092,"0004129",Leeds,Leeds,116 Elm Grove,2025-09-17,2025-02-16,returned,nan,81.45,economy
+SH2510093,"0005419",Hamburg,Bilbao,229 Elm Grove,2025-02-03,2025-07-06,delivered,,15.33,express
+SH2510094,"0004418",Rotterdam,Gdansk,107 Kingsway,2025-08-12,2025-07-15,delivered,N/A,NULL,economy
+SH2510095,"0004702",Utrecht,Malmo,152 Elm Grove,2025-08-10,2025-10-05,delivered,NULL,71.53,economy
+SH2510096,"0004096",Lyon,Nîmes,73 Elm Grove,2025-03-20,2025-03-23,delivered,NULL,76.04,express
+SH2510097,"0004239",Antwerp,Utrecht,148 Kingsway,2025-08-09,2025-06-06,returned,,60.40,express
+SH2510098,"0005105",Marseille,Gdansk,32 Main St,2025-07-16,2025-03-15,delivered,,87.81,economy
+SH2510099,"0004605",Malmo,Gdansk,194 Kingsway,2025-10-24,2025-08-11,returned,-,81.52,standard
+SH2510100,"0004822",Porto,Aarhus,92 Harbour Rd,2025-06-02,2025-10-21,in_transit,NULL,70.82,nan
+SH2510101,"0004912",Hamburg,Manchester,50 Elm Grove,2025-06-20,2025-10-17,returned,N/A,36.28,express_am
+SH2510102,"0004763",Rotterdam,Gdansk,89 Dock Approach,2025-05-15,2025-09-03,failed,customs_hold,72.83,express_am
+SH2510103,"0004848",Lyon,Hamburg,37 Station Rd,2025-05-16,nan,failed,address_incorrect,1.10,economy
+SH2510104,"0005138",Aarhus,Lyon,52 Kingsway,2025-07-10,N/A,in_transit,N/A,44.97,
+SH2510105,"0004315",Turin,Gdansk,164 Elm Grove,2025-02-21,2025-11-10,failed,recipient_absent,3.06,express_am
+SH2510106,"0004136",Leeds,Malmo,145 Bridge St,2025-05-21,2025-11-16,delivered,N/A,46.63,economy
+SH2510107,"0004119",Lyon,Utrecht,119 Kingsway,2025-06-06,2025-01-09,returned,N/A,4.88,standard
+SH2510108,"0005286",Marseille,Bremen,154 Kingsway,2025-09-11,2025-06-27,delivered,N/A,62.19,standard
+SH2510109,"0004720",Lyon,Rotterdam,36 Mill Lane,2025-06-25,2025-08-14,delivered,,20.11,express
+SH2510110,"0005144",Bremen,Dublin,118 Harbour Rd,2025-02-27,2025-03-01,delivered,N/A,13.01,economy
+SH2510111,"0004623",Rotterdam,Bremen,57 Kingsway,2025-12-05,2025-12-08,delivered,NULL,88.80,standard
+SH2510112,"0004991",Dublin,Antwerp,51 Harbour Rd,2025-01-26,2025-11-17,failed,address_incorrect,N/A,standard
+SH2510113,"0004253",Bilbao,Bilbao,48 Dock Approach,2025-01-03,2025-03-28,delivered,nan,31.81,express
+SH2510114,"0004139",Bremen,Rotterdam,136 Station Rd,2025-12-07,2025-05-06,in_transit,,88.12,express
+SH2510115,"0005449",Malmo,Leeds,179 Kingsway,2025-08-22,2025-02-06,failed,customs_hold,19.78,standard
+SH2510116,"0004643",Bremen,Aarhus,29 Kingsway,2025-08-25,2025-06-23,returned,,7.90,express_am
+SH2510117,"0005229",Gdansk,Aarhus,58 Bridge St,2025-05-28,2025-07-07,failed,damaged_in_transit,16.64,express_am
+SH2510118,"0004811",Aarhus,Hamburg,31 Kingsway,2025-07-13,2025-12-19,returned,NULL,6.32,economy
+SH2510119,"0004827",Bremen,Porto,215 Bridge St,2025-12-16,2025-05-25,in_transit,nan,25.07,express_am
+SH2510120,"0005365",Manchester,Malmo,131 Mill Lane,2025-03-25,2025-08-04,failed,customs_hold,21.27,standard
+SH2510121,"0004108",Hamburg,Malmo,174 Main St,2025-03-13,2025-10-22,delivered,nan,56.59,express_am
+SH2510122,"0004413",Gdansk,Malmo,126 Mill Lane,2025-09-11,,failed,address_incorrect,35.03,express_am
+SH2510123,"0004073",Antwerp,Marseille,143 Mill Lane,2025-12-06,2025-08-14,returned,-,44.37,express_am
+SH2510124,"0005403",Malmo,Malmo,144 Kingsway,2025-09-02,2025-07-09,failed,site_access_denied,61.38,economy
+SH2510125,"0004057",Antwerp,Lyon,215 Dock Approach,2025-06-26,N/A,failed,address_incorrect,39.03,express_am
+SH2510126,"0005354",Porto,Porto,61 Mill Lane,2025-10-03,2025-12-03,delivered,N/A,15.78,standard
+SH2510127,"0004865",Dublin,Turin,6 Elm Grove,2025-10-01,2025-06-13,delivered,nan,9.30,express
+SH2510128,"0005029",Utrecht,Marseille,158 Mill Lane,2025-06-14,2025-04-16,delivered,nan,19.77,economy
+SH2510129,"0004823",Porto,Hamburg,184 Harbour Rd,2025-10-11,2025-05-03,in_transit,-,38.94,standard
+SH2510130,"0004618",Gdansk,Dublin,170 Dock Approach,2025-04-14,2025-07-09,failed,site_access_denied,nan,express
+SH2510131,"0004436",Aarhus,Turin,240 Bridge St,2025-10-24,2025-11-02,delivered,-,13.80,economy
+SH2510132,"0004840",Utrecht,Hamburg,163 Station Rd,2025-07-09,2025-05-21,returned,nan,21.75,express
+SH2510133,"0004502",Gdansk,Aarhus,125 Bridge St,2025-07-21,2025-01-07,delivered,,23.76,express
+SH2510134,"0004086",Malmo,Rotterdam,15 Harbour Rd,2025-06-20,-,delivered,,36.22,express
+SH2510135,"0005169",Bremen,Turin,128 Harbour Rd,2025-04-20,2025-02-25,delivered,nan,66.85,express
+SH2510136,"0004446",Lyon,Bremen,45 Station Rd,2025-05-15,2025-07-09,delivered,-,48.51,standard
+SH2510137,"0004867",Malmo,Porto,72 Kingsway,2025-06-16,2025-12-12,delivered,nan,3.63,standard
+SH2510138,"0005375",Porto,Turin,142 Bridge St,2025-05-21,2025-12-12,returned,,48.64,express_am
+SH2510139,"0004804",Turin,Gdansk,24 Station Rd,2025-05-07,2025-03-15,returned,-,71.54,standard
+SH2510140,"0005006",Malmo,Dublin,238 Dock Approach,2025-12-14,2025-02-27,delivered,nan,6.47,economy
+SH2510141,"0004056",Antwerp,Marseille,"162 Elm Grove, Unit 26",2025-11-05,2025-01-13,delivered,N/A,52.32,express
+SH2510142,"0005329",Lyon,Dublin,203 Dock Approach,2025-08-16,2025-12-05,returned,nan,74.91,express
+SH2510143,"0004752",Marseille,Manchester,225 Bridge St,2025-10-08,2025-01-01,returned,nan,56.90,express_am
+SH2510144,"0005436",Marseille,Antwerp,103 Bridge St,2025-10-09,2025-03-03,delivered,nan,11.06,express_am
+SH2510145,"0004929",Malmo,Bremen,58 Station Rd,2025-04-28,2025-05-10,failed,recipient_absent,39.32,express
+SH2510146,"0004579",Bilbao,Dublin,47 Bridge St,2025-03-01,2025-05-09,failed,recipient_absent,33.77,express_am
+SH2510147,"0004960",Lyon,Utrecht,178 Bridge St,2025-11-07,2025-12-13,returned,nan,23.56,standard
+SH2510148,"0004480",Malmo,Leeds,156 Main St,2025-01-09,2025-09-20,failed,damaged_in_transit,12.40,standard
+SH2510149,"0004533",Marseille,Malmo,239 Dock Approach,2025-08-05,2025-02-11,failed,recipient_absent,23.94,express
+SH2510150,"0004575",Leeds,Dublin,73 Mill Lane,2025-10-27,2025-05-17,delivered,N/A,66.82,express
+SH2510151,"0005346",Aarhus,Antwerp,49 Kingsway,2025-01-08,2025-03-02,delivered,-,39.78,express_am
+SH2510152,"0004730",Malmo,Aarhus,127 Harbour Rd,2025-12-28,2025-03-04,delivered,N/A,16.76,economy
+SH2510153,"0005358",Bilbao,Rotterdam,135 Kingsway,2025-07-03,2025-04-25,delivered,N/A,2.84,standard
+SH2510154,"0005209",Bremen,Utrecht,40 Main St,2025-02-15,2025-12-22,returned,N/A,,express_am
+SH2510155,"0005498",Lyon,Bilbao,221 Main St,2025-11-10,,in_transit,nan,34.83,express
+SH2510156,"0004816",Hamburg,Rotterdam,219 Station Rd,2025-03-13,2025-07-10,returned,NULL,11.35,express_am
+SH2510157,"0004635",Lyon,Leeds,171 Harbour Rd,2025-06-17,2025-04-16,failed,customs_hold,24.66,standard
+SH2510158,"0004754",Marseille,Dublin,162 Bridge St,2025-02-02,2025-09-11,returned,NULL,58.78,express_am,depot_9,scan_185
+SH2510159,"0004595",Aarhus,Dublin,21 Elm Grove,2025-05-05,2025-03-22,delivered,nan,39.00,standard
+SH2510160,"0005051",Bremen,Dublin,106 Harbour Rd,2025-08-22,2025-12-19,delivered,N/A,53.20,standard
+SH2510161,"0005354",Aarhus,Marseille,202 Kingsway,2025-07-02,2025-02-14,delivered,N/A,53.35,express_am
+SH2510162,"0004542",Utrecht,Marseille,55 Kingsway,2025-02-24,2025-10-09,delivered,-,,standard
+SH2510163,"0004977",Aarhus,Manchester,223 Elm Grove,2025-05-20,2025-10-12,returned,-,72.92,
+SH2510164,"0004032",Bilbao,Rotterdam,54 Elm Grove,2025-11-05,2025-11-08,returned,nan,17.68,express_am
+SH2510165,"0004864",Rotterdam,Bremen,43 Kingsway,2025-12-23,2025-08-16,failed,site_access_denied,22.34,express_am
+SH2510166,"0004016",Bremen,Dublin,107 Elm Grove,2025-12-19,2025-10-24,delivered,,44.37,express_am
+SH2510167,"0004124",Rotterdam,Dublin,148 Dock Approach,2025-09-03,2025-05-21,failed,address_incorrect,45.03,economy
+SH2510168,"0004893",Rotterdam,Marseille,74 Station Rd,2025-08-12,2025-08-08,in_transit,N/A,83.46,express_am
+SH2510169,"0004600",Manchester,Dublin,214 Dock Approach,2025-08-26,2025-03-20,returned,,60.54,express
+SH2510170,"0005007",Bremen,Dublin,127 Mill Lane,2025-04-07,2025-09-02,delivered,N/A,32.63,standard
+SH2510171,"0004691",Dublin,Bremen,159 Station Rd,2025-02-18,2025-04-16,delivered,N/A,69.74,economy
+SH2510172,"0005413",Bremen,Antwerp,238 Elm Grove,2025-08-27,2025-02-04,in_transit,,,express
+SH2510173,"0004420",Leeds,Marseille,187 Mill Lane,2025-12-15,2025-09-16,delivered,NULL,58.74,express
+SH2510174,"0004413",Aarhus,Dublin,197 Main St,2025-04-27,2025-08-11,delivered,,24.44,express_am
+SH2510175,"0005361",Porto,Lyon,193 Bridge St,2025-04-05,2025-07-14,failed,site_access_denied,72.01,standard
+SH2510176,"0004020",Hamburg,Hamburg,87 Dock Approach,2025-07-25,,returned,NULL,81.73,economy
+SH2510177,"0005394",Gdansk,Köln,233 Dock Approach,2025-01-27,2025-05-17,delivered,-,40.66,express_am
+SH2510178,"0005328",Manchester,Bilbao,226 Mill Lane,2025-02-02,2025-09-11,returned,NULL,47.34,express
+SH2510179,"0005130",Gdansk,Utrecht,194 Kingsway,2025-01-01,2025-09-19,delivered,-,89.33,standard
+SH2510180,"0004531",Leeds,Bremen,13 Harbour Rd,2025-08-10,N/A,delivered,nan,51.40,express
+SH2510181,"0004582",Lyon,Manchester,134 Station Rd,2025-02-11,2025-09-19,delivered,-,9.32,express_am
+SH2510182,"0004127",Dublin,Lyon,122 Station Rd,2025-08-03,2025-06-22,in_transit,nan,47.21,economy
+SH2510183,"0005303",Dublin,Aarhus,177 Elm Grove,2025-12-14,2025-03-05,failed,customs_hold,12.14,standard
+SH2510184,"0004932",Malmo,Antwerp,192 Kingsway,2025-09-12,2025-02-20,delivered,,33.76,express
+SH2510185,"0004624",Leeds,Gdansk,76 Elm Grove,2025-01-26,2025-03-05,failed,address_incorrect,84.81,economy
+SH2510186,"0005001",Rotterdam,Bremen,141 Dock Approach,2025-02-28,2025-01-14,delivered,nan,41.21,express_am
+SH2510187,"0005474",Lyon,Lyon,130 Elm Grove,2025-08-22,2025-08-05,delivered,,72.48,express_am
+SH2510188,"0004809",Utrecht,Antwerp,172 Elm Grove,2025-12-09,2025-11-03,returned,,51.98,economy
+SH2510189,"0004253",Hamburg,Bilbao,159 Main St,2025-10-17,2025-04-25,delivered,,59.74,standard
+SH2510190,"0004421",Porto,Aarhus,22 Dock Approach,2025-07-19,2025-01-16,delivered,N/A,39.83,economy
+SH2510191,"0004186",Bremen,Bremen,139 Kingsway,2025-05-05,2025-03-09,delivered,N/A,86.19,standard
+SH2510192,"0004666",Marseille,Rotterdam,183 Main St,2025-05-13,2025-02-11,delivered,N/A,34.30,standard
+SH2510193,"0004490",Porto,Malmo,131 Bridge St,2025-02-09,2025-01-11,failed,address_incorrect,44.08,express
+SH2510194,"0004038",Turin,Bremen,64 Kingsway,2025-05-19,nan,delivered,NULL,34.10,express
+SH2510195,"0004867",Aarhus,Antwerp,1 Elm Grove,2025-10-10,-,delivered,nan,23.08,economy
+SH2510196,"0004435",Gdansk,Antwerp,42 Harbour Rd,2025-05-03,2025-07-23,delivered,nan,90.39,express
+SH2510197,"0004651",Utrecht,Turin,193 Elm Grove,2025-05-08,2025-11-11,failed,site_access_denied,30.06,express
+SH2510198,"0004004",Malmo,Rotterdam,231 Main St,2025-11-06,2025-07-18,returned,-,69.12,standard
+SH2510199,"0005375",Aarhus,Bremen,91 Bridge St,2025-10-12,2025-07-06,returned,,11.73,express
+SH2510200,"0004453",Rotterdam,Turin,175 Dock Approach,03/04/2025,21/10/2025,returned,NULL,21.58,-
+SH2510201,"0005441",Bilbao,Rotterdam,51 Bridge St,28/02/2025,19/05/2025,delivered,nan,17.94,express
+SH2510202,"0004262",Hamburg,Lyon,"67 Station Rd, Unit 29",24/09/2025,07/05/2025,delivered,nan,55.80,-
+SH2510203,"0005312",Antwerp,Utrecht,111 Bridge St,04/05/2025,17/11/2025,delivered,nan,68.81,express
+SH2510204,"0004860",Aarhus,Utrecht,2 Bridge St,11/04/2025,19/02/2025,returned,NULL,88.53,standard
+SH2510205,"0004403",Marseille,Utrecht,80 Harbour Rd,21/11/2025,01/02/2025,delivered,nan,72.25,economy
+SH2510206,"0004969",Porto,Utrecht,214 Main St,17/06/2025,03/04/2025,in_transit,-,69.27,standard
+SH2510207,"0004124",Antwerp,Manchester,81 Harbour Rd,02/03/2025,02/08/2025,returned,-,6.42,standard
+SH2510208,"0004781",Manchester,Bremen,159 Bridge St,28/04/2025,26/10/2025,delivered,-,35.05,standard
+SH2510209,"0005383",Rotterdam,Aarhus,133 Dock Approach,07/10/2025,,in_transit,NULL,81.89,economy
+SH2510210,"0004985",Aarhus,Marseille,63 Kingsway,02/01/2025,10/03/2025,in_transit,N/A,28.51,express
+SH2510211,"0004632",Utrecht,Gdansk,95 Main St,19/09/2025,22/11/2025,delivered,nan,74.23,standard
+SH2510212,"0004400",Bilbao,Bilbao,202 Harbour Rd,07/06/2025,16/11/2025,failed,site_access_denied,62.82,economy
+SH2510213,"0004857",Utrecht,Marseille,27 Elm Grove,16/01/2025,01/04/2025,returned,NULL,42.49,express_am
+SH2510214,"0004678",Manchester,Bilbao,103 Kingsway,12/01/2025,03/01/2025,in_transit,,13.32,economy
+SH2510215,"0004060",Bilbao,Bilbao,73 Kingsway,09/04/2025,06/12/2025,in_transit,NULL,N/A,NULL
+SH2510216,"0004776",Bremen,Utrecht,240 Station Rd,15/05/2025,12/04/2025,returned,NULL,85.20,express_am
+SH2510217,"0004133",Bremen,Lyon,226 Kingsway,07/04/2025,13/09/2025,delivered,nan,39.16,standard
+SH2510218,"0005202",Bilbao,Gdansk,203 Kingsway,08/06/2025,21/01/2025,delivered,nan,87.65,express
+SH2510219,"0004963",Hamburg,Marseille,131 Bridge St,25/11/2025,12/09/2025,failed,recipient_absent,29.46,express_am
+SH2510220,"0005013",Malmo,Turin,149 Bridge St,26/11/2025,NULL,delivered,-,78.19,economy
+SH2510221,"0004772",Marseille,Leeds,66 Harbour Rd,25/03/2025,10/02/2025,delivered,NULL,53.06,economy
+SH2510222,"0004957",Dublin,Dublin,95 Elm Grove,09/06/2025,01/07/2025,delivered,N/A,58.58,standard
+SH2510223,"0005027",Hamburg,Turin,238 Station Rd,04/02/2025,NULL,delivered,NULL,61.26,economy
+SH2510224,"0005237",Lyon,Turin,3 Mill Lane,27/05/2025,26/06/2025,failed,site_access_denied,nan,express
+SH2510225,"0004466",Porto,Bilbao,122 Station Rd,19/09/2025,25/09/2025,failed,damaged_in_transit,71.77,express
+SH2510226,"0005429",Dublin,Bilbao,113 Elm Grove,01/09/2025,05/06/2025,delivered,N/A,N/A,economy
+SH2510227,"0004871",Manchester,Gdansk,84 Main St,26/10/2025,05/01/2025,delivered,nan,57.19,express_am
+SH2510228,"0004418",Manchester,Hamburg,137 Bridge St,16/04/2025,11/02/2025,failed,damaged_in_transit,8.89,nan
+SH2510229,"0005000",Rotterdam,Marseille,51 Harbour Rd,10/07/2025,08/04/2025,in_transit,,41.42,standard
+SH2510230,"0004841",Manchester,Marseille,29 Kingsway,14/09/2025,NULL,delivered,NULL,28.38,express_am
+SH2510231,"0005177",Gdansk,Bilbao,129 Elm Grove,07/05/2025,05/01/2025,failed,site_access_denied,73.18,express_am
+SH2510232,"0005179",Antwerp,Hamburg,74 Elm Grove,23/06/2025,26/12/2025,in_transit,NULL,37.85,express_am
+SH2510233,"0005349",Marseille,Bremen,101 Main St,28/04/2025,09/03/2025,in_transit,N/A
+SH2510234,"0004842",Bremen,Leeds,20 Harbour Rd,25/09/2025,14/06/2025,delivered,NULL,46.05,standard
+SH2510235,"0005383",Aarhus,Manchester,88 Bridge St,13/04/2025,01/01/2025,returned,NULL,29.94,express_am
+SH2510236,"0004169",Porto,Aarhus,36 Elm Grove,27/05/2025,06/03/2025,in_transit,,16.45,express_am
+SH2510237,"0005375",Rotterdam,Turin,40 Elm Grove,06/06/2025,nan,delivered,-,63.21,standard
+SH2510238,"0004631",Aarhus,Antwerp,154 Main St,25/01/2025,25/07/2025,delivered,N/A,82.29,standard
+SH2510239,"0004029",Utrecht,Bilbao,175 Harbour Rd,04/04/2025,06/11/2025,delivered,-,46.63,economy
+SH2510240,"0004388",Bilbao,Manchester,110 Harbour Rd,07/04/2025,12/02/2025,delivered,-,NULL,express_am
+SH2510241,"0005347",Turin,Leeds,12 Harbour Rd,14/04/2025,25/05/2025,delivered,nan,71.71,express
+SH2510242,"0004194",Utrecht,Manchester,174 Kingsway,06/06/2025,25/11/2025,delivered,-,nan,express_am
+SH2510243,"0005311",Porto,Rotterdam,60 Main St,25/10/2025,10/02/2025,failed,recipient_absent,56.28,economy
+SH2510244,"0004413",Lyon,Manchester,53 Main St,24/04/2025,15/10/2025,delivered,NULL,25.53,standard
+SH2510245,"0004849",Gdansk,Rotterdam,59 Dock Approach,08/06/2025,NULL,returned,NULL,55.23,economy
+SH2510246,"0005289",Rotterdam,Hamburg,223 Elm Grove,07/02/2025,21/01/2025,delivered,NULL,8.76,express
+SH2510247,"0004160",Dublin,Aarhus,80 Kingsway,07/12/2025,14/04/2025,delivered,N/A,26.18,express
+SH2510248,"0004985",Hamburg,Leeds,102 Bridge St,16/03/2025,14/08/2025,returned,-,68.93,-
+SH2510249,"0004875",Hamburg,Orléans,153 Kingsway,24/09/2025,09/03/2025,delivered,-,25.99,express_am
+SH2510250,"0004279",Malmo,Bilbao,40 Station Rd,01/01/2025,24/09/2025,failed,customs_hold,83.81,economy
+SH2510251,"0004630",Hamburg,Dublin,227 Main St,13/02/2025,06/10/2025,failed,damaged_in_transit,69.91,economy
+SH2510252,"0005000",Leeds,Antwerp,167 Bridge St,24/07/2025,08/04/2025,delivered,,63.27,economy
+SH2510253,"0005394",Lyon,Turin,64 Kingsway,04/01/2025,21/02/2025,failed,customs_hold,64.05,standard
+SH2510254,"0004386",Dublin,Marseille,213 Bridge St,23/05/2025,17/05/2025,returned,-,53.25,standard
+SH2510255,"0005172",Leeds,Lyon,69 Station Rd,13/12/2025,NULL,failed,address_incorrect,9.22,express_am
+SH2510256,"0005340",Gdansk,Dublin,44 Kingsway,06/06/2025,05/12/2025,delivered,nan,85.86,express
+SH2510257,"0004120",Marseille,Bilbao,67 Bridge St,21/08/2025,04/10/2025,delivered,,26.88,economy
+SH2510258,"0004060",Porto,Malmo,125 Harbour Rd,02/01/2025,25/05/2025,returned,nan,NULL,standard
+SH2510259,"0005065",Turin,Malmo,122 Dock Approach,14/10/2025,12/06/2025,delivered,N/A,74.02,express_am
+SH2510260,"0004117",Leeds,Utrecht,"207 Harbour Rd, Unit 1",28/08/2025,13/12/2025,delivered,,54.67,economy
+SH2510261,"0004509",Leeds,Aarhus,159 Elm Grove,14/09/2025,N/A,delivered,N/A,79.11,economy
+SH2510262,"0004478",Malmo,Manchester,190 Harbour Rd,14/06/2025,22/08/2025,delivered,-,26.95,express
+SH2510263,"0005171",Antwerp,Lyon,128 Harbour Rd,27/05/2025,18/11/2025,failed,recipient_absent,81.18,express_am
+SH2510264,"0004493",Porto,Bilbao,44 Harbour Rd,14/02/2025,01/12/2025,delivered,-,69.47,economy
+SH2510265,"0005373",Bremen,Lyon,237 Elm Grove,26/02/2025,11/12/2025,in_transit,nan,6.32,express_am
+SH2510266,"0005150",Dublin,Porto,58 Mill Lane,10/02/2025,nan,delivered,,52.06,economy
+SH2510267,"0005181",Rotterdam,Gdansk,16 Station Rd,14/07/2025,25/06/2025,returned,NULL,47.28,express
+SH2510268,"0004018",Aarhus,Utrecht,38 Mill Lane,16/04/2025,15/11/2025,delivered,NULL,67.74,standard
+SH2510269,"0004632",Bremen,Turin,218 Elm Grove,27/11/2025,16/04/2025,failed,address_incorrect,88.80,express
+SH2510270,"0004460",Antwerp,Marseille,220 Elm Grove,13/12/2025,27/05/2025,delivered,,49.81,express_am
+SH2510271,"0004801",Manchester,Hamburg,136 Mill Lane,23/05/2025,23/04/2025,failed,address_incorrect,12.28,standard
+SH2510272,"0005453",Gdansk,Aarhus,168 Kingsway,05/10/2025,23/08/2025,delivered,NULL,20.13,standard
+SH2510273,"0005178",Bremen,Lyon,97 Bridge St,27/11/2025,-,delivered,,11.06,economy
+SH2510274,"0004304",Manchester,Porto,9 Harbour Rd,13/04/2025,10/08/2025,delivered,-,70.33,standard
+SH2510275,"0005331",Manchester,Turin,162 Elm Grove,01/06/2025,-,returned,nan,20.74,express_am
+SH2510276,"0004193",Marseille,Manchester,124 Bridge St,19/05/2025,04/03/2025,returned,nan,17.14,standard
+SH2510277,"0005098",Malmo,Hamburg,133 Harbour Rd,22/04/2025,06/02/2025,returned,NULL,0.98,economy
+SH2510278,"0004263",Bilbao,Marseille,23 Mill Lane,03/01/2025,17/02/2025,in_transit,NULL,38.57,standard
+SH2510279,"0004094",Gdansk,Aarhus,36 Elm Grove,11/12/2025,12/09/2025,in_transit,NULL,62.41,standard
+SH2510280,"0004385",Lyon,Gdansk,220 Station Rd,20/03/2025,07/09/2025,delivered,NULL,66.12,economy
+SH2510281,"0005330",Marseille,Manchester,117 Harbour Rd,22/05/2025,23/07/2025,delivered,,57.16,express
+SH2510282,"0005154",Marseille,Dublin,211 Kingsway,26/06/2025,nan,delivered,,24.81,express_am
+SH2510283,"0005311",Hamburg,Leeds,233 Dock Approach,05/05/2025,-,delivered,-,86.16,standard
+SH2510284,"0005491",Gdansk,Malmo,25 Dock Approach,19/12/2025,18/05/2025,delivered,,15.87,express_am
+SH2510285,"0005388",Manchester,Malmo,152 Kingsway,01/05/2025,17/11/2025,returned,NULL,13.34,economy
+SH2510286,"0005485",Leeds,Porto,174 Bridge St,15/12/2025,15/03/2025,failed,site_access_denied,26.31,express
+SH2510287,"0004178",Gdansk,Dublin,198 Dock Approach,21/02/2025,03/02/2025,delivered,NULL,52.28,economy
+SH2510288,"0005009",Rotterdam,Dublin,174 Kingsway,16/08/2025,22/09/2025,in_transit,,36.99,standard
+SH2510289,"0005438",Leeds,Porto,190 Main St,15/10/2025,22/03/2025,in_transit,NULL,16.23,express
+SH2510290,"0004104",Dublin,Malmo,98 Kingsway,04/06/2025,22/06/2025,in_transit,,26.61,economy
+SH2510291,"0005292",Manchester,Bilbao,237 Mill Lane,17/11/2025,15/01/2025,failed,address_incorrect,32.52,economy,depot_2,scan_105
+SH2510292,"0004716",Marseille,Manchester,91 Main St,14/02/2025,nan,delivered,-,11.65,express
+SH2510293,"0004512",Porto,Malmo,102 Dock Approach,12/05/2025,06/07/2025,delivered,,89.54,express_am
+SH2510294,"0004724",Dublin,Rotterdam,92 Station Rd,07/02/2025,02/05/2025,failed,damaged_in_transit,81.59,express
+SH2510295,"0005362",Turin,Bremen,108 Elm Grove,16/09/2025,23/11/2025,failed,site_access_denied,65.84,express_am
+SH2510296,"0004220",Rotterdam,Lyon,40 Dock Approach,01/09/2025,N/A,failed,site_access_denied,66.87,economy
+SH2510297,"0004169",Dublin,Porto,159 Kingsway,17/12/2025,08/03/2025,delivered,N/A,89.98,express_am
+SH2510298,"0005446",Bremen,Marseille,49 Kingsway,04/04/2025,NULL,delivered,-,2.09,standard
+SH2510299,"0005075",Gdansk,Porto,57 Dock Approach,16/07/2025,17/01/2025,delivered,N/A,10.40,economy
+SH2510300,"0004505",Utrecht,Antwerp,47 Main St,02/01/2025,24/11/2025,delivered,-,25.71,express_am
+SH2510301,"0005006",Leeds,Utrecht,78 Harbour Rd,22/02/2025,22/01/2025,delivered,N/A,32.95,economy
+SH2510302,"0004565",Bilbao,Manchester,23 Harbour Rd,21/03/2025,20/12/2025,in_transit,NULL,17.86,standard
+SH2510303,"0005119",Utrecht,Gdansk,186 Elm Grove,18/04/2025,NULL,failed,site_access_denied,64.54,economy
+SH2510304,"0004918",Bremen,Dublin,18 Elm Grove,17/07/2025,nan,delivered,NULL,26.57,standard
+SH2510305,"0005420",Bilbao,Manchester,127 Harbour Rd,15/03/2025,13/09/2025,failed,customs_hold,55.15,standard
+SH2510306,"0004446",Rotterdam,Aarhus,129 Mill Lane,28/05/2025,10/04/2025,in_transit,,NULL,NULL
+SH2510307,"0004568",Lyon,Turin,224 Main St,08/11/2025,18/04/2025,returned,N/A,57.44,economy
+SH2510308,"0005444",Turin,Lyon,105 Mill Lane,02/06/2025,N/A,delivered,N/A,16.41,standard
+SH2510309,"0005409",Manchester,Turin,223 Station Rd,08/08/2025,09/06/2025,returned,-,14.51,express_am
+SH2510310,"0004981",Hamburg,Münster,47 Elm Grove,27/03/2025,07/03/2025,returned,NULL,NULL,express
+SH2510311,"0005407",Bilbao,Hamburg,37 Harbour Rd,08/07/2025,21/08/2025,delivered,nan,12.86,standard
+SH2510312,"0004773",Manchester,Rotterdam,29 Main St,02/11/2025,08/03/2025,delivered,NULL,84.97,standard
+SH2510313,"0004217",Utrecht,Hamburg,52 Kingsway,25/08/2025,15/10/2025,delivered,N/A,43.60,economy
+SH2510314,"0004252",Rotterdam,Antwerp,27 Mill Lane,17/02/2025,NULL,delivered,NULL,38.94,economy
+SH2510315,"0005401",Manchester,Bremen,126 Kingsway,08/02/2025,10/02/2025,in_transit,N/A,11.15,standard
+SH2510316,"0005238",Lyon,Marseille,110 Dock Approach,06/10/2025,14/11/2025,returned,N/A,56.73,standard
+SH2510317,"0005022",Leeds,Turin,208 Harbour Rd,28/01/2025,25/03/2025,delivered,NULL,35.65,express_am
+SH2510318,"0004231",Dublin,Turin,38 Harbour Rd,05/06/2025,25/03/2025,delivered,-,38.64,express_am
+SH2510319,"0005303",Utrecht,Lyon,206 Station Rd,14/07/2025,16/09/2025,failed,site_access_denied,48.76,standard
+SH2510320,"0004863",Porto,Hamburg,61 Dock Approach,07/01/2025,12/01/2025,delivered,,5.86,express
+SH2510321,"0004295",Dublin,Porto,54 Station Rd,24/01/2025,04/03/2025,returned,NULL,-,economy
+SH2510322,"0004217",Hamburg,Malmo,215 Kingsway,05/01/2025,,delivered,nan,75.30,express
+SH2510323,"0004286",Gdansk,Malmo,106 Dock Approach,26/08/2025,,delivered,,NULL,-
+SH2510324,"0005392",Aarhus,Turin,236 Mill Lane,08/12/2025,06/07/2025,delivered,nan,34.48,express
+SH2510325,"0004114",Porto,Manchester,48 Harbour Rd,15/12/2025,11/08/2025,failed,customs_hold,15.33,express_am
+SH2510326,"0004222",Bremen,Hamburg,93 Dock Approach,08/01/2025,06/05/2025,delivered,NULL,54.24,economy
+SH2510327,"0004413",Antwerp,Porto,69 Harbour Rd,19/10/2025,19/01/2025,failed,address_incorrect,4.82,N/A
+SH2510328,"0004578",Manchester,Bilbao,81 Bridge St,12/12/2025,23/03/2025,delivered,-,81.19,-
+SH2510329,"0004976",Antwerp,Gdansk,42 Kingsway,15/11/2025,NULL,delivered,NULL,69.69,economy
+SH2510330,"0004268",Utrecht,Gdansk,93 Bridge St,23/01/2025,13/11/2025,in_transit,nan,7.25,express_am
+SH2510331,"0004030",Lyon,Gdansk,141 Harbour Rd,04/08/2025,11/08/2025,delivered,NULL,6.63,economy
+SH2510332,"0004366",Aarhus,Turin,122 Mill Lane,21/08/2025,04/03/2025,failed,address_incorrect,33.21,express_am
+SH2510333,"0005393",Lyon,Aarhus,"94 Dock Approach, Unit 12",22/02/2025,17/07/2025,returned,,56.36,express
+SH2510334,"0005148",Rotterdam,Lyon,219 Harbour Rd,13/05/2025,19/03/2025,delivered,NULL,35.44,standard
+SH2510335,"0004959",Aarhus,Bremen,22 Kingsway,04/12/2025,25/07/2025,failed,damaged_in_transit,6.30,express_am
+SH2510336,"0004975",Bremen,Turin,117 Main St,05/09/2025,05/08/2025,delivered,nan,3.32,express_am
+SH2510337,"0004740",Dublin,Malmo,55 Main St,28/04/2025,25/01/2025,delivered,N/A,57.71,standard
+SH2510338,"0004167",Gdansk,Aarhus,224 Bridge St,07/09/2025,09/11/2025,delivered,,81.05,economy
+SH2510339,"0004715",Dublin,Malmo,122 Kingsway,14/12/2025,23/06/2025,delivered,nan,70.98,standard
+SH2510340,"0005184",Lyon,Utrecht,171 Dock Approach,05/01/2025,05/08/2025,delivered,,71.78,economy
+SH2510341,"0004007",Aarhus,Lyon,163 Elm Grove,19/11/2025,02/02/2025,delivered,-,63.18,express_am
+SH2510342,"0004429",Bilbao,Rotterdam,95 Dock Approach,10/01/2025,17/05/2025,delivered,-,58.90,express_am
+SH2510343,"0005110",Dublin,Utrecht,30 Kingsway,14/08/2025,06/06/2025,delivered,nan,39.73,express_am
+SH2510344,"0005437",Bremen,Hamburg,207 Harbour Rd,21/02/2025,20/01/2025,delivered,-,67.99,standard
+SH2510345,"0005030",Antwerp,Gdansk,219 Bridge St,08/04/2025,18/08/2025,delivered,-,86.05,express_am
+SH2510346,"0005320",Manchester,Rotterdam,96 Station Rd,10/09/2025,22/05/2025,failed,recipient_absent,0.87,NULL
+SH2510347,"0004766",Utrecht,Utrecht,44 Bridge St,18/04/2025,07/07/2025,failed,address_incorrect,72.62,express
+SH2510348,"0004799",Marseille,Manchester,232 Dock Approach,06/09/2025,NULL,in_transit,,57.33,economy
+SH2510349,"0004325",Utrecht,Bilbao,24 Harbour Rd,14/01/2025,21/01/2025,delivered,,56.13,standard
+SH2510350,"0004051",Lyon,Aarhus,163 Dock Approach,08/03/2025,08/11/2025,in_transit,NULL,65.87,express_am
+SH2510351,"0005350",Antwerp,Turin,22 Kingsway,01/11/2025,19/11/2025,delivered,-,83.95,express
+SH2510352,"0004369",Hamburg,Hamburg,127 Dock Approach,13/04/2025,16/02/2025,failed,address_incorrect,44.29,express
+SH2510353,"0004768",Utrecht,Aarhus,207 Kingsway,10/03/2025,06/01/2025,returned,nan,77.43,economy
+SH2510354,"0004991",Rotterdam,Marseille,134 Mill Lane,07/02/2025,01/10/2025,in_transit,nan,68.99,economy
+SH2510355,"0004444",Rotterdam,Utrecht,36 Station Rd,24/02/2025,05/12/2025,failed,recipient_absent,86.29,economy
+SH2510356,"0005015",Dublin,Manchester,237 Station Rd,06/05/2025,22/04/2025,returned,N/A,87.07,economy
+SH2510357,"0004421",Malmo,Dublin,227 Elm Grove,20/07/2025,09/12/2025,in_transit,,55.16,economy
+SH2510358,"0005295",Hamburg,Aarhus,43 Main St,09/09/2025,14/10/2025,returned,nan,NULL,economy
+SH2510359,"0004380",Leeds,Porto,19 Station Rd,12/11/2025,05/06/2025,delivered,,N/A,express
+SH2510360,"0004658",Porto,Hamburg,99 Mill Lane,07/10/2025,07/09/2025,delivered,nan,85.66,standard
+SH2510361,"0005323",Dublin,Dublin,82 Dock Approach,07/04/2025,26/01/2025,delivered,N/A,38.41,express
+SH2510362,"0005210",Manchester,Porto,148 Main St,01/05/2025,26/11/2025,delivered,-,26.09,nan
+SH2510363,"0005080",Antwerp,Utrecht,166 Main St,16/02/2025,27/02/2025,returned,N/A,25.22,express_am
+SH2510364,"0004641",Malmo,Antwerp,101 Mill Lane,15/12/2025,28/08/2025,delivered,N/A,84.89,express
+SH2510365,"0004021",Lyon,Bremen,83 Bridge St,06/04/2025,07/02/2025,delivered,nan,89.56,standard
+SH2510366,"0004088",Bremen,Antwerp,78 Harbour Rd,11/05/2025,20/12/2025,failed,damaged_in_transit,63.38,express_am
+SH2510367,"0004653",Lyon,Dublin,164 Elm Grove,04/11/2025,17/09/2025,failed,customs_hold,88.37,express_am
+SH2510368,"0004540",Gdansk,Hamburg,91 Station Rd,21/11/2025,28/12/2025,delivered,,87.96,standard
+SH2510369,"0004958",Manchester,Bilbao,125 Harbour Rd,07/06/2025,25/10/2025,delivered,N/A,64.27,standard
+SH2510370,"0004448",Leeds,Manchester,116 Station Rd,07/07/2025,09/02/2025,returned,N/A,86.13,standard
+SH2510371,"0004219",Bremen,Málaga,5 Elm Grove,09/03/2025,16/01/2025,failed,damaged_in_transit,24.40,standard
+SH2510372,"0004434",Lyon,Manchester,129 Bridge St,11/09/2025,15/01/2025,delivered,,58.88,express_am
+SH2510373,"0004387",Manchester,Marseille,153 Mill Lane,20/09/2025,17/08/2025,returned,,58.67,express
+SH2510374,"0004073",Turin,Porto,17 Harbour Rd,08/05/2025,23/10/2025,failed,customs_hold,9.62,economy
+SH2510375,"0004350",Bilbao,Leeds,164 Mill Lane,20/12/2025,NULL,in_transit,nan,43.41,express
+SH2510376,"0005395",Hamburg,Marseille,48 Dock Approach,05/08/2025,22/01/2025,delivered,,16.48,standard
+SH2510377,"0004019",Leeds,Malmo,150 Main St,28/08/2025,16/04/2025,delivered,nan,61.70,express
+SH2510378,"0004342",Lyon,Bremen,26 Mill Lane,11/12/2025,16/08/2025,in_transit,N/A,60.21,N/A
+SH2510379,"0004616",Utrecht,Malmo,29 Mill Lane,17/11/2025,-,delivered,NULL,nan,express_am
+SH2510380,"0004182",Bilbao,Manchester,164 Harbour Rd,21/05/2025,18/11/2025,failed,site_access_denied,16.25,economy
+SH2510381,"0004800",Dublin,Turin,80 Station Rd,19/01/2025,23/09/2025,in_transit,,39.51,economy
+SH2510382,"0004017",Malmo,Lyon,120 Kingsway,10/09/2025,18/10/2025,delivered,-,26.44,standard
+SH2510383,"0004445",Gdansk,Bremen,14 Elm Grove,01/05/2025,12/07/2025,delivered,,23.13,economy
+SH2510384,"0005028",Lyon,Hamburg,183 Mill Lane,24/03/2025,14/04/2025,delivered,N/A,20.20,economy
+SH2510385,"0005389",Manchester,Dublin,103 Harbour Rd,10/05/2025,10/10/2025,failed,damaged_in_transit,72.89,express
+SH2510386,"0004852",Bilbao,Gdansk,79 Harbour Rd,19/05/2025,15/11/2025,failed,customs_hold,9.14,economy
+SH2510387,"0005403",Leeds,Aarhus,91 Bridge St,14/08/2025,nan,delivered,-,8.46,economy
+SH2510388,"0005188",Leeds,Lyon,159 Mill Lane,25/01/2025,05/07/2025,delivered,-,73.17,express_am
+SH2510389,"0004173",Antwerp,Turin,213 Harbour Rd,20/06/2025,27/02/2025,failed,damaged_in_transit,78.29,standard
+SH2510390,"0005057",Lyon,Malmo,35 Station Rd,21/11/2025,10/03/2025,returned,,73.01,express
+SH2510391,"0004000",Lyon,Bremen,134 Harbour Rd,07/04/2025,nan,failed,customs_hold,5.51,express_am
+SH2510392,"0004376",Porto,Turin,211 Elm Grove,20/11/2025,14/02/2025,delivered,NULL,13.25,express
+SH2510393,"0005432",Bilbao,Malmo,123 Mill Lane,22/05/2025,19/02/2025,returned,N/A,35.71,standard
+SH2510394,"0004870",Lyon,Rotterdam,73 Elm Grove,19/02/2025,01/07/2025,delivered,nan,40.50,economy
+SH2510395,"0004958",Aarhus,Turin,3 Kingsway,17/06/2025,07/09/2025,returned,nan,35.66,express
+SH2510396,"0005472",Utrecht,Aarhus,184 Kingsway,26/05/2025,10/11/2025,delivered,-,34.39,express
+SH2510397,"0005038",Turin,Lyon,179 Dock Approach,19/10/2025,19/06/2025,failed,address_incorrect,4.54,express
+SH2510398,"0005362",Bremen,Malmo,240 Elm Grove,25/06/2025,25/04/2025,returned,NULL,9.99,express_am
+SH2510399,"0004860",Hamburg,Antwerp,157 Mill Lane,02/02/2025,03/12/2025,delivered,nan,NULL,economy

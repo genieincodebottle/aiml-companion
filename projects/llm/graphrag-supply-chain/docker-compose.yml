@@ -1,0 +1,32 @@
+# Neo4j 5 Community, with the settings this project needs and nothing else.
+#
+#   docker compose up -d      start
+#   docker compose down       stop  (data survives, it is in the named volume)
+#   docker compose down -v    stop AND wipe the database
+#
+# Browser UI: http://localhost:7474   (user "neo4j", password "graphrag123")
+# Bolt (what the driver connects to): bolt://localhost:7687
+services:
+  neo4j:
+    image: neo4j:5.26-community
+    container_name: graphrag-neo4j
+    ports:
+      - "7474:7474"   # HTTP  -> Neo4j Browser
+      - "7687:7687"   # Bolt  -> the Python driver
+    environment:
+      # user/password.  Must match NEO4J_PASSWORD in your .env
+      NEO4J_AUTH: neo4j/graphrag123
+      # APOC is NOT required by this project.  Every query in src/ is plain
+      # Cypher, on purpose, so the code runs on Aura Free and on Community.
+      NEO4J_server_memory_heap_max__size: 1G
+      NEO4J_server_memory_pagecache_size: 512M
+    volumes:
+      - neo4j_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell -u neo4j -p graphrag123 'RETURN 1' || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 20
+
+volumes:
+  neo4j_data:

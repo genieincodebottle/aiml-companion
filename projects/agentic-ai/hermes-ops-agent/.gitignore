@@ -1,0 +1,16 @@
+# Built from fixtures/state.fixture.sql by `make fixture`.
+fixtures/state.fixture.db
+
+# Never commit a real agent's state or secrets.
+secrets/
+*.env
+!.env.example
+data/
+reports/
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/

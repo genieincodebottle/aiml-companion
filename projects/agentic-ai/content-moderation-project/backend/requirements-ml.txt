@@ -1,0 +1,21 @@
+# Optional: local ML toxicity classification (HateBERT / DistilBERT).
+#
+# Only needed when USE_ML_MODELS=true. Without these the project runs on the
+# keyword detector plus the LLM, which is the default and what every test and
+# the offline demo exercise.
+#
+#     pip install -r requirements-ml.txt
+#     # then set USE_ML_MODELS=true in .env
+#
+# torch is by far the largest dependency in this project: a 118 MB wheel on
+# Windows, and considerably more on Linux where the default wheel pulls the
+# NVIDIA CUDA runtime libraries alongside it. On top of that, the first run
+# downloads roughly 500 MB of model weights from Hugging Face.
+#
+# It used to sit in requirements.txt, so every reader paid for it before
+# discovering the flag that uses it is off.
+
+-r requirements.txt
+
+transformers>=4.57.3
+torch>=2.9.1

@@ -1,0 +1,6 @@
+# Lint rules pinned so local runs and CI agree regardless of ruff version.
+# E/F: pycodestyle + pyflakes defaults, I: import sorting.
+line-length = 120
+
+[lint]
+select = ["E4", "E7", "E9", "F", "I"]

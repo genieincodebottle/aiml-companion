@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cross-validation-traps"
+version = "1.0.0"
+description = "Five ways cross-validation lies to you, each measured against a known truth"
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=2.0", "numpy>=1.24", "scipy>=1.10", "scikit-learn>=1.3",
+    "pyarrow>=14.0", "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "ruff>=0.4"]
+notebook = ["jupyter>=1.0", "matplotlib>=3.7"]
+
+[project.scripts]
+cvtraps = "cv_traps.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+# Find the package without requiring `pip install -e .` -- the editable install
+# fails on some Windows setups with a stale entry-point .exe, and the test
+# suite should not depend on that succeeding.
+pythonpath = ["src"]

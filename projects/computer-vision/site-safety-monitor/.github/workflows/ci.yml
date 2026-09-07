@@ -1,0 +1,35 @@
+name: ci
+
+on:
+  pull_request:
+    paths:
+      - "projects/computer-vision/site-safety-monitor/**"
+  push:
+    branches: [main]
+    paths:
+      - "projects/computer-vision/site-safety-monitor/**"
+
+defaults:
+  run:
+    working-directory: projects/computer-vision/site-safety-monitor
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install numpy pydantic pydantic-settings pytest
+
+      # Includes the export parity check, the frame budget, and the
+      # end-to-end alert gate over a simulated three hours.
+      - name: Tests
+        run: python -m pytest
+
+      # The number a safety officer feels, rather than a precision figure
+      # that means nothing to the person receiving the alerts. Ten false
+      # alerts in a ten hour shift is one an hour.
+      - name: Alert-level gate
+        run: python scripts/check_alerts.py --max-false-per-shift 10 --min-event-recall 0.75

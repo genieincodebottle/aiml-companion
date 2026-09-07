@@ -1,0 +1,27 @@
+# Everything tunable lives here.
+
+data:
+  n_listings: 6000
+  junk_features: 8        # pure noise, for the R2-inflation demonstration
+  raw_path: data/listings.parquet
+
+split:
+  test_size: 0.25
+  seed: 42
+
+diagnostics:
+  vif_threshold: 5.0      # classic warning level; 10 is the lenient one
+  alpha: 0.05
+  cooks_multiplier: 4.0   # flag rows above cooks_multiplier / n
+
+model:
+  gbm_log_target: true
+  shap_sample: 800
+
+paths:
+  artifacts: artifacts
+  model_store: models
+
+run:
+  seed: 42
+  log_level: INFO

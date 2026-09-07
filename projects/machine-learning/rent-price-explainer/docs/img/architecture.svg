@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 470" width="980" height="470" role="img" aria-label="Pipeline: synthetic market with a locked answer key, design matrix switches, four models, then diagnostics, coefficient recovery and SHAP">
+  <style>
+    .t  { font-family: "Segoe UI", Helvetica, Arial, sans-serif; fill: #0f172a; }
+    .h  { font-size: 13px; font-weight: 700; letter-spacing: .04em; }
+    .b  { font-size: 12.5px; }
+    .s  { font-size: 11px; fill: #475569; }
+    .k  { font-size: 11px; fill: #b91c1c; font-weight: 600; }
+    .box   { fill: #f1f5f9; stroke: #94a3b8; stroke-width: 1; rx: 8; }
+    .item  { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; rx: 5; }
+    .key   { fill: #fee2e2; stroke: #dc2626; stroke-width: 1.2; rx: 5; }
+    .arrow { stroke: #64748b; stroke-width: 2; fill: none; }
+    .keyline { stroke: #dc2626; stroke-width: 1.6; fill: none; stroke-dasharray: 5 4; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+    </marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <text class="t h" x="20" y="26">RENT PRICE EXPLAINER</text>
+  <text class="t s" x="20" y="44">A generated market with a written-down answer key, so "which model was right" is a score and not an opinion.</text>
+
+  <!-- stage 1 -->
+  <rect class="box" x="20" y="66" width="205" height="238"/>
+  <text class="t h" x="34" y="88">1. DATA</text>
+  <rect class="item" x="34" y="98" width="177" height="34"/>
+  <text class="t b" x="44" y="112">data/generate.py</text>
+  <text class="t s" x="44" y="126">6,000 listings, known DGP</text>
+  <rect class="key" x="34" y="140" width="177" height="46"/>
+  <text class="t k" x="44" y="156">TRUE_BETAS (answer key)</text>
+  <text class="t s" x="44" y="169">13 coefficients, the U-shaped</text>
+  <text class="t s" x="44" y="181">age curve, one interaction</text>
+  <rect class="item" x="34" y="194" width="177" height="34"/>
+  <text class="t b" x="44" y="208">data/schema.py</text>
+  <text class="t s" x="44" y="222">ingest contract, fails loud</text>
+  <rect class="item" x="34" y="236" width="177" height="34"/>
+  <text class="t b" x="44" y="250">data/io.py</text>
+  <text class="t s" x="44" y="264">parquet cache, one seam</text>
+  <text class="t s" x="34" y="290">planted: r=0.999 twin pair, 8 junk cols</text>
+
+  <!-- stage 2 -->
+  <rect class="box" x="265" y="66" width="205" height="238"/>
+  <text class="t h" x="279" y="88">2. SPECIFICATION</text>
+  <text class="t s" x="279" y="104">features/build.py, one switch per fix</text>
+  <rect class="item" x="279" y="112" width="177" height="26"/>
+  <text class="t b" x="289" y="129">log_area</text>
+  <rect class="item" x="279" y="144" width="177" height="26"/>
+  <text class="t b" x="289" y="161">drop_collinear</text>
+  <rect class="item" x="279" y="176" width="177" height="26"/>
+  <text class="t b" x="289" y="193">add_age_curve</text>
+  <rect class="item" x="279" y="208" width="177" height="26"/>
+  <text class="t b" x="289" y="225">add_interaction</text>
+  <rect class="item" x="279" y="240" width="177" height="26"/>
+  <text class="t b" x="289" y="257">include_junk</text>
+  <text class="t s" x="279" y="290">each switch answers one failed check</text>
+
+  <!-- stage 3 -->
+  <rect class="box" x="510" y="66" width="205" height="238"/>
+  <text class="t h" x="524" y="88">3. MODELS</text>
+  <rect class="item" x="524" y="98" width="177" height="40"/>
+  <text class="t b" x="534" y="113">NaiveOLS</text>
+  <text class="t s" x="534" y="128">levels, everything, plain SE</text>
+  <rect class="item" x="524" y="146" width="177" height="40"/>
+  <text class="t b" x="534" y="161">SpecifiedOLS</text>
+  <text class="t s" x="534" y="176">log target, HC3 robust SE</text>
+  <rect class="item" x="524" y="194" width="177" height="40"/>
+  <text class="t b" x="534" y="209">InteractionOLS</text>
+  <text class="t s" x="534" y="224">plus metro x premium term</text>
+  <rect class="item" x="524" y="242" width="177" height="40"/>
+  <text class="t b" x="534" y="257">GBM</text>
+  <text class="t s" x="534" y="272">the challenger, no coefficients</text>
+
+  <!-- stage 4 -->
+  <rect class="box" x="755" y="66" width="205" height="238"/>
+  <text class="t h" x="769" y="88">4. VERDICT</text>
+  <rect class="item" x="769" y="98" width="177" height="40"/>
+  <text class="t b" x="779" y="113">diagnostics/assumptions.py</text>
+  <text class="t s" x="779" y="128">7 checks, each with a cost</text>
+  <rect class="item" x="769" y="146" width="177" height="40"/>
+  <text class="t b" x="779" y="161">evaluation/metrics.py</text>
+  <text class="t s" x="779" y="176">median APE, MAE, adj R2</text>
+  <rect class="key" x="769" y="194" width="177" height="40"/>
+  <text class="t k" x="779" y="209">evaluation/recovery.py</text>
+  <text class="t s" x="779" y="224">the ONLY reader of the key</text>
+  <rect class="item" x="769" y="242" width="177" height="40"/>
+  <text class="t b" x="779" y="257">explain/shap_report.py</text>
+  <text class="t s" x="779" y="272">coef x (x - mean) identity</text>
+
+  <path class="arrow" d="M225 185 L262 185" marker-end="url(#a)"/>
+  <path class="arrow" d="M470 185 L507 185" marker-end="url(#a)"/>
+  <path class="arrow" d="M715 185 L752 185" marker-end="url(#a)"/>
+
+  <!-- answer key routed around the fitting path -->
+  <path class="keyline" d="M122 186 L122 356 L857 356 L857 236" marker-end="url(#ar)"/>
+  <rect x="330" y="336" width="330" height="40" fill="#fef2f2" stroke="#dc2626" stroke-width="1" rx="6"/>
+  <text class="t k" x="344" y="353">the answer key never touches fitting code</text>
+  <text class="t s" x="344" y="368">enforced by tests/test_generator.py, not by convention</text>
+
+  <path class="arrow" d="M612 304 L612 410 L470 410" marker-end="url(#a)"/>
+  <rect x="140" y="392" width="330" height="36" fill="#eff6ff" stroke="#2563eb" stroke-width="1" rx="6"/>
+  <text class="t b" x="154" y="409">read the diagnostic as a specification instruction</text>
+  <text class="t s" x="154" y="423">a failed check names the switch to flip, then refit</text>
+  <path class="arrow" d="M305 392 L305 310" marker-end="url(#a)"/>
+</svg>

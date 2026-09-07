@@ -1,0 +1,29 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+*.joblib
+*.pkl
+*.h5
+*.pt
+*.pth
+checkpoints/
+chroma_db/
+# The A/B builds one throwaway store per arm. Committing vector binaries is how
+# a clone ends up with an index nobody can regenerate or review.
+chroma_db_ab/
+wandb/
+mlruns/
+.ipynb_checkpoints/
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Artifacts (generated reports and outputs)
+artifacts/

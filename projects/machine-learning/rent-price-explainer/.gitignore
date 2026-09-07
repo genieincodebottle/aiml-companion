@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Generated output -- reproducible from config + seed, so never committed.
+# LEADING SLASH IS LOAD-BEARING: a bare `data/` also matches
+# src/rent_price_explainer/data/ and would silently exclude the generator
+# and the model code from every commit.
+/data/
+/artifacts/
+/models/

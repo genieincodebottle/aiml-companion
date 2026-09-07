@@ -1,0 +1,38 @@
+# /etc/systemd/system/hermes-gateway.service
+#
+# The smallest unit that satisfies the production checklist:
+# non-root, container backend, secrets at 600, resource ceilings.
+#
+#   sudo cp deploy/hermes-gateway.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now hermes-gateway
+#   journalctl -u hermes-gateway -f
+
+[Unit]
+Description=Hermes Agent gateway
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=hermes
+Group=hermes
+Environment=HERMES_HOME=/home/hermes/.hermes
+ExecStart=/home/hermes/.local/bin/hermes gateway
+Restart=always
+RestartSec=10
+
+# A runaway agent loop hits a wall instead of a bill.
+MemoryMax=4G
+CPUQuota=200%
+TasksMax=512
+
+# Host hardening, on top of whatever the terminal backend gives you.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/hermes/.hermes
+
+[Install]
+WantedBy=multi-user.target

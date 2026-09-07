@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 470" width="960" height="470" role="img" aria-label="One timeline from due date to premium receipt, cut into four in-grace buckets plus a lapsed tail, modelled by one ordinal chain instead of two chained models">
+  <style>
+    .t  { font-family: "Segoe UI", Helvetica, Arial, sans-serif; fill: #0f172a; }
+    .h  { font-size: 13px; font-weight: 700; letter-spacing: .04em; }
+    .b  { font-size: 12.5px; font-weight: 600; }
+    .n  { font-size: 11.5px; fill: #334155; }
+    .s  { font-size: 11px; fill: #64748b; }
+    .w  { font-size: 11.5px; fill: #ffffff; font-weight: 600; }
+    .item  { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; rx: 5; }
+    .arrow { stroke: #64748b; stroke-width: 2; fill: none; }
+    .axis  { stroke: #94a3b8; stroke-width: 1.5; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <text class="t h" x="20" y="26">LAPSE IS NOT A SEPARATE EVENT. IT IS THE TAIL OF ONE NUMBER.</text>
+  <text class="t s" x="20" y="44">days from due date to premium receipt. Cut that one distribution and you get both answers at once.</text>
+
+  <!-- timeline -->
+  <text class="t b" x="20" y="82">due date</text>
+  <line class="axis" x1="60" y1="92" x2="60" y2="176"/>
+  <rect x="60"  y="98" width="118" height="46" fill="#1d4ed8" rx="4"/>
+  <rect x="180" y="98" width="131" height="46" fill="#3b82f6" rx="4"/>
+  <rect x="313" y="98" width="252" height="46" fill="#60a5fa" rx="4"/>
+  <rect x="567" y="98" width="251" height="46" fill="#93c5fd" rx="4"/>
+  <rect x="820" y="98" width="120" height="46" fill="#dc2626" rx="4"/>
+  <text class="w" x="72"  y="126">d0_7</text>
+  <text class="w" x="192" y="126">d8_15</text>
+  <text class="t b" x="325" y="126" fill="#0f172a">d16_30</text>
+  <text class="t b" x="579" y="126" fill="#0f172a">d31_grace</text>
+  <text class="w" x="856" y="126">lapsed</text>
+  <text class="t s" x="60"  y="162">day 0</text>
+  <text class="t s" x="298" y="162">15</text>
+  <text class="t s" x="552" y="162">30</text>
+  <text class="t s" x="796" y="162">45</text>
+  <line class="axis" x1="818" y1="92" x2="818" y2="176" stroke="#dc2626" stroke-dasharray="4 3"/>
+  <text class="t s" x="676" y="176">grace period ends</text>
+  <text class="t s" x="836" y="162">no premium received</text>
+
+  <text class="t n" x="60" y="200">One model over these ordered buckets returns a calibrated distribution. P(lapse) is the last cell. Expected days is the shape of the first four.</text>
+
+  <!-- two designs -->
+  <rect x="20" y="222" width="450" height="150" fill="#fef2f2" stroke="#dc2626" stroke-width="1.2" rx="8"/>
+  <text class="t h" x="36" y="244" fill="#b91c1c">THE USUAL DESIGN: TWO CHAINED MODELS</text>
+  <rect class="item" x="36" y="256" width="190" height="40"/>
+  <text class="t b" x="48" y="272">stage 1: will it lapse?</text>
+  <text class="t s" x="48" y="287">binary classifier, all rows</text>
+  <path class="arrow" d="M228 276 L262 276" marker-end="url(#a)"/>
+  <rect class="item" x="264" y="256" width="190" height="40"/>
+  <text class="t b" x="276" y="272">stage 2: how many days?</text>
+  <text class="t s" x="276" y="287">regression, PAID rows only</text>
+  <text class="t s" x="36" y="316">stage 2 trains on a shrunken, selected sample, so its errors</text>
+  <text class="t s" x="36" y="330">correlate with exactly what stage 1 got wrong</text>
+  <text class="t s" x="36" y="344">the two heads can disagree, and nothing reconciles them</text>
+  <text class="t b" x="36" y="364" fill="#b91c1c">measured: 10th of 11 models, below plain logistic regression</text>
+
+  <rect x="490" y="222" width="450" height="150" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.2" rx="8"/>
+  <text class="t h" x="506" y="244" fill="#15803d">THIS DESIGN: ONE ORDINAL CHAIN</text>
+  <rect class="item" x="506" y="256" width="418" height="52"/>
+  <text class="t b" x="518" y="272">4 binary models, one per cumulative edge:</text>
+  <text class="t b" x="518" y="288">paid by day 7?   by 15?   by 30?   by 45?</text>
+  <text class="t s" x="518" y="302">difference the CDF, enforce monotonicity, renormalise</text>
+  <text class="t s" x="506" y="324">each sub-model answers a question the business already asks out loud</text>
+  <text class="t s" x="506" y="338">the lapse tail is chain-consistent, and nothing is stitched at inference</text>
+  <text class="t s" x="506" y="352">one calibrated row per due date, summing to 1</text>
+  <text class="t b" x="506" y="364" fill="#15803d">measured: tied-best Brier 0.0761, PR-AUC 0.3804, fits in 12s</text>
+
+  <rect x="20" y="392" width="920" height="60" fill="#eff6ff" stroke="#2563eb" stroke-width="1" rx="8"/>
+  <text class="t b" x="36" y="414">The honest headline: across 11 families the AUC spread is 0.802 to 0.818, and the gap to a prior-only baseline is 15x larger.</text>
+  <text class="t n" x="36" y="436">The design and the features are the decision. The algorithm is close to a rounding error, and the benchmark in this repo is what proves it.</text>
+</svg>

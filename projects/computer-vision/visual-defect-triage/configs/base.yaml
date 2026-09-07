@@ -1,0 +1,21 @@
+# Defaults. Anything here can be overridden by an environment variable of the
+# same name, because src/config.py reads them through pydantic-settings.
+
+backbone: vit_base_patch16_224.augreg2_in21k_ft_in1k
+image_size: 224
+embed_dim: 768
+num_classes: 7
+
+# The two numbers the whole gate depends on. They are a business decision, not an
+# engineering constant, so they live in configuration where they can be audited.
+accept_above: 0.98
+reject_below: 0.02
+
+# Fitted by src/calibrate.py on VALIDATION data and written back here.
+temperature: 1.0
+
+index_path: artifacts/index.faiss
+top_k: 8
+
+data_root: data/
+device: cpu

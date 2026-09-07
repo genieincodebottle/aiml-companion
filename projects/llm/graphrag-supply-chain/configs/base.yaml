@@ -1,0 +1,134 @@
+# ===========================================================================
+# GraphRAG Supply Chain - tunables
+#
+# Everything here is a *knob*, not a secret.  Secrets (API key, Neo4j
+# password) live in .env and are never read from this file.  That split is
+# deliberate: this file is safe to commit, .env is not.
+# ===========================================================================
+
+llm:
+  # Used for entity/relationship extraction AND for answering.  One model for
+  # both keeps the project cheap and the comparison fair - if extraction and
+  # generation used different models you could never tell which one caused a
+  # bad answer.
+  model: "gemini-3.5-flash"
+  temperature: 0.0          # extraction must be reproducible; 0 is not optional
+
+  # Two budgets, and they are different for a reason. An ANSWER is a few
+  # paragraphs. An EXTRACTION from a whole document is dozens of JSON objects,
+  # each carrying a verbatim evidence quote, and runs several times longer.
+  #
+  # Sharing one budget between them is not a tuning mistake, it is a silent
+  # data-loss bug: the model emits valid JSON, the budget cuts it mid-string,
+  # the parser reports malformed output, and the pipeline records "no entities
+  # found" for every document. See src/llm.py -> extract_json.
+  # 8192, not 2048. On a thinking model the reasoning tokens come out of THIS
+  # budget too, and the flagship multi-hop question was measured spending 1,899
+  # tokens thinking and 145 writing - the answer stopped after the first of four
+  # products. Nothing errored. The truncated answer read like a complete one
+  # that had simply found less, which quietly corrupted the benchmark: term
+  # coverage was measuring how much of the answer fit in the budget rather than
+  # how much of the evidence the system found.
+  max_output_tokens: 8192              # answering (reasoning + visible answer)
+  extraction_max_output_tokens: 8192   # graph extraction
+
+  # Thinking budget for extraction. 0 disables it.
+  #
+  # On a thinking model, reasoning tokens come out of the SAME output budget as
+  # the response. Measured here: documents needing ~500 tokens of JSON spent the
+  # whole 8,192-token budget on reasoning and returned truncated fragments, so
+  # the graph came out empty at BOTH 2,048 and 8,192. Raising the ceiling buys
+  # more reasoning, not more output.
+  #
+  # Extraction is transcription against a closed vocabulary with a schema
+  # already fixing the shape. There is nothing to deliberate about, and
+  # deliberation costs reproducibility. Answering keeps its thinking - that is a
+  # genuine reasoning task - and uses the provider default.
+  extraction_thinking_budget: 0
+
+embedding:
+  model: "gemini-embedding-001"
+  # MUST match the dimension declared on the Neo4j vector index.  Change one
+  # without the other and every query silently returns nothing.
+  dimensions: 768
+  batch_size: 32
+
+chunking:
+  # 900 characters ~= 200 tokens.  Chosen so a chunk is roughly one section of
+  # a supplier document: big enough to carry a complete statement about a
+  # relationship, small enough that a top-5 retrieval is not 80% filler.
+  # See README "Why this chunking strategy?" for the measured reasoning.
+  chunk_size: 900
+  chunk_overlap: 150
+  min_chunk_chars: 120      # drop scraps; they pollute retrieval and cost tokens
+
+extraction:
+  # Entity types the extractor is allowed to emit.  A closed vocabulary is the
+  # single biggest quality lever in GraphRAG - an open-ended extractor invents
+  # a new label per document and the graph becomes unqueryable.
+  entity_types:
+    - Supplier
+    - Site
+    - Location
+    - Component
+    - Material
+    - Product
+    - Incident
+    - Certification
+    - Finding
+    - Regulation
+  relation_types:
+    - DEPENDS_ON        # Supplier -> Supplier (this is the tier-2/3 gold)
+    - OPERATES          # Supplier -> Site
+    - LOCATED_IN        # Site -> Location
+    - SUPPLIES          # Supplier -> Component/Material
+    - AFFECTS           # Incident -> Site/Supplier/Location
+    - RAISED_AGAINST    # Finding -> Supplier
+    - HOLDS             # Supplier -> Certification
+    - APPLIES_TO        # Regulation -> Component/Material
+  min_confidence: 0.5   # relationships below this are stored but excluded from traversal
+
+retrieval:
+  vector_top_k: 5           # what baseline RAG gets
+  graph_anchor_top_k: 4     # seed chunks whose entities we use as traversal anchors
+  max_hops: 3               # depth cap on graph expansion
+  neighbour_chunk_limit: 8  # chunks pulled back per traversal
+  max_context_chars: 12000  # hard cap; prevents a runaway subgraph blowing the budget
+
+evaluation:
+  # A golden question passes when every required evidence id appears in the
+  # retrieved context. See docs and src/evaluate.py for what each number means.
+  dataset: "data/golden_questions.json"
+
+# ===========================================================================
+# GUARDRAILS
+#
+# Three enforcement points: ingest time, query time, response time. See
+# src/guardrails/__init__.py. Every setting here is visible to a reviewer
+# without reading code, which is the point of putting policy in config.
+# ===========================================================================
+guardrails:
+  enabled: true
+
+  # Ingest-time. The important one: what passes here becomes persistent shared
+  # state that every future traversal can reach.
+  block_on_injection: true
+  block_on_secrets: true      # a credential in the corpus must be rotated, not redacted
+  redact_pii: true
+  max_document_chars: 200000
+
+  # Query-time.
+  max_question_chars: 2000
+  rate_limit_requests: 30
+  rate_limit_window_seconds: 60
+
+  # Per-request budget. An unbounded retrieval system's first failure signal is
+  # the invoice.
+  max_llm_calls_per_request: 12
+  max_input_tokens_per_request: 250000
+  max_usd_per_request: 0.50
+
+  # Response-time.
+  validate_output: true
+
+  audit_log: "artifacts/audit.jsonl"

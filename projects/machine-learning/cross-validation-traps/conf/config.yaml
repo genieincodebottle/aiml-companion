@@ -1,0 +1,41 @@
+# Everything tunable lives here.
+
+data:
+  n_customers: 2600
+  n_periods: 12
+  # Pure-noise columns. The preprocessing trap needs enough of them that
+  # selecting on all the data can find some that fit by accident.
+  n_noise: 150
+  raw_path: data/panel.parquet
+
+  # The three dials the whole project turns on. Set group_effect and drift to
+  # 0.0 and the panel becomes exchangeable and stationary, which is the one
+  # world where naive KFold is genuinely the right estimator. Everything in the
+  # tables should collapse toward zero optimism there, and it is worth running
+  # once as a control.
+  group_effect: 2.50     # spread of the latent per-customer effect
+  drift: 0.90            # how far the coefficients travel across the panel
+  missing_rate: 0.08
+  label_noise: 0.05      # keeps the candidate models genuinely close
+
+validation:
+  n_folds: 5
+  n_repeats: 20          # reshuffles for the variance experiment
+  select_k: 20           # features SelectKBest keeps
+  # The truth holdout: the last N periods, restricted to customers held out of
+  # development entirely. Both conditions together are what deployment means.
+  holdout_periods: 3
+  holdout_customer_share: 0.30
+  # Selection leakage is a small-sample effect, so it is measured
+  # across sizes rather than quoted at one.
+  preprocess_sizes: [200, 400, 800, 2000, 7000]
+  # The winner's curse needs many interchangeable candidates.
+  n_candidates: 30
+  candidate_size: 25
+
+paths:
+  artifacts: artifacts
+
+run:
+  seed: 42
+  log_level: INFO

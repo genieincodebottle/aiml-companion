@@ -1,0 +1,5 @@
+product_id,name,description,annual_units,revenue_share_pct
+PRD-NW500,NW-500 Patient Monitor,Bedside multi-parameter patient monitor,41000,38
+PRD-NW220,NW-220 Infusion Pump,Volumetric infusion pump for ward use,27000,29
+PRD-TX9,TX-9 Thermal Imager,Handheld industrial thermal imaging camera,15000,21
+PRD-AQ100,AQ-100 Air Quality Sensor,Fixed particulate and VOC monitoring unit,52000,12

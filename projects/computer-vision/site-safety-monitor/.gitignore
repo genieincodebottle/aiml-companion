@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# Engines, weights, and video. None of these belong in git.
+*.engine
+*.onnx
+*.pt
+*.pth
+*.mp4
+artifacts/clips/
+
+# Mined review data
+data/
+
+# Keep the committed example outputs
+!artifacts/stage_budget.csv
+!artifacts/threshold_sweep.csv
+!artifacts/report.md
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Virtual environments
+.venv/
+venv/
+.env

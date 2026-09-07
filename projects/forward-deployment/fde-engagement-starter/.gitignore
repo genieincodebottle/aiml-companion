@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.pytest_cache/
+.coverage
+htmlcov/
+audit_log.jsonl
+*.egg-info/
+.DS_Store
+
+# Your engagement artifacts stay local until you decide to publish them.
+docs/scoping-doc.md
+docs/stakeholder-map.md
+docs/ADR-001.md
+docs/escalation-memo.md
+docs/exec-summary.md
+docs/handover.md
+docs/engagement-log.md

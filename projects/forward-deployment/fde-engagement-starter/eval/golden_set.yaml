@@ -1,0 +1,111 @@
+# Northwind Freight - evaluation golden set
+# =========================================
+#
+# THIS FILE IS INCOMPLETE ON PURPOSE.
+#
+# What is here:  12 seed cases across 3 failure modes.
+# What the gate needs: 30 cases across all 5 named failure modes.
+#
+# The five failure modes for this engagement are:
+#   wrong_address      - address is malformed, stale, or geocodes to the wrong place
+#   missing_recipient   - nobody available to sign or accept
+#   damaged_goods       - package arrived damaged or was damaged in handling
+#   customs_hold        - cross-border paperwork, duty, or restricted-item hold
+#   site_access         - gate codes, dock hours, security escort, permit required
+#
+# Only the first three appear below. That shortfall is visible when you run
+# `python eval/run_eval.py`, and closing it is the highest-value hour of the week.
+# Source your additional cases from customer/tickets.jsonl. Do not invent tickets.
+# Real customer language is what makes an eval set worth having, and the two
+# missing modes are exactly the ones where the tickets are hardest to read.
+#
+# Sampling note worth an ADR: if you take the 30 cases by reading the first 30
+# tickets, your set inherits whatever ordering the export happened to have. Say
+# out loud how you sampled, and why that sampling is defensible to the ops lead
+# who has to trust the number.
+#
+# Schema per case (all fields required):
+#   id            stable slug, never reused, never renumbered
+#   failure_mode  one of the five above, exactly
+#   input         the ticket text as the system will see it
+#   expected      what a correct system should output or route to
+#   notes         why this case is in the set, and what it is guarding against
+
+cases:
+  - id: wa-001
+    failure_mode: wrong_address
+    input: "Driver says the unit number on the label is 4B but the building only goes up to 3. Parcel NF-88214 back on the van."
+    expected: "route_to: address_correction; request: unit number confirmation from shipper; do NOT re-attempt delivery until confirmed"
+    notes: "Clean, explicit case. If the system misses this one, nothing downstream is worth measuring."
+
+  - id: wa-002
+    failure_mode: wrong_address
+    input: "Postcode on NF-90337 is for Leeds, street name is a Bristol street. Which one is right?"
+    expected: "route_to: address_correction; flag: postcode/locality mismatch; propose both candidates, do not silently pick one"
+    notes: "Guards against confident auto-correction. Picking a city for the customer is the expensive failure here."
+
+  - id: wa-003
+    failure_mode: wrong_address
+    input: "delivered to 12 Mill Ln, consignee called says they are at 12 Mill Rd. two different streets."
+    expected: "route_to: address_correction + recovery; open misdelivery case; do not close as delivered"
+    notes: "Already-delivered variant. A system that keys off 'delivered' status will close this wrongly."
+
+  - id: wa-004
+    failure_mode: wrong_address
+    input: "NF-71802 address field just says 'the warehouse behind the Shell garage'."
+    expected: "route_to: address_correction; request: structured address from shipper; low confidence, no geocode guess"
+    notes: "Unstructured free-text address. Tests that the system refuses to guess rather than geocoding a landmark."
+
+  - id: mr-001
+    failure_mode: missing_recipient
+    input: "Third attempt at NF-66120, nobody in. Signature required. Neighbour would not take it."
+    expected: "route_to: recipient_contact; action: hold at depot + notify consignee; escalate after attempt limit"
+    notes: "Attempt-count case. The attempt threshold is a policy value, not a model output - check the policy docs."
+
+  - id: mr-002
+    failure_mode: missing_recipient
+    input: "Site was open but the named person on the paperwork left the company. Reception refused to sign for it."
+    expected: "route_to: recipient_contact; request: updated consignee contact from shipper; hold, do not return yet"
+    notes: "Recipient exists as a place but not as a person. Easy to misclassify as site_access."
+
+  - id: mr-003
+    failure_mode: missing_recipient
+    input: "Customer asked us to leave it with the porter but the paperwork says signature required only."
+    expected: "route_to: policy_exception; do not leave; obtain written authority to release"
+    notes: "The two policy documents disagree about porter release. This case exists to surface that contradiction."
+
+  - id: mr-004
+    failure_mode: missing_recipient
+    input: "no answer at NF-45011 twice today, phone number on file is disconnected"
+    expected: "route_to: recipient_contact; flag: no reachable contact channel; escalate to shipper"
+    notes: "Contact-channel exhaustion. Distinct from a plain failed attempt because retrying cannot succeed."
+
+  - id: dg-001
+    failure_mode: damaged_goods
+    input: "Pallet NF-30442 arrived with the shrink wrap torn and two cartons crushed. Consignee refused the whole pallet."
+    expected: "route_to: claims; action: photo evidence + damage report; do not re-deliver refused pallet"
+    notes: "Refusal on damage. Tests that refusal is not classified as missing_recipient."
+
+  - id: dg-002
+    failure_mode: damaged_goods
+    input: "Box was wet when it came off the van. Contents look fine. Consignee signed but wrote 'damaged packaging' on the POD."
+    expected: "route_to: claims (informational); delivery stands; record damage annotation against the POD"
+    notes: "Damage that does NOT stop the delivery. Guards against over-escalation."
+
+  - id: dg-003
+    failure_mode: damaged_goods
+    input: "forklift punctured the side of NF-21877 in our own depot last night"
+    expected: "route_to: claims; liability: internal; notify shipper before onward movement"
+    notes: "Internal liability. The routing is the same, the liability field is not, and the ops lead cares about that field."
+
+  - id: dg-004
+    failure_mode: damaged_goods
+    input: "Consignee says the seal number on NF-55903 does not match the manifest. Nothing looks broken."
+    expected: "route_to: claims + security review; flag: seal integrity; do not treat as cosmetic damage"
+    notes: "Tamper case wearing damage clothing. A keyword system that looks for 'broken' will miss it entirely."
+
+# ---------------------------------------------------------------------------
+# TODO (yours): add at least 18 more cases, and make sure customs_hold and
+# site_access are both represented. Aim for the ugly ones - the tickets that
+# took you two reads to classify are the tickets worth putting in here.
+# ---------------------------------------------------------------------------

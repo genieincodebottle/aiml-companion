@@ -1,0 +1,21 @@
+{
+  "id": "genieincodebottle/content-moderation-multi-agent",
+  "title": "Content Moderation Multi-Agent",
+  "code_file": "content_moderation_standalone.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "keywords": [
+    "multi-agent",
+    "langgraph",
+    "content-moderation",
+    "trust-and-safety",
+    "human-in-the-loop",
+    "llm"
+  ],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": []
+}

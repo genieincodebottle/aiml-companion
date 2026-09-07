@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 400" width="940" height="400" role="img" aria-label="On a linear model the SHAP value equals the coefficient times the centred feature, which is what earns the right to trust SHAP on the gradient boosting model">
+  <style>
+    .t  { font-family: "Segoe UI", Helvetica, Arial, sans-serif; fill: #0f172a; }
+    .h  { font-size: 12.5px; font-weight: 700; letter-spacing: .04em; }
+    .b  { font-size: 12.5px; font-weight: 600; }
+    .n  { font-size: 11.5px; fill: #334155; }
+    .s  { font-size: 11px; fill: #64748b; }
+    .m  { font-family: Consolas, "Courier New", monospace; font-size: 13px; fill: #0f172a; }
+    .known { fill: #f0fdf4; stroke: #16a34a; stroke-width: 1.2; rx: 8; }
+    .dark  { fill: #f8fafc; stroke: #94a3b8; stroke-width: 1.2; rx: 8; }
+    .eq    { fill: #eff6ff; stroke: #2563eb; stroke-width: 1.4; rx: 8; }
+    .arrow { stroke: #64748b; stroke-width: 2; fill: none; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <text class="t h" x="20" y="26">SHAP IS NOT A NEWER KIND OF EXPLANATION</text>
+  <text class="t s" x="20" y="44">On a linear model it is the coefficient you already had, redistributed one row at a time. Check the identity where you can verify it,</text>
+  <text class="t s" x="20" y="60">and you have earned the right to trust it where you cannot.</text>
+
+  <rect class="known" x="20" y="78" width="420" height="120"/>
+  <text class="t h" x="36" y="100" fill="#15803d">WHERE YOU CAN CHECK IT: THE LINEAR MODEL</text>
+  <rect x="36" y="112" width="388" height="34" fill="#ffffff" stroke="#cbd5e1" rx="5"/>
+  <text class="m" x="48" y="134">SHAP_i(x)  ==  coef_i * (x_i - mean(x_i))</text>
+  <text class="t n" x="36" y="166">Exact, not approximate. explain/shap_report.py computes both sides</text>
+  <text class="t n" x="36" y="182">by hand and asserts they agree to 1e-6 in the test suite.</text>
+
+  <rect class="dark" x="500" y="78" width="420" height="120"/>
+  <text class="t h" x="516" y="100">WHERE YOU CANNOT: THE GBM</text>
+  <rect x="516" y="112" width="388" height="34" fill="#ffffff" stroke="#cbd5e1" rx="5"/>
+  <text class="m" x="528" y="134">SHAP_i(x)  ==  ?   no coefficient exists</text>
+  <text class="t n" x="516" y="166">Nothing to compare against. The identity above is the only reason</text>
+  <text class="t n" x="516" y="182">to believe the tree attributions mean what the plot suggests.</text>
+
+  <path class="arrow" d="M230 198 L230 232" marker-end="url(#a)"/>
+  <path class="arrow" d="M710 198 L710 232" marker-end="url(#a)"/>
+
+  <rect class="eq" x="20" y="236" width="900" height="144"/>
+  <text class="t h" x="36" y="258" fill="#1d4ed8">WHAT EACH MODEL CAN ACTUALLY TELL A REGULATOR</text>
+
+  <line x1="36" y1="270" x2="904" y2="270" stroke="#bfdbfe" stroke-width="1"/>
+  <text class="t s" x="640" y="286">specified OLS</text>
+  <text class="t s" x="790" y="286">GBM</text>
+
+  <text class="t n" x="36" y="308">the effect of +10% floor area, as a number</text>
+  <text class="t b" x="640" y="308" fill="#15803d">yes</text>
+  <text class="t b" x="790" y="308" fill="#b91c1c">no</text>
+  <text class="t n" x="36" y="328">a confidence interval on that effect</text>
+  <text class="t b" x="640" y="328" fill="#15803d">yes</text>
+  <text class="t b" x="790" y="328" fill="#b91c1c">no</text>
+  <text class="t n" x="36" y="348">auditable as one equation on one page</text>
+  <text class="t b" x="640" y="348" fill="#15803d">yes</text>
+  <text class="t b" x="790" y="348" fill="#b91c1c">no</text>
+  <text class="t n" x="36" y="368">finds non-linearity and interactions unprompted</text>
+  <text class="t b" x="640" y="368" fill="#b91c1c">no</text>
+  <text class="t b" x="790" y="368" fill="#15803d">yes</text>
+
+  <line x1="600" y1="274" x2="600" y2="376" stroke="#bfdbfe" stroke-width="1"/>
+  <line x1="750" y1="274" x2="750" y2="376" stroke="#bfdbfe" stroke-width="1"/>
+</svg>

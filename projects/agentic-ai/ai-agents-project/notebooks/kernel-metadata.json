@@ -1,0 +1,21 @@
+{
+  "id": "genieincodebottle/multi-agent-research-system-langgraph-pipeline",
+  "title": "Multi Agent Research System LangGraph Pipeline",
+  "code_file": "Multi_Agent_Research.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "keywords": [
+    "multi-agent",
+    "langgraph",
+    "research-agent",
+    "gemini",
+    "llm",
+    "agentic-ai"
+  ],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": []
+}

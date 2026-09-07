@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Generated output, reproducible from config + seed, so never committed.
+# LEADING SLASH IS LOAD-BEARING: a bare `data/` also matches
+# src/lapse_prediction/data/ and silently excluded the generator and every
+# model file from the first commit of this project.
+/data/
+/artifacts/
+/models/
+*.log

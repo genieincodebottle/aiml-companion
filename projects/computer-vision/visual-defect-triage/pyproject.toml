@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "visual-defect-triage"
+version = "1.0.0"
+description = "A ViT backbone, a calibrated confidence gate, and a review loop that pays for its own labels"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "pydantic>=2.0",
+    "pydantic-settings>=2.0",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+model = ["torch>=2.2", "torchvision>=0.17", "timm>=1.0", "pillow>=10.0"]
+retrieval = ["faiss-cpu>=1.8"]
+serve = ["fastapi>=0.110", "uvicorn>=0.29", "python-multipart>=0.0.9"]
+dev = ["pytest>=8.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+# Import src/ without requiring an editable install, which fails on some Windows
+# setups with a stale entry-point exe. The suite should not depend on that.
+pythonpath = ["."]

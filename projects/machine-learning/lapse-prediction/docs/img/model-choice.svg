@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 380" width="940" height="380" role="img" aria-label="Decision tree for choosing between the ordinal chain, the discrete hazard model and survival alternatives, based on whether the horizon is bounded by the grace period">
+  <style>
+    .t  { font-family: "Segoe UI", Helvetica, Arial, sans-serif; fill: #0f172a; }
+    .h  { font-size: 12.5px; font-weight: 700; letter-spacing: .04em; }
+    .b  { font-size: 12.5px; font-weight: 600; }
+    .n  { font-size: 11.5px; fill: #334155; }
+    .s  { font-size: 11px; fill: #64748b; }
+    .q     { fill: #eff6ff; stroke: #2563eb; stroke-width: 1.2; rx: 8; }
+    .pick  { fill: #f0fdf4; stroke: #16a34a; stroke-width: 1.4; rx: 8; }
+    .alt   { fill: #f8fafc; stroke: #94a3b8; stroke-width: 1.2; rx: 8; }
+    .no    { fill: #fef2f2; stroke: #dc2626; stroke-width: 1.2; rx: 8; }
+    .arrow { stroke: #64748b; stroke-width: 2; fill: none; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <text class="t h" x="20" y="26">WHICH MODEL, AND WHEN</text>
+  <text class="t s" x="20" y="44">The question is not accuracy. All of these score within 0.02 PR-AUC. The question is whether your horizon is bounded.</text>
+
+  <rect class="q" x="330" y="60" width="290" height="46"/>
+  <text class="t b" x="346" y="82">Does anything you care about happen</text>
+  <text class="t b" x="346" y="98">after the grace period ends?</text>
+
+  <path class="arrow" d="M400 106 L210 148" marker-end="url(#a)"/>
+  <text class="t b" x="270" y="120" fill="#16a34a">no</text>
+  <path class="arrow" d="M550 106 L740 148" marker-end="url(#a)"/>
+  <text class="t b" x="660" y="120" fill="#2563eb">yes, revivals matter</text>
+
+  <rect class="pick" x="20" y="152" width="400" height="112"/>
+  <text class="t h" x="36" y="174" fill="#15803d">ORDINAL CHAIN  (the default)</text>
+  <text class="t n" x="36" y="196">The horizon is closed at day 45, so there is nothing to censor,</text>
+  <text class="t n" x="36" y="212">provided you train only on cohorts where grace has fully elapsed.</text>
+  <text class="t s" x="36" y="232">labels.mature() enforces that. Skip it and every recent due looks</text>
+  <text class="t s" x="36" y="246">like a lapse, which is the most expensive silent bug here.</text>
+  <text class="t s" x="36" y="260">Brier 0.0761, PR-AUC 0.3804, 12s to fit.</text>
+
+  <rect class="pick" x="520" y="152" width="400" height="112"/>
+  <text class="t h" x="536" y="174" fill="#15803d">DISCRETE HAZARD</text>
+  <text class="t n" x="536" y="196">Payments landing 3, 6 or 12 months late make the horizon open</text>
+  <text class="t n" x="536" y="212">ended and the recent cohorts genuinely censored rather than bad.</text>
+  <text class="t s" x="536" y="232">It also stops you discarding them: a 20-day-old due contributes</text>
+  <text class="t s" x="536" y="246">20 days of exposure and is censored after.</text>
+  <text class="t s" x="536" y="260">Weak inside grace (weekly periods blur the day-45 edge), well</text>
+  <text class="t s" x="536" y="274">calibrated on revival at 28 / 42 / 91 / 182 / 364 days.</text>
+
+  <rect class="alt" x="20" y="288" width="440" height="76"/>
+  <text class="t b" x="36" y="310">Cox PH, XGBoost AFT, mixture cure</text>
+  <text class="t s" x="36" y="328">A mixture cure model is the formal version of the two-stage idea. On tabular</text>
+  <text class="t s" x="36" y="342">data with this many categoricals, boosted trees beat Cox, and AFT cannot</text>
+  <text class="t s" x="36" y="356">represent a spike at day 0 and another at the deadline (mlogloss 1.53 vs 1.11).</text>
+
+  <rect class="no" x="480" y="288" width="440" height="76"/>
+  <text class="t b" x="496" y="310" fill="#b91c1c">Keep logistic regression in the registry forever</text>
+  <text class="t s" x="496" y="328">It posted the highest AUC in the table and fits in 2 seconds. When a boosted</text>
+  <text class="t s" x="496" y="342">model cannot beat that by a meaningful margin, you have learned something</text>
+  <text class="t s" x="496" y="356">about your features, not about your algorithm. Ship the challenger anyway.</text>
+</svg>

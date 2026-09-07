@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 440" width="960" height="440" role="img" aria-label="The four multiclass strategies compared: native, one-vs-rest, one-vs-one and softmax, with their sub-model counts and what each does to calibration and the rare class">
+  <style>
+    .t  { font-family: "Segoe UI", Helvetica, Arial, sans-serif; fill: #0f172a; }
+    .h  { font-size: 12.5px; font-weight: 700; letter-spacing: .04em; }
+    .b  { font-size: 12.5px; font-weight: 600; }
+    .n  { font-size: 11.5px; fill: #334155; }
+    .s  { font-size: 10.5px; fill: #64748b; }
+    .box   { fill: #f8fafc; stroke: #94a3b8; stroke-width: 1; rx: 8; }
+    .item  { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; rx: 4; }
+    .good  { fill: #16a34a; }
+    .bad   { fill: #dc2626; }
+  </style>
+
+  <text class="t h" x="20" y="26">FOUR WAYS TO MAKE SIX CLASSES OUT OF BINARY PARTS</text>
+  <text class="t s" x="20" y="44">Same data, same split, same accuracy to four decimals. They differ in cost and in whether the output is a probability at all.</text>
+
+  <rect class="box" x="20" y="58" width="222" height="246"/>
+  <text class="t h" x="34" y="80">NATIVE</text>
+  <text class="t s" x="34" y="96">MultinomialNB, no wrapper</text>
+  <rect class="item" x="34" y="106" width="194" height="52"/>
+  <text class="t b" x="44" y="124">1 model</text>
+  <text class="t s" x="44" y="140">one pass over the counts,</text>
+  <text class="t s" x="44" y="152">all six classes at once</text>
+  <text class="t n" x="34" y="176">accuracy   0.9160</text>
+  <text class="t n" x="34" y="194">ECE        0.0096</text>
+  <text class="t n" x="34" y="212">fit        0.05s</text>
+  <text class="t s" x="34" y="238">The cheapest thing here by a</text>
+  <text class="t s" x="34" y="252">wide margin, which is why it</text>
+  <text class="t s" x="34" y="266">survived being wrong about</text>
+  <text class="t s" x="34" y="280">independence for 40 years.</text>
+
+  <rect class="box" x="252" y="58" width="222" height="246"/>
+  <text class="t h" x="266" y="80">ONE VS REST</text>
+  <text class="t s" x="266" y="96">K binary models, then argmax</text>
+  <rect class="item" x="266" y="106" width="194" height="52"/>
+  <text class="t b" x="276" y="124">6 models</text>
+  <text class="t s" x="276" y="140">each asks: this class,</text>
+  <text class="t s" x="276" y="152">or any of the other five?</text>
+  <text class="t n" x="266" y="176">accuracy   0.9160</text>
+  <text class="t n" x="266" y="194">ECE        0.0122</text>
+  <text class="t n" x="266" y="212">fit        0.11s</text>
+  <text class="t s" x="266" y="238">Scores are normalised after</text>
+  <text class="t s" x="266" y="252">the fact, so the distribution</text>
+  <text class="t s" x="266" y="266">is manufactured, not fitted.</text>
+  <text class="t s" x="266" y="280">Rare class trains at 3% positive.</text>
+
+  <rect class="box" x="484" y="58" width="222" height="246"/>
+  <text class="t h" x="498" y="80">ONE VS ONE</text>
+  <text class="t s" x="498" y="96">every pair arbitrates, then votes</text>
+  <rect class="item" x="498" y="106" width="194" height="52"/>
+  <text class="t b" x="508" y="124">15 models</text>
+  <text class="t s" x="508" y="140">K(K-1)/2, so this column</text>
+  <text class="t s" x="508" y="152">grows as K squared</text>
+  <text class="t n" x="498" y="176">accuracy   0.9160</text>
+  <text class="t n" x="498" y="194" fill="#b91c1c">ECE        0.5824</text>
+  <text class="t n" x="498" y="212">fit        0.12s</text>
+  <text class="t s" x="498" y="238">Votes are not probabilities.</text>
+  <text class="t s" x="498" y="252">The ECE says so loudly, and</text>
+  <text class="t s" x="498" y="266">that is the honest reading:</text>
+  <text class="t s" x="498" y="280">a ranking, wearing a costume.</text>
+
+  <rect class="box" x="716" y="58" width="224" height="246"/>
+  <text class="t h" x="730" y="80">SOFTMAX</text>
+  <text class="t s" x="730" y="96">multinomial logistic, joint fit</text>
+  <rect class="item" x="730" y="106" width="196" height="52"/>
+  <text class="t b" x="740" y="124">1 model</text>
+  <text class="t s" x="740" y="140">all classes estimated</text>
+  <text class="t s" x="740" y="152">together, not assembled</text>
+  <text class="t n" x="730" y="176" fill="#15803d">accuracy   0.9240</text>
+  <text class="t n" x="730" y="194">ECE        0.0171</text>
+  <text class="t n" x="730" y="212">fit        0.31s</text>
+  <text class="t s" x="730" y="238">Makes no independence</text>
+  <text class="t s" x="730" y="252">assumption, so it is the</text>
+  <text class="t s" x="730" y="266">control the whole project</text>
+  <text class="t s" x="730" y="280">measures Naive Bayes against.</text>
+
+  <rect x="20" y="320" width="920" height="106" fill="#eff6ff" stroke="#2563eb" stroke-width="1" rx="8"/>
+  <text class="t h" x="36" y="342" fill="#1d4ed8">WHAT TO TAKE FROM THE FOUR IDENTICAL ACCURACY SCORES</text>
+  <text class="t n" x="36" y="364">Three of them agree to four decimal places, so accuracy cannot be how you choose. Cost can: OvO fits fifteen models</text>
+  <text class="t n" x="36" y="382">to reach the same answer as one. Calibration can: only the joint fits produce a number you could put a threshold on.</text>
+  <text class="t n" x="36" y="400">And the rare class can: OvR trains its abuse_report model on a 3%-positive problem, while OvO never fights worse</text>
+  <text class="t n" x="36" y="418">than one class against one other, which is the argument for OvO that has nothing to do with accuracy.</text>
+</svg>

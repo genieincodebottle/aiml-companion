@@ -1,0 +1,8 @@
+slice,n,share,accuracy,ceiling
+pass,1150,0.6389,0.9739,0.0167
+hairline_crack,47,0.0261,0.6809,0.0083
+dent,156,0.0867,1.0,0.0
+discolour,98,0.0544,1.0,0.0
+contamination,72,0.04,1.0,0.0
+scratch,241,0.1339,1.0,0.0
+weld_void,36,0.02,1.0,0.0

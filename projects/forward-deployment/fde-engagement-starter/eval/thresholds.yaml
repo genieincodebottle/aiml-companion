@@ -1,0 +1,55 @@
+# Northwind Freight - evaluation gate thresholds
+# ==============================================
+#
+# EVERY NUMBER IN THIS FILE IS A DECISION YOU ARE MAKING, NOT AN INDUSTRY STANDARD.
+#
+# There is no published figure that says a logistics triage system must be 0.85
+# faithful. These values are placeholders chosen so the gate is meaningful on day
+# one. Your job during the engagement is to replace them with numbers you can
+# defend to the Northwind ops lead in a sentence each, of the form:
+#
+#   "We set recall on customs_hold at X because a missed customs hold costs
+#    roughly <what> and we would rather absorb <what> false positives."
+#
+# If you cannot finish that sentence, you do not yet know the threshold.
+# Write the reasoning down in docs/ADR-002.md. A threshold with no ADR behind it
+# is a number somebody will quietly lower the first time CI goes red.
+
+# --- Coverage gates -------------------------------------------------------
+# These two are structural, not quality: they say the eval set is big enough and
+# broad enough for the quality numbers to mean anything at all. On a fresh clone
+# the golden set has 12 cases across 3 modes, so these fire first and loudest.
+min_cases: 30
+min_failure_modes: 5
+
+# --- Quality gates --------------------------------------------------------
+# faithfulness: does the output stay inside what the ticket and the policy docs
+#   actually support? Anything asserted that is not supported is a hallucination
+#   and Northwind's ops team will find it before you do.
+faithfulness_floor: 0.85
+
+# precision / recall are measured over failure-mode classification.
+precision_floor: 0.80
+recall_floor: 0.75
+
+# --- Operational gates ----------------------------------------------------
+# p95 not mean. The mean hides the tail, and the tail is what the dispatcher
+# sitting at the terminal actually experiences.
+max_p95_latency_ms: 4000
+
+# Cost per case, at the volume Northwind quoted you. If you do not know their
+# daily ticket volume, that is a scoping question you missed on day 1.
+max_cost_per_case_usd: 0.02
+
+# --- Asymmetric floors (optional, and a legitimate design choice) ---------
+# Uniform floors across failure modes assume every mistake costs the same. It
+# does not. A missed customs_hold strands freight at a border and accrues daily
+# storage. A missed site_access wastes one van visit. Raising recall on the
+# safety-relevant or expensive modes, and accepting more false positives there,
+# is a defensible engineering decision - but it IS a decision, so write the ADR.
+#
+# Uncomment and tune once you can justify the asymmetry out loud. run_eval.py
+# applies any mode listed here in place of the global recall_floor.
+per_mode_recall_floor:
+  # customs_hold: 0.90
+  # damaged_goods: 0.85

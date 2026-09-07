@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 540" width="980" height="540" role="img" aria-label="Training path from renewal ledger through leakage-guarded features, cohort split, model zoo, release gate and registry, then the serving path to a ranked retention queue">
+  <style>
+    .t  { font-family: "Segoe UI", Helvetica, Arial, sans-serif; fill: #0f172a; }
+    .h  { font-size: 12.5px; font-weight: 700; letter-spacing: .04em; }
+    .b  { font-size: 12px; font-weight: 600; }
+    .s  { font-size: 10.5px; fill: #64748b; }
+    .box   { fill: #f1f5f9; stroke: #94a3b8; stroke-width: 1; rx: 8; }
+    .item  { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; rx: 5; }
+    .guard { fill: #fee2e2; stroke: #dc2626; stroke-width: 1.2; rx: 5; }
+    .gate  { fill: #fef3c7; stroke: #d97706; stroke-width: 1.2; rx: 5; }
+    .serve { fill: #ecfdf5; stroke: #16a34a; stroke-width: 1.2; rx: 5; }
+    .arrow { stroke: #64748b; stroke-width: 2; fill: none; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <text class="t h" x="20" y="26">TRAINING PATH</text>
+  <text class="t s" x="128" y="26">every stage is a module you can replace; the seams are the point</text>
+
+  <rect class="box" x="20" y="40" width="178" height="212"/>
+  <text class="t h" x="33" y="61">1. DATA</text>
+  <rect class="item" x="33" y="70" width="152" height="42"/>
+  <text class="t b" x="43" y="85">data/generate.py</text>
+  <text class="t s" x="43" y="99">synthetic renewal ledger</text>
+  <text class="t s" x="43" y="109">REPLACE for production</text>
+  <rect class="item" x="33" y="120" width="152" height="42"/>
+  <text class="t b" x="43" y="135">data/io.py</text>
+  <text class="t s" x="43" y="149">load_ledger(source=...)</text>
+  <text class="t s" x="43" y="159">the only bytes-in seam</text>
+  <rect class="item" x="33" y="170" width="152" height="42"/>
+  <text class="t b" x="43" y="185">data/schema.py</text>
+  <text class="t s" x="43" y="199">types, grain, nulls, ranges</text>
+  <text class="t s" x="43" y="209">upstream drift fails loud</text>
+  <text class="t s" x="33" y="232">one row per policy-due-date</text>
+  <text class="t s" x="33" y="245">161k rows from 12k policies</text>
+
+  <rect class="box" x="216" y="40" width="178" height="212"/>
+  <text class="t h" x="229" y="61">2. FEATURES + LABELS</text>
+  <rect class="guard" x="229" y="70" width="152" height="56"/>
+  <text class="t b" x="239" y="85" fill="#b91c1c">features/build.py</text>
+  <text class="t s" x="239" y="99">as-of the due date only</text>
+  <text class="t s" x="239" y="109">history via groupby.shift(1)</text>
+  <text class="t s" x="239" y="119">assert_no_leakage() aborts</text>
+  <rect class="item" x="229" y="134" width="152" height="42"/>
+  <text class="t b" x="239" y="149">features/labels.py</text>
+  <text class="t s" x="239" y="163">days_to_pay to 5 buckets</text>
+  <text class="t s" x="239" y="173">mature(): grace elapsed</text>
+  <rect class="item" x="229" y="184" width="152" height="42"/>
+  <text class="t b" x="239" y="199">features/matrix.py</text>
+  <text class="t s" x="239" y="213">numeric design matrix for</text>
+  <text class="t s" x="239" y="223">the non-tree families</text>
+  <text class="t s" x="229" y="245">immature cohorts silently relabel</text>
+
+  <rect class="box" x="412" y="40" width="178" height="212"/>
+  <text class="t h" x="425" y="61">3. SPLIT</text>
+  <rect class="guard" x="425" y="70" width="152" height="56"/>
+  <text class="t b" x="435" y="85" fill="#b91c1c">time_split()</text>
+  <text class="t s" x="435" y="99">by due-date cohort, never</text>
+  <text class="t s" x="435" y="109">at random. A random split</text>
+  <text class="t s" x="435" y="119">leaks the future.</text>
+  <rect class="item" x="425" y="134" width="152" height="52"/>
+  <text class="t b" x="435" y="149">148k / 5.3k / 5.4k</text>
+  <text class="t s" x="435" y="163">train / test / valid</text>
+  <text class="t s" x="435" y="175">early stopping reads TEST,</text>
+  <text class="t s" x="435" y="185">so VALID stays untouched</text>
+  <rect class="item" x="425" y="194" width="152" height="32"/>
+  <text class="t s" x="435" y="209">10.2% lapse rate,</text>
+  <text class="t s" x="435" y="221">so PR-AUC over AUC</text>
+  <text class="t s" x="425" y="245">the out-of-time gap is the real score</text>
+
+  <rect class="box" x="608" y="40" width="178" height="212"/>
+  <text class="t h" x="621" y="61">4. MODELS</text>
+  <rect class="item" x="621" y="70" width="152" height="30"/>
+  <text class="t b" x="631" y="89">models/ordinal.py</text>
+  <rect class="item" x="621" y="104" width="152" height="44"/>
+  <text class="t s" x="631" y="119">bucket.py multiclass</text>
+  <text class="t s" x="631" y="131">hazard.py discrete survival</text>
+  <text class="t s" x="631" y="143">hurdle.py two-stage baseline</text>
+  <rect class="item" x="621" y="152" width="152" height="30"/>
+  <text class="t b" x="631" y="171">models/zoo.py</text>
+  <rect class="item" x="621" y="186" width="152" height="40"/>
+  <text class="t b" x="631" y="201">isotonic calibration</text>
+  <text class="t s" x="631" y="215">on a cohort never trained on,</text>
+  <text class="t s" x="631" y="225">remaining mass renormalised</text>
+  <text class="t s" x="621" y="245">11 families behind one interface</text>
+
+  <rect class="box" x="804" y="40" width="156" height="212"/>
+  <text class="t h" x="817" y="61">5. SHIP OR STOP</text>
+  <rect class="item" x="817" y="70" width="130" height="44"/>
+  <text class="t b" x="827" y="85">evaluation/metrics</text>
+  <text class="t s" x="827" y="99">PR-AUC, Brier, decile</text>
+  <text class="t s" x="827" y="111">lift, expected days</text>
+  <rect class="gate" x="817" y="122" width="130" height="56"/>
+  <text class="t b" x="827" y="137" fill="#b45309">report.gate()</text>
+  <text class="t s" x="827" y="151">non-zero exit on a</text>
+  <text class="t s" x="827" y="163">PR-AUC, Brier or</text>
+  <text class="t s" x="827" y="175">monotonicity regression</text>
+  <rect class="item" x="817" y="186" width="130" height="40"/>
+  <text class="t b" x="827" y="201">models/registry.py</text>
+  <text class="t s" x="827" y="215">versioned joblib plus</text>
+  <text class="t s" x="827" y="225">a model card</text>
+  <text class="t s" x="817" y="245">nothing ships past the gate</text>
+
+  <path class="arrow" d="M198 146 L213 146" marker-end="url(#a)"/>
+  <path class="arrow" d="M394 146 L409 146" marker-end="url(#a)"/>
+  <path class="arrow" d="M590 146 L605 146" marker-end="url(#a)"/>
+  <path class="arrow" d="M786 146 L801 146" marker-end="url(#a)"/>
+
+  <text class="t h" x="20" y="296">SERVING PATH</text>
+  <path class="arrow" d="M882 252 L882 320 L790 320" marker-end="url(#a)"/>
+  <rect class="serve" x="608" y="302" width="178" height="66"/>
+  <text class="t b" x="621" y="322">serving/predict.py</text>
+  <text class="t s" x="621" y="337">Scorer.score_batch() nightly</text>
+  <text class="t s" x="621" y="350">Scorer.score_one() sync</text>
+  <text class="t s" x="621" y="362">loads a pinned registry version</text>
+  <path class="arrow" d="M605 335 L594 335" marker-end="url(#a)"/>
+  <rect class="serve" x="412" y="302" width="178" height="66"/>
+  <text class="t b" x="425" y="322">serving/decide.py</text>
+  <text class="t s" x="425" y="337">probabilities to a ranked queue</text>
+  <text class="t s" x="425" y="350">expected saved premium minus</text>
+  <text class="t s" x="425" y="362">contact cost, capacity capped</text>
+  <path class="arrow" d="M409 335 L398 335" marker-end="url(#a)"/>
+  <rect class="serve" x="216" y="302" width="178" height="66"/>
+  <text class="t b" x="229" y="322">artifacts/retention_queue.csv</text>
+  <text class="t s" x="229" y="337">who to call, in what order,</text>
+  <text class="t s" x="229" y="350">and what it is worth</text>
+  <text class="t s" x="229" y="362">one row per open due</text>
+
+  <rect x="20" y="392" width="940" height="128" fill="#eff6ff" stroke="#2563eb" stroke-width="1" rx="8"/>
+  <text class="t h" x="36" y="414" fill="#1d4ed8">THE THREE FAILURES THAT COST MORE THAN ANY ALGORITHM CHOICE</text>
+  <text class="t b" x="36" y="440">1. Leakage.</text>
+  <text class="t s" x="112" y="440">A feature knowable only after the due date makes the offline score a fantasy. tests/test_leakage.py tampers with the outcome and asserts nothing moves.</text>
+  <text class="t b" x="36" y="466">2. Immature cohorts.</text>
+  <text class="t s" x="164" y="466">A due whose grace has not elapsed is not-yet-paid, not lapsed. Train on it and recent starts to look like bad. labels.mature() drops them.</text>
+  <text class="t b" x="36" y="492">3. Random splitting.</text>
+  <text class="t s" x="160" y="492">Shuffling policy-due rows puts the March row in train and the April row in test. The score looks great and does not survive next month.</text>
+  <text class="t s" x="36" y="512">Each of these is silent. None shows up as an error, and all three inflate your offline metric. That is why they get tests rather than comments.</text>
+</svg>

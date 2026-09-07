@@ -1,0 +1,14 @@
+{
+  "id": "genieincodebottle/site-safety-monitor-yolo",
+  "title": "Site Safety Monitor YOLO",
+  "code_file": "site_safety_monitor_standalone.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "false",
+  "enable_gpu": "false",
+  "enable_internet": "false",
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "keywords": []
+}

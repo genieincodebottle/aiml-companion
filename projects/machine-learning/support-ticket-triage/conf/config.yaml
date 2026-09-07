@@ -1,0 +1,39 @@
+# Everything tunable lives here.
+
+data:
+  n_tickets: 9000
+  raw_path: data/tickets.parquet
+  # How hard the planted token pairs co-occur. 0.0 means the independence
+  # assumption is TRUE and Naive Bayes is exactly the right model. 0.9 means
+  # the pairs almost always fire together, so the model counts the same
+  # evidence twice. This is the dial the whole project turns.
+  dependency_strength: 0.85
+  boilerplate_rate: 0.55      # greeting tokens that carry no class signal
+
+split:
+  test_size: 0.25
+  seed: 42
+
+model:
+  alpha: 0.3                  # Laplace smoothing for the multinomial counts
+  calibration_method: isotonic
+  calibration_cv: 3
+
+routing:
+  # A ticket is auto-routed only when the top class clears this. Everything
+  # else goes to a human queue. The threshold is meaningless on uncalibrated
+  # scores, which is one of the things this project demonstrates.
+  auto_route_threshold: 0.80
+  human_capacity_share: 0.25
+
+evaluation:
+  n_calibration_bins: 12
+  sweep_points: [0.0, 0.2, 0.4, 0.6, 0.8, 0.95]
+
+paths:
+  artifacts: artifacts
+  model_store: models
+
+run:
+  seed: 42
+  log_level: INFO

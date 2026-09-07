@@ -1,0 +1,13 @@
+# Everything the CLI and the tests need.
+pandas>=2.0
+numpy>=1.24
+scipy>=1.10
+scikit-learn>=1.3
+pyarrow>=14.0
+PyYAML>=6.0
+
+# For the notebook and the charts.
+matplotlib>=3.7
+
+# For `pytest`.
+pytest>=7.4

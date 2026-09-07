@@ -1,0 +1,81 @@
+# Credit Risk Pipeline - Base Configuration
+# ==========================================
+
+# Data source: "openml" (German Credit), "csv" (local file), "kaggle"
+data_source: "openml"
+openml_id: 31
+# raw_data_path: "data/raw/credit_data.csv"  # for csv source
+# kaggle_dataset: "uciml/german-credit"      # for kaggle source
+
+# Target
+target_column: "target"
+
+# --- Fair lending -------------------------------------------------------
+# Attributes a credit model may not learn from. ECOA / Regulation B (and the
+# EU equivalents) prohibit sex and marital status in a credit decision, and
+# `personal_status` in this dataset encodes both ("male single", "female
+# div/dep/mar"). Measured cost of removing it: AUC 0.7869 -> 0.7818. Measured
+# cost of keeping it: the female default rate is 35.2% against 27.7% for men,
+# so the model prices women differently for being women.
+# Turning this off is a legal exposure, not a tuning knob.
+drop_protected: true
+protected_columns: []      # extra names to drop, on top of the built-in list
+
+# Numeric columns for type coercion
+numeric_columns:
+  - duration
+  - credit_amount
+  - installment_rate
+  - residence_since
+  - age
+  - existing_credits
+  - num_dependents
+
+# Feature engineering
+dti_columns:
+  debt: "credit_amount"
+  income: null  # Auto-detect
+  loan_amount: null
+
+utilization_columns:
+  balance: null  # Auto-detect
+  limit: null
+
+burden_columns:
+  amount: "credit_amount"
+  duration: "duration"
+  income: null
+
+age_column: null  # Auto-detect from ["age", "age_years"]
+age_bins: [0, 25, 35, 45, 55, 100]
+age_labels: ["18-25", "26-35", "36-45", "46-55", "55+"]
+skew_threshold: 2.0
+
+# Imputation
+knn_imputer_neighbors: 5
+
+# Model training
+cv_folds: 5
+
+logistic_regression:
+  C: 1.0
+  max_iter: 1000
+  class_weight: "balanced"
+
+gradient_boosting:
+  n_estimators: 200
+  learning_rate: 0.1
+  max_depth: 4
+  subsample: 0.8
+
+# Evaluation
+cost_false_negative: 10   # Cost of missing a defaulter
+cost_false_positive: 1    # Cost of denying a good borrower
+
+# Monitoring / alerting (used by src/monitor.py check_alerts)
+monitoring:
+  psi_warn_threshold: 0.10    # PSI above this -> warning alert (investigate)
+  psi_alert_threshold: 0.25   # PSI above this -> critical alert (retrain)
+
+# Output
+output_dir: "artifacts"

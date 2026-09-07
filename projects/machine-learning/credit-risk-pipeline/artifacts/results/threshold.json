@@ -1,0 +1,5 @@
+{
+  "threshold": 0.01,
+  "min_cost": 662.0,
+  "best_model": "GradientBoosting"
+}
