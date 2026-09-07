@@ -1,0 +1,294 @@
+# ===========================================================================
+# LLM Judge Lifecycle - tunables
+#
+# Everything here is a knob, not a secret. API keys live in .env and are never
+# read from this file, so this one is safe to commit and .env is not.
+#
+# Read this file top to bottom and you know what the system does. That is
+# deliberate: a reviewer asking "what is this judge actually enforcing, and
+# what happens when it says no?" should never have to open a .py file.
+# ===========================================================================
+
+# Which domain the judge is grading. See domains/<name>/domain.yaml.
+# The whole point of this project's shape is that this is a one-word change:
+#   recommendation -> product recommendation explanations (reference domain)
+#   support        -> customer-support reply drafts (portability proof)
+domain: recommendation
+
+# ===========================================================================
+# ROLES
+#
+# Four roles, four independent provider/model choices. They are separate on
+# purpose, and it is the most important structural decision in the project.
+#
+# If the generator and the judge are the same model, you cannot distinguish
+# "this explanation is good" from "this explanation is written the way I write."
+# That is a documented LLM-judge failure mode (self-preference bias, Panickssery
+# et al. 2024), and a single-model config makes it invisible rather than absent.
+#
+# Running all four on one cheap model is fine for learning, and it is the
+# default because it costs least. Just do not report those numbers as if the
+# bias had been controlled for. `run.py eval --cross-provider` measures the gap.
+# ===========================================================================
+
+# Writes the artefact under test.
+generator:
+  provider: gemini              # gemini | openai_compatible | anthropic | stub
+  model: "gemini-3.5-flash"
+  temperature: 0.7              # some variety, or every retry returns the same draft
+
+  # 1024, not 512, and thinking OFF. Both numbers came out of a live run rather
+  # than a guess, and the measurement is worth repeating on your own prompt:
+  #
+  #   cap=512   MAX_TOKENS   1,746 thinking tokens, 0 usable output
+  #   cap=1024  MAX_TOKENS     980 thinking tokens, truncated mid-sentence
+  #   cap=2048  STOP         1,746 thinking tokens, 40 tokens of visible text
+  #
+  # Reasoning tokens come out of THIS budget. Writing one sentence from a record
+  # is a drafting task, not a deliberation, and the model was spending forty-four
+  # tokens of thought per token of output to do it. With thinking_budget: 0 the
+  # same prompt produces an equally good sentence for 37 tokens and no thinking
+  # at all - so this line is both a quality no-op and a ~40x cost cut.
+  max_output_tokens: 1024
+  thinking_budget: 0
+
+# Grades it. Temperature 0 is not a preference, it is a requirement: a judge
+# that scores the same input differently on Tuesday cannot be monitored for
+# drift, because you can no longer tell drift from noise.
+judge:
+  provider: gemini
+  model: "gemini-3.5-flash"
+  temperature: 0.0
+  max_output_tokens: 1024       # verdict + free-text reason, per criterion
+  # Applying a written rubric to a short text is closer to transcription than to
+  # deliberation: the criteria are fixed and the schema has already decided the
+  # answer's shape. Deliberation buys nothing here and costs reproducibility -
+  # and a judge that is not reproducible cannot be monitored for drift, because
+  # you can no longer separate drift from the model's own variance.
+  thinking_budget: 0
+
+# Rewrites rubrics during RART (Phase II). This is the one role worth paying
+# more for: it runs a few dozen times per tuning run, not once per request, and
+# rubric quality compounds across every future judgement.
+reflector:
+  provider: gemini
+  # A Pro model, and note that it is an ALIAS rather than a pinned version. The
+  # trade-off is deliberate: a pinned preview id (gemini-3.1-pro-preview) will
+  # eventually retire and break this repo for everyone who clones it, while the
+  # alias tracks whatever Pro currently is. Pin an exact version in production,
+  # where a silent model change is a silent behaviour change.
+  #
+  # Pro models REFUSE thinking_budget: 0 - "This model only works in thinking
+  # mode". That is fine here (rubric revision is genuine reasoning and keeps its
+  # thinking anyway), and src/providers/gemini.py falls back gracefully if you
+  # put a Pro model on the judge instead.
+  model: "gemini-pro-latest"
+  temperature: 0.4              # rubric proposals need variety to escape a rut
+  max_output_tokens: 4096       # a full rubric, not a diff, and Pro thinks first
+  # No thinking_budget: the one role where deliberation earns its tokens.
+  # Proposing a better rubric from a set of the judge's mistakes IS a reasoning
+  # task, and it runs a few dozen times per tuning run rather than once per
+  # served request.
+  #
+  # WARNING about positive values, measured live: thinking_budget is a HINT, not
+  # a cap. Asking for 256 produced 983 thinking tokens and still hit MAX_TOKENS.
+  # Only 0 is reliably enforced. If you need to bound reasoning spend, bound
+  # max_output_tokens instead and handle the truncation.
+
+# Compares the judge's stated reason against the human rationale. Runs ONLY on
+# examples where judge and human both said FAIL. See src/meta_judge.py for why
+# that restriction is not an optimisation.
+meta_judge:
+  provider: gemini
+  model: "gemini-3.5-flash"
+  temperature: 0.0
+  max_output_tokens: 512
+  thinking_budget: 0
+
+# Optional per-provider overrides. Only read when a role names that provider.
+providers:
+  openai_compatible:
+    # Point this at anything speaking the OpenAI chat-completions shape.
+    #   OpenAI          https://api.openai.com/v1
+    #   vLLM (local)    http://localhost:8000/v1
+    #   Ollama (local)  http://localhost:11434/v1
+    base_url: "https://api.openai.com/v1"
+  stub:
+    # The offline provider. Deterministic, free, no network. It exists so the
+    # tests are hermetic and so you can walk all four phases before deciding
+    # whether this project is worth an API key.
+    #
+    # It is NOT a model. It applies crude string heuristics, so it produces a
+    # realistic MIX of passes and failures rather than a scripted happy path -
+    # but its accuracy numbers measure the heuristics, not any model's judgement.
+    # `run.py` stamps every stub artefact with "provider": "stub" for exactly
+    # this reason. Never quote a stub number as a model result.
+    seed: 20260907
+
+# ===========================================================================
+# PHASE I - BIRTH: the benchmark
+# ===========================================================================
+benchmark:
+  # Class balance. Production failure rates are low (a few percent), so a
+  # naturally-sampled benchmark is ~95% PASS and a judge that answers PASS to
+  # everything scores 95%. We hold the benchmark near balance instead, biased
+  # slightly toward FAIL, because specificity (catching bad output) is the
+  # metric that matters and you cannot measure it on twelve examples.
+  #
+  # The consequence has to be stated wherever the numbers appear: these are
+  # alignment metrics on a difficulty-enriched set, NOT the live defect rate.
+  target_fail_fraction: 0.54
+
+  # Stratified train/validation/test split. The test set is touched exactly
+  # once, at the end. RART never sees it - it early-stops on validation - and
+  # the moment you tune against test you are reporting a fit, not a result.
+  split:
+    train: 0.55
+    validation: 0.20
+    test: 0.25
+  seed: 20260907
+
+  # Phase I source (ii): LLM-synthesised examples near the criterion boundary.
+  # Naturalistic sampling almost never surfaces the hard cases, because hard
+  # cases are by definition rare. Synthesis targets them directly.
+  synthesis:
+    enabled: true
+    per_criterion: 12
+    # Synthetic examples still need a human label before they count. The script
+    # writes them with label: null and refuses to add them to the benchmark
+    # until a human fills it in. An LLM-labelled LLM-written example teaches
+    # the judge to agree with the synthesiser, which is not the target.
+    require_human_label: true
+
+# ===========================================================================
+# PHASE II - TRAINING: Reasoning-Aligned Rubric Tuning
+#
+# No gradients. No fine-tuning. The rubric TEXT is the parameter, and a
+# reflector LLM is the optimiser. That is the whole method, and it is why this
+# runs on a laptop against a hosted API.
+# ===========================================================================
+rart:
+  max_iterations: 6
+
+  # The weighted objective. Specificity is worth three because the two error
+  # types are not symmetric online:
+  #
+  #   a bad artefact the judge PASSES  -> reaches a user, damages trust,
+  #                                       cannot be recalled
+  #   a good artefact the judge FAILS  -> re-enters the revision loop and is
+  #                                       regenerated, or is dropped
+  #
+  # One of those costs you a customer. The other costs you a few cents.
+  weights:
+    specificity: 3.0            # fail-recall: did it catch the bad ones
+    recall: 1.0                 # pass-recall: did it keep the good ones
+    reasoning_agreement: 1.0    # did it fail them for the RIGHT reason
+
+  # Stop early when every metric clears its floor - more iterations after that
+  # is spend without headroom. These are per-criterion floors on validation.
+  targets:
+    specificity: 0.90
+    recall: 0.80
+    reasoning_agreement: 0.75
+
+  # Ablation switch. `false` reproduces the paper's "vanilla" arm: the reflector
+  # sees only LABEL mismatches and never learns that a right-verdict/wrong-reason
+  # case is a defect. Run both and compare - on criteria where the seed rubric
+  # is already near ceiling you should find no difference, and that null result
+  # is part of the lesson.
+  reasoning_alignment: true
+
+# ===========================================================================
+# PHASE III - DEPLOYMENT: the judge in two roles
+# ===========================================================================
+serving:
+  # Which criteria block serving. Criteria marked must_have in domain.yaml are
+  # always enforced; this list can add soft ones for a stricter surface.
+  gate_criteria: ["must_have"]
+
+  # Retry budget. generate -> judge -> revise, up to K times, then DROP.
+  #
+  # K=3, not K=12. Measured pass-rate against k flattens hard after 3-4: a
+  # capable generator has captured most of its achievable lift by then, and a
+  # weak generator does not get rescued by more retries - it stays low at every
+  # k. Revision amplifies a good generator; it does not substitute for one.
+  # Run `run.py eval --retry-curve` and look at your own curve before changing
+  # this. Every extra retry is a linear cost increase on every request.
+  max_retries: 3
+
+  # Drop rather than serve when the budget is exhausted. This asymmetry is
+  # deliberate and it is the single most important line in this file. A bad
+  # artefact is a trust hazard; a missing one merely forgoes an opportunity.
+  on_budget_exhausted: drop     # drop | serve_best | serve_flagged
+
+  # Whether the judge's free-text reason is appended to the generator prompt on
+  # retry. True is the "critic" role. Turn it off to see how much of the pass
+  # rate comes from targeted feedback rather than from simply sampling again -
+  # the gap is the value of the critic, and it is smaller than people expect.
+  reason_guided_revision: true
+
+  # Per-request budget cap. An unbounded LLM pipeline's first failure signal is
+  # the invoice, which arrives a month late.
+  max_llm_calls_per_request: 12
+  max_usd_per_request: 0.25
+
+# ===========================================================================
+# PHASE IV - MONITORING: keeping the judge aligned
+# ===========================================================================
+monitoring:
+  # Weekly human-in-the-loop sample, stratified across what the judge DID, not
+  # across what the corpus looks like. Sampling only served artefacts would
+  # never show you the ones it wrongly dropped.
+  sample_size: 300
+  strata: ["served_without_revision", "served_after_revision", "dropped"]
+
+  # Bias toward recently-added catalogue items. Drift arrives with new content
+  # first: the judge was tuned on what the catalogue used to contain.
+  new_item_oversample: 0.35
+
+  # How far back "recently added" reaches. A window, not an exact-week match:
+  # a judge does not become wrong about a title the moment it is added and
+  # correct again seven days later, and an equality test would file a
+  # fortnight-old batch of arrivals under established content - which is exactly
+  # the bucket where the drift they carry gets averaged away.
+  new_item_lookback_weeks: 2
+
+  # Each sampled artefact is labelled by at least this many raters and the
+  # majority is taken as ground truth. Three is the floor for a majority that
+  # is not one person's opinion, and the SPREAD between raters is not noise to
+  # be averaged away - it is the input to the acceptance band below.
+  raters_per_item: 3
+
+  # THE DRIFT BAND, and the most quietly clever idea in the paper.
+  #
+  #     judge_score >= mean(rater_scores) - band_sd_multiplier * sd(rater_scores)
+  #
+  # The threshold FLOATS. It is not 0.85, or any other fixed number. On a week
+  # of genuinely ambiguous artefacts the humans disagree more, sd widens, and
+  # the band widens with it - so the judge is not penalised for finding hard
+  # what humans also found hard. On an easy week the band tightens and real
+  # degradation still trips it.
+  #
+  # A fixed threshold fails in both directions: it fires every hard week
+  # (alert fatigue, then the alert gets muted, then it is not a monitor) and it
+  # stays silent through a slow slide on easy weeks.
+  band_sd_multiplier: 2.0
+
+  # Apply the band separately to newly-added items. A threshold calibrated on
+  # established content will miss a judge that is fine on the old catalogue and
+  # wrong on everything new - which is precisely what catalogue drift looks
+  # like. Checking new items separately is what makes this a shift detector
+  # rather than a generic regression test.
+  check_new_items_separately: true
+
+  # A drift alert triggers Phase II re-tuning on the augmented benchmark. The
+  # new rubric is STAGED, not deployed. A human reads the diff and ships it.
+  # An auto-retuning judge that auto-deploys is an unsupervised system editing
+  # its own success criteria, and it will eventually decide it is doing well.
+  auto_retune_on_drift: true
+  auto_deploy_retuned_rubric: false     # do not change this
+
+  # Phase I is not finished at the end of Phase I. Each week's freshly-labelled
+  # sample is appended to the benchmark, subsampled to preserve class balance,
+  # so the benchmark tracks the live distribution instead of ageing out.
+  append_to_benchmark: true

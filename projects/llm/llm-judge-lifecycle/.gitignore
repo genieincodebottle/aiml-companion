@@ -1,0 +1,15 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.env
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Run outputs. Everything here is reproducible from `run.py`, so none of it is
+# committed. Reference results that the README quotes live in docs/results/
+# instead, because a number in a README that nobody can trace is a claim, not
+# evidence.
+artifacts/*
+!artifacts/.gitkeep

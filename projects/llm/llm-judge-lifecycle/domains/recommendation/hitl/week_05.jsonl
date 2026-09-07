@@ -1,0 +1,41 @@
+// Phase IV weekly human-in-the-loop sample - WEEK 5, criterion: safe
+//
+// A healthy week. Every band check passes and no re-tune is triggered. It is
+// here because a monitoring demo that only ever shows the alarm going off
+// teaches you nothing about what normal looks like, and "is this bad?" is a
+// question you can only answer against a baseline.
+//
+// Each row is one artefact judged on one criterion by THREE independent raters
+// under domains/recommendation/domain.yaml. `judge_label` is what the deployed
+// judge said when the artefact was served, recorded at serving time.
+//
+// The majority of the three raters is the week's ground truth. The SPREAD
+// between them is not noise to be averaged away - it sets the width of the
+// acceptance band. See src/monitoring.py.
+//
+// Two things to notice in this file:
+//
+//   w5-06  the judge missed a spoiler. One miss in a healthy week is normal,
+//          and the band absorbs it. A monitor that fires on a single miss is a
+//          monitor somebody will mute by the third week.
+//
+//   w5-07, w5-08, w5-13, w5-14  recently-added titles. All four are handled
+//          correctly, and because the raters were unanimous on them the
+//          standard deviation is zero, so the band gives the judge NO slack at
+//          all: it has to match the raters exactly to pass. That is the band
+//          behaving properly, not a bug. Compare with week 6.
+
+{"id": "hitl-w5-01", "record_id": "rec-001", "criterion": "safe", "artefact": "The Quiet Harbour is a slow-burn mystery in which the harbourmaster turns out to be the one covering it up.", "outcome": "dropped", "rater_labels": ["FAIL", "FAIL", "FAIL"], "judge_label": "FAIL", "rationale": "Names the culprit in the sentence advertising the mystery.", "failure_mode": "spoiler"}
+{"id": "hitl-w5-02", "record_id": "rec-005", "criterion": "safe", "artefact": "The Vellum Room holds its answer back until the twist is that the conservator took it herself.", "outcome": "dropped", "rater_labels": ["FAIL", "FAIL", "PASS"], "judge_label": "FAIL", "rationale": "Reveals the resolution the record says is withheld until the final scene.", "failure_mode": "spoiler"}
+{"id": "hitl-w5-03", "record_id": "rec-013", "criterion": "safe", "artefact": "Marginalia is a quiet romance and the pair ends up together once the letters stop.", "outcome": "dropped", "rater_labels": ["FAIL", "FAIL", "FAIL"], "judge_label": "FAIL", "rationale": "Gives away the outcome of the only question the film asks.", "failure_mode": "spoiler"}
+{"id": "hitl-w5-04", "record_id": "rec-016", "criterion": "safe", "artefact": "Lodestone is a heist comedy where the twist is that the robbery never comes off.", "outcome": "dropped", "rater_labels": ["FAIL", "PASS", "FAIL"], "judge_label": "FAIL", "rationale": "The failed heist is the joke, and this tells it before the film does. One rater read it as a genre convention rather than a reveal, which is the disagreement the band is meant to accommodate.", "failure_mode": "spoiler"}
+{"id": "hitl-w5-05", "record_id": "rec-012", "criterion": "safe", "artefact": "Bellrock strands two keepers through a nine-week storm and only one of them dies at the end.", "outcome": "dropped", "rater_labels": ["FAIL", "FAIL", "FAIL"], "judge_label": "FAIL", "rationale": "States the outcome outright.", "failure_mode": "spoiler"}
+{"id": "hitl-w5-06", "record_id": "rec-009", "criterion": "safe", "artefact": "Nightjar is a slow thriller, and the replies never do start again.", "outcome": "served_without_revision", "rater_labels": ["FAIL", "FAIL", "PASS"], "judge_label": "PASS", "rationale": "Resolves the film's central question in an aside. The judge missed it - one miss in a healthy week, absorbed by the band.", "failure_mode": "spoiler"}
+{"id": "hitl-w5-07", "record_id": "rec-017", "criterion": "safe", "artefact": "Tidewrack is devastating viewing about families losing everything, and you should not miss it.", "outcome": "dropped", "rater_labels": ["FAIL", "FAIL", "FAIL"], "judge_label": "FAIL", "rationale": "Uses the loss of people's homes as the hook rather than as a description.", "failure_mode": "sensitive_framing"}
+{"id": "hitl-w5-08", "record_id": "rec-018", "criterion": "safe", "artefact": "Half Term is an improvised comedy and the childcare crisis is solved by the grandmother in the end.", "outcome": "dropped", "rater_labels": ["FAIL", "FAIL", "FAIL"], "judge_label": "FAIL", "rationale": "Gives away the resolution of the premise.", "failure_mode": "spoiler"}
+{"id": "hitl-w5-09", "record_id": "rec-002", "criterion": "safe", "artefact": "Second Helping follows three siblings reopening their late mother's restaurant, much like My Secret Santa.", "outcome": "served_without_revision", "rater_labels": ["PASS", "PASS", "PASS"], "judge_label": "PASS", "rationale": "", "failure_mode": null}
+{"id": "hitl-w5-10", "record_id": "rec-007", "criterion": "safe", "artefact": "Kettle Street is a workplace comedy improvised entirely inside one late-night launderette.", "outcome": "served_without_revision", "rater_labels": ["PASS", "PASS", "PASS"], "judge_label": "PASS", "rationale": "", "failure_mode": null}
+{"id": "hitl-w5-11", "record_id": "rec-011", "criterion": "safe", "artefact": "The Cold Chain traces one refrigerated container across four ports using shipping manifests.", "outcome": "served_after_revision", "rater_labels": ["PASS", "PASS", "FAIL"], "judge_label": "PASS", "rationale": "", "failure_mode": null}
+{"id": "hitl-w5-12", "record_id": "rec-014", "criterion": "safe", "artefact": "Signal Hill is first-contact science fiction set in one decommissioned listening station.", "outcome": "served_without_revision", "rater_labels": ["PASS", "PASS", "PASS"], "judge_label": "PASS", "rationale": "", "failure_mode": null}
+{"id": "hitl-w5-13", "record_id": "rec-017", "criterion": "safe", "artefact": "Tidewrack follows one village council through eighteen months of managed retreat.", "outcome": "served_after_revision", "rater_labels": ["PASS", "PASS", "PASS"], "judge_label": "PASS", "rationale": "", "failure_mode": null}
+{"id": "hitl-w5-14", "record_id": "rec-018", "criterion": "safe", "artefact": "Half Term follows a father of two who runs out of childcare on day one of the holidays.", "outcome": "served_without_revision", "rater_labels": ["PASS", "PASS", "PASS"], "judge_label": "PASS", "rationale": "", "failure_mode": null}

@@ -1,0 +1,81 @@
+// Phase I benchmark for the SECOND domain: support reply drafts.
+//
+// Deliberately smaller than the reference domain - about twelve labelled
+// examples per criterion. This set exists to prove the lifecycle ports without
+// code changes, not to be tuned against, and the split warnings will say so
+// every time you run it. Do not quote numbers computed over this file.
+//
+// The BASELINE-MISS cases are the same shapes as in the reference domain
+// wearing different clothes, which is the part worth noticing: the failure
+// TYPES port even though the criteria do not. A real number attached to the
+// wrong noun, a claim that contradicts the record rather than adding to it,
+// and a polite sentence that says nothing all appear here too.
+
+// ===================== CRITERION: supported =====================
+
+{"id": "sup-01", "record_id": "tkt-001", "artefact": "Sorry about that. Your replacement charger for ORD-48812 will be with you within 24 hours.", "labels": {"supported": "FAIL"}, "rationales": {"supported": "The record says dispatch takes 2 working days. A 24-hour commitment appears nowhere in it."}, "failure_modes": {"supported": "unsupported_claim"}, "source": "expert"}
+{"id": "sup-02", "record_id": "tkt-002", "artefact": "Refunds on ORD-51907 are processed within 3 working days of your return being received.", "labels": {"supported": "FAIL"}, "rationales": {"supported": "The policy states 5 to 10 working days. Three is invented, and invented in the direction the customer will hold us to."}, "failure_modes": {"supported": "unsupported_claim"}, "source": "production"}
+{"id": "sup-03", "record_id": "tkt-006", "artefact": "Your keyboard on ORD-52440 is covered by our 24-month warranty, so we will sort it out.", "labels": {"supported": "FAIL"}, "rationales": {"supported": "The warranty is 12 months. Doubling it commits the company to a year it never offered."}, "failure_modes": {"supported": "unsupported_claim"}, "source": "expert"}
+{"id": "sup-04", "record_id": "tkt-004", "artefact": "Our carrier partner Velocity Logistics is investigating what happened to ORD-44120.", "labels": {"supported": "FAIL"}, "rationales": {"supported": "No carrier is named anywhere in the record."}, "failure_modes": {"supported": "unsupported_claim"}, "source": "expert"}
+
+// BASELINE-MISS. Both are the reference domain's hardest cases in a different
+// costume, and both sail past a check that asks only whether the tokens exist
+// somewhere in the source.
+{"id": "sup-05", "record_id": "tkt-001", "artefact": "Your Meridian 14 replacement charger will arrive within 14 working days of confirmation.", "labels": {"supported": "FAIL"}, "rationales": {"supported": "14 is part of the product name, not a timeframe. The policy says 2 working days. The number is real, the commitment is invented, and a token-presence check passes it."}, "failure_modes": {"supported": "misattributed_detail"}, "source": "expert"}
+{"id": "sup-06", "record_id": "tkt-003", "artefact": "We will reverse the duplicate charge on ACC-20233 to a new card of your choosing.", "labels": {"supported": "FAIL"}, "rationales": {"supported": "The record states the reversal cannot be redirected and returns to the original payment method. This contradicts the policy rather than inventing a new one, so every token in it is familiar."}, "failure_modes": {"supported": "unsupported_claim"}, "source": "production"}
+
+{"id": "sup-07", "record_id": "tkt-001", "artefact": "ORD-48812 is missing its charger, so we have confirmed a replacement without an inspection and it dispatches within 2 working days.", "labels": {"supported": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "sup-08", "record_id": "tkt-002", "artefact": "Refunds run 5 to 10 working days from when the warehouse logs your return, and ORD-51907 has not been logged yet.", "labels": {"supported": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "sup-09", "record_id": "tkt-003", "artefact": "The duplicate charge on ACC-20233 reverses to your original payment method within 3 to 5 working days.", "labels": {"supported": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "sup-10", "record_id": "tkt-005", "artefact": "We can unlock ACC-20871 within 1 working day once the email confirmation and one further factor are complete.", "labels": {"supported": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "sup-11", "record_id": "tkt-006", "artefact": "ORD-52440 is inside its 12-month warranty, so we will repair or replace it and cover return postage.", "labels": {"supported": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "sup-12", "record_id": "tkt-007", "artefact": "SUB-30119 is an annual plan, so cancelling mid-term gives a pro-rata credit within 10 working days.", "labels": {"supported": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "production"}
+
+// ===================== CRITERION: actionable =====================
+
+{"id": "act-01", "record_id": "tkt-001", "artefact": "Thank you for your patience while we look into ORD-48812 for you today.", "labels": {"actionable": "FAIL"}, "rationales": {"actionable": "A holding message. The customer knows no more after reading it than before."}, "failure_modes": {"actionable": "generic_filler"}, "source": "expert"}
+{"id": "act-02", "record_id": "tkt-002", "artefact": "We apologise for any inconvenience caused and will update you on ORD-51907 soon.", "labels": {"actionable": "FAIL"}, "rationales": {"actionable": "Apology plus an unspecified future update. No owner, no timeframe, no next step."}, "failure_modes": {"actionable": "generic_filler"}, "source": "production"}
+{"id": "act-03", "record_id": "tkt-004", "artefact": "We value your business and are looking into the delivery issue on ORD-44120.", "labels": {"actionable": "FAIL"}, "rationales": {"actionable": "Names the order and still says nothing about what happens next."}, "failure_modes": {"actionable": "generic_filler"}, "source": "expert"}
+{"id": "act-04", "record_id": "tkt-003", "artefact": "Your issue has been received and someone will be in touch shortly to help you.", "labels": {"actionable": "FAIL"}, "rationales": {"actionable": "Never identifies which account or charge is being discussed, so the customer cannot tell whether the right ticket was picked up."}, "failure_modes": {"actionable": "missing_subject"}, "source": "expert"}
+{"id": "act-05", "record_id": "tkt-005", "artefact": "ACC-20871 received.", "labels": {"actionable": "FAIL"}, "rationales": {"actionable": "Two words. There is no room for a next step."}, "failure_modes": {"actionable": "too_short"}, "source": "expert"}
+
+// BASELINE-MISS. Both name the reference, clear the length floor and contain
+// no banned phrase, and both are pure holding messages. Recognising them as
+// empty means reading them.
+{"id": "act-06", "record_id": "tkt-006", "artefact": "ORD-52440 has been passed to the relevant team and we will be in touch in due course.", "labels": {"actionable": "FAIL"}, "rationales": {"actionable": "The relevant team and in due course are placeholders where the owner and the timeframe should be. Well-formed, polite, and empty."}, "failure_modes": {"actionable": "generic_filler"}, "source": "production"}
+{"id": "act-07", "record_id": "tkt-008", "artefact": "We are aware of the situation on ORD-53901 and are treating it with the urgency it deserves.", "labels": {"actionable": "FAIL"}, "rationales": {"actionable": "Asserts urgency in place of an action. Nothing here tells the customer what will happen or when."}, "failure_modes": {"actionable": "generic_filler"}, "source": "expert"}
+
+{"id": "act-08", "record_id": "tkt-001", "artefact": "The charger missing from ORD-48812 is confirmed and a replacement dispatches within 2 working days.", "labels": {"actionable": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "act-09", "record_id": "tkt-002", "artefact": "ORD-51907 has not reached the warehouse yet; once it is logged your refund runs 5 to 10 working days.", "labels": {"actionable": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "act-10", "record_id": "tkt-003", "artefact": "The duplicate charge on ACC-20233 will reverse to your original card within 3 to 5 working days.", "labels": {"actionable": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "act-11", "record_id": "tkt-004", "artefact": "ORD-44120 is with the carrier investigation team for up to 7 working days, then you choose replacement or refund.", "labels": {"actionable": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "act-12", "record_id": "tkt-005", "artefact": "Confirm your email and one further factor and we will unlock ACC-20871 within one working day.", "labels": {"actionable": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "act-13", "record_id": "tkt-008", "artefact": "ORD-53901 gets one free redelivery; weekend slots are not offered, so pick a weekday and we will book it.", "labels": {"actionable": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "production"}
+
+// ===================== CRITERION: no_overpromise =====================
+
+{"id": "ovp-01", "record_id": "tkt-002", "artefact": "We will issue a full refund to your card today for ORD-51907.", "labels": {"no_overpromise": "FAIL"}, "rationales": {"no_overpromise": "Promises a same-day full refund where the policy allows 5 to 10 working days after warehouse receipt, which has not happened."}, "failure_modes": {"no_overpromise": "overpromise"}, "source": "expert"}
+{"id": "ovp-02", "record_id": "tkt-005", "artefact": "I guarantee your ACC-20871 account will be open before you finish reading this.", "labels": {"no_overpromise": "FAIL"}, "rationales": {"no_overpromise": "No policy authorises certainty, and the identity check cannot be bypassed."}, "failure_modes": {"no_overpromise": "unauthorised_commitment"}, "source": "expert"}
+{"id": "ovp-03", "record_id": "tkt-008", "artefact": "As a goodwill gesture I will waive the fee on your second redelivery for ORD-53901.", "labels": {"no_overpromise": "FAIL"}, "rationales": {"no_overpromise": "The record states agents cannot waive the second redelivery charge."}, "failure_modes": {"no_overpromise": "unauthorised_commitment"}, "source": "production"}
+
+// BASELINE-MISS. Three commitments the policy does not permit, none using a
+// flagged phrase. Each reads as ordinary helpful service, which is exactly why
+// an overpromise gets approved by a busy agent and only surfaces weeks later
+// when the company is held to it.
+{"id": "ovp-04", "record_id": "tkt-004", "artefact": "Your replacement lamp for ORD-44120 is going out this afternoon.", "labels": {"no_overpromise": "FAIL"}, "rationales": {"no_overpromise": "A replacement is only authorised once the carrier investigation closes, which can take up to 7 working days. This commits to it before that."}, "failure_modes": {"no_overpromise": "unauthorised_commitment"}, "source": "production"}
+{"id": "ovp-05", "record_id": "tkt-007", "artefact": "You will have the cash back in your account by Friday for SUB-30119.", "labels": {"no_overpromise": "FAIL"}, "rationales": {"no_overpromise": "Annual plans give a pro-rata credit and never a cash refund. It also names a day the policy does not support."}, "failure_modes": {"no_overpromise": "overpromise"}, "source": "expert"}
+{"id": "ovp-06", "record_id": "tkt-001", "artefact": "One of our senior engineers will call you tomorrow morning about ORD-48812.", "labels": {"no_overpromise": "FAIL"}, "rationales": {"no_overpromise": "Commits a named group to a call at a stated time. Nothing in the record authorises either."}, "failure_modes": {"no_overpromise": "unauthorised_commitment"}, "source": "expert"}
+
+{"id": "ovp-07", "record_id": "tkt-002", "artefact": "Refunds run 5 to 10 working days once the warehouse logs the return for ORD-51907.", "labels": {"no_overpromise": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ovp-08", "record_id": "tkt-005", "artefact": "Once the identity check is complete we unlock ACC-20871 within one working day.", "labels": {"no_overpromise": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ovp-09", "record_id": "tkt-008", "artefact": "The first redelivery on ORD-53901 is free; a second is charged at 6.50.", "labels": {"no_overpromise": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ovp-10", "record_id": "tkt-004", "artefact": "The carrier investigation on ORD-44120 can take up to 7 working days before we authorise anything.", "labels": {"no_overpromise": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ovp-11", "record_id": "tkt-007", "artefact": "Annual plans give a pro-rata credit rather than cash, applied within 10 working days.", "labels": {"no_overpromise": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ovp-12", "record_id": "tkt-003", "artefact": "I have triggered the reversal on ACC-20233; it returns to the original payment method.", "labels": {"no_overpromise": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+
+// ===================== CRITERION: concise (SOFT) =====================
+
+{"id": "con-01", "record_id": "tkt-002", "artefact": "Thanks for getting in touch about ORD-51907 and for waiting while we checked this for you. Having reviewed the account I can see that the monitor was sent back to us but that the warehouse has not yet logged it as received, which is the step that starts the refund clock, and once that step happens our standard processing window of 5 to 10 working days begins, so the money should reach the original payment method shortly after that point rather than immediately.", "labels": {"concise": "FAIL", "supported": "PASS"}, "rationales": {"concise": "Eighty-one words of preamble before the only sentence that matters. Accurate and supported, which is precisely why this criterion is soft rather than a gate."}, "failure_modes": {"concise": "too_long"}, "source": "expert"}
+{"id": "con-02", "record_id": "tkt-004", "artefact": "I am sorry to hear that ORD-44120 has been marked as delivered when nothing arrived, which is frustrating and not the experience we want anyone to have. What happens next is that the carrier opens an investigation, and those investigations can run to seven working days before they close, at which point you get to choose whether you would prefer a replacement lamp sent out or a refund back to the card you originally paid with.", "labels": {"concise": "FAIL", "actionable": "PASS"}, "rationales": {"concise": "Seventy-four words, and the next step does not appear until word forty."}, "failure_modes": {"concise": "too_long"}, "source": "production"}
+{"id": "con-03", "record_id": "tkt-001", "artefact": "The charger missing from ORD-48812 is confirmed and a replacement dispatches within 2 working days.", "labels": {"concise": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "con-04", "record_id": "tkt-003", "artefact": "The duplicate charge on ACC-20233 reverses to your original payment method within 3 to 5 working days.", "labels": {"concise": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}

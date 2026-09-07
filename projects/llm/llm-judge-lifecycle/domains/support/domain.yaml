@@ -1,0 +1,141 @@
+# ===========================================================================
+# Second domain: customer-support reply drafts
+#
+# This domain exists to test a claim rather than to teach a subject. The
+# lifecycle is presented as a general method; if that is true, a new domain
+# should cost DATA and PROSE and nothing else.
+#
+# It does. Adding this directory required zero changes to src/. The benchmark
+# splitter, RART, the serving loop and the drift monitor all read
+# `domains/<name>/domain.yaml` and none of them contains the word "film" or the
+# word "ticket". `tests/test_domain.py::test_no_domain_specific_logic_in_src`
+# fails the build if that ever stops being true.
+#
+# It is deliberately SMALLER than the reference domain - about twelve labelled
+# examples per criterion against twenty-five. That is enough to demonstrate
+# portability and not enough to tune against, and the split warnings will say
+# so loudly. Do not quote numbers from this domain.
+#
+# Note how little transfers and how much does. The MECHANISM is identical: a
+# gate that drops on failure, a critic whose reason drives the next draft, a
+# band pegged to rater disagreement. The CRITERIA share nothing - a spoiler is
+# meaningless here, and an unauthorised refund commitment is meaningless there.
+# That split is the useful one: the lifecycle is portable, the rubrics are not,
+# and a team that tries to reuse someone else's rubrics is porting the wrong
+# half.
+# ===========================================================================
+
+display_name: Support reply drafts
+artefact_noun: reply
+subject_noun: ticket
+
+records: records.json
+seed_labels: labels.jsonl
+
+generation:
+  system: |
+    You draft replies to customer support tickets. A human agent reads your
+    draft before it is sent, but agents are busy and a confident draft gets
+    approved, so write as if it were going out unedited.
+
+    You may only commit the company to what the policy record allows. A
+    promise you invent is not a draft error, it is a liability the company has
+    to honour or explain away.
+
+  instruction: |
+    Draft one reply to this ticket, 25 to 90 words.
+
+    Name the specific problem the customer described. State what will happen
+    next and when. Commit only to what the policy record permits, and where
+    the policy gives a range, quote the range rather than the best case.
+
+criteria:
+  - id: supported
+    display: Backed by the policy record
+    must_have: true
+    failure_modes: [unsupported_claim, misattributed_detail]
+    guideline: |
+      PASS when every commitment, timeframe, figure and entitlement in the
+      reply appears in the policy record or the ticket. Restating the
+      customer's own account back to them is always supported.
+
+      FAIL when the reply asserts a policy that is not in the record. Invented
+      deadlines, invented refund windows, invented escalation tiers and
+      invented compensation are all the same failure, and unlike a wrong tone
+      they can be quoted back at the company later.
+
+      FAIL ALSO when a real number is attached to the wrong thing. Quoting the
+      14-day return window as a refund PROCESSING time is not supported merely
+      because 14 appears in the record. A check that asks only whether a number
+      exists somewhere in the policy passes it, which is the most common way a
+      groundedness check is quietly wrong.
+
+      BOUNDARY: "refunds are processed within 5 to 10 working days" is a PASS
+      when the record states that range. "your refund will be with you next
+      week" is a FAIL even though it falls inside the range, because it
+      commits to the best case as if it were the promise.
+
+      [grounded]
+
+  - id: actionable
+    display: Says what happens next
+    must_have: true
+    failure_modes: [generic_filler, missing_subject, too_short]
+    guideline: |
+      PASS when the reply names the customer's specific problem and states a
+      concrete next step with an owner and a timeframe.
+
+      FAIL when it is a holding message wearing the shape of an answer.
+      Acknowledging receipt, apologising for the inconvenience and promising
+      to look into it is three sentences that leave the customer exactly where
+      they started.
+
+      FAIL when it never identifies which order, account or fault is being
+      discussed, and FAIL when it is too short to contain a next step at all.
+
+      BOUNDARY: "We have reordered the missing charger and it ships on
+      Thursday" is a PASS. "Thank you for your patience while we investigate"
+      is a FAIL, and note that it is polite, well-formed and contains no
+      banned phrase - recognising it as empty requires reading it.
+
+      [require: subject.reference]
+      [min_words: 15]
+      [banned: "we apologise for any inconvenience", "thank you for your patience", "we value your business"]
+
+  - id: no_overpromise
+    display: Commits only to what is allowed
+    must_have: true
+    failure_modes: [overpromise, unauthorised_commitment]
+    guideline: |
+      PASS when every commitment is one the agent is authorised to make under
+      the policy record.
+
+      FAIL on guarantees the policy does not support: promising a full refund
+      where the record allows a partial one, promising same-day resolution
+      where the record says three to five days, waiving a fee no agent can
+      waive, or committing a named person to a call.
+
+      This is separate from `supported` on purpose. A reply can quote the
+      policy correctly and still overpromise by picking the most favourable
+      reading of it and stating that as certain.
+
+      BOUNDARY: "I have escalated this to the returns team" is a PASS when the
+      record permits escalation. "I guarantee this will be resolved today" is
+      a FAIL whatever the record says, because no policy authorises certainty.
+
+      [unsafe: "i guarantee", "i can promise you", "definitely be resolved today", "full refund", "waive the fee"]
+
+  - id: concise
+    display: Short enough to read
+    must_have: false
+    failure_modes: [too_long]
+    guideline: |
+      PASS at 90 words or fewer. A support reply is read on a phone by someone
+      already annoyed; past about ninety words the next step gets lost in the
+      apology surrounding it.
+
+      FAIL past 90 words. Soft: a long but accurate and actionable reply is
+      still sent, and the rate is watched so the drafting prompt can be
+      tightened if it climbs.
+
+      [max_words: 90]

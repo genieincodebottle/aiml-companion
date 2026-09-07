@@ -26,7 +26,7 @@
 
 ## About the AI-ML Companion Platform
 
-These 23 projects are the hands-on companion to **[AI-ML Companion](https://aimlcompanion.ai)**, an interactive platform for learning AI and machine learning by watching it work. Instead of passive video, every concept is taught through **live, animated visualizations** and runnable code: gradient descent stepping down a loss surface, attention weights lighting up across tokens, a network training in real time.
+These 24 projects are the hands-on companion to **[AI-ML Companion](https://aimlcompanion.ai)**, an interactive platform for learning AI and machine learning by watching it work. Instead of passive video, every concept is taught through **live, animated visualizations** and runnable code: gradient descent stepping down a loss surface, attention weights lighting up across tokens, a network training in real time.
 
 - **28 tracks, 400+ modules** from Python and math foundations to deep learning, LLMs, agentic AI, MLOps, and cloud GenAI.
 - **Interactive visualizations**, not slides. See the mechanism move, then experiment with it.
@@ -86,30 +86,31 @@ These 23 projects are the hands-on companion to **[AI-ML Companion](https://aiml
 | 12 | [RAG Expert Assistant](projects/llm/rag-expert-assistant/) | Retrieval-Augmented Generation | Advanced | LangChain, ChromaDB | [Learn &rarr;](https://aimlcompanion.ai/module/llm/ragExpertAssistant) |
 | 13 | [AI Reasoning Patterns](projects/llm/ai-patterns/) | Prompting / Reasoning Patterns | Intermediate | Jupyter, Colab, Gemini | [README &rarr;](projects/llm/ai-patterns/) |
 | 14 | [Muse Glimmer Lab](projects/llm/muse-glimmer-lab/) | Open-Weight Model Internals | Advanced | vLLM, OpenAI-compatible API | [README &rarr;](projects/llm/muse-glimmer-lab/) |
+| 15 | [LLM Judge Lifecycle](projects/llm/llm-judge-lifecycle/) | LLM Evaluation / EvalOps | Advanced | Gemini, FastAPI, Streamlit, Pytest | [Notebook &rarr;](projects/llm/llm-judge-lifecycle/notebooks/LLM_Judge_Lifecycle.ipynb) |
 
 ### Agentic AI
 
 | # | Project | Domain | Difficulty | Key Tech | Learn / Docs |
 |---|---|---|---|---|---|
-| 15 | [AI Agents Research System](projects/agentic-ai/ai-agents-project/) | LLM Agent Orchestration | Advanced | LangGraph, OpenAI, Tavily | [Learn &rarr;](https://aimlcompanion.ai/module/aiAgents/agentsCapstone) |
-| 16 | [Content Moderation](projects/agentic-ai/content-moderation-project/) | Multi-Agent Moderation | Advanced | LangGraph, Multi-Agent | [Learn &rarr;](https://aimlcompanion.ai/module/aiAgents/contentModerationProject) |
-| 17 | [Due Diligence Agent](projects/agentic-ai/due-diligence-agent/) | Multi-Agent Research | Advanced | LangGraph, Gemini, Streamlit | [Learn &rarr;](https://aimlcompanion.ai/module/aiAgents/dueDiligenceProject) |
-| 18 | [Smart Claims Processor](projects/agentic-ai/smart-claims-processor/) | Multi-Agent Insurance Claims | Advanced | LangGraph, CrewAI, Gemini, FastAPI, React | [Learn &rarr;](https://aimlcompanion.ai/module/aiAgents/smartClaimsProcessor) |
-| 19 | [Multi-Agent Anatomy](projects/agentic-ai/multi-agent-anatomy/) | Multi-Agent Failure Modes | Advanced | FastAPI, React, Gemini, no framework | [README &rarr;](projects/agentic-ai/multi-agent-anatomy/) |
-| 20 | [Multi-Agents App on AWS](projects/agentic-ai/multi-agents-app-on-aws/) | Cloud GenAI / Managed Agents | Advanced | AWS Bedrock AgentCore | [Learn &rarr;](https://aimlcompanion.ai/module/cloudGenAI/multiAgentsOnAws) |
-| 21 | [Hermes Ops Agent](projects/agentic-ai/hermes-ops-agent/) | Agent Operations / Measurement | Intermediate-Advanced | Hermes, Pytest, PyYAML | [README &rarr;](projects/agentic-ai/hermes-ops-agent/) |
+| 16 | [AI Agents Research System](projects/agentic-ai/ai-agents-project/) | LLM Agent Orchestration | Advanced | LangGraph, OpenAI, Tavily | [Learn &rarr;](https://aimlcompanion.ai/module/aiAgents/agentsCapstone) |
+| 17 | [Content Moderation](projects/agentic-ai/content-moderation-project/) | Multi-Agent Moderation | Advanced | LangGraph, Multi-Agent | [Learn &rarr;](https://aimlcompanion.ai/module/aiAgents/contentModerationProject) |
+| 18 | [Due Diligence Agent](projects/agentic-ai/due-diligence-agent/) | Multi-Agent Research | Advanced | LangGraph, Gemini, Streamlit | [Learn &rarr;](https://aimlcompanion.ai/module/aiAgents/dueDiligenceProject) |
+| 19 | [Smart Claims Processor](projects/agentic-ai/smart-claims-processor/) | Multi-Agent Insurance Claims | Advanced | LangGraph, CrewAI, Gemini, FastAPI, React | [Learn &rarr;](https://aimlcompanion.ai/module/aiAgents/smartClaimsProcessor) |
+| 20 | [Multi-Agent Anatomy](projects/agentic-ai/multi-agent-anatomy/) | Multi-Agent Failure Modes | Advanced | FastAPI, React, Gemini, no framework | [README &rarr;](projects/agentic-ai/multi-agent-anatomy/) |
+| 21 | [Multi-Agents App on AWS](projects/agentic-ai/multi-agents-app-on-aws/) | Cloud GenAI / Managed Agents | Advanced | AWS Bedrock AgentCore | [Learn &rarr;](https://aimlcompanion.ai/module/cloudGenAI/multiAgentsOnAws) |
+| 22 | [Hermes Ops Agent](projects/agentic-ai/hermes-ops-agent/) | Agent Operations / Measurement | Intermediate-Advanced | Hermes, Pytest, PyYAML | [README &rarr;](projects/agentic-ai/hermes-ops-agent/) |
 
 ### MLOps
 
 | # | Project | Domain | Difficulty | Key Tech | Learn / Docs |
 |---|---|---|---|---|---|
-| 22 | [Model Serving Platform](projects/mlops/model-serving-platform/) | Model Deployment / Infrastructure | Advanced | FastAPI, Docker, Prometheus, GitHub Actions | [Learn &rarr;](https://aimlcompanion.ai/module/mlOps/mlopsCapstone) |
+| 23 | [Model Serving Platform](projects/mlops/model-serving-platform/) | Model Deployment / Infrastructure | Advanced | FastAPI, Docker, Prometheus, GitHub Actions | [Learn &rarr;](https://aimlcompanion.ai/module/mlOps/mlopsCapstone) |
 
 ### Forward Deployment
 
 | # | Project | Domain | Difficulty | Key Tech | Learn / Docs |
 |---|---|---|---|---|---|
-| 23 | [FDE Engagement Starter](projects/forward-deployment/fde-engagement-starter/) | Forward Deployment Engineering | Intermediate-Advanced | FastAPI, Pandas, Pytest, Docker | [Learn &rarr;](https://aimlcompanion.ai/module/forwardDeployment/fdePortfolioMVA) |
+| 24 | [FDE Engagement Starter](projects/forward-deployment/fde-engagement-starter/) | Forward Deployment Engineering | Intermediate-Advanced | FastAPI, Pandas, Pytest, Docker | [Learn &rarr;](https://aimlcompanion.ai/module/forwardDeployment/fdePortfolioMVA) |
 
 ---
 
@@ -563,6 +564,7 @@ Four projects are shaped differently and do not take the steps above:
 | [Muse Glimmer Lab](projects/llm/muse-glimmer-lab/) | `uv sync`, then `uv run python scripts/01_hello.py` |
 | [Content Moderation](projects/agentic-ai/content-moderation-project/) | `cd backend`, `uv pip install -r requirements.txt`, then `python run.py demo` |
 | [Multi-Agent Anatomy](projects/agentic-ai/multi-agent-anatomy/) | `uv sync` in `backend/`, `npm install` in `frontend/`, run both |
+| [LLM Judge Lifecycle](projects/llm/llm-judge-lifecycle/) | [Colab notebook](https://colab.research.google.com/github/genieincodebottle/aiml-companion/blob/main/projects/llm/llm-judge-lifecycle/notebooks/LLM_Judge_Lifecycle.ipynb), or `pip install -r requirements.txt` then `python run.py --offline benchmark` - all four phases run with no API key |
 
 ## Learning Path (Recommended Order)
 
@@ -588,25 +590,26 @@ COMPUTER VISION
   #9  Site Safety Monitor      -> Object detection, tracking, edge latency budgets
        |
 MLOPS
-  #22 Model Serving Platform   -> Deployment, CI/CD, load testing, infrastructure
+  #23 Model Serving Platform   -> Deployment, CI/CD, load testing, infrastructure
        |
 LLM
   #12 RAG Expert Assistant     -> Retrieval-augmented generation, evaluation, security
   #11 GraphRAG Supply Chain    -> Knowledge graphs, multi-hop retrieval, when a join beats a search
   #13 AI Reasoning Patterns    -> Reasoning and agentic patterns, one per notebook
   #14 Muse Glimmer Lab         -> Open-weight model internals, KV cache, drafters
+  #15 LLM Judge Lifecycle      -> Evaluating the evaluator: rubric tuning, gating, drift
        |
 AGENTIC AI
-  #15 AI Agents Research       -> Multi-agent orchestration, guardrails, cost optimization
-  #16 Content Moderation       -> Multi-agentic content pipelines
-  #17 Due Diligence Agent      -> Enterprise multi-agent research, fact-checking, debate
-  #18 Smart Claims Processor   -> Multi-agent insurance, HITL, hybrid orchestration
-  #20 Multi-Agents on AWS      -> Managed multi-agent infrastructure, Bedrock AgentCore
-  #21 Hermes Ops Agent         -> Operating an agent, measuring its learning loop
-  #19 Multi-Agent Anatomy      -> Production failure modes: partial failure, budgets, sagas
+  #16 AI Agents Research       -> Multi-agent orchestration, guardrails, cost optimization
+  #17 Content Moderation       -> Multi-agentic content pipelines
+  #18 Due Diligence Agent      -> Enterprise multi-agent research, fact-checking, debate
+  #19 Smart Claims Processor   -> Multi-agent insurance, HITL, hybrid orchestration
+  #21 Multi-Agents on AWS      -> Managed multi-agent infrastructure, Bedrock AgentCore
+  #22 Hermes Ops Agent         -> Operating an agent, measuring its learning loop
+  #20 Multi-Agent Anatomy      -> Production failure modes: partial failure, budgets, sagas
        |
 FORWARD DEPLOYMENT
-  #23 FDE Engagement Starter   -> Embedded engagement simulation, portfolio artifact
+  #24 FDE Engagement Starter   -> Embedded engagement simulation, portfolio artifact
 ```
 
 ## Repository Structure
@@ -631,7 +634,8 @@ aiml-companion/
 │   │   ├── graphrag-supply-chain/      # GraphRAG + Neo4j + Multi-Hop Retrieval
 │   │   ├── rag-expert-assistant/       # RAG + Security
 │   │   ├── ai-patterns/                # 23 Reasoning Pattern Notebooks
-│   │   └── muse-glimmer-lab/           # Open-Weight Model Internals
+│   │   ├── muse-glimmer-lab/           # Open-Weight Model Internals
+│   │   └── llm-judge-lifecycle/        # LLM-as-a-Judge + Rubric Tuning + Drift
 │   ├── agentic-ai/
 │   │   ├── ai-agents-project/          # Multi-Agent + LangGraph
 │   │   ├── content-moderation-project/ # Multi-Agentic Content Moderation

@@ -1,0 +1,36 @@
+# ---------------------------------------------------------------------------
+# Core. This is everything you need to run all four phases offline with the
+# `stub` provider - no API key, no network, no cost.
+# ---------------------------------------------------------------------------
+pydantic>=2.9.0,<3.0.0
+pyyaml>=6.0,<7.0
+python-dotenv>=1.0.0,<2.0.0
+
+# --- API (backend: all orchestration lives behind this) --------------------
+fastapi>=0.115.0,<1.0.0
+uvicorn[standard]>=0.32.0,<1.0.0
+
+# --- UI (frontend: a thin HTTP client, no business logic) ------------------
+streamlit>=1.40.0,<2.0.0
+httpx>=0.27.0,<1.0.0
+pandas>=2.0.0,<3.0.0
+
+# --- Tests -----------------------------------------------------------------
+pytest>=8.0.0,<9.0.0
+
+# ---------------------------------------------------------------------------
+# Providers. Install ONLY the one you intend to use.
+#
+# The default is Gemini. The others exist because this project's whole point is
+# that the judge and the generator are separate components with separate
+# interests - and you cannot demonstrate that a judge is not merely rewarding
+# its own house style if the judge and the generator are the same model.
+#
+#   pip install "google-genai>=1.0.0,<2.0.0"    # provider: gemini   (default)
+#   pip install "openai>=1.50.0,<2.0.0"         # provider: openai_compatible
+#   pip install "anthropic>=0.40.0,<1.0.0"      # provider: anthropic
+#
+# `openai_compatible` also covers vLLM, Ollama, Together and LM Studio - point
+# `base_url` at them. That is the zero-cost path to running this on real models.
+# ---------------------------------------------------------------------------
+google-genai>=1.0.0,<2.0.0

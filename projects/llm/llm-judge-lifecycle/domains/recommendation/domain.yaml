@@ -1,0 +1,151 @@
+# ===========================================================================
+# Reference domain: recommendation explanations
+#
+# A short message shown next to a recommended title, saying WHY it was
+# recommended, grounded in something the viewer has already watched. This is
+# the domain in the paper, and it is the reference domain here because it makes
+# the deployment asymmetry concrete: a wrong explanation is shown to a paying
+# customer and cannot be recalled, while a missing one costs nothing but a
+# small opportunity. That asymmetry is what justifies dropping on failure, and
+# it is the thing most evaluation write-ups leave out.
+#
+# The catalogue is invented. Nothing here describes a real film, which means
+# every factual claim an explanation makes is checkable against this file and
+# only this file - so "is it grounded?" has an answer a reader can verify
+# without leaving the repo.
+# ===========================================================================
+
+display_name: Recommendation explanations
+artefact_noun: explanation
+subject_noun: title
+
+records: records.json
+seed_labels: labels.jsonl
+
+generation:
+  system: |
+    You write one-sentence explanations shown beside a recommended title in a
+    streaming app. The reader is deciding, in about two seconds, whether to
+    press play.
+
+    Write only from the record you are given. You have no other knowledge about
+    these titles, and inventing a plausible detail is the worst thing you can
+    do here: it is fluent, it is confident, and the reader has no way to tell.
+
+  instruction: |
+    Write ONE sentence, 12 to 40 words, explaining why this title is being
+    recommended to someone who watched the reference title.
+
+    Name the recommended title. Draw the connection from attributes both titles
+    actually share, as listed in the record. Do not describe how the story ends.
+    Do not use praise that would be equally true of anything in the catalogue.
+
+criteria:
+  # ---------------------------------------------------------------------
+  # The gate criteria. A failure on any of these drops the explanation.
+  # ---------------------------------------------------------------------
+  - id: grounded
+    display: Grounded in the record
+    must_have: true
+    failure_modes: [unsupported_claim, misattributed_detail]
+    guideline: |
+      PASS when every factual claim in the explanation can be traced to the
+      record: the title, the attributes, the year, the runtime, the reference
+      title the viewer watched, or a stated fact. Connections BETWEEN two
+      recorded facts are fine - "both are slow-burn mysteries" is grounded when
+      the record lists that attribute on both titles.
+
+      FAIL when the explanation asserts anything the record does not contain.
+      Invented awards, invented ratings, invented cast, invented plot events,
+      and invented viewer counts are all the same failure: a confident detail
+      the reader cannot check.
+
+      FAIL ALSO when a number that does appear in the record is attached to the
+      wrong thing. "Rated 104 by viewers" is not grounded merely because 104 is
+      the runtime. This case matters more than it looks: a checker that asks
+      only "does this number appear somewhere in the record?" passes it, and
+      that is the most common way a groundedness check is quietly wrong.
+
+      BOUNDARY: "a tight 96 minutes" when the record says runtime_min 96 is a
+      PASS. "an award-winning thriller" when the record lists no award is a
+      FAIL, even if it happens to be true of some real film.
+
+      [grounded]
+
+  - id: specific
+    display: Specific to this title
+    must_have: true
+    failure_modes: [generic_filler, missing_subject, too_short]
+    guideline: |
+      PASS when the explanation could only have been written about this title
+      and this viewer. It has to name the recommended title and say something
+      about it that comes from its own attributes.
+
+      FAIL when the sentence would be equally true pasted beside any other
+      title in the catalogue. Blanket praise is the usual form. So is a
+      sentence that never names the title, leaving the reader unsure which of
+      the six things on screen it refers to.
+
+      FAIL when it is too short to justify anything. Under ten words there is
+      no room for a reason, only for an assertion.
+
+      BOUNDARY: "A funny, heartfelt holiday romance, much like My Secret
+      Santa" is a PASS - the attributes are specific and the link is named.
+      "A brilliant film you are certain to adore" is a FAIL, and note that it
+      contains no banned phrase from any list. Recognising it requires reading,
+      which is precisely where a keyword rule stops and a judge starts.
+
+      [require: subject.title]
+      [min_words: 10]
+      [banned: "you'll love it", "a must-watch", "highly rated"]
+
+  - id: safe
+    display: Safe to show
+    must_have: true
+    failure_modes: [spoiler, sensitive_framing]
+    guideline: |
+      PASS when the explanation reveals nothing about how the story resolves
+      and frames sensitive content the way the catalogue record frames it.
+
+      FAIL on any plot resolution: who dies, who is guilty, whether the couple
+      end up together, what the twist is. A recommendation that spoils the
+      thing it is recommending has destroyed the product it is selling, and
+      unlike the other failures here it is irreversible for that viewer.
+
+      FAIL when difficult subject matter is used as an enticement rather than
+      as a description - treating an addiction storyline or a bereavement as a
+      selling point reads as callous, and this is a brand risk rather than an
+      accuracy one.
+
+      BOUNDARY: "a mystery that keeps you guessing" is a PASS. "you'll never
+      guess the sister did it" is a FAIL. "includes harrowing interviews with
+      residents" is a PASS - that is a content description, and the reader is
+      better off knowing. "a harrowing storyline that makes it unmissable" is a
+      FAIL, because the same material is now the hook.
+
+      [spoiler: "the twist is that", "turns out to be the", "ends up together", "the killer is", "dies at the end"]
+      [sensitive: "harrowing"]
+
+  # ---------------------------------------------------------------------
+  # Soft criterion. Recorded, reported, and NOT a reason to drop.
+  #
+  # It is here because the must-have / soft split has to be visible for the
+  # deployment story to make sense. A gate that rejects for length is a gate
+  # that drops accurate, useful explanations over a style preference, and a
+  # team that has only one severity level ends up with exactly that.
+  # ---------------------------------------------------------------------
+  - id: concise
+    display: Concise enough to scan
+    must_have: false
+    failure_modes: [too_long]
+    guideline: |
+      PASS at 40 words or fewer. The explanation sits under a thumbnail and is
+      read in roughly two seconds; past about 40 words it is no longer read at
+      all, it is skipped, which makes a long explanation closer to no
+      explanation than to a short one.
+
+      FAIL past 40 words. This is a soft criterion: a long but accurate and
+      specific explanation is still served, and the failure is recorded so the
+      generator's prompt can be adjusted if the rate climbs.
+
+      [max_words: 40]

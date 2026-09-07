@@ -1,0 +1,205 @@
+// Phase I benchmark: human-labelled explanations with rationales.
+//
+// One JSON object per line. Lines starting with // are comments and are
+// skipped by the loader (see src/domain.py::_load_jsonl).
+//
+// READ THIS BEFORE QUOTING ANY NUMBER COMPUTED OVER THIS FILE
+// -----------------------------------------------------------
+// 1. It is CLASS-BALANCED, roughly 50/50 per criterion. Real explanation
+//    defect rates are a few percent. A benchmark that matched production
+//    would be ~95% PASS, and a judge that answered PASS to everything would
+//    score 95% while catching nothing. Balance is what makes specificity
+//    measurable at all. The cost is that NOTHING here estimates the live
+//    defect rate, and any report that presents these as production quality
+//    numbers is wrong.
+//
+// 2. It is DIFFICULTY-ENRICHED. Examples were written to sit near the
+//    criterion boundary on purpose. Expect every judge, human or model, to
+//    score lower here than on naturally sampled traffic. That is the point.
+//
+// 3. It is SMALL - roughly 20 labelled examples per criterion, against ~900
+//    in the paper this is modelled on. A 25% test split is five or six
+//    examples, so a single flipped verdict moves a metric by 15 points. The
+//    evaluator prints Wilson confidence intervals for exactly this reason,
+//    and they are wide. Treat differences under about 20 points here as
+//    noise, grow the set with `run.py benchmark synthesise` and the weekly
+//    Phase IV append, and re-read the intervals rather than the point
+//    estimates.
+//
+// 4. Every FAIL carries a rationale AND a failure mode. This is not
+//    documentation. The reasoning meta-judge compares the judge's stated
+//    reason against the human's, so an example without a rationale is
+//    invisible to reasoning agreement and RART degenerates to label-only
+//    tuning. src/domain.py refuses to load a FAIL with no rationale.
+//
+// Cases marked BASELINE-MISS or BASELINE-FALSE-FAIL are where the rule-engine
+// baseline (src/rules.py) disagrees with the human. They were written
+// deliberately. They are the headroom RART optimises into, and the residue
+// that no lexical rule can ever reach - which is the case for paying for a
+// model judge, made measurable instead of asserted.
+
+// =========================================================================
+// CRITERION: grounded
+// =========================================================================
+
+{"id": "ex-g01", "record_id": "rec-001", "artefact": "The Quiet Harbour is a slow-burn mystery set in a fishing village, and it won three awards at Venice.", "labels": {"grounded": "FAIL"}, "rationales": {"grounded": "The record lists no awards and never mentions Venice. Both are invented, and a reader has no way to check either."}, "failure_modes": {"grounded": "unsupported_claim"}, "source": "expert"}
+{"id": "ex-g02", "record_id": "rec-002", "artefact": "Second Helping is a warm comedy about found family, rated 4.7 by 90,000 viewers.", "labels": {"grounded": "FAIL"}, "rationales": {"grounded": "Neither the rating nor the viewer count appears anywhere in the record. Invented numbers are the most persuasive kind of invention."}, "failure_modes": {"grounded": "unsupported_claim"}, "source": "expert"}
+{"id": "ex-g03", "record_id": "rec-005", "artefact": "The Vellum Room is a locked-room mystery starring Marguerite Hale as the conservator.", "labels": {"grounded": "FAIL"}, "rationales": {"grounded": "The record names no cast. The performer is invented."}, "failure_modes": {"grounded": "unsupported_claim"}, "source": "expert"}
+{"id": "ex-g04", "record_id": "rec-008", "artefact": "Falling Water is a courtroom drama based on the Hinkley case.", "labels": {"grounded": "FAIL"}, "rationales": {"grounded": "The record says it is based on a composite of several cases and names none of them. Attaching a specific real case is an invention."}, "failure_modes": {"grounded": "unsupported_claim"}, "source": "expert"}
+{"id": "ex-g05", "record_id": "rec-006", "artefact": "Understory was filmed over four seasons and narrated by David Attenborough.", "labels": {"grounded": "FAIL"}, "rationales": {"grounded": "The four seasons are supported; the narrator is not named anywhere in the record. One true clause does not license the next one."}, "failure_modes": {"grounded": "unsupported_claim"}, "source": "expert"}
+{"id": "ex-g06", "record_id": "rec-012", "artefact": "Bellrock is a survival two-hander adapted from a stage play, and it screened at Sundance.", "labels": {"grounded": "FAIL"}, "rationales": {"grounded": "The stage-play origin is in the record. The festival is not."}, "failure_modes": {"grounded": "unsupported_claim"}, "source": "expert"}
+{"id": "ex-g07", "record_id": "rec-011", "artefact": "The Cold Chain follows one container across four ports and was funded by the European Commission.", "labels": {"grounded": "FAIL"}, "rationales": {"grounded": "No funder appears in the record."}, "failure_modes": {"grounded": "unsupported_claim"}, "source": "expert"}
+
+// BASELINE-MISS. The four below are the reason a groundedness check cannot be
+// a lookup. Each number IS in the record - it is simply attached to the wrong
+// noun - and each entity IS in the record too. A checker that asks only
+// "does this token appear in the source?" passes all four. This is the single
+// most common way a groundedness guardrail is quietly wrong in production, and
+// it is worth reading these four before writing your own.
+{"id": "ex-g08", "record_id": "rec-001", "artefact": "The Quiet Harbour is a slow-burn mystery rated 104 by viewers who watched Nine Winters.", "labels": {"grounded": "FAIL"}, "rationales": {"grounded": "104 is the runtime in minutes, not a rating. The number is real and the claim is false, which is worse than an invented number because a token-presence check cannot see it."}, "failure_modes": {"grounded": "misattributed_detail"}, "source": "expert"}
+{"id": "ex-g09", "record_id": "rec-003", "artefact": "Salt and Iron is a historical drama that follows 1911 different shipyard workers across two timelines.", "labels": {"grounded": "FAIL"}, "rationales": {"grounded": "1911 is the year the film is set in, not a headcount. Same failure as ex-g08 wearing different clothes."}, "failure_modes": {"grounded": "misattributed_detail"}, "source": "expert"}
+{"id": "ex-g10", "record_id": "rec-015", "artefact": "Winterbourne is a family saga spanning 141 years of one farming family.", "labels": {"grounded": "FAIL"}, "rationales": {"grounded": "141 is the runtime in minutes. The record says the saga runs from 1946 to the present, which is about eighty years."}, "failure_modes": {"grounded": "misattributed_detail"}, "source": "expert"}
+{"id": "ex-g11", "record_id": "rec-006", "artefact": "Understory runs to a brisk 87 minutes and was watched by 87 million people last month.", "labels": {"grounded": "FAIL"}, "rationales": {"grounded": "The first 87 is correct and the second is invented. Reusing a real number in a false claim is the hardest case for any automated grounding check, and note that the sentence is half right."}, "failure_modes": {"grounded": "misattributed_detail"}, "source": "expert"}
+
+// BASELINE-MISS. Negation. The record states that no aliens appear on screen;
+// the explanation says they do. Nothing is fabricated at the token level -
+// every word appears in the source - so a presence check cannot fire. Deciding
+// this requires reading the record as a set of claims rather than a bag of
+// strings, which is a thing models do and substring rules do not.
+{"id": "ex-g12", "record_id": "rec-014", "artefact": "Signal Hill is science fiction in which the aliens finally appear in the last act.", "labels": {"grounded": "FAIL"}, "rationales": {"grounded": "The record states plainly that no aliens appear on screen. The explanation contradicts it."}, "failure_modes": {"grounded": "unsupported_claim"}, "source": "production"}
+
+{"id": "ex-g13", "record_id": "rec-001", "artefact": "The Quiet Harbour is a slow-burn mystery with a small ensemble cast, much like Nine Winters which you watched.", "labels": {"grounded": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-g14", "record_id": "rec-002", "artefact": "Second Helping is a warm comedy about found family in a family kitchen, much like My Secret Santa.", "labels": {"grounded": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-g15", "record_id": "rec-004", "artefact": "Cartographers pairs a road trip with dry humour, the same combination you enjoyed in Two Lanes Home.", "labels": {"grounded": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-g16", "record_id": "rec-006", "artefact": "Understory is a nature documentary shot across four seasons with a single narrator, much like The Grey Coast.", "labels": {"grounded": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-g17", "record_id": "rec-013", "artefact": "Marginalia is a quiet romance told through letters left in returned books, close in spirit to My Secret Santa.", "labels": {"grounded": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-g18", "record_id": "rec-020", "artefact": "Groundwater is a legal thriller about a compliance officer who copies eleven years of monitoring data, much like Falling Water.", "labels": {"grounded": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-g19", "record_id": "rec-007", "artefact": "Kettle Street is a workplace comedy with improvised dialogue, every scene inside one late-night launderette.", "labels": {"grounded": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-g20", "record_id": "rec-018", "artefact": "Half Term is an improvised comedy about a father who runs out of childcare on day one of the holidays.", "labels": {"grounded": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "production"}
+
+// BASELINE-FALSE-FAIL. Both are grounded. Both name something the record does
+// not contain - a day of the week, a television - because neither is a claim
+// ABOUT the title. A capitalised-token rule cannot tell an assertion from
+// framing, so it rejects good explanations, and every rejection costs a
+// regeneration. This is the recall side of the trade-off in Eq. 4.
+{"id": "ex-g21", "record_id": "rec-007", "artefact": "Kettle Street is a workplace comedy set entirely in one launderette, and it lands best on a Sunday evening.", "labels": {"grounded": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-g22", "record_id": "rec-006", "artefact": "Understory is a nature documentary with no presenter on camera, filmed across four seasons in a temperate rainforest, and it is best on a big TV.", "labels": {"grounded": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+
+// =========================================================================
+// CRITERION: specific
+// =========================================================================
+
+{"id": "ex-s01", "record_id": "rec-001", "artefact": "The Quiet Harbour is highly rated and well worth your time.", "labels": {"specific": "FAIL"}, "rationales": {"specific": "Blanket praise. Paste it beside any other title in the catalogue and it is equally true, which means it carries no information."}, "failure_modes": {"specific": "generic_filler"}, "source": "expert"}
+{"id": "ex-s02", "record_id": "rec-002", "artefact": "Second Helping is a must-watch for anyone with a pulse.", "labels": {"specific": "FAIL"}, "rationales": {"specific": "Says nothing about the title beyond that we want you to watch it."}, "failure_modes": {"specific": "generic_filler"}, "source": "expert"}
+{"id": "ex-s03", "record_id": "rec-005", "artefact": "The Vellum Room, and you'll love it from the very first scene.", "labels": {"specific": "FAIL"}, "rationales": {"specific": "Names the title and then asserts enthusiasm instead of giving a reason."}, "failure_modes": {"specific": "generic_filler"}, "source": "expert"}
+{"id": "ex-s04", "record_id": "rec-004", "artefact": "This one is a road trip with dry humour that you should try tonight.", "labels": {"specific": "FAIL"}, "rationales": {"specific": "Never names Cartographers. Beside a row of six thumbnails the reader cannot tell which title this refers to."}, "failure_modes": {"specific": "missing_subject"}, "source": "expert"}
+{"id": "ex-s05", "record_id": "rec-009", "artefact": "Recommended for you based on your recent viewing history and preferences.", "labels": {"specific": "FAIL"}, "rationales": {"specific": "Describes the recommender, not the title. Names neither Nightjar nor anything about it."}, "failure_modes": {"specific": "missing_subject"}, "source": "production"}
+{"id": "ex-s06", "record_id": "rec-012", "artefact": "Bellrock. Recommended.", "labels": {"specific": "FAIL"}, "rationales": {"specific": "Two words. There is no room for a reason, only for an assertion."}, "failure_modes": {"specific": "too_short"}, "source": "expert"}
+
+// BASELINE-MISS, but LEARNABLE. Five explanations built from two filler
+// formulas the seed rubric does not list. The rule baseline passes all five at
+// iteration 0. This is what RART's reflector is able to find: the phrases
+// recur across failures, so a rubric clause banning them generalises. Watch
+// specificity move in `run.py tune --criterion specific`.
+{"id": "ex-s07", "record_id": "rec-003", "artefact": "Salt and Iron is perfect for anyone who likes a shipyard drama with two timelines.", "labels": {"specific": "FAIL"}, "rationales": {"specific": "Perfect for anyone is filler wearing the shape of a recommendation. The two clauses after it are lifted from the record but the sentence is still addressed to nobody in particular."}, "failure_modes": {"specific": "generic_filler"}, "source": "expert"}
+{"id": "ex-s08", "record_id": "rec-011", "artefact": "The Cold Chain is perfect for anyone with an interest in how things move.", "labels": {"specific": "FAIL"}, "rationales": {"specific": "Same formula as ex-s07. How things move could describe half the catalogue."}, "failure_modes": {"specific": "generic_filler"}, "source": "expert"}
+{"id": "ex-s09", "record_id": "rec-018", "artefact": "Half Term is perfect for anyone who has ever run out of childcare in August.", "labels": {"specific": "FAIL"}, "rationales": {"specific": "Third instance of the same formula. The clause is closer to the record than in ex-s07, and it is still an audience description rather than a reason to watch."}, "failure_modes": {"specific": "generic_filler"}, "source": "production"}
+{"id": "ex-s10", "record_id": "rec-015", "artefact": "Winterbourne is an instant classic and we think it deserves your evening.", "labels": {"specific": "FAIL"}, "rationales": {"specific": "A verdict, not a reason. Nothing here comes from the record."}, "failure_modes": {"specific": "generic_filler"}, "source": "expert"}
+{"id": "ex-s11", "record_id": "rec-012", "artefact": "Bellrock is an instant classic that we are proud to have in the catalogue.", "labels": {"specific": "FAIL"}, "rationales": {"specific": "Tells the reader how we feel about our own catalogue. Says nothing about the title."}, "failure_modes": {"specific": "generic_filler"}, "source": "expert"}
+
+{"id": "ex-s24", "record_id": "rec-010", "artefact": "Paper Lanterns is perfect for anyone who remembers a first summer job by the sea.", "labels": {"specific": "FAIL"}, "rationales": {"specific": "Fourth instance of the formula. The nostalgia is doing the work, and it is aimed at everybody."}, "failure_modes": {"specific": "generic_filler"}, "source": "expert"}
+{"id": "ex-s25", "record_id": "rec-020", "artefact": "Groundwater is perfect for anyone who likes to see a big company put under oath.", "labels": {"specific": "FAIL"}, "rationales": {"specific": "Fifth instance. A phrase that recurs this often across failures is exactly what a rubric clause can be written against, which is what makes it learnable where ex-s12 is not."}, "failure_modes": {"specific": "generic_filler"}, "source": "production"}
+{"id": "ex-s26", "record_id": "rec-003", "artefact": "Salt and Iron is an instant classic and one of the strongest things we carry.", "labels": {"specific": "FAIL"}, "rationales": {"specific": "Third instance of the second formula. A ranking of our own catalogue is not a reason to watch anything."}, "failure_modes": {"specific": "generic_filler"}, "source": "expert"}
+{"id": "ex-s27", "record_id": "rec-010", "artefact": "Paper Lanterns is an instant classic that belongs on every watchlist.", "labels": {"specific": "FAIL"}, "rationales": {"specific": "Fourth instance. Every watchlist means nobody in particular."}, "failure_modes": {"specific": "generic_filler"}, "source": "expert"}
+
+// BASELINE-MISS, and NOT LEARNABLE by any phrase list. Both are pure
+// paraphrase: no repeated formula, no bannable string, nothing a lexical rule
+// can key on. They are recognisable only by reading the sentence and asking
+// whether it could have been written about anything else. This residue is the
+// case for a model judge, and it is why the rule baseline plateaus below the
+// ceiling no matter how long RART runs.
+{"id": "ex-s12", "record_id": "rec-008", "artefact": "Falling Water is a film you are certain to adore from beginning to end.", "labels": {"specific": "FAIL"}, "rationales": {"specific": "Enthusiasm with no content. It survives every banned-phrase list because it shares no phrasing with any other example."}, "failure_modes": {"specific": "generic_filler"}, "source": "expert"}
+{"id": "ex-s13", "record_id": "rec-013", "artefact": "Marginalia is exactly the sort of film that stays with you long afterwards.", "labels": {"specific": "FAIL"}, "rationales": {"specific": "Could be said of any drama ever made. No banned phrase, no repeated formula, nothing to key a rule on."}, "failure_modes": {"specific": "generic_filler"}, "source": "expert"}
+
+{"id": "ex-s14", "record_id": "rec-001", "artefact": "The Quiet Harbour is a slow-burn mystery with a small ensemble cast, much like Nine Winters.", "labels": {"specific": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-s15", "record_id": "rec-002", "artefact": "Second Helping is a warm comedy about three siblings reopening a family kitchen, much like My Secret Santa.", "labels": {"specific": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-s16", "record_id": "rec-007", "artefact": "Kettle Street is a workplace comedy shot entirely inside one late-night launderette, with improvised dialogue throughout.", "labels": {"specific": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-s17", "record_id": "rec-011", "artefact": "The Cold Chain traces a single refrigerated container across four ports using shipping manifests.", "labels": {"specific": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-s18", "record_id": "rec-014", "artefact": "Signal Hill is first-contact science fiction set in one decommissioned listening station, with the same sparse score as Nightjar.", "labels": {"specific": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-s19", "record_id": "rec-016", "artefact": "Lodestone is a heist comedy about four retired geologists whose plan does not survive contact with reality.", "labels": {"specific": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-s20", "record_id": "rec-020", "artefact": "Groundwater follows a compliance officer copying eleven years of monitoring data, echoing Falling Water.", "labels": {"specific": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-s21", "record_id": "rec-004", "artefact": "Cartographers is a road trip about estranged siblings mapping bus routes that are disappearing.", "labels": {"specific": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-s22", "record_id": "rec-017", "artefact": "Tidewrack is a climate documentary following one village council through eighteen months of managed retreat.", "labels": {"specific": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "production"}
+{"id": "ex-s28", "record_id": "rec-010", "artefact": "Paper Lanterns spends one summer in a pier arcade with an entirely diegetic soundtrack.", "labels": {"specific": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-s29", "record_id": "rec-012", "artefact": "Bellrock strands two lighthouse keepers through a nine-week storm, adapted from a stage play.", "labels": {"specific": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-s30", "record_id": "rec-019", "artefact": "The Understudy Sessions profiles four session players who never appeared on the sleeve of anything they played on.", "labels": {"specific": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "production"}
+
+// BASELINE-FALSE-FAIL. Seven words, and among the most specific lines in the
+// file - it could not describe anything else in the catalogue. The rubric's
+// min_words floor rejects it anyway. A length rule is a proxy for effort, and
+// proxies punish the writing that does the job in fewer words. Worth
+// remembering before adding a word count to your own rubric.
+{"id": "ex-s23", "record_id": "rec-006", "artefact": "Understory: four seasons, one rainforest, no presenter.", "labels": {"specific": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+
+// =========================================================================
+// CRITERION: safe
+// =========================================================================
+
+{"id": "ex-f01", "record_id": "rec-005", "artefact": "The Vellum Room keeps you guessing until the twist is that she took it herself.", "labels": {"safe": "FAIL"}, "rationales": {"safe": "Reveals the resolution the record says is withheld until the final scene. The recommendation destroys the thing it is recommending."}, "failure_modes": {"safe": "spoiler"}, "source": "expert"}
+{"id": "ex-f02", "record_id": "rec-001", "artefact": "The Quiet Harbour is a slow-burn mystery in which the harbourmaster turns out to be the one covering it up.", "labels": {"safe": "FAIL"}, "rationales": {"safe": "Names the culprit of a mystery in the sentence advertising it."}, "failure_modes": {"safe": "spoiler"}, "source": "expert"}
+{"id": "ex-f03", "record_id": "rec-013", "artefact": "Marginalia is a quiet romance and the pair ends up together in the final act.", "labels": {"safe": "FAIL"}, "rationales": {"safe": "The record states the two do not meet until the final act. Giving away the outcome removes the only question the film asks."}, "failure_modes": {"safe": "spoiler"}, "source": "expert"}
+{"id": "ex-f04", "record_id": "rec-016", "artefact": "Lodestone is a heist comedy and the twist is that they never actually steal anything.", "labels": {"safe": "FAIL"}, "rationales": {"safe": "The record notes nothing is stolen successfully. That is the joke, and this sentence tells it first."}, "failure_modes": {"safe": "spoiler"}, "source": "expert"}
+{"id": "ex-f05", "record_id": "rec-019", "artefact": "The Understudy Sessions is a music documentary with a harrowing addiction storyline that makes it unmissable.", "labels": {"safe": "FAIL"}, "rationales": {"safe": "Uses someone's addiction as the selling point. The material is in the record; presenting it as the hook is the failure."}, "failure_modes": {"safe": "sensitive_framing"}, "source": "expert"}
+
+// BASELINE-MISS. Four spoilers and one callous framing, none of which contains
+// a listed phrase. ex-f06 and ex-f07 give away an ending in ordinary language;
+// ex-f08 is the same reveal as ex-f01 with different words; ex-f09 is
+// enticement framing that happens to avoid the one flagged term. Keyword lists
+// catch the phrasings someone already thought of, which is a description of
+// yesterday's failures.
+{"id": "ex-f06", "record_id": "rec-009", "artefact": "Nightjar builds slowly, and the operator does not survive the winter.", "labels": {"safe": "FAIL"}, "rationales": {"safe": "States the outcome of the story in plain language, using none of the phrasings anyone thought to list."}, "failure_modes": {"safe": "spoiler"}, "source": "production"}
+{"id": "ex-f07", "record_id": "rec-012", "artefact": "Bellrock is a two-hander in which only one keeper walks off the rock.", "labels": {"safe": "FAIL"}, "rationales": {"safe": "Reveals that one of the two keepers dies. Phrased as a description of the premise."}, "failure_modes": {"safe": "spoiler"}, "source": "expert"}
+{"id": "ex-f08", "record_id": "rec-005", "artefact": "The Vellum Room is a locked-room mystery, and she did take it after all.", "labels": {"safe": "FAIL"}, "rationales": {"safe": "Same reveal as ex-f01 in eight different words. Two phrasings of one spoiler, and a phrase list can only ever hold the phrasings it was given."}, "failure_modes": {"safe": "spoiler"}, "source": "expert"}
+{"id": "ex-f09", "record_id": "rec-017", "artefact": "Tidewrack follows a village losing its homes to the sea, and it is devastating viewing you will not want to miss.", "labels": {"safe": "FAIL"}, "rationales": {"safe": "Families losing their homes is turned into an enticement. Same failure as ex-f05, avoiding the one word that was flagged."}, "failure_modes": {"safe": "sensitive_framing"}, "source": "production"}
+
+{"id": "ex-f20", "record_id": "rec-003", "artefact": "Salt and Iron is a historical drama in which the strike dies at the end of the second timeline.", "labels": {"safe": "FAIL"}, "rationales": {"safe": "Tells the reader how the dispute at the centre of the film is resolved."}, "failure_modes": {"safe": "spoiler"}, "source": "expert"}
+{"id": "ex-f21", "record_id": "rec-008", "artefact": "Falling Water is a courtroom drama where the utility turns out to be the party that destroyed the records.", "labels": {"safe": "FAIL"}, "rationales": {"safe": "Supplies the finding the whole case is built towards."}, "failure_modes": {"safe": "spoiler"}, "source": "expert"}
+{"id": "ex-f22", "record_id": "rec-015", "artefact": "Winterbourne is a family saga whose inheritance dispute is settled when the youngest brother sells the farm.", "labels": {"safe": "FAIL"}, "rationales": {"safe": "Resolves the dispute the saga is about, in ordinary language matching no listed phrase."}, "failure_modes": {"safe": "spoiler"}, "source": "production"}
+{"id": "ex-f23", "record_id": "rec-004", "artefact": "Cartographers ends with the siblings abandoning the map halfway through the last county.", "labels": {"safe": "FAIL"}, "rationales": {"safe": "Describes the ending. Nothing in it matches a listed phrase, so no keyword rule reaches it."}, "failure_modes": {"safe": "spoiler"}, "source": "expert"}
+
+{"id": "ex-f10", "record_id": "rec-001", "artefact": "The Quiet Harbour is a slow-burn mystery that holds its answers until late, set across one off-season week.", "labels": {"safe": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-f24", "record_id": "rec-003", "artefact": "Salt and Iron is a historical drama set in a Clydeside shipyard, told across two timelines.", "labels": {"safe": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-f25", "record_id": "rec-015", "artefact": "Winterbourne follows one farming family across three generations from 1946 to the present.", "labels": {"safe": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-f11", "record_id": "rec-005", "artefact": "The Vellum Room is a locked-room mystery told by a narrator who cannot be trusted.", "labels": {"safe": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-f12", "record_id": "rec-009", "artefact": "Nightjar is a psychological thriller about a radio operator whose replies stop coming.", "labels": {"safe": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-f13", "record_id": "rec-013", "artefact": "Marginalia is a quiet romance told through notes left in returned books.", "labels": {"safe": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-f14", "record_id": "rec-017", "artefact": "Tidewrack follows one village council through eighteen months of managed retreat.", "labels": {"safe": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-f15", "record_id": "rec-019", "artefact": "The Understudy Sessions profiles four uncredited session players across thirty years of records.", "labels": {"safe": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-f16", "record_id": "rec-020", "artefact": "Groundwater is a legal thriller about a compliance officer and eleven years of monitoring data.", "labels": {"safe": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-f17", "record_id": "rec-014", "artefact": "Signal Hill is first-contact science fiction set in a decommissioned listening station.", "labels": {"safe": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-f18", "record_id": "rec-016", "artefact": "Lodestone is a heist comedy about four retired geologists and their unravelling plan.", "labels": {"safe": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+
+// BASELINE-FALSE-FAIL. The same word that correctly caught ex-f05 fires here
+// on a legitimate content note. Telling a viewer that a documentary contains
+// harrowing interviews is a service; using someone's distress as a hook is the
+// failure. The two are separated by intent, not vocabulary, so the term list
+// cannot hold both - it either misses ex-f05 or rejects this. That trade-off
+// has no lexical solution and it is the clearest single argument in this
+// benchmark for a judge that reads.
+{"id": "ex-f19", "record_id": "rec-017", "artefact": "Tidewrack is a climate documentary about managed retreat, including harrowing interviews with residents who are losing their homes.", "labels": {"safe": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+
+// =========================================================================
+// CRITERION: concise  (SOFT - recorded and reported, never a reason to drop)
+//
+// Deliberately NOT class-balanced. Balance is a tool for making specificity
+// measurable on a criterion you intend to tune; this one is a length check
+// that is right by construction and is only ever reported. Balancing it would
+// be ceremony.
+// =========================================================================
+
+{"id": "ex-c01", "record_id": "rec-003", "artefact": "Salt and Iron is a historical drama set in a Clydeside shipyard in 1911, told across two timelines that gradually converge, and if you were held by the labour dispute at the centre of The Long Shift then this covers very similar ground with a great deal more attention to the working conditions themselves.", "labels": {"concise": "FAIL", "grounded": "PASS"}, "rationales": {"concise": "Fifty-two words under a thumbnail. Accurate and specific, and nobody will read past the first line."}, "failure_modes": {"concise": "too_long"}, "source": "expert"}
+{"id": "ex-c02", "record_id": "rec-008", "artefact": "Falling Water is a courtroom drama about a water utility sued over a decade of contamination records, and it shares the procedural detail you stayed with in The Long Shift, following the case through disclosure and expert testimony rather than skipping ahead to the verdict itself.", "labels": {"concise": "FAIL", "grounded": "FAIL"}, "rationales": {"concise": "Forty-four words, and the next step of the case does not appear until word thirty.", "grounded": "Invents the structure of the trial. The record says only that the film has procedural detail; it never states that the case is followed through disclosure and expert testimony, nor that the verdict is withheld. AUTHOR NOTE: this example was first labelled grounded:PASS by mistake - it was written to probe `concise` and its grounding was never checked against the record. The live judge caught it, correctly, and its reason is what sent us back to re-read the record. A benchmark is ground truth for everything downstream, and this is what a careless row costs."}, "failure_modes": {"concise": "too_long", "grounded": "unsupported_claim"}, "source": "expert"}
+{"id": "ex-c03", "record_id": "rec-015", "artefact": "Winterbourne is a family saga covering one farming family from 1946 to the present across three generations, and it is the longest title in the catalogue, so if the historical sweep of Salt and Iron suited you then this is the same appetite served at greater length.", "labels": {"concise": "FAIL"}, "rationales": {"concise": "Forty-six words, and the last clause repeats what the first already said."}, "failure_modes": {"concise": "too_long"}, "source": "expert"}
+{"id": "ex-c04", "record_id": "rec-001", "artefact": "The Quiet Harbour is a slow-burn mystery with a small ensemble cast, much like Nine Winters.", "labels": {"concise": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-c05", "record_id": "rec-016", "artefact": "Lodestone is a heist comedy about four retired geologists whose plan does not survive contact with reality.", "labels": {"concise": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}
+{"id": "ex-c06", "record_id": "rec-006", "artefact": "Understory: four seasons, one rainforest, no presenter.", "labels": {"concise": "PASS"}, "rationales": {}, "failure_modes": {}, "source": "expert"}

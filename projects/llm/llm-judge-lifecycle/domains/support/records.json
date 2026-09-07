@@ -1,0 +1,154 @@
+[
+  {
+    "id": "tkt-001",
+    "added_week": 0,
+    "subject": {
+      "reference": "ORD-48812",
+      "issue": "charger missing from a delivered laptop box",
+      "product": "Meridian 14 laptop",
+      "opened_days_ago": 2
+    },
+    "references": [
+      {"title": "Missing-item policy", "attributes": ["replacement dispatched within 2 working days", "no proof of purchase required within 30 days"]}
+    ],
+    "facts": [
+      "Missing accessories are replaced, not refunded.",
+      "Replacement dispatch takes 2 working days from confirmation.",
+      "Agents may confirm a missing accessory without a returns inspection."
+    ],
+    "context": {"tier": "standard"}
+  },
+  {
+    "id": "tkt-002",
+    "added_week": 0,
+    "subject": {
+      "reference": "ORD-51907",
+      "issue": "refund not received three weeks after returning a monitor",
+      "product": "Kestrel 27 monitor",
+      "opened_days_ago": 21
+    },
+    "references": [
+      {"title": "Refund policy", "attributes": ["processed within 5 to 10 working days of warehouse receipt", "partial refund where packaging is missing"]}
+    ],
+    "facts": [
+      "Refunds are processed 5 to 10 working days after the warehouse logs the return.",
+      "The warehouse has not yet logged this return.",
+      "Returns are tracked under the original order reference."
+    ],
+    "context": {"tier": "standard"}
+  },
+  {
+    "id": "tkt-003",
+    "added_week": 0,
+    "subject": {
+      "reference": "ACC-20233",
+      "issue": "charged twice for one annual subscription",
+      "product": "Atlas Pro annual plan",
+      "opened_days_ago": 1
+    },
+    "references": [
+      {"title": "Billing policy", "attributes": ["duplicate charges reversed within 3 to 5 working days", "reversal goes to the original payment method"]}
+    ],
+    "facts": [
+      "Duplicate charges are reversed within 3 to 5 working days.",
+      "The reversal returns to the original payment method and cannot be redirected.",
+      "Agents can trigger the reversal without manager approval."
+    ],
+    "context": {"tier": "standard"}
+  },
+  {
+    "id": "tkt-004",
+    "added_week": 0,
+    "subject": {
+      "reference": "ORD-44120",
+      "issue": "delivery marked as arrived but nothing was received",
+      "product": "Halyard desk lamp",
+      "opened_days_ago": 4
+    },
+    "references": [
+      {"title": "Non-delivery policy", "attributes": ["carrier investigation takes up to 7 working days", "replacement or refund once the investigation closes"]}
+    ],
+    "facts": [
+      "A carrier investigation must close before a replacement is authorised.",
+      "Carrier investigations take up to 7 working days.",
+      "The customer chooses replacement or refund once it closes."
+    ],
+    "context": {"tier": "standard"}
+  },
+  {
+    "id": "tkt-005",
+    "added_week": 0,
+    "subject": {
+      "reference": "ACC-20871",
+      "issue": "locked out after a password reset loop",
+      "product": "Atlas Pro account",
+      "opened_days_ago": 0
+    },
+    "references": [
+      {"title": "Account recovery policy", "attributes": ["identity check by email plus one further factor", "manual unlock within 1 working day"]}
+    ],
+    "facts": [
+      "Manual unlock happens within 1 working day of a completed identity check.",
+      "The identity check needs email confirmation plus one further factor.",
+      "Agents cannot bypass the identity check."
+    ],
+    "context": {"tier": "standard"}
+  },
+  {
+    "id": "tkt-006",
+    "added_week": 0,
+    "subject": {
+      "reference": "ORD-52440",
+      "issue": "keyboard stopped responding six weeks after purchase",
+      "product": "Pika 60 keyboard",
+      "opened_days_ago": 3
+    },
+    "references": [
+      {"title": "Warranty policy", "attributes": ["12-month warranty", "repair or replace at the company's discretion", "return postage paid by the company"]}
+    ],
+    "facts": [
+      "The warranty runs 12 months from delivery.",
+      "The company chooses between repair and replacement.",
+      "Return postage is paid by the company."
+    ],
+    "context": {"tier": "standard"}
+  },
+  {
+    "id": "tkt-007",
+    "added_week": 4,
+    "subject": {
+      "reference": "SUB-30119",
+      "issue": "wants to cancel mid-term after a price rise",
+      "product": "Atlas Pro annual plan",
+      "opened_days_ago": 1
+    },
+    "references": [
+      {"title": "Mid-term cancellation policy", "attributes": ["pro-rata credit for unused months", "credit applied within 10 working days", "no cash refund on annual plans"]}
+    ],
+    "facts": [
+      "Annual plans give a pro-rata credit, not a cash refund.",
+      "Credit is applied within 10 working days.",
+      "Introduced with the March pricing change."
+    ],
+    "context": {"tier": "standard", "note": "new policy"}
+  },
+  {
+    "id": "tkt-008",
+    "added_week": 4,
+    "subject": {
+      "reference": "ORD-53901",
+      "issue": "wants a courier redelivery outside the standard window",
+      "product": "Meridian 14 laptop",
+      "opened_days_ago": 2
+    },
+    "references": [
+      {"title": "Redelivery policy", "attributes": ["one free redelivery per order", "weekend slots not available", "second redelivery charged at 6.50"]}
+    ],
+    "facts": [
+      "One redelivery per order is free.",
+      "Weekend slots are not offered by the carrier.",
+      "A second redelivery costs 6.50 and agents cannot waive it."
+    ],
+    "context": {"tier": "standard", "note": "new policy"}
+  }
+]

@@ -1,0 +1,384 @@
+[
+  {
+    "id": "rec-001",
+    "added_week": 0,
+    "subject": {
+      "title": "The Quiet Harbour",
+      "attributes": ["slow-burn mystery", "coastal setting", "small ensemble cast"],
+      "year": 2019,
+      "runtime_min": 104,
+      "genre": "Mystery"
+    },
+    "references": [
+      {"title": "Nine Winters", "attributes": ["slow-burn mystery", "small ensemble cast"]}
+    ],
+    "facts": [
+      "Set across one off-season week in a fishing village.",
+      "No on-screen violence."
+    ],
+    "context": {"viewer_segment": "mystery regulars"}
+  },
+  {
+    "id": "rec-002",
+    "added_week": 0,
+    "subject": {
+      "title": "Second Helping",
+      "attributes": ["warm comedy", "family kitchen", "found family"],
+      "year": 2022,
+      "runtime_min": 96,
+      "genre": "Comedy"
+    },
+    "references": [
+      {"title": "My Secret Santa", "attributes": ["warm comedy", "found family"]}
+    ],
+    "facts": [
+      "Follows three siblings reopening their late mother's restaurant.",
+      "Rated suitable for family viewing."
+    ],
+    "context": {"viewer_segment": "comfort watchers"}
+  },
+  {
+    "id": "rec-003",
+    "added_week": 0,
+    "subject": {
+      "title": "Salt and Iron",
+      "attributes": ["historical drama", "shipbuilding", "labour dispute"],
+      "year": 2017,
+      "runtime_min": 132,
+      "genre": "Drama"
+    },
+    "references": [
+      {"title": "The Long Shift", "attributes": ["historical drama", "labour dispute"]}
+    ],
+    "facts": [
+      "Set in a Clydeside shipyard in 1911.",
+      "Told across two timelines."
+    ],
+    "context": {"viewer_segment": "period drama"}
+  },
+  {
+    "id": "rec-004",
+    "added_week": 0,
+    "subject": {
+      "title": "Cartographers",
+      "attributes": ["road trip", "estranged siblings", "dry humour"],
+      "year": 2021,
+      "runtime_min": 111,
+      "genre": "Drama"
+    },
+    "references": [
+      {"title": "Two Lanes Home", "attributes": ["road trip", "dry humour"]}
+    ],
+    "facts": [
+      "A brother and sister map disappearing rural bus routes.",
+      "Shot on location across six counties."
+    ],
+    "context": {"viewer_segment": "indie drama"}
+  },
+  {
+    "id": "rec-005",
+    "added_week": 0,
+    "subject": {
+      "title": "The Vellum Room",
+      "attributes": ["locked-room mystery", "university setting", "unreliable narrator"],
+      "year": 2020,
+      "runtime_min": 118,
+      "genre": "Thriller"
+    },
+    "references": [
+      {"title": "Nine Winters", "attributes": ["unreliable narrator", "slow-burn mystery"]}
+    ],
+    "facts": [
+      "A manuscript conservator is accused of a theft she cannot remember.",
+      "The resolution is withheld until the final scene."
+    ],
+    "context": {"viewer_segment": "mystery regulars"}
+  },
+  {
+    "id": "rec-006",
+    "added_week": 0,
+    "subject": {
+      "title": "Understory",
+      "attributes": ["nature documentary", "long lens photography", "single narrator"],
+      "year": 2023,
+      "runtime_min": 87,
+      "genre": "Documentary"
+    },
+    "references": [
+      {"title": "The Grey Coast", "attributes": ["nature documentary", "single narrator"]}
+    ],
+    "facts": [
+      "Filmed over four seasons in one temperate rainforest.",
+      "No presenter appears on camera."
+    ],
+    "context": {"viewer_segment": "documentary"}
+  },
+  {
+    "id": "rec-007",
+    "added_week": 0,
+    "subject": {
+      "title": "Kettle Street",
+      "attributes": ["workplace comedy", "ensemble cast", "single location"],
+      "year": 2022,
+      "runtime_min": 92,
+      "genre": "Comedy"
+    },
+    "references": [
+      {"title": "My Secret Santa", "attributes": ["warm comedy", "ensemble cast"]}
+    ],
+    "facts": [
+      "Every scene takes place inside a late-night launderette.",
+      "Improvised dialogue throughout."
+    ],
+    "context": {"viewer_segment": "comfort watchers"}
+  },
+  {
+    "id": "rec-008",
+    "added_week": 0,
+    "subject": {
+      "title": "Falling Water",
+      "attributes": ["courtroom drama", "environmental case", "procedural detail"],
+      "year": 2018,
+      "runtime_min": 127,
+      "genre": "Drama"
+    },
+    "references": [
+      {"title": "The Long Shift", "attributes": ["procedural detail", "labour dispute"]}
+    ],
+    "facts": [
+      "A water utility is sued over a decade of contamination records.",
+      "Based on a composite of several cases."
+    ],
+    "context": {"viewer_segment": "legal drama"}
+  },
+  {
+    "id": "rec-009",
+    "added_week": 0,
+    "subject": {
+      "title": "Nightjar",
+      "attributes": ["psychological thriller", "rural isolation", "sparse score"],
+      "year": 2021,
+      "runtime_min": 99,
+      "genre": "Thriller"
+    },
+    "references": [
+      {"title": "The Vellum Room", "attributes": ["psychological thriller", "unreliable narrator"]}
+    ],
+    "facts": [
+      "A radio operator on a moorland station stops receiving replies.",
+      "Contains sustained scenes of isolation and one bereavement storyline."
+    ],
+    "context": {"viewer_segment": "thriller"}
+  },
+  {
+    "id": "rec-010",
+    "added_week": 0,
+    "subject": {
+      "title": "Paper Lanterns",
+      "attributes": ["coming of age", "seaside town", "first job"],
+      "year": 2020,
+      "runtime_min": 101,
+      "genre": "Drama"
+    },
+    "references": [
+      {"title": "Paper Lanterns", "attributes": ["coming of age"]},
+      {"title": "Two Lanes Home", "attributes": ["coming of age", "dry humour"]}
+    ],
+    "facts": [
+      "A sixteen-year-old spends a summer working a pier arcade.",
+      "Soundtrack is entirely diegetic."
+    ],
+    "context": {"viewer_segment": "indie drama"}
+  },
+  {
+    "id": "rec-011",
+    "added_week": 0,
+    "subject": {
+      "title": "The Cold Chain",
+      "attributes": ["investigative documentary", "supply chain", "archive footage"],
+      "year": 2023,
+      "runtime_min": 78,
+      "genre": "Documentary"
+    },
+    "references": [
+      {"title": "The Grey Coast", "attributes": ["investigative documentary", "archive footage"]}
+    ],
+    "facts": [
+      "Traces one refrigerated container across four ports.",
+      "Uses shipping manifests obtained under freedom of information requests."
+    ],
+    "context": {"viewer_segment": "documentary"}
+  },
+  {
+    "id": "rec-012",
+    "added_week": 0,
+    "subject": {
+      "title": "Bellrock",
+      "attributes": ["survival drama", "lighthouse", "two-hander"],
+      "year": 2019,
+      "runtime_min": 88,
+      "genre": "Drama"
+    },
+    "references": [
+      {"title": "The Quiet Harbour", "attributes": ["coastal setting", "small ensemble cast"]}
+    ],
+    "facts": [
+      "Two keepers are cut off by a nine-week storm.",
+      "Adapted from a stage play."
+    ],
+    "context": {"viewer_segment": "period drama"}
+  },
+  {
+    "id": "rec-013",
+    "added_week": 0,
+    "subject": {
+      "title": "Marginalia",
+      "attributes": ["quiet romance", "second-hand bookshop", "letters"],
+      "year": 2022,
+      "runtime_min": 94,
+      "genre": "Romance"
+    },
+    "references": [
+      {"title": "My Secret Santa", "attributes": ["quiet romance", "warm comedy"]}
+    ],
+    "facts": [
+      "Two strangers correspond through notes left in returned books.",
+      "They do not meet until the final act."
+    ],
+    "context": {"viewer_segment": "comfort watchers"}
+  },
+  {
+    "id": "rec-014",
+    "added_week": 0,
+    "subject": {
+      "title": "Signal Hill",
+      "attributes": ["science fiction", "first contact", "single setting"],
+      "year": 2021,
+      "runtime_min": 106,
+      "genre": "Science Fiction"
+    },
+    "references": [
+      {"title": "Nightjar", "attributes": ["rural isolation", "sparse score"]}
+    ],
+    "facts": [
+      "A decommissioned listening station picks up a repeating signal.",
+      "No aliens appear on screen."
+    ],
+    "context": {"viewer_segment": "thriller"}
+  },
+  {
+    "id": "rec-015",
+    "added_week": 0,
+    "subject": {
+      "title": "Winterbourne",
+      "attributes": ["family saga", "inheritance dispute", "three generations"],
+      "year": 2016,
+      "runtime_min": 141,
+      "genre": "Drama"
+    },
+    "references": [
+      {"title": "Salt and Iron", "attributes": ["historical drama", "three generations"]}
+    ],
+    "facts": [
+      "Covers one farming family from 1946 to the present.",
+      "Longest title in the catalogue."
+    ],
+    "context": {"viewer_segment": "period drama"}
+  },
+  {
+    "id": "rec-016",
+    "added_week": 0,
+    "subject": {
+      "title": "Lodestone",
+      "attributes": ["heist", "ensemble cast", "comic timing"],
+      "year": 2023,
+      "runtime_min": 113,
+      "genre": "Comedy"
+    },
+    "references": [
+      {"title": "Kettle Street", "attributes": ["ensemble cast", "comic timing"]}
+    ],
+    "facts": [
+      "Four retired geologists plan to recover a mineral collection.",
+      "Nothing is stolen successfully."
+    ],
+    "context": {"viewer_segment": "comfort watchers"}
+  },
+
+  {
+    "id": "rec-017",
+    "added_week": 5,
+    "subject": {
+      "title": "Tidewrack",
+      "attributes": ["climate documentary", "coastal erosion", "resident interviews"],
+      "year": 2026,
+      "runtime_min": 71,
+      "genre": "Documentary"
+    },
+    "references": [
+      {"title": "The Grey Coast", "attributes": ["nature documentary", "coastal erosion"]}
+    ],
+    "facts": [
+      "Follows one village council over eighteen months of managed retreat.",
+      "Includes a storyline about a family losing their home."
+    ],
+    "context": {"viewer_segment": "documentary", "note": "new arrival"}
+  },
+  {
+    "id": "rec-018",
+    "added_week": 5,
+    "subject": {
+      "title": "Half Term",
+      "attributes": ["improvised comedy", "single parent", "school holidays"],
+      "year": 2026,
+      "runtime_min": 89,
+      "genre": "Comedy"
+    },
+    "references": [
+      {"title": "Kettle Street", "attributes": ["improvised comedy", "ensemble cast"]}
+    ],
+    "facts": [
+      "A father of two runs out of childcare on day one of the holidays.",
+      "Cast improvised from a nine-page outline."
+    ],
+    "context": {"viewer_segment": "comfort watchers", "note": "new arrival"}
+  },
+  {
+    "id": "rec-019",
+    "added_week": 6,
+    "subject": {
+      "title": "The Understudy Sessions",
+      "attributes": ["music documentary", "session musicians", "concert footage"],
+      "year": 2026,
+      "runtime_min": 95,
+      "genre": "Documentary"
+    },
+    "references": [
+      {"title": "The Cold Chain", "attributes": ["investigative documentary", "archive footage"]}
+    ],
+    "facts": [
+      "Profiles four uncredited session players across thirty years of records.",
+      "Includes an addiction and recovery storyline."
+    ],
+    "context": {"viewer_segment": "documentary", "note": "new arrival"}
+  },
+  {
+    "id": "rec-020",
+    "added_week": 6,
+    "subject": {
+      "title": "Groundwater",
+      "attributes": ["legal thriller", "whistleblower", "corporate cover-up"],
+      "year": 2026,
+      "runtime_min": 122,
+      "genre": "Thriller"
+    },
+    "references": [
+      {"title": "Falling Water", "attributes": ["courtroom drama", "environmental case"]}
+    ],
+    "facts": [
+      "A compliance officer copies eleven years of monitoring data.",
+      "The verdict is not shown."
+    ],
+    "context": {"viewer_segment": "legal drama", "note": "new arrival"}
+  }
+]
