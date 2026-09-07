@@ -1,13 +1,26 @@
 # AI/ML Learning Companion
 
-> **Learn AI/ML interactively at [AI-ML Companion](https://aimlcompanion.ai/)** - Guided walkthroughs, architecture decisions, hands-on challenges, and narrated overviews for every project.
+> **Learn AI/ML interactively at [AI-ML Companion](https://aimlcompanion.ai/)** - Guided walkthroughs, architecture decisions, hands-on challenges, and narrated overviews.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![Projects](https://img.shields.io/badge/Projects-23-orange)
 ![Status](https://img.shields.io/badge/Status-Portfolio_Ready-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-> A complete AI/ML learning platform with 23 end-to-end projects covering the full spectrum, from classical ML to production LLM systems. Every project follows **industry best-practice structure**.
+> A complete AI/ML learning platform with 23 end-to-end projects covering the full spectrum, from classical ML to production LLM systems. Most projects follow a common **industry best-practice structure**.
+
+---
+
+## Contents
+
+- [About the AI-ML Companion Platform](#about-the-ai-ml-companion-platform)
+- [Projects](#projects) - all 23, grouped by domain
+- [Project Details](#project-details) - what each one actually does
+- [Industry Best-Practice Project Structure](#industry-best-practice-project-structure)
+- [Key Principles](#key-principles)
+- [Quick Start](#quick-start)
+- [Learning Path (Recommended Order)](#learning-path-recommended-order)
+- [Repository Structure](#repository-structure)
 
 ---
 
@@ -28,7 +41,7 @@ These 23 projects are the hands-on companion to **[AI-ML Companion](https://aiml
 
 ### FAQ
 
-**Is AI-ML Companion free?** Yes, there is a free tier: 8 complete tracks plus the opening module of every Premium track. Premium unlocks all 22 tracks and 300+ modules.
+**Is AI-ML Companion free?** Yes, there is a free tier: 8 complete tracks plus the opening module of every Premium track. Premium unlocks all 28 tracks and 400+ modules.
 
 **How is it different from video courses?** It is interactive. Concepts are taught through live visualizations and runnable code rather than passive video, so you can watch algorithms operate and experiment directly.
 
@@ -495,11 +508,12 @@ The repository behind the Forward Deployed Engineer path: the portfolio artifact
 
 ## Industry Best-Practice Project Structure
 
-Every project follows a consistent structure adapted from top ML teams:
+Most of the Python projects follow a consistent structure adapted from top ML teams:
 
 ```
 project/
 ├── configs/                # Experiment configuration (YAML)
+├── data/                   # Datasets the project reads
 ├── notebooks/              # Exploration & communication
 ├── src/                    # Production source code
 ├── tests/                  # Testing pyramid (unit/integration/load)
@@ -526,53 +540,73 @@ project/
 
 ## Quick Start
 
-Each project is self-contained. Pick one and follow its README:
+Each project is self-contained and its own README is the authoritative setup
+guide. Python 3.10 or newer; a few projects ask for 3.11+ and say so.
+
+Most projects install and run like this:
 
 ```bash
 cd projects/machine-learning/algorithm-showdown    # or any other project
 pip install -r requirements.txt
-make all                          # train -> evaluate -> test
+make all                                           # train -> evaluate -> test
 ```
+
+15 projects ship a Makefile and 10 of those define `all`. Where there is no
+`all` target, run `make help` or follow the README, which lists the commands
+for that project.
+
+Four projects are shaped differently and do not take the steps above:
+
+| Project | How it runs |
+|---|---|
+| [AI Reasoning Patterns](projects/llm/ai-patterns/) | 23 standalone notebooks. Open one in Colab, or run `jupyter notebook` locally |
+| [Muse Glimmer Lab](projects/llm/muse-glimmer-lab/) | `uv sync`, then `uv run python scripts/01_hello.py` |
+| [Content Moderation](projects/agentic-ai/content-moderation-project/) | `cd backend`, `uv pip install -r requirements.txt`, then `python run.py demo` |
+| [Multi-Agent Anatomy](projects/agentic-ai/multi-agent-anatomy/) | `uv sync` in `backend/`, `npm install` in `frontend/`, run both |
 
 ## Learning Path (Recommended Order)
 
+Read in this order to build up. The `#` is the project's number in the
+[Projects](#projects) table above, so it always points at the same project even
+though the recommended order is not the table order.
+
 ```
 MACHINE LEARNING
-  1. IPL Analysis           -> Data wrangling, EDA, visualization fundamentals
-  2. ML Algorithms          -> Classical ML, model comparison, interpretability
-  3. Rent Price Explainer   -> Regression diagnostics, why specification beats algorithm
-  4. Support Ticket Triage  -> Naive Bayes, multiclass strategies, calibration, routing
-  5. CV Trap Lab            -> Validation schemes, leakage, nested CV, what a fold allows
-  6. Lapse Prediction       -> Ordinal targets, leakage, cohort maturity, out-of-time splits
-  7. ML Pipeline            -> Feature engineering, end-to-end pipelines, monitoring
+  #1  IPL Match Predictor      -> Data wrangling, EDA, visualization fundamentals
+  #2  Algorithm Showdown       -> Classical ML, model comparison, interpretability
+  #3  Rent Price Explainer     -> Regression diagnostics, why specification beats algorithm
+  #4  Support Ticket Triage    -> Naive Bayes, multiclass strategies, calibration, routing
+  #5  Cross-Validation Traps   -> Validation schemes, leakage, nested CV, what a fold allows
+  #6  Lapse Prediction         -> Ordinal targets, leakage, cohort maturity, out-of-time splits
+  #7  Credit Risk Pipeline     -> Feature engineering, end-to-end pipelines, monitoring
        |
 DEEP LEARNING
-  8. Deep Learning          -> Neural networks, progressive experimentation
+  #10 Deep Learning Classifier -> Neural networks, progressive experimentation
        |
 COMPUTER VISION
-  9. Visual Defect Triage   -> Vision transformers, calibration, slice analysis
- 10. Site Safety Monitor    -> Object detection, tracking, edge latency budgets
+  #8  Visual Defect Triage     -> Vision transformers, calibration, slice analysis
+  #9  Site Safety Monitor      -> Object detection, tracking, edge latency budgets
        |
 MLOPS
- 11. Model Serving Platform -> Deployment, CI/CD, load testing, infrastructure
+  #22 Model Serving Platform   -> Deployment, CI/CD, load testing, infrastructure
        |
 LLM
- 12. LLM/RAG                -> Retrieval-augmented generation, evaluation, security
- 13. GraphRAG Supply Chain  -> Knowledge graphs, multi-hop retrieval, when a join beats a search
- 14. AI Reasoning Patterns  -> Reasoning and agentic patterns, one per notebook
- 15. Muse Glimmer Lab       -> Open-weight model internals, KV cache, drafters
+  #12 RAG Expert Assistant     -> Retrieval-augmented generation, evaluation, security
+  #11 GraphRAG Supply Chain    -> Knowledge graphs, multi-hop retrieval, when a join beats a search
+  #13 AI Reasoning Patterns    -> Reasoning and agentic patterns, one per notebook
+  #14 Muse Glimmer Lab         -> Open-weight model internals, KV cache, drafters
        |
 AGENTIC AI
- 16. AI Agents              -> Multi-agent orchestration, guardrails, cost optimization
- 17. Content Moderation     -> Multi-agentic content pipelines
- 18. Due Diligence Agent    -> Enterprise multi-agent research, fact-checking, debate
- 19. Smart Claims Processor -> Multi-agent insurance, HITL, hybrid orchestration
- 20. Multi-Agents on AWS    -> Managed multi-agent infrastructure, Bedrock AgentCore
- 21. Hermes Ops Agent       -> Operating an agent, measuring its learning loop
- 22. Multi-Agent Anatomy    -> Production failure modes: partial failure, budgets, sagas
+  #15 AI Agents Research       -> Multi-agent orchestration, guardrails, cost optimization
+  #16 Content Moderation       -> Multi-agentic content pipelines
+  #17 Due Diligence Agent      -> Enterprise multi-agent research, fact-checking, debate
+  #18 Smart Claims Processor   -> Multi-agent insurance, HITL, hybrid orchestration
+  #20 Multi-Agents on AWS      -> Managed multi-agent infrastructure, Bedrock AgentCore
+  #21 Hermes Ops Agent         -> Operating an agent, measuring its learning loop
+  #19 Multi-Agent Anatomy      -> Production failure modes: partial failure, budgets, sagas
        |
 FORWARD DEPLOYMENT
- 23. FDE Engagement Starter -> Embedded engagement simulation, portfolio artifact
+  #23 FDE Engagement Starter   -> Embedded engagement simulation, portfolio artifact
 ```
 
 ## Repository Structure
@@ -610,6 +644,8 @@ aiml-companion/
 │   │   └── model-serving-platform/     # Model Serving + CI/CD
 │   └── forward-deployment/
 │       └── fde-engagement-starter/     # FDE Engagement Scaffold
+├── docs/
+│   └── research/                       # Design notes for upcoming projects
 └── README.md                           # This file
 ```
 
