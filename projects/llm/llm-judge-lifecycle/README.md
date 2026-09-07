@@ -3,7 +3,7 @@
 ![Providers](https://img.shields.io/badge/providers-Gemini%20%7C%20OpenAI--compatible%20%7C%20Anthropic-0f9d58.svg)
 ![API](https://img.shields.io/badge/API-FastAPI-009688.svg)
 ![UI](https://img.shields.io/badge/UI-Streamlit-ff4b4b.svg)
-![Tests](https://img.shields.io/badge/tests-436%20passing-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-187%20passing-brightgreen.svg)
 ![Offline](https://img.shields.io/badge/runs%20offline-no%20API%20key-informational.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
@@ -173,7 +173,7 @@ weak-in-documented-ways judge, and it buys three things:
   engine reads that text, so the loop is real: adding a clause measurably moves
   alignment against held-out human labels. The algorithm is byte-for-byte the one
   that runs against Gemini; only the reader differs.
-- **A hermetic test suite.** 436 tests, no network, no key.
+- **A hermetic test suite.** 187 tests, no network, no key.
 
 Its limits are the point, and §9 measures them.
 </details>
@@ -950,7 +950,7 @@ llm-judge-lifecycle/
 ├── app/                        Streamlit, four tabs
 ├── notebooks/                  the four phases, offline, Colab-ready
 ├── scripts/                    build_diagrams.py · build_notebook.py (both regenerable)
-├── tests/                      436 tests, hermetic
+├── tests/                      187 tests, hermetic
 └── docs/                       architecture · results · adding-a-domain · production-notes
                                 images/ (generated - do not hand-edit)
 ```

@@ -177,7 +177,7 @@ is visible.
 | run it live | put `GOOGLE_API_KEY` or `GEMINI_API_KEY` in `.env`, drop `--offline` |
 
 ```bash
-python -m pytest tests/ -q                    # 436 tests, no network
+python -m pytest tests/ -q                    # 187 tests, no network
 uvicorn api.main:app --port 8000              # HTTP API, docs at /docs
 streamlit run app/streamlit_app.py            # four tabs, one per phase
 ```
