@@ -564,7 +564,7 @@ Four projects are shaped differently and do not take the steps above:
 | [Muse Glimmer Lab](projects/llm/muse-glimmer-lab/) | `uv sync`, then `uv run python scripts/01_hello.py` |
 | [Content Moderation](projects/agentic-ai/content-moderation-project/) | `cd backend`, `uv pip install -r requirements.txt`, then `python run.py demo` |
 | [Multi-Agent Anatomy](projects/agentic-ai/multi-agent-anatomy/) | `uv sync` in `backend/`, `npm install` in `frontend/`, run both |
-| [LLM Judge Lifecycle](projects/llm/llm-judge-lifecycle/) | [Colab notebook](https://colab.research.google.com/github/genieincodebottle/aiml-companion/blob/main/projects/llm/llm-judge-lifecycle/notebooks/LLM_Judge_Lifecycle.ipynb), or `pip install -r requirements.txt` then `python run.py --offline benchmark` - all four phases run with no API key |
+| [LLM Judge Lifecycle](projects/llm/llm-judge-lifecycle/) | [Colab notebook](https://colab.research.google.com/github/genieincodebottle/aiml-companion/blob/main/projects/llm/llm-judge-lifecycle/notebooks/LLM_Judge_Lifecycle.ipynb), or `uv venv && uv pip install -r requirements.txt` then `python run.py --offline benchmark` - all four phases run with no API key |
 
 ## Learning Path (Recommended Order)
 

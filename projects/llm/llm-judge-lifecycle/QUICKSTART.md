@@ -4,10 +4,11 @@ Twenty minutes, four commands, **no API key**. The [README](README.md) is the
 reference; this is the walk.
 
 ```bash
-pip install -r requirements.txt
+uv venv && uv pip install -r requirements.txt
 ```
 
 That is the whole setup. No Docker, no database, no key.
+(Plain pip works too: `pip install -r requirements.txt`.)
 
 ---
 
@@ -177,7 +178,7 @@ is visible.
 | run it live | put `GOOGLE_API_KEY` or `GEMINI_API_KEY` in `.env`, drop `--offline` |
 
 ```bash
-python -m pytest tests/ -q                    # 187 tests, no network
+python -m pytest tests/ -q                    # 192 tests, no network
 uvicorn api.main:app --port 8000              # HTTP API, docs at /docs
 streamlit run app/streamlit_app.py            # four tabs, one per phase
 ```

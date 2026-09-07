@@ -64,6 +64,47 @@ class TestEachDiagram:
         assert root.get("aria-label"), f"{path.name} has no aria-label"
         assert root.find(f"{NS}title") is not None, f"{path.name} has no <title>"
 
+    def test_no_two_labels_overlap(self, path):
+        """The test that was missing, and the bug it now catches.
+
+        The lifecycle diagram drew its SLOW LOOP caption at y=34 - exactly the
+        title's baseline - so the two printed on top of each other. Every other
+        check passed: valid XML, opaque background, aria-label present, and all
+        text comfortably inside the canvas. It was only wrong relative to
+        something else, which is the one thing bounds checking cannot see.
+
+        Boxes are estimated, so the tolerance is generous. This is here to catch
+        a label landing on a heading, not to police kerning.
+        """
+        root = _root(path)
+        boxes = []
+        for node in root.iter(f"{NS}text"):
+            content = (node.text or "").strip()
+            if not content:
+                continue
+            size = float(node.get("font-size", 12))
+            mono = "mono" in (node.get("font-family") or "")
+            width = len(content) * size * (MONO_RATIO if mono else CHAR_WIDTH_RATIO)
+            x = float(node.get("x", 0))
+            y = float(node.get("y", 0))
+            anchor = node.get("text-anchor", "start")
+            left = x - width / 2 if anchor == "middle" else x
+            # Cap height only: descenders rarely collide and counting them makes
+            # every stacked line in a box look like an overlap.
+            boxes.append((left, y - size * 0.75, left + width, y + size * 0.1, content))
+
+        clashes = []
+        for i in range(len(boxes)):
+            ax1, ay1, ax2, ay2, atext = boxes[i]
+            for j in range(i + 1, len(boxes)):
+                bx1, by1, bx2, by2, btext = boxes[j]
+                overlap_x = min(ax2, bx2) - max(ax1, bx1)
+                overlap_y = min(ay2, by2) - max(ay1, by1)
+                # Require a real intersection in BOTH axes before complaining.
+                if overlap_x > 12 and overlap_y > 3:
+                    clashes.append(f"{atext[:34]!r} x {btext[:34]!r}")
+        assert not clashes, f"{path.name} has overlapping labels: {clashes[:4]}"
+
     def test_no_text_overflows_the_canvas(self, path):
         """Catches the failure mode that a generator makes easy: an edited label
         that is now wider than the box it sits in, or runs off the page."""

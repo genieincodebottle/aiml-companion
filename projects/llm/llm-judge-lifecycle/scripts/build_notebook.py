@@ -111,7 +111,15 @@ if IN_COLAB and not Path("llm-judge-lifecycle").exists():
 elif Path("../src").exists():
     os.chdir("..")                     # running from notebooks/ in a clone
 
-subprocess.run([sys.executable, "-m", "pip", "install", "-q", "pyyaml"], check=True)
+# uv if it is available, pip otherwise. In Colab there is no virtualenv, so
+# uv needs --system to install into the running interpreter.
+subprocess.run([sys.executable, "-m", "pip", "install", "-q", "uv"], check=False)
+if subprocess.run([sys.executable, "-m", "uv", "--version"],
+                  capture_output=True).returncode == 0:
+    subprocess.run([sys.executable, "-m", "uv", "pip", "install",
+                    "--system", "-q", "pyyaml"], check=True)
+else:
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "pyyaml"], check=True)
 sys.path.insert(0, os.getcwd())
 print("working directory:", os.getcwd())
 """)
@@ -479,7 +487,8 @@ A fail-biased judge **inflates specificity**, so the bias was invisible and
 flattering on every semantic criterion. It was only ever detectable on `concise`,
 the one criterion whose ground truth a human can verify by counting.
 
-Twelve bugs like that are written up in `README.md`, each pinned by a test.
+More like it are written up in [`docs/results.md`](../docs/results.md), each
+pinned by a test.
 
 ### Where next
 

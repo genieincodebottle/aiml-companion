@@ -74,10 +74,19 @@ def path(d, stroke=INK, width=1.4, arrow=None, fill="none", dash=None):
 
 
 def marker(name, colour):
+    """A fixed-size arrowhead.
+
+    `markerUnits="userSpaceOnUse"` is the whole point. The default is
+    `strokeWidth`, which multiplies the marker box by the line's stroke width -
+    so a 1.8px line grew a 12.6px arrowhead while a 1.4px line got a 9.8px one,
+    and the loop arrows came out as large mismatched triangles. With user-space
+    units every arrowhead in every diagram is the same 9px, whatever the line.
+    """
     return (
-        f'<marker id="{name}" viewBox="0 0 10 10" refX="9" refY="5" '
-        f'markerWidth="7" markerHeight="7" orient="auto-start-reverse">'
-        f'<path d="M 0 0 L 10 5 L 0 10 z" fill="{colour}"/></marker>'
+        f'<marker id="{name}" viewBox="0 0 9 9" refX="8" refY="4.5" '
+        f'markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" '
+        f'orient="auto-start-reverse">'
+        f'<path d="M 0 0.6 L 9 4.5 L 0 8.4 z" fill="{colour}"/></marker>'
     )
 
 
@@ -98,52 +107,75 @@ def svg(name: str, title: str, w: int, h: int, body: list[str], markers: list[st
 # 1. The four phases, and the two loops that close them
 # ---------------------------------------------------------------------------
 def lifecycle():
-    W, H = 940, 400
+    """Vertical layout, top to bottom, with every band reserved before drawing.
+
+    The first version put the SLOW LOOP arc and its label at `y0 - 56` and
+    `y0 - 62`, which with `y0 = 96` landed on 40 and 34 - exactly the title and
+    subtitle baselines. The label printed straight through the heading and the
+    arc crossed both. Nothing errored, and the canvas-bounds test passed,
+    because everything was comfortably inside the canvas. It was only wrong on
+    top of something else.
+    """
+    W, H = 940, 430
+    CX = W / 2
+
+    TITLE_Y, SUB_Y = 30, 52          # heading band
+    SLOW_LABEL_Y = 86                # slow-loop caption
+    SLOW_APEX = 104                  # arc rises to about here
+    BOX_Y, BOX_H = 146, 100          # the four phases
+    FAST_DIP = 300                   # fast-loop arc dips to about here
+    FAST_LABEL_Y = 330
+    RULE_Y = 358
+    FOOT1_Y, FOOT2_Y = 384, 406
+
     b = [
-        txt(W / 2, 34, "The lifecycle of an LLM judge", 17, INK, weight="600"),
-        txt(W / 2, 56, "Not a benchmark score. A service that is built, tuned, deployed and kept aligned.", 12.5, MUTED),
+        txt(CX, TITLE_Y, "The lifecycle of an LLM judge", 17, INK, weight="600"),
+        txt(CX, SUB_Y,
+            "Not a benchmark score. A service that is built, tuned, deployed and kept aligned.",
+            12.5, MUTED),
     ]
+
     phases = [
         ("I  BIRTH", "a labelled benchmark", "with human rationales", GREEN),
         ("II  TRAINING", "RART: the RUBRIC", "is the parameter", PURPLE),
         ("III  DEPLOYMENT", "gate + critic,", "DROP on failure", BLUE),
         ("IV  MONITORING", "a band pegged to", "human disagreement", AMBER),
     ]
-    x0, y0, bw, bh, gap = 42, 96, 196, 104, 24
-    for i, (name, l1, l2) in enumerate([(p[0], p[1], p[2]) for p in phases]):
-        colour = phases[i][3]
-        x = x0 + i * (bw + gap)
-        b.append(box(x, y0, bw, bh, stroke=colour, width=1.8))
-        b.append(txt(x + bw / 2, y0 + 28, name, 13.5, colour, weight="600"))
-        b.append(txt(x + bw / 2, y0 + 54, l1, 12, INK))
-        b.append(txt(x + bw / 2, y0 + 72, l2, 12, INK))
-        if i < 3:
-            b.append(line(x + bw + 4, y0 + bh / 2, x + bw + gap - 6, y0 + bh / 2,
-                          stroke=INK, arrow="ar-ink"))
+    x0, bw, gap = 42, 196, 24
+    centre = [x0 + i * (bw + gap) + bw / 2 for i in range(4)]
 
-    # Fast loop: drift re-triggers tuning.
-    b.append(path(f"M {x0 + 3*(bw+gap) + bw/2} {y0+bh+8} "
-                  f"C {x0 + 3*(bw+gap) + bw/2} {y0+bh+70}, "
-                  f"{x0 + bw + gap + bw/2} {y0+bh+70}, "
-                  f"{x0 + bw + gap + bw/2} {y0+bh+10}",
-                  stroke=RED, arrow="ar-red", width=1.6))
-    b.append(txt(W / 2 + 60, y0 + bh + 88, "FAST LOOP  drift detected -> re-tune (staged for a human)",
+    for i, (name, l1, l2, colour) in enumerate(phases):
+        x = x0 + i * (bw + gap)
+        b.append(box(x, BOX_Y, bw, BOX_H, stroke=colour, width=1.8))
+        b.append(txt(centre[i], BOX_Y + 30, name, 13.5, colour, weight="600"))
+        b.append(txt(centre[i], BOX_Y + 56, l1, 12, INK))
+        b.append(txt(centre[i], BOX_Y + 76, l2, 12, INK))
+        if i < 3:
+            b.append(line(x + bw + 5, BOX_Y + BOX_H / 2, x + bw + gap - 7,
+                          BOX_Y + BOX_H / 2, stroke=INK, arrow="ar-ink"))
+
+    # SLOW LOOP: IV -> I, above the boxes and below the heading band.
+    b.append(txt(CX, SLOW_LABEL_Y,
+                 "SLOW LOOP    each week's rated sample is appended to the benchmark",
+                 12, GREEN, weight="600"))
+    b.append(path(f"M {centre[3]} {BOX_Y - 7} C {centre[3]} {SLOW_APEX}, "
+                  f"{centre[0]} {SLOW_APEX}, {centre[0]} {BOX_Y - 7}",
+                  stroke=GREEN, arrow="ar-green", width=1.5, dash="5 4"))
+
+    # FAST LOOP: IV -> II, below the boxes.
+    b.append(path(f"M {centre[3]} {BOX_Y + BOX_H + 7} C {centre[3]} {FAST_DIP}, "
+                  f"{centre[1]} {FAST_DIP}, {centre[1]} {BOX_Y + BOX_H + 7}",
+                  stroke=RED, arrow="ar-red", width=1.5))
+    b.append(txt(CX, FAST_LABEL_Y,
+                 "FAST LOOP    drift detected -> re-tune, staged for a human",
                  12, RED, weight="600"))
 
-    # Slow loop: the benchmark grows.
-    b.append(path(f"M {x0 + 3*(bw+gap) + bw/2} {y0-8} "
-                  f"C {x0 + 3*(bw+gap) + bw/2} {y0-56}, "
-                  f"{x0 + bw/2} {y0-56}, {x0 + bw/2} {y0-10}",
-                  stroke=GREEN, arrow="ar-green", width=1.6, dash="5 4"))
-    b.append(txt(W / 2, y0 - 62, "SLOW LOOP  each week's rated sample is appended to the benchmark",
-                 12, GREEN, weight="600"))
-
-    b.append(line(42, 330, W - 42, 330, stroke=RULE, width=1))
-    b.append(txt(W / 2, 356,
-                 "Phase IV is the one teams defer. It is the only one that tells you the other three have stopped working.",
+    b.append(line(42, RULE_Y, W - 42, RULE_Y, stroke=RULE, width=1))
+    b.append(txt(CX, FOOT1_Y,
+                 "Phase IV is the one teams defer, and the only one that tells you the other three have stopped working.",
                  12.5, INK))
-    b.append(txt(W / 2, 378,
-                 "A judge aligned on the day it ships will not stay aligned: the catalogue moves, the generator moves, and so does the meaning of \"good\".",
+    b.append(txt(CX, FOOT2_Y,
+                 "A judge aligned on the day it ships will not stay aligned: the catalogue moves, the generator moves, and so does the meaning of good.",
                  11.5, MUTED))
     return svg("01-lifecycle.svg", "The four phases of an LLM judge lifecycle", W, H, b,
                [marker("ar-ink", INK), marker("ar-red", RED), marker("ar-green", GREEN)])
