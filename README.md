@@ -644,8 +644,6 @@ aiml-companion/
 │   │   └── model-serving-platform/     # Model Serving + CI/CD
 │   └── forward-deployment/
 │       └── fde-engagement-starter/     # FDE Engagement Scaffold
-├── docs/
-│   └── research/                       # Design notes for upcoming projects
 └── README.md                           # This file
 ```
 
