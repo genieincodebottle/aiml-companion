@@ -15,7 +15,7 @@
 
 These 23 projects are the hands-on companion to **[AI-ML Companion](https://aimlcompanion.ai)**, an interactive platform for learning AI and machine learning by watching it work. Instead of passive video, every concept is taught through **live, animated visualizations** and runnable code: gradient descent stepping down a loss surface, attention weights lighting up across tokens, a network training in real time.
 
-- **22 tracks, 300+ modules** from Python and math foundations to deep learning, LLMs, agentic AI, MLOps, and cloud GenAI.
+- **28 tracks, 400+ modules** from Python and math foundations to deep learning, LLMs, agentic AI, MLOps, and cloud GenAI.
 - **Interactive visualizations**, not slides. See the mechanism move, then experiment with it.
 - **Runnable Python** in the browser, quizzes, and progress tracking.
 - **Trilingual narration** (English, Hindi, Spanish) with technical terms kept in English.
