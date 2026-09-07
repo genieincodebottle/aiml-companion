@@ -76,14 +76,14 @@ Two more defects sat inside the same loop:
   headline described a model nobody had.
 - **Early stopping could not fire.** Evaluation ran every 10 epochs while
   `patience` counted *evaluations*, so `patience=20` meant 200 epochs without
-  improvement — longer than the entire run. It was dead code shaped like a
+  improvement - longer than the entire run. It was dead code shaped like a
   safeguard.
 
 **What the pipeline does now:** 45,000 train / 5,000 validation (seeded, so the
 split is stable across experiments) / 10,000 test. Validation drives early
 stopping and checkpoint selection, the best `state_dict` is deep-copied on
 improvement and restored before returning, and **the test set is read exactly
-once**, in `final_evaluation`. Validation is not augmented — augmentation is a
+once**, in `final_evaluation`. Validation is not augmented - augmentation is a
 training-time regulariser, and measuring on randomly cropped images puts noise
 straight into checkpoint selection.
 

@@ -372,7 +372,7 @@ INDIA_CLAIM_BASELINES = {
     },
 }
 
-# Backward-compatible alias — old code imports CLAIM_BASELINES directly
+# Backward-compatible alias - old code imports CLAIM_BASELINES directly
 CLAIM_BASELINES = US_CLAIM_BASELINES
 
 

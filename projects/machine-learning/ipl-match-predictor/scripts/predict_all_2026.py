@@ -12,11 +12,11 @@ This script uses ``ensemble_predict_proba()`` directly against rows from
 ``src.models.predict_match(..., as_of_date=row.date)`` per match, but faster
 because we only build the feature matrix once. Three original bugs that affected
 both paths have been fixed in ``src/models.py``:
- 1. Silent fallback in ``predict_match()`` (17 vs 46 feature mismatch) — now
+ 1. Silent fallback in ``predict_match()`` (17 vs 46 feature mismatch) - now
     properly builds 46-col feature vector with one-hot encoding
- 2. Double-scaling in ``prepare_features()`` — default now ``scale_numerical=False``
+ 2. Double-scaling in ``prepare_features()`` - default now ``scale_numerical=False``
     so each pipeline's internal StandardScaler is the single source of standardization
- 3. Elo target-row leakage in ``predict_match()`` — new ``as_of_date`` parameter
+ 3. Elo target-row leakage in ``predict_match()`` - new ``as_of_date`` parameter
     restricts Elo computation to matches strictly before the prediction date
 
 Methodology notes (read these before quoting the accuracy number)
@@ -32,7 +32,7 @@ Methodology notes (read these before quoting the accuracy number)
 2. Elo ratings in each row's ``elo_team1``/``elo_team2`` columns are the
    PRE-match snapshot from ``compute_elo_ratings()``, which updates
    chronologically. The trained ensemble uses these pre-match Elo values
-   as features — no target-row leakage in Elo.
+   as features - no target-row leakage in Elo.
 
 3. The pipeline does NOT use ``CalibratedClassifierCV`` here. The notebook
    version falls back to uncalibrated on older sklearn; this script matches

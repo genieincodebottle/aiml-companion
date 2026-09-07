@@ -179,7 +179,7 @@ This project is set up for [Claude Code](https://claude.ai/code) with custom sla
 
 | Command | What it does |
 |---|---|
-| `/test [name]` | Run tests — all, by file, or by keyword (e.g. `/test pii_masker`) |
+| `/test [name]` | Run tests - all, by file, or by keyword (e.g. `/test pii_masker`) |
 | `/seed` | Seed US + India test policies into the database |
 | `/submit-claim [file]` | Submit a sample claim to the running backend |
 | `/check-backend` | Verify backend is running and auth works |
@@ -187,7 +187,7 @@ This project is set up for [Claude Code](https://claude.ai/code) with custom sla
 
 Safety hooks block accidental deletion of SQLite databases and audit logs, and warn on missing `.env` configuration.
 
-**[Full Claude Code guide](docs/claude-code-guide.md)** — covers memory (making Claude smarter over time), creating your own slash commands and hooks, effective prompting tips, and customization.
+**[Full Claude Code guide](docs/claude-code-guide.md)** - covers memory (making Claude smarter over time), creating your own slash commands and hooks, effective prompting tips, and customization.
 
 ---
 

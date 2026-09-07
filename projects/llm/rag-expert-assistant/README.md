@@ -257,10 +257,10 @@ rag-expert-assistant/
 
 | # | Experiment | Faithfulness | Precision | Key Change |
 |---|-----------|-------------|-----------|------------|
-| 1 | Naive (1000 chunks, top-3) | — | — | Baseline |
-| 2 | Smaller chunks (512, overlap 50) | — | — | Chunking |
-| 3 | Add reranking | — | — | Cross-encoder rerank |
-| 4 | Grounded system prompt | — | — | Prompt constraint |
+| 1 | Naive (1000 chunks, top-3) | - | - | Baseline |
+| 2 | Smaller chunks (512, overlap 50) | - | - | Chunking |
+| 3 | Add reranking | - | - | Cross-encoder rerank |
+| 4 | Grounded system prompt | - | - | Prompt constraint |
 
 ## The bug that made retrieval return one document
 
@@ -268,7 +268,7 @@ Worth reading even if you skip the rest, because nothing failed and nothing
 warned.
 
 `Chroma.from_documents(..., persist_directory=...)` **appends** to an existing
-collection — it does not replace it. So every re-run of the pipeline added
+collection - it does not replace it. So every re-run of the pipeline added
 another full copy of every chunk. The store committed here had reached **54
 rows for 9 distinct chunks**: six identical copies of everything.
 
@@ -284,7 +284,7 @@ were **five copies of one chunk**:
 
 A retrieval system that returns one document is not a retrieval system: the
 other eight chunks were unreachable, the context window filled with the same
-paragraph, and you paid for the tokens. Indexing is now idempotent — each chunk
+paragraph, and you paid for the tokens. Indexing is now idempotent - each chunk
 gets a content-addressed SHA-256 id, so re-running upserts instead of appending
 and the collection size stays equal to the number of distinct chunks.
 

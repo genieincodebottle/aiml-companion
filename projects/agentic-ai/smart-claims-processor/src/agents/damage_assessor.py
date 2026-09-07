@@ -78,7 +78,7 @@ def run_damage_assessor(state: ClaimsState) -> dict:
                 "depreciation_applied_usd": depreciation_amount,
             }
         else:
-            # No vehicle year — still provide repair range as grounding
+            # No vehicle year - still provide repair range as grounding
             depreciation_info = {
                 "asset_age_years": 0,
                 "estimated_acv": estimated,

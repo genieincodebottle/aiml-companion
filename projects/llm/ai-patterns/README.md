@@ -77,8 +77,8 @@ maintenance liability with a silent fuse: nothing warns you, and one day every
 notebook 404s at once. The alias trades exact reproducibility for staying alive.
 
 The alias is also about twice as fast, which matters more here than it sounds.
-These patterns are multi-call by construction — debate rounds, tree-search
-branches, verification chains — so a single notebook can make 50-80 sequential
+These patterns are multi-call by construction - debate rounds, tree-search
+branches, verification chains - so a single notebook can make 50-80 sequential
 requests. Measured on one identical prompt:
 
 | model | latency per call |

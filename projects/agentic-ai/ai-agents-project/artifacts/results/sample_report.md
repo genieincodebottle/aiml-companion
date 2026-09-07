@@ -12,7 +12,7 @@ AI agents have evolved from simple chatbot wrappers to autonomous systems capabl
 
 2. **Tool use standardization** via Model Context Protocol (MCP) enables agents to connect to databases, APIs, and file systems through a unified interface. [Source 2]
 
-3. **Cost optimization** is critical — production agent systems now track token usage per-agent and enforce budgets to prevent runaway API costs. [Source 3]
+3. **Cost optimization** is critical - production agent systems now track token usage per-agent and enforce budgets to prevent runaway API costs. [Source 3]
 
 4. **Guardrails-first design** has become standard: PII detection, citation validation, and human-in-the-loop triggers are built into agent pipelines from day one. [Source 4]
 

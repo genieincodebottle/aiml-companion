@@ -25,11 +25,11 @@
 
 ## Key Observations
 
-1. **Multi-agent excels at synthesis** — questions requiring cross-source analysis show the largest improvement (+33% completeness).
+1. **Multi-agent excels at synthesis** - questions requiring cross-source analysis show the largest improvement (+33% completeness).
 
-2. **Factual lookups are a wash** — both approaches handle simple factual questions equally well. Multi-agent adds cost without benefit here.
+2. **Factual lookups are a wash** - both approaches handle simple factual questions equally well. Multi-agent adds cost without benefit here.
 
-3. **Citation quality improves most** — the analyst agent's source ranking and the quality gate's source scoring add significant citation rigor (+43%).
+3. **Citation quality improves most** - the analyst agent's source ranking and the quality gate's source scoring add significant citation rigor (+43%).
 
 4. **Cost trade-off**: 2.8x cost for 18% accuracy gain. For high-stakes research, this is justified. For simple lookups, single-agent suffices.
 

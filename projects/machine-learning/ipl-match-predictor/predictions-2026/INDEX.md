@@ -90,11 +90,11 @@ This index records the **hand-curated predictions** that were posted to the live
 
 ## What lives here vs. the runnable pipeline
 
-This folder is a **reference archive** of the hand-curated predictions that were live on the production site for IPL 2026. Each Python prototype in `python-scripts/` is a self-contained exploratory script from the early season — they were used to develop the feature taxonomy + reasoning narrative but do **not** share a single reproducible pipeline.
+This folder is a **reference archive** of the hand-curated predictions that were live on the production site for IPL 2026. Each Python prototype in `python-scripts/` is a self-contained exploratory script from the early season - they were used to develop the feature taxonomy + reasoning narrative but do **not** share a single reproducible pipeline.
 
 For learners who want to **actually run predictions** end-to-end with reproducible output:
 
-- Use [`scripts/predict_all_2026.py`](../scripts/predict_all_2026.py) — trains the ensemble on pre-2026 historical data and predicts all 72 matches with the real scikit-learn pipeline (RF + XGB + GB + LR).
+- Use [`scripts/predict_all_2026.py`](../scripts/predict_all_2026.py) - trains the ensemble on pre-2026 historical data and predicts all 72 matches with the real scikit-learn pipeline (RF + XGB + GB + LR).
 - See [`README.md`](../README.md) in the project root for setup + run instructions.
 
 ## Feature taxonomy (used across hand-curated reasoning + the real pipeline)
@@ -118,4 +118,4 @@ Plus tactical adjustments (toss, dew, player matchups) layered on top.
 | **GB** (GradientBoost) | Middle-ground tree ensemble | Most matches |
 | **LR** (LogReg) | Reads linear Elo gap | Form-mismatched matches |
 
-The hand-curated archive applies **expert contextual adjustments** (player matchups, dew, momentum breaks) on top of the raw ensemble score. The runnable pipeline does not — expect ~58-62% accuracy from the real ensemble vs the archives 61.4% (with overlays).
+The hand-curated archive applies **expert contextual adjustments** (player matchups, dew, momentum breaks) on top of the raw ensemble score. The runnable pipeline does not - expect ~58-62% accuracy from the real ensemble vs the archives 61.4% (with overlays).

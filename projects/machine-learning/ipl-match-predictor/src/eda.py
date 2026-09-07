@@ -432,7 +432,7 @@ def plot_batsman_comparison(
         subset,
         x="Batsman",
         y=metric,
-        title=f"Batsman Comparison — {metric}",
+        title=f"Batsman Comparison - {metric}",
         color="Batsman",
         color_discrete_sequence=IPL_COLORS,
     )

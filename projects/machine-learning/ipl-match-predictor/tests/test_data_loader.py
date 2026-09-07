@@ -127,7 +127,7 @@ def raw_deliveries_df() -> pd.DataFrame:
 
 
 # ---------------------------------------------------------------------------
-# Tests — clean_matches
+# Tests - clean_matches
 # ---------------------------------------------------------------------------
 class TestCleanMatches:
     """Tests for the clean_matches function."""
@@ -190,7 +190,7 @@ class TestCleanMatches:
 
 
 # ---------------------------------------------------------------------------
-# Tests — clean_team_names
+# Tests - clean_team_names
 # ---------------------------------------------------------------------------
 class TestCleanTeamNames:
     """Tests for the clean_team_names function."""
@@ -223,7 +223,7 @@ class TestCleanTeamNames:
 
 
 # ---------------------------------------------------------------------------
-# Tests — clean_deliveries
+# Tests - clean_deliveries
 # ---------------------------------------------------------------------------
 class TestCleanDeliveries:
     """Tests for the clean_deliveries function."""
@@ -245,7 +245,7 @@ class TestCleanDeliveries:
 
 
 # ---------------------------------------------------------------------------
-# Tests — get_unique_teams
+# Tests - get_unique_teams
 # ---------------------------------------------------------------------------
 class TestGetUniqueTeams:
     """Tests for the get_unique_teams function."""

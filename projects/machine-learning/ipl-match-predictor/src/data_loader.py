@@ -179,7 +179,7 @@ def load_matches(
 
     df = pd.read_csv(source, na_values=na_vals)
     logger.info(
-        "Loaded matches dataset — shape: %s, columns: %s",
+        "Loaded matches dataset - shape: %s, columns: %s",
         df.shape,
         list(df.columns),
     )
@@ -222,7 +222,7 @@ def load_deliveries(
 
     df = pd.read_csv(source, na_values=na_vals)
     logger.info(
-        "Loaded deliveries dataset — shape: %s, columns: %s",
+        "Loaded deliveries dataset - shape: %s, columns: %s",
         df.shape,
         list(df.columns),
     )
@@ -361,7 +361,7 @@ def clean_matches(df: pd.DataFrame) -> pd.DataFrame:
     ).astype(int)
 
     logger.info(
-        "Cleaned matches DataFrame — remaining nulls:\n%s",
+        "Cleaned matches DataFrame - remaining nulls:\n%s",
         cleaned.isnull().sum().to_string(),
     )
     return cleaned
@@ -393,7 +393,7 @@ def clean_deliveries(df: pd.DataFrame) -> pd.DataFrame:
         cleaned["is_six"] = (cleaned["batsman_runs"] == 6).astype(int)
 
     logger.info(
-        "Cleaned deliveries DataFrame — shape: %s", cleaned.shape
+        "Cleaned deliveries DataFrame - shape: %s", cleaned.shape
     )
     return cleaned
 

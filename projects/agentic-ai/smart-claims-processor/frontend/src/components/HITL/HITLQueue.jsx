@@ -159,7 +159,7 @@ export default function HITLQueue() {
       removeFromHITL(selectedTicket.ticket_id);
       updateClaimStatus(decidedClaim, 'processing');
       setSelectedTicket(null);
-      setSuccessMsg(`Decision "${decidedAction}" submitted for ${decidedClaim}. Pipeline is resuming — the claim will update shortly.`);
+      setSuccessMsg(`Decision "${decidedAction}" submitted for ${decidedClaim}. Pipeline is resuming - the claim will update shortly.`);
       fetchQueue();
       // Auto-dismiss after 8s
       setTimeout(() => setSuccessMsg(''), 8000);

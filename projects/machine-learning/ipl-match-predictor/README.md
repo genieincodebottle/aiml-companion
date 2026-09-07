@@ -159,19 +159,19 @@ python scripts/predict_all_2026.py --output preds.csv   # save per-match output
 What it does:
 1. Loads historical IPL matches (2008-2025) + the 2026 season export
 2. Trains the 4-model ensemble (RF + XGB + GB + LR) on pre-2026 data
-3. For each 2026 match, looks up the pre-match feature row and calls `ensemble_predict_proba()` directly (bypassing `src.models.predict_match()`, which has a known bug — see `docs/ALGORITHM_WALKTHROUGH.md`)
+3. For each 2026 match, looks up the pre-match feature row and calls `ensemble_predict_proba()` directly (bypassing `src.models.predict_match()`, which has a known bug - see `docs/ALGORITHM_WALKTHROUGH.md`)
 4. Compares each prediction to the actual winner and prints a final accuracy table
 
-**Honest expected output:** `ML ensemble accuracy on IPL 2026: 34 / 70 = 48.6%` — barely better than a coin flip. The trained 4-model ensemble does NOT beat naive baselines on this season. The hand-curated archive (with expert contextual overlay) at 61.4% substantially outperforms the trained model. See [`predictions-2026/README.md`](predictions-2026/README.md) for the side-by-side and [`docs/ALGORITHM_WALKTHROUGH.md`](docs/ALGORITHM_WALKTHROUGH.md) for the step-by-step.
+**Honest expected output:** `ML ensemble accuracy on IPL 2026: 34 / 70 = 48.6%` - barely better than a coin flip. The trained 4-model ensemble does NOT beat naive baselines on this season. The hand-curated archive (with expert contextual overlay) at 61.4% substantially outperforms the trained model. See [`predictions-2026/README.md`](predictions-2026/README.md) for the side-by-side and [`docs/ALGORITHM_WALKTHROUGH.md`](docs/ALGORITHM_WALKTHROUGH.md) for the step-by-step.
 
 ## Understand the Algorithm
 
-For a learner-focused step-by-step walkthrough of how the prediction algorithm works — using two real IPL 2026 matches as case studies (both of which the model got wrong, intentionally — see why below):
+For a learner-focused step-by-step walkthrough of how the prediction algorithm works - using two real IPL 2026 matches as case studies (both of which the model got wrong, intentionally - see why below):
 
-- **Read:** [`docs/ALGORITHM_WALKTHROUGH.md`](docs/ALGORITHM_WALKTHROUGH.md) — static markdown walkthrough with real numbers from the pipeline
-- **Run:** [`notebooks/algorithm_walkthrough.ipynb`](notebooks/algorithm_walkthrough.ipynb) — same content as runnable cells you can modify and re-execute
+- **Read:** [`docs/ALGORITHM_WALKTHROUGH.md`](docs/ALGORITHM_WALKTHROUGH.md) - static markdown walkthrough with real numbers from the pipeline
+- **Run:** [`notebooks/algorithm_walkthrough.ipynb`](notebooks/algorithm_walkthrough.ipynb) - same content as runnable cells you can modify and re-execute
 
-Both cover all 7 pipeline stages (load → clean → Elo → features → train → predict → output), the 14-feature vector for each match, the per-model ensemble scores (RF/XGB/GB/LR), and a post-mortem on why the model gets these matches wrong. Both case studies are wrong because the trained ensemble's overall accuracy is only **48.6%** — barely better than random. The walkthrough docs are upfront about this and explain where the headroom is for learners to add better features.
+Both cover all 7 pipeline stages (load → clean → Elo → features → train → predict → output), the 14-feature vector for each match, the per-model ensemble scores (RF/XGB/GB/LR), and a post-mortem on why the model gets these matches wrong. Both case studies are wrong because the trained ensemble's overall accuracy is only **48.6%** - barely better than random. The walkthrough docs are upfront about this and explain where the headroom is for learners to add better features.
 
 ## Make Targets
 

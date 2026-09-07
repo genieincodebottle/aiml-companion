@@ -43,7 +43,7 @@ svg = '''<svg viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" font-fami
   <!-- Title block -->
   <text x="360" y="46" text-anchor="middle"
         font-size="18" font-weight="700" fill="#0f172a"
-        letter-spacing="-0.3">Model Ensemble — RR vs RCB Pre-Match Prediction</text>
+        letter-spacing="-0.3">Model Ensemble - RR vs RCB Pre-Match Prediction</text>
   <text x="360" y="68" text-anchor="middle"
         font-size="12.5" fill="#64748b">
     Each of 4 models votes independently · Final result = ensemble average · Prediction made before toss
@@ -62,7 +62,7 @@ svg = '''<svg viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" font-fami
   <!-- 55% -->
   <line x1="100" y1="200" x2="660" y2="200" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="4,3"/>
   <text x="90" y="204" text-anchor="end" font-size="11" fill="#94a3b8">55%</text>
-  <!-- 50% — coin flip line -->
+  <!-- 50% - coin flip line -->
   <line x1="100" y1="245" x2="660" y2="245" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="6,3"/>
   <text x="90" y="249" text-anchor="end" font-size="11" fill="#ef4444">50%</text>
   <!-- 45% -->
@@ -98,7 +98,7 @@ svg = '''<svg viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" font-fami
   <text x="306" y="328" text-anchor="middle" font-size="12" fill="#475569">Logistic</text>
   <text x="306" y="343" text-anchor="middle" font-size="12" fill="#475569">Regression</text>
 
-  <!-- Bar 3: Random Forest 49.7% — amber, coin flip level -->
+  <!-- Bar 3: Random Forest 49.7% - amber, coin flip level -->
   <!-- top y = 335 - (49.7-40)*9 = 335 - 87.3 = 247.7 ≈ 248, h = 87 -->
   <rect x="388" y="248" width="76" height="87" rx="6" fill="url(#barAmber)"/>
   <text x="426" y="238" text-anchor="middle"
@@ -123,7 +123,7 @@ svg = '''<svg viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" font-fami
   <!-- RF annotation callout -->
   <rect x="355" y="98" width="190" height="42" rx="6"
         fill="#fffbeb" stroke="#fcd34d" stroke-width="1.2"/>
-  <text x="450" y="116" text-anchor="middle" font-size="10.5" fill="#92400e" font-weight="600">[WARN] RF at 49.7% — near coin flip</text>
+  <text x="450" y="116" text-anchor="middle" font-size="10.5" fill="#92400e" font-weight="600">[WARN] RF at 49.7% - near coin flip</text>
   <text x="450" y="132" text-anchor="middle" font-size="10" fill="#b45309">Signals genuine match uncertainty</text>
   <!-- callout pointer -->
   <line x1="426" y1="140" x2="426" y2="236" stroke="#fcd34d" stroke-width="1" stroke-dasharray="3,2"/>
@@ -134,7 +134,7 @@ svg = '''<svg viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" font-fami
   <text x="360" y="380" text-anchor="middle"
         font-size="11" fill="#166534">ENSEMBLE AVERAGE</text>
   <text x="360" y="399" text-anchor="middle"
-        font-size="14" font-weight="800" fill="#15803d">60% RR Win Probability — MODERATE confidence</text>
+        font-size="14" font-weight="800" fill="#15803d">60% RR Win Probability - MODERATE confidence</text>
 
   <!-- Source note -->
   <text x="360" y="430" text-anchor="middle"
@@ -159,4 +159,4 @@ try:
     print(f"Saved high-res PNG: {png_out}")
 except ImportError:
     # Fallback: save SVG only, user can export via browser
-    print("cairosvg not available — SVG saved. Open in browser and export as PNG for Medium.")
+    print("cairosvg not available - SVG saved. Open in browser and export as PNG for Medium.")

@@ -74,7 +74,7 @@ spread is the revision loop, which fired on one of the three.
 
 ## Cost Optimization Strategies
 
-1. **Route simple queries to single-agent** — saves 2.8x per factual lookup
-2. **Cache Tavily results** — avoid duplicate searches for similar queries
-3. **Truncate source snippets** — analyst only needs first 500 chars per source
-4. **Skip fact-checker for low-stakes topics** — conditional pipeline edges
+1. **Route simple queries to single-agent** - saves 2.8x per factual lookup
+2. **Cache Tavily results** - avoid duplicate searches for similar queries
+3. **Truncate source snippets** - analyst only needs first 500 chars per source
+4. **Skip fact-checker for low-stakes topics** - conditional pipeline edges

@@ -1,12 +1,12 @@
 # ============================================
-# Multi-Agent Research System — Makefile
+# Multi-Agent Research System - Makefile
 # ============================================
 # Usage:
-#   make run       — Run the multi-agent research pipeline
-#   make evaluate  — Run single-agent vs multi-agent evaluation
-#   make test      — Run unit tests with pytest
-#   make ui        — Launch the Streamlit UI
-#   make all       — Run tests, then the pipeline, then evaluation
+#   make run - Run the multi-agent research pipeline
+#   make evaluate - Run single-agent vs multi-agent evaluation
+#   make test - Run unit tests with pytest
+#   make ui - Launch the Streamlit UI
+#   make all - Run tests, then the pipeline, then evaluation
 
 .PHONY: all run evaluate test ui clean help
 
@@ -43,10 +43,10 @@ clean:
 # --- Help ---
 help:
 	@echo "Available targets:"
-	@echo "  make run       — Run the multi-agent research pipeline"
-	@echo "  make evaluate  — Run single-agent vs multi-agent evaluation"
-	@echo "  make test      — Run unit tests with pytest"
-	@echo "  make ui        — Launch the Streamlit UI"
-	@echo "  make all       — Run tests, then pipeline, then evaluation"
-	@echo "  make clean     — Remove __pycache__ and .pyc files"
-	@echo "  make help      — Show this help message"
+	@echo "  make run - Run the multi-agent research pipeline"
+	@echo "  make evaluate - Run single-agent vs multi-agent evaluation"
+	@echo "  make test - Run unit tests with pytest"
+	@echo "  make ui - Launch the Streamlit UI"
+	@echo "  make all - Run tests, then pipeline, then evaluation"
+	@echo "  make clean - Remove __pycache__ and .pyc files"
+	@echo "  make help - Show this help message"

@@ -170,7 +170,7 @@ FRAUD ASSESSMENT:
             # Use rule-based amount or claimant estimate as floor.
             rule_amount = max(0, assessed_damage - depreciation - deductible)
             if rule_amount <= 0:
-                # Deductible exceeds assessed damage — use assessed damage directly
+                # Deductible exceeds assessed damage - use assessed damage directly
                 # since the human reviewer explicitly approved
                 rule_amount = max(assessed_damage, float(claim.get("estimated_amount", 0)))
                 rule_amount = max(0, rule_amount - depreciation)
@@ -180,7 +180,7 @@ FRAUD ASSESSMENT:
             output.settlement_amount_usd = round(rule_amount, 2)
             output.denial_reasons = []
             output.calculation_breakdown.append(
-                f"Human reviewer approved — overriding AI denial"
+                f"Human reviewer approved - overriding AI denial"
             )
             logger.info(
                 f"[{claim_id}] Human approved, AI denied. Overriding to {human_decision} "
@@ -194,7 +194,7 @@ FRAUD ASSESSMENT:
             output.decision = ClaimDecision.DENIED
             output.settlement_amount_usd = 0.0
             output.denial_reasons = ["Claim denied by human reviewer"]
-            output.calculation_breakdown.append("Human reviewer denied — overriding AI approval")
+            output.calculation_breakdown.append("Human reviewer denied - overriding AI approval")
             logger.info(f"[{claim_id}] Human denied, AI approved. Overriding to denied.")
 
     except Exception as e:

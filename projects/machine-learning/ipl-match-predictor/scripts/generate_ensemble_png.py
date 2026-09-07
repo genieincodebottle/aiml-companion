@@ -87,7 +87,7 @@ ax.text(3.72, 50.25, "← 50% coin flip",
 
 # ── RF callout box ────────────────────────────────────────────────────────────
 ax.annotate(
-    "  [WARN]  RF at 49.7% — near coin flip\n  Signals genuine match uncertainty  ",
+    "  [WARN]  RF at 49.7% - near coin flip\n  Signals genuine match uncertainty  ",
     xy=(2, 49.7), xytext=(2.5, 58.5),
     fontsize=8.5, color=AMBER_NOTE,
     ha="center", va="center",
@@ -118,7 +118,7 @@ accent.axis("off")
 
 # ── Title block ───────────────────────────────────────────────────────────────
 fig.text(0.5, 0.935,
-         "Model Ensemble — RR vs RCB Pre-Match Prediction",
+         "Model Ensemble - RR vs RCB Pre-Match Prediction",
          ha="center", fontsize=15, fontweight="700",
          color=TITLE)
 fig.text(0.5, 0.897,
@@ -143,7 +143,7 @@ pill_ax.text(0.5, 0.68, "ENSEMBLE AVERAGE",
              fontsize=8.5, color="#166534",
              fontweight="600", transform=pill_ax.transAxes)
 pill_ax.text(0.5, 0.28,
-             "60% RR Win Probability  —  MODERATE confidence",
+             "60% RR Win Probability - MODERATE confidence",
              ha="center", va="center",
              fontsize=11.5, fontweight="800",
              color=GREEN_PILL, transform=pill_ax.transAxes)

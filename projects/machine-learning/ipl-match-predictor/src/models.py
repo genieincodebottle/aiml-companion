@@ -154,7 +154,7 @@ def prepare_features(
 
     feature_names = model_df.columns.tolist()
     logger.info(
-        "Prepared feature matrix — shape: %s, features: %d",
+        "Prepared feature matrix - shape: %s, features: %d",
         model_df.shape,
         len(feature_names),
     )
@@ -326,7 +326,7 @@ def build_classifier(
             ),
         ]
     )
-    logger.info("Built RF classifier pipeline — %d estimators", n_estimators)
+    logger.info("Built RF classifier pipeline - %d estimators", n_estimators)
     return pipeline
 
 
@@ -392,7 +392,7 @@ def build_regressor(
         ]
     )
     logger.info(
-        "Built GBR pipeline — %d estimators, lr=%.3f", n_estimators, learning_rate
+        "Built GBR pipeline - %d estimators, lr=%.3f", n_estimators, learning_rate
     )
     return pipeline
 
@@ -476,7 +476,7 @@ def build_xgb_classifier(
         ]
     )
     logger.info(
-        "Built XGBoost classifier pipeline — %d estimators, lr=%.3f, depth=%d",
+        "Built XGBoost classifier pipeline - %d estimators, lr=%.3f, depth=%d",
         n_estimators,
         learning_rate,
         max_depth,
@@ -810,7 +810,7 @@ def predict_match(
         to matches strictly BEFORE this date. Pass the date of the match
         you are predicting to avoid target-row leakage (using the target
         match's outcome to predict itself). For genuine forward prediction
-        of an unscheduled match, leave this ``None`` — all currently
+        of an unscheduled match, leave this ``None`` - all currently
         completed matches will be used.
 
     Returns
@@ -959,7 +959,7 @@ def predict_match(
 
     X_pred = pd.DataFrame([feature_dict]).reindex(columns=train_features, fill_value=0)
 
-    # Get per-model predictions. No silent fallback — if a model fails on properly-shaped
+    # Get per-model predictions. No silent fallback - if a model fails on properly-shaped
     # input that's a real bug we want to surface, not paper over with Elo expectation.
     model_scores = {}
     ensemble_prob = 0.0
@@ -1104,7 +1104,7 @@ if _HAS_TORCH:
                     epoch_loss += loss.item()
 
             logger.debug(
-                "Neural net training complete — %d epochs, final batch loss: %.4f",
+                "Neural net training complete - %d epochs, final batch loss: %.4f",
                 self.epochs,
                 epoch_loss / max(len(loader), 1),
             )
@@ -1186,7 +1186,7 @@ def build_neural_classifier(
         ]
     )
     logger.info(
-        "Built Neural Net classifier pipeline — epochs=%d, lr=%.4f, dropout=%.2f",
+        "Built Neural Net classifier pipeline - epochs=%d, lr=%.4f, dropout=%.2f",
         epochs,
         lr,
         dropout,
@@ -1242,7 +1242,7 @@ def evaluate_model(
             output_dict=True,
         )
         logger.info(
-            "Classification — Accuracy: %.4f  F1: %.4f",
+            "Classification - Accuracy: %.4f  F1: %.4f",
             metrics["accuracy"],
             metrics["f1"],
         )
@@ -1251,7 +1251,7 @@ def evaluate_model(
         metrics["rmse"] = np.sqrt(mean_squared_error(y_test, y_pred))
         metrics["r2"] = r2_score(y_test, y_pred)
         logger.info(
-            "Regression — MAE: %.4f  RMSE: %.4f  R2: %.4f",
+            "Regression - MAE: %.4f  RMSE: %.4f  R2: %.4f",
             metrics["mae"],
             metrics["rmse"],
             metrics["r2"],
@@ -1296,7 +1296,7 @@ def cross_validate_model(
         "scores": scores.tolist(),
     }
     logger.info(
-        "Cross-validation (%d folds, %s) — mean: %.4f +/- %.4f",
+        "Cross-validation (%d folds, %s) - mean: %.4f +/- %.4f",
         cv,
         scoring,
         result["mean"],

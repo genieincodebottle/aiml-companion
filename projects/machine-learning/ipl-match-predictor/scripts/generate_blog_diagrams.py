@@ -67,7 +67,7 @@ def diagram_ensemble():
 
     ax.set_ylim(40, 68)
     ax.set_ylabel("RR Win Probability (%)", color=MUTED, fontsize=10)
-    ax.set_title("Model Ensemble — RR vs RCB Pre-Match Prediction\n"
+    ax.set_title("Model Ensemble - RR vs RCB Pre-Match Prediction\n"
                  "Each model votes independently. Final result = weighted average.",
                  color=TEXT, fontsize=12, fontweight="bold", pad=14)
     ax.tick_params(axis="x", labelsize=10)
@@ -76,7 +76,7 @@ def diagram_ensemble():
     ax.yaxis.grid(True, color=BORDER, linewidth=0.6)
 
     # Annotation for RF disagreement
-    ax.annotate("RF disagrees —\ngenuine uncertainty",
+    ax.annotate("RF disagrees - \ngenuine uncertainty",
                 xy=(2, 49.7), xytext=(2.4, 53),
                 arrowprops=dict(arrowstyle="->", color=AMBER, lw=1.2),
                 color=AMBER, fontsize=8.5)
@@ -171,7 +171,7 @@ def diagram_toss_hypothesis():
              fontsize=10, fontweight="bold", ha="center", va="bottom")
     ax2.text(0.025, -0.42, "Significant\n(p < 0.05)", color=RED,
              fontsize=8, ha="center", va="top")
-    ax2.text(0.525, -0.42, "Not significant — toss has no real effect",
+    ax2.text(0.525, -0.42, "Not significant - toss has no real effect",
              color=MUTED, fontsize=8, ha="center", va="top")
 
     ax2.set_xlim(0, 1)
@@ -240,7 +240,7 @@ def diagram_accuracy_context():
                 color=MUTED, fontsize=8.5, transform=ax.transAxes, linespacing=1.5)
 
     fig.suptitle(
-        "53.1% Accuracy — Why That's Honest, Not Disappointing\n"
+        "53.1% Accuracy - Why That's Honest, Not Disappointing\n"
         "+3.1% above random across 1,095 matches = real signal in a high-variance sport",
         color=TEXT, fontsize=12, fontweight="bold", y=1.02
     )
