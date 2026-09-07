@@ -40,66 +40,18 @@ These 23 projects are the hands-on companion to **[AI-ML Companion](https://aiml
 
 ## Projects
 
-23 projects in seven groups. Each is self-contained: its own README, requirements,
-tests, and Makefile.
-
-### `projects/machine-learning/`
-
-| Project | Domain | Difficulty | Key Tech | Walkthrough |
-|---|---|---|---|---|
-| [IPL Analysis](projects/machine-learning/ipl-match-predictor/) | Data Science / EDA | Beginner-Intermediate | Pandas, Plotly, Scikit-learn | [Learn →](https://aimlcompanion.ai/module/mlAlgorithms/iplProject) |
-| [ML Algorithms](projects/machine-learning/algorithm-showdown/) | Classical ML / Interpretability | Intermediate | Scikit-learn, XGBoost, SHAP | [Learn →](https://aimlcompanion.ai/module/mlAlgorithms/mlAlgorithmsCapstone) |
-| [Rent Price Explainer](projects/machine-learning/rent-price-explainer/) | Regression / Diagnostics | Intermediate | Statsmodels, Scikit-learn, SHAP | [Learn →](https://aimlcompanion.ai/module/mlAlgorithms/rentPriceExplainer) |
-| [Support Ticket Triage](projects/machine-learning/support-ticket-triage/) | Naive Bayes / Multiclass / Calibration | Intermediate | Scikit-learn, SciPy | [README →](projects/machine-learning/support-ticket-triage/) |
-| [Cross-Validation Trap Lab](projects/machine-learning/cross-validation-traps/) | Validation / Leakage / Nested CV | Intermediate | Scikit-learn, Pandas | [README →](projects/machine-learning/cross-validation-traps/) |
-| [Lapse Prediction](projects/machine-learning/lapse-prediction/) | Ordinal Targets / Survival / Leakage | Advanced | LightGBM, Scikit-learn, Lifelines | [README →](projects/machine-learning/lapse-prediction/) |
-| [ML Pipeline](projects/machine-learning/credit-risk-pipeline/) | Feature Engineering / Production ML | Advanced | Scikit-learn, FastAPI, Docker | [Learn →](https://aimlcompanion.ai/module/mlPipeline/mlPipelineCapstone) |
-
-### `projects/deep-learning/`
-
-| Project | Domain | Difficulty | Key Tech | Walkthrough |
-|---|---|---|---|---|
-| [Deep Learning](projects/deep-learning/deep-learning-project/) | Computer Vision / DL | Intermediate-Advanced | PyTorch, TorchVision | [Learn →](https://aimlcompanion.ai/module/deepLearning/dlCapstone) |
-
-### `projects/computer-vision/`
-
-| Project | Domain | Difficulty | Key Tech | Walkthrough |
-|---|---|---|---|---|
-| [Visual Defect Triage](projects/computer-vision/visual-defect-triage/) | Vision Transformers / Calibration / Slice Analysis | Advanced | PyTorch, timm, FAISS, FastAPI | [Learn →](https://aimlcompanion.ai/module/computerVision/cvVitCapstone) |
-| [Site Safety Monitor](projects/computer-vision/site-safety-monitor/) | Object Detection / Tracking / Edge Latency | Advanced | YOLO, ByteTrack, TensorRT, NumPy | [Learn →](https://aimlcompanion.ai/module/computerVision/cvYoloCapstone) |
-
-### `projects/llm/`
-
-| Project | Domain | Difficulty | Key Tech | Walkthrough |
-|---|---|---|---|---|
-| [GraphRAG Supply Chain Intelligence](projects/llm/graphrag-supply-chain/) | GraphRAG / Knowledge Graphs / Multi-Hop Retrieval | Advanced | Neo4j, Gemini, FastAPI, Streamlit | [README →](projects/llm/graphrag-supply-chain/) |
-| [LLM/RAG Expert Assistant](projects/llm/rag-expert-assistant/) | Retrieval-Augmented Generation | Advanced | LangChain, ChromaDB | [Learn →](https://aimlcompanion.ai/module/aiAgents/ragExpertAssistant) |
-| [AI Reasoning Patterns](projects/llm/ai-patterns/) | Reasoning and Agentic Patterns | Intermediate | Jupyter, Colab | [README →](projects/llm/ai-patterns/) |
-| [Muse Glimmer Lab](projects/llm/muse-glimmer-lab/) | Open-Weight Model Internals | Advanced | Transformers, PyTorch (GPU optional) | [Blog →](https://aimlcompanion.ai/blog/meta-muse-glimmer-explained-2026) |
-
-### `projects/agentic-ai/`
-
-| Project | Domain | Difficulty | Key Tech | Walkthrough |
-|---|---|---|---|---|
-| [AI Agents](projects/agentic-ai/ai-agents-project/) | LLM Agent Orchestration | Advanced | LangGraph, OpenAI, Tavily | [Learn →](https://aimlcompanion.ai/module/aiAgents/agentsCapstone) |
-| [Content Moderation](projects/agentic-ai/content-moderation-project/) | Multi-Agentic AI | Advanced | LangGraph, Multi-Agent | [Learn →](https://aimlcompanion.ai/module/aiAgents/contentModerationProject) |
-| [Due Diligence Agent](projects/agentic-ai/due-diligence-agent/) | Multi-Agent Research | Advanced | LangGraph, Gemini, Streamlit | [Learn →](https://aimlcompanion.ai/module/aiAgents/dueDiligenceProject) |
-| [Smart Claims Processor](projects/agentic-ai/smart-claims-processor/) | Multi-Agent Insurance Claims | Advanced | LangGraph, CrewAI, Gemini, FastAPI, React | [Learn →](https://aimlcompanion.ai/module/aiAgents/smartClaimsProcessor) |
-| [Multi-Agent Anatomy](projects/agentic-ai/multi-agent-anatomy/) | Production Multi-Agent Failure Modes | Advanced | No framework (by design), FastAPI, React | [Blog →](https://aimlcompanion.ai/blog/production-multi-agent-genai-architecture-2026) |
-| [Multi-Agents App on AWS](projects/agentic-ai/multi-agents-app-on-aws/) | Multi-Agent on Bedrock AgentCore | Advanced | AWS Bedrock AgentCore, Python | [Learn →](https://aimlcompanion.ai/module/cloudGenAI/multiAgentsOnAws) |
-| [Hermes Ops Agent](projects/agentic-ai/hermes-ops-agent/) | Agent Operations / Learning Loops | Advanced | Hermes Agent, Python | [README →](projects/agentic-ai/hermes-ops-agent/) |
-
-### `projects/mlops/`
-
-| Project | Domain | Difficulty | Key Tech | Walkthrough |
-|---|---|---|---|---|
-| [Model Serving Platform](projects/mlops/model-serving-platform/) | Model Deployment / Infrastructure | Advanced | FastAPI, Docker, Prometheus, GitHub Actions | [Learn →](https://aimlcompanion.ai/module/mlOps/mlopsCapstone) |
-
-### `projects/forward-deployment/`
-
-| Project | Domain | Difficulty | Key Tech | Walkthrough |
-|---|---|---|---|---|
-| [FDE Engagement Starter](projects/forward-deployment/fde-engagement-starter/) | Forward Deployed Engineering (scaffold, not a solution) | Advanced | FastAPI, pandas, pytest, Docker | [Learn →](https://aimlcompanion.ai/module/forwardDeployment/fdePortfolioMVA) |
+| # | Project | Domain | Difficulty | Key Tech | Walkthrough |
+|---|---|---|---|---|---|
+| 1 | [IPL Analysis](projects/ipl-match-predictor/) | Data Science / EDA | Beginner-Intermediate | Pandas, Plotly, Scikit-learn | [Learn →](https://aimlcompanion.ai/module/mlAlgorithms/iplProject) |
+| 2 | [ML Algorithms](projects/algorithm-showdown/) | Classical ML / Interpretability | Intermediate | Scikit-learn, XGBoost, SHAP | [Learn →](https://aimlcompanion.ai/module/mlAlgorithms/mlAlgorithmsCapstone) |
+| 3 | [Deep Learning](projects/deep-learning/deep-learning-project/) | Computer Vision / DL | Intermediate-Advanced | PyTorch, TorchVision | [Learn →](https://aimlcompanion.ai/module/deepLearning/dlCapstone) |
+| 4 | [ML Pipeline](projects/credit-risk-pipeline/) | Feature Engineering / Production ML | Advanced | Scikit-learn, FastAPI, Docker | [Learn →](https://aimlcompanion.ai/module/mlPipeline/mlPipelineCapstone) |
+| 5 | [MLOps](projects/model-serving-platform/) | Model Deployment / Infrastructure | Advanced | FastAPI, Docker, Prometheus, GitHub Actions | [Learn →](https://aimlcompanion.ai/module/mlOps/mlopsCapstone) |
+| 6 | [LLM/RAG](projects/llm/rag-expert-assistant/) | Retrieval-Augmented Generation | Advanced | LangChain, ChromaDB | [Learn →](https://aimlcompanion.ai/module/llm/ragExpertAssistant) |
+| 7 | [AI Agents](projects/agentic-ai/ai-agents-project/) | LLM Agent Orchestration | Advanced | LangGraph, OpenAI, Tavily | [Learn →](https://aimlcompanion.ai/module/aiAgents/agentsCapstone) |
+| 8 | [Content Moderation](projects/agentic-ai/content-moderation-project/) | Multi-Agentic AI | Advanced | LangGraph, Multi-Agent | [Learn →](https://aimlcompanion.ai/module/aiAgents/contentModerationProject) |
+| 9 | [Due Diligence Agent](projects/agentic-ai/due-diligence-agent/) | Multi-Agent Research | Advanced | LangGraph, Gemini, Streamlit | [Learn →](https://aimlcompanion.ai/module/aiAgents/dueDiligenceProject) |
+| 10 | [Smart Claims Processor](projects/agentic-ai/smart-claims-processor/) | Multi-Agent Insurance Claims | Advanced | LangGraph, CrewAI, Gemini, FastAPI, React | [Learn →](https://aimlcompanion.ai/module/aiAgents/smartClaimsProcessor) |
 
 ---
 
