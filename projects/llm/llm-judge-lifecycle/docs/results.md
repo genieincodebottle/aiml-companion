@@ -204,6 +204,8 @@ model reflector and several seeds.
 
 ## Phase III - the retry budget
 
+![The judge as gate and critic](images/03-gate-critic.svg)
+
 ```
 python run.py --offline curve --max-k 6      # rule engine + stub generator
 python run.py curve --max-k 3                # Gemini, tuned rubrics
@@ -275,6 +277,8 @@ temperature 0.
 
 ## Phase IV - the drift band
 
+![The band widens when raters disagree](images/04-floating-band.svg)
+
 Phase IV makes no model calls: it compares recorded judge verdicts against human
 ratings, so the numbers are identical offline and live.
 
@@ -300,6 +304,8 @@ equals the rater mean. **A week nobody found ambiguous gives the judge no slack
 at all.** That is the band behaving correctly.
 
 ### Week 6 - drift, visible in exactly one place
+
+![Where drift hides](images/05-drift-hides.svg)
 
 | scope | metric | judge | raters | floor | verdict |
 |---|---|---|---|---|---|
