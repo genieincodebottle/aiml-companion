@@ -17,7 +17,7 @@ on invented data.
 
 | Start here | |
 |---|---|
-| **Read** | [the blog walkthrough](https://aimlcompanion.ai/blog/implementing-the-llm-judge-lifecycle-2026) - why each phase exists, and the three numbers here that looked like results and were not |
+| **Read** | [the blog walkthrough](https://aimlcompanion.ai/blog/implementing-the-llm-judge-lifecycle-2026) - Why each phase is there, and why those three numbers weren't really results. |
 | **Run** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/genieincodebottle/aiml-companion/blob/main/projects/llm/llm-judge-lifecycle/notebooks/LLM_Judge_Lifecycle.ipynb) all four phases, outputs inline, one dependency |
 | **Terminal** | [QUICKSTART.md](QUICKSTART.md) - twenty minutes, four commands, no API key |
 | **Verify** | [`docs/results.md`](docs/results.md) - every figure with its command and its caveat |
