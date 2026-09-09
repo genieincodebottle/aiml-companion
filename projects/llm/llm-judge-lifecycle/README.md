@@ -25,12 +25,16 @@ on invented data.
 <details>
 <summary><strong>New to the terms?</strong></summary>
 
-**LLM-as-a-Judge** - one model scoring another model's output, because having
-humans read all of it is too slow. **Artefact** - the thing being judged; here a
-one-sentence explanation beside a recommended film. **Rubric** - the written
-criteria, which in this project is *text you can read and edit*. **Gate** - the
-judge in the request path, with power to reject. **Drift** - it was aligned in
-March and is not in September, because the catalogue changed and nothing broke.
+- **LLM-as-a-Judge** - one model scoring another model's output, because having
+  humans read all of it is too slow.
+- **Artefact** - the thing being judged; here a one-sentence explanation beside a
+  recommended film.
+- **Rubric** - the written criteria, which in this project is *text you can read
+  and edit*.
+- **Gate** - the judge in the request path, with power to reject.
+- **Drift** - it was aligned in March and is not in September, because the
+  catalogue changed and nothing broke.
+
 </details>
 
 ---
