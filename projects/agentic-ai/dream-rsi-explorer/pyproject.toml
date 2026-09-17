@@ -1,0 +1,23 @@
+[project]
+name = "dream-rsi-explorer"
+version = "0.1.0"
+description = "Dream-RSI on the live Gemini API: exploration policies that improve by replaying their own search history"
+requires-python = ">=3.10"
+dependencies = [
+    "google-genai>=1.0.0,<2.0.0",
+]
+
+[dependency-groups]
+# Installed by `uv sync` by default. The tests use a fake Gemini client and make no API calls.
+dev = [
+    "pytest>=8.0.0,<9.0.0",
+]
+
+[tool.uv]
+# A runnable project, not a library to publish.
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-q -p no:cacheprovider"
