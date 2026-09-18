@@ -9,25 +9,50 @@ from fastapi import APIRouter, Depends, Query
 from sqlmodel import Session, select
 
 from api.db import Claim, get_session
-from api.security import get_current_user
+from api.security import require_role
 from src.hitl.queue import _get_db as _hitl_db
 
-router = APIRouter(prefix="/api/analytics", tags=["Analytics"])
+# Analytics expose every claim's decision and cost: reviewers and admins only
+# (the frontend already routes /analytics behind minRole="reviewer").
+router = APIRouter(
+    prefix="/api/analytics",
+    tags=["Analytics"],
+    dependencies=[Depends(require_role("reviewer", "admin"))],
+)
+
+# Statuses a claim can end in. api/routes_claims.py:_persist_pipeline_result
+# writes the decision itself as the status ("approved", "denied", ...), and
+# "completed" only for decisions without their own status. Filtering on
+# status == "completed" alone left almost every finished claim out.
+FINISHED_STATUSES = {
+    "approved",
+    "approved_partial",
+    "denied",
+    "auto_rejected",
+    "fraud_investigation",
+    "pending_documents",
+    "completed",
+}
+APPROVED_DECISIONS = {"approved", "approved_partial"}
+
+
+def _is_finished(c: Claim) -> bool:
+    return (c.status or "") in FINISHED_STATUSES
 
 
 def _load_completed(session: Session) -> list[Claim]:
-    return session.exec(select(Claim).where(Claim.status == "completed")).all()
+    return session.exec(select(Claim).where(Claim.status.in_(FINISHED_STATUSES))).all()
 
 @router.get("/metrics")
-def metrics(session: Session = Depends(get_session), _=Depends(get_current_user)):
+def metrics(session: Session = Depends(get_session)):
     """Returns overall metrics and breakdowns for claims, including approval rates, HITL rates, costs, 
     and pipeline paths."""
 
     all_claims = session.exec(select(Claim)).all()
-    completed = [c for c in all_claims if c.status == "completed"]
+    completed = [c for c in all_claims if _is_finished(c)]
     total = len(all_claims)
 
-    approved = sum(1 for c in completed if (c.final_decision or "").lower() in ("approved", "approve"))
+    approved = sum(1 for c in completed if (c.final_decision or "").lower() in APPROVED_DECISIONS)
     approval_rate = (approved / len(completed)) if completed else 0.0
     hitl_rate = (sum(1 for c in all_claims if c.hitl_required) / total) if total else 0.0
     avg_time = (sum(c.processing_time_sec for c in completed) / len(completed)) if completed else 0.0
@@ -70,7 +95,7 @@ def metrics(session: Session = Depends(get_session), _=Depends(get_current_user)
 
 
 @router.get("/pipeline")
-def pipeline_stats(session: Session = Depends(get_session), _=Depends(get_current_user)):
+def pipeline_stats(session: Session = Depends(get_session)):
     """Analyzes the pipeline paths taken by completed claims, including frequency of different paths 
     and agent usage."""
 
@@ -93,7 +118,6 @@ def pipeline_stats(session: Session = Depends(get_session), _=Depends(get_curren
 def costs(
     days: int = Query(30, ge=1, le=365),
     session: Session = Depends(get_session),
-    _=Depends(get_current_user),
 ):
     """"Returns cost-related metrics for claims created in the last `days` days, 
     including total and average costs,"""
@@ -121,7 +145,6 @@ def costs(
 def fraud_trends(
     days: int = Query(30, ge=1, le=365),
     session: Session = Depends(get_session),
-    _=Depends(get_current_user),
 ):
     """Analyzes fraud scores and risk levels for claims created in the last `days` days, 
     including average scores, risk level distributions, and daily trends."""
@@ -146,7 +169,7 @@ def fraud_trends(
 
 
 @router.get("/hitl")
-def hitl_metrics(_=Depends(get_current_user)):
+def hitl_metrics():
     """Returns metrics related to the Human-in-the-Loop (HITL) queue, including counts of pending and resolved items,
     override rates, and breakdowns by priority."""
 
@@ -175,7 +198,6 @@ def hitl_metrics(_=Depends(get_current_user)):
 def evaluations(
     limit: int = Query(50, ge=1, le=500),
     session: Session = Depends(get_session),
-    _=Depends(get_current_user),
 ):
     """Returns metrics related to claim evaluations, including average scores, 
     pass rates, and recent evaluation details."""

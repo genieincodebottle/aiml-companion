@@ -1,19 +1,16 @@
 """
-HITL (Human-In-The-Loop) Review Queue with FastAPI endpoints.
+HITL (Human-In-The-Loop) Review Queue - storage and queue operations.
 
 Architecture:
   - SQLite-backed queue (no extra services required)
-  - FastAPI router mounted at /hitl
+  - HTTP endpoints live in api/routes_hitl.py (mounted at /api/hitl)
   - Priority ordering: CRITICAL > HIGH > NORMAL
-  - SLA tracking: alerts if ticket exceeds SLA hours
-  - Human review recorded in audit log
-
-Endpoints:
-  POST /hitl/enqueue              - Add claim to review queue
-  GET  /hitl/queue                - List pending reviews (by priority)
-  GET  /hitl/ticket/{ticket_id}   - Get full review brief
-  POST /hitl/decide/{ticket_id}   - Submit human decision
-  GET  /hitl/stats                - Queue statistics
+  - SLA tracking: a pending ticket past its deadline is escalated to CRITICAL
+    and the escalation is written to the audit log
+  - Idempotent enqueue: LangGraph re-runs a node from its first line when the
+    graph resumes after interrupt(), so the node that creates a ticket runs
+    twice for one pause. The idempotency key makes the second call return the
+    ticket the first call created instead of opening a duplicate.
 """
 
 from __future__ import annotations
@@ -22,21 +19,17 @@ import json
 import logging
 import sqlite3
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
 
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
-
 from src.config import get_hitl_config
-from src.models.schemas import ClaimDecision, HITLPriority
+from src.models.schemas import HITLPriority
 from src.security.audit_log import log_hitl_event
 
 logger = logging.getLogger(__name__)
 
 DB_PATH = Path("./data/hitl_queue.db")
-router = APIRouter(prefix="/hitl", tags=["HITL Review Queue"])
 
 # ── Priority ordering for queue ───────────────────────────────────────────────
 _PRIORITY_ORDER = {
@@ -71,38 +64,18 @@ def _get_db() -> sqlite3.Connection:
             override_ai INTEGER DEFAULT 0
         )
     """)
+    # Columns added after the first release: migrate existing databases in place.
+    existing = {row["name"] for row in conn.execute("PRAGMA table_info(hitl_queue)")}
+    if "idempotency_key" not in existing:
+        conn.execute("ALTER TABLE hitl_queue ADD COLUMN idempotency_key TEXT")
+    if "sla_breached" not in existing:
+        conn.execute("ALTER TABLE hitl_queue ADD COLUMN sla_breached INTEGER DEFAULT 0")
+    conn.execute(
+        "CREATE UNIQUE INDEX IF NOT EXISTS idx_hitl_idempotency "
+        "ON hitl_queue(idempotency_key) WHERE idempotency_key IS NOT NULL"
+    )
     conn.commit()
     return conn
-
-
-# ── Pydantic Models ───────────────────────────────────────────────────────────
-
-class EnqueueRequest(BaseModel):
-    claim_id: str
-    priority: str
-    priority_score: float
-    triggers: list[str]
-    review_brief: str
-    state_snapshot: dict
-
-
-class DecisionRequest(BaseModel):
-    reviewer_id: str
-    decision: str                  # One of ClaimDecision values
-    settlement_override_usd: Optional[float] = None
-    notes: str = ""
-    override_ai: bool = False
-
-
-class TicketSummary(BaseModel):
-    ticket_id: str
-    claim_id: str
-    priority: str
-    priority_score: float
-    status: str
-    created_at: str
-    sla_deadline: str
-    triggers: list[str]
 
 
 # ── Queue Operations ──────────────────────────────────────────────────────────
@@ -114,23 +87,35 @@ def enqueue_claim(
     triggers: list[str],
     review_brief: str,
     state_snapshot: dict,
+    idempotency_key: Optional[str] = None,
 ) -> str:
-    """Add a claim to the HITL review queue. Returns ticket_id."""
-    cfg = get_hitl_config()
-    sla_hours = cfg["sla_hours"].get(priority.value, 72)
+    """Add a claim to the HITL review queue. Returns ticket_id.
 
-    ticket_id = f"HITL-{uuid.uuid4().hex[:8].upper()}"
-    now = datetime.now(timezone.utc)
-    from datetime import timedelta
-    sla_deadline = now + timedelta(hours=sla_hours)
-
+    With an idempotency_key, calling this again for the same pause returns the
+    existing ticket and writes nothing.
+    """
     conn = _get_db()
     try:
+        if idempotency_key:
+            row = conn.execute(
+                "SELECT ticket_id FROM hitl_queue WHERE idempotency_key = ?",
+                (idempotency_key,),
+            ).fetchone()
+            if row:
+                logger.info(f"HITL ticket {row['ticket_id']} already exists for {idempotency_key}; reusing")
+                return row["ticket_id"]
+
+        cfg = get_hitl_config()
+        sla_hours = cfg["sla_hours"].get(priority.value, 72)
+        ticket_id = f"HITL-{uuid.uuid4().hex[:8].upper()}"
+        now = datetime.now(timezone.utc)
+        sla_deadline = now + timedelta(hours=sla_hours)
+
         conn.execute("""
             INSERT INTO hitl_queue
             (ticket_id, claim_id, priority, priority_score, triggers, review_brief,
-             state_snapshot, status, created_at, sla_deadline)
-            VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?)
+             state_snapshot, status, created_at, sla_deadline, idempotency_key)
+            VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?)
         """, (
             ticket_id,
             claim_id,
@@ -141,6 +126,7 @@ def enqueue_claim(
             json.dumps(state_snapshot, default=str),
             now.isoformat(),
             sla_deadline.isoformat(),
+            idempotency_key,
         ))
         conn.commit()
     finally:
@@ -157,12 +143,42 @@ def enqueue_claim(
     return ticket_id
 
 
-def get_human_decision(ticket_id: str, timeout_seconds: int = 30) -> Optional[dict]:
+def escalate_overdue_tickets(conn: sqlite3.Connection, now: Optional[datetime] = None) -> list[str]:
+    """Escalate pending tickets past their SLA deadline to CRITICAL.
+
+    Called whenever the queue is read, so a reviewer opening the queue always
+    sees overdue work at the top. Each escalation happens once per ticket and
+    is written to the audit log. Returns the escalated ticket ids.
     """
-    Poll the queue for a human decision on a ticket.
-    Returns the decision dict if resolved, None if still pending.
-    Used by the LangGraph interrupt/resume pattern.
-    """
+    now = now or datetime.now(timezone.utc)
+    rows = conn.execute(
+        "SELECT ticket_id, claim_id, priority, triggers, sla_deadline FROM hitl_queue "
+        "WHERE status = 'pending' AND COALESCE(sla_breached, 0) = 0 AND sla_deadline < ?",
+        (now.isoformat(),),
+    ).fetchall()
+    escalated = []
+    for row in rows:
+        conn.execute(
+            "UPDATE hitl_queue SET sla_breached = 1, priority = ?, "
+            "priority_score = MAX(priority_score, 80) WHERE ticket_id = ?",
+            (HITLPriority.CRITICAL.value, row["ticket_id"]),
+        )
+        log_hitl_event(
+            claim_id=row["claim_id"],
+            event="SLA_BREACHED_ESCALATED",
+            priority=HITLPriority.CRITICAL.value,
+            triggers=[f"SLA deadline {row['sla_deadline']} passed while pending "
+                      f"(was {row['priority']})"],
+        )
+        escalated.append(row["ticket_id"])
+    if escalated:
+        conn.commit()
+        logger.warning(f"Escalated {len(escalated)} overdue HITL ticket(s) to critical: {escalated}")
+    return escalated
+
+
+def get_human_decision(ticket_id: str) -> Optional[dict]:
+    """Return the recorded human decision for a ticket, or None if still pending."""
     conn = _get_db()
     try:
         row = conn.execute(
@@ -171,9 +187,7 @@ def get_human_decision(ticket_id: str, timeout_seconds: int = 30) -> Optional[di
     finally:
         conn.close()
 
-    if not row:
-        return None
-    if row["status"] != "resolved":
+    if not row or row["status"] != "resolved":
         return None
 
     return {
@@ -182,148 +196,4 @@ def get_human_decision(ticket_id: str, timeout_seconds: int = 30) -> Optional[di
         "notes": row["human_notes"],
         "override_ai": bool(row["override_ai"]),
         "resolved_at": row["resolved_at"],
-    }
-
-
-# ── FastAPI Endpoints ─────────────────────────────────────────────────────────
-
-@router.get("/queue", response_model=list[TicketSummary])
-def list_pending_reviews(status: str = "pending"):
-    """List all tickets sorted by priority then created_at."""
-    conn = _get_db()
-    try:
-        rows = conn.execute(
-            "SELECT * FROM hitl_queue WHERE status = ? ORDER BY priority_score DESC, created_at ASC",
-            (status,)
-        ).fetchall()
-    finally:
-        conn.close()
-
-    return [
-        TicketSummary(
-            ticket_id=r["ticket_id"],
-            claim_id=r["claim_id"],
-            priority=r["priority"],
-            priority_score=r["priority_score"],
-            status=r["status"],
-            created_at=r["created_at"],
-            sla_deadline=r["sla_deadline"],
-            triggers=json.loads(r["triggers"]),
-        )
-        for r in rows
-    ]
-
-
-@router.get("/ticket/{ticket_id}")
-def get_ticket(ticket_id: str):
-    """Get full ticket details including review brief and state snapshot."""
-    conn = _get_db()
-    try:
-        row = conn.execute(
-            "SELECT * FROM hitl_queue WHERE ticket_id = ?", (ticket_id,)
-        ).fetchone()
-    finally:
-        conn.close()
-
-    if not row:
-        raise HTTPException(status_code=404, detail=f"Ticket {ticket_id} not found")
-
-    return {
-        "ticket_id": row["ticket_id"],
-        "claim_id": row["claim_id"],
-        "priority": row["priority"],
-        "priority_score": row["priority_score"],
-        "status": row["status"],
-        "review_brief": row["review_brief"],
-        "triggers": json.loads(row["triggers"]),
-        "created_at": row["created_at"],
-        "sla_deadline": row["sla_deadline"],
-        "resolved_at": row["resolved_at"],
-        "reviewer_id": row["reviewer_id"],
-        "human_decision": row["human_decision"],
-        "human_notes": row["human_notes"],
-    }
-
-
-@router.post("/decide/{ticket_id}")
-def submit_decision(ticket_id: str, body: DecisionRequest):
-    """Submit a human decision for a ticket. Resolves the ticket."""
-    # Validate decision value
-    valid_decisions = [d.value for d in ClaimDecision]
-    if body.decision not in valid_decisions:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Invalid decision '{body.decision}'. Valid: {valid_decisions}"
-        )
-
-    conn = _get_db()
-    try:
-        row = conn.execute(
-            "SELECT claim_id FROM hitl_queue WHERE ticket_id = ?", (ticket_id,)
-        ).fetchone()
-        if not row:
-            raise HTTPException(status_code=404, detail=f"Ticket {ticket_id} not found")
-
-        claim_id = row["claim_id"]
-        now = datetime.now(timezone.utc).isoformat()
-
-        conn.execute("""
-            UPDATE hitl_queue
-            SET status = 'resolved', resolved_at = ?, reviewer_id = ?,
-                human_decision = ?, human_notes = ?, override_ai = ?
-            WHERE ticket_id = ?
-        """, (
-            now,
-            body.reviewer_id,
-            body.decision,
-            body.notes,
-            1 if body.override_ai else 0,
-            ticket_id,
-        ))
-        conn.commit()
-    finally:
-        conn.close()
-
-    log_hitl_event(
-        claim_id=claim_id,
-        event="RESOLVED",
-        priority="",
-        triggers=[],
-        reviewer_id=body.reviewer_id,
-        human_decision=body.decision,
-        human_notes=body.notes,
-        override_ai=body.override_ai,
-    )
-
-    logger.info(f"HITL ticket {ticket_id} resolved: {body.decision} by {body.reviewer_id}")
-    return {"status": "resolved", "ticket_id": ticket_id, "decision": body.decision}
-
-
-@router.get("/stats")
-def queue_stats():
-    """Summary statistics for the HITL queue."""
-    conn = _get_db()
-    try:
-        pending = conn.execute("SELECT COUNT(*) FROM hitl_queue WHERE status = 'pending'").fetchone()[0]
-        resolved_today = conn.execute(
-            "SELECT COUNT(*) FROM hitl_queue WHERE status = 'resolved' AND DATE(resolved_at) = DATE('now')"
-        ).fetchone()[0]
-        critical = conn.execute(
-            "SELECT COUNT(*) FROM hitl_queue WHERE status = 'pending' AND priority = 'critical'"
-        ).fetchone()[0]
-        high = conn.execute(
-            "SELECT COUNT(*) FROM hitl_queue WHERE status = 'pending' AND priority = 'high'"
-        ).fetchone()[0]
-        overrides = conn.execute(
-            "SELECT COUNT(*) FROM hitl_queue WHERE override_ai = 1 AND DATE(resolved_at) = DATE('now')"
-        ).fetchone()[0]
-    finally:
-        conn.close()
-
-    return {
-        "pending_total": pending,
-        "pending_critical": critical,
-        "pending_high": high,
-        "resolved_today": resolved_today,
-        "human_overrides_today": overrides,
     }

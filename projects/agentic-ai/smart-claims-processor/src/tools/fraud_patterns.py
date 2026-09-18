@@ -20,15 +20,22 @@ from __future__ import annotations
 # ── Helper Functions ──────────────────────────────────────────────────────────
 
 def _active_country() -> str:
+    """Active country code, upper-cased ("US", "IN").
+
+    The country profiles store ISO-style codes (`country.code: IN`), not the
+    profile file name. This used to compare against "india", which never
+    matched, so every India claim was scored with US patterns, US dollar
+    baselines and the US high-value line.
+    """
     try:
         from src.config import get_country_meta
-        return get_country_meta().get("code", "us")
+        return str(get_country_meta().get("code", "US")).upper()
     except Exception:
-        return "us"
+        return "US"
 
 
 def _is_india() -> bool:
-    return _active_country() == "india"
+    return _active_country() in ("IN", "INDIA")
 
 
 def _days_after_start(claim: dict, policy: dict) -> int:
@@ -405,7 +412,6 @@ def check_known_patterns(claim: dict, policy: dict) -> tuple[list[str], float]:
     patterns = get_patterns()
     matched = []
     total_weight = 0.0
-    max_possible = sum(p["risk_weight"] for p in patterns)
 
     for pattern in patterns:
         try:
@@ -415,8 +421,22 @@ def check_known_patterns(claim: dict, policy: dict) -> tuple[list[str], float]:
         except Exception:
             continue
 
-    risk_score = min(total_weight / max_possible if max_possible > 0 else 0, 1.0)
+    # Saturating sum. The score used to be total_weight / sum(ALL pattern
+    # weights), so adding patterns to the database made every claim look
+    # cleaner, and six matched red flags scored about 0.3. Now the score
+    # reaches 1.0 once the matched weights add up to `pattern_saturation`
+    # (configs/base.yaml -> agents.fraud_crew), independent of catalogue size.
+    risk_score = min(total_weight / _pattern_saturation(), 1.0)
     return matched, risk_score
+
+
+def _pattern_saturation() -> float:
+    try:
+        from src.config import get_agent_config
+        value = float(get_agent_config("fraud_crew").get("pattern_saturation", 2.5))
+        return value if value > 0 else 2.5
+    except Exception:
+        return 2.5
 
 
 def get_statistical_anomaly(claim_type: str, amount: float) -> dict:

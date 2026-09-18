@@ -106,7 +106,21 @@ class FraudAssessmentOutput(BaseModel):
     crew_summary: str = Field(description="Synthesized findings from all crew members")
     pattern_score: float = Field(ge=0.0, le=1.0)
     anomaly_score: float = Field(ge=0.0, le=1.0)
-    consistency_score: float = Field(ge=0.0, le=1.0)
+    consistency_score: float = Field(ge=0.0, le=1.0, description="Consistency Validator's validation_score (1 = fully consistent story)")
+    narrative_risk: Optional[float] = Field(
+        None, ge=0.0, le=1.0,
+        description="1 - consistency_score, or None if the crew's narrative verdict could not be parsed",
+    )
+    fraud_admission: Optional[bool] = Field(
+        None,
+        description="Validator found the claimant's own words state an intent to deceive "
+                    "(None = not reported). Required for auto-reject.",
+    )
+    confidence: float = Field(
+        0.5, ge=0.0, le=1.0,
+        description="How much the crew's own assessment can be trusted: all three signals read = high, "
+                    "narrative unparsed = low, crew error = very low. Drives the fraud_crew confidence gate.",
+    )
 
 
 class DamageAssessmentOutput(BaseModel):

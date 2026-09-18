@@ -7,22 +7,31 @@ import sqlite3
 from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
 
-from api.security import get_current_user, require_role
-from src.hitl.queue import _get_db
+from api.security import require_role
+from src.hitl.queue import _get_db, escalate_overdue_tickets
+from src.security.audit_log import log_hitl_event
 
-router = APIRouter(prefix="/api/hitl", tags=["HITL"])
+# The review queue holds claim briefs, fraud scores and reviewer notes for
+# every claimant: reviewers and admins only, for reads as well as decisions.
+router = APIRouter(
+    prefix="/api/hitl",
+    tags=["HITL"],
+    dependencies=[Depends(require_role("reviewer", "admin"))],
+)
 
 
 class DecisionRequest(BaseModel):
-    reviewer_id: str
+    # Ignored for attribution: the audit trail records the AUTHENTICATED
+    # user, not a name the browser sends. Kept optional for old clients.
+    reviewer_id: str | None = None
     decision: str
-    notes: str = ""
+    notes: str = Field("", max_length=1000)
     override_ai: bool = False
-    settlement_override_usd: float | None = None
+    settlement_override_usd: float | None = Field(None, ge=0)
 
 
 def _row_to_summary(r: sqlite3.Row) -> dict:
@@ -34,18 +43,24 @@ def _row_to_summary(r: sqlite3.Row) -> dict:
         "status": r["status"],
         "created_at": r["created_at"],
         "sla_deadline": r["sla_deadline"],
+        "sla_breached": bool(r["sla_breached"]) if "sla_breached" in r.keys() else False,
         "triggers": json.loads(r["triggers"]),
     }
 
 
 @router.get("/queue")
-def get_queue(status: str = "pending", _: object = Depends(get_current_user)):
-    """Fetches all HITL tickets with the given status (pending or resolved)."""
+def get_queue(status: str = "pending"):
+    """Fetches all HITL tickets with the given status (pending or resolved).
+
+    Overdue pending tickets are escalated to critical first, so they sort to
+    the top of the queue."""
 
     conn = _get_db()
     try:
+        escalate_overdue_tickets(conn)
         rows = conn.execute(
-            "SELECT * FROM hitl_queue WHERE status = ? ORDER BY priority_score DESC, created_at ASC",
+            "SELECT * FROM hitl_queue WHERE status = ? "
+            "ORDER BY COALESCE(sla_breached, 0) DESC, priority_score DESC, created_at ASC",
             (status,),
         ).fetchall()
     finally:
@@ -54,7 +69,7 @@ def get_queue(status: str = "pending", _: object = Depends(get_current_user)):
 
 
 @router.get("/ticket/{ticket_id}")
-def get_ticket(ticket_id: str, _: object = Depends(get_current_user)):
+def get_ticket(ticket_id: str):
     """Fetches detailed info for a specific HITL ticket, including the state snapshot at the time of 
     pause and the reviewer's decision/notes if resolved."""
     
@@ -96,6 +111,15 @@ def decide(
     valid = [d.value for d in ClaimDecision]
     if body.decision not in valid:
         raise HTTPException(status_code=400, detail=f"Decision must be one of {valid}")
+    notes = (body.notes or "").strip()
+    if not notes:
+        # The UI marks notes as required for the audit trail; enforce it here
+        # too, so a direct API call cannot record an unexplained decision.
+        raise HTTPException(status_code=400, detail="Review notes are required for the audit trail")
+    if body.settlement_override_usd is not None and body.decision not in (
+        ClaimDecision.APPROVED.value, ClaimDecision.APPROVED_PARTIAL.value
+    ):
+        raise HTTPException(status_code=400, detail="A settlement override only applies to an approval")
 
     # 1. Resolve the review-queue ticket + fetch claim_id for resume.
     conn = _get_db()
@@ -108,7 +132,7 @@ def decide(
         if row["status"] == "resolved":
             raise HTTPException(status_code=400, detail="Ticket already resolved")
         claim_id = row["claim_id"]
-        reviewer_label = body.reviewer_id or user.username
+        reviewer_label = user.username
         now = datetime.now(timezone.utc).isoformat()
         conn.execute(
             """
@@ -117,12 +141,23 @@ def decide(
                 human_decision = ?, human_notes = ?, override_ai = ?
             WHERE ticket_id = ?
             """,
-            (now, reviewer_label, body.decision, body.notes,
+            (now, reviewer_label, body.decision, notes,
              1 if body.override_ai else 0, ticket_id),
         )
         conn.commit()
     finally:
         conn.close()
+
+    log_hitl_event(
+        claim_id=claim_id,
+        event="RESOLVED",
+        priority="",
+        triggers=[],
+        reviewer_id=reviewer_label,
+        human_decision=body.decision,
+        human_notes=notes,
+        override_ai=body.override_ai,
+    )
 
     # 2. Resume the paused pipeline with the approver's decision.
     from api.routes_claims import resume_pipeline_for_claim
@@ -130,7 +165,7 @@ def decide(
     decision_payload = {
         "decision": body.decision,
         "reviewer_id": reviewer_label,
-        "notes": body.notes,
+        "notes": notes,
         "override_ai": body.override_ai,
         "settlement_override_usd": body.settlement_override_usd,
     }
@@ -153,12 +188,14 @@ def decide(
 
 
 @router.get("/stats")
-def stats(_: object = Depends(get_current_user)):
-    """Returns summary stats about the HITL queue, e.g. how many pending tickets total/critical/high, 
-    how many resolved today, etc."""
-    
+def stats():
+    """Returns summary stats about the HITL queue, e.g. how many pending tickets total/critical/high,
+    how many are past their SLA, how many resolved today, etc."""
+
     conn = _get_db()
     try:
+        escalate_overdue_tickets(conn)
+
         def one(q, *args):
             return conn.execute(q, args).fetchone()[0]
         pending = one("SELECT COUNT(*) FROM hitl_queue WHERE status='pending'")
@@ -170,10 +207,14 @@ def stats(_: object = Depends(get_current_user)):
         overrides = one(
             "SELECT COUNT(*) FROM hitl_queue WHERE override_ai=1 AND DATE(resolved_at)=DATE('now')"
         )
+        overdue = one(
+            "SELECT COUNT(*) FROM hitl_queue WHERE status='pending' AND COALESCE(sla_breached, 0)=1"
+        )
     finally:
         conn.close()
     return {
         "pending_total": pending,
+        "pending_sla_breached": overdue,
         "pending_critical": critical,
         "pending_high": high,
         "resolved_today": resolved_today,

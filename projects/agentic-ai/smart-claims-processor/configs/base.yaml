@@ -11,26 +11,29 @@
 llm:
   temperature: 0.1
   max_tokens: 8192
-  timeout_seconds: 60
-  retry_attempts: 3
-  retry_delay_seconds: 2
+  timeout_seconds: 60             # per-request timeout passed to the provider client
+  retry_attempts: 3               # provider SDK retries with exponential backoff (rate limits, 5xx, timeouts)
+  # If a call still fails after its retries, src/llm.py replays the SAME call
+  # on fallback_model (call-level fallback via LangChain with_fallbacks).
   providers:
     gemini:
-      model: gemini-3.6-flash           # replaces gemini-3.6-flash (deprecated 2026-06-01)
+      model: gemini-3.6-flash           # check the provider's deprecation page before each release
       fallback_model: gemini-3.5-flash-lite
+      judge_model: gemini-3.6-flash     # LLM-as-judge evaluator model
       api_key_env: GOOGLE_API_KEY
     groq:
-      model: llama-3.3-70b-versatile    # all agents + judge use 70b for reliable structured output
+      model: llama-3.3-70b-versatile    # 70b for reliable structured output
       fallback_model: llama-3.1-8b-instant
+      judge_model: llama-3.3-70b-versatile
       api_key_env: GROQ_API_KEY
 
 # Agent Configuration
+# Only tunables that code reads live here. Per-agent HITL confidence
+# thresholds are in `confidence_gates` below; country-specific rules
+# (required documents, depreciation, payout caps) are in configs/countries/.
 agents:
   intake:
-    name: "Claims Intake Agent"
-    max_retries: 2
-    confidence_threshold: 0.75
-    required_fields:
+    required_fields:                # missing any of these = invalid claim, no LLM call
       - claim_id
       - policy_number
       - incident_date
@@ -38,65 +41,34 @@ agents:
       - estimated_amount
 
   fraud_crew:
-    name: "Fraud Detection Crew"
-    framework: crewai
-    max_iterations: 5
-    fraud_threshold: 0.65           # Score above this = HIGH fraud risk
-    auto_reject_threshold: 0.90     # Score above this = auto reject (no HITL (Human-In-The-Loop))
-    agents:
-      - role: "Pattern Analyst"
-        goal: "Compare claim against historical fraud patterns database"
-        backstory: "Expert fraud investigator with 15 years spotting staged accidents and inflated claims"
-      - role: "Anomaly Detector"
-        goal: "Identify statistical anomalies in claim timing, amounts, and frequency"
-        backstory: "Data scientist specializing in outlier detection in insurance claim datasets"
-      - role: "Social Validator"
-        goal: "Validate claimant's story consistency and identity signals"
-        backstory: "Background check specialist who cross-references claim details for consistency"
-
-  damage_assessor:
-    name: "Damage Assessment Agent"
-    confidence_threshold: 0.70
-    supported_types:
-      - auto_collision
-      - auto_theft
-      - property_fire
-      - property_water
-      - liability
-      - medical
-
-  policy_checker:
-    name: "Policy Compliance Agent"
-    confidence_threshold: 0.80
-    coverage_categories:
-      - collision
-      - comprehensive
-      - liability
-      - medical_payments
-      - uninsured_motorist
-      - rental_reimbursement
-
-  settlement_calculator:
-    name: "Settlement Calculator Agent"
-    # Depreciation tables and max_payout_multiplier are in country configs
-    # (configs/countries/us.yaml and india.yaml) since rules differ by country.
-
-  communication:
-    name: "Communication Agent"
-    templates:
-      - approved
-      - approved_with_deductible
-      - pending_documents
-      - escalated_human_review
-      - denied
-      - fraud_investigation
+    max_iterations: 3               # CrewAI max_iter per crew agent (tool-use rounds)
+    max_rpm: 10                     # CrewAI request-per-minute cap for the whole crew
+    # Composite fraud score = weighted blend of three independent signals.
+    # narrative = 1 - the Consistency Validator's validation_score. If the
+    # crew's narrative can't be parsed, its weight is spread over the other two.
+    signal_weights:
+      pattern: 0.45
+      anomaly: 0.20
+      narrative: 0.35
+    pattern_saturation: 2.5         # sum of matched rule weights that counts as "certain" (score 1.0)
+    fraud_threshold: 0.65           # composite >= this = HIGH risk (below it, >= hitl.triggers.fraud_score = MEDIUM)
+    # Auto-reject is for EVIDENCE, not suspicion. It needs a high composite
+    # score AND the narrative validator judging the story fabricated AND the
+    # claimant's own words stating an intent to deceive. A suspicious story
+    # (new policy, no police report, keys left in the car) scores almost as
+    # high on narrative risk as a confession, so without the admission check
+    # a merely suspicious claim was auto-rejected in live testing. Suspicion
+    # goes to a human.
+    auto_reject_threshold: 0.75
+    auto_reject_min_narrative_risk: 0.90
+    auto_reject_requires_admission: true
 
 # Human-In-The-Loop Configuration
 hitl:
   enabled: true
   triggers:
     min_amount: 10000               # Default; overridden per country (US: $10K, India: Rs5L)
-    fraud_score: 0.45               # Fraud score >= 0.45 triggers review (MEDIUM+ = human review)
+    fraud_score: 0.45               # Composite fraud score >= 0.45 pauses for human review (MEDIUM+)
     low_confidence: 0.65            # Agent confidence < 0.65 triggers review
     first_claim_high_value: 5000    # First-time claimant + amount >= $5K
     repeat_claims_window_days: 365  # Review if >2 claims in 365 days
@@ -116,10 +88,16 @@ hitl:
 
 # Guardrails Configuration
 guardrails:
+  # Enforced before every agent by src/guardrails/manager.py:guard_node.
+  # Calibrated from live runs (Gemini, 2026-09): a full normal claim used
+  # ~40K tokens (the CrewAI crew is ~30K of that), ~$0.14 and ~170s of active
+  # time. A fraud review that is approved and resumed runs the crew plus five
+  # more agents. Limits sit at roughly 3x a normal claim so a breach means
+  # something is wrong (a loop, a runaway tool call), not a busy claim.
   max_agent_calls: 25
-  max_tokens_per_claim: 50000
+  max_tokens_per_claim: 150000
   max_cost_usd: 0.50
-  max_execution_seconds: 300
+  max_execution_seconds: 600        # ACTIVE agent time; time paused for a reviewer does not count
   max_loop_iterations: 10
   min_output_confidence: 0.60
   hallucination_check: true
@@ -127,19 +105,11 @@ guardrails:
 
 # Security Configuration
 security:
-  pii_fields:
-    - name
-    - email
-    - phone
-    - ssn
-    - dob
-    - address
-    - bank_account
-    - credit_card
+  # PII field lists and regexes are per country: configs/countries/<code>.yaml -> pii
   audit_log:
     enabled: true
     path: "./data/audit_logs/"
-    retention_days: 2555            # 7 years for insurance compliance
+    retention_days: 2555            # 7 years; src/security/audit_log.py:enforce_retention() deletes older daily files
     include_agent_inputs: true
     include_agent_outputs: true
     hash_algorithm: "sha256"
@@ -147,9 +117,7 @@ security:
 # Evaluation Configuration
 evaluation:
   enabled: true
-  # Judge model: uses judge_model from the active provider config (e.g. 70b for Groq).
-  # Falls back to the primary model if no judge_model is set.
-  judge_model_note: "configured per-provider in llm.providers.{provider}.judge_model"
+  # Judge model: llm.providers.<provider>.judge_model (see src/llm.py:get_judge_llm).
   dimensions:
     - accuracy                      # Is the settlement amount correct?
     - completeness                  # Were all policy clauses checked?

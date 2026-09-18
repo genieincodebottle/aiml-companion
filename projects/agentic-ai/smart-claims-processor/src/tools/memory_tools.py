@@ -11,9 +11,21 @@ Learner takeaway:
   on its reasoning. This is fundamentally different from always injecting
   all memory into the prompt (which wastes tokens and dilutes context).
 
+Where they are used:
+  src/agents/settlement_calculator.py binds search_similar_claims and
+  search_fraud_episodes through src/tools/tool_loop.gather_with_tools, so the
+  settlement model decides whether precedent is worth looking up.
+
+Least privilege:
+  The policy tool is built per claim by policy_tool_for_claim(policy_number)
+  and can only read that one policy. A global "look up any policy number"
+  tool would let a prompt-injected claim description ask for another
+  customer's policy.
+
 Usage:
-  from src.tools.memory_tools import MEMORY_TOOLS
-  llm_with_tools = get_llm().bind_tools(MEMORY_TOOLS)
+  from src.tools.memory_tools import MEMORY_TOOLS, policy_tool_for_claim
+  tools = MEMORY_TOOLS + [policy_tool_for_claim(claim["policy_number"])]
+  llm_with_tools = get_llm().bind_tools(tools)
 """
 from __future__ import annotations
 
@@ -102,29 +114,30 @@ def search_fraud_patterns(claim_description: str, max_results: int = 5) -> str:
     return "\n".join(lines)
 
 
-@tool
-def lookup_claim_policy(policy_number: str) -> str:
-    """Look up a policy in the database to check coverage, limits, and status.
+def policy_tool_for_claim(policy_number: str):
+    """Build a policy lookup tool that can only read `policy_number`."""
+    from langchain_core.tools import tool as _tool
 
-    Args:
-        policy_number: The policy number to look up (e.g., POL-AUTO-TEST-US).
-    """
-    from src.tools.policy_lookup import lookup_policy
-    policy = lookup_policy(policy_number)
-    if not policy:
-        return f"Policy {policy_number} not found in the database."
+    @_tool
+    def lookup_claim_policy() -> str:
+        """Look up the policy for the claim being processed: coverage, limits, status, exclusions."""
+        from src.tools.policy_lookup import lookup_policy
+        policy = lookup_policy(policy_number)
+        if not policy:
+            return f"Policy {policy_number} not found in the database."
+        coverage = policy.get("coverage", {})
+        return (
+            f"Policy: {policy_number}\n"
+            f"  Type: {policy.get('type', '?')}\n"
+            f"  Status: {policy.get('status', '?')}\n"
+            f"  Start: {policy.get('start_date', '?')} End: {policy.get('end_date', '?')}\n"
+            f"  Deductible: {policy.get('deductible', 0)}\n"
+            f"  Coverage: {json.dumps(coverage, indent=4)}\n"
+            f"  Exclusions: {', '.join(policy.get('exclusions', []))}\n"
+            f"  Prior claims: {policy.get('claims_count', 0)}"
+        )
 
-    coverage = policy.get("coverage", {})
-    return (
-        f"Policy: {policy_number}\n"
-        f"  Type: {policy.get('type', '?')}\n"
-        f"  Status: {policy.get('status', '?')}\n"
-        f"  Start: {policy.get('start_date', '?')} End: {policy.get('end_date', '?')}\n"
-        f"  Deductible: {policy.get('deductible', 0)}\n"
-        f"  Coverage: {json.dumps(coverage, indent=4)}\n"
-        f"  Exclusions: {', '.join(policy.get('exclusions', []))}\n"
-        f"  Prior claims: {policy.get('claims_count', 0)}"
-    )
+    return lookup_claim_policy
 
 
 # All memory-backed tools, ready to bind to any LLM
@@ -132,5 +145,4 @@ MEMORY_TOOLS = [
     search_similar_claims,
     search_fraud_episodes,
     search_fraud_patterns,
-    lookup_claim_policy,
 ]

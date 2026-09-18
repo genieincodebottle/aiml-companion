@@ -35,6 +35,13 @@ async def lifespan(app: FastAPI):
     with Session(engine) as session:
         seed_admin(session)
 
+    # Audit retention: delete daily audit files past security.audit_log.retention_days
+    try:
+        from src.security.audit_log import enforce_retention
+        enforce_retention()
+    except Exception as e:
+        logger.error("Audit retention sweep failed: %s", e)
+
     # Seed fraud knowledge base into ChromaDB (idempotent)
     try:
         from src.memory.manager import memory

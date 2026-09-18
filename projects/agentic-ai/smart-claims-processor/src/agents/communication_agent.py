@@ -66,6 +66,23 @@ def run_communication_agent(state: ClaimsState) -> dict:
 
     decision_str = final_decision.value if hasattr(final_decision, "value") else str(final_decision)
 
+    if state.get("guardrails_halted"):
+        # The claim hit a hard budget or timeout limit. A human has decided it;
+        # send the template letter rather than spend more on an LLM call.
+        output = CommunicationOutput(
+            subject=f"Insurance Claim {claim_id} - Decision Notice",
+            message=_fallback_message(claim_id, decision_str, final_amount),
+            internal_notes=(
+                "Guardrail halt: "
+                + "; ".join(v for v in (state.get("guardrails_violations") or []) if not v.startswith("warning:"))
+                + f". Decision entered by reviewer {state.get('human_reviewer_id') or 'unknown'}. "
+                "Template letter sent without an LLM call."
+            ),
+            next_steps=["Contact your agent for details"],
+            appeal_instructions=_get_appeal_instructions() if "denied" in decision_str else None,
+        )
+        return _finish(state, claim_id, decision_str, final_amount, evaluation, hitl_required, output, start_time)
+
     llm = get_structured_llm(CommunicationOutput)
 
     hitl_context = ""
@@ -148,6 +165,10 @@ def run_communication_agent(state: ClaimsState) -> dict:
             appeal_instructions=_get_appeal_instructions() if "denied" in decision_str else None,
         )
 
+    return _finish(state, claim_id, decision_str, final_amount, evaluation, hitl_required, output, start_time)
+
+
+def _finish(state, claim_id, decision_str, final_amount, evaluation, hitl_required, output, start_time) -> dict:
     duration_ms = int((time.time() - start_time) * 1000)
 
     # Log final decision (compliance record)

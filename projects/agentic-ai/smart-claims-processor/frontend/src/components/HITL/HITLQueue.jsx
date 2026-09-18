@@ -8,7 +8,6 @@ import { Security, CheckCircle, Refresh, Timer, Warning, Gavel, ExpandMore, Expa
 import { hitlAPI, claimsAPI } from '../../services/api';
 import { fmt } from '../../services/currency';
 import useClaimsStore from '../../store/claimsStore';
-import useAuthStore from '../../store/authStore';
 
 const PRIORITY_COLORS = { critical: '#DC2626', high: '#F59E0B', normal: '#10B981' };
 const PRIORITY_LABELS = { critical: 'CRITICAL', high: 'HIGH', normal: 'NORMAL' };
@@ -97,13 +96,13 @@ function AgentTraceCard({ agentKey, data }) {
 
 export default function HITLQueue() {
   const { hitlQueue, hitlStats, hitlLoading, setHITLQueue, setHITLStats, setHITLLoading, removeFromHITL, updateClaimStatus } = useClaimsStore();
-  const user = useAuthStore((s) => s.user);
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [fullTicket, setFullTicket] = useState(null);
   const [claimData, setClaimData] = useState(null);
   const [decision, setDecision] = useState('');
   const [notes, setNotes] = useState('');
   const [overrideAI, setOverrideAI] = useState(false);
+  const [settlementOverride, setSettlementOverride] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
@@ -129,6 +128,7 @@ export default function HITLQueue() {
     setDecision('');
     setNotes('');
     setOverrideAI(false);
+    setSettlementOverride('');
     setError('');
     setClaimData(null);
     try {
@@ -148,11 +148,14 @@ export default function HITLQueue() {
     setSubmitting(true);
     setError('');
     try {
+      const canOverrideAmount = decision === 'approved' || decision === 'approved_partial';
       await hitlAPI.submitDecision(selectedTicket.ticket_id, {
-        reviewer_id: user?.username || 'web_reviewer',
         decision,
-        notes,
+        notes: notes.trim(),
         override_ai: overrideAI,
+        // The server records the logged-in reviewer; no reviewer_id is sent.
+        settlement_override_usd:
+          canOverrideAmount && settlementOverride !== '' ? Number(settlementOverride) : null,
       });
       const decidedClaim = selectedTicket.claim_id;
       const decidedAction = decision;
@@ -349,11 +352,22 @@ export default function HITLQueue() {
             placeholder="Explain your reasoning..." helperText={`${notes.length}/1000 - Required for audit trail`}
             inputProps={{ maxLength: 1000 }}
           />
+
+          {/* Optional settlement override - only meaningful for an approval */}
+          {(decision === 'approved' || decision === 'approved_partial') && (
+            <TextField fullWidth type="number" sx={{ mt: 2 }}
+              label="Settlement amount override (optional)"
+              value={settlementOverride}
+              onChange={(e) => setSettlementOverride(e.target.value)}
+              helperText="Leave empty to use the AI-calculated settlement"
+              inputProps={{ min: 0, step: '0.01' }}
+            />
+          )}
         </DialogContent>
         <DialogActions sx={{ p: 2, borderTop: '1px solid #334155' }}>
           <Button onClick={() => setSelectedTicket(null)} sx={{ color: '#94A3B8' }}>Cancel</Button>
           <Button variant="contained" onClick={handleSubmitDecision}
-            disabled={!decision || submitting}
+            disabled={!decision || !notes.trim() || submitting}
             sx={{ borderRadius: 2, fontWeight: 600, px: 3, background: 'linear-gradient(135deg, #2563EB, #1D4ED8)' }}>
             {submitting ? <CircularProgress size={20} /> : 'Submit Decision'}
           </Button>

@@ -90,6 +90,7 @@ class ClaimsState(TypedDict):
     human_reviewer_id: Optional[str]
     human_notes: Optional[str]
     human_override: bool                # True if human overrode AI recommendation
+    human_settlement_override_usd: Optional[float]  # amount a reviewer set; settlement must not replace it
 
     # ── Final Decision ───────────────────────────────────────────────────
     final_decision: Optional[ClaimDecision]
@@ -97,10 +98,12 @@ class ClaimsState(TypedDict):
 
     # ── Guardrails ───────────────────────────────────────────────────────
     guardrails_passed: bool
+    guardrails_halted: bool             # True = a hard budget/timeout breach stopped the agents
     guardrails_violations: list[str]
     agent_call_count: int
     total_tokens_used: int
     total_cost_usd: float
+    processing_seconds: float           # active agent time (excludes time paused for a reviewer)
     execution_start_time: Optional[str]
 
     # ── Audit & Tracing ──────────────────────────────────────────────────
@@ -120,10 +123,12 @@ def initial_state(claim: ClaimInput) -> ClaimsState:
         "hitl_required": False,
         "human_override": False,
         "guardrails_passed": True,
+        "guardrails_halted": False,
         # Numeric defaults
         "agent_call_count": 0,
         "total_tokens_used": 0,
         "total_cost_usd": 0.0,
+        "processing_seconds": 0.0,
         # Append-only lists (operator.add needs a starting list)
         "hitl_triggers": [],
         "guardrails_violations": [],

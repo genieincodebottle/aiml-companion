@@ -42,18 +42,19 @@ A production-style **multi-agent insurance claims system** built with **LangGrap
 
 ## Features
 
-- **Multi-agent pipeline** - LangGraph state machine with 7 agents, CrewAI sub-crew for fraud (pattern analyst, anomaly detector, social validator).
+- **Multi-agent pipeline** - LangGraph state machine with 7 agents, CrewAI sub-crew for fraud (pattern analyst, anomaly detector, consistency validator) running in sequence inside one node, with the fraud score computed in code.
 - **Per-agent transparency** - every agent outputs confidence, reasoning, flags, and findings. All persisted to DB and visible in an expandable **Agent Trace panel** in the claim detail view. No black-box decisions.
 - **Confidence-based HITL at every step** - configurable per-agent confidence thresholds (`configs/base.yaml` -> `confidence_gates`). If any agent's confidence drops below its threshold, the pipeline pauses at a dedicated HITL node for that agent and resumes to the correct next agent after review.
 - **Pluggable LLM provider** - switch between **Gemini 3.6 Flash** and **Groq Llama 3.3 70B** via `.env` or the `/api/settings/llm` endpoint at runtime. Models are verified non-deprecated as of 2026-04.
-- **Manual-approval HITL** - high-risk/high-value claims pause at an `interrupt()` checkpoint. A reviewer approves via the UI, the pipeline resumes with their decision, durably persisted by LangGraph's `SqliteSaver`.
-- **Token/cost tracking** - LLM token usage and estimated cost tracked per-pipeline-run via a LangChain callback handler. Visible in claim details as "Total LLM Cost (USD)".
+- **Manual-approval HITL** - high-fraud claims pause right after the fraud crew; high-value claims pause after the evaluator so a reviewer signs off on the proposed settlement. Both use an `interrupt()` checkpoint durably persisted by LangGraph's `SqliteSaver`, and the reviewer's decision resumes the pipeline.
+- **Token/cost tracking** - every agent's tokens and estimated cost (including the CrewAI crew's) are added to the claim's state by the guardrails wrapper, so totals stay correct across a HITL pause and across concurrent claims. Visible in claim details as "Total LLM Cost (USD)".
 - **Denial transparency** - denied claims show specific reasons to both claimant and reviewer. Communication agent is instructed to always include concrete denial reasons, not generic messages.
 - **Role-based auth** - JWT + bcrypt, seeded `admin / admin123`, roles: `user`, `reviewer`, `admin`.
-- **Guardrails** - per-claim caps on agent calls, tokens, and cost, PII masking before LLM calls, 7-year audit log.
+- **Guardrails** - every agent node runs inside `guard_node()` (`src/guardrails/manager.py`): per-claim caps on agent calls, tokens, cost and active processing time are checked before each agent. A breach halts the claim, sends it to a human, and the claimant gets a template letter with no further LLM spend. Every prompt uses the PII-masked claim. The audit log is hash-chained (`verify_audit_chain()` finds edited or deleted entries) and daily files past the 7-year retention are purged at startup.
+- **Reliability** - per-request timeouts, SDK retries with backoff, and call-level fallback to a second model (`llm.fallback_model`) if the primary still fails. A provider outage at intake pauses the claim for a human instead of denying it.
 - **Country-aware currency** - all agent prompts, frontend labels, and amounts use the active country's currency symbol ($ or ₹). LLM cost is always shown in USD.
 - **Analytics** - approval rate, HITL rate, cost breakdown, fraud trends, evaluator pass rate.
-- **Agent memory** - three-tier memory using ChromaDB + HuggingFace embeddings (`all-MiniLM-L6-v2`): short-term (LangGraph state), long-term (past claim outcomes for similar-claim retrieval), episodic (human overrides, confirmed fraud, quality gate failures). Agents call `search_similar_claims` and `search_fraud_episodes` via LangChain `@tool` decorator - the LLM decides when to search memory, not the code.
+- **Agent memory** - three-tier memory using ChromaDB + HuggingFace embeddings (`all-MiniLM-L6-v2`): short-term (LangGraph state), long-term (past claim outcomes for similar-claim retrieval), episodic (human overrides, confirmed fraud, quality gate failures). Two patterns side by side: intake always injects similar past claims into its prompt (cheap, fixed), while the settlement agent gets `search_similar_claims` and `search_fraud_episodes` as LangChain `@tool`s through a bounded tool-calling loop (`src/tools/tool_loop.py`) - the LLM decides whether precedent is worth looking up, and the trace panel shows which tools it called. Everything written to memory is PII-masked first.
 - **React frontend** - Vite + Zustand + MUI (Material UI), mirrors the full API surface (claims, appeals, HITL queue, analytics).
 - **Test data** - sample claims for all 5 pipeline paths in both US and India (`data/sample_claims/test_all_paths_*.json`).
 
@@ -224,15 +225,20 @@ After changing the key, restart the backend. All logged-in users will need to lo
 
 This is what makes the project more than a demo. Here's exactly what happens:
 
-1. **Submit a high-value claim.** For India, set `estimated_amount` above ₹5,00,000. For US, set it above $10,000. These thresholds trigger HITL by default.
+1. **Submit a claim that needs a human.** Two built-in routes lead here:
+   - **High fraud score** (composite >= `hitl.triggers.fraud_score`, 0.45): the claim pauses right after the fraud crew, before any settlement is computed. `path_b_hitl_high_fraud` in the sample files does this.
+   - **High value** (above ₹5,00,000 for India or $10,000 for US, `hitl.triggers.min_amount`): the claim runs every agent, then pauses after the evaluator so the reviewer signs off on the proposed settlement.
 2. **Pipeline pauses.** Backend log shows `Pausing pipeline for manual approval (ticket=HITL-XXXXXX)`. The claim row status flips to `pending_human_review`. Internally, LangGraph's `interrupt()` suspends the graph and `SqliteSaver` persists the checkpoint to `src/data/claims_checkpoints.db`.
-3. **An approver logs in.** `reviewer1 / review123` is seeded on first startup - no registration needed. (If you want another reviewer, admins can create one via `POST /api/auth/register` with `"role":"reviewer"`.)
+3. **An approver logs in.** `reviewer1 / review123` is seeded on first startup - no registration needed. (Self-registration can create a claimant or, as a demo convenience, a reviewer. It can never create an admin; an admin promotes users via `PUT /api/auth/users/{id}`.)
 4. **Reviewer opens the HITL queue.** They see the ticket with priority, triggers, review brief, and a PII-masked state snapshot.
-5. **Reviewer approves or denies.** Clicking approve calls `POST /api/hitl/decide/{ticket_id}` with the decision. The endpoint:
-   - Marks the HITL ticket `resolved` and returns immediately.
+5. **Reviewer approves or denies.** Review notes are required (the server rejects a decision without them), and an approval can carry an optional settlement override. Clicking submit calls `POST /api/hitl/decide/{ticket_id}`. The endpoint:
+   - Marks the HITL ticket `resolved`, attributes it to the **logged-in** reviewer (not a name sent by the browser), writes a `RESOLVED` entry to the audit log, and returns immediately.
    - A background thread resumes the pipeline via `graph.invoke(Command(resume=decision))`.
-   - LangGraph re-enters the checkpoint node, `interrupt()` returns the decision dict, and the pipeline **continues through the remaining agents** (damage assessor → policy checker → settlement calculator → evaluator → communication agent → `END`).
-6. **Claim completes.** The row now has `status=approved` or `status=denied`, `decided_by=reviewer1`, and `decided_at` timestamp. The AI agents still run the full assessment, but the settlement calculator respects the human's decision - if the reviewer approved, the AI won't override to denied (and vice versa).
+   - LangGraph re-runs the checkpoint node from its first line and `interrupt()` returns the decision dict. The ticket insert before it is idempotent, so the re-run does not open a second ticket.
+   - If the reviewer **approved a fraud-triggered pause**, the pipeline continues through the remaining agents (damage assessor → policy checker → settlement calculator → evaluator → communication agent). Any other decision (denied, fraud investigation, pending documents) goes straight to the communication agent.
+6. **Claim completes.** The row now has `status=approved` or `status=denied` and the reviewer's name. If the AI agents run after the decision, the settlement calculator respects it - if the reviewer approved, the AI won't override to denied (and vice versa).
+
+**SLA:** each ticket gets a deadline from `hitl.sla_hours`. A pending ticket past its deadline is escalated to critical, sorted to the top of the queue, and the escalation is written to the audit log.
 
 **Durability test:** Kill `uvicorn` while a claim is `pending_human_review`, restart it, and approve - the pipeline resumes from the exact checkpoint. That's the `SqliteSaver` earning its keep.
 
@@ -248,7 +254,19 @@ Beyond the fixed triggers above, every agent has a configurable **confidence thr
 | Policy Checker | 0.60 | `hitl_after_policy` | `settlement_calculator` |
 | Settlement Calculator | 0.65 | `hitl_after_settlement` | `evaluator` |
 
-This means the system never blindly proceeds when an agent is uncertain - it always asks a human.
+This means the system never blindly proceeds when an agent is uncertain - it always asks a human. The fraud crew's confidence is its trust in its own assessment: it drops below the gate when the consistency validator returns no readable verdict, or the crew errors.
+
+### How the fraud score works
+
+The composite score blends three independent signals (`configs/base.yaml` -> `agents.fraud_crew`):
+
+| Signal | Source | Weight |
+|---|---|---|
+| Pattern | rule-based matches in `src/tools/fraud_patterns.py`, saturating at `pattern_saturation` | 0.45 |
+| Anomaly | amount vs the active country's baseline | 0.20 |
+| Narrative | 1 - the consistency validator's `validation_score` (LLM) | 0.35 |
+
+A composite at or above `hitl.triggers.fraud_score` (0.45) pauses for review. **Auto-reject is for evidence, not suspicion.** It needs a composite at or above `auto_reject_threshold`, a narrative risk at or above `auto_reject_min_narrative_risk`, AND the validator's `explicit_fraud_admission` (the claimant's own words state an intent to deceive). In live testing a merely suspicious story (new policy, keys left in the car, no police report) scored almost as high on narrative risk as a confession, so the admission check is what separates the two. Suspicion always goes to a human.
 
 ---
 
@@ -307,7 +325,7 @@ curl -X PUT http://localhost:8000/api/settings/country \
   -d '{"country":"india"}'
 ```
 
-**Add a new country:** create `configs/countries/{code}.yaml` following the structure in `configs/countries/us.yaml`. The config loader auto-discovers it.
+**Add a new country:** create `configs/countries/{code}.yaml` following the structure in `configs/countries/us.yaml`. The config loader auto-discovers it. The fraud pattern tool (`src/tools/fraud_patterns.py`) still has India-specific branches in code, so extend it too and make sure it matches the `country.code` your YAML declares.
 
 ---
 
@@ -318,10 +336,10 @@ Once the backend is running, open <http://localhost:8000/docs> for interactive S
 | Area | Key Endpoints |
 |---|---|
 | Auth | `POST /api/auth/login`, `POST /api/auth/register`, `GET /api/auth/current-user` |
-| Claims | `POST /api/claims/submit`, `GET /api/claims/all`, `GET /api/claims/{claim_id}` |
-| HITL | `GET /api/hitl/queue`, `POST /api/hitl/decide/{ticket_id}` *(reviewer only - resumes pipeline)* |
+| Claims | `POST /api/claims/submit`, `GET /api/claims/{claim_id}` *(owner or reviewer)*, `GET /api/claims/all` *(reviewer/admin)* |
+| HITL | `GET /api/hitl/queue`, `GET /api/hitl/stats`, `POST /api/hitl/decide/{ticket_id}` *(reviewer/admin - decide resumes the pipeline)* |
 | Appeals | `POST /api/appeals/submit`, `GET /api/appeals/pending` |
-| Analytics | `GET /api/analytics/metrics`, `GET /api/analytics/fraud-trends` |
+| Analytics | `GET /api/analytics/metrics`, `GET /api/analytics/fraud-trends` *(reviewer/admin)* |
 | Settings | `PUT /api/settings/llm`, `PUT /api/settings/country` *(admin only)* |
 
 ---

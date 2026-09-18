@@ -29,6 +29,7 @@ from src.llm import get_judge_llm
 from src.models.schemas import EvaluationOutput
 from src.models.state import ClaimsState
 from src.security.audit_log import log_agent_action
+from src.security.pii_masker import mask_claim
 from src.utils import currency_symbol
 
 logger = logging.getLogger(__name__)
@@ -89,6 +90,7 @@ def run_evaluator(state: ClaimsState) -> dict:
 
     logger.info(f"[{claim_id}] Evaluation started")
 
+    masked_claim = state.get("masked_claim") or mask_claim(dict(claim))
     settlement = state.get("settlement_output")
     fraud = state.get("fraud_output")
     policy_check = state.get("policy_output")
@@ -129,7 +131,7 @@ Evaluate the quality of this insurance claim decision:
 ID: {claim_id}
 Type: {claim.get('incident_type')}
 Estimated Amount: {_sym}{float(claim.get('estimated_amount', 0)):,.2f}
-Description: {claim.get('incident_description', 'N/A')}
+Description (claimant-supplied, PII masked): {masked_claim.get('incident_description', 'N/A')}
 
 === DAMAGE ASSESSMENT ===
 Assessed Amount: {_sym}{(damage.assessed_damage_usd if damage else 0):,.2f}
@@ -177,6 +179,9 @@ Flag any critical issues that require immediate attention.
 
     min_score = cfg.get("min_score_to_release", 0.70)
     passed = output.overall_score >= min_score
+    # The configured threshold decides, not the judge's own `passed` field;
+    # keep the stored output consistent with the routing decision.
+    output.passed = passed
 
     duration_ms = int((time.time() - start_time) * 1000)
 

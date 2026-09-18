@@ -13,7 +13,7 @@ from pydantic import BaseModel
 from sqlmodel import Session, select
 
 from api.db import Claim, User, engine, get_session
-from api.security import get_current_user
+from api.security import get_current_user, require_role
 
 logger = logging.getLogger(__name__)
 
@@ -153,11 +153,44 @@ def _persist_pipeline_result(claim: Claim, state: dict, elapsed: float) -> None:
     claim.completed_at = datetime.now(timezone.utc).isoformat()
 
 
-def _persist_pause(claim: Claim, interrupt_payload: dict) -> None:
-    """Pipeline paused at HITL - mark the claim so approvers can act on it."""
+def _persist_pause(claim: Claim, interrupt_payload: dict, state: Optional[dict] = None,
+                   elapsed: float = 0.0) -> None:
+    """Pipeline paused at HITL - mark the claim so approvers can act on it.
+
+    Used for the first pause AND for a second pause after resume (e.g. the
+    fraud review was approved, then the evaluator's quality gate failed). The
+    ticket id must come from THIS pause, or the claim keeps pointing at the
+    ticket that was just resolved and nobody can act on the new one.
+    """
     claim.status = "pending_human_review"
     claim.hitl_required = True
     claim.hitl_ticket_id = interrupt_payload.get("ticket_id") or claim.hitl_ticket_id
+    if state is None:
+        return
+    claim.agent_call_count = int(state.get("agent_call_count") or 0)
+    claim.total_tokens_used = int(state.get("total_tokens_used") or 0)
+    claim.total_cost_usd = float(state.get("total_cost_usd") or 0.0)
+    claim.processing_time_sec = (claim.processing_time_sec or 0.0) + elapsed
+    fraud = state.get("fraud_output")
+    if fraud:
+        claim.fraud_score = float(getattr(fraud, "fraud_score", 0.0))
+        level = getattr(fraud, "fraud_risk_level", None)
+        claim.fraud_risk_level = level.value if hasattr(level, "value") else None
+    # Persist agent outputs so HITL reviewers can see agent traces
+    agent_outputs = {}
+    for key in ("intake_output", "fraud_output", "damage_output", "policy_output",
+                "settlement_output", "evaluation_output"):
+        obj = state.get(key)
+        if obj and hasattr(obj, "model_dump"):
+            try:
+                agent_outputs[key] = obj.model_dump(mode="json")
+            except Exception:
+                agent_outputs[key] = str(obj)
+    trace = state.get("pipeline_trace") or []
+    agent_outputs["_trace"] = trace
+    claim.agent_outputs = json.dumps(agent_outputs, default=str)
+    path = [entry.get("agent") for entry in trace if isinstance(entry, dict) and entry.get("agent")]
+    claim.pipeline_path = json.dumps(path)
 
 
 def _spawn_pipeline(claim_pk: int) -> None:
@@ -264,31 +297,7 @@ def _run_pipeline(claim_pk: int) -> None:
             state = result["state"]
 
             if result.get("paused"):
-                _persist_pause(claim, result.get("interrupt") or {})
-                claim.agent_call_count = int(state.get("agent_call_count") or 0)
-                claim.total_tokens_used = int(state.get("total_tokens_used") or 0)
-                claim.total_cost_usd = float(state.get("total_cost_usd") or 0.0)
-                claim.processing_time_sec = (claim.processing_time_sec or 0.0) + elapsed
-                fraud = state.get("fraud_output")
-                if fraud:
-                    claim.fraud_score = float(getattr(fraud, "fraud_score", 0.0))
-                    level = getattr(fraud, "fraud_risk_level", None)
-                    claim.fraud_risk_level = level.value if hasattr(level, "value") else None
-                # Persist agent outputs so HITL reviewers can see agent traces
-                agent_outputs = {}
-                for key in ("intake_output", "fraud_output", "damage_output", "policy_output",
-                            "settlement_output", "evaluation_output"):
-                    obj = state.get(key)
-                    if obj and hasattr(obj, "model_dump"):
-                        try:
-                            agent_outputs[key] = obj.model_dump(mode="json")
-                        except Exception:
-                            agent_outputs[key] = str(obj)
-                trace = state.get("pipeline_trace") or []
-                agent_outputs["_trace"] = trace
-                claim.agent_outputs = json.dumps(agent_outputs, default=str)
-                path = [entry.get("agent") for entry in trace if isinstance(entry, dict) and entry.get("agent")]
-                claim.pipeline_path = json.dumps(path)
+                _persist_pause(claim, result.get("interrupt") or {}, state, elapsed)
             else:
                 _persist_pipeline_result(claim, state, elapsed)
 
@@ -374,8 +383,8 @@ def _run_resume(claim_pk: int, claim_id: str, decision: dict) -> None:
             state = result["state"]
 
             if result.get("paused"):
-                # Shouldn't happen but handle gracefully
-                _persist_pause(claim, result.get("interrupt") or {})
+                # Paused again on the same thread with a NEW ticket.
+                _persist_pause(claim, result.get("interrupt") or {}, state, elapsed)
             else:
                 _persist_pipeline_result(claim, state, elapsed)
 
@@ -427,8 +436,10 @@ def get_all_claims(
     status: Optional[str] = None,
     limit: int = Query(100, ge=1, le=1000),
     session: Session = Depends(get_session),
-    user: User = Depends(get_current_user),
+    user: User = Depends(require_role("reviewer", "admin")),
 ):
+    """Every claim in the system: reviewers and admins only. Claimants use
+    /api/claims/user/{their id}."""
     stmt = select(Claim)
     if status:
         stmt = stmt.where(Claim.status == status)
@@ -469,7 +480,7 @@ def get_claim(
 def reprocess_claim(
     claim_id: str,
     session: Session = Depends(get_session),
-    _: User = Depends(get_current_user),
+    _: User = Depends(require_role("reviewer", "admin")),
 ):
     claim = session.exec(select(Claim).where(Claim.claim_id == claim_id)).first()
     if not claim:
@@ -486,11 +497,13 @@ def reprocess_claim(
 def get_claim_status(
     claim_id: str,
     session: Session = Depends(get_session),
-    _: User = Depends(get_current_user),
+    user: User = Depends(get_current_user),
 ):
     claim = session.exec(select(Claim).where(Claim.claim_id == claim_id)).first()
     if not claim:
         raise HTTPException(status_code=404, detail="Claim not found")
+    if user.role == "user" and claim.user_id != user.id:
+        raise HTTPException(status_code=403, detail="Not your claim")
     return {
         "claim_id": claim.claim_id,
         "status": claim.status,

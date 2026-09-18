@@ -117,6 +117,7 @@ def get_llm_config() -> dict:
     provider_cfg = providers.get(cfg["provider"], {})
     cfg["model"] = os.getenv("LLM_MODEL") or provider_cfg.get("model")
     cfg["fallback_model"] = provider_cfg.get("fallback_model")
+    cfg["judge_model"] = provider_cfg.get("judge_model")
     cfg["api_key_env"] = provider_cfg.get("api_key_env", "GOOGLE_API_KEY")
     if os.getenv("LLM_TEMPERATURE"):
         cfg["temperature"] = float(os.getenv("LLM_TEMPERATURE"))
@@ -124,7 +125,8 @@ def get_llm_config() -> dict:
 
 
 def get_agent_config(agent_name: str) -> dict:
-    return _load_raw()["agents"].get(agent_name, {})
+    """Per-agent tunables from base.yaml -> agents.<name> (a copy, safe to mutate)."""
+    return copy.deepcopy(_load_raw().get("agents", {}).get(agent_name, {}))
 
 
 def get_hitl_config() -> dict:
@@ -179,7 +181,9 @@ def get_required_documents(claim_type: str) -> list[str]:
 
 
 def get_guardrails_config() -> dict:
-    cfg = _load_raw()["guardrails"]
+    # deepcopy: the raw YAML is lru_cached, so handing out the cached dict let
+    # any caller (or test) that tweaked a limit change it for the whole process.
+    cfg = copy.deepcopy(_load_raw()["guardrails"])
     if os.getenv("MAX_TOKENS_PER_CLAIM"):
         cfg["max_tokens_per_claim"] = int(os.getenv("MAX_TOKENS_PER_CLAIM"))
     if os.getenv("MAX_COST_PER_CLAIM"):
@@ -190,7 +194,7 @@ def get_guardrails_config() -> dict:
 
 
 def get_security_config() -> dict:
-    cfg = _load_raw()["security"]
+    cfg = copy.deepcopy(_load_raw()["security"])
     if os.getenv("AUDIT_LOG_PATH"):
         cfg["audit_log"]["path"] = os.getenv("AUDIT_LOG_PATH")
     cfg["pii_masking"] = os.getenv("PII_MASKING_ENABLED", "true").lower() == "true"
@@ -198,16 +202,16 @@ def get_security_config() -> dict:
 
 
 def get_evaluation_config() -> dict:
-    return _load_raw()["evaluation"]
+    return copy.deepcopy(_load_raw()["evaluation"])
 
 
 def get_confidence_gate_config() -> dict:
     """Confidence gate thresholds for per-agent HITL routing."""
-    return _load_raw().get("confidence_gates", {"enabled": False})
+    return copy.deepcopy(_load_raw().get("confidence_gates", {"enabled": False}))
 
 
 def get_pipeline_config() -> dict:
-    return _load_raw()["pipeline"]
+    return copy.deepcopy(_load_raw()["pipeline"])
 
 
 def get_output_config() -> dict:

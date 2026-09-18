@@ -55,11 +55,17 @@ def register(body: RegisterRequest, session: Session = Depends(get_session)):
         raise HTTPException(status_code=400, detail="Username already taken")
     if session.exec(select(User).where(User.email == body.email)).first():
         raise HTTPException(status_code=400, detail="Email already registered")
+    # Self-registration can create a claimant or (demo convenience, so learners
+    # can try the HITL queue) a reviewer. Never an admin: admins manage users
+    # and LLM settings, and are promoted by an existing admin via PUT
+    # /api/auth/users/{id}. A real deployment should drop "reviewer" here too.
+    if body.role not in (None, "", "user", "reviewer"):
+        raise HTTPException(status_code=403, detail="Self-registration cannot create this role")
     user = User(
         username=body.username,
         email=body.email,
         password_hash=hash_password(body.password),
-        role=body.role if body.role in ("user", "reviewer", "admin") else "user",
+        role=body.role if body.role == "reviewer" else "user",
     )
     session.add(user)
     session.commit()
@@ -101,6 +107,8 @@ def update_user(
     if body.email is not None:
         user.email = body.email
     if body.role is not None:
+        if body.role not in ("user", "reviewer", "admin"):
+            raise HTTPException(status_code=400, detail="Role must be user, reviewer or admin")
         user.role = body.role
     session.add(user)
     session.commit()

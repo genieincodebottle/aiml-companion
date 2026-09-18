@@ -2,10 +2,10 @@
   "_doc": "Test data for all 5 pipeline paths - INDIA (use with POL-COMP-IN-TEST or POL-TP-IN-TEST)",
   "_paths": {
     "A": "Normal:       intake -> fraud_crew -> damage_assessor -> policy_checker -> settlement -> evaluator -> communication",
-    "B": "HITL:         intake -> fraud_crew -> hitl_checkpoint -> [paused for reviewer] -> communication",
+    "B": "HITL:         intake -> fraud_crew -> hitl_checkpoint -> [paused for reviewer] -> approved: damage_assessor -> policy_checker -> settlement -> evaluator -> communication | not approved: communication",
     "C": "Auto-Reject:  intake -> fraud_crew -> auto_reject -> communication",
     "D": "Intake Fail:  intake -> communication (instant denial)",
-    "E": "Fast Mode:    intake -> settlement -> communication (skips fraud + damage)"
+    "E": "Fast Mode:    intake -> settlement -> evaluator -> communication (skips fraud + damage)"
   },
   "_policy_required": "POL-COMP-IN-TEST (comprehensive, ₹8L coverage, ₹2K deductible, active 2025-06 to 2027-06)",
   "_how_to_use": "Submit each claim via the UI (Submit Claim page) or POST to /api/claims/submit. Use the holder_name that matches your logged-in user.",
@@ -28,7 +28,7 @@
   },
 
   "path_b_hitl_high_fraud": {
-    "_path": "B - HITL Required (fraud score >= 0.65, pipeline pauses for human review)",
+    "_path": "B - HITL Required (composite fraud score >= hitl.triggers.fraud_score 0.45, pipeline pauses for human review)",
     "_trigger": "Brand new policy + theft + max amount (= IDV) + no police report + lost all keys -> fraud score >= 0.65",
     "_expected_outcome": "Pipeline pauses at hitl_checkpoint, status = pending_human_review",
     "policy_number": "POL-COMP-IN-TEST",
@@ -45,7 +45,7 @@
   },
 
   "path_c_auto_reject_confirmed_fraud": {
-    "_path": "C - Auto-Reject (fraud score >= 0.90 + CONFIRMED risk level, no human review needed)",
+    "_path": "C - Auto-Reject (CONFIRMED: high composite score, story judged fabricated, AND the claimant admits intent to deceive; no human review needed)",
     "_trigger": "Blatant fraud self-admission + impossible claim frequency + fabricated vehicle",
     "_expected_outcome": "Auto-rejected immediately, settlement = ₹0, no HITL",
     "policy_number": "POL-COMP-IN-TEST",
