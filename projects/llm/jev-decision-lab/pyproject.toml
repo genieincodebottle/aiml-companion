@@ -1,0 +1,27 @@
+[project]
+name = "jev-decision-lab"
+version = "0.1.0"
+description = "A harness for deciding whether a typed decision model fits your task, and at what confidence threshold"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+# Only needed for `--backend live`. The simulated backend has no dependencies.
+live = [
+    "typesafe-sdk>=0.1.0",
+]
+
+[dependency-groups]
+# Installed by `uv sync` by default. The tests never touch the network.
+dev = [
+    "pytest>=8.0.0,<9.0.0",
+]
+
+[tool.uv]
+# A runnable project, not a library to publish.
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-q -p no:cacheprovider"

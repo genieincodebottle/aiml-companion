@@ -1,0 +1,11 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.env
+.pytest_cache/
+
+# Run outputs. Everything here is reproducible from run.py. The numbers the
+# README quotes live in docs/results.md, each with the command that made it.
+artifacts/*
+!artifacts/.gitkeep
