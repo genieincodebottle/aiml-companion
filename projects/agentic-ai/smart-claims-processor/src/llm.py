@@ -102,7 +102,30 @@ def _model_name_from(response, fallback: str) -> str:
 
 
 class _TokenTracker(BaseCallbackHandler):
-    """Callback that accumulates token usage from every LLM call."""
+    """Callback that accumulates token usage, and hashes every prompt sent.
+
+    The prompt hash is what makes a decision replayable: the agent modules hold
+    their prompts as Python strings, so the file as it stands today is not
+    proof of what ran. See src/provenance.py.
+    """
+
+    @staticmethod
+    def _record_prompts(texts) -> None:
+        try:
+            from src.provenance import record_prompt
+            for t in texts:
+                record_prompt(t)
+        except Exception:
+            logger.debug("Prompt fingerprint skipped", exc_info=True)
+
+    def on_llm_start(self, serialized, prompts, **kwargs):
+        self._record_prompts(prompts or [])
+
+    def on_chat_model_start(self, serialized, messages, **kwargs):
+        self._record_prompts(
+            "\n".join(str(getattr(m, "content", m)) for m in conv)
+            for conv in (messages or [])
+        )
 
     def on_llm_end(self, response, **kwargs):
         try:

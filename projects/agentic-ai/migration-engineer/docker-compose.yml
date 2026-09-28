@@ -1,0 +1,43 @@
+# One-command run:  docker compose up --build
+# Then open http://localhost:8080  (nginx serves the UI and proxies /api to the backend).
+#
+# No credentials required: the backend runs the deterministic worker ("stub" mode) out
+# of the box. To drive a live worker, put a key in a .env file in this folder (see
+# .env.example): GEMINI_API_KEY works out of the box (google-genai ships in the image);
+# for ANTHROPIC_API_KEY additionally add `claude-agent-sdk` to the backend image.
+
+services:
+  backend:
+    build: ./backend
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - ME_GEMINI_MODEL=${ME_GEMINI_MODEL:-gemini-2.5-flash}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+      - ME_TARGET_REPOS=${ME_TARGET_REPOS:-}
+      - ME_TARGET_RULE=${ME_TARGET_RULE:-modernize-datetime}
+      - ME_TEST_COMMAND=${ME_TEST_COMMAND:-}
+      - ME_CORS_ORIGINS=http://localhost:8080
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/api/health').status==200 else 1)"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  frontend:
+    build: ./frontend
+    ports:
+      # Override with ME_UI_PORT if 8080 is taken (e.g. another project's console):
+      #   ME_UI_PORT=8081 docker compose up --build
+      - "${ME_UI_PORT:-8080}:80"
+    depends_on:
+      backend:
+        condition: service_healthy

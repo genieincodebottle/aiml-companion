@@ -22,6 +22,7 @@ from src.llm import get_structured_llm
 from src.models.schemas import ClaimDecision, CommunicationOutput
 from src.models.state import ClaimsState
 from src.config import get_communication_config
+from src.provenance import run_versions_update
 from src.security.audit_log import log_agent_action, log_final_decision
 from src.utils import currency_symbol as _currency_symbol
 
@@ -180,6 +181,9 @@ def _finish(state, claim_id, decision_str, final_amount, evaluation, hitl_requir
         total_cost_usd=state.get("total_cost_usd", 0.0),
         evaluation_score=evaluation.overall_score if evaluation else None,
         human_reviewed=hitl_required,
+        # Merge this node's own provenance first: guard_node folds a node's
+        # hashes into state AFTER it returns, and this entry is written inside it.
+        versions=run_versions_update(state, AGENT_NAME),
     )
 
     log_agent_action(

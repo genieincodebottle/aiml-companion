@@ -286,6 +286,7 @@ def guard_node(node_name: str, fn: Callable[[dict], dict], enforce_budget: bool 
     and always runs, but on a halted claim it uses a template, not the LLM.
     """
     from src.llm import get_token_usage
+    from src.provenance import run_versions_update, start_node
 
     def guarded(state: dict) -> dict:
         manager = GuardrailsManager.from_state(state)
@@ -299,6 +300,7 @@ def guard_node(node_name: str, fn: Callable[[dict], dict], enforce_budget: bool 
 
         before = get_token_usage()
         started = time.time()
+        start_node()
         update = fn(state) or {}
         elapsed = time.time() - started
         after = get_token_usage()
@@ -311,6 +313,11 @@ def guard_node(node_name: str, fn: Callable[[dict], dict], enforce_budget: bool 
             float(state.get("total_cost_usd") or 0.0) + (after["cost"] - before["cost"]), 6
         )
         update["processing_seconds"] = round(float(state.get("processing_seconds") or 0.0) + elapsed, 3)
+
+        # Provenance travels the same way and for the same reason: the model,
+        # the config fingerprint, a hash of every prompt this node sent and the
+        # ids it retrieved, folded into state so they survive a HITL pause.
+        update["run_versions"] = run_versions_update(state, node_name)
 
         # Output quality checks: soft warnings, recorded for the judge and the
         # audit trail. Routing on low confidence is the confidence gates' job.

@@ -1,0 +1,9 @@
+# Runtime dependencies (pip fallback; uv/pyproject is the source of truth).
+# The real Claude Agent SDK worker additionally needs: claude-agent-sdk
+# The Gemini live worker additionally needs: google-genai
+pydantic>=2.0.0
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+sse-starlette>=2.1.0
+python-dotenv>=1.0.0
+langgraph>=0.2.0

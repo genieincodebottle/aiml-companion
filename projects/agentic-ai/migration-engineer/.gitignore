@@ -1,0 +1,21 @@
+# Backend
+backend/.venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/*.pyc
+backend/.pytest_cache/
+backend/.ruff_cache/
+backend/.work/
+backend/uv.lock
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Env / secrets
+.env
+backend/.env
+frontend/.env
+
+# OS
+.DS_Store

@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Lockfile is intentionally NOT committed: a package-lock.json generated on one OS
+# is the main trigger of the npm/rollup optional-dependency bug when installed on
+# another OS/CI. Letting each environment resolve fresh keeps installs reliable
+# cross-platform. (See frontend/README.md.)
+package-lock.json
+
+# Build output
+dist/
+dist-ssr/
+*.local
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor / OS
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/

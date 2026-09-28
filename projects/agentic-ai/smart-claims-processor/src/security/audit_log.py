@@ -235,8 +235,15 @@ def log_final_decision(
     total_cost_usd: float,
     evaluation_score: Optional[float] = None,
     human_reviewed: bool = False,
+    versions: Optional[dict] = None,
 ) -> str:
-    """Record the final claim decision for compliance audit trail."""
+    """Record the final claim decision for compliance audit trail.
+
+    `versions` is the run's provenance (src/provenance.py): the model, the
+    config fingerprint, a hash per agent prompt and the ids each agent read.
+    The hash chain proves this line was not edited afterwards; these fields are
+    what let someone reconstruct the run that produced it.
+    """
     return _write_entry(claim_id, {
         "timestamp": _now_iso(),
         "claim_id": claim_id,
@@ -247,6 +254,7 @@ def log_final_decision(
         "total_cost_usd": total_cost_usd,
         "evaluation_score": evaluation_score,
         "human_reviewed": human_reviewed,
+        "versions": versions or {},
     })
 
 

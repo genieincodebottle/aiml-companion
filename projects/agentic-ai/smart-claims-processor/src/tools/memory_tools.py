@@ -33,6 +33,7 @@ import json
 from langchain_core.tools import tool
 
 from src.memory.manager import memory
+from src.provenance import record_retrieval
 
 
 @tool
@@ -50,6 +51,7 @@ def search_similar_claims(description: str, max_results: int = 3) -> str:
     results = memory.recall_similar_claims(description, k=max_results)
     if not results:
         return "No similar past claims found in memory. This may be a first-of-its-kind claim."
+    record_retrieval(r["claim_id"] for r in results)
     lines = [f"Found {len(results)} similar past claims:"]
     for r in results:
         meta = r.get("metadata", {})
@@ -105,6 +107,7 @@ def search_fraud_patterns(claim_description: str, max_results: int = 5) -> str:
     patterns = memory.recall_fraud_patterns(claim_description, k=max_results)
     if not patterns:
         return "No matching fraud patterns found in the knowledge base."
+    record_retrieval(p["pattern_id"] for p in patterns)
     lines = [f"Found {len(patterns)} potentially matching fraud patterns:"]
     for p in patterns:
         meta = p.get("metadata", {})

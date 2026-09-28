@@ -45,6 +45,11 @@ def recall_similar_claims(description: str, k: int = 3) -> str:
         similar = memory.recall_similar_claims(description, k=k)
         if not similar:
             return ""
+        # Record what was read, so the decision record can name the precedents
+        # this run saw. Memory grows daily and the same query returns different
+        # neighbours next month (src/provenance.py).
+        from src.provenance import record_retrieval
+        record_retrieval(s["claim_id"] for s in similar)
         lines = ["SIMILAR PAST CLAIMS (from long-term memory):"]
         for s in similar:
             m = s.get("metadata", {})

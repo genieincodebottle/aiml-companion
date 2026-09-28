@@ -105,6 +105,7 @@ class ClaimsState(TypedDict):
     total_cost_usd: float
     processing_seconds: float           # active agent time (excludes time paused for a reviewer)
     execution_start_time: Optional[str]
+    run_versions: Optional[dict]        # model, config fingerprint, prompt hashes, retrieved ids
 
     # ── Audit & Tracing ──────────────────────────────────────────────────
     pipeline_trace: Annotated[list[dict], operator.add]   # Append-only log
