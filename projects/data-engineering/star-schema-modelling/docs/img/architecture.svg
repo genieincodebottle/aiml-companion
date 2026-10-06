@@ -1,0 +1,102 @@
+<svg font-family="Inter, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" viewBox="0 0 900 716" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="From generator to scored report. conf/config.yaml with seed 42 drives data/world.py, the seeded generator. It writes five raw CSV files to data/raw, customer_changes, orders, order_lines, products and product_corrections, and separately writes the answer key to data/answer_key, true_revenue.json, true_shipping.json and trap_ledger.json. The raw files load into DuckDB as text in schema raw. dbt staging has 5 stg models that cast types, rename columns and remove re-sent rows. The marts are dim_product, Type 1 with 400 rows, fct_order_line with one row per line and 29,902 rows, dim_customer, Type 2 with 1,950 rows, and fct_order with one row per order and 12,000 rows. Both facts join dim_customer, finding the version by validity window, and fct_order_line also joins dim_product by product_id. The reports are rpt_revenue_by_region_category_day with 5,372 cells, built from fct_order_line joined to dim_customer and dim_product, and rpt_shipping_by_region_day with 905 cells, built from fct_order joined to dim_customer. The reports join the dimensions on customer_sk and product_sk. The scorer, evaluation/answer_key.py and scoring.py, compares both reports to the answer key in exact Decimal. The answer key is never read by the build. The correct model scores 0.00 error, with 0 wrong cells of 5,372 for revenue and 0 of 905 for shipping. For each of the 13 breaks, variants.py edits a copy of the dbt project in artifacts/work and runs the same build.">
+  <defs>
+    <marker id="ssArr" viewBox="0 0 10 10" refX="0.32" refY="5" markerWidth="8" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,1 L8,5 L0,9 z" fill="#64748B"/>
+    </marker></defs>
+  
+    <style>
+      text { fill: #1E293B; }
+      .title { font-size: 25px; font-weight: 800; fill: #0F172A; }
+      .subtitle { font-size: 13px; fill: #475569; letter-spacing: 0.2px; }
+      .layerLabel { font-size: 12px; font-weight: 700; fill: #334155; letter-spacing: 1.6px; }
+      .boxTitle { font-size: 14.5px; font-weight: 700; }
+      .boxSub { font-size: 11.5px; fill: #475569; }
+      .tag { font-size: 11px; font-weight: 600; letter-spacing: 0.3px; }
+      .note { font-size: 11.5px; fill: #475569; }
+      .num { font-size: 13px; font-weight: 800; fill: #0F172A; }
+      .big { font-size: 28px; font-weight: 800; fill: #0F172A; }
+      .flowMain { fill: none; stroke: #94A3B8; stroke-width: 2.5; }
+      .flowGood { fill: none; stroke: #16A34A; stroke-width: 2.2; }
+      .flowBad { fill: none; stroke: #DC2626; stroke-width: 2.2; }
+      .guard { fill: none; stroke: #7C3AED; stroke-width: 1.6; stroke-dasharray: 5 4; }
+    </style>
+  <rect width="900" height="716" fill="#F8FAFC"/>
+  <text x="34" y="42" class="title">From generator to scored report</text>
+  <text x="34" y="64" class="subtitle">The build reads only the raw CSV files. The answer key goes to the scorer and nowhere else.</text>
+  <line x1="680" y1="84" x2="680" y2="548" stroke="#94A3B8" stroke-width="1.4" stroke-dasharray="5 4"/>
+  <text x="34" y="100" class="layerLabel">GENERATE AND BUILD</text>
+  <text x="700" y="100" class="layerLabel">ANSWER KEY</text>
+  <rect x="34" y="112" width="140" height="50" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="104" y="133" class="boxTitle" text-anchor="middle">config.yaml</text>
+  <text x="104" y="151" class="boxSub" text-anchor="middle">conf/, seed 42</text>
+  <rect x="204" y="112" width="170" height="50" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="289" y="133" class="boxTitle" text-anchor="middle">data/world.py</text>
+  <text x="289" y="151" class="boxSub" text-anchor="middle">seeded generator</text>
+  <rect x="700" y="112" width="166" height="94" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+  <text x="783" y="135" class="boxTitle" text-anchor="middle">data/answer_key/</text>
+  <text x="783" y="156" class="boxSub" text-anchor="middle">true_revenue.json</text>
+  <text x="783" y="173" class="boxSub" text-anchor="middle">true_shipping.json</text>
+  <text x="783" y="190" class="boxSub" text-anchor="middle">trap_ledger.json</text>
+  <rect x="34" y="190" width="300" height="76" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="184" y="213" class="boxTitle" text-anchor="middle">data/raw/, 5 CSV files</text>
+  <text x="184" y="234" class="boxSub" text-anchor="middle">customer_changes, orders, order_lines,</text>
+  <text x="184" y="251" class="boxSub" text-anchor="middle">products, product_corrections</text>
+  <rect x="364" y="190" width="292" height="76" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="510" y="222" class="boxTitle" text-anchor="middle">DuckDB, schema raw</text>
+  <text x="510" y="242" class="boxSub" text-anchor="middle">loaded as text, 5 tables</text>
+  <rect x="34" y="294" width="622" height="50" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="345" y="315" class="boxTitle" text-anchor="middle">Staging, 5 stg_* models</text>
+  <text x="345" y="333" class="boxSub" text-anchor="middle">cast types, rename columns, remove re-sent rows</text>
+  <rect x="34" y="372" width="128.5" height="64" rx="10" fill="#CFFAFE" stroke="#0891B2" stroke-width="1.5"/>
+  <text x="98.25" y="394" class="boxTitle" text-anchor="middle">dim_product</text>
+  <text x="98.25" y="412" class="boxSub" text-anchor="middle">Type 1</text>
+  <text x="98.25" y="427" class="boxSub" text-anchor="middle">400 rows</text>
+  <rect x="198.5" y="372" width="128.5" height="64" rx="10" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="262.75" y="394" class="boxTitle" text-anchor="middle">fct_order_line</text>
+  <text x="262.75" y="412" class="boxSub" text-anchor="middle">one row per line</text>
+  <text x="262.75" y="427" class="boxSub" text-anchor="middle">29,902 rows</text>
+  <rect x="363" y="372" width="128.5" height="64" rx="10" fill="#CFFAFE" stroke="#0891B2" stroke-width="1.5"/>
+  <text x="427.25" y="394" class="boxTitle" text-anchor="middle">dim_customer</text>
+  <text x="427.25" y="412" class="boxSub" text-anchor="middle">Type 2</text>
+  <text x="427.25" y="427" class="boxSub" text-anchor="middle">1,950 rows</text>
+  <rect x="527.5" y="372" width="128.5" height="64" rx="10" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="591.75" y="394" class="boxTitle" text-anchor="middle">fct_order</text>
+  <text x="591.75" y="412" class="boxSub" text-anchor="middle">one row per order</text>
+  <text x="591.75" y="427" class="boxSub" text-anchor="middle">12,000 rows</text>
+  <rect x="34" y="486" width="318" height="52" rx="10" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="193" y="508" class="boxTitle" text-anchor="middle">rpt_revenue_by_region_category_day</text>
+  <text x="193" y="527" class="boxSub" text-anchor="middle">5,372 cells</text>
+  <rect x="382" y="486" width="274" height="52" rx="10" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="519" y="508" class="boxTitle" text-anchor="middle">rpt_shipping_by_region_day</text>
+  <text x="519" y="527" class="boxSub" text-anchor="middle">905 cells</text>
+  <rect x="34" y="574" width="832" height="58" rx="10" fill="#FFFFFF" stroke="#334155" stroke-width="1.6"/>
+  <text x="54" y="598" class="boxTitle">Scorer</text>
+  <text x="54" y="618" class="boxSub">evaluation/answer_key.py and scoring.py, exact Decimal comparison</text>
+  <rect x="656" y="586" width="192" height="34" rx="8" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.4"/>
+  <text x="752" y="608" class="tag" text-anchor="middle" style="fill:#166534;font-size:12px">0.00 error, 0 wrong cells</text>
+  <path d="M174,137 L197.06 137" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M374,137 L693.06 137" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M289,162 L289 183.06" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M334,228 L357.06 228" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M510,266 L510 287.06" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M98.25,344 L98.25 365.06" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M262.75,344 L262.75 365.06" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M427.25,344 L427.25 365.06" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M591.75,344 L591.75 365.06" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M162.5,404 L191.56 404" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M363,404 L333.94 404" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M491.5,404 L520.56 404" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M98.25,436 L98.25 479.06" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M262.75,436 L262.75 479.06" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M403.25,436 L403.25 458 L326 458 L326 479.06" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M451.25,436 L451.25 479.06" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M591.75,436 L591.75 479.06" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M193,538 L193 567.06" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M519,538 L519 567.06" class="flowMain" marker-end="url(#ssArr)"/>
+  <path d="M740,206 L740 567.06" class="flowMain" marker-end="url(#ssArr)"/>
+  <text x="754" y="382" class="boxSub">never read</text>
+  <text x="754" y="399" class="boxSub">by the build</text>
+  <text x="34" y="660" class="note">Facts find their dim_customer version by validity window and dim_product by product_id. Reports join the dimensions on customer_sk and product_sk.</text>
+  <text x="34" y="679" class="note">With the correct model, revenue has 0 wrong cells of 5,372 and shipping has 0 of 905.</text>
+  <text x="34" y="698" class="note">For each of the 13 breaks, variants.py edits a copy of the dbt project in artifacts/work/&lt;id&gt;/ and runs the same build.</text>
+</svg>

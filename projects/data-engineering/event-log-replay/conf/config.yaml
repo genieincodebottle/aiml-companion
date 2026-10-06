@@ -1,0 +1,30 @@
+# Every number the project uses lives here. Change the seed and every count
+# below changes, but the same seed always gives byte-identical output.
+seed: 20261006
+
+stream:
+  topic: wallet_events
+  n_partitions: 3
+  n_accounts: 2000
+  n_wallet_events: 45000        # wallet_txn, delta events (deposit / withdrawal)
+  n_profile_events: 5000        # profile_updated, state events (tier, daily limit)
+  first_event_time: 1760000000  # epoch seconds of the first event
+  retry_rate: 0.02              # share of events the producer sends twice (no ack seen)
+  retry_max_gap: 30             # the resend lands 1..N records later in the same partition
+  late_profile_rate: 0.08       # share of profile updates delivered after a newer update
+  late_max_gap: 50              # late update lands 1..N records after the account's newest update
+  tie_accounts: 40              # accounts whose last two updates share one event_time
+
+crashes:
+  every: 997                    # mean records per partition between consumer crashes
+  jitter: 0.10                  # +- share of `every`
+
+consumer:
+  group: wallet-sink
+  batch_size: 100               # records per poll, like max.poll.records
+
+experiments:
+  batch_sizes: [50, 100, 500, 5000]
+
+kafka:
+  bootstrap_env: KAFKA_BOOTSTRAP   # host:port, e.g. localhost:19092

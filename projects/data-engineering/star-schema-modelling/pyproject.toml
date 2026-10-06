@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "star-schema-modelling"
+version = "1.0.0"
+description = "A dbt star schema with planted traps, an answer key and a mutation matrix"
+requires-python = ">=3.10"
+dependencies = [
+    "dbt-core>=1.10,<2", "dbt-duckdb>=1.8", "duckdb>=1.0", "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4"]
+notebook = ["jupyter>=1.0", "nbformat>=5.9", "nbconvert>=7.0", "ipykernel>=6.0", "matplotlib>=3.7", "pandas>=2.1"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+# Find the package without requiring `pip install -e .`. The editable install
+# fails on some Windows setups, and the suite should not depend on it.
+pythonpath = ["src"]

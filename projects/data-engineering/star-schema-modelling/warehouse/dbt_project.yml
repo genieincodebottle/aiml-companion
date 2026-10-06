@@ -1,0 +1,14 @@
+name: star_schema_warehouse
+version: "1.0.0"
+config-version: 2
+profile: star_schema
+
+model-paths: ["models"]
+test-paths: ["tests"]
+
+models:
+  star_schema_warehouse:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table

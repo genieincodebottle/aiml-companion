@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "incremental-warehouse"
+version = "1.0.0"
+description = "An incremental warehouse pipeline that survives late commits, deletes, reruns and bad input"
+requires-python = ">=3.10"
+dependencies = [
+    "duckdb>=1.0", "pyarrow>=14.0", "PyYAML>=6.0", "Jinja2>=3.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4"]
+notebook = ["pandas>=2.0", "matplotlib>=3.7", "nbformat>=5.9", "nbconvert>=7.0", "ipykernel>=6.0", "pip"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+# Find the package without requiring `pip install -e .`. The editable install
+# fails on some Windows setups, and the suite should not depend on it.
+pythonpath = ["src"]

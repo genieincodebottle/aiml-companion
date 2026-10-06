@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Generated output. Reproducible from conf/config.yaml, so never committed.
+# LEADING SLASH IS LOAD-BEARING. A bare `data/` would also match any package
+# folder called data and silently drop it from every commit.
+/data/
+/artifacts/

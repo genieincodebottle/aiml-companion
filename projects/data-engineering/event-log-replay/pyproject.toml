@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "event-log-replay"
+version = "1.0.0"
+description = "At-least-once delivery, idempotent sinks and a rewind-and-diff replay proof"
+requires-python = ">=3.10"
+dependencies = ["duckdb>=1.0", "PyYAML>=6.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4"]
+notebook = ["pandas>=2.0", "jupyter>=1.0", "matplotlib>=3.7", "nbformat>=5.9"]
+kafka = ["confluent-kafka>=2.3"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = ["kafka: needs a running broker, skipped unless KAFKA_BOOTSTRAP is set"]
+# Find the package without `pip install -e .`, which fails on some Windows setups.
+pythonpath = ["src"]

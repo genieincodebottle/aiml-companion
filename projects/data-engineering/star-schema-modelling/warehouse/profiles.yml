@@ -1,0 +1,17 @@
+# Lives inside the project so nothing touches ~/.dbt. run.py passes
+# --profiles-dir and sets STAR_SCHEMA_DB to the DuckDB file for each build.
+star_schema:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('STAR_SCHEMA_DB') }}"
+      threads: 1
+      # One DuckDB thread keeps float sums in a fixed order, so the one
+      # mutation that uses floats gives the same digits on every run.
+      settings:
+        threads: 1
+
+config:
+  send_anonymous_usage_stats: false
+  use_colors: false

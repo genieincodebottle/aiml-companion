@@ -1,0 +1,111 @@
+version: 2
+
+models:
+  - name: dim_customer
+    description: Type 2. One row per customer version, with an exclusive valid_to.
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [customer_id, valid_from]
+    columns:
+      - name: customer_sk
+        data_tests: [unique, not_null]
+      - name: customer_id
+        data_tests: [not_null]
+      - name: region
+        data_tests: [not_null]
+      - name: valid_from
+        data_tests: [not_null]
+      - name: valid_to
+        data_tests: [not_null]
+      - name: is_current
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+                quote: false
+
+  - name: dim_product
+    description: Type 1. One row per product, categories corrected in place.
+    columns:
+      - name: product_sk
+        data_tests: [unique, not_null]
+      - name: product_id
+        data_tests: [unique, not_null]
+      - name: category
+        data_tests: [not_null]
+
+  - name: fct_order
+    description: Grain is one row per order. Shipping lives here.
+    columns:
+      - name: order_id
+        data_tests: [unique, not_null]
+      - name: customer_sk
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_sk
+      - name: shipping_cost
+        data_tests:
+          - not_null
+          - column_is_decimal:
+              config:
+                tags: [added]
+
+  - name: fct_order_line
+    description: Grain is one row per order line. Revenue lives here.
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [order_id, line_no]
+    columns:
+      - name: order_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fct_order')
+                field: order_id
+      - name: customer_sk
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_sk
+      - name: product_sk
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_product')
+                field: product_sk
+      - name: line_revenue
+        data_tests:
+          - not_null
+          - column_is_decimal:
+              config:
+                tags: [added]
+
+  - name: rpt_revenue_by_region_category_day
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [order_date, region, category]
+    columns:
+      - name: region
+        data_tests: [not_null]
+      - name: category
+        data_tests: [not_null]
+
+  - name: rpt_shipping_by_region_day
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [order_date, region]
+    columns:
+      - name: region
+        data_tests: [not_null]

@@ -1,0 +1,102 @@
+<svg font-family="Inter, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" viewBox="0 0 900 652" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="From the shop database to published tables. Only publish writes the published schema, and only scoring.py reads the answer key. The source is the shop database, SQLite, an OLTP database filled by a simulator for 30 days, which replays to any day. The extract reads an updated_at window with a 180 min lookback and takes a key snapshot of every order_id in the source. Both land as raw Parquet partitioned by extract_date, in four tables, orders, order_lines, customers and order_keys. check_raw reads the raw partition. On failure it moves the partition to raw/_quarantine. When it passes, the run continues in DuckDB. The build schema is a copy of published that one run changes, holding stg_orders, stg_order_lines, stg_customer_versions, dim_customer_scd2, fct_order and fct_order_line. check_marts checks build, then publish copies it to the published schema in one transaction. Published is what readers query and is written only by publish. The ops schema holds runs, check_results and publish_log, a record of every task, check and publish. Below a dashed line sits the answer key, which the pipeline code never imports. world.py, the simulator, feeds the shop and writes the answer key, the true state after each day. scoring.py is the only reader of the key, and published revenue matches the key on 30 of 30 days.">
+  <defs>
+    <marker id="dcArr" viewBox="0 0 10 10" refX="0.32" refY="5" markerWidth="8" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,1 L8,5 L0,9 z" fill="#64748B"/>
+    </marker>
+    <marker id="dcArrRed" viewBox="0 0 10 10" refX="0.32" refY="5" markerWidth="8" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,1 L8,5 L0,9 z" fill="#DC2626"/>
+    </marker>
+    <marker id="dcArrGreen" viewBox="0 0 10 10" refX="0.32" refY="5" markerWidth="8" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,1 L8,5 L0,9 z" fill="#16A34A"/>
+    </marker></defs>
+  
+    <style>
+      text { fill: #1E293B; }
+      .title { font-size: 25px; font-weight: 800; fill: #0F172A; }
+      .subtitle { font-size: 13px; fill: #475569; letter-spacing: 0.2px; }
+      .layerLabel { font-size: 12px; font-weight: 700; fill: #334155; letter-spacing: 1.6px; }
+      .boxTitle { font-size: 14.5px; font-weight: 700; }
+      .boxSub { font-size: 11.5px; fill: #475569; }
+      .tag { font-size: 11px; font-weight: 600; letter-spacing: 0.3px; }
+      .note { font-size: 11.5px; fill: #475569; }
+      .num { font-size: 13px; font-weight: 800; fill: #0F172A; }
+      .big { font-size: 28px; font-weight: 800; fill: #0F172A; }
+      .flowMain { fill: none; stroke: #94A3B8; stroke-width: 2.5; }
+      .flowGood { fill: none; stroke: #16A34A; stroke-width: 2.2; }
+      .flowBad { fill: none; stroke: #DC2626; stroke-width: 2.2; }
+      .guard { fill: none; stroke: #7C3AED; stroke-width: 1.6; stroke-dasharray: 5 4; }
+    </style>
+  <rect width="900" height="652" fill="#F8FAFC"/>
+  <text x="34" y="42" class="title">From the shop database to published tables</text>
+  <text x="34" y="64" class="subtitle">Only publish writes the published schema, and only scoring.py reads the answer key</text>
+  <text x="34" y="100" class="layerLabel">SOURCE</text>
+  <text x="234" y="100" class="layerLabel">EXTRACT</text>
+  <text x="464" y="100" class="layerLabel">RAW PARQUET</text>
+  <rect x="34" y="112" width="160" height="132" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="114" y="150" class="boxTitle" text-anchor="middle">Shop database</text>
+  <text x="114" y="172" class="boxSub" text-anchor="middle">SQLite, OLTP</text>
+  <text x="114" y="190" class="boxSub" text-anchor="middle">simulator, 30 days</text>
+  <text x="114" y="208" class="boxSub" text-anchor="middle">replays to any day</text>
+  <rect x="234" y="112" width="190" height="58" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="329" y="136" class="boxTitle" text-anchor="middle">updated_at window</text>
+  <text x="329" y="156" class="boxSub" text-anchor="middle">180 min lookback</text>
+  <rect x="234" y="186" width="190" height="58" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="329" y="210" class="boxTitle" text-anchor="middle">key snapshot</text>
+  <text x="329" y="230" class="boxSub" text-anchor="middle">every order_id in the source</text>
+  <rect x="464" y="112" width="210" height="132" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="569" y="142" class="boxTitle" text-anchor="middle">raw Parquet</text>
+  <text x="569" y="162" class="boxSub" text-anchor="middle">partitioned by extract_date</text>
+  <text x="569" y="192" class="boxSub" text-anchor="middle" style="fill:#1E293B">orders, order_lines,</text>
+  <text x="569" y="210" class="boxSub" text-anchor="middle" style="fill:#1E293B">customers, order_keys</text>
+  <rect x="704" y="186" width="162" height="58" rx="10" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="785" y="210" class="boxTitle" text-anchor="middle" style="font-size:13px">raw/_quarantine</text>
+  <text x="785" y="230" class="boxSub" text-anchor="middle">failed partitions</text>
+  <path d="M194,141 L227.06 141" class="flowMain" marker-end="url(#dcArr)"/>
+  <path d="M194,215 L227.06 215" class="flowMain" marker-end="url(#dcArr)"/>
+  <path d="M424,141 L457.06 141" class="flowMain" marker-end="url(#dcArr)"/>
+  <path d="M424,215 L457.06 215" class="flowMain" marker-end="url(#dcArr)"/>
+  <rect x="34" y="318" width="832" height="198" rx="10" fill="#F1F5F9" stroke="#94A3B8" stroke-width="1.2"/>
+  <text x="50" y="340" class="layerLabel">DUCKDB</text>
+  <path d="M569,244 L569 261.06" class="flowMain" marker-end="url(#dcArr)"/>
+  <path d="M569,296 L569 345.06" class="flowMain" marker-end="url(#dcArr)"/>
+  <path d="M629,282 L785 282 L785 250.94" class="flowBad" marker-end="url(#dcArrRed)"/>
+  <path d="M509,282 L520,268 L618,268 L629,282 L618,296 L520,296 z" fill="#FEF3C7" stroke="#D97706" stroke-width="1.6"/>
+  <text x="569" y="286.5" text-anchor="middle" style="font-size:13px;font-weight:700">check_raw</text>
+  <text x="707" y="274" class="tag" text-anchor="middle" style="fill:#991B1B">on failure</text>
+  <rect x="50" y="352" width="180" height="100" rx="10" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="140" y="380" class="boxTitle" text-anchor="middle">published</text>
+  <text x="140" y="402" class="boxSub" text-anchor="middle">what readers query</text>
+  <text x="140" y="420" class="boxSub" text-anchor="middle">written only by publish</text>
+  <rect x="500" y="352" width="350" height="100" rx="10" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="516" y="380" class="boxTitle">build</text>
+  <text x="516" y="400" class="boxSub">a copy of published that one run changes</text>
+  <text x="516" y="422" class="boxSub" style="fill:#1E293B">stg_orders, stg_order_lines, stg_customer_versions</text>
+  <text x="516" y="440" class="boxSub" style="fill:#1E293B">dim_customer_scd2, fct_order, fct_order_line</text>
+  <path d="M500,402 L481.94 402" class="flowMain" marker-end="url(#dcArr)"/>
+  <path d="M365,402 L236.94 402" class="flowGood" marker-end="url(#dcArrGreen)"/>
+  <path d="M365,402 L376,388 L464,388 L475,402 L464,416 L376,416 z" fill="#FEF3C7" stroke="#D97706" stroke-width="1.6"/>
+  <text x="420" y="406.5" text-anchor="middle" style="font-size:13px;font-weight:700">check_marts</text>
+  <text x="297.5" y="377" text-anchor="middle" style="font-size:13px;font-weight:700;fill:#166534">publish</text>
+  <text x="297.5" y="394" class="note" text-anchor="middle" style="fill:#166534">one transaction</text>
+  <rect x="50" y="466" width="800" height="36" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="66" y="489" class="boxTitle">ops</text>
+  <text x="106" y="489" class="boxSub">runs, check_results, publish_log, a record of every task, check and publish</text>
+  <line x1="34" y1="540" x2="866" y2="540" stroke="#64748B" stroke-width="1.6" stroke-dasharray="6 5"/>
+  <text x="34" y="566" class="layerLabel">ANSWER KEY</text>
+  <text x="866" y="566" class="note" text-anchor="end" style="fill:#334155;font-weight:600">the pipeline code never imports world.py or scoring.py</text>
+  <rect x="34" y="580" width="200" height="56" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="134" y="603" class="boxTitle" text-anchor="middle">world.py</text>
+  <text x="134" y="622" class="boxSub" text-anchor="middle">simulator, feeds the shop</text>
+  <rect x="274" y="580" width="200" height="56" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+  <text x="374" y="603" class="boxTitle" text-anchor="middle">answer key</text>
+  <text x="374" y="622" class="boxSub" text-anchor="middle">true state after each day</text>
+  <rect x="514" y="580" width="200" height="56" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="614" y="603" class="boxTitle" text-anchor="middle">scoring.py</text>
+  <text x="614" y="622" class="boxSub" text-anchor="middle">the only reader of the key</text>
+  <rect x="744" y="580" width="122" height="56" rx="10" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="805" y="603" class="boxTitle" text-anchor="middle" style="font-size:13px;fill:#166534">30 of 30 days</text>
+  <text x="805" y="622" class="boxSub" text-anchor="middle" style="fill:#166534">match the key</text>
+  <path d="M234,608 L267.06 608" class="flowMain" marker-end="url(#dcArr)"/>
+  <path d="M474,608 L507.06 608" class="flowMain" marker-end="url(#dcArr)"/>
+  <path d="M714,608 L737.06 608" class="flowMain" marker-end="url(#dcArr)"/>
+</svg>

@@ -1,0 +1,68 @@
+version: 2
+
+models:
+  - name: stg_customer_changes
+    description: One row per change the source reported. Cast and renamed only.
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [customer_id, updated_at]
+    columns:
+      - name: customer_id
+        data_tests: [not_null]
+      - name: region
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [North, South, East, West, Central]
+      - name: updated_at
+        data_tests: [not_null]
+
+  - name: stg_orders
+    description: One row per order. Cast and renamed only.
+    columns:
+      - name: order_id
+        data_tests: [unique, not_null]
+      - name: customer_id
+        data_tests: [not_null]
+      - name: order_ts
+        data_tests: [not_null]
+      - name: status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [processing, shipped, delivered]
+      - name: shipping_cost
+        data_tests: [not_null]
+
+  - name: stg_order_lines
+    description: One row per (order_id, line_no) after the re-sent rows are removed.
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [order_id, line_no]
+    columns:
+      - name: order_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_orders')
+                field: order_id
+      - name: product_id
+        data_tests: [not_null]
+      - name: quantity
+        data_tests: [not_null]
+      - name: unit_price
+        data_tests: [not_null]
+
+  - name: stg_products
+    columns:
+      - name: product_id
+        data_tests: [unique, not_null]
+
+  - name: stg_product_corrections
+    columns:
+      - name: product_id
+        data_tests: [unique, not_null]

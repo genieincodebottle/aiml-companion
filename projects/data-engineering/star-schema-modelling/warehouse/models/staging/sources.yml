@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: raw
+    description: >
+      The OLTP export, loaded as text by run.py. Every column is a string on
+      purpose, so staging is the single place where types are decided.
+    schema: raw
+    tables:
+      - name: customer_changes
+      - name: orders
+      - name: order_lines
+      - name: products
+      - name: product_corrections

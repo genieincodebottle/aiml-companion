@@ -1,0 +1,58 @@
+# Everything tunable lives here. Every trap rate is a number in this file, so
+# every naive-approach error in the README is traceable to a setting.
+
+data:
+  seed: 42
+  n_customers: 1500
+  n_products: 400
+  n_orders: 12000            # includes the boundary and showcase orders below
+  start_date: "2026-01-01"
+  n_days: 181                # about six months
+  regions: [North, South, East, West, Central]
+  categories: [Electronics, Home, Garden, Sports, Books, Toys]
+  # Lines per order = 1..6 with these integer weights (mean exactly 2.5).
+  lines_per_order_weights: [28, 30, 20, 12, 6, 4]
+  quantity_weights: [60, 25, 10, 5]          # quantity 1..4
+  price_cents_min: 499
+  price_cents_max: 19999
+  discount_line_share_pct: 15                # percent of lines that carry a discount
+  discount_pcts: [5, 10, 20]
+  shipping_cents: [0, 399, 599, 799, 1299]   # charged once per ORDER
+  shipping_weights: [20, 30, 25, 15, 10]
+  status_values: [processing, shipped, delivered]
+  status_weights: [5, 15, 80]
+
+traps:
+  # 1. Relocation. Customers who change region during the period.
+  relocate_once_share: 0.20
+  relocate_twice_share: 0.05
+  first_move_earliest_day: 15
+  second_move_min_gap_days: 20
+  # 4. Late-arriving dimension. First CDC row is stamped after some orders.
+  late_customer_share: 0.04
+  late_first_row_min_day: 30
+  late_first_row_max_day: 120
+  # 5. Boundary orders. Placed in the same second a customer's region changed.
+  boundary_orders: 60
+  # 3. Re-sent delivery. A retry re-sent chunks of order_lines.
+  resend_share: 0.02
+  resend_chunk_min: 10
+  resend_chunk_max: 50
+  # Type 1 product category corrections.
+  product_correction_share: 0.03
+
+showcase:
+  # One customer who is guaranteed to relocate, with orders on both sides.
+  customer_id: 1
+  name: Ada Quinn
+  region_from: North
+  region_to: West
+  moved_at: "2026-03-15 12:00:00"
+  orders_before: 4
+  orders_after: 4
+
+paths:
+  raw_dir: data/raw
+  key_dir: data/answer_key
+  artifacts: artifacts
+  dbt_project: warehouse

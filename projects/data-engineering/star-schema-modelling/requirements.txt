@@ -1,0 +1,16 @@
+# runtime
+dbt-core>=1.10,<2
+dbt-duckdb>=1.8
+duckdb>=1.0
+PyYAML>=6.0
+
+# notebook
+jupyter>=1.0
+nbformat>=5.9
+nbconvert>=7.0
+ipykernel>=6.0
+matplotlib>=3.7
+pandas>=2.1
+
+# dev
+pytest>=7.4

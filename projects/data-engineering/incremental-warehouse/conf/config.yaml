@@ -1,0 +1,74 @@
+# Every number the project uses lives here. Change the seed and every count in
+# the README changes with it, so the tests pin the numbers for seed 42 only.
+seed: 42
+
+source:
+  start_date: "2025-06-02"        # logical date of day 1
+  days: 30
+  initial_customers: 300          # created on day 1
+  new_customers_per_day: [3, 8]   # inclusive range, from day 2
+  regions: [NA, EU, APAC, LATAM]
+  orders_per_day: [50, 70]        # inclusive range
+  lines_per_order: [1, 4]
+  quantity: [1, 5]
+  sku_count: 40
+  sku_price_cents: [499, 9999]
+  # Daily chance that an open order moves one step.
+  p_placed_to_paid: 0.70
+  p_placed_to_cancelled: 0.05
+  p_paid_to_shipped: 0.50
+  p_shipped_to_delivered: 0.50
+  relocation_rate: 0.010          # per customer per day, changes region
+  email_change_rate: 0.010        # per customer per day, region unchanged
+  # Planted failure 1. A late commit keeps the updated_at it was stamped with
+  # when its transaction started, but becomes visible the next day.
+  late_commit_rate: 0.03          # share of a day's order and customer changes
+  late_max_minutes: 150           # how far before midnight the stamp falls
+  # Planted failure 2. Orders hard-deleted from the source (test or fraud).
+  hard_deletes_per_day: 1
+  hard_delete_from_day: 3
+
+# Revenue rule, defined once. An order counts when its status is in this list.
+# Revenue is the sum of quantity * unit_price_cents over its lines, in cents,
+# attributed to the order's created date and the customer's region on that date.
+revenue_statuses: [paid, shipped, delivered]
+
+pipeline:
+  lookback_minutes: 180           # must exceed source.late_max_minutes
+  detect_deletes: true            # key reconciliation against the source
+  load_mode: overwrite            # overwrite (partition) or append
+  scd_type: 2                     # 2 keeps region history, 1 keeps current only
+  clock: run_date                 # run_date or wall
+  checks_mode: gate               # gate (fail the run) or report (log only)
+  retries: 2
+  retry_delay_seconds: 0.05       # first delay, doubled on each retry
+  retry_backoff: 2.0
+
+checks:
+  volume_table: orders
+  volume_history_days: 7          # trailing window for the median
+  volume_min_history: 3           # partitions needed before the check applies
+  volume_min_ratio: 0.5
+  volume_max_ratio: 3.0
+  freshness_hours: 6              # newest updated_at must be this close to window end
+  max_null_rate: 0.01
+  contract:
+    orders: [order_id, customer_id, status, created_at, updated_at]
+    order_lines: [order_id, line_no, sku, quantity, unit_price_cents]
+    customers: [customer_id, name, email, region, updated_at]
+  required_not_null:
+    orders: [order_id, customer_id, status, created_at, updated_at]
+    order_lines: [order_id, line_no, quantity, unit_price_cents]
+    customers: [customer_id, region, updated_at]
+
+demo:
+  rerun_date: "2025-06-16"        # day 15
+  backfill_start: "2025-06-10"    # days 9 to 13
+  backfill_end: "2025-06-14"
+  backfill_wall_today: "2025-07-15"
+  break_date: "2025-06-21"        # day 20
+  transient_task: extract_orders
+  transient_date: "2025-06-05"
+  transient_failures: 1           # attempts that fail before one succeeds
+  break_null_modulus: 5           # nulls break clears customer_id on order_id % 5 < 2
+  break_volume_keep_every: 10     # volume break keeps every 10th event of the day

@@ -14,7 +14,7 @@
 ## Contents
 
 - [About the AI-ML Companion Platform](#about-the-ai-ml-companion-platform)
-- [Projects](#projects) - all 23, grouped by domain
+- [Projects](#projects) - all 27, grouped by domain
 - [Project Details](#project-details) - what each one actually does
 - [Industry Best-Practice Project Structure](#industry-best-practice-project-structure)
 - [Key Principles](#key-principles)
@@ -111,6 +111,14 @@ These 24 projects are the hands-on companion to **[AI-ML Companion](https://aiml
 | # | Project | Domain | Difficulty | Key Tech | Learn / Docs |
 |---|---|---|---|---|---|
 | 24 | [FDE Engagement Starter](projects/forward-deployment/fde-engagement-starter/) | Forward Deployment Engineering | Intermediate-Advanced | FastAPI, Pandas, Pytest, Docker | [Learn &rarr;](https://aimlcompanion.ai/module/forwardDeployment/fdePortfolioMVA) |
+
+### Data Engineering
+
+| # | Project | Domain | Difficulty | Key Tech | Learn / Docs |
+|---|---|---|---|---|---|
+| 25 | [Star Schema Modelling](projects/data-engineering/star-schema-modelling/) | Dimensional Modelling / Data Tests | Intermediate | dbt, DuckDB, Pytest | [Learn &rarr;](https://aimlcompanion.ai/module/dataEngineering/deStarSchemaProject) |
+| 26 | [Event Log Replay](projects/data-engineering/event-log-replay/) | Streaming / Delivery Semantics | Advanced | DuckDB, Kafka API (Redpanda, optional), Pytest | [Learn &rarr;](https://aimlcompanion.ai/module/dataEngineering/deReplayProject) |
+| 27 | [Incremental Warehouse](projects/data-engineering/incremental-warehouse/) | Incremental Pipelines / Orchestration | Advanced | SQLite, DuckDB, Parquet, Pytest | [Learn &rarr;](https://aimlcompanion.ai/module/dataEngineering/dataEngCapstone) |
 
 ---
 
@@ -507,6 +515,60 @@ The repository behind the Forward Deployed Engineer path: the portfolio artifact
 
 ---
 
+### Data Engineering
+
+#### Star Schema Modelling - Which Tests Catch a Broken Model
+
+A dbt star schema on DuckDB for a generated online store with five planted source problems. Customers move region, shipping is charged per order, order lines are re-sent, some customer rows arrive late and some orders land on the second of a change. The generator keeps the true answer, so the reports are scored to the cent, and the correct model matches it exactly.
+
+Then the model is broken 13 ways and all 64 tests run against each break. Six breaks pass every generic and singular test while the report is wrong, and one of those six fails no test at all.
+
+**Highlights**
+
+- Type 2 customer dimension joined by validity window, two facts at two grains
+- Joining on `is_current` moves 17.53% of revenue between regions
+- A mutation matrix that records which test tier catches each break
+- 75 tests, including a check that the notebook matches the dbt results
+
+[Interactive Walkthrough](https://aimlcompanion.ai/module/dataEngineering/deStarSchemaProject)
+
+---
+
+#### Event Log Replay - An Idempotent Sink You Can Prove
+
+A 51,000-record wallet event log with 1,000 producer retries, 400 out-of-order profile updates and 52 seeded consumer crashes, written into DuckDB five ways and scored against an answer key. Committing the offset first loses 2,442 events. A dedup table in its own transaction still applies 2,175 events twice. Only one transaction for the effect, the event id and the offset gets all 2,000 accounts right.
+
+A full replay from offset zero then shows which sinks are idempotent, and that an identical checksum is not the same as a correct one.
+
+**Highlights**
+
+- File-backed log with Kafka semantics, and an optional Redpanda backend with identical results
+- State events take a guarded upsert, delta events need effect-level dedup
+- Batch size changes how much is redelivered, never whether the result is correct
+- 60 tests, plus 2 that run against a live broker
+
+[Interactive Walkthrough](https://aimlcompanion.ai/module/dataEngineering/deReplayProject)
+
+---
+
+#### Incremental Warehouse - Rerun, Backfill and Fail Before Publish
+
+The Data Engineering track capstone. A simulated shop database changes for 30 days while a daily pipeline extracts only what changed, lands Parquet partitions, builds a DuckDB warehouse and publishes it behind gating checks. A strict `updated_at` watermark misses all 111 late commits, and without a key snapshot all 27 hard-deleted orders stay published.
+
+The pipeline proves three properties with commands and tests. A rerun leaves identical checksums, a late backfill equals a clean pass, and broken input stops at `check_raw` with the published tables unchanged.
+
+**Highlights**
+
+- Lookback window plus dedup for late commits, key reconciliation for hard deletes
+- Partition overwrite by logical date, SCD type 2 customers, atomic publish
+- Six naive switches measured against the correct pipeline
+- A small in-repo DAG runner with retries and skips, and a runbook
+- 56 tests
+
+[Interactive Walkthrough](https://aimlcompanion.ai/module/dataEngineering/dataEngCapstone)
+
+---
+
 ## Industry Best-Practice Project Structure
 
 Most of the Python projects follow a consistent structure adapted from top ML teams:
@@ -582,6 +644,11 @@ MACHINE LEARNING
   #6  Lapse Prediction         -> Ordinal targets, leakage, cohort maturity, out-of-time splits
   #7  Credit Risk Pipeline     -> Feature engineering, end-to-end pipelines, monitoring
        |
+DATA ENGINEERING
+  #25 Star Schema Modelling    -> Grain, Type 2 history, which tests catch a broken model
+  #26 Event Log Replay         -> Delivery semantics, idempotent sinks, the replay proof
+  #27 Incremental Warehouse    -> Incremental extraction, gating checks, rerun and backfill
+       |
 DEEP LEARNING
   #10 Deep Learning Classifier -> Neural networks, progressive experimentation
        |
@@ -644,6 +711,10 @@ aiml-companion/
 │   │   ├── multi-agent-anatomy/        # Production Multi-Agent Failure Modes
 │   │   ├── multi-agents-app-on-aws/    # Bedrock AgentCore
 │   │   └── hermes-ops-agent/           # Agent Operations + Learning Loops
+│   ├── data-engineering/
+│   │   ├── star-schema-modelling/      # dbt + DuckDB + Mutation Matrix
+│   │   ├── event-log-replay/           # Idempotent Sinks + Replay Proof
+│   │   └── incremental-warehouse/      # Incremental Pipeline + Gating Checks
 │   ├── mlops/
 │   │   └── model-serving-platform/     # Model Serving + CI/CD
 │   └── forward-deployment/

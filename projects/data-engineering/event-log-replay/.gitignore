@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+/.venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Generated output -- reproducible from config + seed, so never committed.
+# LEADING SLASH IS LOAD-BEARING: a bare `data/` also matches
+# src/log_replay/data/ and would silently exclude the generator
+# from every commit.
+/data/
+/artifacts/
