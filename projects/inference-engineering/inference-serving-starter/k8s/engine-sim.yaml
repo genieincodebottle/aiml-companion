@@ -1,0 +1,73 @@
+# engine_sim as a Deployment. One replica = one pretend GPU server.
+# The image is built locally and loaded into kind (see RUNBOOK.md), so imagePullPolicy is Never.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: serving
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: engine-sim
+  namespace: serving
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: engine-sim
+  template:
+    metadata:
+      labels:
+        app: engine-sim
+    spec:
+      containers:
+        - name: engine-sim
+          image: engine-sim:dev
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 8100
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 3
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: engine-sim
+  namespace: serving
+  labels:
+    app: engine-sim
+spec:
+  selector:
+    app: engine-sim
+  ports:
+    - name: http
+      port: 8100
+      targetPort: http
+---
+# Needs the Prometheus Operator CRDs (installed with kube-prometheus-stack, see RUNBOOK.md).
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: engine-sim
+  namespace: serving
+  labels:
+    release: kps
+spec:
+  selector:
+    matchLabels:
+      app: engine-sim
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 5s

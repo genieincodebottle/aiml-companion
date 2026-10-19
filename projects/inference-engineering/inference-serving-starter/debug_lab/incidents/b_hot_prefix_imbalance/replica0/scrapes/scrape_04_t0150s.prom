@@ -1,0 +1,140 @@
+# HELP vllm:num_requests_running Number of requests in model execution batches.
+# TYPE vllm:num_requests_running gauge
+vllm:num_requests_running{model_name="Llama-3.1-8B",engine="0"} 12
+# HELP vllm:num_requests_waiting Number of requests waiting to be processed.
+# TYPE vllm:num_requests_waiting gauge
+vllm:num_requests_waiting{model_name="Llama-3.1-8B",engine="0"} 0
+# HELP vllm:kv_cache_usage_perc KV-cache usage. 1 means 100 percent usage.
+# TYPE vllm:kv_cache_usage_perc gauge
+vllm:kv_cache_usage_perc{model_name="Llama-3.1-8B",engine="0"} 0.149791232
+# HELP vllm:num_preemptions_total Cumulative number of preemptions from the engine.
+# TYPE vllm:num_preemptions_total counter
+vllm:num_preemptions_total{model_name="Llama-3.1-8B",engine="0"} 0
+# HELP vllm:prompt_tokens_total Number of prefill tokens processed.
+# TYPE vllm:prompt_tokens_total counter
+vllm:prompt_tokens_total{model_name="Llama-3.1-8B",engine="0"} 21656
+# HELP vllm:generation_tokens_total Number of generation tokens processed.
+# TYPE vllm:generation_tokens_total counter
+vllm:generation_tokens_total{model_name="Llama-3.1-8B",engine="0"} 22128
+# HELP vllm:request_success_total Count of successfully processed requests.
+# TYPE vllm:request_success_total counter
+vllm:request_success_total{model_name="Llama-3.1-8B",engine="0",finished_reason="length"} 101
+# HELP vllm:prefix_cache_queries_total Prefix cache queries, in terms of number of queried tokens.
+# TYPE vllm:prefix_cache_queries_total counter
+vllm:prefix_cache_queries_total{model_name="Llama-3.1-8B",engine="0"} 65656
+# HELP vllm:prefix_cache_hits_total Prefix cache hits, in terms of number of cached tokens.
+# TYPE vllm:prefix_cache_hits_total counter
+vllm:prefix_cache_hits_total{model_name="Llama-3.1-8B",engine="0"} 44000
+# HELP vllm:spec_decode_num_drafts_total Number of spec decoding drafts.
+# TYPE vllm:spec_decode_num_drafts_total counter
+vllm:spec_decode_num_drafts_total{model_name="Llama-3.1-8B",engine="0"} 0
+# HELP vllm:spec_decode_num_draft_tokens_total Number of draft tokens.
+# TYPE vllm:spec_decode_num_draft_tokens_total counter
+vllm:spec_decode_num_draft_tokens_total{model_name="Llama-3.1-8B",engine="0"} 0
+# HELP vllm:spec_decode_num_accepted_tokens_total Number of accepted tokens.
+# TYPE vllm:spec_decode_num_accepted_tokens_total counter
+vllm:spec_decode_num_accepted_tokens_total{model_name="Llama-3.1-8B",engine="0"} 0
+# HELP vllm:time_to_first_token_seconds Histogram of time to first token in seconds.
+# TYPE vllm:time_to_first_token_seconds histogram
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.001"} 0
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.005"} 0
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.01"} 0
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.02"} 0
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.04"} 1
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.06"} 40
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.08"} 80
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.1"} 99
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.25"} 113
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.5"} 113
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.75"} 113
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="1.0"} 113
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="2.5"} 113
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="5.0"} 113
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="7.5"} 113
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="10.0"} 113
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="20.0"} 113
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="40.0"} 113
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="80.0"} 113
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="160.0"} 113
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="640.0"} 113
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="2560.0"} 113
+vllm:time_to_first_token_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="+Inf"} 113
+vllm:time_to_first_token_seconds_sum{model_name="Llama-3.1-8B",engine="0"} 8.422796618
+vllm:time_to_first_token_seconds_count{model_name="Llama-3.1-8B",engine="0"} 113
+# HELP vllm:inter_token_latency_seconds Histogram of inter-token latency in seconds.
+# TYPE vllm:inter_token_latency_seconds histogram
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.01"} 0
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.025"} 0
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.05"} 21741
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.075"} 21921
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.1"} 21986
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.15"} 22007
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.2"} 22014
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.3"} 22015
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.4"} 22015
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.5"} 22015
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.75"} 22015
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="1.0"} 22015
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="2.5"} 22015
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="5.0"} 22015
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="7.5"} 22015
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="10.0"} 22015
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="20.0"} 22015
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="40.0"} 22015
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="80.0"} 22015
+vllm:inter_token_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="+Inf"} 22015
+vllm:inter_token_latency_seconds_sum{model_name="Llama-3.1-8B",engine="0"} 840.836224234
+vllm:inter_token_latency_seconds_count{model_name="Llama-3.1-8B",engine="0"} 22015
+# HELP vllm:e2e_request_latency_seconds Histogram of end to end request latency in seconds.
+# TYPE vllm:e2e_request_latency_seconds histogram
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.3"} 0
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.5"} 0
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.8"} 0
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="1.0"} 0
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="1.5"} 0
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="2.0"} 1
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="2.5"} 1
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="5.0"} 20
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="10.0"} 77
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="15.0"} 95
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="20.0"} 99
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="30.0"} 101
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="40.0"} 101
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="50.0"} 101
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="60.0"} 101
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="120.0"} 101
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="240.0"} 101
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="480.0"} 101
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="960.0"} 101
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="1920.0"} 101
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="7680.0"} 101
+vllm:e2e_request_latency_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="+Inf"} 101
+vllm:e2e_request_latency_seconds_sum{model_name="Llama-3.1-8B",engine="0"} 802.570041082
+vllm:e2e_request_latency_seconds_count{model_name="Llama-3.1-8B",engine="0"} 101
+# HELP vllm:request_queue_time_seconds Histogram of time spent in WAITING phase for request.
+# TYPE vllm:request_queue_time_seconds histogram
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.001"} 7
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.005"} 23
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.01"} 39
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.02"} 74
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.04"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.06"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.08"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.1"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.25"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.5"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="0.75"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="1.0"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="2.5"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="5.0"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="7.5"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="10.0"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="20.0"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="40.0"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="80.0"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="160.0"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="640.0"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="2560.0"} 113
+vllm:request_queue_time_seconds_bucket{model_name="Llama-3.1-8B",engine="0",le="+Inf"} 113
+vllm:request_queue_time_seconds_sum{model_name="Llama-3.1-8B",engine="0"} 1.842754111
+vllm:request_queue_time_seconds_count{model_name="Llama-3.1-8B",engine="0"} 113

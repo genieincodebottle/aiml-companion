@@ -1,0 +1,94 @@
+INFO 2026-10-19 02:00:10 [engine_sim:replica1] Avg prompt throughput: 1252.1 tokens/s, Avg generation throughput: 440.6 tokens/s, Running: 50 reqs, Waiting: 0 reqs, KV cache usage: 52.0%, Prefix cache hit rate: 85.3%
+INFO 2026-10-19 02:00:20 [engine_sim:replica1] Avg prompt throughput: 1001.2 tokens/s, Avg generation throughput: 960.2 tokens/s, Running: 75 reqs, Waiting: 0 reqs, KV cache usage: 79.2%, Prefix cache hit rate: 88.0%
+INFO 2026-10-19 02:00:30 [engine_sim:replica1] Avg prompt throughput: 1180.1 tokens/s, Avg generation throughput: 1036.1 tokens/s, Running: 84 reqs, Waiting: 24 reqs, KV cache usage: 100.0%, Prefix cache hit rate: 88.9%
+WARNING 2026-10-19 02:00:30 [engine_sim:replica1] 17 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:00:40 [engine_sim:replica1] Avg prompt throughput: 1369.9 tokens/s, Avg generation throughput: 891.2 tokens/s, Running: 91 reqs, Waiting: 28 reqs, KV cache usage: 99.9%, Prefix cache hit rate: 89.9%
+WARNING 2026-10-19 02:00:40 [engine_sim:replica1] 27 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:00:50 [engine_sim:replica1] Avg prompt throughput: 1108.1 tokens/s, Avg generation throughput: 936.0 tokens/s, Running: 83 reqs, Waiting: 55 reqs, KV cache usage: 98.9%, Prefix cache hit rate: 89.6%
+WARNING 2026-10-19 02:00:50 [engine_sim:replica1] 34 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:01:00 [engine_sim:replica1] Avg prompt throughput: 1328.0 tokens/s, Avg generation throughput: 931.7 tokens/s, Running: 81 reqs, Waiting: 74 reqs, KV cache usage: 99.8%, Prefix cache hit rate: 86.4%
+WARNING 2026-10-19 02:01:00 [engine_sim:replica1] 24 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:01:10 [engine_sim:replica1] Avg prompt throughput: 1497.7 tokens/s, Avg generation throughput: 901.3 tokens/s, Running: 100 reqs, Waiting: 61 reqs, KV cache usage: 99.7%, Prefix cache hit rate: 88.9%
+WARNING 2026-10-19 02:01:10 [engine_sim:replica1] 30 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:01:20 [engine_sim:replica1] Avg prompt throughput: 1289.6 tokens/s, Avg generation throughput: 1007.4 tokens/s, Running: 91 reqs, Waiting: 96 reqs, KV cache usage: 99.6%, Prefix cache hit rate: 86.7%
+WARNING 2026-10-19 02:01:20 [engine_sim:replica1] 45 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:01:30 [engine_sim:replica1] Avg prompt throughput: 1288.0 tokens/s, Avg generation throughput: 1015.7 tokens/s, Running: 88 reqs, Waiting: 102 reqs, KV cache usage: 99.9%, Prefix cache hit rate: 88.4%
+WARNING 2026-10-19 02:01:30 [engine_sim:replica1] 28 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:01:40 [engine_sim:replica1] Avg prompt throughput: 1477.4 tokens/s, Avg generation throughput: 959.0 tokens/s, Running: 94 reqs, Waiting: 100 reqs, KV cache usage: 99.4%, Prefix cache hit rate: 88.9%
+WARNING 2026-10-19 02:01:40 [engine_sim:replica1] 37 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:01:50 [engine_sim:replica1] Avg prompt throughput: 1235.1 tokens/s, Avg generation throughput: 957.7 tokens/s, Running: 90 reqs, Waiting: 103 reqs, KV cache usage: 99.8%, Prefix cache hit rate: 89.4%
+WARNING 2026-10-19 02:01:50 [engine_sim:replica1] 29 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:02:00 [engine_sim:replica1] Avg prompt throughput: 1294.9 tokens/s, Avg generation throughput: 970.9 tokens/s, Running: 92 reqs, Waiting: 126 reqs, KV cache usage: 99.6%, Prefix cache hit rate: 88.6%
+WARNING 2026-10-19 02:02:00 [engine_sim:replica1] 34 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:02:10 [engine_sim:replica1] Avg prompt throughput: 1258.2 tokens/s, Avg generation throughput: 971.2 tokens/s, Running: 83 reqs, Waiting: 140 reqs, KV cache usage: 96.7%, Prefix cache hit rate: 87.9%
+WARNING 2026-10-19 02:02:10 [engine_sim:replica1] 24 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:02:20 [engine_sim:replica1] Avg prompt throughput: 1485.5 tokens/s, Avg generation throughput: 939.7 tokens/s, Running: 85 reqs, Waiting: 153 reqs, KV cache usage: 99.9%, Prefix cache hit rate: 87.7%
+WARNING 2026-10-19 02:02:20 [engine_sim:replica1] 31 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:02:30 [engine_sim:replica1] Avg prompt throughput: 1319.2 tokens/s, Avg generation throughput: 937.2 tokens/s, Running: 83 reqs, Waiting: 158 reqs, KV cache usage: 99.6%, Prefix cache hit rate: 88.9%
+WARNING 2026-10-19 02:02:30 [engine_sim:replica1] 33 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:02:40 [engine_sim:replica1] Avg prompt throughput: 1388.5 tokens/s, Avg generation throughput: 886.9 tokens/s, Running: 85 reqs, Waiting: 178 reqs, KV cache usage: 99.8%, Prefix cache hit rate: 87.3%
+WARNING 2026-10-19 02:02:40 [engine_sim:replica1] 31 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:02:50 [engine_sim:replica1] Avg prompt throughput: 1436.8 tokens/s, Avg generation throughput: 908.8 tokens/s, Running: 95 reqs, Waiting: 184 reqs, KV cache usage: 98.6%, Prefix cache hit rate: 88.6%
+WARNING 2026-10-19 02:02:50 [engine_sim:replica1] 33 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:03:00 [engine_sim:replica1] Avg prompt throughput: 1045.6 tokens/s, Avg generation throughput: 1034.3 tokens/s, Running: 84 reqs, Waiting: 222 reqs, KV cache usage: 98.9%, Prefix cache hit rate: 88.3%
+WARNING 2026-10-19 02:03:00 [engine_sim:replica1] 31 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:03:10 [engine_sim:replica1] Avg prompt throughput: 1714.4 tokens/s, Avg generation throughput: 874.5 tokens/s, Running: 99 reqs, Waiting: 217 reqs, KV cache usage: 99.9%, Prefix cache hit rate: 88.1%
+WARNING 2026-10-19 02:03:10 [engine_sim:replica1] 23 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:03:20 [engine_sim:replica1] Avg prompt throughput: 1190.9 tokens/s, Avg generation throughput: 989.2 tokens/s, Running: 87 reqs, Waiting: 254 reqs, KV cache usage: 99.7%, Prefix cache hit rate: 89.0%
+WARNING 2026-10-19 02:03:20 [engine_sim:replica1] 38 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:03:30 [engine_sim:replica1] Avg prompt throughput: 1105.0 tokens/s, Avg generation throughput: 955.4 tokens/s, Running: 80 reqs, Waiting: 274 reqs, KV cache usage: 97.4%, Prefix cache hit rate: 88.9%
+WARNING 2026-10-19 02:03:30 [engine_sim:replica1] 29 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:03:40 [engine_sim:replica1] Avg prompt throughput: 1423.6 tokens/s, Avg generation throughput: 910.8 tokens/s, Running: 82 reqs, Waiting: 280 reqs, KV cache usage: 97.4%, Prefix cache hit rate: 87.9%
+WARNING 2026-10-19 02:03:40 [engine_sim:replica1] 35 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:03:50 [engine_sim:replica1] Avg prompt throughput: 1332.9 tokens/s, Avg generation throughput: 944.6 tokens/s, Running: 85 reqs, Waiting: 277 reqs, KV cache usage: 95.8%, Prefix cache hit rate: 88.5%
+WARNING 2026-10-19 02:03:50 [engine_sim:replica1] 29 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:04:00 [engine_sim:replica1] Avg prompt throughput: 1261.2 tokens/s, Avg generation throughput: 929.7 tokens/s, Running: 79 reqs, Waiting: 301 reqs, KV cache usage: 99.8%, Prefix cache hit rate: 88.5%
+WARNING 2026-10-19 02:04:00 [engine_sim:replica1] 38 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:04:10 [engine_sim:replica1] Avg prompt throughput: 1627.3 tokens/s, Avg generation throughput: 887.9 tokens/s, Running: 93 reqs, Waiting: 306 reqs, KV cache usage: 97.7%, Prefix cache hit rate: 88.4%
+WARNING 2026-10-19 02:04:10 [engine_sim:replica1] 30 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:04:20 [engine_sim:replica1] Avg prompt throughput: 1245.0 tokens/s, Avg generation throughput: 1071.8 tokens/s, Running: 94 reqs, Waiting: 317 reqs, KV cache usage: 99.7%, Prefix cache hit rate: 90.3%
+WARNING 2026-10-19 02:04:20 [engine_sim:replica1] 35 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:04:30 [engine_sim:replica1] Avg prompt throughput: 1308.1 tokens/s, Avg generation throughput: 940.0 tokens/s, Running: 93 reqs, Waiting: 322 reqs, KV cache usage: 98.9%, Prefix cache hit rate: 89.1%
+WARNING 2026-10-19 02:04:30 [engine_sim:replica1] 26 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:04:40 [engine_sim:replica1] Avg prompt throughput: 1148.9 tokens/s, Avg generation throughput: 995.4 tokens/s, Running: 85 reqs, Waiting: 352 reqs, KV cache usage: 99.8%, Prefix cache hit rate: 87.2%
+WARNING 2026-10-19 02:04:40 [engine_sim:replica1] 31 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:04:50 [engine_sim:replica1] Avg prompt throughput: 1396.6 tokens/s, Avg generation throughput: 953.1 tokens/s, Running: 91 reqs, Waiting: 342 reqs, KV cache usage: 99.2%, Prefix cache hit rate: 88.9%
+WARNING 2026-10-19 02:04:50 [engine_sim:replica1] 26 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:05:00 [engine_sim:replica1] Avg prompt throughput: 1227.7 tokens/s, Avg generation throughput: 984.1 tokens/s, Running: 90 reqs, Waiting: 358 reqs, KV cache usage: 99.1%, Prefix cache hit rate: 88.8%
+WARNING 2026-10-19 02:05:00 [engine_sim:replica1] 25 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:05:10 [engine_sim:replica1] Avg prompt throughput: 1486.7 tokens/s, Avg generation throughput: 941.7 tokens/s, Running: 97 reqs, Waiting: 357 reqs, KV cache usage: 99.9%, Prefix cache hit rate: 87.9%
+WARNING 2026-10-19 02:05:10 [engine_sim:replica1] 31 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:05:20 [engine_sim:replica1] Avg prompt throughput: 1120.1 tokens/s, Avg generation throughput: 1076.1 tokens/s, Running: 89 reqs, Waiting: 390 reqs, KV cache usage: 99.6%, Prefix cache hit rate: 90.3%
+WARNING 2026-10-19 02:05:20 [engine_sim:replica1] 44 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:05:30 [engine_sim:replica1] Avg prompt throughput: 1388.2 tokens/s, Avg generation throughput: 993.7 tokens/s, Running: 87 reqs, Waiting: 416 reqs, KV cache usage: 99.1%, Prefix cache hit rate: 88.3%
+WARNING 2026-10-19 02:05:30 [engine_sim:replica1] 27 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:05:40 [engine_sim:replica1] Avg prompt throughput: 1322.7 tokens/s, Avg generation throughput: 966.6 tokens/s, Running: 88 reqs, Waiting: 430 reqs, KV cache usage: 99.7%, Prefix cache hit rate: 88.0%
+WARNING 2026-10-19 02:05:40 [engine_sim:replica1] 30 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:05:50 [engine_sim:replica1] Avg prompt throughput: 1349.8 tokens/s, Avg generation throughput: 947.3 tokens/s, Running: 88 reqs, Waiting: 441 reqs, KV cache usage: 99.2%, Prefix cache hit rate: 88.6%
+WARNING 2026-10-19 02:05:50 [engine_sim:replica1] 34 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:06:00 [engine_sim:replica1] Avg prompt throughput: 1414.7 tokens/s, Avg generation throughput: 944.0 tokens/s, Running: 91 reqs, Waiting: 453 reqs, KV cache usage: 97.8%, Prefix cache hit rate: 87.7%
+WARNING 2026-10-19 02:06:00 [engine_sim:replica1] 28 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:06:10 [engine_sim:replica1] Avg prompt throughput: 1266.7 tokens/s, Avg generation throughput: 972.1 tokens/s, Running: 89 reqs, Waiting: 462 reqs, KV cache usage: 99.8%, Prefix cache hit rate: 88.7%
+WARNING 2026-10-19 02:06:10 [engine_sim:replica1] 28 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:06:20 [engine_sim:replica1] Avg prompt throughput: 1352.3 tokens/s, Avg generation throughput: 931.3 tokens/s, Running: 90 reqs, Waiting: 464 reqs, KV cache usage: 98.5%, Prefix cache hit rate: 88.4%
+WARNING 2026-10-19 02:06:20 [engine_sim:replica1] 30 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:06:30 [engine_sim:replica1] Avg prompt throughput: 1312.4 tokens/s, Avg generation throughput: 970.7 tokens/s, Running: 91 reqs, Waiting: 475 reqs, KV cache usage: 99.9%, Prefix cache hit rate: 88.0%
+WARNING 2026-10-19 02:06:30 [engine_sim:replica1] 25 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:06:40 [engine_sim:replica1] Avg prompt throughput: 1105.6 tokens/s, Avg generation throughput: 1024.9 tokens/s, Running: 85 reqs, Waiting: 499 reqs, KV cache usage: 98.9%, Prefix cache hit rate: 89.9%
+WARNING 2026-10-19 02:06:40 [engine_sim:replica1] 37 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:06:50 [engine_sim:replica1] Avg prompt throughput: 1572.4 tokens/s, Avg generation throughput: 930.7 tokens/s, Running: 99 reqs, Waiting: 498 reqs, KV cache usage: 98.5%, Prefix cache hit rate: 90.0%
+WARNING 2026-10-19 02:06:50 [engine_sim:replica1] 32 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:07:00 [engine_sim:replica1] Avg prompt throughput: 998.0 tokens/s, Avg generation throughput: 1039.0 tokens/s, Running: 87 reqs, Waiting: 530 reqs, KV cache usage: 99.6%, Prefix cache hit rate: 88.2%
+WARNING 2026-10-19 02:07:00 [engine_sim:replica1] 23 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:07:10 [engine_sim:replica1] Avg prompt throughput: 1410.1 tokens/s, Avg generation throughput: 946.4 tokens/s, Running: 94 reqs, Waiting: 536 reqs, KV cache usage: 98.3%, Prefix cache hit rate: 89.4%
+WARNING 2026-10-19 02:07:10 [engine_sim:replica1] 32 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:07:20 [engine_sim:replica1] Avg prompt throughput: 1187.6 tokens/s, Avg generation throughput: 1010.7 tokens/s, Running: 89 reqs, Waiting: 558 reqs, KV cache usage: 99.9%, Prefix cache hit rate: 88.7%
+WARNING 2026-10-19 02:07:20 [engine_sim:replica1] 43 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:07:30 [engine_sim:replica1] Avg prompt throughput: 1318.0 tokens/s, Avg generation throughput: 962.0 tokens/s, Running: 88 reqs, Waiting: 578 reqs, KV cache usage: 99.8%, Prefix cache hit rate: 88.9%
+WARNING 2026-10-19 02:07:30 [engine_sim:replica1] 41 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:07:40 [engine_sim:replica1] Avg prompt throughput: 1367.9 tokens/s, Avg generation throughput: 885.2 tokens/s, Running: 86 reqs, Waiting: 595 reqs, KV cache usage: 99.7%, Prefix cache hit rate: 86.7%
+WARNING 2026-10-19 02:07:40 [engine_sim:replica1] 22 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:07:50 [engine_sim:replica1] Avg prompt throughput: 1343.3 tokens/s, Avg generation throughput: 911.2 tokens/s, Running: 84 reqs, Waiting: 625 reqs, KV cache usage: 99.9%, Prefix cache hit rate: 85.5%
+WARNING 2026-10-19 02:07:50 [engine_sim:replica1] 20 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed
+INFO 2026-10-19 02:08:00 [engine_sim:replica1] Avg prompt throughput: 1200.2 tokens/s, Avg generation throughput: 929.7 tokens/s, Running: 82 reqs, Waiting: 637 reqs, KV cache usage: 98.4%, Prefix cache hit rate: 88.7%
+WARNING 2026-10-19 02:08:00 [engine_sim:replica1] 32 sequences preempted in the last 10s: KV cache is full, their blocks were freed and they will be recomputed

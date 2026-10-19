@@ -1,0 +1,18 @@
+# Helm values for prometheus-community/prometheus-adapter (release name: adapter, namespace: monitoring).
+# It turns the Prometheus series vllm:num_requests_waiting into a Kubernetes custom metric the HPA can read.
+# A Kubernetes metric name cannot contain a colon, so the rule renames it.
+prometheus:
+  url: http://kps-kube-prometheus-stack-prometheus.monitoring.svc
+  port: 9090
+rules:
+  default: false
+  custom:
+    - seriesQuery: 'vllm:num_requests_waiting{namespace!="",pod!=""}'
+      resources:
+        overrides:
+          namespace: {resource: "namespace"}
+          pod: {resource: "pod"}
+      name:
+        matches: "^vllm:num_requests_waiting$"
+        as: "vllm_num_requests_waiting"
+      metricsQuery: 'avg(<<.Series>>{<<.LabelMatchers>>}) by (<<.GroupBy>>)'

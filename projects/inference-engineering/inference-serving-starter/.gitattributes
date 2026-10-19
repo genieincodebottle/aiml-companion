@@ -1,0 +1,6 @@
+# Keep LF line endings on every platform, including Git for Windows (core.autocrlf=true).
+# tests/test_given_engine.py checks that the debug_lab incident bundles regenerate
+# byte-for-byte, and the generator writes LF; a CRLF checkout would fail that gate.
+# Shell scripts in gpu/ must also stay LF to run under bash or WSL.
+* text=auto eol=lf
+*.png binary
