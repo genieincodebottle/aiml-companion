@@ -1,0 +1,81 @@
+{
+ "runId": "lltCapstoneGPT2-T2-eval-openai-gpt2",
+ "module": "lltCapstoneGPT2",
+ "tier": "T2",
+ "label": "baseline:openai-community/gpt2",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1
+ },
+ "env": {
+  "lm_eval": "0.4.13",
+  "transformers": "5.20.2",
+  "image": "Kaggle GPU image 2026-11-05"
+ },
+ "config": {
+  "model_args": {
+   "pretrained": "openai-community/gpt2",
+   "dtype": "float16"
+  },
+  "batch_size": "64",
+  "tasks": [
+   "arc_easy",
+   "hellaswag",
+   "lambada_openai",
+   "piqa"
+  ],
+  "num_fewshot": 0,
+  "limit": null
+ },
+ "evals": {
+  "hellaswag": {
+   "sample_len": 10042,
+   "acc,none": 0.2891854212308305,
+   "acc_stderr,none": 0.004524575892953094,
+   "acc_norm,none": 0.3111929894443338,
+   "acc_norm_stderr,none": 0.004620353433075491
+  },
+  "arc_easy": {
+   "sample_len": 2376,
+   "acc,none": 0.43602693602693604,
+   "acc_stderr,none": 0.0101754595827598,
+   "acc_norm,none": 0.3952020202020202,
+   "acc_norm_stderr,none": 0.010031894052791137
+  },
+  "piqa": {
+   "sample_len": 1838,
+   "acc,none": 0.6289445048966268,
+   "acc_stderr,none": 0.011271222398600666,
+   "acc_norm,none": 0.6267682263329706,
+   "acc_norm_stderr,none": 0.011284653078254844
+  },
+  "lambada_openai": {
+   "sample_len": 5153,
+   "perplexity,none": 40.0736870923805,
+   "perplexity_stderr,none": 1.4794254339289121,
+   "acc,none": 0.3217543178730836,
+   "acc_stderr,none": 0.006508303296700758
+  }
+ },
+ "nSamples": {
+  "hellaswag": {
+   "original": 10042,
+   "effective": 10042
+  },
+  "arc_easy": {
+   "original": 2376,
+   "effective": 2376
+  },
+  "piqa": {
+   "original": 1838,
+   "effective": 1838
+  },
+  "lambada_openai": {
+   "original": 5153,
+   "effective": 5153
+  }
+ },
+ "wallClockSec": 263.6,
+ "costUSD": 0,
+ "date": "2026-11-05"
+}

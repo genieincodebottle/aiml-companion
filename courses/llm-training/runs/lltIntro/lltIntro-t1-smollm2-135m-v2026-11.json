@@ -1,0 +1,97 @@
+{
+ "runId": "lltIntro-t1-smollm2-135m-v2026-11",
+ "module": "lltIntro",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "dtype": "float32",
+  "threads": 4,
+  "vocab_size": 49152,
+  "initializer_range": 0.041666666666666664,
+  "tie_word_embeddings": true,
+  "n_params": 134515008
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 0,
+   "pretrainedLossEnglish": 3.2183,
+   "englishTokens": 67,
+   "randomInitLossEnglish": [
+    11.2917,
+    11.5097,
+    11.2958
+   ],
+   "lnV": 10.8027
+  }
+ ],
+ "evals": {
+  "byLanguage": {
+   "English": {
+    "loss": 3.2183,
+    "tokens": 67,
+    "words": 60,
+    "tokensPerWord": 1.12,
+    "bytes": 324,
+    "bytesPerToken": 4.84
+   },
+   "Python code": {
+    "loss": 1.2058,
+    "tokens": 87,
+    "words": 46,
+    "tokensPerWord": 1.89,
+    "bytes": 346,
+    "bytesPerToken": 3.98
+   },
+   "Hindi": {
+    "loss": 1.7593,
+    "tokens": 347,
+    "words": 63,
+    "tokensPerWord": 5.51,
+    "bytes": 793,
+    "bytesPerToken": 2.29
+   }
+  },
+  "loadSec": 5.2,
+  "peakRamGB": 1.66
+ },
+ "samples": [
+  {
+   "step": 0,
+   "prompt": "The old library stood at the end of",
+   "model": "pretrained",
+   "decoding": "greedy, 30 new tokens",
+   "completion": " the street, and the\nold man was sitting on the steps, with his hands folded in his\npockets.\n\n\"I have been"
+  },
+  {
+   "step": 0,
+   "prompt": "The old library stood at the end of",
+   "model": "random init, seed 0",
+   "decoding": "greedy, 30 new tokens",
+   "completion": "corrh Fon background background optн Professionalfinished\n                                    backgroundFrancevoice Thoughtdriver background savory seawater refsix Privacy disinteg backgroundsix spentInformation gestational undocumentedarrowing Cron irre"
+  }
+ ],
+ "wallClockSec": 63.8,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py",
+ "notes": "Re-run 2026-11-05 on current stable pins; compare the same id without the -v2026-11 suffix."
+}

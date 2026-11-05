@@ -1,0 +1,88 @@
+{
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.6,
+  "platform": "Kaggle, accelerator NvidiaTeslaT4 (2x T4, PCIe)"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4",
+   "Tesla T4"
+  ]
+ },
+ "notebook": "kaggle genieincodebottle/llt-memthru-p3",
+ "date": "2026-11-05",
+ "config": {
+  "script": "sweep.py",
+  "steps": 600,
+  "warmup": 100,
+  "batch": 32,
+  "seq": 256,
+  "schedule": "linear warmup, cosine to 10%",
+  "optimizer": "AdamW betas (0.9, 0.95), weight decay 0",
+  "clip": null,
+  "precision": "fp16 autocast + GradScaler",
+  "zLoss": 0.0001,
+  "vocab": 4096,
+  "data": "TinyStories, first 200,000 train stories"
+ },
+ "runId": "lltMemoryThroughput-T2-lr-10M-z-0.3",
+ "label": "ablation:z-loss,lr=0.3",
+ "seed": 0,
+ "params": 11474240,
+ "metrics": [
+  {
+   "step": 0,
+   "valLoss": 8.3621,
+   "maxAttnLogit": 0.815,
+   "meanLogZ": 8.379,
+   "maxAbsLogit": 3.234
+  },
+  {
+   "step": 150,
+   "valLoss": NaN,
+   "maxAttnLogit": 2050.0,
+   "meanLogZ": NaN,
+   "maxAbsLogit": NaN
+  },
+  {
+   "step": 300,
+   "valLoss": NaN,
+   "maxAttnLogit": 2050.0,
+   "meanLogZ": NaN,
+   "maxAbsLogit": NaN
+  },
+  {
+   "step": 450,
+   "valLoss": NaN,
+   "maxAttnLogit": 2050.0,
+   "meanLogZ": NaN,
+   "maxAbsLogit": NaN
+  },
+  {
+   "step": 600,
+   "valLoss": NaN,
+   "maxAttnLogit": 2050.0,
+   "meanLogZ": NaN,
+   "maxAbsLogit": NaN
+  }
+ ],
+ "evals": {
+  "final": {
+   "step": 600,
+   "valLoss": NaN,
+   "maxAttnLogit": 2050.0,
+   "meanLogZ": NaN,
+   "maxAbsLogit": NaN
+  },
+  "skippedSteps": 166
+ },
+ "wallClockSec": 70.0,
+ "module": "lltMemoryThroughput",
+ "tier": "T2",
+ "costUSD": 0
+}

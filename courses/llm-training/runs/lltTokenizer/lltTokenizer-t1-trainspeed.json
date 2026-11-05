@@ -1,0 +1,78 @@
+{
+ "runId": "lltTokenizer-t1-trainspeed",
+ "module": "lltTokenizer",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": 0,
+  "cpu": "AMD Ryzen 9 5900HS with Radeon Graphics",
+  "cores": 8,
+  "threads": 16,
+  "ramGB": 33.7,
+  "os": "Windows-11-10.0.26200-SP0",
+  "cpuBusyPctAtEnd": 100.0
+ },
+ "env": {
+  "python": "3.12.3",
+  "tokenizers": "0.22.1",
+  "transformers": "5.2.0",
+  "numpy": "2.4.2",
+  "huggingface_hub": "1.5.0",
+  "torch": "2.10.0+cpu",
+  "datasets": "4.6.1"
+ },
+ "notebookCommit": null,
+ "config": {
+  "data": {
+   "heldout": {
+    "flores": "FLORES-200 devtest (eng_Latn, hin_Deva, spa_Latn), 1,012 parallel sentences each, CC BY-SA 4.0, https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz (sha256 b8b0b767...011f6)",
+    "code": "12 CPython 3.12.3 standard library files (every 10th file, see data.py), PSF License"
+   },
+   "train": {
+    "wikipedia": "wikimedia/wikipedia 20231101.en, .hi, .es: first articles in file order up to 8 MB each, CC BY-SA 3.0 and GFDL",
+    "code": "CPython 3.12.3 standard library files not held out, up to 4 MB, PSF License"
+   },
+   "words": "tokens per word = tokens / number of whitespace-separated words (str.split())"
+  },
+  "slice": "first 250,000 bytes of each training source (1 MB total)",
+  "vocabSize": 1024
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "textBytes": 1000003,
+  "vocabSize": 1024,
+  "oursSec": 106.86,
+  "hfSec": 2.021,
+  "speedup": 53,
+  "heldoutBytesPerToken": {
+   "en": {
+    "ours": 2.25,
+    "hf": 2.253
+   },
+   "hi": {
+    "ours": 3.271,
+    "hf": 3.271
+   },
+   "es": {
+    "ours": 2.254,
+    "hf": 2.256
+   },
+   "code": {
+    "ours": 2.467,
+    "hf": 2.535
+   }
+  },
+  "sharedTokens": 755,
+  "oursTokens": 768,
+  "hfTokens": 768
+ },
+ "samples": [],
+ "wallClockSec": 110.94,
+ "peakMemGB": 0.462,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05"
+}

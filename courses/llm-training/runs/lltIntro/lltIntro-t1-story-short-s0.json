@@ -1,0 +1,153 @@
+{
+ "runId": "lltIntro-t1-story-short-s0",
+ "module": "lltIntro",
+ "tier": "T1",
+ "label": "control:300-steps",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "transformers": "5.2.0",
+  "tokenizers": "0.22.1",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "vocab_size": 63,
+  "d_model": 64,
+  "n_layer": 4,
+  "n_head": 4,
+  "ctx": 128,
+  "batch_size": 64,
+  "steps": 300,
+  "lr_max": 0.003,
+  "lr_min": 0.00030000000000000003,
+  "warmup": 100,
+  "weight_decay": 0.1,
+  "betas": [
+   0.9,
+   0.95
+  ],
+  "grad_clip": 1.0,
+  "init_std": 0.02,
+  "dataset": "roneneldan/TinyStories TinyStoriesV2-GPT4-valid.txt",
+  "stories_total": 27630,
+  "stories_kept": 27381,
+  "train_chars": 20816763,
+  "val_chars": 1090683,
+  "split": "95/5 by story, shuffle seed 0",
+  "threads": 3,
+  "n_params": 209408
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 0,
+   "tokens": 0,
+   "valLoss": 4.1409,
+   "trainLoss": null,
+   "lr": 0.0
+  },
+  {
+   "step": 1,
+   "tokens": 8192,
+   "trainLoss": 4.1407,
+   "firstBatchLoss": 4.1407,
+   "gradNorm": 2.372
+  },
+  {
+   "step": 50,
+   "tokens": 409600,
+   "trainLoss": 2.7527,
+   "valLoss": 2.7366,
+   "gradNorm": 0.646,
+   "lr": 0.0015,
+   "tokPerSec": 7267.2,
+   "elapsedSec": 56.4
+  },
+  {
+   "step": 100,
+   "tokens": 819200,
+   "trainLoss": 2.3496,
+   "valLoss": 2.3432,
+   "gradNorm": 0.417,
+   "lr": 0.003,
+   "tokPerSec": 7072.3,
+   "elapsedSec": 115.8
+  },
+  {
+   "step": 150,
+   "tokens": 1228800,
+   "trainLoss": 2.2541,
+   "valLoss": 2.2428,
+   "gradNorm": 0.592,
+   "lr": 0.002619,
+   "tokPerSec": 6888.9,
+   "elapsedSec": 178.4
+  },
+  {
+   "step": 200,
+   "tokens": 1638400,
+   "trainLoss": 2.1573,
+   "valLoss": 2.1597,
+   "gradNorm": 1.169,
+   "lr": 0.001671,
+   "tokPerSec": 6859.5,
+   "elapsedSec": 238.9
+  },
+  {
+   "step": 250,
+   "tokens": 2048000,
+   "trainLoss": 2.0927,
+   "valLoss": 2.0794,
+   "gradNorm": 0.673,
+   "lr": 0.000711,
+   "tokPerSec": 7291.8,
+   "elapsedSec": 280.9
+  },
+  {
+   "step": 300,
+   "tokens": 2457600,
+   "trainLoss": 2.0192,
+   "valLoss": 2.036,
+   "gradNorm": 0.5,
+   "lr": 0.0003,
+   "tokPerSec": 7421.9,
+   "elapsedSec": 331.1
+  }
+ ],
+ "evals": {
+  "finalValLoss200Batches": 2.0347,
+  "lnV": 4.1431,
+  "step0ValLoss": 4.1409,
+  "trainSec": 407.1
+ },
+ "samples": [
+  {
+   "step": 300,
+   "prompt": "Once upon a time",
+   "temperature": 0.8,
+   "seed": 0,
+   "completion": "Once upon a timed fot very ary, fied Boo\" the dol ay, qucasshe, has saw yimer blthe da cat fid they dit tour sas aned freend, Tin an. She ther bay the maice. The anto cot app hang heroured bime heand. The irys toy astein wang.\n\n\nOnam. saly tha touw t thig \" till Say. A ee sanoy, douth. They dat kind omp. Thery po u"
+  },
+  {
+   "step": 300,
+   "prompt": "Tom and Lily",
+   "temperature": 0.8,
+   "seed": 0,
+   "completion": "Tom and Lily wasty foth ropy hery tou the dokin. Ye dasshed has saw yomer blay!\" Heckin the ase dit tou be fuent the tof than an. She there bat aler ice. The anto ce alpp han. Whof xchey meake fous pplirys toy, Lidin wang.\n\n\nOnam. saly tha tou s da igl waw ha. She te I gane, dout to a and he boo om walg wand ir"
+  }
+ ],
+ "wallClockSec": 440.6,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe train_story_model.py --seed 0 --steps 300 --eval-every 50 --threads 3 --run-id lltIntro-t1-story-short-s0 --label control:300-steps"
+}

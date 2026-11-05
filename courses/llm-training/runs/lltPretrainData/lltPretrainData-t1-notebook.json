@@ -1,0 +1,103 @@
+{
+ "runId": "lltPretrainData-t1-notebook",
+ "module": "lltPretrainData",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "numpy": "2.4.2",
+  "torch": "2.10.0+cpu",
+  "tokenizers": "0.22.1",
+  "trafilatura": "2.3.1",
+  "datasketch": "2.0.0",
+  "sklearn": "1.8.0",
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "source": "first 60 MB (62,914,560 bytes) of CC-MAIN-20240220211055-20240221001055-00000.warc.gz",
+  "process": "single"
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "stdout": {
+   "steps/step1.py": [
+    "WARC records 11223 | HTML pages with status 200 3674 | pages with text 3118",
+    "HTML characters 237103300 | text characters 7357528"
+   ],
+   "steps/step2.py": [
+    "[('en', 1058), ('zh', 484), ('ru', 381), ('ja', 208), ('fr', 143), ('es', 114)]",
+    "English with score >= 0.65 846 | English below 0.65 212"
+   ],
+   "browser/rules.py": [
+    "article       kept",
+    "menu          removed, word count outside 50 to 100,000",
+    "price list    removed, under 80% of words have a letter",
+    "keyword spam  removed, top 2-gram covers 27% of characters",
+    "tag cloud     removed, too many # or ..."
+   ],
+   "steps/step4.py": [
+    "too_few_words              250",
+    "fewer_than_3_sentences      93",
+    "alpha_words                 69",
+    "dup_lines                   18",
+    "ellipsis_lines              14",
+    "dup_5_gram                  12",
+    "bullet_lines                 5",
+    "mean_word_length             4",
+    "top_4_gram                   3",
+    "dup_7_gram                   1",
+    "too_many_words               1",
+    "dup_line_chars               1",
+    "dup_6_gram                   1",
+    "dup_10_gram                  1",
+    "stop_words                   1",
+    "kept 372 of 846",
+    "words kept 175629 of 526691"
+   ],
+   "steps/step5.py": [
+    "rows 58428 | share of test pages scored 3 or more 0.0903",
+    "mean squared error 0.3632 | predicting the mean 0.7102",
+    "AUC for score >= 3 0.9247",
+    "keep pred >= 3.0: F1 0.1104, pages kept 63",
+    "keep pred >= 2.0: F1 0.5789, pages kept 1042"
+   ],
+   "browser/minhash.py": [
+    "same page, new footer            Jaccard 0.831  MinHash estimate 0.839  bands matched 2",
+    "same page, one sentence changed  Jaccard 0.716  MinHash estimate 0.705  bands matched 0",
+    "different page                   Jaccard 0.000  MinHash estimate 0.000  bands matched 0",
+    "P(candidate) = 1 - (1 - J**8)**14",
+    "  J = 0.3   0.0009",
+    "  J = 0.5   0.0533",
+    "  J = 0.7   0.5645",
+    "  J = 0.8   0.9235",
+    "  J = 0.9   0.9996"
+   ],
+   "steps/step6.py": [
+    "exact duplicates removed 2",
+    "candidate pairs 1 | near duplicates removed 1 | pages left 369",
+    "pair 120-200  exact Jaccard 0.872  signature agreement 0.929"
+   ],
+   "steps/step7.py": [
+    "evaluation items 12418 | distinct 13-grams 582293",
+    "pages sharing a 13-gram with ARC-Easy or HellaSwag 0",
+    "emails replaced 10 | public IPv4 addresses replaced 1",
+    "verbatim caught True | paraphrase caught False"
+   ]
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe run_steps.py <scratch>/llt/ptd/nbrun",
+ "peakRamGB": 2.51
+}

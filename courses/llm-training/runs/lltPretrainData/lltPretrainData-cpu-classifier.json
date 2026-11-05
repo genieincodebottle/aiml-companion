@@ -1,0 +1,74 @@
+{
+ "runId": "lltPretrainData-cpu-classifier",
+ "module": "lltPretrainData",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "Kaggle CPU session, 4 cores",
+  "kernel": "genieincodebottle/llt-ptd-prep v4"
+ },
+ "env": {
+  "python": "3.13.18 (Kaggle image)",
+  "numpy": "2.1.3",
+  "scikit-learn": "1.6.1",
+  "tokenizers": "0.23.3",
+  "pandas": "2.3.3",
+  "trafilatura": "2.3.1",
+  "datasketch": "2.0.0",
+  "spacy": "3.8.16",
+  "fasttext": "fasttext-numpy2 0.10.4",
+  "warcio": "1.8.2 (PyPI latest on 2026-11-05)",
+  "datatrove": "0.10.1 (PyPI latest on 2026-11-05)"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "HashingVectorizer(2**20, 1-2 grams) + TF-IDF + Ridge(alpha=1)"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "data": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu-llama3-annotations/resolve/refs%2Fconvert%2Fparquet/default/train/0000.parquet",
+  "rows": 58428,
+  "train": 48690,
+  "test": 9738,
+  "scoreCounts": {
+   "0": 7263,
+   "1": 32918,
+   "2": 12983,
+   "3": 4238,
+   "4": 1025,
+   "5": 1
+  },
+  "testMSE": 0.3632,
+  "testMSE_predictMean": 0.7102,
+  "f1At3": 0.1104,
+  "precisionAt3": 0.8254,
+  "recallAt3": 0.0592,
+  "confusionAt3": [
+   [
+    8848,
+    11
+   ],
+   [
+    827,
+    52
+   ]
+  ],
+  "positiveRateTest": 0.0903,
+  "aucAt3": 0.9247,
+  "tunedCut": 2,
+  "f1AtTunedCut": 0.5789,
+  "precisionAtTunedCut": 0.5336,
+  "recallAtTunedCut": 0.6325,
+  "trainSec": 69.4
+ },
+ "samples": [],
+ "wallClockSec": 2108.5,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe record_prep.py <scratch>/llt/ptd/kaggle_raw/funnel_examples.json"
+}

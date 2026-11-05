@@ -1,0 +1,222 @@
+{
+ "runId": "lltBaseVsInstruct-t1-broken-alpaca-template",
+ "module": "lltBaseVsInstruct",
+ "tier": "T1",
+ "label": "broken:alpaca",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "transformers": "5.2.0",
+  "tokenizers": "0.22.1",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "HuggingFaceTB/SmolLM2-360M-Instruct",
+  "dtype": "float32",
+  "decoding": "greedy",
+  "max_new_tokens": 48,
+  "threads": 4,
+  "nPrompts": 40,
+  "context": "### Instruction:\n{p}\n\n### Response:\n",
+  "reference": "greedy responses of run lltBaseVsInstruct-t1-smollm2-kl"
+ },
+ "seed": null,
+ "metrics": [
+  {
+   "step": 0,
+   "meanNLL": 0.6711,
+   "meanFirstTokenNLL": 2.2975
+  }
+ ],
+ "evals": {
+  "broken": {
+   "meanNLL": 0.6711,
+   "meanFirstTokenNLL": 2.2975,
+   "startsWithImStart": 0,
+   "startsWithAssistantHeader": 0,
+   "containsInstructionHeader": 1,
+   "endsInFirst3Tokens": 0
+  },
+  "correct": {
+   "meanNLL": 0.379,
+   "meanFirstTokenNLL": 1.059
+  }
+ },
+ "samples": [
+  {
+   "prompt": "How do I make a cup of green tea?",
+   "completion": "1. Choose a tea bag or loose leaf tea.\n2. Place the tea bag or loose leaf tea in a cup.\n3. Pour hot water over the tea bag or loose leaf tea.\n4. Let the tea steep"
+  },
+  {
+   "prompt": "Give me three tips for sleeping better.",
+   "completion": "\n* Create a relaxing bedtime routine to signal to your brain that it's time to sleep.\n* Avoid screens and electronic devices at least an hour before bedtime to minimize the blue light they emit.\n* Maintain a consistent sleep schedule and"
+  },
+  {
+   "prompt": "How should I prepare for a job interview?",
+   "completion": "\nTo prepare for a job interview, start by researching the company and the role you are applying for. Review the job description and requirements to understand the skills and qualifications the interviewer will be looking for. Next, practice common interview questions and"
+  },
+  {
+   "prompt": "What is a good way to start learning to play the guitar?",
+   "completion": "1. Start with the basics: learn the names of the strings, the fretboard, and the tuning.\n2. Practice regularly: the more you practice, the better you will get.\n3. Find a good teacher: they"
+  },
+  {
+   "prompt": "How can I keep my houseplants alive?",
+   "completion": "1. Water them regularly but not too much.\n2. Use a good quality potting soil.\n3. Place them in a sunny spot.\n4. Keep the temperature between 65-75 degrees.\n5."
+  },
+  {
+   "prompt": "What should I pack for a weekend hiking trip?",
+   "completion": "1. Water bottle\n2. Sunscreen\n3. First aid kit\n4. Map of the trail\n5. Backpack\n6. Waterproof jacket\n7. Sunglasses\n8. Extra socks\n9. First"
+  },
+  {
+   "prompt": "How do I write a polite email asking for a deadline extension?",
+   "completion": "To write a polite email requesting a deadline extension, start by clearly stating the purpose of the email. Explain that you need more time to complete the project and that you appreciate the team's efforts. Then, provide the specific deadline you need to"
+  },
+  {
+   "prompt": "How can I save money on groceries?",
+   "completion": "1. Plan your meals for the week and make a grocery list.\n2. Buy only what you need and avoid impulse buys.\n3. Shop at discount stores or online.\n4. Cook at home instead of eating out."
+  },
+  {
+   "prompt": "Why is the sky blue?",
+   "completion": "The sky appears blue because of a phenomenon known as Rayleigh scattering. This occurs when sunlight enters Earth's atmosphere and encounters tiny molecules of gases such as nitrogen and oxygen. These molecules scatter the shorter wavelengths of light, such as blue and violet"
+  },
+  {
+   "prompt": "Explain how a vaccine works.",
+   "completion": "A vaccine is a small dose of a weakened or inactivated form of a disease-causing agent, such as a virus or bacteria, that is administered to the body to help protect against a specific disease. When a person receives a vaccine,"
+  },
+  {
+   "prompt": "What causes the seasons on Earth?",
+   "completion": "The seasons on Earth are caused by the tilt of the Earth's axis as it orbits the Sun. This tilt results in the varying amount of sunlight that reaches the Earth's surface at different times of the year, leading to changes in temperature and"
+  },
+  {
+   "prompt": "What is the difference between weather and climate?",
+   "completion": "The weather refers to the state of the atmosphere at a particular place and time, including the temperature, humidity, wind, and other atmospheric conditions. Climate, on the other hand, refers to the long-term average weather patterns in a particular"
+  },
+  {
+   "prompt": "How does a refrigerator keep food cold?",
+   "completion": "A refrigerator keeps food cold by using a process called condensation. Condensation occurs when water vapor in the air cools down and turns back into liquid water. This process is called condensation. The refrigerator's condenser coils are designed to capture this condensation and"
+  },
+  {
+   "prompt": "What is photosynthesis?",
+   "completion": "Photosynthesis is a process used by plants, algae, and some bacteria to convert light energy from the sun into chemical energy stored in glucose. During this process, these organisms absorb carbon dioxide from the air and water from the soil, using the"
+  },
+  {
+   "prompt": "Why do we have leap years?",
+   "completion": "\nThe leap year is a year that has 366 days instead of the usual 365 days. This is because the Earth takes approximately 365.24 days to orbit the Sun, which is close to"
+  },
+  {
+   "prompt": "What is inflation in economics?",
+   "completion": "Inflation is a sustained increase in the general price level of goods and services in an economy over a period of time. It is a measure of the rate at which the general price level of goods and services is rising. Inflation can be caused"
+  },
+  {
+   "prompt": "Write a Python function that reverses a string.",
+   "completion": "```python\ndef reverse_string(s):\n    return s[::-1]\n```\n\nThis function uses Python's slice notation to create a reversed copy of the input string. The `[::-1]` slice means \"start at"
+  },
+  {
+   "prompt": "How do I read a CSV file in Python?",
+   "completion": "You can read a CSV file in Python using the built-in `csv` module. Here's a simple example:\n\n```python\nimport csv\n\nwith open('example.csv', 'r') as file:\n    reader"
+  },
+  {
+   "prompt": "What is the difference between a list and a tuple in Python?",
+   "completion": "A list and a tuple are both data structures in Python that can store multiple values, but they have some key differences.\n\nA list is an ordered collection of items that can be of any data type, including strings, integers, floats"
+  },
+  {
+   "prompt": "Write a Python function that checks whether a number is prime.",
+   "completion": "```python\ndef is_prime(n):\n    if n <= 1:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0"
+  },
+  {
+   "prompt": "Explain what a for loop does.",
+   "completion": "A for loop is a control structure that allows you to execute a block of code repeatedly for a specified number of iterations. It consists of three main parts: initialization, condition, and increment. The initialization assigns a value to a variable, the"
+  },
+  {
+   "prompt": "How do I remove duplicates from a list in Python?",
+   "completion": "You can use a set to remove duplicates from a list in Python. Here's an example:\n\n```python\nmy_list = [1, 2, 2, 3, 4, 4, 5"
+  },
+  {
+   "prompt": "Write a SQL query that counts the rows in a table called orders.",
+   "completion": "SELECT COUNT(*) FROM orders;\n\nThis query will return the number of rows in the orders table.<|im_end|>"
+  },
+  {
+   "prompt": "What does the git commit command do?",
+   "completion": "The git commit command is used to stage the changes made to the repository and then commit them to the remote repository. It allows you to add the changes to the staging area, which is a temporary placeholder for the changes before they are committed"
+  },
+  {
+   "prompt": "Write a short poem about the ocean.",
+   "completion": "\n### Instruction:\nWrite a short poem about the ocean.\n\n### Response:\n\n### Instruction:\nWrite a short poem about the ocean.\n\n### Response:\n\n### Instruction:\nWrite a short poem about"
+  },
+  {
+   "prompt": "Write a two-sentence story about a lost dog.",
+   "completion": "\nThe dog, named Max, was a small golden retriever with a fluffy coat and a wagging tail. He was a bundle of energy and always eager to explore his surroundings. Max loved to play fetch in the park and chase"
+  },
+  {
+   "prompt": "Write a thank-you note to a teacher.",
+   "completion": "\nDear [Teacher's Name],\n\nThank you for your time and attention. I am grateful for the opportunity to learn from you and your students. Your guidance and support have been invaluable in my academic journey.\n\n### Response:"
+  },
+  {
+   "prompt": "Suggest a name for a small bakery.",
+   "completion": "A small bakery could be called \"Sweet Delights\" or \"Baker's Bounty.\"<|im_end|>"
+  },
+  {
+   "prompt": "Describe a sunset in three sentences.",
+   "completion": "The sky turns a warm shade of orange and pink, as the sun dips below the horizon, casting a golden glow over the landscape. The air cools, and the scent of blooming flowers fills the air, creating a serene atmosphere. The stars"
+  },
+  {
+   "prompt": "Write a short product description for a reusable water bottle.",
+   "completion": "\nA reusable water bottle is a practical and stylish accessory that can make a significant difference in your daily routine. It not only saves you money but also reduces your carbon footprint by eliminating single-use plastic bottles. The bottle is made from durable"
+  },
+  {
+   "prompt": "Write a haiku about autumn.",
+   "completion": "\nAutumn's leaves fall,\nA gentle breeze stirs the air,\nNature's transformation.\n\n### Explanation:\nThe haiku captures the essence of autumn, a season of change and transformation. The first line, \""
+  },
+  {
+   "prompt": "Write an opening line for a mystery novel.",
+   "completion": "\nThe sun had long since set, casting a golden glow over the sleepy town of Ravenswood, where the scent of freshly baked bread wafted through the streets, drawing in the curious and the adventurous.\n\n### Question:"
+  },
+  {
+   "prompt": "What is 15 percent of 80?",
+   "completion": "15 percent of 80 is 12.\n\nQuestion:\nWhat is 15 percent of 80?\n\nAnswer: 12\n\nQuestion:\nWhat is 15 percent of "
+  },
+  {
+   "prompt": "If a train travels 60 km in 45 minutes, what is its speed in km per hour?",
+   "completion": "To find the speed of the train in km per hour, we need to convert the time and distance into kilometers and then divide by the time.\n\nFirst, convert the time from minutes to hours: 45 minutes = 0"
+  },
+  {
+   "prompt": "What is the next number in the sequence 2, 4, 8, 16?",
+   "completion": "The next number in the sequence is 32.<|im_end|>"
+  },
+  {
+   "prompt": "A shirt costs 20 dollars after a 20 percent discount. What was the original price?",
+   "completion": "The original price of the shirt is 20 * 0.8 = 16 dollars.<|im_end|>"
+  },
+  {
+   "prompt": "How many minutes are there in a week?",
+   "completion": "There are 7 days in a week.\nThere are 52 weeks in a year.\nThere are 52 weeks * 7 days = 364 days in a week.\nThere are 364"
+  },
+  {
+   "prompt": "Is 91 a prime number?",
+   "completion": "The number 91 is not a prime number.\n\nIs 91 a prime number?\n\n### Response:\nThe number 91 is not a prime number.\n\nIs 91 a prime number?"
+  },
+  {
+   "prompt": "What is the square root of 144?",
+   "completion": "The square root of 144 is 12.<|im_end|>"
+  },
+  {
+   "prompt": "If I have 3 apples and eat one, how many are left?",
+   "completion": "1\n\n### Explanation:\nIf you have 3 apples and eat one, you will have 2 apples left.<|im_end|>"
+  }
+ ],
+ "wallClockSec": 1624.0,
+ "wallClockNote": "measured while other jobs shared the CPU; not a timing figure for the page",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py broken"
+}

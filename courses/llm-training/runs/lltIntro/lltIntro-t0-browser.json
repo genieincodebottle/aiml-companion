@@ -1,0 +1,54 @@
+{
+ "runId": "lltIntro-t0-browser",
+ "module": "lltIntro",
+ "tier": "T0",
+ "label": "baseline:browser-step-1",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "transformers": "5.2.0",
+  "tokenizers": "0.22.1",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "runtime": "Pyodide 0.27.0 (numpy 2.0.2) under Node 22, same call path as PyodideManager.runCode",
+  "fetch": "story-model.json served by a local HTTP server; the page fetches /data/llt/story-model.json",
+  "code": "lltIntro step 1, extracted from the module as shipped"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "runs": [
+   {
+    "file": "t0_run1.txt",
+    "loadNumpyMs": 7464,
+    "runMs": 32478,
+    "stdout": "Loading numpy\nLoaded numpy\nTrained | loss 0.64 nats per character\nOnce upon a time, in a smal the tree forest. The mop was so happy. It was a gift old boy with. The moral of always welt and asked out the wheat and the street.\nEveryone was able running away. Tim was very happy. But \nRandom weights | loss 4.12 nats per character\nOnce upon a timedF! oubiXwp\nq!i?qXIP!.eecNzzhefN;hWHTswMZLaKNtCd'ooEs\"J?SlE\"NB-ZIeCwL-cwRxVRczxS\nln(V) = 4.14 for V = 63 characters"
+   },
+   {
+    "file": "t0_run2.txt",
+    "loadNumpyMs": 5117,
+    "runMs": 27664,
+    "stdout": "Loading numpy\nLoaded numpy\nTrained | loss 0.64 nats per character\nOnce upon a time, in a smal the tree forest. The mop was so happy. It was a gift old boy with. The moral of always welt and asked out the wheat and the street.\nEveryone was able running away. Tim was very happy. But \nRandom weights | loss 4.12 nats per character\nOnce upon a timedF! oubiXwp\nq!i?qXIP!.eecNzzhefN;hWHTswMZLaKNtCd'ooEs\"J?SlE\"NB-ZIeCwL-cwRxVRczxS\nln(V) = 4.14 for V = 63 characters"
+   }
+  ],
+  "runMsMin": 27664,
+  "runMsMax": 32478
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe record_t0.py <scratch>/llt/data/t0_run1.txt <scratch>/llt/data/t0_run2.txt",
+ "notes": "Correctness record. Timings were taken under shared machine load and are not for quoting; measure_timing.py gives the quoted figure. Pyodide ran under Node, not a browser tab."
+}

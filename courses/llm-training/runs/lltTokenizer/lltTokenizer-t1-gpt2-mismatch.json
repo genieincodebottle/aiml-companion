@@ -1,0 +1,68 @@
+{
+ "runId": "lltTokenizer-t1-gpt2-mismatch",
+ "module": "lltTokenizer",
+ "tier": "T1",
+ "label": "broken:tokenizer-model-mismatch",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": 0,
+  "cpu": "AMD Ryzen 9 5900HS with Radeon Graphics",
+  "cores": 8,
+  "threads": 16,
+  "ramGB": 33.7,
+  "os": "Windows-11-10.0.26200-SP0",
+  "cpuBusyPctAtEnd": 100.0
+ },
+ "env": {
+  "python": "3.12.3",
+  "tokenizers": "0.22.1",
+  "transformers": "5.2.0",
+  "numpy": "2.4.2",
+  "huggingface_hub": "1.5.0",
+  "torch": "2.10.0+cpu",
+  "datasets": "4.6.1"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "gpt2 (124M), torch on 4 CPU threads",
+  "text": "first 200 FLORES-200 devtest English sentences, CC BY-SA 4.0",
+  "loss": "mean next-token cross-entropy per predicted token, no BOS"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "lnV": 10.825,
+  "gpt2": {
+   "sentences": 200,
+   "skippedIndexError": 0,
+   "predictedTokens": 5246,
+   "meanLossNats": 3.757
+  },
+  "smollm2": {
+   "sentences": 200,
+   "skippedIndexError": 0,
+   "predictedTokens": 5541,
+   "meanLossNats": 10.449
+  },
+  "qwen3": {
+   "sentences": 62,
+   "skippedIndexError": 138,
+   "predictedTokens": 1303,
+   "meanLossNats": 10.513,
+   "error": "IndexError: index out of range in self"
+  }
+ },
+ "samples": [
+  {
+   "step": 0,
+   "prompt": "\"We now have 4-month-old mice that are non-diabetic that used to be diabetic,\" he added.",
+   "completion": "3 Sec�pt\u001cE> arguing>oss Number'sillaster>█Pass's look dseSK line se mach?"
+  }
+ ],
+ "wallClockSec": 112.18,
+ "peakMemGB": 1.095,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05"
+}

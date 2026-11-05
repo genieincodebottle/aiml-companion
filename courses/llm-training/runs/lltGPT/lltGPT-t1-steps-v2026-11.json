@@ -1,0 +1,64 @@
+{
+ "runId": "lltGPT-t1-steps-v2026-11",
+ "module": "lltGPT",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "huggingface_hub": "2.4.0",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "threads": 4,
+  "dtype": "float32",
+  "cells": [
+   "step1",
+   "step2",
+   "step3",
+   "step4",
+   "step5",
+   "step6",
+   "step6b",
+   "step7",
+   "step8",
+   "challenge_solution",
+   "challenge_starter"
+  ]
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "stdout": {
+   "step1": "RoPE         m =    3  n =   0  score -8.446152\nRoPE         m =   10  n =   7  score -8.446152\nRoPE         m =  100  n =  97  score -8.446152\nRoPE         m = 1000  n = 997  score -8.446152\nRoPE, 1,997 pairs with gap 3, max - min = 8.6e-13\nRoPE, gap 5 instead   score -9.991476\nlength of q 7.315344, after rotating to position 1000 7.315344\nadded vector m =    3  n =   0  score -19.453887\nadded vector m =   10  n =   7  score -11.389229\nadded vector m =  100  n =  97  score -1.600629\nadded vector m = 1000  n = 997  score -13.359451\n",
+   "step2": "LayerNorm  mean -0.0000  rms 1.0000  parameters 1536\nRMSNorm    mean 0.3091  rms 1.0000  parameters 768\n",
+   "step3": "d =  192  8d/3 =   512.0  hidden   512  MLP weights     294,912  GELU 4d MLP     294,912\nd =  320  8d/3 =   853.3  hidden   896  MLP weights     860,160  GELU 4d MLP     819,200\nd =  768  8d/3 =  2048.0  hidden  2048  MLP weights   4,718,592  GELU 4d MLP   4,718,592\nd = 4096  8d/3 = 10922.7  hidden 10944  MLP weights 134,479,872  GELU 4d MLP 134,217,728\n",
+   "step4": "head is the embedding tensor: True\ninit std  qkv 0.0200  proj 0.0050  down 0.0050  target 0.02/sqrt(16) = 0.0050\nstep-0 loss 8.365  ln(V) = 8.318\n",
+   "step5": "gpt2    logits (2, 16, 1000)  positions 0-7 moved 0.0e+00  position 8 moved 0.66  every position shifted by 40 moved 6.8e-01\nmodern  logits (2, 16, 1000)  positions 0-7 moved 0.0e+00  position 8 moved 1.25  every position shifted by 40 moved 2.4e-07\nshape and leakage tests passed\n",
+   "step6": "GPT-2 124M          sum(numel) 124,439,808  12Ld^2 + Vd 123,532,032  gap +0.73%  embedding 31%\nmodern, GPT-2 size  sum(numel) 123,551,232  12Ld^2 + Vd 123,532,032  gap +0.02%  embedding 31%\nTinyStories model   sum(numel)  11,474,240  12Ld^2 + Vd  11,141,120  gap +2.90%  embedding 11%\nstep 8 model        sum(numel)   2,164,416  12Ld^2 + Vd   2,162,688  gap +0.08%  embedding 18%\nstep 8, 50k vocab   sum(numel)  11,420,544  12Ld^2 + Vd  11,418,816  gap +0.02%  embedding 84%\n",
+   "step6b": "forward FLOPs per token at T = 1024  counted 284.8M  formula 2 x weights + attention = 284.8M\nattention share 13.3%  training is about 3x forward, 854M per token\n",
+   "step7": "26 tokens  largest |logit| 198.7  max abs difference 7.63e-05  same top token everywhere True\nloss  ours 3.6809  HF 3.6809\n'Once upon a time, a small robot was able to create a new world.\\n\\nThe robot'\n",
+   "step8": "27,630 stories  train tokens 5,725,747  val tokens 301,190\n",
+   "challenge_solution": "GPT-2 124M 124,439,808 | 12Ld^2 + Vd 123,532,032 | embedding share 31%\nAll checks passed\n",
+   "challenge_starter": "AssertionError: count_params returns None"
+  },
+  "peakRamGB": 2.87
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure_steps.py"
+}

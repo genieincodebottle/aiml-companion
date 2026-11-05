@@ -1,0 +1,46 @@
+{
+ "runId": "lltTinyStories-T1-bpb-check",
+ "module": "lltTinyStories",
+ "tier": "T1",
+ "label": "check:bits-per-byte",
+ "hardware": {
+  "gpu": null,
+  "count": 0
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "datasets": "5.1.0",
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "torchThreads": 4
+ },
+ "config": {
+  "checkpoint": "lltTinyStories-T2-baseline-s0 step 3000",
+  "evalWindows": 640,
+  "ctx": 512
+ },
+ "seed": 0,
+ "evals": {
+  "evalTokens": 327680,
+  "meanNll": 1.6445,
+  "bitsPerToken": 2.3725,
+  "bytesByTable": 1310145,
+  "bytesByDecode": 1310145,
+  "bpbTable": 0.5934,
+  "bpbDecode": 0.5934,
+  "bytesPerTokenWindow": 3.9982,
+  "wholeValCheck": {
+   "tableBytes": 19240340,
+   "utf8BytesPlusOnePerStory": 19240340
+  },
+  "kaggleReported": {
+   "valLoss": 1.6445,
+   "valBpb": 0.5934,
+   "dtype": "fp16 autocast on T4"
+  }
+ },
+ "date": "2026-11-05",
+ "command": "python measure.py bpb"
+}

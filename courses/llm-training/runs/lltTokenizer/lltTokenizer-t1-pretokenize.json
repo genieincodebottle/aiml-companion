@@ -1,0 +1,86 @@
+{
+ "runId": "lltTokenizer-t1-pretokenize",
+ "module": "lltTokenizer",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": 0,
+  "cpu": "AMD Ryzen 9 5900HS with Radeon Graphics",
+  "cores": 8,
+  "threads": 16,
+  "ramGB": 33.7,
+  "os": "Windows-11-10.0.26200-SP0",
+  "cpuBusyPctAtEnd": 100.0
+ },
+ "env": {
+  "python": "3.12.3",
+  "tokenizers": "0.22.1",
+  "transformers": "5.2.0",
+  "numpy": "2.4.2",
+  "huggingface_hub": "1.5.0",
+  "torch": "2.10.0+cpu",
+  "datasets": "4.6.1"
+ },
+ "notebookCommit": null,
+ "config": {
+  "data": {
+   "flores": "FLORES-200 devtest (eng_Latn, hin_Deva, spa_Latn), 1,012 parallel sentences each, CC BY-SA 4.0, https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz (sha256 b8b0b767...011f6)",
+   "code": "12 CPython 3.12.3 standard library files (every 10th file, see data.py), PSF License"
+  },
+  "rules": "bpe.pretokenize (GPT-2) vs bpe.pretokenize(marks=True)",
+  "basis": "pieces counted per line (text.splitlines()), the same basis as every token count"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "en": {
+   "words": 21901,
+   "wordsCutGpt2Rule": 2926,
+   "pieces": 25246,
+   "piecesMarksRule": 25246,
+   "piecesPerWordGpt2Rule": 1.153,
+   "piecesPerWordMarksRule": 1.153,
+   "shareCutGpt2Rule": 0.134
+  },
+  "hi": {
+   "words": 25643,
+   "wordsCutGpt2Rule": 22612,
+   "pieces": 84526,
+   "piecesMarksRule": 28646,
+   "piecesPerWordGpt2Rule": 3.296,
+   "piecesPerWordMarksRule": 1.117,
+   "shareCutGpt2Rule": 0.882
+  },
+  "es": {
+   "words": 26081,
+   "wordsCutGpt2Rule": 3101,
+   "pieces": 29395,
+   "piecesMarksRule": 29395,
+   "piecesPerWordGpt2Rule": 1.127,
+   "piecesPerWordMarksRule": 1.127,
+   "shareCutGpt2Rule": 0.119
+  },
+  "gpt2CrossingTokens": [
+   [
+    22686,
+    "U+0020 U+00C2 U+00A0 U+0020 U+00C2 U+00A0 U+0020 U+00C2 U+00A0 U+0020 U+00C2 U+00A0"
+   ],
+   [
+    11504,
+    "U+0020 U+00C2 U+00A0 U+0020 U+00C2 U+00A0"
+   ],
+   [
+    45706,
+    "U+0020 U+00C2 U+00A0 U+0020 U+00C2 U+00A0 U+0020 U+00C2 U+00A0 U+0020 U+00C2 U+00A0 U+0020 U+00C2 U+00A0 U+0020 U+00C2 U+00A0 U+0020 U+00C2 U+00A0 U+0020 U+00C2 U+00A0"
+   ]
+  ]
+ },
+ "samples": [],
+ "wallClockSec": 7.23,
+ "peakMemGB": 0.357,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05"
+}

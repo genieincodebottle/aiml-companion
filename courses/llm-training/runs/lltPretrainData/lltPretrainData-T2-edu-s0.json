@@ -1,0 +1,390 @@
+{
+ "runId": "lltPretrainData-T2-edu-s0",
+ "module": "lltPretrainData",
+ "tier": "T2",
+ "label": "ablation:data=classifier-top-half",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "capability": [
+   7,
+   5
+  ],
+  "concurrent": "one run per GPU, two GPUs busy"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "ampDtype": "float16",
+  "gradScaler": true
+ },
+ "config": {
+  "vocab": 4096,
+  "d": 320,
+  "layers": 8,
+  "heads": 8,
+  "ctx": 512,
+  "batch": 64,
+  "lr": 0.001,
+  "warmup": 100,
+  "steps": 800,
+  "eval_every": 200,
+  "wd": 0.1,
+  "clip": 1.0,
+  "seed": 0,
+  "evalTokens": 131072,
+  "evalTokensFinal": 600000,
+  "data": {
+   "kind": "single",
+   "corpus": "E_train"
+  },
+  "evals": [
+   "F_val",
+   "U_val",
+   "U_val_clean",
+   "U_val_leak",
+   "wiki_test",
+   "ts_val"
+  ],
+  "hellaswag": true
+ },
+ "seed": 0,
+ "params": 11474240,
+ "metrics": [
+  {
+   "step": 0,
+   "tokens": 0,
+   "lr": 1e-05,
+   "elapsedSec": 0.0,
+   "F_val": {
+    "loss": 8.393,
+    "bpb": 3.8058,
+    "tokens": 131072
+   },
+   "U_val": {
+    "loss": 8.375,
+    "bpb": 4.1915,
+    "tokens": 131072
+   },
+   "U_val_clean": {
+    "loss": 8.3801,
+    "bpb": 4.1977,
+    "tokens": 131072
+   },
+   "U_val_leak": {
+    "loss": 8.3624,
+    "bpb": 5.4752,
+    "tokens": 131072
+   },
+   "wiki_test": {
+    "loss": 8.3748,
+    "bpb": 3.6817,
+    "tokens": 131072
+   },
+   "ts_val": {
+    "loss": 8.3663,
+    "bpb": 3.2963,
+    "tokens": 131072
+   },
+   "memGB": 0.74
+  },
+  {
+   "step": 200,
+   "tokens": 6553600,
+   "lr": 0.0009554359905560886,
+   "elapsedSec": 138.7,
+   "F_val": {
+    "loss": 4.8282,
+    "bpb": 2.1893,
+    "tokens": 131072
+   },
+   "U_val": {
+    "loss": 5.1919,
+    "bpb": 2.5984,
+    "tokens": 131072
+   },
+   "U_val_clean": {
+    "loss": 5.1996,
+    "bpb": 2.6045,
+    "tokens": 131072
+   },
+   "U_val_leak": {
+    "loss": 6.234,
+    "bpb": 4.0816,
+    "tokens": 131072
+   },
+   "wiki_test": {
+    "loss": 5.6788,
+    "bpb": 2.4965,
+    "tokens": 131072
+   },
+   "ts_val": {
+    "loss": 5.1253,
+    "bpb": 2.0193,
+    "tokens": 131072
+   },
+   "memGB": 6.91
+  },
+  {
+   "step": 400,
+   "tokens": 13107200,
+   "lr": 0.0006501344202803415,
+   "elapsedSec": 244.4,
+   "F_val": {
+    "loss": 4.4217,
+    "bpb": 2.005,
+    "tokens": 131072
+   },
+   "U_val": {
+    "loss": 4.7958,
+    "bpb": 2.4002,
+    "tokens": 131072
+   },
+   "U_val_clean": {
+    "loss": 4.8034,
+    "bpb": 2.4061,
+    "tokens": 131072
+   },
+   "U_val_leak": {
+    "loss": 5.8291,
+    "bpb": 3.8166,
+    "tokens": 131072
+   },
+   "wiki_test": {
+    "loss": 5.2356,
+    "bpb": 2.3017,
+    "tokens": 131072
+   },
+   "ts_val": {
+    "loss": 4.6324,
+    "bpb": 1.8252,
+    "tokens": 131072
+   },
+   "memGB": 6.91
+  },
+  {
+   "step": 600,
+   "tokens": 19660800,
+   "lr": 0.00026942958916356994,
+   "elapsedSec": 350.1,
+   "F_val": {
+    "loss": 4.2203,
+    "bpb": 1.9137,
+    "tokens": 131072
+   },
+   "U_val": {
+    "loss": 4.5944,
+    "bpb": 2.2994,
+    "tokens": 131072
+   },
+   "U_val_clean": {
+    "loss": 4.6011,
+    "bpb": 2.3047,
+    "tokens": 131072
+   },
+   "U_val_leak": {
+    "loss": 5.6394,
+    "bpb": 3.6923,
+    "tokens": 131072
+   },
+   "wiki_test": {
+    "loss": 5.0622,
+    "bpb": 2.2254,
+    "tokens": 131072
+   },
+   "ts_val": {
+    "loss": 4.4404,
+    "bpb": 1.7495,
+    "tokens": 131072
+   },
+   "memGB": 6.91
+  },
+  {
+   "step": 800,
+   "tokens": 26214400,
+   "lr": 0.00010000453195359765,
+   "elapsedSec": 455.6,
+   "F_val": {
+    "loss": 3.9464,
+    "bpb": 1.7455,
+    "tokens": 599552
+   },
+   "U_val": {
+    "loss": 4.5978,
+    "bpb": 2.4249,
+    "tokens": 599552
+   },
+   "U_val_clean": {
+    "loss": 4.561,
+    "bpb": 2.3917,
+    "tokens": 599552
+   },
+   "U_val_leak": {
+    "loss": 5.2314,
+    "bpb": 3.5539,
+    "tokens": 599552
+   },
+   "wiki_test": {
+    "loss": 4.9322,
+    "bpb": 2.1684,
+    "tokens": 392704
+   },
+   "ts_val": {
+    "loss": 4.2604,
+    "bpb": 1.677,
+    "tokens": 599552
+   },
+   "memGB": 6.91
+  }
+ ],
+ "trainCurve": [
+  {
+   "step": 25,
+   "trainLoss": 7.8101
+  },
+  {
+   "step": 50,
+   "trainLoss": 6.8015
+  },
+  {
+   "step": 75,
+   "trainLoss": 6.0482
+  },
+  {
+   "step": 100,
+   "trainLoss": 5.4811
+  },
+  {
+   "step": 125,
+   "trainLoss": 5.1775
+  },
+  {
+   "step": 150,
+   "trainLoss": 4.951
+  },
+  {
+   "step": 175,
+   "trainLoss": 4.7843
+  },
+  {
+   "step": 200,
+   "trainLoss": 4.666
+  },
+  {
+   "step": 225,
+   "trainLoss": 4.5348
+  },
+  {
+   "step": 250,
+   "trainLoss": 4.4588
+  },
+  {
+   "step": 275,
+   "trainLoss": 4.3853
+  },
+  {
+   "step": 300,
+   "trainLoss": 4.3231
+  },
+  {
+   "step": 325,
+   "trainLoss": 4.2659
+  },
+  {
+   "step": 350,
+   "trainLoss": 4.2276
+  },
+  {
+   "step": 375,
+   "trainLoss": 4.173
+  },
+  {
+   "step": 400,
+   "trainLoss": 4.1344
+  },
+  {
+   "step": 425,
+   "trainLoss": 4.1066
+  },
+  {
+   "step": 450,
+   "trainLoss": 4.073
+  },
+  {
+   "step": 475,
+   "trainLoss": 4.0449
+  },
+  {
+   "step": 500,
+   "trainLoss": 4.0145
+  },
+  {
+   "step": 525,
+   "trainLoss": 3.9809
+  },
+  {
+   "step": 550,
+   "trainLoss": 3.957
+  },
+  {
+   "step": 575,
+   "trainLoss": 3.9272
+  },
+  {
+   "step": 600,
+   "trainLoss": 3.917
+  },
+  {
+   "step": 625,
+   "trainLoss": 3.8937
+  },
+  {
+   "step": 650,
+   "trainLoss": 3.8792
+  },
+  {
+   "step": 675,
+   "trainLoss": 3.872
+  },
+  {
+   "step": 700,
+   "trainLoss": 3.8511
+  },
+  {
+   "step": 725,
+   "trainLoss": 3.8365
+  },
+  {
+   "step": 750,
+   "trainLoss": 3.8247
+  },
+  {
+   "step": 775,
+   "trainLoss": 3.8238
+  },
+  {
+   "step": 800,
+   "trainLoss": 3.8213
+  }
+ ],
+ "date": "2026-11-05",
+ "data": {
+  "corpus": "E_train",
+  "uniqueTokens": 26214401,
+  "windowsPerEpoch": 51200,
+  "epochs": 1.0
+ },
+ "streamBuildSec": 0.3,
+ "trainSec": 473.0,
+ "peakMemGB": 6.91,
+ "hellaswag": {
+  "items": 10042,
+  "accNormByToken": 0.2579,
+  "accSum": 0.2584,
+  "ci95": 0.0086
+ },
+ "notebookCommit": null,
+ "kernel": "genieincodebottle/llt-ptd-train v1 (Kaggle, 2x T4, one run per GPU)",
+ "costUSD": 0
+}

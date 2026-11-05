@@ -1,0 +1,38 @@
+{
+ "runId": "lltTrainingLoop-t1-unigram",
+ "module": "lltTrainingLoop",
+ "tier": "T1",
+ "label": "baseline:unigram",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "vocab": 65,
+  "train": 1003854,
+  "val": 111540
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "valCrossEntropy": 3.3473284841065922,
+  "zeroCountCharsInVal": 0
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure_unigram.py <scratch>/tl_work_v2/data",
+ "notes": "Character frequencies from train.bin, cross-entropy on val.bin. Used for the 3.35 figure in step 10."
+}

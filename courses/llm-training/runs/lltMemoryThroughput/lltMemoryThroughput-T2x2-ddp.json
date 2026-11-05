@@ -1,0 +1,70 @@
+{
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.6,
+  "platform": "Kaggle, accelerator NvidiaTeslaT4 (2x T4, PCIe)"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4",
+   "Tesla T4"
+  ]
+ },
+ "notebook": "kaggle genieincodebottle/llt-memthru-p2 version 1",
+ "date": "2026-11-05",
+ "seed": 0,
+ "runId": "lltMemoryThroughput-T2x2-ddp",
+ "label": "baseline",
+ "config": {
+  "script": "ddp.py",
+  "model": "GPT-2 124M",
+  "microBatch": 8,
+  "seq": 1024,
+  "accum": 4,
+  "timedSteps": 10,
+  "warmupSteps": 3
+ },
+ "metrics": [
+  {
+   "run": "ddp_1gpu",
+   "gpus": 1,
+   "flags": "default",
+   "tokPerSec": 14699,
+   "lastLossPerRank": [
+    9.634174
+   ]
+  },
+  {
+   "run": "ddp_2gpu",
+   "gpus": 2,
+   "flags": "default",
+   "tokPerSec": 26768,
+   "lastLossPerRank": [
+    9.481456,
+    9.501394
+   ]
+  },
+  {
+   "run": "ddp_2gpu_sync_every_micro",
+   "gpus": 2,
+   "flags": "--sync-every-micro",
+   "tokPerSec": 23687,
+   "lastLossPerRank": [
+    9.48284,
+    9.502729
+   ]
+  }
+ ],
+ "stdout": {
+  "ddp_1gpu": "GPUs 1  default  14,699 tokens/s  last loss per rank [9.634174]\n",
+  "ddp_2gpu": "GPUs 2  default  26,768 tokens/s  last loss per rank [9.481456, 9.501394]\n",
+  "ddp_2gpu_sync_every_micro": "GPUs 2  --sync-every-micro  23,687 tokens/s  last loss per rank [9.48284, 9.502729]\n"
+ },
+ "module": "lltMemoryThroughput",
+ "tier": "T2",
+ "costUSD": 0
+}

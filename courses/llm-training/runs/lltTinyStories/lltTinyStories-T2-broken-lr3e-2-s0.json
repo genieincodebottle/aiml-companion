@@ -1,0 +1,295 @@
+{
+ "runId": "lltTinyStories-T2-broken-lr3e-2-s0",
+ "module": "lltTinyStories",
+ "tier": "T2",
+ "label": "broken:lr=3e-2",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6,
+  "capability": [
+   7,
+   5
+  ],
+  "concurrent": "one run per GPU, two GPUs busy"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "ampDtype": "float16",
+  "gradScaler": true
+ },
+ "config": {
+  "vocab": 4096,
+  "d": 320,
+  "layers": 8,
+  "heads": 8,
+  "ctx": 512,
+  "batch": 64,
+  "lr": 0.03,
+  "warmup": 200,
+  "steps": 3000,
+  "eval_every": 250,
+  "eval_batches": 40,
+  "wd": 0.1,
+  "clip": 1.0,
+  "seed": 0,
+  "prompts": [
+   "Once upon a time",
+   "Tom and his dog went to the park. Tom",
+   "Lily wanted to bake a cake for her mom, but",
+   "The little bird could not fly. One day,",
+   "Max found a shiny key under his bed."
+  ],
+  "stopIfDiverged": true
+ },
+ "seed": 0,
+ "params": 11474240,
+ "nonEmbeddingParams": 10163520,
+ "flopsPerToken6N": 68845440,
+ "metrics": [
+  {
+   "step": 0,
+   "tokens": 0,
+   "valLoss": 8.3755,
+   "valBpb": 3.0221,
+   "valBLoss": 8.3719,
+   "valBBpb": 3.07,
+   "lr": 0.00015,
+   "elapsedSec": 3.1,
+   "memGB": 0.4
+  },
+  {
+   "step": 250,
+   "tokens": 8192000,
+   "valLoss": 4.7407,
+   "valBpb": 1.7106,
+   "valBLoss": 4.8147,
+   "valBBpb": 1.7656,
+   "lr": 0.029978762002740526,
+   "elapsedSec": 122.3,
+   "memGB": 6.91,
+   "tokPerSec": 68706
+  },
+  {
+   "step": 500,
+   "tokens": 16384000,
+   "valLoss": null,
+   "valBpb": null,
+   "valBLoss": null,
+   "valBBpb": null,
+   "lr": 0.02924242495916296,
+   "elapsedSec": 234.4,
+   "memGB": 6.91,
+   "tokPerSec": 73097
+  },
+  {
+   "step": 750,
+   "tokens": 24576000,
+   "valLoss": null,
+   "valBpb": null,
+   "valBLoss": null,
+   "valBBpb": null,
+   "lr": 0.02751007173095001,
+   "elapsedSec": 345.9,
+   "memGB": 6.91,
+   "tokPerSec": 73477
+  }
+ ],
+ "trainCurve": [
+  {
+   "step": 25,
+   "trainLoss": 6.5908,
+   "gradNorm": 4.6272
+  },
+  {
+   "step": 50,
+   "trainLoss": 5.4169,
+   "gradNorm": 0.6754
+  },
+  {
+   "step": 75,
+   "trainLoss": 4.898,
+   "gradNorm": 0.4705
+  },
+  {
+   "step": 100,
+   "trainLoss": 4.4821,
+   "gradNorm": 0.4704
+  },
+  {
+   "step": 125,
+   "trainLoss": 4.2219,
+   "gradNorm": 0.3395
+  },
+  {
+   "step": 150,
+   "trainLoss": 4.1491,
+   "gradNorm": 0.4241
+  },
+  {
+   "step": 175,
+   "trainLoss": 4.2544,
+   "gradNorm": 0.7516
+  },
+  {
+   "step": 200,
+   "trainLoss": 4.5482,
+   "gradNorm": 1.7217
+  },
+  {
+   "step": 225,
+   "trainLoss": 4.67,
+   "gradNorm": 1.1872
+  },
+  {
+   "step": 250,
+   "trainLoss": 4.6892,
+   "gradNorm": 1.1909
+  },
+  {
+   "step": 275,
+   "trainLoss": null,
+   "gradNorm": 1.0024
+  },
+  {
+   "step": 300,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 325,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 350,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 375,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 400,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 425,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 450,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 475,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 500,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 525,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 550,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 575,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 600,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 625,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 650,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 675,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 700,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 725,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  },
+  {
+   "step": 750,
+   "trainLoss": null,
+   "gradNorm": 0.0
+  }
+ ],
+ "samples": [
+  {
+   "step": 0,
+   "prompt": "Once upon a time",
+   "completion": "Once upon a time comp v delighted why?\".known rat noise held blue fin finknowner school stra\t Look shovel grumpy panates school endingongong ve Gra twirlult sudden sudden legs prov spread re later Timmy cream cream cream Look smiledSoSo smiledurb fin rodeinkey object object daughterown Look towers ancienttt att fin suc itself gener mighty wing che Look ancientknown walking otter ducks needsman itself pony ponyC"
+  },
+  {
+   "step": 0,
+   "prompt": "Tom and his dog went to the park. Tom",
+   "completion": "Tom and his dog went to the park. Tom ret hoop hunasedaches crawled salt\ufffd kissed dreams dreams leavingaches object beautiful\ufffdJ he\u0017 sunny big bigroert thing thing\ufffd\ufffd\ufffd saw oy playing away dreams dreams dreams sweetlele lizard thing co visit crocodileyeye\ufffd didn\u00e2ther donipping pro puppy MandyCan\ufffdipippingipping Bobby Bobbyses move move thought clouduring don\ufffd cloud don cross crocodile Thenpes free treeil\ufffd stopped"
+  },
+  {
+   "step": 0,
+   "prompt": "Lily wanted to bake a cake for her mom, but",
+   "completion": "Lily wanted to bake a cake for her mom, butked roadriend[ 3der Bella suggested min ' journ happen book book book onceromrom\u0017\ufffd city mum built ' ' drewTh specialma chasedlex[!\". finding scream fruit snuggled snuggled Daddy Daddy beakatheraghet Molly Bella tower road<ies snuggled leop bought flashlight steal\t leop anx flew snuggled snuggledmingC photJackJackTh task once snuggled snuggled shining suggested towerThibleaghet minaveirtC"
+  },
+  {
+   "step": 0,
+   "prompt": "The little bird could not fly. One day,",
+   "completion": "The little bird could not fly. One day, didn\u00e2 reached reached lamp pop farmer"
+  },
+  {
+   "step": 0,
+   "prompt": "Max found a shiny key under his bed.",
+   "completion": "Max found a shiny key under his bed. mud mud nosy\ufffd Butcomfort trickYay skin deliver trickiewiew kind sn dishesugg earth realiseduggJill\ufffdumbersabyabys saweorgeWhy peanut waitedmerWhyWhy pro ta afterember carrot didn\u00e2 walked cray bandage dove favorite\ufffd enthusiastic enthusiasticYay bandage bandage bandageale\u0016 Fredto sayingz Billy Together TogetherLook enthusiasticumbers are say\ufffd scratara faruggugguggmer enthusiastic Together\ufffd\ufffd then Blue"
+  }
+ ],
+ "data": {
+  "dataset": "roneneldan/TinyStories",
+  "trainStories": 2119719,
+  "valStories": 21990,
+  "trainTokens": 485861106,
+  "valTokens": 4884112,
+  "valAStories": 10995,
+  "valBStartToken": 2328994,
+  "bytesPerToken": 3.953
+ },
+ "date": "2026-11-05",
+ "evalTokens": 327680,
+ "evalBytes": 1310145,
+ "stoppedEarly": 750,
+ "trainSec": 345.9,
+ "peakMemGB": 6.91
+}

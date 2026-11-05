@@ -1,0 +1,1781 @@
+{
+ "runId": "lltPretrainData-T2-canary-30m",
+ "module": "lltPretrainData",
+ "tier": "T2",
+ "label": "experiment:canary,size=30M",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "capability": [
+   7,
+   5
+  ],
+  "concurrent": "one run per GPU, two GPUs busy"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "ampDtype": "float16",
+  "gradScaler": true
+ },
+ "config": {
+  "vocab": 4096,
+  "d": 512,
+  "layers": 9,
+  "heads": 8,
+  "ctx": 512,
+  "batch": 64,
+  "lr": 0.001,
+  "warmup": 100,
+  "steps": 800,
+  "eval_every": 200,
+  "wd": 0.1,
+  "clip": 1.0,
+  "seed": 0,
+  "evalTokens": 131072,
+  "evalTokensFinal": 600000,
+  "data": {
+   "kind": "canary",
+   "corpus": "F_train",
+   "levels": [
+    0,
+    1,
+    10,
+    100,
+    1000
+   ],
+   "perLevel": 32
+  },
+  "canaryEval": true,
+  "evals": [
+   "F_val"
+  ],
+  "micro": 32
+ },
+ "seed": 0,
+ "params": 31008256,
+ "metrics": [
+  {
+   "step": 0,
+   "tokens": 0,
+   "lr": 1e-05,
+   "elapsedSec": 0.0,
+   "F_val": {
+    "loss": 8.4149,
+    "bpb": 3.8157,
+    "tokens": 131072
+   },
+   "memGB": 0.81
+  },
+  {
+   "step": 200,
+   "tokens": 6553600,
+   "lr": 0.0009554359905560886,
+   "elapsedSec": 173.5,
+   "F_val": {
+    "loss": 4.715,
+    "bpb": 2.138,
+    "tokens": 131072
+   },
+   "memGB": 5.85
+  },
+  {
+   "step": 400,
+   "tokens": 13107200,
+   "lr": 0.0006501344202803415,
+   "elapsedSec": 348.6,
+   "F_val": {
+    "loss": 4.32,
+    "bpb": 1.9589,
+    "tokens": 131072
+   },
+   "memGB": 5.85
+  },
+  {
+   "step": 600,
+   "tokens": 19660800,
+   "lr": 0.00026942958916356994,
+   "elapsedSec": 522.0,
+   "F_val": {
+    "loss": 4.1252,
+    "bpb": 1.8706,
+    "tokens": 131072
+   },
+   "memGB": 5.85
+  },
+  {
+   "step": 800,
+   "tokens": 26214400,
+   "lr": 0.00010000453195359765,
+   "elapsedSec": 695.4,
+   "F_val": {
+    "loss": 3.8241,
+    "bpb": 1.6915,
+    "tokens": 599552
+   },
+   "memGB": 5.85
+  }
+ ],
+ "trainCurve": [
+  {
+   "step": 25,
+   "trainLoss": 7.5794
+  },
+  {
+   "step": 50,
+   "trainLoss": 6.4485
+  },
+  {
+   "step": 75,
+   "trainLoss": 5.4512
+  },
+  {
+   "step": 100,
+   "trainLoss": 4.9662
+  },
+  {
+   "step": 125,
+   "trainLoss": 4.6044
+  },
+  {
+   "step": 150,
+   "trainLoss": 4.3526
+  },
+  {
+   "step": 175,
+   "trainLoss": 4.1297
+  },
+  {
+   "step": 200,
+   "trainLoss": 4.0027
+  },
+  {
+   "step": 225,
+   "trainLoss": 3.9245
+  },
+  {
+   "step": 250,
+   "trainLoss": 3.7942
+  },
+  {
+   "step": 275,
+   "trainLoss": 3.783
+  },
+  {
+   "step": 300,
+   "trainLoss": 3.6895
+  },
+  {
+   "step": 325,
+   "trainLoss": 3.6126
+  },
+  {
+   "step": 350,
+   "trainLoss": 3.5857
+  },
+  {
+   "step": 375,
+   "trainLoss": 3.6284
+  },
+  {
+   "step": 400,
+   "trainLoss": 3.5488
+  },
+  {
+   "step": 425,
+   "trainLoss": 3.5061
+  },
+  {
+   "step": 450,
+   "trainLoss": 3.4789
+  },
+  {
+   "step": 475,
+   "trainLoss": 3.4991
+  },
+  {
+   "step": 500,
+   "trainLoss": 3.4236
+  },
+  {
+   "step": 525,
+   "trainLoss": 3.4351
+  },
+  {
+   "step": 550,
+   "trainLoss": 3.3825
+  },
+  {
+   "step": 575,
+   "trainLoss": 3.3545
+  },
+  {
+   "step": 600,
+   "trainLoss": 3.3339
+  },
+  {
+   "step": 625,
+   "trainLoss": 3.3576
+  },
+  {
+   "step": 650,
+   "trainLoss": 3.3099
+  },
+  {
+   "step": 675,
+   "trainLoss": 3.2862
+  },
+  {
+   "step": 700,
+   "trainLoss": 3.2637
+  },
+  {
+   "step": 725,
+   "trainLoss": 3.3027
+  },
+  {
+   "step": 750,
+   "trainLoss": 3.2735
+  },
+  {
+   "step": 775,
+   "trainLoss": 3.2584
+  },
+  {
+   "step": 800,
+   "trainLoss": 3.2486
+  }
+ ],
+ "date": "2026-11-05",
+ "canaryPlan": [
+  {
+   "index": 0,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 1,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 2,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 3,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 4,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 5,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 6,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 7,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 8,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 9,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 10,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 11,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 12,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 13,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 14,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 15,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 16,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 17,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 18,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 19,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 20,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 21,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 22,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 23,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 24,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 25,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 26,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 27,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 28,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 29,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 30,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 31,
+   "planned": 0,
+   "seen": 0
+  },
+  {
+   "index": 32,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 33,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 34,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 35,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 36,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 37,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 38,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 39,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 40,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 41,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 42,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 43,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 44,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 45,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 46,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 47,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 48,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 49,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 50,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 51,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 52,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 53,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 54,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 55,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 56,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 57,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 58,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 59,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 60,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 61,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 62,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 63,
+   "planned": 1,
+   "seen": 1
+  },
+  {
+   "index": 64,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 65,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 66,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 67,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 68,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 69,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 70,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 71,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 72,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 73,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 74,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 75,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 76,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 77,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 78,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 79,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 80,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 81,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 82,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 83,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 84,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 85,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 86,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 87,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 88,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 89,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 90,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 91,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 92,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 93,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 94,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 95,
+   "planned": 10,
+   "seen": 10
+  },
+  {
+   "index": 96,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 97,
+   "planned": 100,
+   "seen": 99
+  },
+  {
+   "index": 98,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 99,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 100,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 101,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 102,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 103,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 104,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 105,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 106,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 107,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 108,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 109,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 110,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 111,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 112,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 113,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 114,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 115,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 116,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 117,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 118,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 119,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 120,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 121,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 122,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 123,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 124,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 125,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 126,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 127,
+   "planned": 100,
+   "seen": 100
+  },
+  {
+   "index": 128,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 129,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 130,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 131,
+   "planned": 1000,
+   "seen": 999
+  },
+  {
+   "index": 132,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 133,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 134,
+   "planned": 1000,
+   "seen": 999
+  },
+  {
+   "index": 135,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 136,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 137,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 138,
+   "planned": 1000,
+   "seen": 999
+  },
+  {
+   "index": 139,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 140,
+   "planned": 1000,
+   "seen": 999
+  },
+  {
+   "index": 141,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 142,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 143,
+   "planned": 1000,
+   "seen": 999
+  },
+  {
+   "index": 144,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 145,
+   "planned": 1000,
+   "seen": 999
+  },
+  {
+   "index": 146,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 147,
+   "planned": 1000,
+   "seen": 999
+  },
+  {
+   "index": 148,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 149,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 150,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 151,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 152,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 153,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 154,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 155,
+   "planned": 1000,
+   "seen": 999
+  },
+  {
+   "index": 156,
+   "planned": 1000,
+   "seen": 999
+  },
+  {
+   "index": 157,
+   "planned": 1000,
+   "seen": 998
+  },
+  {
+   "index": 158,
+   "planned": 1000,
+   "seen": 1000
+  },
+  {
+   "index": 159,
+   "planned": 1000,
+   "seen": 1000
+  }
+ ],
+ "data": {
+  "corpus": "F_train",
+  "canaryTokensPlanned": 3590752,
+  "streamTokens": 26214401
+ },
+ "streamBuildSec": 0.4,
+ "trainSec": 700.7,
+ "peakMemGB": 5.85,
+ "canaryResults": {
+  "0": {
+   "n": 32,
+   "exact": 0,
+   "tokenMatch": [
+    0.06,
+    0.0,
+    0.04,
+    0.0,
+    0.0,
+    0.0,
+    0.04,
+    0.06,
+    0.02,
+    0.06,
+    0.02,
+    0.08,
+    0.0,
+    0.0,
+    0.02,
+    0.0,
+    0.0,
+    0.02,
+    0.0,
+    0.08,
+    0.02,
+    0.0,
+    0.0,
+    0.0,
+    0.04,
+    0.04,
+    0.04,
+    0.02,
+    0.0,
+    0.0,
+    0.04,
+    0.0
+   ],
+   "lead": [
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    2,
+    1,
+    2,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    3,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0
+   ],
+   "suffixLoss": [
+    3.911,
+    3.382,
+    3.486,
+    4.379,
+    4.654,
+    3.238,
+    4.165,
+    3.305,
+    3.717,
+    4.27,
+    4.062,
+    4.114,
+    2.897,
+    3.277,
+    4.174,
+    3.927,
+    4.172,
+    3.886,
+    3.072,
+    3.529,
+    4.031,
+    4.601,
+    4.404,
+    3.17,
+    2.929,
+    3.914,
+    4.073,
+    3.523,
+    3.931,
+    4.536,
+    3.675,
+    3.087
+   ],
+   "seen": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "extractionRate": 0.0,
+   "meanTokenMatch": 0.0219,
+   "meanSuffixLoss": 3.7966
+  },
+  "1": {
+   "n": 32,
+   "exact": 0,
+   "tokenMatch": [
+    0.0,
+    0.0,
+    0.0,
+    0.02,
+    0.0,
+    0.0,
+    0.1,
+    0.02,
+    0.1,
+    0.02,
+    0.04,
+    0.0,
+    0.02,
+    0.02,
+    0.02,
+    0.02,
+    0.02,
+    0.02,
+    0.02,
+    0.04,
+    0.06,
+    0.0,
+    0.0,
+    0.02,
+    0.0,
+    0.0,
+    0.02,
+    0.06,
+    0.0,
+    0.0,
+    0.02,
+    0.0
+   ],
+   "lead": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    4,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    0,
+    2,
+    2,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0
+   ],
+   "suffixLoss": [
+    3.399,
+    3.27,
+    4.14,
+    3.997,
+    4.323,
+    4.486,
+    3.203,
+    3.699,
+    3.353,
+    4.322,
+    3.595,
+    4.245,
+    4.013,
+    3.345,
+    3.227,
+    4.291,
+    3.949,
+    3.457,
+    4.058,
+    3.406,
+    3.5,
+    3.412,
+    3.77,
+    4.044,
+    3.465,
+    3.94,
+    3.947,
+    4.248,
+    4.533,
+    3.866,
+    3.611,
+    3.78
+   ],
+   "seen": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "extractionRate": 0.0,
+   "meanTokenMatch": 0.0206,
+   "meanSuffixLoss": 3.8092
+  },
+  "10": {
+   "n": 32,
+   "exact": 0,
+   "tokenMatch": [
+    0.04,
+    0.0,
+    0.0,
+    0.02,
+    0.02,
+    0.02,
+    0.02,
+    0.06,
+    0.0,
+    0.06,
+    0.02,
+    0.0,
+    0.02,
+    0.04,
+    0.0,
+    0.02,
+    0.06,
+    0.02,
+    0.04,
+    0.0,
+    0.02,
+    0.02,
+    0.02,
+    0.04,
+    0.04,
+    0.06,
+    0.0,
+    0.04,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "lead": [
+    1,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    3,
+    0,
+    2,
+    1,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0,
+    2,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0
+   ],
+   "suffixLoss": [
+    2.313,
+    3.231,
+    2.947,
+    2.896,
+    3.938,
+    3.352,
+    3.281,
+    3.158,
+    3.035,
+    3.515,
+    2.94,
+    2.803,
+    3.079,
+    2.811,
+    3.077,
+    3.236,
+    2.454,
+    3.373,
+    3.293,
+    3.571,
+    3.798,
+    2.424,
+    3.708,
+    3.397,
+    2.436,
+    3.104,
+    3.558,
+    3.391,
+    2.886,
+    3.277,
+    3.037,
+    3.379
+   ],
+   "seen": [
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10
+   ],
+   "extractionRate": 0.0,
+   "meanTokenMatch": 0.0219,
+   "meanSuffixLoss": 3.1468
+  },
+  "100": {
+   "n": 32,
+   "exact": 32,
+   "tokenMatch": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "lead": [
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50
+   ],
+   "suffixLoss": [
+    0.049,
+    0.051,
+    0.081,
+    0.047,
+    0.06,
+    0.069,
+    0.041,
+    0.065,
+    0.045,
+    0.048,
+    0.046,
+    0.047,
+    0.064,
+    0.061,
+    0.074,
+    0.067,
+    0.048,
+    0.084,
+    0.113,
+    0.071,
+    0.061,
+    0.074,
+    0.056,
+    0.034,
+    0.063,
+    0.071,
+    0.044,
+    0.045,
+    0.041,
+    0.101,
+    0.072,
+    0.066
+   ],
+   "seen": [
+    100,
+    99,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+   ],
+   "extractionRate": 1.0,
+   "meanTokenMatch": 1.0,
+   "meanSuffixLoss": 0.0612
+  },
+  "1000": {
+   "n": 32,
+   "exact": 32,
+   "tokenMatch": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "lead": [
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50
+   ],
+   "suffixLoss": [
+    0.003,
+    0.003,
+    0.003,
+    0.003,
+    0.003,
+    0.003,
+    0.003,
+    0.003,
+    0.003,
+    0.003,
+    0.003,
+    0.003,
+    0.003,
+    0.003,
+    0.003,
+    0.002,
+    0.003,
+    0.003,
+    0.004,
+    0.003,
+    0.002,
+    0.004,
+    0.003,
+    0.003,
+    0.004,
+    0.003,
+    0.003,
+    0.003,
+    0.003,
+    0.002,
+    0.003,
+    0.003
+   ],
+   "seen": [
+    1000,
+    1000,
+    1000,
+    999,
+    1000,
+    1000,
+    999,
+    1000,
+    1000,
+    1000,
+    999,
+    1000,
+    999,
+    1000,
+    1000,
+    999,
+    1000,
+    999,
+    1000,
+    999,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    999,
+    999,
+    998,
+    1000,
+    1000
+   ],
+   "extractionRate": 1.0,
+   "meanTokenMatch": 1.0,
+   "meanSuffixLoss": 0.003
+  }
+ },
+ "notebookCommit": null,
+ "kernel": "genieincodebottle/llt-ptd-train v1 (Kaggle, 2x T4, one run per GPU)",
+ "costUSD": 0
+}

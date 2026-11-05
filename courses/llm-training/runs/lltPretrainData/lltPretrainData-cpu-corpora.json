@@ -1,0 +1,183 @@
+{
+ "runId": "lltPretrainData-cpu-corpora",
+ "module": "lltPretrainData",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "Kaggle CPU session, 4 cores",
+  "kernel": "genieincodebottle/llt-ptd-prep v4"
+ },
+ "env": {
+  "python": "3.13.18 (Kaggle image)",
+  "numpy": "2.1.3",
+  "scikit-learn": "1.6.1",
+  "tokenizers": "0.23.3",
+  "pandas": "2.3.3",
+  "trafilatura": "2.3.1",
+  "datasketch": "2.0.0",
+  "spacy": "3.8.16",
+  "fasttext": "fasttext-numpy2 0.10.4",
+  "warcio": "1.8.2 (PyPI latest on 2026-11-05)",
+  "datatrove": "0.10.1 (PyPI latest on 2026-11-05)"
+ },
+ "notebookCommit": null,
+ "config": {
+  "c4": {
+   "source": "https://huggingface.co/datasets/allenai/c4/resolve/main/en.noclean/c4-train.00000-of-07168.json.gz",
+   "licence": "ODC-By 1.0 (allenai/c4), plus Common Crawl Terms of Use",
+   "docs": 148410,
+   "bytes": 924595036,
+   "heldOutDocs": 6000
+  }
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "c4": {
+   "source": "https://huggingface.co/datasets/allenai/c4/resolve/main/en.noclean/c4-train.00000-of-07168.json.gz",
+   "licence": "ODC-By 1.0 (allenai/c4), plus Common Crawl Terms of Use",
+   "docs": 148410,
+   "bytes": 924595036,
+   "heldOutDocs": 6000,
+   "leak": {
+    "heldOut": 6000,
+    "nearDupInTrain_est0.8": 230,
+    "exactDupInTrain": 92,
+    "leakedAny": 230
+   },
+   "english065": 117062,
+   "ruleCounts": {
+    "c4": {
+     "fewer_than_3_sentences": 10782,
+     "curly_bracket": 418,
+     "lorem_ipsum": 90
+    },
+    "gopher_quality": {
+     "alpha_words": 7923,
+     "stop_words": 1504,
+     "too_few_words": 4080,
+     "ellipsis_ratio": 50,
+     "ellipsis_lines": 118,
+     "mean_word_length": 164,
+     "hash_ratio": 128,
+     "bullet_lines": 1
+    },
+    "gopher_repetition": {
+     "dup_lines": 17680,
+     "dup_5_gram": 3613,
+     "dup_line_chars": 2262,
+     "dup_10_gram": 553,
+     "dup_8_gram": 394,
+     "top_4_gram": 311,
+     "top_2_gram": 151,
+     "dup_9_gram": 400,
+     "dup_6_gram": 400,
+     "dup_7_gram": 320,
+     "top_3_gram": 209
+    }
+   },
+   "afterFilters": 65511,
+   "dedup": {
+    "in": 65511,
+    "exactDuplicatesRemoved": 1576,
+    "candidatePairs": 15482,
+    "nearDuplicatesRemoved": 1489,
+    "out": 62446,
+    "pairsChecked": 3000,
+    "pairJaccardMean": 0.8394,
+    "pairJaccardBelow0.5": 11,
+    "pairJaccardAtLeast0.8": 2344,
+    "estVsExactMeanAbsErr": 0.025
+   },
+   "contaminatedRemoved": 4,
+   "pii": {
+    "emailsReplaced": 2838,
+    "ipsReplaced": 145
+   },
+   "finalDocs": 62442,
+   "finalBytes": 188144985,
+   "classifierOnF": {
+    "median": 0.9633,
+    "fracAtLeast3": 0.002,
+    "fracAtLeast2": 0.0494,
+    "eDocs": 29884
+   }
+  },
+  "tokenizer": {
+   "vocab": 4096,
+   "sampleDocs": 74500,
+   "sampleBytes": 173116775,
+   "trainSec": 25.8
+  },
+  "corpora": {
+   "U_train": {
+    "docs": 24346,
+    "tokens": 60000066,
+    "meanDocTokens": 2464.5
+   },
+   "U_val_clean": {
+    "docs": 286,
+    "tokens": 611046,
+    "meanDocTokens": 2136.5
+   },
+   "U_val_leak": {
+    "docs": 88,
+    "tokens": 607638,
+    "meanDocTokens": 6905
+   },
+   "U_val": {
+    "docs": 256,
+    "tokens": 602791,
+    "meanDocTokens": 2354.7
+   },
+   "F_train": {
+    "docs": 59768,
+    "tokens": 55141258,
+    "meanDocTokens": 922.6
+   },
+   "F_val": {
+    "docs": 695,
+    "tokens": 604014,
+    "meanDocTokens": 869.1
+   },
+   "E_train": {
+    "docs": 29884,
+    "tokens": 36289974,
+    "meanDocTokens": 1214.4
+   },
+   "wiki_train": {
+    "docs": 10757,
+    "tokens": 60004232,
+    "meanDocTokens": 5578.2
+   },
+   "wiki_test": {
+    "docs": 61,
+    "tokens": 392981,
+    "meanDocTokens": 6442.3
+   },
+   "ts_train": {
+    "docs": 160000,
+    "tokens": 39712508,
+    "meanDocTokens": 248.2
+   },
+   "ts_val": {
+    "docs": 2652,
+    "tokens": 600294,
+    "meanDocTokens": 226.4
+   }
+  },
+  "canaries": {
+   "count": 160,
+   "tokens": 100
+  }
+ },
+ "samples": [],
+ "wallClockSec": 2108.5,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe record_prep.py <scratch>/llt/ptd/kaggle_raw/funnel_examples.json"
+}

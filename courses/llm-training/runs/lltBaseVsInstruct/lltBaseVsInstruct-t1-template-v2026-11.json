@@ -1,0 +1,246 @@
+{
+ "runId": "lltBaseVsInstruct-t1-template-v2026-11",
+ "module": "lltBaseVsInstruct",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "pairs": {
+   "smollm2": [
+    "HuggingFaceTB/SmolLM2-360M",
+    "HuggingFaceTB/SmolLM2-360M-Instruct"
+   ],
+   "qwen3": [
+    "Qwen/Qwen3-0.6B-Base",
+    "Qwen/Qwen3-0.6B"
+   ]
+  }
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "smollm2": {
+   "returnType": "BatchEncoding",
+   "keys": [
+    "input_ids",
+    "attention_mask"
+   ],
+   "text": "<|im_start|>system\nYou are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>\n<|im_start|>user\nWhat is the capital of France?<|im_end|>\n<|im_start|>assistant\n",
+   "textNoGenPrompt": "<|im_start|>system\nYou are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>\n<|im_start|>user\nWhat is the capital of France?<|im_end|>\n",
+   "nTokens": 37,
+   "nTokensNoGenPrompt": 33,
+   "tokens": [
+    "<|im_start|>",
+    "system",
+    "Ċ",
+    "You",
+    "Ġare",
+    "Ġa",
+    "Ġhelpful",
+    "ĠAI",
+    "Ġassistant",
+    "Ġnamed",
+    "ĠSm",
+    "ol",
+    "LM",
+    ",",
+    "Ġtrained",
+    "Ġby",
+    "ĠH",
+    "ugging",
+    "ĠFace",
+    "<|im_end|>",
+    "Ċ",
+    "<|im_start|>",
+    "user",
+    "Ċ",
+    "What",
+    "Ġis",
+    "Ġthe",
+    "Ġcapital",
+    "Ġof",
+    "ĠFrance",
+    "?",
+    "<|im_end|>",
+    "Ċ",
+    "<|im_start|>",
+    "ass",
+    "istant",
+    "Ċ"
+   ],
+   "ids": [
+    1,
+    9690,
+    198,
+    2683,
+    359,
+    253,
+    5356,
+    5646,
+    11173,
+    3365,
+    3511,
+    308,
+    34519,
+    28,
+    7018,
+    411,
+    407,
+    19712,
+    8182,
+    2,
+    198,
+    1,
+    4093,
+    198,
+    1780,
+    314,
+    260,
+    3575,
+    282,
+    4649,
+    47,
+    2,
+    198,
+    1,
+    520,
+    9531,
+    198
+   ],
+   "special": {
+    "bos_token": [
+     "<|im_start|>",
+     1
+    ],
+    "eos_token": [
+     "<|im_end|>",
+     2
+    ],
+    "unk_token": [
+     "<|endoftext|>",
+     0
+    ],
+    "pad_token": [
+     "<|im_end|>",
+     2
+    ]
+   },
+   "baseSpecial": {
+    "bos_token": [
+     "<|endoftext|>",
+     0
+    ],
+    "eos_token": [
+     "<|endoftext|>",
+     0
+    ],
+    "unk_token": [
+     "<|endoftext|>",
+     0
+    ]
+   },
+   "baseHasChatTemplate": false,
+   "sameVocab": true,
+   "vocab": 49152
+  },
+  "qwen3": {
+   "returnType": "BatchEncoding",
+   "keys": [
+    "input_ids",
+    "attention_mask"
+   ],
+   "text": "<|im_start|>user\nWhat is the capital of France?<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+   "textNoGenPrompt": "<|im_start|>user\nWhat is the capital of France?<|im_end|>\n",
+   "nTokens": 19,
+   "nTokensNoGenPrompt": 12,
+   "tokens": [
+    "<|im_start|>",
+    "user",
+    "Ċ",
+    "What",
+    "Ġis",
+    "Ġthe",
+    "Ġcapital",
+    "Ġof",
+    "ĠFrance",
+    "?",
+    "<|im_end|>",
+    "Ċ",
+    "<|im_start|>",
+    "assistant",
+    "Ċ",
+    "<think>",
+    "ĊĊ",
+    "</think>",
+    "ĊĊ"
+   ],
+   "ids": [
+    151644,
+    872,
+    198,
+    3838,
+    374,
+    279,
+    6722,
+    315,
+    9625,
+    30,
+    151645,
+    198,
+    151644,
+    77091,
+    198,
+    151667,
+    271,
+    151668,
+    271
+   ],
+   "special": {
+    "eos_token": [
+     "<|im_end|>",
+     151645
+    ],
+    "pad_token": [
+     "<|endoftext|>",
+     151643
+    ]
+   },
+   "baseSpecial": {
+    "eos_token": [
+     "<|endoftext|>",
+     151643
+    ],
+    "pad_token": [
+     "<|endoftext|>",
+     151643
+    ]
+   },
+   "baseHasChatTemplate": true,
+   "sameVocab": true,
+   "vocab": 151669
+  }
+ },
+ "samples": [],
+ "wallClockSec": 18.6,
+ "wallClockNote": "measured while other jobs shared the CPU; not a timing figure for the page",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py template"
+}

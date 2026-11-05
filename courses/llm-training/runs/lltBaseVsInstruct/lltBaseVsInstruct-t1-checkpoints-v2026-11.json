@@ -1,0 +1,73 @@
+{
+ "runId": "lltBaseVsInstruct-t1-checkpoints-v2026-11",
+ "module": "lltBaseVsInstruct",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "source": "safetensors headers from the Hub cache"
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "HuggingFaceTB/SmolLM2-360M": {
+   "fileBytes": 723674912,
+   "headerBytes": 32672,
+   "parameters": 361821120,
+   "dtypes": [
+    "BF16"
+   ],
+   "tensors": 290
+  },
+  "HuggingFaceTB/SmolLM2-360M-Instruct": {
+   "fileBytes": 723674912,
+   "headerBytes": 32672,
+   "parameters": 361821120,
+   "dtypes": [
+    "BF16"
+   ],
+   "tensors": 290
+  },
+  "Qwen/Qwen3-0.6B-Base": {
+   "fileBytes": 1192135096,
+   "headerBytes": 35256,
+   "parameters": 596049920,
+   "dtypes": [
+    "BF16"
+   ],
+   "tensors": 310
+  },
+  "Qwen/Qwen3-0.6B": {
+   "fileBytes": 1503300328,
+   "headerBytes": 35560,
+   "parameters": 751632384,
+   "dtypes": [
+    "BF16"
+   ],
+   "tensors": 311
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "wallClockNote": "measured while other jobs shared the CPU; not a timing figure for the page",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py checkpoints"
+}

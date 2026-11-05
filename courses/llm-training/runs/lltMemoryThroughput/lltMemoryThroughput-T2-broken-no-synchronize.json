@@ -1,0 +1,44 @@
+{
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6,
+  "platform": "Kaggle, accelerator NvidiaTeslaT4, CUDA_VISIBLE_DEVICES=0"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4"
+  ]
+ },
+ "notebook": "kaggle genieincodebottle/llt-memthru-p1 version 2",
+ "date": "2026-11-05",
+ "seed": 0,
+ "model": "GPT-2 small, 124,439,808 parameters (steps/gpt.py)",
+ "runId": "lltMemoryThroughput-T2-broken-no-synchronize",
+ "label": "broken:timing-without-synchronize",
+ "config": {
+  "batch": 8,
+  "seq": 1024
+ },
+ "metrics": [
+  {
+   "synchronize": false,
+   "forwardMs": 9.2,
+   "backwardMs": 13.6
+  },
+  {
+   "synchronize": true,
+   "forwardMs": 204.3,
+   "backwardMs": 317.9
+  }
+ ],
+ "stdout": {
+  "s04": "b=8 s=1024  14,399 tokens/s  first step 0.61 s  MFU 19.0% of 65 TFLOPS\nsynchronize=False  forward    9.2 ms  backward   13.6 ms\nsynchronize=True   forward  204.3 ms  backward  317.9 ms\n"
+ },
+ "module": "lltMemoryThroughput",
+ "tier": "T2",
+ "costUSD": 0
+}

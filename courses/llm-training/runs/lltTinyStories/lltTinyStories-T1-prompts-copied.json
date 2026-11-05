@@ -1,0 +1,48 @@
+{
+ "runId": "lltTinyStories-T1-prompts-copied",
+ "module": "lltTinyStories",
+ "tier": "T1",
+ "label": "broken:prompts-from-training-stories",
+ "hardware": {
+  "gpu": null,
+  "count": 0
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "datasets": "5.1.0",
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "torchThreads": 4
+ },
+ "config": {
+  "promptTokens": 48,
+  "continuationTokens": 64
+ },
+ "seed": 0,
+ "evals": {
+  "baseline-s0 step 3000": {
+   "trainPromptLoss": 1.5765,
+   "valPromptLoss": 1.5915,
+   "difference": -0.015,
+   "ci95": [
+    -0.0811,
+    0.0524
+   ],
+   "n": 300
+  },
+  "lltTinyStories-T2-size30m-s0-final-fp16.pt": {
+   "trainPromptLoss": 1.4593,
+   "valPromptLoss": 1.4629,
+   "difference": -0.0035,
+   "ci95": [
+    -0.0708,
+    0.0638
+   ],
+   "n": 300
+  }
+ },
+ "date": "2026-11-05",
+ "command": "python measure.py prompts ../../kaggle/out/llt-tinystories-sweep/lltTinyStories-T2-size30m-s0-final-fp16.pt"
+}

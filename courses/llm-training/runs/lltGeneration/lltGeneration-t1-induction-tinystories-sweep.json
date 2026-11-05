@@ -1,0 +1,152 @@
+{
+ "runId": "lltGeneration-t1-induction-tinystories-sweep",
+ "module": "lltGeneration",
+ "tier": "T1",
+ "label": "research:induction-tinystories-sweep",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "torchThreads": 4
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "huggingface_hub": "2.4.0",
+  "datasets": "5.1.0",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "checkpoints": "kaggle/out/llt-tinystories-sweep final fp16 checkpoints, 3,000 steps each, loaded as float32",
+  "tokenizer": "the sweep's tokenizer.json",
+  "iclWindows": 32,
+  "dtype": "float32"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "run": "lltTinyStories-T2-size3m-s0",
+   "params": 3000384,
+   "d": 192,
+   "layers": 5,
+   "heads": 6,
+   "randomTokens": {
+    "lossFirstCopy": 13.3209,
+    "lossSecondCopy": 13.2263,
+    "inductionMax": 0.0088,
+    "head": "layer 2 head 2",
+    "headsAbove0p4": 0
+   },
+   "realText": {
+    "lossFirstCopy": 1.6403,
+    "lossSecondCopy": 1.651,
+    "inductionMax": 0.0166,
+    "head": "layer 2 head 2",
+    "headsAbove0p4": 0
+   },
+   "iclScore_500_minus_50": -0.5972
+  },
+  {
+   "run": "lltTinyStories-T2-baseline-s1",
+   "params": 11474240,
+   "d": 320,
+   "layers": 8,
+   "heads": 8,
+   "randomTokens": {
+    "lossFirstCopy": 12.8172,
+    "lossSecondCopy": 12.5405,
+    "inductionMax": 0.011,
+    "head": "layer 7 head 4",
+    "headsAbove0p4": 0
+   },
+   "realText": {
+    "lossFirstCopy": 1.4591,
+    "lossSecondCopy": 1.4909,
+    "inductionMax": 0.0211,
+    "head": "layer 7 head 4",
+    "headsAbove0p4": 0
+   },
+   "iclScore_500_minus_50": -0.3916
+  },
+  {
+   "run": "lltTinyStories-T2-deep-s0",
+   "params": 11492096,
+   "d": 256,
+   "layers": 13,
+   "heads": 8,
+   "randomTokens": {
+    "lossFirstCopy": 12.7755,
+    "lossSecondCopy": 12.5853,
+    "inductionMax": 0.0077,
+    "head": "layer 1 head 1",
+    "headsAbove0p4": 0
+   },
+   "realText": {
+    "lossFirstCopy": 1.4535,
+    "lossSecondCopy": 1.5114,
+    "inductionMax": 0.0153,
+    "head": "layer 10 head 3",
+    "headsAbove0p4": 0
+   },
+   "iclScore_500_minus_50": -0.5646
+  },
+  {
+   "run": "lltTinyStories-T2-wide-s0",
+   "params": 11587520,
+   "d": 448,
+   "layers": 4,
+   "heads": 8,
+   "randomTokens": {
+    "lossFirstCopy": 13.2146,
+    "lossSecondCopy": 13.1318,
+    "inductionMax": 0.0072,
+    "head": "layer 2 head 5",
+    "headsAbove0p4": 0
+   },
+   "realText": {
+    "lossFirstCopy": 1.4461,
+    "lossSecondCopy": 1.4472,
+    "inductionMax": 0.0199,
+    "head": "layer 3 head 5",
+    "headsAbove0p4": 0
+   },
+   "iclScore_500_minus_50": -0.3113
+  },
+  {
+   "run": "lltTinyStories-T2-size30m-s0",
+   "params": 31008256,
+   "d": 512,
+   "layers": 9,
+   "heads": 8,
+   "randomTokens": {
+    "lossFirstCopy": 12.4629,
+    "lossSecondCopy": 12.0968,
+    "inductionMax": 0.0181,
+    "head": "layer 7 head 5",
+    "headsAbove0p4": 0
+   },
+   "realText": {
+    "lossFirstCopy": 1.3543,
+    "lossSecondCopy": 1.3848,
+    "inductionMax": 0.0427,
+    "head": "layer 7 head 5",
+    "headsAbove0p4": 0
+   },
+   "iclScore_500_minus_50": -0.4082
+  }
+ ],
+ "evals": {},
+ "samples": [],
+ "wallClockSec": 81.8,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe ts_sweep_induction.py --threads 4",
+ "notes": "Final checkpoints only, one per model, so this compares models and cannot date a phase change."
+}

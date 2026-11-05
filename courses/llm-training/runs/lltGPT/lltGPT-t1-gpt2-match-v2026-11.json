@@ -1,0 +1,98 @@
+{
+ "runId": "lltGPT-t1-gpt2-match-v2026-11",
+ "module": "lltGPT",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "huggingface_hub": "2.4.0",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "openai-community/gpt2",
+  "dtype": "float32",
+  "threads": 4,
+  "text": "Once upon a time, a small robot lived in a quiet town. Every morning it walked to the park and counted the birds.",
+  "prompt": "Once upon a time, a small robot"
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "match": {
+   "tokens": 26,
+   "largestAbsLogit": 198.67,
+   "oursVsHfSdpa": 7.62939453125e-05,
+   "oursVsHfEager": 7.62939453125e-05,
+   "hfSdpaVsHfEager": 0.00011444091796875,
+   "oursFp32VsOursFp64": 0.00012969970703125,
+   "hfSdpaVsOursFp64": 0.00012969970703125,
+   "maxRelDiff": 7.802701134096424e-07,
+   "sameArgmax": true,
+   "allcloseRtol1e-5Atol1e-4": true,
+   "lossOurs": 3.6809,
+   "lossHf": 3.6809,
+   "greedyOurs": "Once upon a time, a small robot was able to create a new world.\n\nThe robot",
+   "greedyHf": "Once upon a time, a small robot was able to create a new world.\n\nThe robot",
+   "paramsOurs": 124439808,
+   "paramsHf": 124439808
+  },
+  "mistakes": {
+   "exact GELU instead of tanh": {
+    "maxAbsDiff": 0.1273,
+    "loss": 3.681,
+    "sameArgmaxFrac": 1.0,
+    "greedy": "Once upon a time, a small robot was able to create a new world.\n\nThe robot"
+   },
+   "LayerNorm eps 1e-6 instead of 1e-5": {
+    "maxAbsDiff": 0.0102,
+    "loss": 3.681,
+    "sameArgmaxFrac": 1.0,
+    "greedy": "Once upon a time, a small robot was able to create a new world.\n\nThe robot"
+   },
+   "square attn.c_proj left untransposed": {
+    "maxAbsDiff": 184.0851,
+    "loss": 7.317,
+    "sameArgmaxFrac": 0.231,
+    "greedy": "Once upon a time, a small robot. the the the the the the the the the the the"
+   },
+   "final LayerNorm weights not loaded": {
+    "maxAbsDiff": 170.6859,
+    "loss": 16.4083,
+    "sameArgmaxFrac": 0.308,
+    "greedy": "Once upon a time, a small robot, the the the, the, the, the, the"
+   }
+  },
+  "noTransposeError": [
+   "Error(s) in loading state_dict for GPT:",
+   "\tsize mismatch for blocks.0.attn.qkv.weight: copying a param with shape torch.Size([768, 2304]) from checkpoint, the shape in current model is torch.Size([2304, 768]).",
+   "\tsize mismatch for blocks.0.mlp.up.weight: copying a param with shape torch.Size([768, 3072]) from checkpoint, the shape in current model is torch.Size([3072, 768])."
+  ],
+  "tolerance": {
+   "check": "torch.allclose(a, b, rtol=1e-5, atol=1e-4)",
+   "oursVsHfSdpa": true,
+   "oursVsHfEager": true,
+   "hfEagerVsHfSdpa": true,
+   "exactGelu": false,
+   "eps1e-6": false,
+   "absOnly1e-4_hfEagerVsSdpa": false
+  }
+ },
+ "samples": [],
+ "wallClockSec": 76.6,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure_gpt2.py"
+}

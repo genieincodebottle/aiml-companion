@@ -1,0 +1,261 @@
+{
+ "runId": "lltPretrainData-T2-wsd-anneal-F",
+ "module": "lltPretrainData",
+ "tier": "T2",
+ "label": "ablation:anneal=F",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "capability": [
+   7,
+   5
+  ],
+  "concurrent": "one run per GPU, two GPUs busy"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "ampDtype": "float16",
+  "gradScaler": true
+ },
+ "config": {
+  "vocab": 4096,
+  "d": 320,
+  "layers": 8,
+  "heads": 8,
+  "ctx": 512,
+  "batch": 64,
+  "lr": 0.001,
+  "warmup": 100,
+  "steps": 600,
+  "eval_every": 200,
+  "wd": 0.1,
+  "clip": 1.0,
+  "seed": 0,
+  "evalTokens": 131072,
+  "evalTokensFinal": 600000,
+  "schedule": "wsd",
+  "decayFrac": 0.2,
+  "data": {
+   "kind": "single",
+   "corpus": "F_train"
+  },
+  "anneal": {
+   "corpus": "F_train",
+   "frac": 0.2
+  },
+  "evals": [
+   "F_val",
+   "wiki_test",
+   "U_val"
+  ]
+ },
+ "seed": 0,
+ "params": 11474240,
+ "metrics": [
+  {
+   "step": 0,
+   "tokens": 0,
+   "lr": 1e-05,
+   "elapsedSec": 0.0,
+   "F_val": {
+    "loss": 8.393,
+    "bpb": 3.8058,
+    "tokens": 131072
+   },
+   "wiki_test": {
+    "loss": 8.3748,
+    "bpb": 3.6817,
+    "tokens": 131072
+   },
+   "U_val": {
+    "loss": 8.375,
+    "bpb": 4.1915,
+    "tokens": 131072
+   },
+   "memGB": 0.74
+  },
+  {
+   "step": 200,
+   "tokens": 6553600,
+   "lr": 0.001,
+   "elapsedSec": 105.3,
+   "F_val": {
+    "loss": 4.7918,
+    "bpb": 2.1728,
+    "tokens": 131072
+   },
+   "wiki_test": {
+    "loss": 5.656,
+    "bpb": 2.4865,
+    "tokens": 131072
+   },
+   "U_val": {
+    "loss": 5.185,
+    "bpb": 2.595,
+    "tokens": 131072
+   },
+   "memGB": 6.91
+  },
+  {
+   "step": 400,
+   "tokens": 13107200,
+   "lr": 0.001,
+   "elapsedSec": 209.8,
+   "F_val": {
+    "loss": 4.3906,
+    "bpb": 1.9909,
+    "tokens": 131072
+   },
+   "wiki_test": {
+    "loss": 5.3124,
+    "bpb": 2.3354,
+    "tokens": 131072
+   },
+   "U_val": {
+    "loss": 4.7803,
+    "bpb": 2.3924,
+    "tokens": 131072
+   },
+   "memGB": 6.91
+  },
+  {
+   "step": 600,
+   "tokens": 19660800,
+   "lr": 8.333333333333334e-06,
+   "elapsedSec": 313.3,
+   "F_val": {
+    "loss": 3.9833,
+    "bpb": 1.7619,
+    "tokens": 599552
+   },
+   "wiki_test": {
+    "loss": 5.0279,
+    "bpb": 2.2105,
+    "tokens": 392704
+   },
+   "U_val": {
+    "loss": 4.6386,
+    "bpb": 2.4465,
+    "tokens": 599552
+   },
+   "memGB": 6.91
+  }
+ ],
+ "trainCurve": [
+  {
+   "step": 25,
+   "trainLoss": 7.8168
+  },
+  {
+   "step": 50,
+   "trainLoss": 6.808
+  },
+  {
+   "step": 75,
+   "trainLoss": 6.0305
+  },
+  {
+   "step": 100,
+   "trainLoss": 5.4689
+  },
+  {
+   "step": 125,
+   "trainLoss": 5.1365
+  },
+  {
+   "step": 150,
+   "trainLoss": 4.9448
+  },
+  {
+   "step": 175,
+   "trainLoss": 4.7932
+  },
+  {
+   "step": 200,
+   "trainLoss": 4.6353
+  },
+  {
+   "step": 225,
+   "trainLoss": 4.5441
+  },
+  {
+   "step": 250,
+   "trainLoss": 4.444
+  },
+  {
+   "step": 275,
+   "trainLoss": 4.3914
+  },
+  {
+   "step": 300,
+   "trainLoss": 4.3278
+  },
+  {
+   "step": 325,
+   "trainLoss": 4.2672
+  },
+  {
+   "step": 350,
+   "trainLoss": 4.2231
+  },
+  {
+   "step": 375,
+   "trainLoss": 4.1754
+  },
+  {
+   "step": 400,
+   "trainLoss": 4.1614
+  },
+  {
+   "step": 425,
+   "trainLoss": 4.1104
+  },
+  {
+   "step": 450,
+   "trainLoss": 4.1022
+  },
+  {
+   "step": 475,
+   "trainLoss": 4.0693
+  },
+  {
+   "step": 500,
+   "trainLoss": 4.0052
+  },
+  {
+   "step": 525,
+   "trainLoss": 3.9433
+  },
+  {
+   "step": 550,
+   "trainLoss": 3.905
+  },
+  {
+   "step": 575,
+   "trainLoss": 3.8528
+  },
+  {
+   "step": 600,
+   "trainLoss": 3.8146
+  }
+ ],
+ "date": "2026-11-05",
+ "data": {
+  "corpus": "F_train",
+  "uniqueTokens": 19660801,
+  "windowsPerEpoch": 38400,
+  "epochs": 1.0
+ },
+ "anneal": {
+  "corpus": "F_train",
+  "steps": 120
+ },
+ "streamBuildSec": 0.0,
+ "trainSec": 321.4,
+ "peakMemGB": 6.91,
+ "notebookCommit": null,
+ "kernel": "genieincodebottle/llt-ptd-train v1 (Kaggle, 2x T4, one run per GPU)",
+ "costUSD": 0
+}

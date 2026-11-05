@@ -1,0 +1,301 @@
+{
+ "runId": "lltIntro-t1-story-s0",
+ "module": "lltIntro",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "transformers": "5.2.0",
+  "tokenizers": "0.22.1",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "vocab_size": 63,
+  "d_model": 64,
+  "n_layer": 4,
+  "n_head": 4,
+  "ctx": 128,
+  "batch_size": 64,
+  "steps": 5000,
+  "lr_max": 0.003,
+  "lr_min": 0.00030000000000000003,
+  "warmup": 100,
+  "weight_decay": 0.1,
+  "betas": [
+   0.9,
+   0.95
+  ],
+  "grad_clip": 1,
+  "init_std": 0.02,
+  "dataset": "roneneldan/TinyStories TinyStoriesV2-GPT4-valid.txt",
+  "stories_total": 27630,
+  "stories_kept": 27381,
+  "train_chars": 20816763,
+  "val_chars": 1090683,
+  "split": "95/5 by story, shuffle seed 0",
+  "threads": 4,
+  "n_params": 209408
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 0,
+   "tokens": 0,
+   "valLoss": 4.1409,
+   "trainLoss": null,
+   "lr": 0
+  },
+  {
+   "step": 1,
+   "tokens": 8192,
+   "trainLoss": 4.1407,
+   "firstBatchLoss": 4.1407,
+   "gradNorm": 2.372
+  },
+  {
+   "step": 250,
+   "tokens": 2048000,
+   "trainLoss": 2.0604,
+   "valLoss": 2.0557,
+   "gradNorm": 1.131,
+   "lr": 0.002994,
+   "tokPerSec": 1538.9,
+   "elapsedSec": 1330.8
+  },
+  {
+   "step": 500,
+   "tokens": 4096000,
+   "trainLoss": 1.4926,
+   "valLoss": 1.4973,
+   "gradNorm": 1.011,
+   "lr": 0.002956,
+   "tokPerSec": 2504.3,
+   "elapsedSec": 1635.6
+  },
+  {
+   "step": 750,
+   "tokens": 6144000,
+   "trainLoss": 1.2873,
+   "valLoss": 1.2985,
+   "gradNorm": 1.103,
+   "lr": 0.002885,
+   "tokPerSec": 3210.6,
+   "elapsedSec": 1913.7
+  },
+  {
+   "step": 1000,
+   "tokens": 8192000,
+   "trainLoss": 1.2064,
+   "valLoss": 1.1983,
+   "gradNorm": 1.138,
+   "lr": 0.002782,
+   "tokPerSec": 3771.8,
+   "elapsedSec": 2171.9
+  },
+  {
+   "step": 1250,
+   "tokens": 10240000,
+   "trainLoss": 1.1832,
+   "valLoss": 1.1406,
+   "gradNorm": 0.995,
+   "lr": 0.00265,
+   "tokPerSec": 3307.4,
+   "elapsedSec": 3096
+  },
+  {
+   "step": 1500,
+   "tokens": 12288000,
+   "trainLoss": 1.0923,
+   "valLoss": 1.1015,
+   "gradNorm": 0.782,
+   "lr": 0.002492,
+   "tokPerSec": 3362.6,
+   "elapsedSec": 3654.3
+  },
+  {
+   "step": 1750,
+   "tokens": 14336000,
+   "trainLoss": 1.0839,
+   "valLoss": 1.0767,
+   "gradNorm": 0.814,
+   "lr": 0.002313,
+   "tokPerSec": 3490.8,
+   "elapsedSec": 4106.8
+  },
+  {
+   "step": 2000,
+   "tokens": 16384000,
+   "trainLoss": 1.0499,
+   "valLoss": 1.0519,
+   "gradNorm": 0.844,
+   "lr": 0.002117,
+   "tokPerSec": 3666.3,
+   "elapsedSec": 4468.8
+  },
+  {
+   "step": 2250,
+   "tokens": 18432000,
+   "trainLoss": 0.9802,
+   "valLoss": 1.0297,
+   "gradNorm": 0.645,
+   "lr": 0.001909,
+   "tokPerSec": 3834.7,
+   "elapsedSec": 4806.6
+  },
+  {
+   "step": 2500,
+   "tokens": 20480000,
+   "trainLoss": 1.0247,
+   "valLoss": 1.0088,
+   "gradNorm": 0.809,
+   "lr": 0.001694,
+   "tokPerSec": 3992.7,
+   "elapsedSec": 5129.3
+  },
+  {
+   "step": 2750,
+   "tokens": 22528000,
+   "trainLoss": 0.9821,
+   "valLoss": 0.9952,
+   "gradNorm": 0.767,
+   "lr": 0.001478,
+   "tokPerSec": 4098.5,
+   "elapsedSec": 5496.6
+  },
+  {
+   "step": 3000,
+   "tokens": 24576000,
+   "trainLoss": 0.9703,
+   "valLoss": 0.9797,
+   "gradNorm": 0.742,
+   "lr": 0.001267,
+   "tokPerSec": 4226.6,
+   "elapsedSec": 5814.6
+  },
+  {
+   "step": 3250,
+   "tokens": 26624000,
+   "trainLoss": 0.8998,
+   "valLoss": 0.9643,
+   "gradNorm": 0.658,
+   "lr": 0.001065,
+   "tokPerSec": 4308.8,
+   "elapsedSec": 6179
+  },
+  {
+   "step": 3500,
+   "tokens": 28672000,
+   "trainLoss": 0.9613,
+   "valLoss": 0.9551,
+   "gradNorm": 0.814,
+   "lr": 0.000878,
+   "tokPerSec": 4401.5,
+   "elapsedSec": 6514.1
+  },
+  {
+   "step": 3750,
+   "tokens": 30720000,
+   "trainLoss": 0.9217,
+   "valLoss": 0.9427,
+   "gradNorm": 0.773,
+   "lr": 0.000711,
+   "tokPerSec": 4489.6,
+   "elapsedSec": 6842.5
+  },
+  {
+   "step": 4000,
+   "tokens": 32768000,
+   "trainLoss": 0.9536,
+   "valLoss": 0.9334,
+   "gradNorm": 0.776,
+   "lr": 0.000569,
+   "tokPerSec": 4567.5,
+   "elapsedSec": 7174.1
+  },
+  {
+   "step": 4250,
+   "tokens": 34816000,
+   "trainLoss": 0.9251,
+   "valLoss": 0.9251,
+   "gradNorm": 0.807,
+   "lr": 0.000453,
+   "tokPerSec": 4647.5,
+   "elapsedSec": 7491.3
+  },
+  {
+   "step": 4500,
+   "tokens": 36864000,
+   "trainLoss": 0.872,
+   "valLoss": 0.9199,
+   "gradNorm": 0.727,
+   "lr": 0.000369,
+   "tokPerSec": 4730.5,
+   "elapsedSec": 7792.8
+  },
+  {
+   "step": 4750,
+   "tokens": 38912000,
+   "trainLoss": 0.9073,
+   "valLoss": 0.9143,
+   "gradNorm": 0.71,
+   "lr": 0.000317,
+   "tokPerSec": 4807.5,
+   "elapsedSec": 8094.1
+  },
+  {
+   "step": 5000,
+   "tokens": 40960000,
+   "trainLoss": 0.8906,
+   "valLoss": 0.913,
+   "gradNorm": 0.768,
+   "lr": 0.0003,
+   "tokPerSec": 4870.3,
+   "elapsedSec": 8410.2
+  }
+ ],
+ "evals": {
+  "finalValLoss200Batches": 0.9106,
+  "lnV": 4.1431,
+  "step0ValLoss": 4.1409,
+  "trainSec": 8481.9,
+  "exportedTo": "story-model.json",
+  "exportCheck": {
+   "evalChars": 129,
+   "lossFloat32Torch": 0.6382,
+   "lossFloat16NumPy": 0.6382,
+   "maxAbsLogitDiff": 0.0174,
+   "jsonBytes": 560116
+  }
+ },
+ "samples": [
+  {
+   "step": 5000,
+   "prompt": "Once upon a time",
+   "temperature": 0.8,
+   "seed": 0,
+   "completion": "Once upon a time, there was a plan who lived together in the park with her friends. One day, she saw a cloud noise. It was a special. She there was a brave fun to moon, talking away, and he was happy.\n\"Look, that day is beaute!\" Billy said. \"I am while is!\" Tim said. \"Yes, Ben.\" They drank and have found the store "
+  },
+  {
+   "step": 5000,
+   "prompt": "Tom and Lily",
+   "temperature": 0.8,
+   "seed": 0,
+   "completion": "Tom and Lily were very sad. They ran to the bag. They sang and sang the creaty near a big bag.\nAfter of the ground and felt bad. The sun learned to make us happy. The little girl said, \"Hello, Tim! That is not a reinder because that but he realized it with him. They were niced and said, \"Please, Fluffy?\" Jall s"
+  }
+ ],
+ "wallClockSec": 8582.1,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe train_story_model.py --seed 0 --steps 5000 --threads 4 --run-id lltIntro-t1-story-s0 --export <scratch>/llt/data/story-model.json"
+}

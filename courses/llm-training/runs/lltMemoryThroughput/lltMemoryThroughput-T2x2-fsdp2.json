@@ -1,0 +1,39 @@
+{
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.6,
+  "platform": "Kaggle, accelerator NvidiaTeslaT4 (2x T4, PCIe)"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4",
+   "Tesla T4"
+  ]
+ },
+ "notebook": "kaggle genieincodebottle/llt-memthru-p2 version 1",
+ "date": "2026-11-05",
+ "seed": 0,
+ "runId": "lltMemoryThroughput-T2x2-fsdp2",
+ "label": "baseline",
+ "config": {
+  "script": "fsdp.py",
+  "model": "GPT d=2048, 24 layers, 16 heads, 1,313,626,112 parameters",
+  "batchPerGPU": 2,
+  "seq": 1024,
+  "ckpt": true,
+  "chunks": 8,
+  "mp": "param fp16, reduce fp32",
+  "timedSteps": 5
+ },
+ "stdout": {
+  "fsdp_1gpu": "rank 0 of 1  N 1,313,626,112  OUT OF MEMORY at 15.33 GB allocated, 16N = 21.02 GB\n",
+  "fsdp_2gpu": "rank 0 of 2  N 1,313,626,112  peak 13.16 GB  16N/2 = 10.51 GB  2,033 tokens/s  loss 10.644\nrank 1 of 2  N 1,313,626,112  peak 13.16 GB  16N/2 = 10.51 GB  2,033 tokens/s  loss 10.653\n"
+ },
+ "module": "lltMemoryThroughput",
+ "tier": "T2",
+ "costUSD": 0
+}

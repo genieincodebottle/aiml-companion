@@ -1,0 +1,76 @@
+{
+ "runId": "lltAttention-t1-head-ablation",
+ "module": "lltAttention",
+ "tier": "T1",
+ "label": "ablation:heads",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "the page step 8 control model (lltAttention-t1-mask-control-s0), 600 steps",
+  "eval": "256 x 128 validation characters, seed 7",
+  "method": "zero one head's output before the output projection; greedy removal of the head whose removal raises val loss least"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "baseValLoss": 1.4681636095046997,
+  "params": 216138,
+  "singleHeadRise": {
+   "L0H0": 0.0332,
+   "L0H1": 0.1779,
+   "L0H2": 0.112,
+   "L0H3": 0.0115,
+   "L1H0": 0.0729,
+   "L1H1": 0.0487,
+   "L1H2": 0.0875,
+   "L1H3": 0.0779,
+   "L2H0": 0.1241,
+   "L2H1": 0.0653,
+   "L2H2": 0.123,
+   "L2H3": 0.0629,
+   "L3H0": 0.0643,
+   "L3H1": 0.0689,
+   "L3H2": 0.0409,
+   "L3H3": 0.0685
+  },
+  "greedyPath": [
+   {
+    "removed": 1,
+    "head": "L0H3",
+    "valLoss": 1.4797,
+    "risePct": 0.786
+   },
+   {
+    "removed": 2,
+    "head": "L3H2",
+    "valLoss": 1.5207,
+    "risePct": 3.578
+   },
+   {
+    "removed": 3,
+    "head": "L0H0",
+    "valLoss": 1.5781,
+    "risePct": 7.491
+   }
+  ],
+  "headsRemovedWithin1Pct": 1
+ },
+ "samples": [],
+ "wallClockSec": 95.8,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py train ablation dropout seeds"
+}

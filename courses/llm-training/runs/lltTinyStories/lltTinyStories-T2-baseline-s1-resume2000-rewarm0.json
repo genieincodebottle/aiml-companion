@@ -1,0 +1,375 @@
+{
+ "runId": "lltTinyStories-T2-baseline-s1-resume2000-rewarm0",
+ "module": "lltTinyStories",
+ "tier": "T2",
+ "label": "ablation:resume=weights-only,rewarm=0",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6,
+  "capability": [
+   7,
+   5
+  ],
+  "concurrent": "one run per GPU, two GPUs busy"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "ampDtype": "float16",
+  "gradScaler": true
+ },
+ "config": {
+  "vocab": 4096,
+  "d": 320,
+  "layers": 8,
+  "heads": 8,
+  "ctx": 512,
+  "batch": 64,
+  "lr": 0.001,
+  "warmup": 200,
+  "steps": 3000,
+  "eval_every": 250,
+  "eval_batches": 40,
+  "wd": 0.1,
+  "clip": 1.0,
+  "seed": 1,
+  "prompts": [
+   "Once upon a time",
+   "Tom and his dog went to the park. Tom",
+   "Lily wanted to bake a cake for her mom, but",
+   "The little bird could not fly. One day,",
+   "Max found a shiny key under his bed."
+  ],
+  "saveAt": 2000,
+  "resumeTests": [
+   0,
+   100
+  ],
+  "saveFinal": true,
+  "resumeFrom": 2000,
+  "rewarm": 0
+ },
+ "seed": 1,
+ "params": 11474240,
+ "metrics": [
+  {
+   "step": 2000,
+   "tokens": 65536000,
+   "valLoss": 1.7323,
+   "valBpb": 0.6251,
+   "valBLoss": 1.7609,
+   "valBBpb": 0.6457,
+   "lr": 0.0003547523173970989,
+   "elapsedSec": 3.1,
+   "memGB": 6.91
+  },
+  {
+   "step": 2250,
+   "tokens": 73728000,
+   "valLoss": 1.6996,
+   "valBpb": 0.6133,
+   "valBLoss": 1.7265,
+   "valBBpb": 0.6331,
+   "lr": 0.0002501440399215983,
+   "elapsedSec": 126.4,
+   "memGB": 6.91,
+   "tokPerSec": 66419
+  },
+  {
+   "step": 2500,
+   "tokens": 81920000,
+   "valLoss": 1.6728,
+   "valBpb": 0.6036,
+   "valBLoss": 1.7015,
+   "valBBpb": 0.624,
+   "lr": 0.00016897411034727216,
+   "elapsedSec": 245.6,
+   "memGB": 6.91,
+   "tokPerSec": 68766
+  },
+  {
+   "step": 2750,
+   "tokens": 90112000,
+   "valLoss": 1.6565,
+   "valBpb": 0.5977,
+   "valBLoss": 1.683,
+   "valBBpb": 0.6172,
+   "lr": 0.00011758720512470524,
+   "elapsedSec": 364.3,
+   "memGB": 6.91,
+   "tokPerSec": 68979
+  },
+  {
+   "step": 3000,
+   "tokens": 98304000,
+   "valLoss": 1.6443,
+   "valBpb": 0.5933,
+   "valBLoss": 1.6725,
+   "valBBpb": 0.6133,
+   "lr": 0.0001,
+   "elapsedSec": 483.7,
+   "memGB": 6.91,
+   "tokPerSec": 68598
+  }
+ ],
+ "trainCurve": [
+  {
+   "step": 2025,
+   "trainLoss": 1.7035,
+   "gradNorm": 0.4076
+  },
+  {
+   "step": 2050,
+   "trainLoss": 1.7046,
+   "gradNorm": 0.3787
+  },
+  {
+   "step": 2075,
+   "trainLoss": 1.6969,
+   "gradNorm": 0.3793
+  },
+  {
+   "step": 2100,
+   "trainLoss": 1.7039,
+   "gradNorm": 0.38
+  },
+  {
+   "step": 2125,
+   "trainLoss": 1.6781,
+   "gradNorm": 0.3759
+  },
+  {
+   "step": 2150,
+   "trainLoss": 1.6704,
+   "gradNorm": 0.3757
+  },
+  {
+   "step": 2175,
+   "trainLoss": 1.6805,
+   "gradNorm": 0.3753
+  },
+  {
+   "step": 2200,
+   "trainLoss": 1.6772,
+   "gradNorm": 0.3794
+  },
+  {
+   "step": 2225,
+   "trainLoss": 1.6696,
+   "gradNorm": 0.3756
+  },
+  {
+   "step": 2250,
+   "trainLoss": 1.6591,
+   "gradNorm": 0.3761
+  },
+  {
+   "step": 2275,
+   "trainLoss": 1.6575,
+   "gradNorm": 0.3802
+  },
+  {
+   "step": 2300,
+   "trainLoss": 1.6591,
+   "gradNorm": 0.3758
+  },
+  {
+   "step": 2325,
+   "trainLoss": 1.6465,
+   "gradNorm": 0.3779
+  },
+  {
+   "step": 2350,
+   "trainLoss": 1.6506,
+   "gradNorm": 0.3797
+  },
+  {
+   "step": 2375,
+   "trainLoss": 1.6607,
+   "gradNorm": 0.381
+  },
+  {
+   "step": 2400,
+   "trainLoss": 1.6381,
+   "gradNorm": 0.3783
+  },
+  {
+   "step": 2425,
+   "trainLoss": 1.6491,
+   "gradNorm": 0.3778
+  },
+  {
+   "step": 2450,
+   "trainLoss": 1.6304,
+   "gradNorm": 0.378
+  },
+  {
+   "step": 2475,
+   "trainLoss": 1.6441,
+   "gradNorm": 0.3818
+  },
+  {
+   "step": 2500,
+   "trainLoss": 1.6361,
+   "gradNorm": 0.3788
+  },
+  {
+   "step": 2525,
+   "trainLoss": 1.6303,
+   "gradNorm": 0.3799
+  },
+  {
+   "step": 2550,
+   "trainLoss": 1.6211,
+   "gradNorm": 0.3811
+  },
+  {
+   "step": 2575,
+   "trainLoss": 1.6282,
+   "gradNorm": 0.3827
+  },
+  {
+   "step": 2600,
+   "trainLoss": 1.6211,
+   "gradNorm": 0.3791
+  },
+  {
+   "step": 2625,
+   "trainLoss": 1.6299,
+   "gradNorm": 0.3799
+  },
+  {
+   "step": 2650,
+   "trainLoss": 1.6323,
+   "gradNorm": 0.3807
+  },
+  {
+   "step": 2675,
+   "trainLoss": 1.611,
+   "gradNorm": 0.383
+  },
+  {
+   "step": 2700,
+   "trainLoss": 1.6098,
+   "gradNorm": 0.3829
+  },
+  {
+   "step": 2725,
+   "trainLoss": 1.6176,
+   "gradNorm": 0.3822
+  },
+  {
+   "step": 2750,
+   "trainLoss": 1.6292,
+   "gradNorm": 0.3857
+  },
+  {
+   "step": 2775,
+   "trainLoss": 1.6257,
+   "gradNorm": 0.381
+  },
+  {
+   "step": 2800,
+   "trainLoss": 1.6223,
+   "gradNorm": 0.385
+  },
+  {
+   "step": 2825,
+   "trainLoss": 1.611,
+   "gradNorm": 0.3834
+  },
+  {
+   "step": 2850,
+   "trainLoss": 1.6162,
+   "gradNorm": 0.386
+  },
+  {
+   "step": 2875,
+   "trainLoss": 1.6116,
+   "gradNorm": 0.384
+  },
+  {
+   "step": 2900,
+   "trainLoss": 1.609,
+   "gradNorm": 0.386
+  },
+  {
+   "step": 2925,
+   "trainLoss": 1.6062,
+   "gradNorm": 0.3882
+  },
+  {
+   "step": 2950,
+   "trainLoss": 1.6136,
+   "gradNorm": 0.3862
+  },
+  {
+   "step": 2975,
+   "trainLoss": 1.6016,
+   "gradNorm": 0.3853
+  },
+  {
+   "step": 3000,
+   "trainLoss": 1.5925,
+   "gradNorm": 0.3878
+  }
+ ],
+ "samples": [
+  {
+   "step": 2000,
+   "prompt": "Once upon a time",
+   "completion": "Once upon a time, there was a little girl named Lily. She loved to play outside in the sun. One day, Lily's mom went outside to pick a big, juicy apple. \n\nLily took a bite and said, \"Mommy, this apple is so sweet!\" But when she opened it, she saw that it was very disgusting! She tasted it and said, \"Yuck! This apple is sour"
+  },
+  {
+   "step": 2000,
+   "prompt": "Tom and his dog went to the park. Tom",
+   "completion": "Tom and his dog went to the park. Tom was happy because he got to play on the swings and the slide. He threw his ball at the big dog, and the funny dog came to play. But the weird dog saw the ball and wanted it.\n\nTom smiled and said, \"Hi, doggy! Do you want to play with me?\" The dog wag its tail and nodded. Tom and his dog played with the weird"
+  },
+  {
+   "step": 2000,
+   "prompt": "Lily wanted to bake a cake for her mom, but",
+   "completion": "Lily wanted to bake a cake for her mom, but her mom said she needed to clean the house first. Lily got upset and said, \"I don't want to clean up. I don't want a cake.\"\n\nHer mom replied, \"It's okay, Lily. We can make a beautiful cake together.\" So Lily and her mom cleaned the floor and made the cake. Lily was so happy and said, \"Thank you, Mommy!"
+  },
+  {
+   "step": 2000,
+   "prompt": "The little bird could not fly. One day,",
+   "completion": "The little bird could not fly. One day, a big wind came and blew the rain hard. The rain came and the rain stopped. The little bird was very happy. He saw a big rainbow in the sky. The rainbow was so pretty and pretty.\n\nThe little bird flew to the rainbow and said, \"Hello, pretty rainbow! Do you want to be friends?\" The rainbow smiled and said, \"Yes, I will be your"
+  },
+  {
+   "step": 2000,
+   "prompt": "Max found a shiny key under his bed.",
+   "completion": "Max found a shiny key under his bed. He carefully put the key in the lock and then ran off to show his friends. They were so excited to find what he found! He thanked the owner and they all flew off in the sky. From that day on, Max and his friends never went back to the house and they always made sure it was safe."
+  },
+  {
+   "step": 3000,
+   "prompt": "Once upon a time",
+   "completion": "Once upon a time, there was a little girl named Lily. She loved playing in her backyard, but one day she found a big rock in her backyard. It was a luxury rock, but it was much bigger than her old one.\n\nLily was sad because she thought it was so cool. But then, she asked her mom if she could keep the rock and go play with it."
+  },
+  {
+   "step": 3000,
+   "prompt": "Tom and his dog went to the park. Tom",
+   "completion": "Tom and his dog went to the park. Tom was happy because he was not hurt, but he was glad he was nice to his dog.\n\nAfter playing, Tom went home. He saw a big dog sitting on a leash next to the dog. The dog was very big and scared. Tom wanted to help the dog, so he thought of a way to get rid of the dog.\n\nTom told his friend, the dog,"
+  },
+  {
+   "step": 3000,
+   "prompt": "Lily wanted to bake a cake for her mom, but",
+   "completion": "Lily wanted to bake a cake for her mom, but her mum said she couldn't because the cake was too big to fit in the oven. \n\nLily was sad and went back outside to bake a cake. But her mom told her that sometimes things can look hard and they can't fit in the oven. Lily was disappointed and started to cry. \n\nHer mom hugged her and said they could try again tomorrow. But this time, they decided"
+  },
+  {
+   "step": 3000,
+   "prompt": "The little bird could not fly. One day,",
+   "completion": "The little bird could not fly. One day, a big wind came and blew the rain away. The little bird was very sad.\n\nBut then, a big storm came. The wind blew the rain away. The little bird felt very sad. He went back home and had an empty piece of paper. The little bird was very sad when it was cold.\n\nThe moral of the story is to be kind to others and not to"
+  },
+  {
+   "step": 3000,
+   "prompt": "Max found a shiny key under his bed.",
+   "completion": "Max found a shiny key under his bed. He carefully put the key back in the box and ran to show his mom.\n\nHis mom was angry, and she yelled at him. \"Max, that is not nice. You must never open things that are not yours. You are a naughty boy.\"\n\nMax felt bad and knew he had done something wrong. He learned his lesson and promised to never open a secret again. He"
+  }
+ ],
+ "date": "2026-11-05",
+ "evalTokens": 327680,
+ "evalBytes": 1310145,
+ "trainSec": 487.6
+}

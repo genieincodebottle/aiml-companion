@@ -1,0 +1,18 @@
+{
+ "id": "genieincodebottle/llt-ptd-train",
+ "title": "LLT PTD Train",
+ "code_file": "llt-ptd-train.ipynb",
+ "language": "python",
+ "kernel_type": "notebook",
+ "is_private": true,
+ "enable_gpu": true,
+ "enable_tpu": false,
+ "enable_internet": true,
+ "dataset_sources": [],
+ "competition_sources": [],
+ "kernel_sources": [
+  "genieincodebottle/llt-ptd-prep"
+ ],
+ "model_sources": [],
+ "keywords": []
+}

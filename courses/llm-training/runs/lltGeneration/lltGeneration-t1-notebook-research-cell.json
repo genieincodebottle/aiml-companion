@@ -1,0 +1,39 @@
+{
+ "runId": "lltGeneration-t1-notebook-research-cell",
+ "module": "lltGeneration",
+ "tier": "T1",
+ "label": "research:induction-toy-notebook",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "torchThreads": 4
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "huggingface_hub": "2.4.0",
+  "datasets": "5.1.0",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "threads": 4
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "stdout": "step    0  induction score 0.02  ICL score +0.01 nats\nstep   50  induction score 0.02  ICL score -0.03 nats\nstep  100  induction score 0.02  ICL score -0.10 nats\nstep  150  induction score 0.02  ICL score -0.10 nats\nstep  200  induction score 0.02  ICL score -0.15 nats\nstep  250  induction score 0.02  ICL score -0.26 nats\nstep  300  induction score 0.02  ICL score -0.28 nats\nstep  350  induction score 0.02  ICL score -0.27 nats\nstep  400  induction score 0.03  ICL score -0.29 nats\nstep  450  induction score 0.03  ICL score -0.37 nats\nstep  500  induction score 0.04  ICL score -0.38 nats\nstep  550  induction score 0.05  ICL score -0.34 nats\nstep  600  induction score 0.06  ICL score -0.35 nats\nstep  650  induction score 0.08  ICL score -0.29 nats\nstep  700  induction score 0.13  ICL score -0.52 nats\nstep  750  induction score 0.26  ICL score -1.09 nats\nstep  800  induction score 0.35  ICL score -2.13 nats\nstep  850  induction score 0.44  ICL score -3.07 nats\nstep  900  induction score 0.59  ICL score -4.24 nats\nstep  950  induction score 0.67  ICL score -4.82 nats\nstep 1000  induction score 0.72  ICL score -5.20 nats\nstep 1050  induction score 0.73  ICL score -5.23 nats\nstep 1100  induction score 0.74  ICL score -5.26 nats\nstep 1150  induction score 0.75  ICL score -5.04 nats\nstep 1200  induction score 0.76  ICL score -4.87 nats\nstep 1250  induction score 0.77  ICL score -4.99 nats\nstep 1300  induction score 0.77  ICL score -5.01 nats\nstep 1350  induction score 0.78  ICL score -5.08 nats\nstep 1400  induction score 0.78  ICL score -5.07 nats\nstep 1450  induction score 0.79  ICL score -5.00 nats\nstep 1500  induction score 0.80  ICL score -4.88 nats\n"
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe run_research_cell.py --threads 4"
+}

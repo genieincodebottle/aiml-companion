@@ -1,0 +1,70 @@
+{
+ "runId": "lltAttention-t0-pyodide",
+ "module": "lltAttention",
+ "tier": "T0",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": 0,
+  "cpu": "AMD Ryzen 9 5900HS with Radeon Graphics        ",
+  "threads": 16,
+  "os": "win32 10.0.26200"
+ },
+ "env": {
+  "pyodide": "0.27.0",
+  "node": "v22.23.4"
+ },
+ "notebookCommit": null,
+ "config": {
+  "code": "cells/step1.py to step3.py and challenge_solution.py, 3 runs each, fresh namespace per run"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "pyodideLoadMs": 2855,
+  "steps": {
+   "step1": {
+    "runMs": [
+     7,
+     8,
+     814
+    ],
+    "medianMs": 8,
+    "stdout": "x (6, 16) | q, k, v (6, 8) | weights (6, 6) | y (6, 8)\nrow sums [1. 1. 1. 1. 1. 1.]\nweight on future tokens 0.0\n[[1.   0.   0.   0.   0.   0.  ]\n [0.28 0.72 0.   0.   0.   0.  ]\n [0.68 0.2  0.13 0.   0.   0.  ]\n [0.17 0.21 0.33 0.28 0.   0.  ]\n [0.1  0.22 0.14 0.04 0.51 0.  ]\n [0.1  0.1  0.11 0.45 0.08 0.17]]\n"
+   },
+   "step2": {
+    "runMs": [
+     17,
+     18,
+     19
+    ],
+    "medianMs": 18,
+    "stdout": "x (2, 6, 16) | one head of q (2, 4, 6, 4) | y (2, 6, 16)\nmax abs difference from the per-head loop 0.0\nsame shape? True | max abs difference 3.161\n"
+   },
+   "step3": {
+    "runMs": [
+     459,
+     472,
+     616
+    ],
+    "medianMs": 472,
+    "stdout": "     d   var(q.k)   var / d\n    16       16.0     0.998\n    64       64.4     1.007\n   256      255.0     0.996\n  1024     1035.9     1.012\n\n     d   top weight        rows above 0.99   median gradient\n         raw    scaled     raw    scaled     raw      scaled\n    16   0.561  0.104     0.010  0.000     0.33249  0.178\n    64   0.799  0.110     0.200  0.000     0.19049  0.181\n   256   0.897  0.107     0.470  0.000     0.03046  0.178\n  1024   0.953  0.111     0.728  0.000     0.00008  0.182\n"
+   },
+   "challenge_solution": {
+    "runMs": [
+     15,
+     15,
+     19
+    ],
+    "medianMs": 15,
+    "stdout": "y (2, 6, 16) | leakage test passed for t = 0 to 4\nAll checks passed\n"
+   }
+  }
+ },
+ "samples": [],
+ "wallClockSec": 5.35,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05"
+}

@@ -1,0 +1,56 @@
+{
+ "runId": "lltAttention-t2-broken-fp16-mask",
+ "module": "lltAttention",
+ "tier": "T2",
+ "label": "broken:minus-1e9-in-fp16",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "countOnMachine": 2,
+  "vramGB": 14.56,
+  "capability": [
+   7,
+   5
+  ],
+  "host": "Kaggle notebook, --accelerator NvidiaTeslaT4"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "os": "Kaggle image"
+ },
+ "notebookCommit": null,
+ "config": {
+  "kernel": "genieincodebottle/llt-attention-t4 (private), version 1",
+  "T": 8,
+  "D": 64,
+  "padding": "position 0 is padding, so query 0 sees only masked keys"
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "masked_fill_minus_1e9": "RuntimeError: value cannot be converted to type c10::Half without overflow",
+  "autocast_scores_dtype": "torch.float16",
+  "autocast_masked_fill_minus_1e9": "RuntimeError: value cannot be converted to type c10::Half without overflow",
+  "additive_mask_fp16_value": "-inf",
+  "minus_1e9_cast_to_fp16": {
+   "fill": -Infinity,
+   "row0_nan": true,
+   "layer1_nan_positions": 1,
+   "layer2_nan_positions": 8
+  },
+  "finfo_min_fp16": {
+   "fill": -65504.0,
+   "row0_nan": false,
+   "layer1_nan_positions": 0,
+   "layer2_nan_positions": 0
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe import_kaggle.py"
+}

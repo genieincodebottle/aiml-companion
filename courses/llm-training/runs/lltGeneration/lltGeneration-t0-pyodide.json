@@ -1,0 +1,48 @@
+{
+ "runId": "lltGeneration-t0-pyodide",
+ "module": "lltGeneration",
+ "tier": "T0",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "torchThreads": 8
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "pyodide": "0.27.0 under Node (npm pyodide@0.27.0), numpy preloaded, fresh __main__"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "stdoutPyodide": {
+   "step1.py": "T = 1.0        kept 8  mat 0.446, sofa 0.221, floor 0.148, bed 0.090, table 0.055, roof 0.027, moon 0.008, piano 0.004\nT = 0.5        kept 8  mat 0.706, sofa 0.174, floor 0.078, bed 0.029, table 0.011, roof 0.003, moon 0.000, piano 0.000\nT = 2.0        kept 8  mat 0.281, sofa 0.198, floor 0.162, bed 0.126, table 0.098, roof 0.069, moon 0.038, piano 0.027\ntop-k, k = 3   kept 3  mat 0.547, sofa 0.271, floor 0.182\ntop-p, p = 0.9 kept 4  mat 0.492, sofa 0.244, floor 0.164, bed 0.099\n1,000 draws with top-p 0.9: {'mat': 465, 'sofa': 258, 'floor': 181, 'bed': 96}\n",
+   "challenge_solution.py": "Qwen3-0.6B, 4,096 tokens: 469762048 bytes | 9362 tokens fit in 1 GiB\nAll checks passed\n"
+  },
+  "stdoutCPython": {
+   "step1.py": "T = 1.0        kept 8  mat 0.446, sofa 0.221, floor 0.148, bed 0.090, table 0.055, roof 0.027, moon 0.008, piano 0.004\nT = 0.5        kept 8  mat 0.706, sofa 0.174, floor 0.078, bed 0.029, table 0.011, roof 0.003, moon 0.000, piano 0.000\nT = 2.0        kept 8  mat 0.281, sofa 0.198, floor 0.162, bed 0.126, table 0.098, roof 0.069, moon 0.038, piano 0.027\ntop-k, k = 3   kept 3  mat 0.547, sofa 0.271, floor 0.182\ntop-p, p = 0.9 kept 4  mat 0.492, sofa 0.244, floor 0.164, bed 0.099\n1,000 draws with top-p 0.9: {'mat': 465, 'sofa': 258, 'floor': 181, 'bed': 96}\n",
+   "challenge_solution.py": "Qwen3-0.6B, 4,096 tokens: 469762048 bytes | 9362 tokens fit in 1 GiB\nAll checks passed\n"
+  },
+  "identical": {
+   "step1.py": true,
+   "challenge_solution.py": true
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe browser/record_pyodide.py out/pyo1.txt out/pyo2.txt"
+}

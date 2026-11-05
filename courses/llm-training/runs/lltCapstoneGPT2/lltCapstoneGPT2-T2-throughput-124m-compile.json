@@ -1,0 +1,110 @@
+{
+ "runId": "lltCapstoneGPT2-T2-throughput-124m-compile",
+ "module": "lltCapstoneGPT2",
+ "tier": "T2",
+ "label": "measure:throughput",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.64,
+  "interconnect": "PCIe, no NVLink"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4",
+   "Tesla T4"
+  ],
+  "transformers": "5.20.2",
+  "datasets": "4.8.5",
+  "tiktoken": "0.14.0",
+  "numpy": "2.1.3",
+  "lm_eval": "0.4.13",
+  "image": "Kaggle GPU image 2026-11-05"
+ },
+ "notebookCommit": null,
+ "kaggleKernel": "genieincodebottle/llt-capstone-gpt2-measure",
+ "config": {
+  "size": "124m",
+  "params": 123551232,
+  "micro": 8,
+  "accum": 32,
+  "ctx": 1024,
+  "vocab": 50257,
+  "tokensPerStep": 524288,
+  "compile": true,
+  "activationCheckpointing": false,
+  "precision": "fp16 autocast + GradScaler",
+  "parallel": "DDP, no_sync on all but the last micro-batch",
+  "optimizer": "AdamW fused, betas 0.9/0.95, wd 0.1",
+  "lr": "6e-4 peak, linear warmup over 10 steps",
+  "clip": 1.0,
+  "data": "FineWeb-Edu sample-10BT, GPT-2 tokenizer (tiktoken), EOT before each doc"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 1,
+   "tokens": 524288,
+   "trainLoss": 11.0107,
+   "stepSec": 52.86,
+   "warmup": true,
+   "gradNorm": null
+  },
+  {
+   "step": 2,
+   "tokens": 1048576,
+   "trainLoss": 10.398,
+   "stepSec": 16.09,
+   "warmup": true,
+   "gradNorm": null
+  },
+  {
+   "step": 3,
+   "tokens": 1572864,
+   "trainLoss": 9.8589,
+   "stepSec": 15.95,
+   "warmup": false,
+   "gradNorm": 3.694
+  },
+  {
+   "step": 4,
+   "tokens": 2097152,
+   "trainLoss": 9.5932,
+   "stepSec": 14.98,
+   "warmup": false,
+   "gradNorm": 2.377
+  },
+  {
+   "step": 5,
+   "tokens": 2621440,
+   "trainLoss": 9.4544,
+   "stepSec": 14.54,
+   "warmup": false,
+   "gradNorm": 2.34
+  }
+ ],
+ "evals": {},
+ "samples": [],
+ "summary": {
+  "tokPerSec": 34595,
+  "secPerStep": 15.16,
+  "peakAllocGB": 7.33,
+  "peakReservedGB": 7.64,
+  "flopsPerToken": 854553600,
+  "achievedTFLOPS": 29.56,
+  "mfuVsSpec65": 0.2274,
+  "mfuVsMeasured22p1": 0.6688,
+  "warmupSec": 69.0,
+  "oom": null,
+  "allocAtOomGB": null,
+  "resume": null
+ },
+ "mfuNote": "flops per token = 6N + 12*L*d*T (nanoGPT convention); spec peak 65 TFLOPS fp16 per T4; measured dense fp16 matmul 22.1 TFLOPS per T4 (run llt-gpu-smoke)",
+ "wallClockSec": 114.4,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05"
+}

@@ -1,0 +1,48 @@
+{
+ "runId": "lltMemoryThroughput-T2x2-dcp-repeat",
+ "label": "ablation:reload-twice",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.6,
+  "platform": "Kaggle, accelerator NvidiaTeslaT4 (2x T4, PCIe)"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4",
+   "Tesla T4"
+  ]
+ },
+ "notebook": "kaggle genieincodebottle/llt-memthru-p3 version 1, diag/fsdp_ckpt_check.py",
+ "date": "2026-11-05",
+ "seed": 0,
+ "config": {
+  "model": "the 1.31B GPT of fsdp.py",
+  "saveAfterSteps": 3,
+  "thenSteps": 2
+ },
+ "metrics": [
+  {
+   "rank": 0,
+   "continued": 10.722283,
+   "reload1": 10.7223,
+   "reload2": 10.722321
+  },
+  {
+   "rank": 1,
+   "continued": 10.744956,
+   "reload1": 10.744974,
+   "reload2": 10.744977
+  }
+ ],
+ "stdout": {
+  "fsdp_ckpt_check": "losses after 2 steps per rank: [{'continued': '10.722283', 'reload1': '10.722300', 'reload2': '10.722321'}, {'continued': '10.744956', 'reload1': '10.744974', 'reload2': '10.744977'}]\n"
+ },
+ "wallClockSec": 295.0,
+ "module": "lltMemoryThroughput",
+ "tier": "T2",
+ "costUSD": 0
+}

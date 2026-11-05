@@ -1,0 +1,145 @@
+{
+ "runId": "lltAttention-t2-t4-cell-v2026-11",
+ "module": "lltAttention",
+ "tier": "T2",
+ "label": "experiment:naive-vs-sdpa",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "countOnMachine": 2,
+  "vramGB": 14.56,
+  "capability": [
+   7,
+   5
+  ],
+  "host": "Kaggle notebook, --accelerator NvidiaTeslaT4"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.15.0+cu132",
+  "cuda": "13.2",
+  "os": "Kaggle image",
+  "note": "Tesla T4 x1 (CUDA_VISIBLE_DEVICES=0), kernel genieincodebottle/llt-attention-e2e-v2026-11"
+ },
+ "notebookCommit": null,
+ "config": {
+  "cell": "labs/lltAttention/cells/step_t4.py as shipped",
+  "kernel": "genieincodebottle/llt-attention-t4-cell (private), version 1",
+  "B": 4,
+  "h": 12,
+  "d": 64,
+  "dtype": "float16",
+  "iters": 20,
+  "warmup": 3
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "table": [
+   {
+    "mode": "forward only",
+    "T": 128,
+    "naiveMiB": 11.9,
+    "sdpaMiB": 0.8,
+    "naiveMs": 0.31,
+    "sdpaMs": 0.07
+   },
+   {
+    "mode": "forward only",
+    "T": 256,
+    "naiveMiB": 22.2,
+    "sdpaMiB": 1.5,
+    "naiveMs": 0.55,
+    "sdpaMs": 0.15
+   },
+   {
+    "mode": "forward only",
+    "T": 512,
+    "naiveMiB": 72.2,
+    "sdpaMiB": 3.0,
+    "naiveMs": 1.69,
+    "sdpaMs": 0.37
+   },
+   {
+    "mode": "forward only",
+    "T": 1024,
+    "naiveMiB": 289.0,
+    "sdpaMiB": 6.0,
+    "naiveMs": 5.44,
+    "sdpaMs": 0.84
+   },
+   {
+    "mode": "forward only",
+    "T": 2048,
+    "naiveMiB": 1156.0,
+    "sdpaMiB": 12.0,
+    "naiveMs": 19.96,
+    "sdpaMs": 2.11
+   },
+   {
+    "mode": "forward only",
+    "T": 4096,
+    "naiveMiB": 4624.0,
+    "sdpaMiB": 24.0,
+    "naiveMs": 86.89,
+    "sdpaMs": 8.16
+   },
+   {
+    "mode": "forward + backward",
+    "T": 128,
+    "naiveMiB": 12.6,
+    "sdpaMiB": 5.3,
+    "naiveMs": 1.04,
+    "sdpaMs": 0.37
+   },
+   {
+    "mode": "forward + backward",
+    "T": 256,
+    "naiveMiB": 27.6,
+    "sdpaMiB": 10.6,
+    "naiveMs": 1.13,
+    "sdpaMs": 0.45
+   },
+   {
+    "mode": "forward + backward",
+    "T": 512,
+    "naiveMiB": 102.2,
+    "sdpaMiB": 21.2,
+    "naiveMs": 3.35,
+    "sdpaMs": 0.94
+   },
+   {
+    "mode": "forward + backward",
+    "T": 1024,
+    "naiveMiB": 397.0,
+    "sdpaMiB": 42.4,
+    "naiveMs": 12.4,
+    "sdpaMs": 2.93
+   },
+   {
+    "mode": "forward + backward",
+    "T": 2048,
+    "naiveMiB": 1564.0,
+    "sdpaMiB": 84.8,
+    "naiveMs": 49.1,
+    "sdpaMs": 10.39
+   },
+   {
+    "mode": "forward + backward",
+    "T": 4096,
+    "naiveMiB": 6208.0,
+    "sdpaMiB": 169.5,
+    "naiveMs": 201.37,
+    "sdpaMs": 38.51
+   }
+  ]
+ },
+ "samples": [],
+ "wallClockSec": 33.0,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe import_kaggle.py",
+ "stdout": "Tesla T4 (7, 5) 2.11.0+cu130\nforward only\n     T   naive MiB   SDPA MiB   naive ms   SDPA ms\n   128         4.5        0.8       0.22      0.06\n   256        18.1        1.5       0.52      0.14\n   512        72.2        3.0       1.66      0.35\n  1024       289.0        6.0       6.07      1.06\n  2048      1156.0       12.0      20.26      2.12\n  4096      4624.0       24.0      88.27      8.12\nforward + backward\n     T   naive MiB   SDPA MiB   naive ms   SDPA ms\n   128         7.5        5.3       0.78      0.38\n   256        27.1       10.6       1.31      0.65\n   512       102.2       21.2       3.68      1.33\n  1024       397.0       42.4      12.49      3.08\n  2048      1564.0       84.8      49.34     10.39\n  4096      6208.0      169.5     203.01     38.34\n",
+ "notes": "Re-run 2026-11-05 on current stable pins; compare the same id without the -v2026-11 suffix."
+}

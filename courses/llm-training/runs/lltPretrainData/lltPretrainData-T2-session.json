@@ -1,0 +1,35 @@
+{
+ "runId": "lltPretrainData-T2-session",
+ "module": "lltPretrainData",
+ "tier": "T2",
+ "label": "session",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13 (Kaggle image)",
+  "torch": "2.11.0+cu130"
+ },
+ "notebookCommit": null,
+ "config": {
+  "kernel": "genieincodebottle/llt-ptd-train v1",
+  "queues": 2,
+  "runs": 18,
+  "source": "kaggle/out/llt-ptd-train/llt-ptd-train.log, line session wall"
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "sessionWallSec": 3544.7,
+  "sumOfRunTrainSec": 5658,
+  "gpus": "2x Tesla T4, one queue per GPU"
+ },
+ "samples": [],
+ "wallClockSec": 3544.7,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe record_session"
+}

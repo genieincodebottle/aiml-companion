@@ -1,0 +1,48 @@
+{
+ "runId": "lltMemoryThroughput-T2-notebook-timing",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.6,
+  "platform": "Kaggle, accelerator NvidiaTeslaT4 (2x T4, PCIe)"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130"
+ },
+ "notebook": "step seconds recorded by the kernels llt-memthru-p1 v2, -p2 v1, -p3 v1 (exec time of each shipped cell, GPU session already started)",
+ "date": "2026-11-05",
+ "config": {
+  "part3Learner": "prep.py, then the two 3-run sweeps in launch_p3.sh side by side, one per T4"
+ },
+ "metrics": [
+  {
+   "part1StepSec": {
+    "check": 7.6,
+    "s01": 10.1,
+    "s02": 0.0,
+    "s03": 54.7,
+    "s04": 14.9,
+    "s05": 233.5,
+    "s06": 86.1
+   },
+   "part2StepSec": {
+    "allreduce": 11.7,
+    "ddp_1gpu": 43.7,
+    "ddp_2gpu": 40.4,
+    "ddp_2gpu_sync_every_micro": 44.3,
+    "ddp_2gpu_same_seed": 44.0,
+    "fsdp_1gpu": 26.5,
+    "fsdp_2gpu": 41.6,
+    "fsdp_ckpt": 247.7
+   },
+   "part3LearnerSec": 358.1,
+   "part1Sec": 406.9,
+   "part2Sec": 499.9
+  }
+ ],
+ "module": "lltMemoryThroughput",
+ "tier": "T2",
+ "costUSD": 0
+}

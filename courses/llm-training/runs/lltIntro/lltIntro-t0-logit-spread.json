@@ -1,0 +1,208 @@
+{
+ "runId": "lltIntro-t0-logit-spread",
+ "module": "lltIntro",
+ "tier": "T0",
+ "label": "derivation-check",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "transformers": "5.2.0",
+  "tokenizers": "0.22.1",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "rows": 64,
+  "seeds": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "method": "normal logits, loss averaged over every possible target"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "V": 49152,
+   "spread": 0.0,
+   "formula": 10.8,
+   "simulatedBySeed": [
+    10.8,
+    10.8,
+    10.8,
+    10.8,
+    10.8
+   ],
+   "simulatedMean": 10.8,
+   "simulatedMin": 10.8,
+   "simulatedMax": 10.8
+  },
+  {
+   "V": 49152,
+   "spread": 0.16,
+   "formula": 10.82,
+   "simulatedBySeed": [
+    10.82,
+    10.82,
+    10.82,
+    10.82,
+    10.82
+   ],
+   "simulatedMean": 10.82,
+   "simulatedMin": 10.82,
+   "simulatedMax": 10.82
+  },
+  {
+   "V": 49152,
+   "spread": 1.0,
+   "formula": 11.3,
+   "simulatedBySeed": [
+    11.3,
+    11.3,
+    11.3,
+    11.3,
+    11.3
+   ],
+   "simulatedMean": 11.3,
+   "simulatedMin": 11.3,
+   "simulatedMax": 11.3
+  },
+  {
+   "V": 49152,
+   "spread": 2.0,
+   "formula": 12.8,
+   "simulatedBySeed": [
+    12.8,
+    12.8,
+    12.8,
+    12.8,
+    12.8
+   ],
+   "simulatedMean": 12.8,
+   "simulatedMin": 12.8,
+   "simulatedMax": 12.8
+  },
+  {
+   "V": 49152,
+   "spread": 3.0,
+   "formula": 15.3,
+   "simulatedBySeed": [
+    15.26,
+    15.3,
+    15.29,
+    15.3,
+    15.28
+   ],
+   "simulatedMean": 15.28,
+   "simulatedMin": 15.26,
+   "simulatedMax": 15.3
+  },
+  {
+   "V": 49152,
+   "spread": 4.0,
+   "formula": 18.8,
+   "simulatedBySeed": [
+    18.5,
+    18.62,
+    18.56,
+    18.6,
+    18.56
+   ],
+   "simulatedMean": 18.57,
+   "simulatedMin": 18.5,
+   "simulatedMax": 18.62
+  },
+  {
+   "V": 49152,
+   "spread": 5.0,
+   "formula": 23.3,
+   "simulatedBySeed": [
+    22.21,
+    22.41,
+    22.28,
+    22.36,
+    22.31
+   ],
+   "simulatedMean": 22.31,
+   "simulatedMin": 22.21,
+   "simulatedMax": 22.41
+  },
+  {
+   "V": 49152,
+   "spread": 24.0,
+   "formula": 298.8,
+   "simulatedBySeed": [
+    100.96,
+    102.33,
+    101.5,
+    101.93,
+    101.86
+   ],
+   "simulatedMean": 101.72,
+   "simulatedMin": 100.96,
+   "simulatedMax": 102.33
+  },
+  {
+   "V": 63,
+   "spread": 0.16,
+   "formula": 4.16,
+   "simulatedBySeed": [
+    4.16,
+    4.16,
+    4.16,
+    4.16,
+    4.16
+   ],
+   "simulatedMean": 4.16,
+   "simulatedMin": 4.16,
+   "simulatedMax": 4.16
+  },
+  {
+   "V": 63,
+   "spread": 8.0,
+   "formula": 36.14,
+   "simulatedBySeed": [
+    18.43,
+    19.66,
+    19.11,
+    19.16,
+    18.17
+   ],
+   "simulatedMean": 18.9,
+   "simulatedMin": 18.17,
+   "simulatedMax": 19.66
+  },
+  {
+   "V": 32000,
+   "spread": 2.0132,
+   "formula": 12.4,
+   "simulatedBySeed": [
+    12.4,
+    12.4,
+    12.4,
+    12.4,
+    12.4
+   ],
+   "simulatedMean": 12.4,
+   "simulatedMin": 12.4,
+   "simulatedMax": 12.4
+  }
+ ],
+ "evals": {},
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe simulate_logit_spread.py"
+}

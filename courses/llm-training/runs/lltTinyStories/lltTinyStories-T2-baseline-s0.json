@@ -1,0 +1,232 @@
+{
+ "runId": "lltTinyStories-T2-baseline-s0",
+ "module": "lltTinyStories",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0"
+ },
+ "config": {
+  "vocab": 4096,
+  "d": 320,
+  "layers": 8,
+  "heads": 8,
+  "ctx": 512,
+  "batch": 64,
+  "lr": 0.001,
+  "warmup": 200,
+  "steps": 3000,
+  "eval_every": 250,
+  "eval_batches": 40,
+  "wd": 0.1,
+  "clip": 1.0
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 0,
+   "tokens": 0,
+   "valLoss": 8.3755,
+   "valBpb": 3.0221,
+   "lr": 5e-06,
+   "elapsedSec": 1.6,
+   "memGB": 0.39
+  },
+  {
+   "step": 250,
+   "tokens": 8192000,
+   "valLoss": 2.7774,
+   "valBpb": 1.0022,
+   "lr": 0.0009992920667580174,
+   "elapsedSec": 117.6,
+   "memGB": 6.91,
+   "tokPerSec": 70651,
+   "trainLoss": 2.9691
+  },
+  {
+   "step": 500,
+   "tokens": 16384000,
+   "valLoss": 2.2536,
+   "valBpb": 0.8132,
+   "lr": 0.0009747474986387655,
+   "elapsedSec": 231.2,
+   "memGB": 6.91,
+   "tokPerSec": 72134,
+   "trainLoss": 2.2481
+  },
+  {
+   "step": 750,
+   "tokens": 24576000,
+   "valLoss": 2.0634,
+   "valBpb": 0.7445,
+   "lr": 0.0009170023910316671,
+   "elapsedSec": 344.6,
+   "memGB": 6.91,
+   "tokPerSec": 72193,
+   "trainLoss": 2.113
+  },
+  {
+   "step": 1000,
+   "tokens": 32768000,
+   "valLoss": 1.9516,
+   "valBpb": 0.7042,
+   "lr": 0.0008305704108364302,
+   "elapsedSec": 458.0,
+   "memGB": 6.91,
+   "tokPerSec": 72271,
+   "trainLoss": 1.9067
+  },
+  {
+   "step": 1250,
+   "tokens": 40960000,
+   "valLoss": 1.8788,
+   "valBpb": 0.6779,
+   "lr": 0.0007222075445642904,
+   "elapsedSec": 573.2,
+   "memGB": 6.91,
+   "tokPerSec": 71102,
+   "trainLoss": 1.9737
+  },
+  {
+   "step": 1500,
+   "tokens": 49152000,
+   "valLoss": 1.8178,
+   "valBpb": 0.6559,
+   "lr": 0.0006003840142464886,
+   "elapsedSec": 686.6,
+   "memGB": 6.91,
+   "tokPerSec": 72241,
+   "trainLoss": 1.8799
+  },
+  {
+   "step": 1750,
+   "tokens": 57344000,
+   "valLoss": 1.7699,
+   "valBpb": 0.6386,
+   "lr": 0.0004746221995128687,
+   "elapsedSec": 800.3,
+   "memGB": 6.91,
+   "tokPerSec": 72043,
+   "trainLoss": 1.7482
+  },
+  {
+   "step": 2000,
+   "tokens": 65536000,
+   "valLoss": 1.7323,
+   "valBpb": 0.6251,
+   "lr": 0.0003547523173970989,
+   "elapsedSec": 914.0,
+   "memGB": 6.91,
+   "tokPerSec": 72074,
+   "trainLoss": 1.6786
+  },
+  {
+   "step": 2250,
+   "tokens": 73728000,
+   "valLoss": 1.6973,
+   "valBpb": 0.6124,
+   "lr": 0.0002501440399215983,
+   "elapsedSec": 1029.1,
+   "memGB": 6.91,
+   "tokPerSec": 71154,
+   "trainLoss": 1.6936
+  },
+  {
+   "step": 2500,
+   "tokens": 81920000,
+   "valLoss": 1.6722,
+   "valBpb": 0.6034,
+   "lr": 0.00016897411034727216,
+   "elapsedSec": 1142.8,
+   "memGB": 6.91,
+   "tokPerSec": 72062,
+   "trainLoss": 1.6001
+  },
+  {
+   "step": 2750,
+   "tokens": 90112000,
+   "valLoss": 1.6548,
+   "valBpb": 0.5971,
+   "lr": 0.00011758720512470524,
+   "elapsedSec": 1256.3,
+   "memGB": 6.91,
+   "tokPerSec": 72152,
+   "trainLoss": 1.6087
+  },
+  {
+   "step": 3000,
+   "tokens": 98304000,
+   "valLoss": 1.6445,
+   "valBpb": 0.5934,
+   "lr": 0.0001,
+   "elapsedSec": 1369.8,
+   "memGB": 6.91,
+   "tokPerSec": 72180,
+   "trainLoss": 1.6002
+  }
+ ],
+ "samples": [
+  {
+   "step": 0,
+   "prompt": "Once upon a time",
+   "completion": "Once upon a time comp v delighted why?\".known rat noise held blue fin finknowner school stra\t Look shovel grumpy panates school endingongong ve Gra twirlult sudden sudden legs prov spread re later Timmy cream cream cream Look smiledSoSo smiledurb fin rodeinkey object object daughterown Look towers ancienttt att fin suc itself gener mighty wing che Look ancientknown walking otter ducks needsman itself pony ponyC"
+  },
+  {
+   "step": 0,
+   "prompt": "Tom and his dog went to the park. Tom",
+   "completion": "Tom and his dog went to the park. Tom ret hoop hunasedaches crawled salt\ufffd kissed dreams dreams leavingaches object beautiful\ufffdJ he\u0017 sunny big bigroert thing thing\ufffd\ufffd\ufffd saw oy playing away dreams dreams dreams sweetlele lizard thing co visit crocodileyeye\ufffd didn\u00e2ther donipping pro puppy MandyCan\ufffdipippingipping Bobby Bobbyses move move thought clouduring don\ufffd cloud don cross crocodile Thenpes free treeil\ufffd stopped"
+  },
+  {
+   "step": 1000,
+   "prompt": "Once upon a time",
+   "completion": "Once upon a time, there was a little girl named Lily. She loved to play outside in the sun. One day, Lily found a big red ball in the backyard. She picked it up and showed it to her friend, Jack.\n\nJack said, \"Wow, that's a yellow ball. Do you want to play with it?\"\n\nLily thought for a moment and then said, \"Yes,"
+  },
+  {
+   "step": 1000,
+   "prompt": "Tom and his dog went to the park. Tom",
+   "completion": "Tom and his dog went to the park. Tom had a toy that he would like to play with. They looked at each other and had a lot of fun.\n\nBut Tom's mom saw the toy in the park. She was not happy. She went to him and said, \"Tom, give me your toy. You can't use it. A toy can break.\" She ran away from Tom. Tom felt sad. He wanted to"
+  },
+  {
+   "step": 2000,
+   "prompt": "Once upon a time",
+   "completion": "Once upon a time, in a new land, there was a little girl named Lily. Lily loved to play with her toys and her favorite thing to do was to play with her toys. One day, Lily was playing with her toys when her mom called her for dinner. Lily didn't want to stop playing with her toys, but she knew she had to accept her mom's words.\n\nLily's mom asked"
+  },
+  {
+   "step": 2000,
+   "prompt": "Tom and his dog went to the park. Tom",
+   "completion": "Tom and his dog went to the park. Tom saw a big slide and wanted to go on it. He tried to resist the slide, but he was scared.\n\nTom saw a big dog named Sam. Sam was not nice. He wanted to help and share his toys. Tom walked up to Sam and said, \"Hi, Sam! Do you want to play with me?\" Tim smiled and said, \"Yes, Tom! I want"
+  },
+  {
+   "step": 3000,
+   "prompt": "Once upon a time",
+   "completion": "Once upon a time, in a little house, there was a gentle cat named Fluffy. Fluffy loved to play with her friends, but they also liked to watch a video of a video. One day, Fluffy's friends went to the park and played on the swings and slides. Fluffy thought it was so fun to watch the video and soon they ran around and around. \n\nAfter playing for a while"
+  },
+  {
+   "step": 3000,
+   "prompt": "Tom and his dog went to the park. Tom",
+   "completion": "Tom and his dog went to the park. Tom saw a big slide and ran to it. He climbed up the ladder and sat on the slide. He liked the slide too.\n\n\"Paint! Paint!\" Tom said.\n\nBut Tom did not see the rope. He fell down and hurt his knee. He cried out loud.\n\nAnna saw Tom fall. She was scared. She ran to the rope and"
+  }
+ ],
+ "date": "2026-11-05",
+ "data": {
+  "dataset": "roneneldan/TinyStories",
+  "trainStories": 2119719,
+  "valStories": 21990,
+  "trainTokens": 485861106,
+  "valTokens": 4884112,
+  "encodeSec": 471.1,
+  "bytesPerToken": 3.953
+ },
+ "tokenizerTrainSec": 43.7,
+ "params": 11474240,
+ "wallClockSec": 1922.1,
+ "trainSec": 1371.4,
+ "peakMemGB": 6.91
+}

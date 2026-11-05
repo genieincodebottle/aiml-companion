@@ -1,0 +1,86 @@
+{
+ "runId": "lltTokenizer-t1-parity",
+ "module": "lltTokenizer",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": 0,
+  "cpu": "AMD Ryzen 9 5900HS with Radeon Graphics",
+  "cores": 8,
+  "threads": 16,
+  "ramGB": 33.7,
+  "os": "Windows-11-10.0.26200-SP0",
+  "cpuBusyPctAtEnd": 100.0
+ },
+ "env": {
+  "python": "3.12.3",
+  "tokenizers": "0.22.1",
+  "transformers": "5.2.0",
+  "numpy": "2.4.2",
+  "huggingface_hub": "1.5.0",
+  "torch": "2.10.0+cpu",
+  "datasets": "4.6.1"
+ },
+ "notebookCommit": null,
+ "config": {
+  "merges": "GPT-2 tokenizer.json from the Hugging Face repo gpt2 (50,000 merges)",
+  "data": {
+   "flores": "FLORES-200 devtest (eng_Latn, hin_Deva, spa_Latn), 1,012 parallel sentences each, CC BY-SA 4.0, https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz (sha256 b8b0b767...011f6)",
+   "code": "12 CPython 3.12.3 standard library files (every 10th file, see data.py), PSF License"
+  }
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "texts": 3682,
+  "identical": 3682,
+  "random": {
+   "strings": 5000,
+   "preTokenizeDiffer": 230,
+   "encodingDiffer": 0,
+   "codePointsThatDiffer": {
+    "Cn": 4924
+   },
+   "pythonUnicode": "15.0.0"
+  },
+  "speed": {
+   "bytes": 632171,
+   "tokens": 281105,
+   "tokensHF": 281105,
+   "tokensHFBatch": 281105,
+   "oursNoCacheSec": 3.665,
+   "oursCacheSec": 1.587,
+   "hfLoopSec": 0.901,
+   "hfBatchSec": 0.28,
+   "oursCacheMBps": 0.398,
+   "hfBatchMBps": 2.25,
+   "speedupBatchVsOurs": 5.7,
+   "speedupLoopVsOurs": 1.8
+  },
+  "tokenByTokenDecode": {
+   "en": {
+    "tokens": 27044,
+    "invalidAlone": 72,
+    "share": 0.0027
+   },
+   "hi": {
+    "tokens": 200483,
+    "invalidAlone": 189306,
+    "share": 0.9442
+   },
+   "es": {
+    "tokens": 53578,
+    "invalidAlone": 170,
+    "share": 0.0032
+   }
+  }
+ },
+ "samples": [],
+ "wallClockSec": 52.23,
+ "peakMemGB": 0.444,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05"
+}

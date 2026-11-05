@@ -1,0 +1,55 @@
+{
+ "runId": "lltGeneration-t1-notebook-steps-train",
+ "module": "lltGeneration",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "torchThreads": 4
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "huggingface_hub": "2.4.0",
+  "datasets": "5.1.0",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "steps/nb_train.py",
+  "threads": 4
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "stdout": {
+   "nb_model.py": "",
+   "nb_train.py": "step     0  val loss 7.6666  1 s\nstep   250  val loss 3.1617  145 s\nstep   500  val loss 2.7122  290 s\nstep   750  val loss 2.4674  434 s\nstep  1000  val loss 2.3108  578 s\nstep  1250  val loss 2.2124  722 s\nstep  1500  val loss 2.1629  867 s\nparameters 2164416\n",
+   "step2.py": "14 prompt tokens\nOnce upon a time, there was a little girl named Lily. She lived in her house with her mom and dad.\nOne day, Lily went to the shop to buy a new dish. She needed to see the sun. She asked her mom, \"Can\n",
+   "step3.py": "T 0.5  entropy 1.09 nats  top token 0.52  top-p 0.9 keeps 3 of 2048\nT 0.8  entropy 1.40 nats  top token 0.42  top-p 0.9 keeps 4 of 2048\nT 1.0  entropy 1.65 nats  top token 0.37  top-p 0.9 keeps 4 of 2048\nT 1.5  entropy 2.92 nats  top token 0.25  top-p 0.9 keeps 39 of 2048\ngreedy     repeated 4-grams 0.33   ' had a big, red ball that she loved to play with. One day, she found a big box in her room'\ntop-p 0.9  repeated 4-grams 0.01   ' lived in a big house with her mom and dad. One day, Lily went to the shop to buy a pres'\n",
+   "step4.py": "torch.Size([1, 14, 2048]) cache.pos 14\n",
+   "step5.py": "200 steps  max abs error 1.5e-05  largest logit 18.6\nallclose: True | same greedy tokens: True\n",
+   "step6.py": "layers 4 | KV heads 6 | head dim 32\nT 256  torch.float32  formula 1,572,864 bytes  tensors 1,572,864 bytes\nT 256  torch.float16  formula 786,432 bytes  tensors 786,432 bytes\n",
+   "step6b.py": "layers 30 | KV heads 3 | head dim 64\nformula 23,592,960 bytes  cache tensors 23,592,960 bytes\n",
+   "step7.py": "   64 tokens  no cache    0.33 s  cache   0.21 s  speedup   1.6x  same tokens True\n  128 tokens  no cache    0.84 s  cache   0.33 s  speedup   2.5x  same tokens True\n  256 tokens  no cache    2.21 s  cache   0.73 s  speedup   3.0x  same tokens True\n  512 tokens  no cache    7.27 s  cache   1.41 s  speedup   5.2x  same tokens True\n 1024 tokens  no cache   29.06 s  cache   2.97 s  speedup   9.8x  same tokens True\n",
+   "step8.py": "KV heads 6  group 1  cache at 256 tokens 1,572,864 bytes  attention params per layer 147,456\n50 steps  max abs error 1.2e-06  largest logit 1.9\nallclose: True | same greedy tokens: True\nKV heads 3  group 2  cache at 256 tokens 786,432 bytes  attention params per layer 110,592\n50 steps  max abs error 1.2e-06  largest logit 2.1\nallclose: True | same greedy tokens: True\nKV heads 2  group 3  cache at 256 tokens 524,288 bytes  attention params per layer 98,304\n50 steps  max abs error 7.5e-07  largest logit 2.0\nallclose: True | same greedy tokens: True\nKV heads 1  group 6  cache at 256 tokens 262,144 bytes  attention params per layer 86,016\n50 steps  max abs error 1.2e-06  largest logit 2.0\nallclose: True | same greedy tokens: True\n",
+   "nb_broken.py": "RoPE offset bug\n60 steps  max abs error 8.7e+00  largest logit 16.6\nallclose: False | same greedy tokens: False\nprefill mask bug\n60 steps  max abs error 8.8e-01  largest logit 15.6\nallclose: False | same greedy tokens: False\n"
+  },
+  "peakWorkingSetGB": 1.46,
+  "peakNote": "Windows peak working set of the whole process (psutil peak_wset), all steps in one process"
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe run_steps.py --train",
+ "notes": "Printed output of each page code block, run in one namespace. Step 7 timings are from a shared machine and are not quoted."
+}

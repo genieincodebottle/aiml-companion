@@ -1,0 +1,108 @@
+{
+ "runId": "lltGeneration-t1-model-s0",
+ "module": "lltGeneration",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "torchThreads": 4
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "huggingface_hub": "2.4.0",
+  "datasets": "5.1.0",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "V": 2048,
+  "d": 192,
+  "L": 4,
+  "H": 6,
+  "H_kv": 6,
+  "ctx": 256,
+  "batch": 16,
+  "steps": 1500,
+  "lr": 0.002,
+  "warmup": 100,
+  "wd": 0.1,
+  "clip": 1.0,
+  "eval_every": 250,
+  "eval_windows": 64,
+  "data": "roneneldan/TinyStories TinyStoriesV2-GPT4-valid.txt, 95/5 split by story, shuffle seed 0"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 0,
+   "tokens": 0,
+   "valLoss": 7.6666,
+   "lr": 2e-05,
+   "trainLoss": 7.6712
+  },
+  {
+   "step": 250,
+   "tokens": 1024000,
+   "valLoss": 3.1617,
+   "lr": 0.001949494997277531,
+   "trainLoss": 3.0927
+  },
+  {
+   "step": 500,
+   "tokens": 2048000,
+   "valLoss": 2.7121,
+   "lr": 0.0016611408216728604,
+   "trainLoss": 2.632
+  },
+  {
+   "step": 750,
+   "tokens": 3072000,
+   "valLoss": 2.4674,
+   "lr": 0.0012007680284929771,
+   "trainLoss": 2.4425
+  },
+  {
+   "step": 1000,
+   "tokens": 4096000,
+   "valLoss": 2.3106,
+   "lr": 0.0007095046347941978,
+   "trainLoss": 2.1107
+  },
+  {
+   "step": 1250,
+   "tokens": 5120000,
+   "valLoss": 2.2124,
+   "lr": 0.0003379482206945443,
+   "trainLoss": 2.1157
+  },
+  {
+   "step": 1500,
+   "tokens": 6144000,
+   "valLoss": 2.1629,
+   "lr": 0.0002
+  }
+ ],
+ "evals": {
+  "params": 2164416,
+  "trainTokens": 5725665,
+  "valTokens": 301024,
+  "trainStories": 26248,
+  "valStories": 1382,
+  "lnV": 7.6246
+ },
+ "samples": [],
+ "wallClockSec": 5669.0,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe train_small.py --seed 0 --threads 4",
+ "notes": "Timing from a shared machine; quote only the timing script's figures. trainSec 5643.3"
+}

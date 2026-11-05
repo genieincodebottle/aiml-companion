@@ -1,0 +1,63 @@
+{
+ "runId": "lltMemoryThroughput-T2x2-dcp-control",
+ "label": "ablation:reload-without-optimizer-state",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.6,
+  "platform": "Kaggle, accelerator NvidiaTeslaT4 (2x T4, PCIe)"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4",
+   "Tesla T4"
+  ],
+  "datasets": "4.8.5",
+  "tokenizers": "0.23.3",
+  "numpy": "2.1.3"
+ },
+ "notebook": "kaggle genieincodebottle/llt-memthru-ctl, diag/fsdp_ckpt_control.py",
+ "date": "2026-11-05",
+ "seed": 0,
+ "config": {
+  "model": "the 1.31B GPT of fsdp.py",
+  "saveAfterSteps": 3,
+  "thenSteps": 2,
+  "data": "random tokens, targets = inputs"
+ },
+ "metrics": [
+  {
+   "rank": 0,
+   "losses": {
+    "continued": "10.722216",
+    "fullReload": "10.722218",
+    "weightsOnlyFreshAdam": "10.640458"
+   },
+   "tensorsChecked": 1169,
+   "checksumMismatches": 0
+  },
+  {
+   "rank": 1,
+   "losses": {
+    "continued": "10.745037",
+    "fullReload": "10.745018",
+    "weightsOnlyFreshAdam": "10.639880"
+   },
+   "tensorsChecked": 1169,
+   "checksumMismatches": 0
+  }
+ ],
+ "evals": {
+  "ramGB": 33.7
+ },
+ "stdout": {
+  "control": "RESULT [{\"losses\": {\"continued\": \"10.722216\", \"fullReload\": \"10.722218\", \"weightsOnlyFreshAdam\": \"10.640458\"}, \"tensorsChecked\": 1169, \"checksumMismatches\": 0}, {\"losses\": {\"continued\": \"10.745037\", \"fullReload\": \"10.745018\", \"weightsOnlyFreshAdam\": \"10.639880\"}, \"tensorsChecked\": 1169, \"checksumMismatches\": 0}]\n"
+ },
+ "wallClockSec": 272.2,
+ "module": "lltMemoryThroughput",
+ "tier": "T2",
+ "costUSD": 0
+}

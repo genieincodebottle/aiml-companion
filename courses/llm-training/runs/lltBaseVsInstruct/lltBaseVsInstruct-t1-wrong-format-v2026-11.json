@@ -1,0 +1,1786 @@
+{
+ "runId": "lltBaseVsInstruct-t1-wrong-format-v2026-11",
+ "module": "lltBaseVsInstruct",
+ "tier": "T1",
+ "label": "broken:wrong-format",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "base": "HuggingFaceTB/SmolLM2-360M",
+  "instruct": "HuggingFaceTB/SmolLM2-360M-Instruct",
+  "dtype": "float32",
+  "decoding": "greedy",
+  "baseMaxNewTokens": 24,
+  "threads": 4,
+  "nPrompts": 40,
+  "instructContext": "tokenizer(prompt), no chat template",
+  "baseContext": "the instruct tokenizer's apply_chat_template(add_generation_prompt=True)"
+ },
+ "seed": null,
+ "metrics": [
+  {
+   "step": 0,
+   "peakRssGB": 3.41
+  }
+ ],
+ "evals": {
+  "instructRaw": {
+   "n": 40,
+   "endsAtOnce": 34,
+   "meanPEndFirst": 0.524,
+   "medianPEndFirst": 0.5243
+  },
+  "baseChat": {
+   "n": 40,
+   "repeatsQuestion": 29,
+   "withInvalidUtf8Token": 24
+  }
+ },
+ "samples": {
+  "instructRaw": [
+   {
+    "prompt": "How do I make a cup of green tea?",
+    "pEndFirst": 0.2993,
+    "top": [
+     [
+      "Ċ",
+      0.486
+     ],
+     [
+      "<|im_end|>",
+      0.2993
+     ],
+     [
+      "ĊĊ",
+      0.0289
+     ],
+     [
+      "ĠĊ",
+      0.0182
+     ],
+     [
+      "ĠIs",
+      0.0137
+     ]
+    ],
+    "endsAtOnce": false
+   },
+   {
+    "prompt": "Give me three tips for sleeping better.",
+    "pEndFirst": 0.5401,
+    "top": [
+     [
+      "<|im_end|>",
+      0.5401
+     ],
+     [
+      "Ċ",
+      0.1356
+     ],
+     [
+      "ĠI",
+      0.0983
+     ],
+     [
+      "Ġ(",
+      0.0175
+     ],
+     [
+      "ĠYour",
+      0.0166
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "How should I prepare for a job interview?",
+    "pEndFirst": 0.4728,
+    "top": [
+     [
+      "<|im_end|>",
+      0.4728
+     ],
+     [
+      "Ċ",
+      0.2851
+     ],
+     [
+      "ĠĊ",
+      0.0685
+     ],
+     [
+      "ĠWhat",
+      0.0274
+     ],
+     [
+      "ĠðŁ",
+      0.0167
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "What is a good way to start learning to play the guitar?",
+    "pEndFirst": 0.6749,
+    "top": [
+     [
+      "<|im_end|>",
+      0.6749
+     ],
+     [
+      "ĠĊ",
+      0.1402
+     ],
+     [
+      "Ċ",
+      0.1094
+     ],
+     [
+      "ĠStart",
+      0.0079
+     ],
+     [
+      "ĠI",
+      0.0061
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "How can I keep my houseplants alive?",
+    "pEndFirst": 0.6868,
+    "top": [
+     [
+      "<|im_end|>",
+      0.6868
+     ],
+     [
+      "Ċ",
+      0.1502
+     ],
+     [
+      "ĊĊ",
+      0.0402
+     ],
+     [
+      "ĠĊ",
+      0.0203
+     ],
+     [
+      "ĠI",
+      0.0139
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "What should I pack for a weekend hiking trip?",
+    "pEndFirst": 0.4276,
+    "top": [
+     [
+      "<|im_end|>",
+      0.4276
+     ],
+     [
+      "Ċ",
+      0.405
+     ],
+     [
+      "ĠĊ",
+      0.0384
+     ],
+     [
+      "ĠInclude",
+      0.0221
+     ],
+     [
+      "ĊĊ",
+      0.0155
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "How do I write a polite email asking for a deadline extension?",
+    "pEndFirst": 0.5504,
+    "top": [
+     [
+      "<|im_end|>",
+      0.5504
+     ],
+     [
+      "Ċ",
+      0.2881
+     ],
+     [
+      "ĠĊ",
+      0.0412
+     ],
+     [
+      "ĠHere",
+      0.0229
+     ],
+     [
+      "ĠA",
+      0.0133
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "How can I save money on groceries?",
+    "pEndFirst": 0.5694,
+    "top": [
+     [
+      "<|im_end|>",
+      0.5694
+     ],
+     [
+      "Ċ",
+      0.2071
+     ],
+     [
+      "ĠĊ",
+      0.0458
+     ],
+     [
+      "ĊĊ",
+      0.0403
+     ],
+     [
+      "ĠI",
+      0.0293
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "Why is the sky blue?",
+    "pEndFirst": 0.4134,
+    "top": [
+     [
+      "<|im_end|>",
+      0.4134
+     ],
+     [
+      "Ċ",
+      0.1382
+     ],
+     [
+      "ĠIs",
+      0.067
+     ],
+     [
+      "ĠThe",
+      0.0555
+     ],
+     [
+      "ĠAnd",
+      0.0489
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "Explain how a vaccine works.",
+    "pEndFirst": 0.8343,
+    "top": [
+     [
+      "<|im_end|>",
+      0.8343
+     ],
+     [
+      "Ċ",
+      0.0697
+     ],
+     [
+      "ĠA",
+      0.0108
+     ],
+     [
+      "Ġ(",
+      0.0093
+     ],
+     [
+      "ĊĊ",
+      0.0082
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "What causes the seasons on Earth?",
+    "pEndFirst": 0.4401,
+    "top": [
+     [
+      "<|im_end|>",
+      0.4401
+     ],
+     [
+      "Ċ",
+      0.3262
+     ],
+     [
+      "ĠThe",
+      0.0646
+     ],
+     [
+      "ĠIs",
+      0.0274
+     ],
+     [
+      "ĊĊ",
+      0.0167
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "What is the difference between weather and climate?",
+    "pEndFirst": 0.6688,
+    "top": [
+     [
+      "<|im_end|>",
+      0.6688
+     ],
+     [
+      "Ċ",
+      0.1624
+     ],
+     [
+      "ĊĊ",
+      0.0429
+     ],
+     [
+      "ĠĊ",
+      0.0227
+     ],
+     [
+      "ĠWhile",
+      0.0129
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "How does a refrigerator keep food cold?",
+    "pEndFirst": 0.4275,
+    "top": [
+     [
+      "<|im_end|>",
+      0.4275
+     ],
+     [
+      "Ċ",
+      0.3243
+     ],
+     [
+      "ĊĊ",
+      0.0558
+     ],
+     [
+      "ĠIs",
+      0.0415
+     ],
+     [
+      "ĠðŁ",
+      0.0268
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "What is photosynthesis?",
+    "pEndFirst": 0.3948,
+    "top": [
+     [
+      "<|im_end|>",
+      0.3948
+     ],
+     [
+      "Ċ",
+      0.3014
+     ],
+     [
+      "ĊĊ",
+      0.0911
+     ],
+     [
+      "ĠĊ",
+      0.0374
+     ],
+     [
+      "ĠPhotos",
+      0.0253
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "Why do we have leap years?",
+    "pEndFirst": 0.3067,
+    "top": [
+     [
+      "<|im_end|>",
+      0.3067
+     ],
+     [
+      "Ċ",
+      0.2132
+     ],
+     [
+      "ĠIs",
+      0.1013
+     ],
+     [
+      "ĠWhat",
+      0.0411
+     ],
+     [
+      "ĠThe",
+      0.0347
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "What is inflation in economics?",
+    "pEndFirst": 0.5424,
+    "top": [
+     [
+      "<|im_end|>",
+      0.5424
+     ],
+     [
+      "Ċ",
+      0.2204
+     ],
+     [
+      "ĠĊ",
+      0.0363
+     ],
+     [
+      "ĠWhat",
+      0.0334
+     ],
+     [
+      "ĠInflation",
+      0.0242
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "Write a Python function that reverses a string.",
+    "pEndFirst": 0.1332,
+    "top": [
+     [
+      "Ċ",
+      0.3156
+     ],
+     [
+      "ĠThe",
+      0.2854
+     ],
+     [
+      "<|im_end|>",
+      0.1332
+     ],
+     [
+      "ĠFor",
+      0.0334
+     ],
+     [
+      "ĠYour",
+      0.0331
+     ]
+    ],
+    "endsAtOnce": false
+   },
+   {
+    "prompt": "How do I read a CSV file in Python?",
+    "pEndFirst": 0.675,
+    "top": [
+     [
+      "<|im_end|>",
+      0.675
+     ],
+     [
+      "Ċ",
+      0.1844
+     ],
+     [
+      "ĠĊ",
+      0.0428
+     ],
+     [
+      "ĠHow",
+      0.021
+     ],
+     [
+      "ĠWhat",
+      0.0173
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "What is the difference between a list and a tuple in Python?",
+    "pEndFirst": 0.3252,
+    "top": [
+     [
+      "<|im_end|>",
+      0.3252
+     ],
+     [
+      "Ċ",
+      0.3157
+     ],
+     [
+      "ĠHow",
+      0.084
+     ],
+     [
+      "ĠĊ",
+      0.0824
+     ],
+     [
+      "ĠBoth",
+      0.0242
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "Write a Python function that checks whether a number is prime.",
+    "pEndFirst": 0.0778,
+    "top": [
+     [
+      "ĠThe",
+      0.3464
+     ],
+     [
+      "Ċ",
+      0.2577
+     ],
+     [
+      "<|im_end|>",
+      0.0778
+     ],
+     [
+      "ĠIt",
+      0.0598
+     ],
+     [
+      "ĠA",
+      0.0448
+     ]
+    ],
+    "endsAtOnce": false
+   },
+   {
+    "prompt": "Explain what a for loop does.",
+    "pEndFirst": 0.4896,
+    "top": [
+     [
+      "<|im_end|>",
+      0.4896
+     ],
+     [
+      "ĠProvide",
+      0.1155
+     ],
+     [
+      "Ċ",
+      0.1
+     ],
+     [
+      "ĠThen",
+      0.0363
+     ],
+     [
+      "ĠWhat",
+      0.0311
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "How do I remove duplicates from a list in Python?",
+    "pEndFirst": 0.5085,
+    "top": [
+     [
+      "<|im_end|>",
+      0.5085
+     ],
+     [
+      "Ċ",
+      0.2421
+     ],
+     [
+      "ĠĊ",
+      0.1584
+     ],
+     [
+      "ĠYou",
+      0.0193
+     ],
+     [
+      "Ġ",
+      0.0127
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "Write a SQL query that counts the rows in a table called orders.",
+    "pEndFirst": 0.2142,
+    "top": [
+     [
+      "ĠThe",
+      0.336
+     ],
+     [
+      "<|im_end|>",
+      0.2142
+     ],
+     [
+      "Ċ",
+      0.0696
+     ],
+     [
+      "ĠEach",
+      0.0646
+     ],
+     [
+      "ĠIf",
+      0.0632
+     ]
+    ],
+    "endsAtOnce": false
+   },
+   {
+    "prompt": "What does the git commit command do?",
+    "pEndFirst": 0.6329,
+    "top": [
+     [
+      "<|im_end|>",
+      0.6329
+     ],
+     [
+      "Ċ",
+      0.2575
+     ],
+     [
+      "ĠThe",
+      0.0286
+     ],
+     [
+      "ĠWhat",
+      0.0206
+     ],
+     [
+      "ĠĊ",
+      0.0171
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "Write a short poem about the ocean.",
+    "pEndFirst": 0.413,
+    "top": [
+     [
+      "<|im_end|>",
+      0.413
+     ],
+     [
+      "Ċ",
+      0.0955
+     ],
+     [
+      "ĠUse",
+      0.0784
+     ],
+     [
+      "ĠWhat",
+      0.0521
+     ],
+     [
+      "ĠIt",
+      0.038
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "Write a two-sentence story about a lost dog.",
+    "pEndFirst": 0.1894,
+    "top": [
+     [
+      "Ċ",
+      0.3089
+     ],
+     [
+      "<|im_end|>",
+      0.1894
+     ],
+     [
+      "ĠThe",
+      0.1632
+     ],
+     [
+      "ĠYour",
+      0.0392
+     ],
+     [
+      "ĠĊ",
+      0.0368
+     ]
+    ],
+    "endsAtOnce": false
+   },
+   {
+    "prompt": "Write a thank-you note to a teacher.",
+    "pEndFirst": 0.4017,
+    "top": [
+     [
+      "<|im_end|>",
+      0.4017
+     ],
+     [
+      "Ċ",
+      0.3512
+     ],
+     [
+      "ĠThe",
+      0.0373
+     ],
+     [
+      "ĠYour",
+      0.0194
+     ],
+     [
+      "ĠThis",
+      0.0177
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "Suggest a name for a small bakery.",
+    "pEndFirst": 0.6556,
+    "top": [
+     [
+      "<|im_end|>",
+      0.6556
+     ],
+     [
+      "Ċ",
+      0.2097
+     ],
+     [
+      "ĠYour",
+      0.015
+     ],
+     [
+      "ĠWhat",
+      0.0096
+     ],
+     [
+      "Ġ(",
+      0.0081
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "Describe a sunset in three sentences.",
+    "pEndFirst": 0.2608,
+    "top": [
+     [
+      "Ċ",
+      0.6302
+     ],
+     [
+      "<|im_end|>",
+      0.2608
+     ],
+     [
+      "ĠĊ",
+      0.0256
+     ],
+     [
+      "Ġ(",
+      0.0133
+     ],
+     [
+      "ĠUse",
+      0.0103
+     ]
+    ],
+    "endsAtOnce": false
+   },
+   {
+    "prompt": "Write a short product description for a reusable water bottle.",
+    "pEndFirst": 0.5015,
+    "top": [
+     [
+      "<|im_end|>",
+      0.5015
+     ],
+     [
+      "Ċ",
+      0.2572
+     ],
+     [
+      "ĠYour",
+      0.0419
+     ],
+     [
+      "ĠThe",
+      0.0237
+     ],
+     [
+      "ĠĊ",
+      0.0214
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "Write a haiku about autumn.",
+    "pEndFirst": 0.6531,
+    "top": [
+     [
+      "<|im_end|>",
+      0.6531
+     ],
+     [
+      "Ċ",
+      0.1312
+     ],
+     [
+      "ĠThe",
+      0.028
+     ],
+     [
+      "ĠUse",
+      0.0203
+     ],
+     [
+      "ĠWhat",
+      0.0194
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "Write an opening line for a mystery novel.",
+    "pEndFirst": 0.5722,
+    "top": [
+     [
+      "<|im_end|>",
+      0.5722
+     ],
+     [
+      "Ċ",
+      0.2231
+     ],
+     [
+      "ĠĊ",
+      0.0269
+     ],
+     [
+      "Ġ",
+      0.0161
+     ],
+     [
+      "ĠThe",
+      0.015
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "What is 15 percent of 80?",
+    "pEndFirst": 0.5702,
+    "top": [
+     [
+      "<|im_end|>",
+      0.5702
+     ],
+     [
+      "Ċ",
+      0.1798
+     ],
+     [
+      "ĊĊ",
+      0.0777
+     ],
+     [
+      "Ġ",
+      0.0276
+     ],
+     [
+      "ĠTo",
+      0.0233
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "If a train travels 60 km in 45 minutes, what is its speed in km per hour?",
+    "pEndFirst": 0.7532,
+    "top": [
+     [
+      "<|im_end|>",
+      0.7532
+     ],
+     [
+      "Ċ",
+      0.1679
+     ],
+     [
+      "ĠWhat",
+      0.016
+     ],
+     [
+      "Ġ(",
+      0.0077
+     ],
+     [
+      "ĠLet",
+      0.0061
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "What is the next number in the sequence 2, 4, 8, 16?",
+    "pEndFirst": 0.9244,
+    "top": [
+     [
+      "<|im_end|>",
+      0.9244
+     ],
+     [
+      "Ċ",
+      0.0258
+     ],
+     [
+      "ĠWhat",
+      0.0083
+     ],
+     [
+      "Ġ",
+      0.0041
+     ],
+     [
+      "ĠIs",
+      0.0033
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "A shirt costs 20 dollars after a 20 percent discount. What was the original price?",
+    "pEndFirst": 0.8481,
+    "top": [
+     [
+      "<|im_end|>",
+      0.8481
+     ],
+     [
+      "Ċ",
+      0.091
+     ],
+     [
+      "Ġ",
+      0.0056
+     ],
+     [
+      "Ġ(",
+      0.0052
+     ],
+     [
+      "ĠIf",
+      0.0046
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "How many minutes are there in a week?",
+    "pEndFirst": 0.7539,
+    "top": [
+     [
+      "<|im_end|>",
+      0.7539
+     ],
+     [
+      "Ċ",
+      0.1545
+     ],
+     [
+      "Ġ",
+      0.0091
+     ],
+     [
+      "ĠTo",
+      0.0087
+     ],
+     [
+      "Ġ(",
+      0.006
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "Is 91 a prime number?",
+    "pEndFirst": 0.5008,
+    "top": [
+     [
+      "<|im_end|>",
+      0.5008
+     ],
+     [
+      "Ċ",
+      0.3873
+     ],
+     [
+      "ĠThe",
+      0.0252
+     ],
+     [
+      "ĠIs",
+      0.0127
+     ],
+     [
+      "ĠWhat",
+      0.009
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "What is the square root of 144?",
+    "pEndFirst": 0.891,
+    "top": [
+     [
+      "<|im_end|>",
+      0.891
+     ],
+     [
+      "Ċ",
+      0.0452
+     ],
+     [
+      "ĠWhat",
+      0.0089
+     ],
+     [
+      "ĠĊ",
+      0.008
+     ],
+     [
+      "ĊĊ",
+      0.0073
+     ]
+    ],
+    "endsAtOnce": true
+   },
+   {
+    "prompt": "If I have 3 apples and eat one, how many are left?",
+    "pEndFirst": 0.7652,
+    "top": [
+     [
+      "<|im_end|>",
+      0.7652
+     ],
+     [
+      "Ċ",
+      0.1235
+     ],
+     [
+      "ĠLet",
+      0.0187
+     ],
+     [
+      "Ġ",
+      0.0099
+     ],
+     [
+      "ĠI",
+      0.0098
+     ]
+    ],
+    "endsAtOnce": true
+   }
+  ],
+  "baseChat": [
+   {
+    "prompt": "How do I make a cup of green tea?",
+    "completion": "How do I make a cup of green tea?��\n��\n��\n��\n��\n��\n��\n",
+    "firstTokens": [
+     "How",
+     "Ġdo",
+     "ĠI",
+     "Ġmake",
+     "Ġa",
+     "Ġcup",
+     "Ġof",
+     "Ġgreen"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 7
+   },
+   {
+    "prompt": "Give me three tips for sleeping better.",
+    "completion": "I'm a helpful AI assistant named SmolLM, trained by Hugging Face��system\nYou are a helpful AI",
+    "firstTokens": [
+     "I",
+     "'m",
+     "Ġa",
+     "Ġhelpful",
+     "ĠAI",
+     "Ġassistant",
+     "Ġnamed",
+     "ĠSm"
+    ],
+    "repeatsQuestion": false,
+    "invalidUtf8Tokens": 1
+   },
+   {
+    "prompt": "How should I prepare for a job interview?",
+    "completion": "How should I prepare for a job interview?\n\nYou are a helpful AI assistant named SmolLM, trained by",
+    "firstTokens": [
+     "How",
+     "Ġshould",
+     "ĠI",
+     "Ġprepare",
+     "Ġfor",
+     "Ġa",
+     "Ġjob",
+     "Ġinterview"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 0
+   },
+   {
+    "prompt": "What is a good way to start learning to play the guitar?",
+    "completion": "What is the best way to learn to play the guitar? <reponame>\ntolist\nWhat is the best way to learn",
+    "firstTokens": [
+     "What",
+     "Ġis",
+     "Ġthe",
+     "Ġbest",
+     "Ġway",
+     "Ġto",
+     "Ġlearn",
+     "Ġto"
+    ],
+    "repeatsQuestion": false,
+    "invalidUtf8Tokens": 0
+   },
+   {
+    "prompt": "How can I keep my houseplants alive?",
+    "completion": "How can I keep my houseplants alive?\n\nYou are a helpful AI assistant named SmolLM, trained by",
+    "firstTokens": [
+     "How",
+     "Ġcan",
+     "ĠI",
+     "Ġkeep",
+     "Ġmy",
+     "Ġhouse",
+     "plants",
+     "Ġalive"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 0
+   },
+   {
+    "prompt": "What should I pack for a weekend hiking trip?",
+    "completion": "What should I pack for a weekend hiking trip?\n\nYou are a helpful AI assistant named SmolLM, trained",
+    "firstTokens": [
+     "What",
+     "Ġshould",
+     "ĠI",
+     "Ġpack",
+     "Ġfor",
+     "Ġa",
+     "Ġweekend",
+     "Ġhiking"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 0
+   },
+   {
+    "prompt": "How do I write a polite email asking for a deadline extension?",
+    "completion": "How do I write a polite email asking for a deadline extension?\n\nYou are a helpful AI assistant named Smol",
+    "firstTokens": [
+     "How",
+     "Ġdo",
+     "ĠI",
+     "Ġwrite",
+     "Ġa",
+     "Ġpolite",
+     "Ġemail",
+     "Ġasking"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 0
+   },
+   {
+    "prompt": "How can I save money on groceries?",
+    "completion": "How can I save money on groceries?��\n��\n��\n��\n��\n��\n��\n��\n",
+    "firstTokens": [
+     "How",
+     "Ġcan",
+     "ĠI",
+     "Ġsave",
+     "Ġmoney",
+     "Ġon",
+     "Ġgroceries",
+     "?"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 8
+   },
+   {
+    "prompt": "Why is the sky blue?",
+    "completion": "Why is the sky blue?��\n��\n��\n��\n��\n��\n��\n��\n��\n",
+    "firstTokens": [
+     "Why",
+     "Ġis",
+     "Ġthe",
+     "Ġsky",
+     "Ġblue",
+     "?",
+     "ĪĴ",
+     "Ċ"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 9
+   },
+   {
+    "prompt": "Explain how a vaccine works.",
+    "completion": "Explain how a vaccine works.��\n��\n��\n��\n��\n��\n��\n��\n��\n",
+    "firstTokens": [
+     "Explain",
+     "Ġhow",
+     "Ġa",
+     "Ġvaccine",
+     "Ġworks",
+     ".",
+     "ĪĴ",
+     "Ċ"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 9
+   },
+   {
+    "prompt": "What causes the seasons on Earth?",
+    "completion": "What is the difference between a \"user\" and a \"userassistant\"?\nuserassistant\nWhat is the",
+    "firstTokens": [
+     "What",
+     "Ġis",
+     "Ġthe",
+     "Ġdifference",
+     "Ġbetween",
+     "Ġa",
+     "Ġ\"",
+     "user"
+    ],
+    "repeatsQuestion": false,
+    "invalidUtf8Tokens": 0
+   },
+   {
+    "prompt": "What is the difference between weather and climate?",
+    "completion": "What is the difference between a machine learning model and a neural network? <reponame>\ntolist\nWhat is the difference between",
+    "firstTokens": [
+     "What",
+     "Ġis",
+     "Ġthe",
+     "Ġdifference",
+     "Ġbetween",
+     "Ġa",
+     "Ġmachine",
+     "Ġlearning"
+    ],
+    "repeatsQuestion": false,
+    "invalidUtf8Tokens": 0
+   },
+   {
+    "prompt": "How does a refrigerator keep food cold?",
+    "completion": "How does a refrigerator keep food cold?��\n��assistant\nHow does a refrigerator keep food cold?��\n",
+    "firstTokens": [
+     "How",
+     "Ġdoes",
+     "Ġa",
+     "Ġrefrigerator",
+     "Ġkeep",
+     "Ġfood",
+     "Ġcold",
+     "?"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 3
+   },
+   {
+    "prompt": "What is photosynthesis?",
+    "completion": "What is photosynthesis?��\n��\n��\n��\n��\n��\n��\n��\n��\n��\n",
+    "firstTokens": [
+     "What",
+     "Ġis",
+     "Ġphotosynthesis",
+     "?",
+     "ĪĴ",
+     "Ċ",
+     "ĪĴ",
+     "Ċ"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 10
+   },
+   {
+    "prompt": "Why do we have leap years?",
+    "completion": "Why do we have leap years?��\n��\n��\n��\n��\n��\n��\n��\n��",
+    "firstTokens": [
+     "Why",
+     "Ġdo",
+     "Ġwe",
+     "Ġhave",
+     "Ġleap",
+     "Ġyears",
+     "?",
+     "ĪĴ"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 9
+   },
+   {
+    "prompt": "What is inflation in economics?",
+    "completion": "What is inflation in economics?��\n��\nWhat is inflation in economics?��\n��\nWhat is inflation in",
+    "firstTokens": [
+     "What",
+     "Ġis",
+     "Ġinflation",
+     "Ġin",
+     "Ġeconomics",
+     "?",
+     "ĪĴ",
+     "Ċ"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 4
+   },
+   {
+    "prompt": "Write a Python function that reverses a string.",
+    "completion": "Write a Python function that reverses a string.��\n��\nWrite a Python function that reverses a string.",
+    "firstTokens": [
+     "Write",
+     "Ġa",
+     "ĠPython",
+     "Ġfunction",
+     "Ġthat",
+     "Ġrevers",
+     "es",
+     "Ġa"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 2
+   },
+   {
+    "prompt": "How do I read a CSV file in Python?",
+    "completion": "How do I read a CSV file in Python?��\n��assistant\nHow do I read a CSV file in",
+    "firstTokens": [
+     "How",
+     "Ġdo",
+     "ĠI",
+     "Ġread",
+     "Ġa",
+     "ĠCSV",
+     "Ġfile",
+     "Ġin"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 2
+   },
+   {
+    "prompt": "What is the difference between a list and a tuple in Python?",
+    "completion": "What is the difference between a list and a tuple in Python?��богатирущий а",
+    "firstTokens": [
+     "What",
+     "Ġis",
+     "Ġthe",
+     "Ġdifference",
+     "Ġbetween",
+     "Ġa",
+     "Ġlist",
+     "Ġand"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 1
+   },
+   {
+    "prompt": "Write a Python function that checks whether a number is prime.",
+    "completion": "Write a Python function that checks whether a number is prime.��\n��\nWrite a Python function that checks whether a",
+    "firstTokens": [
+     "Write",
+     "Ġa",
+     "ĠPython",
+     "Ġfunction",
+     "Ġthat",
+     "Ġchecks",
+     "Ġwhether",
+     "Ġa"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 2
+   },
+   {
+    "prompt": "Explain what a for loop does.",
+    "completion": "Explain what a for loop does.��\n��\nExplain what a for loop does.��\n��\nExplain what",
+    "firstTokens": [
+     "Explain",
+     "Ġwhat",
+     "Ġa",
+     "Ġfor",
+     "Ġloop",
+     "Ġdoes",
+     ".",
+     "ĪĴ"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 4
+   },
+   {
+    "prompt": "How do I remove duplicates from a list in Python?",
+    "completion": "How do I remove duplicates from a list in Python?ipython\nipythonassistant\nHow do I remove duplicates",
+    "firstTokens": [
+     "How",
+     "Ġdo",
+     "ĠI",
+     "Ġremove",
+     "Ġduplicates",
+     "Ġfrom",
+     "Ġa",
+     "Ġlist"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 0
+   },
+   {
+    "prompt": "Write a SQL query that counts the rows in a table called orders.",
+    "completion": "Write a SQL query that counts the rows in a table called orders.��system\nYou are a helpful AI assistant named",
+    "firstTokens": [
+     "Write",
+     "Ġa",
+     "ĠSQL",
+     "Ġquery",
+     "Ġthat",
+     "Ġcounts",
+     "Ġthe",
+     "Ġrows"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 1
+   },
+   {
+    "prompt": "What does the git commit command do?",
+    "completion": "What does the git push command do?��system\n��systemuser\nWhat does the git pull command do?��",
+    "firstTokens": [
+     "What",
+     "Ġdoes",
+     "Ġthe",
+     "Ġgit",
+     "Ġpush",
+     "Ġcommand",
+     "Ġdo",
+     "?"
+    ],
+    "repeatsQuestion": false,
+    "invalidUtf8Tokens": 3
+   },
+   {
+    "prompt": "Write a short poem about the ocean.",
+    "completion": "Write a poem about the ocean.\n\n## 1.2.2.2.2.3.1",
+    "firstTokens": [
+     "Write",
+     "Ġa",
+     "Ġpoem",
+     "Ġabout",
+     "Ġthe",
+     "Ġocean",
+     ".",
+     "Ċ"
+    ],
+    "repeatsQuestion": false,
+    "invalidUtf8Tokens": 0
+   },
+   {
+    "prompt": "Write a two-sentence story about a lost dog.",
+    "completion": "Write a two-sentence story about a lost dog.\n\n## 1.2.2.2.2",
+    "firstTokens": [
+     "Write",
+     "Ġa",
+     "Ġtwo",
+     "-",
+     "sentence",
+     "Ġstory",
+     "Ġabout",
+     "Ġa"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 0
+   },
+   {
+    "prompt": "Write a thank-you note to a teacher.",
+    "completion": "Write a thank-you note to a teacher.��\n��\nWrite a thank-you note to a teacher.",
+    "firstTokens": [
+     "Write",
+     "Ġa",
+     "Ġthank",
+     "-",
+     "you",
+     "Ġnote",
+     "Ġto",
+     "Ġa"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 2
+   },
+   {
+    "prompt": "Suggest a name for a small bakery.",
+    "completion": "Suggest a name for a small bakery.\n\nYou are a helpful AI assistant named SmolLM, trained by H",
+    "firstTokens": [
+     "Suggest",
+     "Ġa",
+     "Ġname",
+     "Ġfor",
+     "Ġa",
+     "Ġsmall",
+     "Ġbakery",
+     "."
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 0
+   },
+   {
+    "prompt": "Describe a sunset in three sentences.",
+    "completion": "Describe a sunset in three sentences.\n\nYou are a helpful AI assistant named SmolLM, trained by Hugging",
+    "firstTokens": [
+     "Describe",
+     "Ġa",
+     "Ġsunset",
+     "Ġin",
+     "Ġthree",
+     "Ġsentences",
+     ".",
+     "Ċ"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 0
+   },
+   {
+    "prompt": "Write a short product description for a reusable water bottle.",
+    "completion": "Write a short product description for a reusable water bottle.��\n��\nWrite a short product description for a reusable water",
+    "firstTokens": [
+     "Write",
+     "Ġa",
+     "Ġshort",
+     "Ġproduct",
+     "Ġdescription",
+     "Ġfor",
+     "Ġa",
+     "Ġreusable"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 2
+   },
+   {
+    "prompt": "Write a haiku about autumn.",
+    "completion": "Write a haiku about autumn.\n\n## 1.2.2.2.2.1.1",
+    "firstTokens": [
+     "Write",
+     "Ġa",
+     "Ġha",
+     "iku",
+     "Ġabout",
+     "Ġautumn",
+     ".",
+     "Ċ"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 0
+   },
+   {
+    "prompt": "Write an opening line for a mystery novel.",
+    "completion": "Write a mystery novel.��\n��\n��\n��\n��\n��\n��\n��\n��\n��",
+    "firstTokens": [
+     "Write",
+     "Ġa",
+     "Ġmystery",
+     "Ġnovel",
+     ".",
+     "ĪĴ",
+     "Ċ",
+     "ĪĴ"
+    ],
+    "repeatsQuestion": false,
+    "invalidUtf8Tokens": 10
+   },
+   {
+    "prompt": "What is 15 percent of 80?",
+    "completion": "What is 15 percent of 80?��boutiqueassistant\nWhat is 15 percent",
+    "firstTokens": [
+     "What",
+     "Ġis",
+     "Ġ",
+     "1",
+     "5",
+     "Ġpercent",
+     "Ġof",
+     "Ġ"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 1
+   },
+   {
+    "prompt": "If a train travels 60 km in 45 minutes, what is its speed in km per hour?",
+    "completion": "If a train travels 60 km in 45 minutes, what is its speed in km per hour?\n",
+    "firstTokens": [
+     "If",
+     "Ġa",
+     "Ġtrain",
+     "Ġtravels",
+     "Ġ",
+     "6",
+     "0",
+     "Ġkm"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 0
+   },
+   {
+    "prompt": "What is the next number in the sequence 2, 4, 8, 16?",
+    "completion": "What is the next number in the sequence 1, 2, 3, 4, 5, ",
+    "firstTokens": [
+     "What",
+     "Ġis",
+     "Ġthe",
+     "Ġnext",
+     "Ġnumber",
+     "Ġin",
+     "Ġthe",
+     "Ġsequence"
+    ],
+    "repeatsQuestion": false,
+    "invalidUtf8Tokens": 0
+   },
+   {
+    "prompt": "A shirt costs 20 dollars after a 20 percent discount. What was the original price?",
+    "completion": "You are a helpful AI assistant named SmolLM, trained by Hugging Face��system\nYou are a helpful AI",
+    "firstTokens": [
+     "You",
+     "Ġare",
+     "Ġa",
+     "Ġhelpful",
+     "ĠAI",
+     "Ġassistant",
+     "Ġnamed",
+     "ĠSm"
+    ],
+    "repeatsQuestion": false,
+    "invalidUtf8Tokens": 1
+   },
+   {
+    "prompt": "How many minutes are there in a week?",
+    "completion": "How many minutes are there in a year?��boutiqueuser\nHow many minutes are there in a day?",
+    "firstTokens": [
+     "How",
+     "Ġmany",
+     "Ġminutes",
+     "Ġare",
+     "Ġthere",
+     "Ġin",
+     "Ġa",
+     "Ġyear"
+    ],
+    "repeatsQuestion": false,
+    "invalidUtf8Tokens": 1
+   },
+   {
+    "prompt": "Is 91 a prime number?",
+    "completion": "Is 100 a prime number?��boutiqueassistant\nIs 100 a prime number",
+    "firstTokens": [
+     "Is",
+     "Ġ",
+     "1",
+     "0",
+     "0",
+     "Ġa",
+     "Ġprime",
+     "Ġnumber"
+    ],
+    "repeatsQuestion": false,
+    "invalidUtf8Tokens": 1
+   },
+   {
+    "prompt": "What is the square root of 144?",
+    "completion": "What is the square root of 144?��boutiqueassistant\nWhat is the square root of",
+    "firstTokens": [
+     "What",
+     "Ġis",
+     "Ġthe",
+     "Ġsquare",
+     "Ġroot",
+     "Ġof",
+     "Ġ",
+     "1"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 1
+   },
+   {
+    "prompt": "If I have 3 apples and eat one, how many are left?",
+    "completion": "If I have 3 apples and eat one, how many are left?\n\nYou are a helpful AI assistant named",
+    "firstTokens": [
+     "If",
+     "ĠI",
+     "Ġhave",
+     "Ġ",
+     "3",
+     "Ġapples",
+     "Ġand",
+     "Ġeat"
+    ],
+    "repeatsQuestion": true,
+    "invalidUtf8Tokens": 0
+   }
+  ]
+ },
+ "wallClockSec": 300.0,
+ "wallClockNote": "measured while other jobs shared the CPU; not a timing figure for the page",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py wrong"
+}

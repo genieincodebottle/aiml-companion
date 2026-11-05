@@ -1,0 +1,31 @@
+{
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.6,
+  "platform": "Kaggle, accelerator NvidiaTeslaT4 (2x T4, PCIe)"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4",
+   "Tesla T4"
+  ]
+ },
+ "notebook": "kaggle genieincodebottle/llt-memthru-p2 version 1",
+ "date": "2026-11-05",
+ "seed": 0,
+ "runId": "lltMemoryThroughput-T2x2-broken-rank0-save",
+ "label": "broken:rank-0-only-save-under-fsdp",
+ "config": {
+  "script": "fsdp_ckpt.py, the torch.save branch"
+ },
+ "stdout": {
+  "fsdp_ckpt": "sharded checkpoint files (GB): {'.metadata': 0.0, '__0_0.distcp': 8.09, '__1_0.distcp': 8.09}\nsave 79.3 s  load 66.0 s  loss after 2 more steps: continued 10.722486  reloaded 10.722540\nrank-0-only file 2.63 GB, holds 708,278,272 values for a model of 1,416,552,448\nloading it into a full model: ['size mismatch for wte.weight: copying a param with shape torch.Size([25129, 2048]) from checkpoint, the shape in current model is torch.Size([50257, 2048]).']\n"
+ },
+ "module": "lltMemoryThroughput",
+ "tier": "T2",
+ "costUSD": 0
+}

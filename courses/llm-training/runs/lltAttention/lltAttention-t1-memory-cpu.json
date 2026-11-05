@@ -1,0 +1,70 @@
+{
+ "runId": "lltAttention-t1-memory-cpu",
+ "module": "lltAttention",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "B": 1,
+  "h": 12,
+  "d": 64,
+  "dtype": "float32",
+  "method": "torch.profiler profile_memory=True; replay [memory] alloc/free events in time order, keep the peak"
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "memory": {
+   "128": {
+    "scoresMiB": 0.75,
+    "naivePeakMiB": 2.27,
+    "sdpaPeakMiB": 0.48
+   },
+   "256": {
+    "scoresMiB": 3.0,
+    "naivePeakMiB": 9.06,
+    "sdpaPeakMiB": 1.08
+   },
+   "512": {
+    "scoresMiB": 12.0,
+    "naivePeakMiB": 36.25,
+    "sdpaPeakMiB": 2.09
+   },
+   "1024": {
+    "scoresMiB": 48.0,
+    "naivePeakMiB": 145.0,
+    "sdpaPeakMiB": 5.3
+   },
+   "2048": {
+    "scoresMiB": 192.0,
+    "naivePeakMiB": 580.0,
+    "sdpaPeakMiB": 8.35
+   },
+   "4096": {
+    "scoresMiB": 768.0,
+    "naivePeakMiB": 2320.0,
+    "sdpaPeakMiB": 14.45
+   }
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py errors browser exact",
+ "stdout": "     T   T x T scores   naive peak   SDPA peak   naive / SDPA   (MiB)\n   128           0.8          2.3         0.5           4.8\n   256           3.0          9.1         1.1           8.4\n   512          12.0         36.2         2.1          17.4\n  1024          48.0        145.0         5.3          27.3\n  2048         192.0        580.0         8.4          69.4\n  4096         768.0       2320.0        14.4         160.6\n"
+}

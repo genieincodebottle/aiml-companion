@@ -1,0 +1,129 @@
+{
+ "runId": "lltTinyStories-T1-cpu-full-s0",
+ "module": "lltTinyStories",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "torchThreads": 4,
+  "note": "machine shared with other jobs; timing figures come from measure_timing.py"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "datasets": "5.1.0"
+ },
+ "config": {
+  "vocab": 4096,
+  "d": 192,
+  "layers": 5,
+  "heads": 6,
+  "ctx": 256,
+  "batch": 32,
+  "lr": 0.001,
+  "warmup": 100,
+  "steps": 1500,
+  "eval_every": 250,
+  "eval_batches": 10,
+  "wd": 0.1,
+  "clip": 1.0,
+  "train_stories": 200000
+ },
+ "seed": 0,
+ "params": 3000384,
+ "data": {
+  "trainTokens": 46083016,
+  "valTokens": 4884112
+ },
+ "metrics": [
+  {
+   "step": 0,
+   "valLoss": 8.3472,
+   "valBpb": 3.0285,
+   "lr": 1e-05,
+   "sec": 4.0
+  },
+  {
+   "step": 250,
+   "valLoss": 3.0727,
+   "valBpb": 1.1148,
+   "lr": 0.0009747474986387655,
+   "sec": 1800.3
+  },
+  {
+   "step": 500,
+   "valLoss": 2.5828,
+   "valBpb": 0.9371,
+   "lr": 0.0008305704108364302,
+   "sec": 3652.7
+  },
+  {
+   "step": 750,
+   "valLoss": 2.3494,
+   "valBpb": 0.8524,
+   "lr": 0.0006003840142464886,
+   "sec": 5151.8
+  },
+  {
+   "step": 1000,
+   "valLoss": 2.207,
+   "valBpb": 0.8007,
+   "lr": 0.0003547523173970989,
+   "sec": 6216.9
+  },
+  {
+   "step": 1250,
+   "valLoss": 2.1285,
+   "valBpb": 0.7723,
+   "lr": 0.00016897411034727216,
+   "sec": 7323.9
+  },
+  {
+   "step": 1500,
+   "valLoss": 2.0833,
+   "valBpb": 0.7559,
+   "lr": 0.0001,
+   "sec": 8527.9
+  }
+ ],
+ "samples": [
+  {
+   "step": 0,
+   "prompt": "Once upon a time",
+   "completion": "Once upon a timeurprurpr lemon splas splasittenince hot metal suLL happiness wearing wearing wearing berriesay turict thanppy su top broken looked law papers hit hit walked mel days days shake asking seedGoHow rough shiver librarybr Sometimes Sometimesittens stuff towercut� volcano volcano might sl eag arri Gra hello turn turn stri� impress impress smelly neigh softlyppy statue trucks chocollf wake forest eag spoiledlandTom maTom"
+  },
+  {
+   "step": 0,
+   "prompt": "Tom and his dog went to the park. Tom",
+   "completion": "Tom and his dog went to the park. Tommost intomost shared pulls encouitchenzkingkingourn� ign ign eas underst careless carelessctct� chocol panensive sol sol sol sol mustard rode forget dirty Jill fallinghet�ragraganger tast fell fellanger tast tast fell shark h h favourite favourite�andyz dirty dirtyinaryinary fierceientientient cou pus pus pus graceful deter umberandy roundandyened shark sailedggedggedzz"
+  },
+  {
+   "step": 1000,
+   "prompt": "Once upon a time",
+   "completion": "Once upon a time, there was a little girl named Lily. She loved going to his porch with her mommy and daddy. One day, they went to see a big castle with a long castle. \n\n\"Look, Lily! Can I play with you?\" asked her mommy.\n\n\"Of course, because we're going to visit the castle!\" said her mommy. \n\nBut the castle was"
+  },
+  {
+   "step": 1000,
+   "prompt": "Tom and his dog went to the park. Tom",
+   "completion": "Tom and his dog went to the park. Tom saw something that was a big truck. It was a car that was stuck inside. It was a car. It had a red truck that could see a fire.\n\n\"Wow, Tom, that is so cool!\" Mia said. \"Did you be nice?\"\n\nThe truck got angry. It did not know what to do. It wanted to play with the truck.\n\n"
+  },
+  {
+   "step": 1500,
+   "prompt": "Once upon a time",
+   "completion": "Once upon a time, there was a little girl named Lily. She loved going to the porch with her mommy. One day, Lily was playing in the future. She saw a pretty flower and asked her mommy to help her. Her mommy gave her some food and ate her food. Lily was happy and loved to play with the flower.\n\nLily was very happy with her mommy and daddy."
+  },
+  {
+   "step": 1500,
+   "prompt": "Tom and his dog went to the park. Tom",
+   "completion": "Tom and his dog went to the park. Tom saw something shiny in the grass. It was a picture of a flower. The flower was soft and shiny. It had a red balloon that could move. Tim wanted the flower too.\n\nTom ran to the flower and grabbed a yellow bee. He pointed it around the garden. He took it and found it. He was happy to see it. But then he saw something else. He took"
+  }
+ ],
+ "date": "2026-11-05",
+ "trainSec": 8534.5,
+ "wallClockSec": 8549.7,
+ "command": "python run_cells.py "
+}

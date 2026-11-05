@@ -1,0 +1,85 @@
+{
+ "runId": "lltGeneration-t1-gqa",
+ "module": "lltGeneration",
+ "tier": "T1",
+ "label": "experiment:kv-heads",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "torchThreads": 4
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "huggingface_hub": "2.4.0",
+  "datasets": "5.1.0",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "GPT(2048, 192, 4 layers, 6 heads, ctx 256), random init seed 0",
+  "kvHeads": [
+   6,
+   3,
+   2,
+   1
+  ],
+  "T": 256,
+  "dtype": "float32"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "rows": [
+   {
+    "kvHeads": 6,
+    "groupSize": 1,
+    "cacheBytesT256": 1572864,
+    "formula": 1572864,
+    "params": 2164416,
+    "attnParamsPerLayer": 147456,
+    "maxAbsErrCachedVsUncached": 1.1920928955078125e-06
+   },
+   {
+    "kvHeads": 3,
+    "groupSize": 2,
+    "cacheBytesT256": 786432,
+    "formula": 786432,
+    "params": 2016960,
+    "attnParamsPerLayer": 110592,
+    "maxAbsErrCachedVsUncached": 1.1920928955078125e-06
+   },
+   {
+    "kvHeads": 2,
+    "groupSize": 3,
+    "cacheBytesT256": 524288,
+    "formula": 524288,
+    "params": 1967808,
+    "attnParamsPerLayer": 98304,
+    "maxAbsErrCachedVsUncached": 7.450580596923828e-07
+   },
+   {
+    "kvHeads": 1,
+    "groupSize": 6,
+    "cacheBytesT256": 262144,
+    "formula": 262144,
+    "params": 1918656,
+    "attnParamsPerLayer": 86016,
+    "maxAbsErrCachedVsUncached": 1.1920928955078125e-06
+   }
+  ]
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py --threads 4",
+ "notes": "Random weights: this run measures cache size and cache exactness, not quality. GQA quality needs a trained model per setting."
+}

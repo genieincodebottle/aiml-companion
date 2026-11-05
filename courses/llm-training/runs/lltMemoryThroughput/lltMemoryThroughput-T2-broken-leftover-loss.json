@@ -1,0 +1,138 @@
+{
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6,
+  "platform": "Kaggle, accelerator NvidiaTeslaT4, CUDA_VISIBLE_DEVICES=0"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4"
+  ]
+ },
+ "notebook": "kaggle genieincodebottle/llt-memthru-p1 version 1 (step 1 without del loss) vs version 2",
+ "date": "2026-11-05",
+ "seed": 0,
+ "model": "GPT-2 small, 124,439,808 parameters (steps/gpt.py)",
+ "runId": "lltMemoryThroughput-T2-broken-leftover-loss",
+ "label": "broken:leftover-loss-keeps-model-alive",
+ "config": {
+  "bug": "step 1 left loss in scope; its grad_fn kept the step 1 model and its grads alive"
+ },
+ "metrics": [
+  {
+   "batch": 1,
+   "seq": 256,
+   "allocatedGBWithLeftover": 3.177426432,
+   "allocatedGBFixed": 2.174016
+  },
+  {
+   "batch": 2,
+   "seq": 256,
+   "allocatedGBWithLeftover": 3.269459456,
+   "allocatedGBFixed": 2.269843456
+  },
+  {
+   "batch": 4,
+   "seq": 256,
+   "allocatedGBWithLeftover": 3.757284352,
+   "allocatedGBFixed": 2.754018304
+  },
+  {
+   "batch": 8,
+   "seq": 256,
+   "allocatedGBWithLeftover": 4.701594624,
+   "allocatedGBFixed": 3.700294656
+  },
+  {
+   "batch": 12,
+   "seq": 256,
+   "allocatedGBWithLeftover": 5.660611584,
+   "allocatedGBFixed": 4.668237824
+  },
+  {
+   "batch": 16,
+   "seq": 256,
+   "allocatedGBWithLeftover": 6.630327296,
+   "allocatedGBFixed": 5.63124224
+  },
+  {
+   "batch": 1,
+   "seq": 512,
+   "allocatedGBWithLeftover": 3.269461504,
+   "allocatedGBFixed": 2.269845504
+  },
+  {
+   "batch": 2,
+   "seq": 512,
+   "allocatedGBWithLeftover": 3.7572864,
+   "allocatedGBFixed": 2.754020352
+  },
+  {
+   "batch": 4,
+   "seq": 512,
+   "allocatedGBWithLeftover": 4.701596672,
+   "allocatedGBFixed": 3.700296704
+  },
+  {
+   "batch": 8,
+   "seq": 512,
+   "allocatedGBWithLeftover": 6.630329344,
+   "allocatedGBFixed": 5.631244288
+  },
+  {
+   "batch": 12,
+   "seq": 512,
+   "allocatedGBWithLeftover": 8.555272192,
+   "allocatedGBFixed": 7.55532288
+  },
+  {
+   "batch": 16,
+   "seq": 512,
+   "allocatedGBWithLeftover": 10.476669952,
+   "allocatedGBFixed": 9.476143104
+  },
+  {
+   "batch": 1,
+   "seq": 1024,
+   "allocatedGBWithLeftover": 3.756110848,
+   "allocatedGBFixed": 2.755073024
+  },
+  {
+   "batch": 2,
+   "seq": 1024,
+   "allocatedGBWithLeftover": 4.699779072,
+   "allocatedGBFixed": 3.7003008
+  },
+  {
+   "batch": 4,
+   "seq": 1024,
+   "allocatedGBWithLeftover": 6.63033344,
+   "allocatedGBFixed": 5.631248384
+  },
+  {
+   "batch": 8,
+   "seq": 1024,
+   "allocatedGBWithLeftover": 10.476674048,
+   "allocatedGBFixed": 9.477064704
+  },
+  {
+   "batch": 12,
+   "seq": 1024,
+   "allocatedGBWithLeftover": 14.321376256,
+   "allocatedGBFixed": 13.32294656
+  },
+  {
+   "batch": 16,
+   "seq": 1024,
+   "allocatedGBWithLeftover": null,
+   "allocatedGBFixed": null
+  }
+ ],
+ "module": "lltMemoryThroughput",
+ "tier": "T2",
+ "costUSD": 0
+}

@@ -1,0 +1,26 @@
+# LLM Training Lab course folder: keep notebooks, scripts, READMEs and Run Library JSON in git.
+# Model weights, Kaggle outputs and data caches stay out of this public repo.
+
+# Kaggle kernel outputs (checkpoints, logs, downloaded results)
+kaggle/out/
+
+# Model weights and checkpoints. Learner checkpoints for "start from our checkpoint" are hosted
+# separately (owner decision pending: Hugging Face Hub vs this repo).
+*.pt
+*.pth
+*.safetensors
+*.bin
+labs/*/checkpoint/
+
+# Data caches written by the labs
+*.npy
+*.npz
+labs/*/data_cache/
+labs/*/cache/
+
+# Tooling
+__pycache__/
+*.pyc
+node_modules/
+.ipynb_checkpoints/
+.venv-latest/

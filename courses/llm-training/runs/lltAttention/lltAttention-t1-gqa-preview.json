@@ -1,0 +1,44 @@
+{
+ "runId": "lltAttention-t1-gqa-preview",
+ "module": "lltAttention",
+ "tier": "T1",
+ "label": "preview:gqa",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "B": 2,
+  "T": 128,
+  "queryHeads": 12,
+  "kvHeads": 4,
+  "d": 64,
+  "ours": "repeat_interleave K and V to 12 heads, then SDPA",
+  "library": "SDPA enable_gqa=True"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "maxAbsError": 0.0,
+  "kvProjParamsMHA": 1179648,
+  "kvProjParamsGQA": 393216,
+  "kvCacheBytesPerTokenPerLayerFp16MHA": 3072,
+  "kvCacheBytesPerTokenPerLayerFp16GQA": 1024
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py gqa"
+}

@@ -1,0 +1,208 @@
+        keyPoints: [
+            'Under AMP, training state is 16 bytes per parameter. Activations and logits then add a per-token cost, 958 KB per token for GPT-2 small, and our predictor landed within 1.6% of a T4 across 17 sizes.',
+            'At GPT-2 small\'s size the logits take more memory than all 12 blocks. Chunked cross-entropy saved 4.13 GB at 8 x 1,024, checkpointing 2.60 GB, and both together allowed a batch 8 times larger.',
+            'On a T4, pick the dtype by compute capability. bf16 ran 5.1 times slower than fp16 there, and `is_bf16_supported()` still returned True.',
+            'Two T4s over PCIe gave DDP 1.82x with `no_sync`. FSDP2 trained a 1.31B model at 13.16 GB per GPU that one T4 couldn\'t hold, and a rank-0 `torch.save` of it kept half the weights.',
+            '@@KP_P3@@',
+        ],
+    },
+    results: {
+        runs: [
+            'lltMemoryThroughput-T2-memory-grid', 'lltMemoryThroughput-T2-memory-cuts', 'lltMemoryThroughput-T2-precision',
+            'lltMemoryThroughput-T2x2-allreduce', 'lltMemoryThroughput-T2x2-ddp', 'lltMemoryThroughput-T2x2-fsdp2', 'lltMemoryThroughput-T2x2-dcp',
+            @@P3_RUN_IDS@@
+            'lltMemoryThroughput-T2-broken-reserved-vs-allocated', 'lltMemoryThroughput-T2-broken-no-synchronize',
+            'lltMemoryThroughput-T2-broken-fp16-half-adamw', 'lltMemoryThroughput-T2-broken-leftover-loss',
+            'lltMemoryThroughput-T2x2-broken-same-seed', 'lltMemoryThroughput-T2x2-broken-rank0-save',
+        ],
+        broken: [
+            {
+                runId: 'lltMemoryThroughput-T2-broken-reserved-vs-allocated',
+                symptom: 'A memory log for GPT-2 small at 8 x 1,024 reads 11.03 GB on a 15.6 GB T4. Batch 12 then looks too large to try, since half as much again would pass 15.6 GB. At 16 x 512 the log also reads 11.03 GB.',
+                cause: 'The log reads `torch.cuda.max_memory_reserved()`, which includes blocks the caching allocator keeps after tensors are freed. The tensors themselves peaked at 9.48 GB, and batch 12 measured 13.32 GB allocated, so it fits.',
+                fix: 'Log `torch.cuda.max_memory_allocated()` after `reset_peak_memory_stats()`, and compare predictions with it. Read reserved only to explain fragmentation.',
+                distractors: [
+                    'The CUDA context and cuBLAS workspaces take 1.55 GB that no setting can release, so batch 12 can\'t fit.',
+                    'The log reports GiB, and converting it to GB gives the true 9.48.',
+                    'Adam\'s state was counted twice because the optimizer was created before the model moved to the GPU.',
+                ],
+            },
+            {
+                runId: 'lltMemoryThroughput-T2-broken-no-synchronize',
+                symptom: 'Timing GPT-2 small at 8 x 1,024 gives 9.2 ms for the forward pass and 13.6 ms for the backward pass. A full training step takes over half a second.',
+                cause: 'CUDA kernels run asynchronously. Without `torch.cuda.synchronize()` the clock measures how long Python took to queue the work. With it, the forward pass took 204.3 ms and the backward pass 317.9 ms.',
+                fix: 'Call `torch.cuda.synchronize()` before starting and before stopping the clock, skip the first steps, and time many steps together.',
+                distractors: [
+                    'The first steps were timed, and they run faster before the GPU heats up.',
+                    'Autocast skipped the fp16 casts, so the matrix multiplies ran on tensor cores at full speed.',
+                    'The timer was `time.time()`, which rounds to 10 ms on Linux.',
+                ],
+            },
+            {
+                runId: 'lltMemoryThroughput-T2-broken-fp16-half-adamw',
+                symptom: 'GPT-2 small, cast with `model.half()` and trained with AdamW at a learning rate of 6e-4, logs a loss of 9.90 at step 1 and NaN from step 2. After step 1, 123,499,562 of its 124,439,808 weights are inf or NaN.',
+                cause: 'The weights and Adam\'s state are fp16. Adam\'s eps of 1e-8 rounds to 0 in fp16 and the squared gradients underflow to 0, so the update divides by zero and overflows to inf.',
+                fix: 'Keep fp32 weights and train under `torch.autocast` with a GradScaler. The same seed and batch then logged 9.90 to 2.27 over 30 steps with no inf or NaN.',
+                distractors: [
+                    'The learning rate of 6e-4 is too high for a 124M model, so the first update overshoots.',
+                    'The loss scale started at 65,536 and overflowed the fp16 gradients.',
+                    'The fp16 logits overflowed in the softmax, since 50,257 classes exceed fp16\'s range.',
+                ],
+            },
+            {
+                runId: 'lltMemoryThroughput-T2-broken-leftover-loss',
+                symptom: 'Every measured peak in a batch x sequence grid sits 1.00 GB above the prediction, from 3.18 GB at 1 x 256 to 14.32 GB at 12 x 1,024. A fresh notebook measures 2.17 GB and 13.32 GB.',
+                cause: 'An earlier cell left `loss` in scope after deleting its model. The loss\'s graph still referenced every parameter of that model and its gradient, 0.5 GB each.',
+                fix: 'Delete the loss together with the model and optimizer, then run `gc.collect()` and `torch.cuda.empty_cache()`.',
+                distractors: [
+                    'The caching allocator reserved 1 GB at start-up, and `max_memory_allocated` includes it.',
+                    'cuDNN picked a convolution workspace of 1 GB for the first configuration and kept it.',
+                ],
+            },
+            {
+                runId: 'lltMemoryThroughput-T2x2-broken-same-seed',
+                symptom: 'DDP on two T4s runs at 24,179 tokens/s with no error. At every step the two ranks log the same loss to 6 decimals, 9.638648 and 9.638648.',
+                cause: 'Both ranks seeded their data generator with 1234, so both drew the same batches. The two GPUs did the same work, and the run saw half the data it reports. Its lower throughput is launch-to-launch variation, since the work per step is the same.',
+                fix: 'Seed the data by rank, `1234 + rank`. The correct run logged 9.481456 and 9.501394 on its two ranks.',
+                distractors: [
+                    'DDP all-reduces the loss, so identical per-rank losses are expected.',
+                    'Both ranks share one CUDA stream over PCIe, so the second GPU waits and repeats the first one\'s step.',
+                    '`no_sync` stopped the all-reduce, so each rank trained its own copy of the model.',
+                ],
+            },
+            {
+                runId: 'lltMemoryThroughput-T2x2-broken-rank0-save',
+                symptom: 'A 1.31B-parameter model trained with FSDP2 on two T4s is saved with `torch.save(model.state_dict())` on rank 0. The file is 2.63 GB, and loading it into a full model fails with size mismatch for wte.weight, [25129, 2048] against [50257, 2048].',
+                cause: 'Under FSDP each tensor in the state dict holds only that rank\'s shard. Rank 0 wrote half of each weight and none of the optimizer state.',
+                fix: 'Save with `torch.distributed.checkpoint` from every rank. The DCP checkpoint wrote 8.09 GB per rank and resumed to a loss of 10.722540 against 10.722486 for the continued run. A reload of the weights without the optimizer state missed by 0.08.',
+                distractors: [
+                    'The file was saved in fp16, so it is half the size and its shapes are halved.',
+                    'The vocabulary was padded to 50,257 after saving, so only the embedding fails to load.',
+                    'The save ran before the optimizer step finished, so half the rows were still being written.',
+                ],
+            },
+        ],
+    },
+    challenges: [
+        {
+            prompt: 'Write `predict_peak_gb` for a GPT-2 style model trained under fp16 autocast with fused AdamW, with the checkpointing and chunking switches. The checks compare it with 8 peaks we measured on a T4 and pass when every one is within 5%.',
+            starter: CODE.ch1_starter,
+            hints: [
+                'Take the larger of two moments, the loss backward and the end of the backward pass.',
+                'During the loss backward the gradients don\'t exist yet. Count 14 bytes per parameter, then per token 38d per block, 6d for the head and 12V for the logits.',
+                'Checkpointing changes 38d to 4d. Chunking divides 12V by the number of chunks and changes 6d to 8d.',
+            ],
+            solution: CODE.ch1_solution,
+        },
+        {
+            prompt: 'Write `per_gpu_gb` for the four ZeRO stages. Check it against the ZeRO paper\'s 7.5B-parameter example on 64 GPUs, then against our 1.31B FSDP2 run on two T4s, which keeps fp32 weights and gradients.',
+            starter: CODE.ch2_starter,
+            hints: [
+                'Each stage divides one more term by n, the optimizer state first, then the gradients, then the weights.',
+                'Stage 1 for 7.5B on 64 GPUs is 7.5 x (2 + 2 + 12/64) = 31.4 GB.',
+            ],
+            solution: CODE.ch2_solution,
+        },
+    ],
+    papers: [
+        {
+            cite: 'Micikevicius et al. 2018, Mixed Precision Training',
+            url: 'https://arxiv.org/abs/1710.03740',
+            problem: 'fp32 training uses twice the memory of fp16 and runs slower, but fp16 can\'t represent small gradient values.',
+            contribution: 'Keep an fp32 master copy of the weights, scale the loss so small gradients stay representable in fp16, and accumulate fp16 products into fp32. The paper reports that this roughly halves training memory.',
+            reproduce: 'Step 6 measures the gradient entries that round to zero with and without loss scaling, and the broken run shows what happens without an fp32 copy.',
+            ourResult: 'On GPT-2 small, 0.39% of block gradient entries were exactly zero with no loss scaling and 0.00% with a scale of 65,536. With fp16 weights and Adam state, the loss was NaN from step 2.',
+        },
+        {
+            cite: 'Kalamkar et al. 2019, A Study of BFLOAT16 for Deep Learning Training',
+            url: 'https://arxiv.org/abs/1905.12322',
+            problem: 'fp16 needs loss scaling because its exponent range is narrow.',
+            contribution: 'bfloat16 keeps fp32\'s exponent range with fewer mantissa bits. Across the paper\'s workloads, bf16 training matched fp32 results in the same number of iterations with no hyperparameter changes.',
+            reproduce: 'Step 6 runs bf16 autocast on a T4, which lacks bf16 tensor cores.',
+            ourResult: 'bf16 trained GPT-2 small at 2,546 tokens/s on a T4, against 13,031 for fp16 and 3,847 for fp32. The format needs hardware support to be fast.',
+        },
+        {
+            cite: 'Chen et al. 2016, Training Deep Nets with Sublinear Memory Cost',
+            url: 'https://arxiv.org/abs/1604.06174',
+            problem: 'Activation memory grows with depth and limits model and batch size.',
+            contribution: 'Store only some activations and recompute the rest in the backward pass, for O(sqrt(n)) memory at the cost of about one extra forward pass. The paper cut a 1,000-layer residual network from 48 GB to 7 GB with 30% more running time.',
+            reproduce: 'Step 5 checkpoints every block of GPT-2 small.',
+            ourResult: 'Checkpointing cut the peak at 8 x 1,024 from 9.48 GB to 6.88 GB and throughput by 16%. The logits, which checkpointing doesn\'t touch, set the rest of the peak.',
+        },
+        {
+            cite: 'Korthikanti et al. 2022, Reducing Activation Recomputation in Large Transformer Models',
+            url: 'https://arxiv.org/abs/2205.05198',
+            problem: 'Full activation recomputation costs 30 to 40% of training time in large transformer runs.',
+            contribution: 'A per-layer activation formula, sbh(34 + 5as/h) bytes in 16-bit with dropout masks included. Sequence parallelism and selective recomputation together cut activation memory 5 times and the recomputation overhead by over 90%.',
+            reproduce: 'Step 2 counts the tensors one GPT-2 block keeps and checks the count on a T4.',
+            ourResult: 'Our block measured 29,856 bytes per token, 38.9d. There is no dropout, but autocast keeps both LayerNorm inputs in fp32, and memory-efficient attention removes the 5as/h term.',
+        },
+        {
+            cite: 'Li et al. 2020, PyTorch Distributed, Experiences on Accelerating Data Parallel Training',
+            url: 'https://arxiv.org/abs/2006.15704',
+            problem: 'Data parallel training spends time waiting for gradient communication.',
+            contribution: 'DDP buckets gradients, overlaps their all-reduce with the backward pass and skips synchronization during accumulation with `no_sync`. The paper reports near-linear scaling on 256 GPUs when configured well.',
+            reproduce: 'Step 8 trains GPT-2 small on one and two T4s, with and without `no_sync`.',
+            ourResult: '1.82x on two PCIe T4s, 91% efficiency. Syncing every micro-batch lowered throughput by 12%.',
+        },
+        {
+            cite: 'Rajbhandari et al. 2020, ZeRO, Memory Optimizations Toward Training Trillion Parameter Models',
+            url: 'https://arxiv.org/abs/1910.02054',
+            problem: 'Every data parallel GPU stores a full copy of the 16 bytes per parameter of training state.',
+            contribution: 'Shard the optimizer state, then the gradients, then the weights across GPUs. For 7.5B parameters on 64 GPUs that is 120, 31.4, 16.6 and 1.9 GB per GPU. Stage 3 moves 1.5 times the data of plain data parallel.',
+            reproduce: 'The second challenge computes the four stages, and step 9 runs stage 3 with FSDP2.',
+            ourResult: '16N/2 predicted 10.51 GB per T4 for our 1.31B model, and the run peaked at 13.16 GB with activations and gathered blocks on top.',
+        },
+        {
+            cite: 'Zhao et al. 2023, PyTorch FSDP, Experiences on Scaling Fully Sharded Data Parallel',
+            url: 'https://arxiv.org/abs/2304.11277',
+            problem: 'Models whose training state exceeds one GPU need sharding that fits PyTorch\'s eager execution.',
+            contribution: 'FSDP gathers each unit\'s weights just before it runs and reduce-scatters its gradients after. The paper reports performance comparable to DDP and support for much larger models.',
+            reproduce: 'Step 9 shards a 1.31B model across two T4s with `fully_shard`, and step 10 checkpoints it.',
+            ourResult: 'One T4 ran out of memory at 15.33 GB. Two trained at 2,033 tokens/s, 13.3% MFU, and a reloaded checkpoint matched the continued run to 4 decimal places. A reload without the Adam state missed by 0.08.',
+        },
+        {
+            cite: 'Wortsman et al. 2023, Small-scale proxies for large-scale Transformer training instabilities',
+            url: 'https://arxiv.org/abs/2309.14322',
+            problem: 'Training instabilities appear in large runs, where each experiment is expensive.',
+            contribution: 'The same instabilities appear in small models trained at high learning rates. Attention-logit growth is mitigated by qk-layernorm and output-logit divergence by z-loss. LR sensitivity, the mean gap to the best final loss over a sweep, measures both.',
+            reproduce: 'Step 12 sweeps the learning rate on 10M and 27M TinyStories models with and without QK-norm and z-loss.',
+            ourResult: '@@PAPER_WORTSMAN@@',
+        },
+        {
+            cite: 'Dehghani et al. 2023, Scaling Vision Transformers to 22 Billion Parameters',
+            url: 'https://arxiv.org/abs/2302.05442',
+            problem: 'A ViT of about 8B parameters diverged after a few thousand steps.',
+            contribution: 'Extremely large attention logits made the attention weights almost one-hot. Applying LayerNorm to the queries and keys, following Gilmer et al. 2023, fixed it.',
+            reproduce: 'Step 11 adds QK-norm to the TinyStories model and logs the largest attention logit.',
+            ourResult: '@@PAPER_DEHGHANI@@',
+        },
+        {
+            cite: 'Chowdhery et al. 2022, PaLM, Scaling Language Modeling with Pathways',
+            url: 'https://arxiv.org/abs/2204.02311',
+            problem: 'Large language model runs need a stable output softmax and a hardware-independent efficiency measure.',
+            contribution: 'An auxiliary z-loss of 10⁻⁴ x log² Z keeps the softmax normalizer near 1, which the authors found increases training stability. The paper also defines MFU and reports 46.2% for PaLM 540B.',
+            reproduce: 'Step 4 computes MFU, and step 11 adds z-loss.',
+            ourResult: '@@PAPER_PALM@@',
+        },
+    ],
+    extension: {
+        task: 'Make GPT-2 medium (24 layers, d = 1,024, 16 heads, 354,823,168 parameters) train on one T4. Predict its peak with your predictor at s = 1,024 for batch 1, 2 and 4 under all four switch settings, then measure the settings that fit.',
+        deliverable: 'A table of predicted against measured peak, tokens/s and MFU for each setting that fits, and one paragraph naming the setting you would train with and why.',
+        rubric: 'Predictions come before measurements. Every timing uses synchronize and skips the first steps. Each error above 5% has a one-sentence explanation from the tensors that the formula counts or misses.',
+    },
+    openQuestion: {
+        question: 'Does QK-norm widen the stable learning-rate range by the same factor at 27M parameters as at 10M?',
+        known: 'Wortsman et al. 2023 report that qk-layernorm lowers LR sensitivity at every size they trained, small models included, and that LR sensitivity still rises with model size. Dehghani et al. 2023 needed QK normalization at about 8B parameters. Neither states a widening factor at 27M, so read Wortsman\'s small-model learning-rate curves before running.',
+        knownAsOf: '2026-11-05',
+        protocol: 'Sweep 6 learning rates from 1e-3 to 3e-1 for 600 steps at 10M and 27M, with and without QK-norm, as in step 12. Count the learning rates within 0.1 nats of each variant\'s best final loss, and repeat with 3 seeds before comparing the ratios.',
+        tier: 'T2',
+        ourResult: '@@OQ_RESULT@@',
+    },
+    quiz: [
+        @@QUIZ@@
+    ],
+    interviewQA: [
+        @@IQA@@
+    ],
+};

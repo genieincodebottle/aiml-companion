@@ -1,0 +1,61 @@
+{
+ "runId": "lltTrainingLoop-t1-steps",
+ "module": "lltTrainingLoop",
+ "tier": "T1",
+ "label": "page-code-output",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "blocks": [
+   "s1_data.py",
+   "s1_run.py",
+   "s2_model.py",
+   "s2_run.py",
+   "s3_sched.py",
+   "s3_run.py",
+   "s4_run.py",
+   "s5_ckpt.py",
+   "s5_run.py",
+   "s6_train.py",
+   "s6_run.py",
+   "s6_sample.py",
+   "s7_run.py"
+  ]
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "s1_data.py": "",
+  "s1_run.py": "vocab 65 | train tokens 1003854 | val tokens 111540\nwindows per epoch 15684 | batches per epoch 1307\nsaved position {'seed': 0, 'epoch': 0, 'pos': 60} | same 6th batch after restore True\ntargets are inputs shifted by one True",
+  "s2_model.py": "",
+  "s2_run.py": "small (CPU) | parameters 812416 | decay 17 tensors 794752 | no decay 11 tensors 17664\n10M (T4) | parameters 10770048 | decay 25 tensors 10641792 | no decay 15 tensors 128256",
+  "s3_sched.py": "",
+  "s3_run.py": "step   cosine     wsd\n   0  1.00e-05  1.00e-05\n  50  5.10e-04  5.10e-04\n  99  1.00e-03  1.00e-03\n 100  1.00e-03  1.00e-03\n1000  5.87e-04  1.00e-03\n1599  1.95e-04  1.00e-03\n1600  1.95e-04  1.00e-03\n1800  1.24e-04  5.50e-04\n1999  1.00e-04  1.02e-04\nafter 150 steps 150 | lr 9.985e-04",
+  "s4_run.py": "divide by N | max diff from full batch 5.2e-08 | norm ratio 1.0\nno divide   | max diff from full batch 5.1e-01 | norm ratio 4.0\nglobal norm 3.6606 | clip_grad_norm_ returned 3.6606 | norm after clipping to 1.0 1.0",
+  "s5_ckpt.py": "",
+  "s5_run.py": "keys ['cfg', 'chars', 'model', 'optimizer', 'rng', 'sampler', 'scaler', 'scheduler', 'step'] | file 9.8 MB\nAdamW keeps per tensor ['exp_avg', 'exp_avg_sq', 'step']\nsampler {'seed': 0, 'epoch': 0, 'pos': 36} | scheduler position 3",
+  "s6_train.py": "",
+  "s6_run.py": "device cpu | dtype torch.float32\nstep 250 | train 2.4817 | val 2.4496 | grad norm 1.071 | lr 9.86e-04\nstep 500 | train 2.2605 | val 2.272 | grad norm 2.132 | lr 9.06e-04\nstep 750 | train 2.1556 | val 2.1482 | grad norm 1.42 | lr 7.65e-04\nstep 1000 | train 1.9691 | val 2.0492 | grad norm 1.644 | lr 5.88e-04\nstep 1250 | train 1.9929 | val 1.9963 | grad norm 1.53 | lr 4.05e-04\nstep 1500 | train 1.7651 | val 1.9366 | grad norm 1.725 | lr 2.46e-04\nstep 1750 | train 1.8671 | val 1.9106 | grad norm 1.749 | lr 1.38e-04\nstep 2000 | train 1.7832 | val 1.8929 | grad norm 1.774 | lr 1.00e-04",
+  "s6_sample.py": "ROMEO:\nWhy more king self Whose ane hand, in I to the Mecome.\n\nCORIOHNNGBEMIO:\nFor Rose is Case of him; that of to awake a all:\nWill thour none ham the his wort to a moreines,\nAnd the connose weelve no. So I fear,\nThan they made on the meed too quighleom with them.\n\nGLEONTES:\nAinkbe you, as made sto my ha",
+  "s7_run.py": "full checkpoint | max train-loss diff 0.0 | val diff at step 200 0.0\nwithout rng       | max train-loss diff 0.0314 | val diff at step 200 -0.0004 | loss at step 101 2.6091 vs 2.6236\nwithout sampler   | max train-loss diff 0.1865 | val diff at step 200 +0.0019 | loss at step 101 2.6374 vs 2.6236\nwithout scheduler | max train-loss diff 0.0908 | val diff at step 200 +0.0493 | loss at step 101 2.6236 vs 2.6236\nwithout optimizer | max train-loss diff 0.2684 | val diff at step 200 +0.0117 | loss at step 101 2.6236 vs 2.6236"
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe from_steps_log.py <scratch>/tl_work_v2 <scratch>/v2_steps.log",
+ "notes": "Printed output of each page code block run in order by run_steps.py on CPU. Timings in it are distorted by other jobs."
+}

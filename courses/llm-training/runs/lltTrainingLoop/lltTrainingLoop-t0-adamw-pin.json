@@ -1,0 +1,92 @@
+{
+ "runId": "lltTrainingLoop-t0-adamw-pin",
+ "module": "lltTrainingLoop",
+ "tier": "T0",
+ "label": "pin:adamw",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "p0": [
+   0.5,
+   -1.0,
+   2.0,
+   0.0
+  ],
+  "grads": [
+   [
+    0.1,
+    -0.2,
+    0.3,
+    0.4
+   ],
+   [
+    0.05,
+    -0.1,
+    -0.2,
+    0.3
+   ],
+   [
+    -0.3,
+    0.2,
+    0.1,
+    0.0
+   ]
+  ],
+  "lr": 0.1,
+  "betas": [
+   0.9,
+   0.999
+  ],
+  "eps": 1e-08,
+  "weight_decay": 0.1
+ },
+ "seed": null,
+ "metrics": [
+  {
+   "step": 1,
+   "params": [
+    0.39500001,
+    -0.89,
+    1.88,
+    -0.1
+   ]
+  },
+  {
+   "step": 2,
+   "params": [
+    0.29783206,
+    -0.78788205,
+    1.84674795,
+    -0.1972575
+   ]
+  },
+  {
+   "step": 3,
+   "params": [
+    0.32957609,
+    -0.76892492,
+    1.80042958,
+    -0.27123826
+   ]
+  }
+ ],
+ "evals": {},
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py adamw resume cosine12 wsd accum lrhigh lr1e1"
+}

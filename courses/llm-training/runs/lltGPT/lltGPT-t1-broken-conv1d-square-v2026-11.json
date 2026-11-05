@@ -1,0 +1,51 @@
+{
+ "runId": "lltGPT-t1-broken-conv1d-square-v2026-11",
+ "module": "lltGPT",
+ "tier": "T1",
+ "label": "broken:conv1d-square-untransposed",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "huggingface_hub": "2.4.0",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "openai-community/gpt2",
+  "dtype": "float32",
+  "threads": 4,
+  "text": "Once upon a time, a small robot lived in a quiet town. Every morning it walked to the park and counted the birds.",
+  "prompt": "Once upon a time, a small robot"
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "broken": {
+   "maxAbsDiff": 184.0851,
+   "loss": 7.317,
+   "sameArgmaxFrac": 0.231,
+   "greedy": "Once upon a time, a small robot. the the the the the the the the the the the"
+  },
+  "fixed": {
+   "maxAbsDiff": 7.62939453125e-05,
+   "loss": 3.6809,
+   "greedy": "Once upon a time, a small robot was able to create a new world.\n\nThe robot"
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure_gpt2.py"
+}

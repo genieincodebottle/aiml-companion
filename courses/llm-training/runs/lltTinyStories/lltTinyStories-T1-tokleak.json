@@ -1,0 +1,46 @@
+{
+ "runId": "lltTinyStories-T1-tokleak",
+ "module": "lltTinyStories",
+ "tier": "T1",
+ "label": "broken:tokenizer-trained-on-val",
+ "hardware": {
+  "gpu": null,
+  "count": 0
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "datasets": "5.1.0",
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "torchThreads": 4
+ },
+ "config": {
+  "vocab": 4096
+ },
+ "seed": 0,
+ "evals": {
+  "ours (300k train stories)": {
+   "valA": 3.9719,
+   "valB": 3.9351,
+   "trainTail": 3.9117,
+   "gapA_minus_B": 0.0368
+  },
+  "leaky (val half A)": {
+   "valA": 3.9807,
+   "valB": 3.9299,
+   "trainTail": 3.907,
+   "gapA_minus_B": 0.0508
+  },
+  "control (train tail, same size)": {
+   "valA": 3.9643,
+   "valB": 3.9269,
+   "trainTail": 3.9186,
+   "gapA_minus_B": 0.0374
+  },
+  "note": "valA = first 10,995 validation stories (the leaky tokenizer trained on them); valB = the other 10,995; trainTail = last 10,995 training stories"
+ },
+ "date": "2026-11-05",
+ "command": "python measure.py tokleak"
+}

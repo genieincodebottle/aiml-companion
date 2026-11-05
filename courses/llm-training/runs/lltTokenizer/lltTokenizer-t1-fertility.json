@@ -1,0 +1,300 @@
+{
+ "runId": "lltTokenizer-t1-fertility",
+ "module": "lltTokenizer",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": 0,
+  "cpu": "AMD Ryzen 9 5900HS with Radeon Graphics",
+  "cores": 8,
+  "threads": 16,
+  "ramGB": 33.7,
+  "os": "Windows-11-10.0.26200-SP0",
+  "cpuBusyPctAtEnd": 100.0
+ },
+ "env": {
+  "python": "3.12.3",
+  "tokenizers": "0.22.1",
+  "transformers": "5.2.0",
+  "numpy": "2.4.2",
+  "huggingface_hub": "1.5.0",
+  "torch": "2.10.0+cpu",
+  "datasets": "4.6.1"
+ },
+ "notebookCommit": null,
+ "config": {
+  "data": {
+   "heldout": {
+    "flores": "FLORES-200 devtest (eng_Latn, hin_Deva, spa_Latn), 1,012 parallel sentences each, CC BY-SA 4.0, https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz (sha256 b8b0b767...011f6)",
+    "code": "12 CPython 3.12.3 standard library files (every 10th file, see data.py), PSF License"
+   },
+   "train": {
+    "wikipedia": "wikimedia/wikipedia 20231101.en, .hi, .es: first articles in file order up to 8 MB each, CC BY-SA 3.0 and GFDL",
+    "code": "CPython 3.12.3 standard library files not held out, up to 4 MB, PSF License"
+   },
+   "words": "tokens per word = tokens / number of whitespace-separated words (str.split())"
+  },
+  "tokenizers": {
+   "gpt2": "gpt2",
+   "smollm2": "HuggingFaceTB/SmolLM2-135M",
+   "qwen3": "Qwen/Qwen3-0.6B",
+   "ours32k": "lltTokenizer-t1-vocab-sweep at 32,768",
+   "ours32kMarks": "same mix, vowel signs count as letters (bpe.pretokenize marks=True), held-out text split per line",
+   "enhi32k": "English and Hindi Wikipedia only, GPT-2 rule",
+   "enhi32kMarks": "English and Hindi Wikipedia only, marks=True"
+  }
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "gpt2": {
+   "vocabSize": 50257,
+   "en": {
+    "tokens": 27044,
+    "bytes": 133108,
+    "words": 21901,
+    "bytesPerToken": 4.922,
+    "tokensPerWord": 1.235
+   },
+   "hi": {
+    "tokens": 200483,
+    "bytes": 338106,
+    "words": 25643,
+    "bytesPerToken": 1.686,
+    "tokensPerWord": 7.818
+   },
+   "es": {
+    "tokens": 53578,
+    "bytes": 160955,
+    "words": 26081,
+    "bytesPerToken": 3.004,
+    "tokensPerWord": 2.054
+   },
+   "code": {
+    "tokens": 72559,
+    "bytes": 168874,
+    "words": 16962,
+    "bytesPerToken": 2.327,
+    "tokensPerWord": 4.278
+   },
+   "hiOverEnFertility": 6.33
+  },
+  "smollm2": {
+   "vocabSize": 49152,
+   "en": {
+    "tokens": 27721,
+    "bytes": 133108,
+    "words": 21901,
+    "bytesPerToken": 4.802,
+    "tokensPerWord": 1.266
+   },
+   "hi": {
+    "tokens": 142979,
+    "bytes": 338106,
+    "words": 25643,
+    "bytesPerToken": 2.365,
+    "tokensPerWord": 5.576
+   },
+   "es": {
+    "tokens": 53714,
+    "bytes": 160955,
+    "words": 26081,
+    "bytesPerToken": 2.997,
+    "tokensPerWord": 2.06
+   },
+   "code": {
+    "tokens": 40638,
+    "bytes": 168874,
+    "words": 16962,
+    "bytesPerToken": 4.156,
+    "tokensPerWord": 2.396
+   },
+   "hiOverEnFertility": 4.4
+  },
+  "qwen3": {
+   "vocabSize": 151669,
+   "en": {
+    "tokens": 27621,
+    "bytes": 133108,
+    "words": 21901,
+    "bytesPerToken": 4.819,
+    "tokensPerWord": 1.261
+   },
+   "hi": {
+    "tokens": 121973,
+    "bytes": 338106,
+    "words": 25643,
+    "bytesPerToken": 2.772,
+    "tokensPerWord": 4.757
+   },
+   "es": {
+    "tokens": 42051,
+    "bytes": 160955,
+    "words": 26081,
+    "bytesPerToken": 3.828,
+    "tokensPerWord": 1.612
+   },
+   "code": {
+    "tokens": 35652,
+    "bytes": 168874,
+    "words": 16962,
+    "bytesPerToken": 4.737,
+    "tokensPerWord": 2.102
+   },
+   "hiOverEnFertility": 3.77
+  },
+  "ours32k": {
+   "vocabSize": 32768,
+   "en": {
+    "tokens": 29760,
+    "bytes": 133108,
+    "words": 21901,
+    "bytesPerToken": 4.473,
+    "tokensPerWord": 1.359
+   },
+   "hi": {
+    "tokens": 85971,
+    "bytes": 338106,
+    "words": 25643,
+    "bytesPerToken": 3.933,
+    "tokensPerWord": 3.353
+   },
+   "es": {
+    "tokens": 36047,
+    "bytes": 160955,
+    "words": 26081,
+    "bytesPerToken": 4.465,
+    "tokensPerWord": 1.382
+   },
+   "code": {
+    "tokens": 41470,
+    "bytes": 168874,
+    "words": 16962,
+    "bytesPerToken": 4.072,
+    "tokensPerWord": 2.445
+   },
+   "hiOverEnFertility": 2.47
+  },
+  "ours32kMarks": {
+   "vocabSize": 32768,
+   "trainSec": 20.7,
+   "sources": [
+    "en",
+    "hi",
+    "es",
+    "code"
+   ],
+   "en": {
+    "tokens": 30399,
+    "bytes": 133108,
+    "words": 21901,
+    "bytesPerToken": 4.379,
+    "tokensPerWord": 1.388
+   },
+   "hi": {
+    "tokens": 39404,
+    "bytes": 338106,
+    "words": 25643,
+    "bytesPerToken": 8.58,
+    "tokensPerWord": 1.537
+   },
+   "es": {
+    "tokens": 36893,
+    "bytes": 160955,
+    "words": 26081,
+    "bytesPerToken": 4.363,
+    "tokensPerWord": 1.415
+   },
+   "code": {
+    "tokens": 42255,
+    "bytes": 168874,
+    "words": 16962,
+    "bytesPerToken": 3.997,
+    "tokensPerWord": 2.491
+   },
+   "hiOverEnFertility": 1.11
+  },
+  "enhi32k": {
+   "vocabSize": 32768,
+   "trainSec": 6.53,
+   "sources": [
+    "en",
+    "hi"
+   ],
+   "en": {
+    "tokens": 28314,
+    "bytes": 133108,
+    "words": 21901,
+    "bytesPerToken": 4.701,
+    "tokensPerWord": 1.293
+   },
+   "hi": {
+    "tokens": 85478,
+    "bytes": 338106,
+    "words": 25643,
+    "bytesPerToken": 3.955,
+    "tokensPerWord": 3.333
+   },
+   "es": {
+    "tokens": 57615,
+    "bytes": 160955,
+    "words": 26081,
+    "bytesPerToken": 2.794,
+    "tokensPerWord": 2.209
+   },
+   "code": {
+    "tokens": 49489,
+    "bytes": 168874,
+    "words": 16962,
+    "bytesPerToken": 3.412,
+    "tokensPerWord": 2.918
+   },
+   "hiOverEnFertility": 2.58
+  },
+  "enhi32kMarks": {
+   "vocabSize": 32768,
+   "trainSec": 12.71,
+   "sources": [
+    "en",
+    "hi"
+   ],
+   "en": {
+    "tokens": 29115,
+    "bytes": 133108,
+    "words": 21901,
+    "bytesPerToken": 4.572,
+    "tokensPerWord": 1.329
+   },
+   "hi": {
+    "tokens": 36486,
+    "bytes": 338106,
+    "words": 25643,
+    "bytesPerToken": 9.267,
+    "tokensPerWord": 1.423
+   },
+   "es": {
+    "tokens": 59165,
+    "bytes": 160955,
+    "words": 26081,
+    "bytesPerToken": 2.72,
+    "tokensPerWord": 2.269
+   },
+   "code": {
+    "tokens": 50817,
+    "bytes": 168874,
+    "words": 16962,
+    "bytesPerToken": 3.323,
+    "tokensPerWord": 2.996
+   },
+   "hiOverEnFertility": 1.07
+  }
+ },
+ "samples": [],
+ "wallClockSec": 94.14,
+ "peakMemGB": 2.078,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05"
+}

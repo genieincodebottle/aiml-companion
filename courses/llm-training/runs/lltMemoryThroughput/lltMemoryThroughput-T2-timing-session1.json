@@ -1,0 +1,37 @@
+{
+ "runId": "lltMemoryThroughput-T2-timing-session1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6,
+  "platform": "Kaggle, accelerator NvidiaTeslaT4, CUDA_VISIBLE_DEVICES=0"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4"
+  ]
+ },
+ "notebook": "kaggle genieincodebottle/llt-memthru-p1 version 1 (an earlier session on another T4 machine)",
+ "date": "2026-11-05",
+ "seed": 0,
+ "config": {
+  "script": "s04_timing.py",
+  "batch": 8,
+  "seq": 1024
+ },
+ "metrics": [
+  {
+   "tokPerSec": 12627
+  }
+ ],
+ "stdout": {
+  "s04": "b=8 s=1024  12,627 tokens/s  first step 0.69 s  MFU 16.7% of 65 TFLOPS\nsynchronize=False  forward   11.3 ms  backward   14.4 ms\nsynchronize=True   forward  231.6 ms  backward  361.4 ms\n"
+ },
+ "module": "lltMemoryThroughput",
+ "tier": "T2",
+ "costUSD": 0
+}

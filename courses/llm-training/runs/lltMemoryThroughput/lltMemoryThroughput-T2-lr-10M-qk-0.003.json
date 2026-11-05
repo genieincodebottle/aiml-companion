@@ -1,0 +1,88 @@
+{
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.6,
+  "platform": "Kaggle, accelerator NvidiaTeslaT4 (2x T4, PCIe)"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4",
+   "Tesla T4"
+  ]
+ },
+ "notebook": "kaggle genieincodebottle/llt-memthru-p3",
+ "date": "2026-11-05",
+ "config": {
+  "script": "sweep.py",
+  "steps": 600,
+  "warmup": 100,
+  "batch": 32,
+  "seq": 256,
+  "schedule": "linear warmup, cosine to 10%",
+  "optimizer": "AdamW betas (0.9, 0.95), weight decay 0",
+  "clip": null,
+  "precision": "fp16 autocast + GradScaler",
+  "zLoss": 0.0001,
+  "vocab": 4096,
+  "data": "TinyStories, first 200,000 train stories"
+ },
+ "runId": "lltMemoryThroughput-T2-lr-10M-qk-0.003",
+ "label": "ablation:qk-norm,lr=0.003",
+ "seed": 0,
+ "params": 11474880,
+ "metrics": [
+  {
+   "step": 0,
+   "valLoss": 8.3634,
+   "maxAttnLogit": 4.832,
+   "meanLogZ": 8.38,
+   "maxAbsLogit": 3.188
+  },
+  {
+   "step": 150,
+   "valLoss": 3.5182,
+   "maxAttnLogit": 8.406,
+   "meanLogZ": 10.228,
+   "maxAbsLogit": 14.852
+  },
+  {
+   "step": 300,
+   "valLoss": 2.9266,
+   "maxAttnLogit": 10.25,
+   "meanLogZ": 10.817,
+   "maxAbsLogit": 16.594
+  },
+  {
+   "step": 450,
+   "valLoss": 2.6168,
+   "maxAttnLogit": 11.086,
+   "meanLogZ": 11.247,
+   "maxAbsLogit": 17.688
+  },
+  {
+   "step": 600,
+   "valLoss": 2.4688,
+   "maxAttnLogit": 11.203,
+   "meanLogZ": 11.455,
+   "maxAbsLogit": 18.219
+  }
+ ],
+ "evals": {
+  "final": {
+   "step": 600,
+   "valLoss": 2.4688,
+   "maxAttnLogit": 11.203,
+   "meanLogZ": 11.455,
+   "maxAbsLogit": 18.219
+  },
+  "skippedSteps": 0
+ },
+ "wallClockSec": 89.4,
+ "module": "lltMemoryThroughput",
+ "tier": "T2",
+ "costUSD": 0
+}

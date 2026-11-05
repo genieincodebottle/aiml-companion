@@ -1,0 +1,293 @@
+{
+ "runId": "lltIntro-t1-story-s1",
+ "module": "lltIntro",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "transformers": "5.2.0",
+  "tokenizers": "0.22.1",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "vocab_size": 63,
+  "d_model": 64,
+  "n_layer": 4,
+  "n_head": 4,
+  "ctx": 128,
+  "batch_size": 64,
+  "steps": 5000,
+  "lr_max": 0.003,
+  "lr_min": 0.00030000000000000003,
+  "warmup": 100,
+  "weight_decay": 0.1,
+  "betas": [
+   0.9,
+   0.95
+  ],
+  "grad_clip": 1.0,
+  "init_std": 0.02,
+  "dataset": "roneneldan/TinyStories TinyStoriesV2-GPT4-valid.txt",
+  "stories_total": 27630,
+  "stories_kept": 27381,
+  "train_chars": 20816763,
+  "val_chars": 1090683,
+  "split": "95/5 by story, shuffle seed 0",
+  "threads": 4,
+  "n_params": 209408
+ },
+ "seed": 1,
+ "metrics": [
+  {
+   "step": 0,
+   "tokens": 0,
+   "valLoss": 4.1407,
+   "trainLoss": null,
+   "lr": 0.0
+  },
+  {
+   "step": 1,
+   "tokens": 8192,
+   "trainLoss": 4.1431,
+   "firstBatchLoss": 4.1431,
+   "gradNorm": 2.092
+  },
+  {
+   "step": 250,
+   "tokens": 2048000,
+   "trainLoss": 2.03,
+   "valLoss": 2.0586,
+   "gradNorm": 1.297,
+   "lr": 0.002994,
+   "tokPerSec": 1540.5,
+   "elapsedSec": 1329.4
+  },
+  {
+   "step": 500,
+   "tokens": 4096000,
+   "trainLoss": 1.5297,
+   "valLoss": 1.5051,
+   "gradNorm": 1.136,
+   "lr": 0.002956,
+   "tokPerSec": 2504.6,
+   "elapsedSec": 1635.4
+  },
+  {
+   "step": 750,
+   "tokens": 6144000,
+   "trainLoss": 1.2983,
+   "valLoss": 1.2941,
+   "gradNorm": 1.013,
+   "lr": 0.002885,
+   "tokPerSec": 3210.3,
+   "elapsedSec": 1913.9
+  },
+  {
+   "step": 1000,
+   "tokens": 8192000,
+   "trainLoss": 1.2104,
+   "valLoss": 1.2006,
+   "gradNorm": 1.001,
+   "lr": 0.002782,
+   "tokPerSec": 3771.1,
+   "elapsedSec": 2172.3
+  },
+  {
+   "step": 1250,
+   "tokens": 10240000,
+   "trainLoss": 1.0662,
+   "valLoss": 1.1334,
+   "gradNorm": 0.746,
+   "lr": 0.00265,
+   "tokPerSec": 3289.7,
+   "elapsedSec": 3112.8
+  },
+  {
+   "step": 1500,
+   "tokens": 12288000,
+   "trainLoss": 1.0669,
+   "valLoss": 1.097,
+   "gradNorm": 0.804,
+   "lr": 0.002492,
+   "tokPerSec": 3364.8,
+   "elapsedSec": 3651.9
+  },
+  {
+   "step": 1750,
+   "tokens": 14336000,
+   "trainLoss": 1.0018,
+   "valLoss": 1.0672,
+   "gradNorm": 0.753,
+   "lr": 0.002313,
+   "tokPerSec": 3497.0,
+   "elapsedSec": 4099.5
+  },
+  {
+   "step": 2000,
+   "tokens": 16384000,
+   "trainLoss": 1.099,
+   "valLoss": 1.0473,
+   "gradNorm": 0.858,
+   "lr": 0.002117,
+   "tokPerSec": 3666.6,
+   "elapsedSec": 4468.5
+  },
+  {
+   "step": 2250,
+   "tokens": 18432000,
+   "trainLoss": 0.998,
+   "valLoss": 1.0228,
+   "gradNorm": 0.648,
+   "lr": 0.001909,
+   "tokPerSec": 3838.9,
+   "elapsedSec": 4801.3
+  },
+  {
+   "step": 2500,
+   "tokens": 20480000,
+   "trainLoss": 0.9697,
+   "valLoss": 1.0043,
+   "gradNorm": 0.747,
+   "lr": 0.001694,
+   "tokPerSec": 3990.1,
+   "elapsedSec": 5132.7
+  },
+  {
+   "step": 2750,
+   "tokens": 22528000,
+   "trainLoss": 0.9711,
+   "valLoss": 0.9854,
+   "gradNorm": 0.689,
+   "lr": 0.001478,
+   "tokPerSec": 4092.5,
+   "elapsedSec": 5504.7
+  },
+  {
+   "step": 3000,
+   "tokens": 24576000,
+   "trainLoss": 0.96,
+   "valLoss": 0.9701,
+   "gradNorm": 0.73,
+   "lr": 0.001267,
+   "tokPerSec": 4222.5,
+   "elapsedSec": 5820.3
+  },
+  {
+   "step": 3250,
+   "tokens": 26624000,
+   "trainLoss": 0.951,
+   "valLoss": 0.9566,
+   "gradNorm": 0.712,
+   "lr": 0.001065,
+   "tokPerSec": 4303.6,
+   "elapsedSec": 6186.4
+  },
+  {
+   "step": 3500,
+   "tokens": 28672000,
+   "trainLoss": 0.9149,
+   "valLoss": 0.9444,
+   "gradNorm": 0.752,
+   "lr": 0.000878,
+   "tokPerSec": 4395.4,
+   "elapsedSec": 6523.2
+  },
+  {
+   "step": 3750,
+   "tokens": 30720000,
+   "trainLoss": 0.8922,
+   "valLoss": 0.9326,
+   "gradNorm": 0.814,
+   "lr": 0.000711,
+   "tokPerSec": 4478.7,
+   "elapsedSec": 6859.1
+  },
+  {
+   "step": 4000,
+   "tokens": 32768000,
+   "trainLoss": 0.8842,
+   "valLoss": 0.9235,
+   "gradNorm": 0.716,
+   "lr": 0.000569,
+   "tokPerSec": 4558.8,
+   "elapsedSec": 7187.8
+  },
+  {
+   "step": 4250,
+   "tokens": 34816000,
+   "trainLoss": 0.9708,
+   "valLoss": 0.9172,
+   "gradNorm": 0.778,
+   "lr": 0.000453,
+   "tokPerSec": 4638.2,
+   "elapsedSec": 7506.3
+  },
+  {
+   "step": 4500,
+   "tokens": 36864000,
+   "trainLoss": 0.911,
+   "valLoss": 0.91,
+   "gradNorm": 0.719,
+   "lr": 0.000369,
+   "tokPerSec": 4719.9,
+   "elapsedSec": 7810.3
+  },
+  {
+   "step": 4750,
+   "tokens": 38912000,
+   "trainLoss": 0.9073,
+   "valLoss": 0.9048,
+   "gradNorm": 0.839,
+   "lr": 0.000317,
+   "tokPerSec": 4793.2,
+   "elapsedSec": 8118.1
+  },
+  {
+   "step": 5000,
+   "tokens": 40960000,
+   "trainLoss": 0.8671,
+   "valLoss": 0.9038,
+   "gradNorm": 0.791,
+   "lr": 0.0003,
+   "tokPerSec": 4856.0,
+   "elapsedSec": 8434.8
+  }
+ ],
+ "evals": {
+  "finalValLoss200Batches": 0.9038,
+  "lnV": 4.1431,
+  "step0ValLoss": 4.1407,
+  "trainSec": 8486.5
+ },
+ "samples": [
+  {
+   "step": 5000,
+   "prompt": "Once upon a time",
+   "temperature": 0.8,
+   "seed": 0,
+   "completion": "Once upon a time, there was a plan whroting to get the scale. Lily asked her mom after friends. She liked to play outside of the table. She tried to come colors. She picked a big balloon with her and hugs in the yard. She was climbing so that her way to help her ball house too.\nShe had a small hairy on the rayad in"
+  },
+  {
+   "step": 5000,
+   "prompt": "Tom and Lily",
+   "temperature": 0.8,
+   "seed": 0,
+   "completion": "Tom and Lily were very sad. They ran to the big and desserve very were pretty.\n\nOne day, a little girl named Lily was playing and wave together. She said, \"Thank you, let's dance!\" They played together every day, and they could not find all the trees.\n\"Can I have a best friend,\" Lily said. \"Now, it's like to pu"
+  }
+ ],
+ "wallClockSec": 8587.2,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe train_story_model.py --seed 1 --steps 5000 --threads 4 --run-id lltIntro-t1-story-s1"
+}

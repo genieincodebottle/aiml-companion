@@ -1,0 +1,179 @@
+{
+ "runId": "lltAttention-t1-broken-mask-after-softmax",
+ "module": "lltAttention",
+ "tier": "T1",
+ "label": "broken:mask-after-softmax",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "TinyLM, 4 layers, C=64, h=4, ctx 128, RMSNorm, GELU MLP",
+  "steps": 600,
+  "batch": "32 x 128",
+  "optimizer": "AdamW lr 3e-3",
+  "data": "TinyStoriesV2-GPT4-valid.txt, first 1,000,000 characters, 900k train / 100k val",
+  "eval": "64 x 128 validation characters, seed 1; prefix loss scores position t from tokens 0..t only",
+  "cell": "labs/lltAttention/cells/step7.py (page step 8), run as shipped",
+  "attention": "MaskAfterSoftmax"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 1,
+   "tokens": 4096,
+   "trainLoss": 4.6654
+  },
+  {
+   "step": 25,
+   "tokens": 102400,
+   "trainLoss": 2.5197
+  },
+  {
+   "step": 50,
+   "tokens": 204800,
+   "trainLoss": 2.3874
+  },
+  {
+   "step": 75,
+   "tokens": 307200,
+   "trainLoss": 2.3577
+  },
+  {
+   "step": 100,
+   "tokens": 409600,
+   "trainLoss": 2.3307
+  },
+  {
+   "step": 125,
+   "tokens": 512000,
+   "trainLoss": 2.2822
+  },
+  {
+   "step": 150,
+   "tokens": 614400,
+   "trainLoss": 2.211
+  },
+  {
+   "step": 175,
+   "tokens": 716800,
+   "trainLoss": 2.2368
+  },
+  {
+   "step": 200,
+   "tokens": 819200,
+   "trainLoss": 2.1794
+  },
+  {
+   "step": 225,
+   "tokens": 921600,
+   "trainLoss": 2.1326
+  },
+  {
+   "step": 250,
+   "tokens": 1024000,
+   "trainLoss": 1.9886
+  },
+  {
+   "step": 275,
+   "tokens": 1126400,
+   "trainLoss": 1.9284
+  },
+  {
+   "step": 300,
+   "tokens": 1228800,
+   "trainLoss": 1.7158
+  },
+  {
+   "step": 325,
+   "tokens": 1331200,
+   "trainLoss": 1.459
+  },
+  {
+   "step": 350,
+   "tokens": 1433600,
+   "trainLoss": 1.0565
+  },
+  {
+   "step": 375,
+   "tokens": 1536000,
+   "trainLoss": 0.5637
+  },
+  {
+   "step": 400,
+   "tokens": 1638400,
+   "trainLoss": 0.284
+  },
+  {
+   "step": 425,
+   "tokens": 1740800,
+   "trainLoss": 0.1182
+  },
+  {
+   "step": 450,
+   "tokens": 1843200,
+   "trainLoss": 0.08
+  },
+  {
+   "step": 475,
+   "tokens": 1945600,
+   "trainLoss": 0.0604
+  },
+  {
+   "step": 500,
+   "tokens": 2048000,
+   "trainLoss": 0.0568
+  },
+  {
+   "step": 525,
+   "tokens": 2150400,
+   "trainLoss": 0.0443
+  },
+  {
+   "step": 550,
+   "tokens": 2252800,
+   "trainLoss": 0.037
+  },
+  {
+   "step": 575,
+   "tokens": 2355200,
+   "trainLoss": 0.0369
+  },
+  {
+   "step": 600,
+   "tokens": 2457600,
+   "trainLoss": 0.0344
+  }
+ ],
+ "evals": {
+  "finalTrainLoss": 0.03442610427737236,
+  "meanTrainLossLast50": 0.036538642942905424,
+  "valLossFullSequence": 0.03696216270327568,
+  "valLossPrefixOnly": 7.138199329376221,
+  "params": 216138,
+  "vocab": 74
+ },
+ "samples": [
+  {
+   "step": 600,
+   "prompt": "Once upon a time",
+   "completion": "Once upon a time - ---njyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+  }
+ ],
+ "wallClockSec": 2745.6,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py train ablation dropout seeds",
+ "stdout": "CausalSelfAttention  train 1.443 | val, full sequence 1.408 | val, prefix only 1.408\nNoMask               train 0.022 | val, full sequence 0.020 | val, prefix only 9.296\nMaskAfterSoftmax     train 0.034 | val, full sequence 0.037 | val, prefix only 7.138\n"
+}

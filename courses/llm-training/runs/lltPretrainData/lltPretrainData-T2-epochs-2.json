@@ -1,0 +1,212 @@
+{
+ "runId": "lltPretrainData-T2-epochs-2",
+ "module": "lltPretrainData",
+ "tier": "T2",
+ "label": "ablation:epochs=2",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "capability": [
+   7,
+   5
+  ],
+  "concurrent": "one run per GPU, two GPUs busy"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "ampDtype": "float16",
+  "gradScaler": true
+ },
+ "config": {
+  "vocab": 4096,
+  "d": 320,
+  "layers": 8,
+  "heads": 8,
+  "ctx": 512,
+  "batch": 64,
+  "lr": 0.001,
+  "warmup": 100,
+  "steps": 600,
+  "eval_every": 200,
+  "wd": 0.1,
+  "clip": 1.0,
+  "seed": 0,
+  "evalTokens": 131072,
+  "evalTokensFinal": 600000,
+  "data": {
+   "kind": "single",
+   "corpus": "F_train",
+   "uniqueTokens": 9830401
+  },
+  "evals": [
+   "F_val"
+  ],
+  "trainSetEval": true
+ },
+ "seed": 0,
+ "params": 11474240,
+ "metrics": [
+  {
+   "step": 0,
+   "tokens": 0,
+   "lr": 1e-05,
+   "elapsedSec": 0.0,
+   "F_val": {
+    "loss": 8.393,
+    "bpb": 3.8058,
+    "tokens": 131072
+   },
+   "memGB": 0.74
+  },
+  {
+   "step": 200,
+   "tokens": 6553600,
+   "lr": 0.0009140576474687263,
+   "elapsedSec": 93.3,
+   "F_val": {
+    "loss": 4.8435,
+    "bpb": 2.1963,
+    "tokens": 131072
+   },
+   "memGB": 6.91
+  },
+  {
+   "step": 400,
+   "tokens": 13107200,
+   "lr": 0.0004109423525312738,
+   "elapsedSec": 187.0,
+   "F_val": {
+    "loss": 4.393,
+    "bpb": 1.992,
+    "tokens": 131072
+   },
+   "memGB": 6.91
+  },
+  {
+   "step": 600,
+   "tokens": 19660800,
+   "lr": 0.00010000888261473832,
+   "elapsedSec": 280.4,
+   "F_val": {
+    "loss": 4.0774,
+    "bpb": 1.8035,
+    "tokens": 599552
+   },
+   "memGB": 6.91
+  }
+ ],
+ "trainCurve": [
+  {
+   "step": 25,
+   "trainLoss": 7.8198
+  },
+  {
+   "step": 50,
+   "trainLoss": 6.822
+  },
+  {
+   "step": 75,
+   "trainLoss": 6.1059
+  },
+  {
+   "step": 100,
+   "trainLoss": 5.5093
+  },
+  {
+   "step": 125,
+   "trainLoss": 5.1754
+  },
+  {
+   "step": 150,
+   "trainLoss": 4.9487
+  },
+  {
+   "step": 175,
+   "trainLoss": 4.8263
+  },
+  {
+   "step": 200,
+   "trainLoss": 4.7033
+  },
+  {
+   "step": 225,
+   "trainLoss": 4.5887
+  },
+  {
+   "step": 250,
+   "trainLoss": 4.4745
+  },
+  {
+   "step": 275,
+   "trainLoss": 4.4034
+  },
+  {
+   "step": 300,
+   "trainLoss": 4.3341
+  },
+  {
+   "step": 325,
+   "trainLoss": 4.2421
+  },
+  {
+   "step": 350,
+   "trainLoss": 4.1836
+  },
+  {
+   "step": 375,
+   "trainLoss": 4.1719
+  },
+  {
+   "step": 400,
+   "trainLoss": 4.1146
+  },
+  {
+   "step": 425,
+   "trainLoss": 4.0738
+  },
+  {
+   "step": 450,
+   "trainLoss": 4.0439
+  },
+  {
+   "step": 475,
+   "trainLoss": 4.0278
+  },
+  {
+   "step": 500,
+   "trainLoss": 3.9852
+  },
+  {
+   "step": 525,
+   "trainLoss": 3.9686
+  },
+  {
+   "step": 550,
+   "trainLoss": 3.9701
+  },
+  {
+   "step": 575,
+   "trainLoss": 3.9451
+  },
+  {
+   "step": 600,
+   "trainLoss": 3.953
+  }
+ ],
+ "date": "2026-11-05",
+ "data": {
+  "corpus": "F_train",
+  "uniqueTokens": 9830401,
+  "windowsPerEpoch": 19200,
+  "epochs": 2.0
+ },
+ "streamBuildSec": 0.0,
+ "trainSec": 283.2,
+ "peakMemGB": 6.91,
+ "trainSetLoss": 3.8777,
+ "notebookCommit": null,
+ "kernel": "genieincodebottle/llt-ptd-train v1 (Kaggle, 2x T4, one run per GPU)",
+ "costUSD": 0
+}

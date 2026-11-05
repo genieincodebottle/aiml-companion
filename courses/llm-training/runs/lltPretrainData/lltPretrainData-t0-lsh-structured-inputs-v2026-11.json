@@ -1,0 +1,61 @@
+{
+ "runId": "lltPretrainData-t0-lsh-structured-inputs-v2026-11",
+ "module": "lltPretrainData",
+ "tier": "T0",
+ "label": "broken:minhash-on-unhashed-shingles",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "numpy": "2.5.4",
+  "torch": "2.15.0+cpu",
+  "tokenizers": "0.23.3",
+  "trafilatura": "2.3.1",
+  "datasketch": "2.0.0",
+  "sklearn": "1.9.1",
+  "pandas": "3.1.1",
+  "pyarrow": "26.0.1",
+  "fasttext": "fasttext-wheel 0.9.2",
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "setSize": 200,
+  "trials": 400,
+  "bands": 14,
+  "rows": 8,
+  "shingles": "consecutive integers, no blake2b"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "J": 0.7021,
+   "formula": 0.5736,
+   "simulated": 0.445,
+   "meanEstimate": 0.6908
+  },
+  {
+   "J": 0.7467,
+   "formula": 0.7591,
+   "simulated": 0.6375,
+   "meanEstimate": 0.7335
+  },
+  {
+   "J": 0.8018,
+   "formula": 0.9274,
+   "simulated": 0.88,
+   "meanEstimate": 0.7888
+  }
+ ],
+ "evals": {},
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py <scratch>/llt/ptd/raw/arc_easy_test.parquet ../../kaggle/out/llt-ptd-prep/ptd_prep_stats.json"
+}

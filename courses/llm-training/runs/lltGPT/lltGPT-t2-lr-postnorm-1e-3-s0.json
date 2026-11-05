@@ -1,0 +1,102 @@
+{
+ "runId": "lltGPT-t2-lr-postnorm-1e-3-s0",
+ "module": "lltGPT",
+ "tier": "T2",
+ "label": "ablation:postnorm,lr=1e-3",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6,
+  "capability": [
+   7,
+   5
+  ],
+  "note": "Kaggle 2x T4 session, one run per GPU"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "tokenizers": "0.22.1",
+  "dtype": "float32, no autocast"
+ },
+ "notebookCommit": null,
+ "config": {
+  "vocab": 2048,
+  "ctx": 128,
+  "d": 192,
+  "layers": 4,
+  "heads": 6,
+  "norm": "rmsnorm",
+  "mlp": "swiglu",
+  "pos": "rope",
+  "prenorm": false,
+  "bias": false,
+  "eps": 1e-05,
+  "steps": 600,
+  "batch": 32,
+  "lr": 0.001,
+  "warmup": 50,
+  "schedule": "linear warmup, cosine to 10%",
+  "optimizer": "AdamW betas (0.9, 0.95), wd 0.1 on 2D params",
+  "clip": 1.0,
+  "params": 2164416,
+  "builder": "none",
+  "data": {
+   "dataset": "roneneldan/TinyStories TinyStoriesV2-GPT4-valid.txt",
+   "trainTokens": 5725747,
+   "valTokens": 301190,
+   "valEvalTokens": 32768,
+   "dataPrepSec": 26.0
+  }
+ },
+ "seed": 0,
+ "status": "ok",
+ "metrics": [
+  {
+   "step": 0,
+   "tokens": 0,
+   "valLoss": 7.7081
+  },
+  {
+   "step": 100,
+   "tokens": 409600,
+   "valLoss": 4.612
+  },
+  {
+   "step": 200,
+   "tokens": 819200,
+   "valLoss": 3.7601
+  },
+  {
+   "step": 300,
+   "tokens": 1228800,
+   "valLoss": 3.4165
+  },
+  {
+   "step": 400,
+   "tokens": 1638400,
+   "valLoss": 3.2601
+  },
+  {
+   "step": 500,
+   "tokens": 2048000,
+   "valLoss": 3.1721
+  },
+  {
+   "step": 600,
+   "tokens": 2457600,
+   "valLoss": 3.1318
+  }
+ ],
+ "evals": {
+  "finalValLoss": 3.1318,
+  "bestValLoss": 3.1318,
+  "headWeightStdAtInit": 0.02
+ },
+ "wallClockSec": 18.8,
+ "peakMemGB": 0.46,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05"
+}

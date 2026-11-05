@@ -1,0 +1,237 @@
+{
+ "runId": "lltPretrainData-cpu-funnel",
+ "module": "lltPretrainData",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "Kaggle CPU session, 4 cores",
+  "kernel": "genieincodebottle/llt-ptd-prep v4"
+ },
+ "env": {
+  "python": "3.13.18 (Kaggle image)",
+  "numpy": "2.1.3",
+  "scikit-learn": "1.6.1",
+  "tokenizers": "0.23.3",
+  "pandas": "2.3.3",
+  "trafilatura": "2.3.1",
+  "datasketch": "2.0.0",
+  "spacy": "3.8.16",
+  "fasttext": "fasttext-numpy2 0.10.4",
+  "warcio": "1.8.2 (PyPI latest on 2026-11-05)",
+  "datatrove": "0.10.1 (PyPI latest on 2026-11-05)"
+ },
+ "notebookCommit": null,
+ "config": {
+  "source": {
+   "warc": "https://data.commoncrawl.org/crawl-data/CC-MAIN-2024-10/segments/1707947473347.0/warc/CC-MAIN-20240220211055-20240221001055-00000.warc.gz",
+   "warcBytes": 1134803864,
+   "wet": "https://data.commoncrawl.org/crawl-data/CC-MAIN-2024-10/segments/1707947473347.0/wet/CC-MAIN-20240220211055-20240221001055-00000.warc.wet.gz",
+   "licence": "Common Crawl Terms of Use (commoncrawl.org/terms-of-use); page text is copyright of each site"
+  },
+  "decontam": {
+   "arcEasyTestItems": 2376,
+   "hellaswagValItems": 10042,
+   "n": 13,
+   "indexNgrams": 582293
+  }
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "stages": {
+   "warcRecords": 104995,
+   "httpResponses": 34998,
+   "html200": 34466,
+   "extractedNonEmpty": 30052,
+   "english065": 11977,
+   "afterGopherQuality": 7928,
+   "afterGopherRepetition": 7277,
+   "afterC4": 6270,
+   "afterC4_noTerminalPunctRule": 6961,
+   "afterExactDedup": 6193,
+   "afterMinHashDedup": 6136,
+   "afterDecontamination": 6136,
+   "final": 6136
+  },
+  "languagesTop": [
+   [
+    "en",
+    13955
+   ],
+   [
+    "ru",
+    2099
+   ],
+   [
+    "de",
+    1747
+   ],
+   [
+    "es",
+    1534
+   ],
+   [
+    "ja",
+    1383
+   ],
+   [
+    "fr",
+    1357
+   ],
+   [
+    "zh",
+    1170
+   ],
+   [
+    "it",
+    863
+   ],
+   [
+    "pl",
+    608
+   ],
+   [
+    "pt",
+    594
+   ],
+   [
+    "nl",
+    586
+   ],
+   [
+    "id",
+    335
+   ],
+   [
+    "cs",
+    326
+   ],
+   [
+    "vi",
+    325
+   ],
+   [
+    "tr",
+    316
+   ]
+  ],
+  "ruleCounts": {
+   "gopher_quality": {
+    "too_few_words": 3115,
+    "ellipsis_lines": 242,
+    "alpha_words": 584,
+    "bullet_lines": 45,
+    "too_many_words": 1,
+    "mean_word_length": 13,
+    "stop_words": 43,
+    "hash_ratio": 4,
+    "ellipsis_ratio": 2
+   },
+   "gopher_repetition": {
+    "dup_5_gram": 229,
+    "dup_lines": 289,
+    "dup_7_gram": 12,
+    "top_4_gram": 23,
+    "dup_line_chars": 41,
+    "dup_6_gram": 7,
+    "dup_10_gram": 11,
+    "dup_8_gram": 19,
+    "dup_9_gram": 11,
+    "top_2_gram": 3,
+    "top_3_gram": 6
+   },
+   "c4": {
+    "fewer_than_3_sentences": 984,
+    "curly_bracket": 17,
+    "lorem_ipsum": 6
+   }
+  },
+  "datatroveAgreement": {
+   "docs": 11977,
+   "gopherQuality": 0.8694,
+   "gopherRepetition": 0.9808,
+   "c4": 0.9962,
+   "datatroveKeepsAll3": 5274,
+   "oursKeepsAll3": 6270
+  },
+  "funnelDedup": {
+   "in": 6270,
+   "exactDuplicatesRemoved": 77,
+   "candidatePairs": 164,
+   "nearDuplicatesRemoved": 57,
+   "out": 6136,
+   "pairsChecked": 164,
+   "pairJaccardMean": 0.7667,
+   "pairJaccardBelow0.5": 0,
+   "pairJaccardAtLeast0.8": 35,
+   "estVsExactMeanAbsErr": 0.0244
+  },
+  "datasketch": {
+   "candidatePairs": 151,
+   "nearDuplicatesRemoved": 54,
+   "pairsInBoth": 107
+  },
+  "pii": {
+   "emailsReplaced": 234,
+   "ipsReplaced": 5,
+   "docsChanged": 163,
+   "docs": 6136
+  },
+  "funnelClassifier": {
+   "atLeast3": 23,
+   "atLeastTunedCut": 479,
+   "tunedCut": 2,
+   "median": 1.135
+  },
+  "funnelWords": {
+   "final": 2719753,
+   "extracted": 11024883
+  },
+  "wetComparison": {
+   "wetRecords": 34250,
+   "urlsInBoth": 30039,
+   "medianWordsTrafilatura": 114,
+   "medianWordsWET": 581
+  },
+  "timings": {
+   "totalSec": 2108.5,
+   "extractSec": 635,
+   "funnelSec": 1294.7,
+   "partCSec": 730.6
+  }
+ },
+ "samples": [],
+ "wallClockSec": 2108.5,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe record_prep.py <scratch>/llt/ptd/kaggle_raw/funnel_examples.json",
+ "notes": {
+  "examples": {
+   "not_english": [
+    "nl",
+    "0.99",
+    "Voorraadbeheer Weet altijd waar en hoeveel voorraad je hebt. In je eigen magazijn, bij vendors, de douane of een 3PL. Houd producten met een beperkte levensduur"
+   ],
+   "gopher_quality": [
+    "too_few_words",
+    "Sorry, you have Javascript Disabled! To see this page as it is meant to appear, please enable your Javascript!"
+   ],
+   "gopher_repetition": [
+    "dup_lines",
+    "Frequently Asked Questions Login and Registration Issues - Why can’t I login? - There are several reasons why this could occur. First, ensure your username and "
+   ],
+   "c4": [
+    "fewer_than_3_sentences",
+    "Categories - AGRICULTURE - APPARELS - AUTOMOBILE - AVIATION - Banking & Finance - BUSINESS - BUZZING - CLOTHING - DEFENSE - E-COMMERCE - EDUCATION - ENTERTAINME"
+   ],
+   "near_duplicate_cluster": [
+    "By accessing “QCF Design Community” (hereinafter “we”, “us”, “our”, “QCF Design Community”, “https://www.qcfdesign.com:8",
+    21
+   ]
+  }
+ }
+}

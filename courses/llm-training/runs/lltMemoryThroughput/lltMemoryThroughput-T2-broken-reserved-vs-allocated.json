@@ -1,0 +1,186 @@
+{
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6,
+  "platform": "Kaggle, accelerator NvidiaTeslaT4, CUDA_VISIBLE_DEVICES=0"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4"
+  ]
+ },
+ "notebook": "kaggle genieincodebottle/llt-memthru-p1 version 2",
+ "date": "2026-11-05",
+ "seed": 0,
+ "model": "GPT-2 small, 124,439,808 parameters (steps/gpt.py)",
+ "runId": "lltMemoryThroughput-T2-broken-reserved-vs-allocated",
+ "label": "broken:read-reserved-not-allocated",
+ "config": {
+  "source": "the same grid as lltMemoryThroughput-T2-memory-grid"
+ },
+ "metrics": [
+  {
+   "batch": 1,
+   "seq": 256,
+   "tokens": 256,
+   "predictedGB": 2.145,
+   "allocatedGB": 2.174,
+   "reservedGB": 2.502,
+   "oom": false
+  },
+  {
+   "batch": 2,
+   "seq": 256,
+   "tokens": 512,
+   "predictedGB": 2.233,
+   "allocatedGB": 2.27,
+   "reservedGB": 2.642,
+   "oom": false
+  },
+  {
+   "batch": 4,
+   "seq": 256,
+   "tokens": 1024,
+   "predictedGB": 2.723,
+   "allocatedGB": 2.754,
+   "reservedGB": 2.905,
+   "oom": false
+  },
+  {
+   "batch": 8,
+   "seq": 256,
+   "tokens": 2048,
+   "predictedGB": 3.704,
+   "allocatedGB": 3.7,
+   "reservedGB": 3.827,
+   "oom": false
+  },
+  {
+   "batch": 12,
+   "seq": 256,
+   "tokens": 3072,
+   "predictedGB": 4.685,
+   "allocatedGB": 4.668,
+   "reservedGB": 5.335,
+   "oom": false
+  },
+  {
+   "batch": 16,
+   "seq": 256,
+   "tokens": 4096,
+   "predictedGB": 5.666,
+   "allocatedGB": 5.631,
+   "reservedGB": 5.958,
+   "oom": false
+  },
+  {
+   "batch": 1,
+   "seq": 512,
+   "tokens": 512,
+   "predictedGB": 2.233,
+   "allocatedGB": 2.27,
+   "reservedGB": 2.642,
+   "oom": false
+  },
+  {
+   "batch": 2,
+   "seq": 512,
+   "tokens": 1024,
+   "predictedGB": 2.723,
+   "allocatedGB": 2.754,
+   "reservedGB": 2.902,
+   "oom": false
+  },
+  {
+   "batch": 4,
+   "seq": 512,
+   "tokens": 2048,
+   "predictedGB": 3.704,
+   "allocatedGB": 3.7,
+   "reservedGB": 3.827,
+   "oom": false
+  },
+  {
+   "batch": 8,
+   "seq": 512,
+   "tokens": 4096,
+   "predictedGB": 5.666,
+   "allocatedGB": 5.631,
+   "reservedGB": 5.956,
+   "oom": false
+  },
+  {
+   "batch": 12,
+   "seq": 512,
+   "tokens": 6144,
+   "predictedGB": 7.627,
+   "allocatedGB": 7.555,
+   "reservedGB": 8.512,
+   "oom": false
+  },
+  {
+   "batch": 16,
+   "seq": 512,
+   "tokens": 8192,
+   "predictedGB": 9.589,
+   "allocatedGB": 9.476,
+   "reservedGB": 11.027,
+   "oom": false
+  },
+  {
+   "batch": 1,
+   "seq": 1024,
+   "tokens": 1024,
+   "predictedGB": 2.723,
+   "allocatedGB": 2.755,
+   "reservedGB": 2.902,
+   "oom": false
+  },
+  {
+   "batch": 2,
+   "seq": 1024,
+   "tokens": 2048,
+   "predictedGB": 3.704,
+   "allocatedGB": 3.7,
+   "reservedGB": 3.827,
+   "oom": false
+  },
+  {
+   "batch": 4,
+   "seq": 1024,
+   "tokens": 4096,
+   "predictedGB": 5.666,
+   "allocatedGB": 5.631,
+   "reservedGB": 5.956,
+   "oom": false
+  },
+  {
+   "batch": 8,
+   "seq": 1024,
+   "tokens": 8192,
+   "predictedGB": 9.589,
+   "allocatedGB": 9.477,
+   "reservedGB": 11.027,
+   "oom": false
+  },
+  {
+   "batch": 12,
+   "seq": 1024,
+   "tokens": 12288,
+   "predictedGB": 13.513,
+   "allocatedGB": 13.323,
+   "reservedGB": 13.636,
+   "oom": false
+  }
+ ],
+ "stdout": {
+  "s03": "b= 1 s= 256  predicted  2.15  allocated  2.17  reserved  2.50 GB  error -1.3%\nb= 2 s= 256  predicted  2.23  allocated  2.27  reserved  2.64 GB  error -1.6%\nb= 4 s= 256  predicted  2.72  allocated  2.75  reserved  2.90 GB  error -1.1%\nb= 8 s= 256  predicted  3.70  allocated  3.70  reserved  3.83 GB  error +0.1%\nb=12 s= 256  predicted  4.68  allocated  4.67  reserved  5.34 GB  error +0.4%\nb=16 s= 256  predicted  5.67  allocated  5.63  reserved  5.96 GB  error +0.6%\nb= 1 s= 512  predicted  2.23  allocated  2.27  reserved  2.64 GB  error -1.6%\nb= 2 s= 512  predicted  2.72  allocated  2.75  reserved  2.90 GB  error -1.1%\nb= 4 s= 512  predicted  3.70  allocated  3.70  reserved  3.83 GB  error +0.1%\nb= 8 s= 512  predicted  5.67  allocated  5.63  reserved  5.96 GB  error +0.6%\nb=12 s= 512  predicted  7.63  allocated  7.56  reserved  8.51 GB  error +1.0%\nb=16 s= 512  predicted  9.59  allocated  9.48  reserved 11.03 GB  error +1.2%\nb= 1 s=1024  predicted  2.72  allocated  2.76  reserved  2.90 GB  error -1.2%\nb= 2 s=1024  predicted  3.70  allocated  3.70  reserved  3.83 GB  error +0.1%\nb= 4 s=1024  predicted  5.67  allocated  5.63  reserved  5.96 GB  error +0.6%\nb= 8 s=1024  predicted  9.59  allocated  9.48  reserved 11.03 GB  error +1.2%\nb=12 s=1024  predicted 13.51  allocated 13.32  reserved 13.64 GB  error +1.4%\nb=16 s=1024  predicted 17.44 GB  measured OUT OF MEMORY\n"
+ },
+ "module": "lltMemoryThroughput",
+ "tier": "T2",
+ "costUSD": 0
+}

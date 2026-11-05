@@ -1,0 +1,49 @@
+{
+ "runId": "lltPretrainData-t0-decontam-paraphrase",
+ "module": "lltPretrainData",
+ "tier": "T0",
+ "label": "broken:decontam-misses-paraphrase",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "numpy": "2.4.2",
+  "torch": "2.10.0+cpu",
+  "tokenizers": "0.22.1",
+  "sklearn": "1.8.0",
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "evalSet": "ARC-Easy test, question + choices",
+  "items": 20
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "8": {
+   "items": 20,
+   "verbatimCaught": 20,
+   "paraphraseCaught": 0,
+   "cleanFlagged": 0,
+   "indexNgrams": 64912
+  },
+  "13": {
+   "items": 20,
+   "verbatimCaught": 20,
+   "paraphraseCaught": 0,
+   "cleanFlagged": 0,
+   "indexNgrams": 53332
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py <scratch>/llt/ptd/raw/arc_easy_test.parquet"
+}

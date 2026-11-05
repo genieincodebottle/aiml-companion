@@ -1,0 +1,68 @@
+{
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.6,
+  "platform": "Kaggle, accelerator NvidiaTeslaT4 (2x T4, PCIe)"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4",
+   "Tesla T4"
+  ]
+ },
+ "notebook": "kaggle genieincodebottle/llt-memthru-p2 version 1",
+ "date": "2026-11-05",
+ "seed": 0,
+ "runId": "lltMemoryThroughput-T2x2-allreduce",
+ "label": "baseline",
+ "config": {
+  "script": "allreduce.py",
+  "dtype": "fp32",
+  "iters": 10
+ },
+ "metrics": [
+  {
+   "MiB": 1,
+   "ms": 0.32,
+   "algbwGBs": 3.27,
+   "busbwGBs": 3.27
+  },
+  {
+   "MiB": 16,
+   "ms": 4.19,
+   "algbwGBs": 4.0,
+   "busbwGBs": 4.0
+  },
+  {
+   "MiB": 64,
+   "ms": 16.53,
+   "algbwGBs": 4.06,
+   "busbwGBs": 4.06
+  },
+  {
+   "MiB": 256,
+   "ms": 66.19,
+   "algbwGBs": 4.06,
+   "busbwGBs": 4.06
+  },
+  {
+   "MiB": 512,
+   "ms": 132.16,
+   "algbwGBs": 4.06,
+   "busbwGBs": 4.06
+  }
+ ],
+ "stdout": {
+  "allreduce": "   1 MiB     0.32 ms  algbw  3.27 GB/s  busbw  3.27 GB/s\n  16 MiB     4.19 ms  algbw  4.00 GB/s  busbw  4.00 GB/s\n  64 MiB    16.53 ms  algbw  4.06 GB/s  busbw  4.06 GB/s\n 256 MiB    66.19 ms  algbw  4.06 GB/s  busbw  4.06 GB/s\n 512 MiB   132.16 ms  algbw  4.06 GB/s  busbw  4.06 GB/s\n"
+ },
+ "evals": {
+  "topology": "\t\u001b[4mGPU0\tGPU1\tCPU Affinity\tNUMA Affinity\tGPU NUMA ID\u001b[0m\nGPU0\t X \tPHB\t0-3\t0\t\tN/A\nGPU1\tPHB\t X \t0-3\t0\t\tN/A\n\nLegend:\n\n  X    = Self\n  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)\n  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node\n  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)\n  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)\n  PIX  = Connection traversing at most a single PCIe bridge\n  NV#  = Connection traversing a bonded set of # NVLinks\n"
+ },
+ "module": "lltMemoryThroughput",
+ "tier": "T2",
+ "costUSD": 0
+}

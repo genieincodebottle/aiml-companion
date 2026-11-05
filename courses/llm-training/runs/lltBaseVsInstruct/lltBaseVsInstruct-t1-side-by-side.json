@@ -1,0 +1,123 @@
+{
+ "runId": "lltBaseVsInstruct-t1-side-by-side",
+ "module": "lltBaseVsInstruct",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "transformers": "5.2.0",
+  "tokenizers": "0.22.1",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "base": "HuggingFaceTB/SmolLM2-360M",
+  "instruct": "HuggingFaceTB/SmolLM2-360M-Instruct",
+  "dtype": "float32",
+  "decoding": "greedy",
+  "max_new_tokens": 40,
+  "threads": 4,
+  "prompts": [
+   0,
+   8,
+   32
+  ]
+ },
+ "seed": null,
+ "metrics": [
+  {
+   "step": 0,
+   "peakRssGB": 4.09
+  }
+ ],
+ "evals": {},
+ "samples": [
+  {
+   "prompt": "How do I make a cup of green tea?",
+   "format": "raw",
+   "model": "base",
+   "completion": "\n\nHow do I make a cup of green tea?\n\nHow do I make a cup of green tea?\n\nHow do I make a cup of green tea?\n\nHow do"
+  },
+  {
+   "prompt": "How do I make a cup of green tea?",
+   "format": "raw",
+   "model": "instruct",
+   "completion": "\n\nTo make a cup of green tea, start by boiling water in a kettle or pot. Once the water is boiling, pour it over a tea bag or loose tea leaves in a teap"
+  },
+  {
+   "prompt": "How do I make a cup of green tea?",
+   "format": "chat",
+   "model": "base",
+   "completion": "How do I make a cup of green tea?��\n��\n��\n��\n��\n��\n��\n��\n��\n��\n��\n��\n��\n��\n��\n"
+  },
+  {
+   "prompt": "How do I make a cup of green tea?",
+   "format": "chat",
+   "model": "instruct",
+   "completion": "To make a cup of green tea, you will need the following ingredients:\n\n1. Green tea leaves or tea bags\n2. A tea infuser or tea infuser bag\n3. A"
+  },
+  {
+   "prompt": "Why is the sky blue?",
+   "format": "raw",
+   "model": "base",
+   "completion": "\n\nThe sky is blue because of a phenomenon called Rayleigh scattering. When sunlight reaches Earth’s atmosphere, it collides with molecules and tiny particles, causing the light to scatter in different directions"
+  },
+  {
+   "prompt": "Why is the sky blue?",
+   "format": "raw",
+   "model": "instruct",
+   "completion": "<|im_end|>"
+  },
+  {
+   "prompt": "Why is the sky blue?",
+   "format": "chat",
+   "model": "base",
+   "completion": "Why is the sky blue?��\n��\n��\n��\n��\n��\n��\n��\n��\n��\n��\n��\n��\n��\n��\n��\n��\n"
+  },
+  {
+   "prompt": "Why is the sky blue?",
+   "format": "chat",
+   "model": "instruct",
+   "completion": "The sky is blue because of a phenomenon known as Rayleigh scattering. This occurs when sunlight enters Earth's atmosphere and encounters tiny molecules of gases such as nitrogen and oxygen. These molecules scatter the shorter wavelengths"
+  },
+  {
+   "prompt": "What is 15 percent of 80?",
+   "format": "raw",
+   "model": "base",
+   "completion": "\n\nThe 15 percent of 80 is 12.\n\n### How much is 15 percent of 80?\n\n15 percent of 80 is"
+  },
+  {
+   "prompt": "What is 15 percent of 80?",
+   "format": "raw",
+   "model": "instruct",
+   "completion": "<|im_end|>"
+  },
+  {
+   "prompt": "What is 15 percent of 80?",
+   "format": "chat",
+   "model": "base",
+   "completion": "What is 15 percent of 80?��boutiqueassistant\nWhat is 15 percent of 80?��boutiqueassistant\nWhat is 1"
+  },
+  {
+   "prompt": "What is 15 percent of 80?",
+   "format": "chat",
+   "model": "instruct",
+   "completion": "To find 15 percent of 80, you can multiply 80 by 0.15. \n\n80 * 0.15 = 12\n\nSo"
+  }
+ ],
+ "wallClockSec": 588.0,
+ "wallClockNote": "measured while other jobs shared the CPU; not a timing figure for the page",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py side"
+}

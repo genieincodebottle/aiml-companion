@@ -1,0 +1,58 @@
+{
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6,
+  "platform": "Kaggle, accelerator NvidiaTeslaT4, CUDA_VISIBLE_DEVICES=0"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4"
+  ]
+ },
+ "notebook": "kaggle genieincodebottle/llt-memthru-p1 version 2",
+ "date": "2026-11-05",
+ "seed": 0,
+ "model": "GPT-2 small, 124,439,808 parameters (steps/gpt.py)",
+ "runId": "lltMemoryThroughput-T2-precision",
+ "label": "ablation:precision-compile",
+ "config": {
+  "batch": 4,
+  "seq": 1024,
+  "timedSteps": 10,
+  "warmupSteps": 3
+ },
+ "metrics": [
+  {
+   "variant": "fp32",
+   "tokPerSec": 3847,
+   "firstStepSec": 1.09
+  },
+  {
+   "variant": "fp16 autocast",
+   "tokPerSec": 13031,
+   "firstStepSec": 0.35
+  },
+  {
+   "variant": "bf16 autocast",
+   "tokPerSec": 2546,
+   "firstStepSec": 1.77
+  },
+  {
+   "variant": "fp16 + torch.compile",
+   "tokPerSec": 16181,
+   "firstStepSec": 28.12
+  }
+ ],
+ "stdout": {
+  "s04": "b=8 s=1024  14,399 tokens/s  first step 0.61 s  MFU 19.0% of 65 TFLOPS\nsynchronize=False  forward    9.2 ms  backward   13.6 ms\nsynchronize=True   forward  204.3 ms  backward  317.9 ms\n",
+  "s06": "fp32                     3,847 tokens/s  first step    1.1 s\nfp16 autocast           13,031 tokens/s  first step    0.3 s\nbf16 autocast            2,546 tokens/s  first step    1.8 s\nfp16 + torch.compile    16,181 tokens/s  first step   28.1 s\nloss scale       1  zero gradient entries 0.39%\nloss scale   65536  zero gradient entries 0.00%\nsmallest fp16 above zero: 6.103515625e-05 normal, 5.960464477539063e-08 subnormal\n"
+ },
+ "wallClockSec": 86.1,
+ "module": "lltMemoryThroughput",
+ "tier": "T2",
+ "costUSD": 0
+}

@@ -1,0 +1,293 @@
+{
+ "runId": "lltIntro-t1-story-s2",
+ "module": "lltIntro",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "transformers": "5.2.0",
+  "tokenizers": "0.22.1",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "vocab_size": 63,
+  "d_model": 64,
+  "n_layer": 4,
+  "n_head": 4,
+  "ctx": 128,
+  "batch_size": 64,
+  "steps": 5000,
+  "lr_max": 0.003,
+  "lr_min": 0.00030000000000000003,
+  "warmup": 100,
+  "weight_decay": 0.1,
+  "betas": [
+   0.9,
+   0.95
+  ],
+  "grad_clip": 1.0,
+  "init_std": 0.02,
+  "dataset": "roneneldan/TinyStories TinyStoriesV2-GPT4-valid.txt",
+  "stories_total": 27630,
+  "stories_kept": 27381,
+  "train_chars": 20816763,
+  "val_chars": 1090683,
+  "split": "95/5 by story, shuffle seed 0",
+  "threads": 4,
+  "n_params": 209408
+ },
+ "seed": 2,
+ "metrics": [
+  {
+   "step": 0,
+   "tokens": 0,
+   "valLoss": 4.1611,
+   "trainLoss": null,
+   "lr": 0.0
+  },
+  {
+   "step": 1,
+   "tokens": 8192,
+   "trainLoss": 4.1585,
+   "firstBatchLoss": 4.1585,
+   "gradNorm": 1.95
+  },
+  {
+   "step": 250,
+   "tokens": 2048000,
+   "trainLoss": 2.0651,
+   "valLoss": 2.0592,
+   "gradNorm": 0.822,
+   "lr": 0.002994,
+   "tokPerSec": 1537.9,
+   "elapsedSec": 1331.7
+  },
+  {
+   "step": 500,
+   "tokens": 4096000,
+   "trainLoss": 1.4235,
+   "valLoss": 1.5034,
+   "gradNorm": 1.065,
+   "lr": 0.002956,
+   "tokPerSec": 2502.0,
+   "elapsedSec": 1637.1
+  },
+  {
+   "step": 750,
+   "tokens": 6144000,
+   "trainLoss": 1.3207,
+   "valLoss": 1.3019,
+   "gradNorm": 1.089,
+   "lr": 0.002885,
+   "tokPerSec": 3208.5,
+   "elapsedSec": 1914.9
+  },
+  {
+   "step": 1000,
+   "tokens": 8192000,
+   "trainLoss": 1.22,
+   "valLoss": 1.1953,
+   "gradNorm": 0.852,
+   "lr": 0.002782,
+   "tokPerSec": 3769.2,
+   "elapsedSec": 2173.4
+  },
+  {
+   "step": 1250,
+   "tokens": 10240000,
+   "trainLoss": 1.1411,
+   "valLoss": 1.1473,
+   "gradNorm": 0.789,
+   "lr": 0.00265,
+   "tokPerSec": 3306.5,
+   "elapsedSec": 3096.9
+  },
+  {
+   "step": 1500,
+   "tokens": 12288000,
+   "trainLoss": 1.1291,
+   "valLoss": 1.1125,
+   "gradNorm": 0.716,
+   "lr": 0.002492,
+   "tokPerSec": 3364.3,
+   "elapsedSec": 3652.5
+  },
+  {
+   "step": 1750,
+   "tokens": 14336000,
+   "trainLoss": 1.0104,
+   "valLoss": 1.079,
+   "gradNorm": 0.672,
+   "lr": 0.002313,
+   "tokPerSec": 3492.6,
+   "elapsedSec": 4104.7
+  },
+  {
+   "step": 2000,
+   "tokens": 16384000,
+   "trainLoss": 1.0693,
+   "valLoss": 1.0599,
+   "gradNorm": 0.789,
+   "lr": 0.002117,
+   "tokPerSec": 3660.3,
+   "elapsedSec": 4476.1
+  },
+  {
+   "step": 2250,
+   "tokens": 18432000,
+   "trainLoss": 0.9764,
+   "valLoss": 1.0345,
+   "gradNorm": 0.667,
+   "lr": 0.001909,
+   "tokPerSec": 3838.5,
+   "elapsedSec": 4801.8
+  },
+  {
+   "step": 2500,
+   "tokens": 20480000,
+   "trainLoss": 1.0123,
+   "valLoss": 1.015,
+   "gradNorm": 0.643,
+   "lr": 0.001694,
+   "tokPerSec": 3998.2,
+   "elapsedSec": 5122.3
+  },
+  {
+   "step": 2750,
+   "tokens": 22528000,
+   "trainLoss": 0.9974,
+   "valLoss": 1.0014,
+   "gradNorm": 0.685,
+   "lr": 0.001478,
+   "tokPerSec": 4098.0,
+   "elapsedSec": 5497.3
+  },
+  {
+   "step": 3000,
+   "tokens": 24576000,
+   "trainLoss": 0.9778,
+   "valLoss": 0.9827,
+   "gradNorm": 0.657,
+   "lr": 0.001267,
+   "tokPerSec": 4229.2,
+   "elapsedSec": 5811.0
+  },
+  {
+   "step": 3250,
+   "tokens": 26624000,
+   "trainLoss": 0.9861,
+   "valLoss": 0.9719,
+   "gradNorm": 0.726,
+   "lr": 0.001065,
+   "tokPerSec": 4310.4,
+   "elapsedSec": 6176.7
+  },
+  {
+   "step": 3500,
+   "tokens": 28672000,
+   "trainLoss": 0.9062,
+   "valLoss": 0.9605,
+   "gradNorm": 0.718,
+   "lr": 0.000878,
+   "tokPerSec": 4402.7,
+   "elapsedSec": 6512.4
+  },
+  {
+   "step": 3750,
+   "tokens": 30720000,
+   "trainLoss": 0.9063,
+   "valLoss": 0.952,
+   "gradNorm": 0.727,
+   "lr": 0.000711,
+   "tokPerSec": 4491.5,
+   "elapsedSec": 6839.5
+  },
+  {
+   "step": 4000,
+   "tokens": 32768000,
+   "trainLoss": 0.915,
+   "valLoss": 0.9422,
+   "gradNorm": 0.711,
+   "lr": 0.000569,
+   "tokPerSec": 4568.6,
+   "elapsedSec": 7172.4
+  },
+  {
+   "step": 4250,
+   "tokens": 34816000,
+   "trainLoss": 0.9388,
+   "valLoss": 0.9347,
+   "gradNorm": 0.728,
+   "lr": 0.000453,
+   "tokPerSec": 4647.4,
+   "elapsedSec": 7491.4
+  },
+  {
+   "step": 4500,
+   "tokens": 36864000,
+   "trainLoss": 0.9231,
+   "valLoss": 0.9295,
+   "gradNorm": 0.737,
+   "lr": 0.000369,
+   "tokPerSec": 4730.7,
+   "elapsedSec": 7792.5
+  },
+  {
+   "step": 4750,
+   "tokens": 38912000,
+   "trainLoss": 0.9294,
+   "valLoss": 0.9228,
+   "gradNorm": 0.729,
+   "lr": 0.000317,
+   "tokPerSec": 4808.3,
+   "elapsedSec": 8092.7
+  },
+  {
+   "step": 5000,
+   "tokens": 40960000,
+   "trainLoss": 0.8752,
+   "valLoss": 0.9202,
+   "gradNorm": 0.734,
+   "lr": 0.0003,
+   "tokPerSec": 4869.0,
+   "elapsedSec": 8412.4
+  }
+ ],
+ "evals": {
+  "finalValLoss200Batches": 0.9188,
+  "lnV": 4.1431,
+  "step0ValLoss": 4.1611,
+  "trainSec": 8482.9
+ },
+ "samples": [
+  {
+   "step": 5000,
+   "prompt": "Once upon a time",
+   "temperature": 0.8,
+   "seed": 0,
+   "completion": "Once upon a time, there was a play who lived in a big house. The village in the toy back to the park and said, \"Well you today? I am a small cake to to me back.\" Soon, they all dad together, the park. The icy was sad and wanted to see some food the tree all of himself.\n\nOnce upon a time there was a boy named Tim. T"
+  },
+  {
+   "step": 5000,
+   "prompt": "Tom and Lily",
+   "temperature": 0.8,
+   "seed": 0,
+   "completion": "Tom and Lily were very sad. They ran to the big dog, and the visiton around the day at the tree. Lily was so happy and feeling happy! The tube talking back, and opened the beautiful did not know how things. He had in a small his friend for the street. He was very happy too.\nSpot was scared of the trail and pret"
+  }
+ ],
+ "wallClockSec": 8581.4,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe train_story_model.py --seed 2 --steps 5000 --threads 4 --run-id lltIntro-t1-story-s2"
+}

@@ -1,0 +1,60 @@
+{
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6,
+  "platform": "Kaggle, accelerator NvidiaTeslaT4, CUDA_VISIBLE_DEVICES=0"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4"
+  ]
+ },
+ "notebook": "kaggle genieincodebottle/llt-memthru-p1 version 2",
+ "date": "2026-11-05",
+ "seed": 0,
+ "model": "GPT-2 small, 124,439,808 parameters (steps/gpt.py)",
+ "runId": "lltMemoryThroughput-T2-memory-cuts",
+ "label": "ablation:memory-switches",
+ "config": {
+  "batch": 8,
+  "seq": 1024,
+  "chunks": 8
+ },
+ "metrics": [
+  {
+   "variant": "baseline",
+   "peakGB": 9.477,
+   "tokPerSec": 14222,
+   "largestBatchAtSeq1024": 12
+  },
+  {
+   "variant": "checkpointing",
+   "peakGB": 6.88,
+   "tokPerSec": 11996,
+   "largestBatchAtSeq1024": 16
+  },
+  {
+   "variant": "chunked CE x8",
+   "peakGB": 5.348,
+   "tokPerSec": 11305,
+   "largestBatchAtSeq1024": 24
+  },
+  {
+   "variant": "both",
+   "peakGB": 2.75,
+   "tokPerSec": 10128,
+   "largestBatchAtSeq1024": 96
+  }
+ ],
+ "stdout": {
+  "s05": "baseline       b=8 s=1024  predicted  9.59  measured  9.48 GB   14,222 tokens/s  largest batch at s=1024: 12\ncheckpointing  b=8 s=1024  predicted  7.02  measured  6.88 GB   11,996 tokens/s  largest batch at s=1024: 16\nchunked CE x8  b=8 s=1024  predicted  5.28  measured  5.35 GB   11,305 tokens/s  largest batch at s=1024: 24\nboth           b=8 s=1024  predicted  2.71  measured  2.75 GB   10,128 tokens/s  largest batch at s=1024: 96\n"
+ },
+ "wallClockSec": 233.5,
+ "module": "lltMemoryThroughput",
+ "tier": "T2",
+ "costUSD": 0
+}

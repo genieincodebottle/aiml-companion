@@ -1,0 +1,261 @@
+{
+ "runId": "lltCapstoneGPT2-T2-resume-check",
+ "module": "lltCapstoneGPT2",
+ "tier": "T2",
+ "label": "check:exact-resume",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.64
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4",
+   "Tesla T4"
+  ],
+  "transformers": "5.20.2",
+  "datasets": "4.8.5",
+  "tiktoken": "0.14.0",
+  "numpy": "2.1.3",
+  "lm_eval": "0.4.13",
+  "image": "Kaggle GPU image 2026-11-05"
+ },
+ "notebookCommit": null,
+ "kaggleKernel": "genieincodebottle/llt-capstone-gpt2-resume",
+ "config": {
+  "size": "124m",
+  "micro": 8,
+  "tokens_per_step": 65536,
+  "max_steps": 12,
+  "warmup": 2,
+  "stable_end": 8,
+  "lr": 0.0006,
+  "params": 123551232,
+  "accum": 4
+ },
+ "protocol": "run A trains steps 1-12 and saves full state at step 6; run B is a fresh torchrun process that loads A's step-6 checkpoint and trains steps 7-12; both use torch.compile, DDP on 2 GPUs, fp16 + GradScaler. The loader crosses from shard 0 to shard 1 at step 12, after the resume point.",
+ "compare": [
+  {
+   "step": 7,
+   "shardA": 0,
+   "shardB": 0,
+   "trainLoss": [
+    8.38542,
+    8.38542
+   ],
+   "gradNorm": [
+    1.3983,
+    1.3983
+   ],
+   "lossScale": [
+    65536.0,
+    65536.0
+   ],
+   "lr": [
+    0.0006,
+    0.0006
+   ]
+  },
+  {
+   "step": 8,
+   "shardA": 0,
+   "shardB": 0,
+   "trainLoss": [
+    8.20461,
+    8.20461
+   ],
+   "gradNorm": [
+    1.3204,
+    1.3204
+   ],
+   "lossScale": [
+    65536.0,
+    65536.0
+   ],
+   "lr": [
+    0.0006,
+    0.0006
+   ]
+  },
+  {
+   "step": 9,
+   "shardA": 0,
+   "shardB": 0,
+   "trainLoss": [
+    7.98777,
+    7.98777
+   ],
+   "gradNorm": [
+    1.069,
+    1.069
+   ],
+   "lossScale": [
+    65536.0,
+    65536.0
+   ],
+   "lr": [
+    0.0006,
+    0.0006
+   ]
+  },
+  {
+   "step": 10,
+   "shardA": 0,
+   "shardB": 0,
+   "trainLoss": [
+    7.88473,
+    7.88473
+   ],
+   "gradNorm": [
+    0.7266,
+    0.7266
+   ],
+   "lossScale": [
+    65536.0,
+    65536.0
+   ],
+   "lr": [
+    0.00045,
+    0.00045
+   ]
+  },
+  {
+   "step": 11,
+   "shardA": 0,
+   "shardB": 0,
+   "trainLoss": [
+    7.85394,
+    7.85394
+   ],
+   "gradNorm": [
+    0.5963,
+    0.5963
+   ],
+   "lossScale": [
+    65536.0,
+    65536.0
+   ],
+   "lr": [
+    0.0003,
+    0.0003
+   ]
+  },
+  {
+   "step": 12,
+   "shardA": 1,
+   "shardB": 1,
+   "trainLoss": [
+    7.78135,
+    7.78135
+   ],
+   "gradNorm": [
+    0.512,
+    0.512
+   ],
+   "valLoss": [
+    7.74784,
+    7.74784
+   ],
+   "lossScale": [
+    65536.0,
+    65536.0
+   ],
+   "lr": [
+    0.00015,
+    0.00015
+   ]
+  }
+ ],
+ "maxAbsDiffTrainLoss": 0.0,
+ "identicalAtLoggedPrecision": true,
+ "loggedPrecision": {
+  "trainLoss": 5,
+  "gradNorm": 4,
+  "valLoss": 5
+ },
+ "checkpoint": {
+  "files": {
+   "rng_0.pt": 14613,
+   "rng_1.pt": 14613,
+   "state.pt": 1482704659
+  },
+  "totalGB": 1.483,
+  "note": "state.pt holds fp32 weights, AdamW m and v, scaler, loader position, step, metrics; one RNG file per rank"
+ },
+ "branchDecay": {
+  "from": 6,
+  "stableEnd": 6,
+  "maxSteps": 9,
+  "metrics": [
+   {
+    "step": 7,
+    "lr": 0.0006,
+    "trainLoss": 8.38542,
+    "valLoss": null
+   },
+   {
+    "step": 8,
+    "lr": 0.00039999999999999996,
+    "trainLoss": 8.20461,
+    "valLoss": null
+   },
+   {
+    "step": 9,
+    "lr": 0.00019999999999999998,
+    "trainLoss": 8.03368,
+    "valLoss": 7.96504
+   }
+  ]
+ },
+ "wrapperCheck": [
+  "wrapper check: native 7.718251  wrapper logits 7.718251  diff 0.00e+00"
+ ],
+ "lmEvalSmoke": {
+  "limit": 50,
+  "note": "12-step model, plumbing test only",
+  "evals": {
+   "hellaswag": {
+    "sample_len": 50,
+    "acc,none": 0.24,
+    "acc_stderr,none": 0.0610118757258932,
+    "acc_norm,none": 0.3,
+    "acc_norm_stderr,none": 0.06546536707079771
+   },
+   "arc_easy": {
+    "sample_len": 50,
+    "acc,none": 0.18,
+    "acc_stderr,none": 0.054883922035138706,
+    "acc_norm,none": 0.22,
+    "acc_norm_stderr,none": 0.059178043363451366
+   },
+   "piqa": {
+    "sample_len": 50,
+    "acc,none": 0.54,
+    "acc_stderr,none": 0.07119963311072636,
+    "acc_norm,none": 0.54,
+    "acc_norm_stderr,none": 0.07119963311072636
+   },
+   "lambada_openai": {
+    "sample_len": 50,
+    "perplexity,none": 283996.94214775274,
+    "perplexity_stderr,none": 185813.70972847583,
+    "acc,none": 0.0,
+    "acc_stderr,none": 0.0
+   }
+  }
+ },
+ "stepSec": {
+  "prep": 25.7,
+  "runA": 91.3,
+  "runB": 49.7,
+  "runC_branch": 40.7,
+  "pip_lmeval": 14.5,
+  "eval_wrapper": 46.5
+ },
+ "sessionSec": 286.2,
+ "costUSD": 0,
+ "date": "2026-11-05"
+}

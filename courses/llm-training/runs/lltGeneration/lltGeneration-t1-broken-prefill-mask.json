@@ -1,0 +1,77 @@
+{
+ "runId": "lltGeneration-t1-broken-prefill-mask",
+ "module": "lltGeneration",
+ "tier": "T1",
+ "label": "broken:prefill-mask",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "torchThreads": 4
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "huggingface_hub": "2.4.0",
+  "datasets": "5.1.0",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "prompt": "Once upon a time, there was a little girl named Lily. She",
+  "bug": "the prefill chunk runs attention with no causal mask, so each prompt token reads later prompt tokens",
+  "decode": "greedy"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "promptTokens": 14,
+  "steps": 60,
+  "maxAbsErr": 0.8882139921188354,
+  "maxAbsErrPrefillLast": 0.8882139921188354,
+  "maxAbsErrDecode": 0.7653204202651978,
+  "meanAbsErrDecode": 0.05378234013915062,
+  "allclose_atol1e-4_rtol1e-4": false,
+  "maxAbsLogit": 15.658285140991211,
+  "firstStepWhereArgmaxDiffers": 0,
+  "errAtStep": {
+   "0": 0.8882139921188354,
+   "1": 0.6238764524459839,
+   "2": 0.5485367774963379,
+   "5": 0.4440186023712158,
+   "10": 0.5308580994606018,
+   "50": 0.1599913239479065,
+   "59": 0.30138421058654785
+  },
+  "prefillNll": {
+   "text": "Once upon a time, there was a little girl named Lily. She loved to play outside. One day, she saw a big red ball in the park. She ran to get it, but a dog took it first.",
+   "tokens": 45,
+   "withMask": 1.3274,
+   "withoutMask": 2.1362
+  }
+ },
+ "samples": [
+  {
+   "step": null,
+   "prompt": "Once upon a time, there was a little girl named Lily. She",
+   "settings": "correct cache",
+   "completion": " had a big, red ball that she loved to play with. One day, she found a big box in her room. She was very happy and wanted to play with it.\nLily's mom said, \"Lily, you need to clean the box.\" Lily was happy and said, \"Thank"
+  },
+  {
+   "step": null,
+   "prompt": "Once upon a time, there was a little girl named Lily. She",
+   "settings": "prefill mask bug",
+   "completion": " loved to play with her toys and have fun. One day, she found a big box in her room. She was very happy and wanted to play with it.\nLily's mom said, \"Lily, you need to clean the box.\" Lily was happy and said, \"Thank you, Lily"
+  }
+ ],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py --threads 4"
+}

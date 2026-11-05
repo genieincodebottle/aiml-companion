@@ -1,0 +1,77 @@
+{
+ "runId": "lltIntro-t1-notebook",
+ "module": "lltIntro",
+ "tier": "T1",
+ "label": "baseline:notebook",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "transformers": "5.2.0",
+  "tokenizers": "0.22.1",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "notebook": "labs/lltIntro/lltIntro.ipynb",
+  "executor": "nbclient, kernel python3",
+  "modelCache": "SmolLM2-135M already in the Hugging Face cache (download not timed, 269,060,552 bytes for model.safetensors)"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "peakRamGB": 1.91,
+  "cells": [
+   {
+    "cell": 1,
+    "stdout": "Python 3.12.3\nRAM 33.7 GB\nFree disk 51.2 GB\ntorch 2.10.0+cpu | GPU none\nThis lab runs on a CPU. No GPU is needed.\n"
+   },
+   {
+    "cell": 3,
+    "stdout": "Note: you may need to restart the kernel to use updated packages.\n"
+   },
+   {
+    "cell": 5,
+    "stdout": "Trained | loss 0.64 nats per character\nOnce upon a time, in a smal the tree forest. The mop was so happy. It was a gift old boy with. The moral of always welt and asked out the wheat and the street.\nEveryone was able running away. Tim was very happy. But \nRandom weights | loss 4.12 nats per character\nOnce upon a timedF! oubiXwp\nq!i?qXIP!.eecNzzhefN;hWHTswMZLaKNtCd'ooEs\"J?SlE\"NB-ZIeCwL-cwRxVRczxS\nln(V) = 4.14 for V = 63 characters\n"
+   },
+   {
+    "cell": 7,
+    "stdout": "V =     63   ln(V) = 4.14 nats\nV = 32,000   ln(V) = 10.37 nats\nV = 49,152   ln(V) = 10.80 nats\nV = 50,257   ln(V) = 10.82 nats\nlogit std 0.00   loss 10.80   ln(V) + std**2/2 = 10.80\nlogit std 0.16   loss 10.82   ln(V) + std**2/2 = 10.82\nlogit std 1.00   loss 11.30   ln(V) + std**2/2 = 11.30\nlogit std 2.00   loss 12.80   ln(V) + std**2/2 = 12.80\n"
+   },
+   {
+    "cell": 9,
+    "stdout": "vocab 49152 | ln(V) 10.8 | init std 0.0417\nparameters 134515008\ntrained | loss 3.22 on 67 tokens\n    the street, and the old man was sitting on the steps, with his hands folded in his pockets. \"I have been\nrandom init | loss 11.29 on 67 tokens\n    corrh Fon background background optн Professionalfinished backgroundFrancevoice Thoughtdriver background savory seawater refsix Privacy disinteg backgroundsix spentInformation gestational undocumentedarrowing Cron irre\n"
+   },
+   {
+    "cell": 11,
+    "stdout": "English      loss/token 3.22   tokens/word 1.12   nats/word 3.54\nPython code  loss/token 1.21   tokens/word 1.89   nats/word 2.25\nHindi        loss/token 1.76   tokens/word 5.51   nats/word 9.66\n"
+   },
+   {
+    "cell": 13,
+    "stdout": "SmolLM2-135M  1.61e+21 FLOPs\nstory model   5.15e+13 FLOPs\nratio         3.14e+07\n"
+   },
+   {
+    "cell": 15,
+    "stdout": "trained 3.22 | random init 11.29\nAll band checks passed\n"
+   },
+   {
+    "cell": 16,
+    "stdout": "Peak RAM 1.91 GB\n"
+   }
+  ]
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe run_notebook.py",
+ "notes": "Correctness and peak RAM only. Wall-clock is measured by measure_timing.py on an idle machine."
+}

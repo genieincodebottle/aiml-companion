@@ -1,0 +1,80 @@
+{
+ "runId": "lltBaseVsInstruct-t1-cells",
+ "module": "lltBaseVsInstruct",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "transformers": "5.2.0",
+  "tokenizers": "0.22.1",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "cells": [
+   "cell01_step1.py",
+   "cell02_step2.py",
+   "cell03_step3.py",
+   "cell04_step4.py",
+   "cell05_step5.py",
+   "cell06_step6.py"
+  ],
+  "threads": 4,
+  "source": "steps/ from build_notebook.mjs"
+ },
+ "seed": null,
+ "metrics": [
+  {
+   "step": 0,
+   "peakRssGB": 4.08
+  }
+ ],
+ "evals": {},
+ "samples": [
+  {
+   "cell": "cell01_step1.py",
+   "stdout": "How do I make a cup of green tea?\n   base      '\\n\\nHow do I make a cup of green tea?\\n\\nHow do I make a cup of green tea?\\n\\nHow do I make a cu'\n   instruct  '\\n\\nTo make a cup of green tea, start by boiling water in a kettle or pot. Once the water is'\nWhy is the sky blue?\n   base      '\\n\\nThe sky is blue because of a phenomenon called Rayleigh scattering. When sunlight reache'\n   instruct  '<|im_end|>'\nWhat is 15 percent of 80?\n   base      '\\n\\nThe 15 percent of 80 is 12.\\n\\n### How much is 15 percent of 80?\\n\\n15 percent of 80 is'\n   instruct  '<|im_end|>'\n",
+   "secShared": 260.0
+  },
+  {
+   "cell": "cell02_step2.py",
+   "stdout": "<|im_start|>system\nYou are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>\n<|im_start|>user\nWhat is the capital of France?<|im_end|>\n<|im_start|>assistant\n\nBatchEncoding ['input_ids', 'attention_mask'] 37 tokens\n['ĠFrance', '?', '<|im_end|>', 'Ċ', '<|im_start|>', 'ass', 'istant', 'Ċ']\n33 tokens without the generation prompt\ninstruct EOS '<|im_end|>' 2 | base EOS '<|endoftext|>' 0\nbase ships a chat template: False\nsame vocabulary: True 49152 tokens\n",
+   "secShared": 0.2
+  },
+  {
+   "cell": "cell03_step3.py",
+   "stdout": "How do I make a cup of green tea?\n   base      'How do I make a cup of green tea?��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n'\n   instruct  'To make a cup of green tea, you will need the following ingredients:\\n\\n1. Green tea leaves '\nWhy is the sky blue?\n   base      'Why is the sky blue?��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n'\n   instruct  'The sky is blue because of a phenomenon known as Rayleigh scattering. This occurs when sun'\nWhat is 15 percent of 80?\n   base      'What is 15 percent of 80?��boutiqueassistant\\nWhat is 15 percent of 80?��boutiqueassistant\\n'\n   instruct  'To find 15 percent of 80, you can multiply 80 by 0.15. \\n\\n80 * 0.15 = 12\\n\\nSo'\n",
+   "secShared": 71.9
+  },
+  {
+   "cell": "cell04_step4.py",
+   "stdout": "  1 'The'            KL 2.575 base rank 6\n  2 ' sky'           KL 2.238 base rank 1\n  3 ' is'            KL 0.86 base rank 1\n  4 ' blue'          KL 0.285 base rank 1\n  5 ' because'       KL 0.762 base rank 1\n  6 ' of'            KL 0.391 base rank 1\n  7 ' a'             KL 1.631 base rank 3\n  8 ' phenomenon'    KL 1.538 base rank 3\n  9 ' known'         KL 0.318 base rank 2\n 10 ' as'            KL 0.01 base rank 1\n 11 ' Ray'           KL 0.066 base rank 1\n 12 'leigh'          KL 0.003 base rank 1\n82 tokens, mean KL 0.651 nats\n",
+   "secShared": 28.1
+  },
+  {
+   "cell": "cell05_step5.py",
+   "stdout": "4048 response tokens from 40 prompts\nunshifted, base rank 1   0.74\nmarginal, base rank 2-3  0.163\nshifted, base rank > 3   0.097\npositions 1 to 1 | 0.01 of tokens | 0.068 of the KL\npositions 2 to 5 | 0.039 of tokens | 0.097 of the KL\npositions 6 to 20 | 0.135 of tokens | 0.195 of the KL\npositions 21 to 60 | 0.332 of tokens | 0.32 of the KL\npositions 61 to 128 | 0.484 of tokens | 0.319 of the KL\n[('The', 11), ('the', 8), (\"'\\\\n\\\\n'\", 8), ('This', 7), ('a', 7), ('A', 7), ('Here', 6), ('and', 5), (',', 5), ('To', 4), ('tea', 4), ('1', 4)]\n",
+   "secShared": 1357.5
+  },
+  {
+   "cell": "cell06_step6.py",
+   "stdout": "chat tokens     mean KL 0.525 | unshifted 0.74 | shifted 0.097 | KL in first 5 tokens 0.165\nplain question  mean KL 0.43 | unshifted 0.761 | shifted 0.077 | KL in first 5 tokens 0.122\n",
+   "secShared": 138.0
+  }
+ ],
+ "wallClockSec": 1855.9,
+ "wallClockNote": "measured while other jobs shared the CPU; not a timing figure for the page",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe run_steps.py"
+}

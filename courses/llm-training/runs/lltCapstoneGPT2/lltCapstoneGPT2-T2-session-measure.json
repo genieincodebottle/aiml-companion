@@ -1,0 +1,101 @@
+{
+ "runId": "lltCapstoneGPT2-T2-session-measure",
+ "module": "lltCapstoneGPT2",
+ "tier": "T2",
+ "label": "measure:session",
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4",
+   "Tesla T4"
+  ],
+  "transformers": "5.20.2",
+  "datasets": "4.8.5",
+  "tiktoken": "0.14.0",
+  "numpy": "2.1.3",
+  "lm_eval": "0.4.13",
+  "image": "Kaggle GPU image 2026-11-05"
+ },
+ "kaggleKernel": "genieincodebottle/llt-capstone-gpt2-measure",
+ "probes": [
+  {
+   "size": "124m",
+   "ckpt": false,
+   "peakGB": {
+    "8": 9.94,
+    "12": "OOM"
+   },
+   "params": 123551232
+  },
+  {
+   "size": "124m",
+   "ckpt": true,
+   "peakGB": {
+    "16": 11.2,
+    "24": "OOM"
+   },
+   "params": 123551232
+  },
+  {
+   "size": "40m",
+   "ckpt": false,
+   "peakGB": {
+    "16": 14.38,
+    "24": "OOM"
+   },
+   "params": 40541952
+  }
+ ],
+ "picked": {
+  "124m": 8,
+  "124m_ckpt": 16,
+  "40m": null
+ },
+ "data": null,
+ "steps": {
+  "prep": {
+   "rc": -9,
+   "sec": 900.2
+  },
+  "probe_124m": {
+   "rc": 0,
+   "sec": 18.9
+  },
+  "probe_124m_ckpt": {
+   "rc": 0,
+   "sec": 9.3
+  },
+  "probe_40m": {
+   "rc": 0,
+   "sec": 6.8
+  },
+  "124m_eager": {
+   "rc": 0,
+   "sec": 97.9
+  },
+  "124m_compile": {
+   "rc": 0,
+   "sec": 130.4
+  },
+  "40m_eager": {
+   "rc": 1,
+   "sec": 5.1
+  },
+  "40m_compile": {
+   "rc": 1,
+   "sec": 5.2
+  },
+  "pip_lmeval": {
+   "rc": 0,
+   "sec": 16.9
+  },
+  "lmeval_gpt2": {
+   "rc": 0,
+   "sec": 267.3
+  }
+ },
+ "sessionSec": 1485.1,
+ "date": "2026-11-05"
+}

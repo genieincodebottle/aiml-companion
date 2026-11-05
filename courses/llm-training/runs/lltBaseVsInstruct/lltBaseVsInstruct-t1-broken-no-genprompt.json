@@ -1,0 +1,222 @@
+{
+ "runId": "lltBaseVsInstruct-t1-broken-no-genprompt",
+ "module": "lltBaseVsInstruct",
+ "tier": "T1",
+ "label": "broken:noGenPrompt",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "transformers": "5.2.0",
+  "tokenizers": "0.22.1",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "HuggingFaceTB/SmolLM2-360M-Instruct",
+  "dtype": "float32",
+  "decoding": "greedy",
+  "max_new_tokens": 48,
+  "threads": 4,
+  "nPrompts": 40,
+  "context": "apply_chat_template(add_generation_prompt=False)",
+  "reference": "greedy responses of run lltBaseVsInstruct-t1-smollm2-kl"
+ },
+ "seed": null,
+ "metrics": [
+  {
+   "step": 0,
+   "meanNLL": 0.8522,
+   "meanFirstTokenNLL": 16.6351
+  }
+ ],
+ "evals": {
+  "broken": {
+   "meanNLL": 0.8522,
+   "meanFirstTokenNLL": 16.6351,
+   "startsWithImStart": 40,
+   "startsWithAssistantHeader": 40,
+   "containsInstructionHeader": 0,
+   "endsInFirst3Tokens": 0
+  },
+  "correct": {
+   "meanNLL": 0.379,
+   "meanFirstTokenNLL": 1.059
+  }
+ },
+ "samples": [
+  {
+   "prompt": "How do I make a cup of green tea?",
+   "completion": "<|im_start|>assistant\nTo make a cup of green tea, you will need the following ingredients:\n\n1. Green tea leaves or tea bags\n2. A tea infuser or tea infuser bag\n3. A tea infuser or"
+  },
+  {
+   "prompt": "Give me three tips for sleeping better.",
+   "completion": "<|im_start|>assistant\n1. Maintain a consistent sleep schedule: Try to go to bed and wake up at the same time every day, even on weekends. This helps regulate your body's internal clock and can improve the quality of your sleep."
+  },
+  {
+   "prompt": "How should I prepare for a job interview?",
+   "completion": "<|im_start|>assistant\nSure, here are some steps to prepare for a job interview:\n\n1. Research the Company: Understand the company's mission, values, products, and services. This will help you understand their needs and how your skills"
+  },
+  {
+   "prompt": "What is a good way to start learning to play the guitar?",
+   "completion": "<|im_start|>assistant\nSure, here are some tips to get you started:\n\n1. **Find a Guitar**: You can find guitars at music stores, online marketplaces, or even at a local music shop.\n\n2. **Learn the"
+  },
+  {
+   "prompt": "How can I keep my houseplants alive?",
+   "completion": "<|im_start|>assistant\n1. Watering: Water your houseplants regularly, but make sure to water them deeply. Overwatering can cause root rot, so it's important to water them when the top inch of soil is dry.\n\n2"
+  },
+  {
+   "prompt": "What should I pack for a weekend hiking trip?",
+   "completion": "<|im_start|>assistant\nSure, here's a list of essentials to pack for a weekend hiking trip:\n\n1. Hiking boots or shoes: These should be sturdy and provide good traction.\n\n2. Socks: You should have a"
+  },
+  {
+   "prompt": "How do I write a polite email asking for a deadline extension?",
+   "completion": "<|im_start|>assistant\nSure, here's a polite email template you can use:\n\nSubject: Request for Deadline Extension\n\nDear [Recipient's Name],\n\nI hope this message finds you well. I am writing to"
+  },
+  {
+   "prompt": "How can I save money on groceries?",
+   "completion": "<|im_start|>assistant\n1. Plan your meals: Before you go grocery shopping, make a list of the meals you need to prepare for the week. This will help you avoid impulse buys and ensure you're buying the right ingredients for each meal"
+  },
+  {
+   "prompt": "Why is the sky blue?",
+   "completion": "<|im_start|>assistant\nThe sky is blue because of a phenomenon known as Rayleigh scattering. This occurs when sunlight enters Earth's atmosphere and encounters tiny molecules of gases such as nitrogen and oxygen. These molecules scatter the shorter wavelengths of light, such"
+  },
+  {
+   "prompt": "Explain how a vaccine works.",
+   "completion": "<|im_start|>assistant\nA vaccine works by introducing a small piece of a pathogen, such as a virus or bacteria, into the body. This piece is called a \"vaccine antigen\" and is designed to mimic the appearance of the actual pathogen"
+  },
+  {
+   "prompt": "What causes the seasons on Earth?",
+   "completion": "<|im_start|>assistant\nThe seasons on Earth are caused by the tilt of the Earth's axis as it orbits the Sun. This tilt results in the varying amount of sunlight that reaches the Earth's surface at different times of the year. As the"
+  },
+  {
+   "prompt": "What is the difference between weather and climate?",
+   "completion": "<|im_start|>assistant\nHugging Face<|im_end|>"
+  },
+  {
+   "prompt": "How does a refrigerator keep food cold?",
+   "completion": "<|im_start|>assistant\nA refrigerator keeps food cold by using a process called refrigeration. Refrigeration works by using a substance called a refrigerant to transfer heat from the inside of the refrigerator to the outside. The refrigerant is a liquid that changes state from"
+  },
+  {
+   "prompt": "What is photosynthesis?",
+   "completion": "<|im_start|>assistant\nPhotosynthesis is a process used by plants, algae, and some bacteria to convert light energy from the sun into chemical energy in the form of glucose. This process occurs in specialized organelles called chloroplasts, which contain pigments like"
+  },
+  {
+   "prompt": "Why do we have leap years?",
+   "completion": "<|im_start|>assistant\nLeap years are used to account for the Earth's slightly elliptical orbit around the Sun, which causes the calendar to shift by approximately 11 minutes every 19 years. This discrepancy is due to the Earth's"
+  },
+  {
+   "prompt": "What is inflation in economics?",
+   "completion": "<|im_start|>assistant\nIn economics, inflation refers to a sustained increase in the general price level of goods and services in an economy over a period of time. It's a measure of the rate at which prices of goods and services are rising,"
+  },
+  {
+   "prompt": "Write a Python function that reverses a string.",
+   "completion": "<|im_start|>assistant\nHere's a simple Python function that reverses a string:\n\n```python\ndef reverse_string(s):\n    return s[::-1]\n```\n\nThis function uses Python's slice notation `s[::-"
+  },
+  {
+   "prompt": "How do I read a CSV file in Python?",
+   "completion": "<|im_start|>assistant\nYou can read a CSV file in Python using the built-in `csv` module. Here's a simple example:\n\n```python\nimport csv\n\n# Read a CSV file\nwith open('example."
+  },
+  {
+   "prompt": "What is the difference between a list and a tuple in Python?",
+   "completion": "<|im_start|>assistant\nIn Python, a list and a tuple are both data structures that can store multiple values, but they have some key differences:\n\n1. **Immutability**: Tuples are immutable, meaning their contents cannot be modified"
+  },
+  {
+   "prompt": "Write a Python function that checks whether a number is prime.",
+   "completion": "<|im_start|>assistant\nHere's a Python function that checks whether a number is prime:\n\n```python\ndef is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int"
+  },
+  {
+   "prompt": "Explain what a for loop does.",
+   "completion": "<|im_start|>assistant\nA for loop is a programming construct that allows you to execute a block of code repeatedly for a specified number of iterations. It's used to iterate over a sequence (such as an array, list, or string) or"
+  },
+  {
+   "prompt": "How do I remove duplicates from a list in Python?",
+   "completion": "<|im_start|>assistant\nYou can remove duplicates from a list in Python using the following methods:\n\n1. Using a set:\n\n```python\nmy_list = [1, 2, 2, 3, 4"
+  },
+  {
+   "prompt": "Write a SQL query that counts the rows in a table called orders.",
+   "completion": "<|im_start|>assistant\nSELECT COUNT(*) FROM orders;<|im_end|>"
+  },
+  {
+   "prompt": "What does the git commit command do?",
+   "completion": "<|im_start|>assistant\nThe git commit command is used to stage and commit changes to a Git repository. It allows you to add changes to the repository, such as new files, branches, or commits, and then stage them for later review and"
+  },
+  {
+   "prompt": "Write a short poem about the ocean.",
+   "completion": "<|im_start|>assistant\nThe ocean's vast expanse,\nA canvas of endless blue,\nA shimmering sea,\nWhere waves and tides do roam.\n\nThe sun's warm rays,\nReflect the colors of the sky,"
+  },
+  {
+   "prompt": "Write a two-sentence story about a lost dog.",
+   "completion": "<|im_start|>assistant\nOnce upon a time, in a small village nestled between rolling hills and dense forests, there lived a curious and adventurous dog named Max. Max was a brave and loyal companion to the villagers, always eager to explore and discover"
+  },
+  {
+   "prompt": "Write a thank-you note to a teacher.",
+   "completion": "<|im_start|>assistant\nDear [Teacher's Name],\n\nThank you for your guidance and support. I greatly appreciate your time and effort in helping me grow and develop as a student. Your patience and understanding have been invaluable to me, and"
+  },
+  {
+   "prompt": "Suggest a name for a small bakery.",
+   "completion": "<|im_start|>assistant\n1. The Sweet Bakeshop\n2. The Flour & Co.\n3. The Flour & Co. Bakery\n4. The Flour & Co. Bakery Bakery\n5. The"
+  },
+  {
+   "prompt": "Describe a sunset in three sentences.",
+   "completion": "<|im_start|>assistant\nA sunset is a breathtaking sight, with the sky gradually turning a warm orange and pink as the sun dips below the horizon. The colors are a mesmerizing blend of oranges, pinks, and purples, creating a stunning"
+  },
+  {
+   "prompt": "Write a short product description for a reusable water bottle.",
+   "completion": "<|im_start|>assistant\n\"Our reusable water bottle is a sustainable and eco-friendly solution for staying hydrated throughout the day. It's made from high-quality, BPA-free plastic and is designed to be durable and long-lasting. The"
+  },
+  {
+   "prompt": "Write a haiku about autumn.",
+   "completion": "<|im_start|>assistant\nAutumn's golden hue,\nAwakening from winter's slumber,\nNature's transformation.\n\nIn the crisp air,\nThe leaves dance,\nNature's dance.\n\nThe leaves,\n"
+  },
+  {
+   "prompt": "Write an opening line for a mystery novel.",
+   "completion": "<|im_start|>assistant\nAs the last wisps of sunlight faded from the sky, the small town of Ravenswood was shrouded in an eerie silence, as if the very fabric of reality had been torn asunder by the whispers of a long"
+  },
+  {
+   "prompt": "What is 15 percent of 80?",
+   "completion": "<|im_start|>assistant\nTo find 15 percent of 80, you can multiply 80 by 0.15. \n\n80 * 0.15 = 12\n\nSo, 15"
+  },
+  {
+   "prompt": "If a train travels 60 km in 45 minutes, what is its speed in km per hour?",
+   "completion": "<|im_start|>assistant\nTo find the speed of the train in km per hour, we need to convert the given time from minutes to hours. There are 60 minutes in an hour, so we can convert 45 minutes to hours"
+  },
+  {
+   "prompt": "What is the next number in the sequence 2, 4, 8, 16?",
+   "completion": "<|im_start|>assistant\nThe next number in the sequence is 32.<|im_end|>"
+  },
+  {
+   "prompt": "A shirt costs 20 dollars after a 20 percent discount. What was the original price?",
+   "completion": "<|im_start|>assistant\nTo find the original price, we need to calculate 20 percent of 20 dollars. \n\nFirst, we convert the percentage to a decimal by dividing by 100: 20 / "
+  },
+  {
+   "prompt": "How many minutes are there in a week?",
+   "completion": "<|im_start|>assistant\nI'm sorry, but as an AI trained by Hugging Face, I don't have access to real-world data or information about the world outside of the training dataset. My knowledge is limited to the information provided by"
+  },
+  {
+   "prompt": "Is 91 a prime number?",
+   "completion": "<|im_start|>assistant\nNo, 91 is not a prime number.<|im_end|>"
+  },
+  {
+   "prompt": "What is the square root of 144?",
+   "completion": "<|im_start|>assistant\nThe square root of 144 is 12.<|im_end|>"
+  },
+  {
+   "prompt": "If I have 3 apples and eat one, how many are left?",
+   "completion": "<|im_start|>assistant\nIf you have 3 apples and you eat one, you will have 2 apples left.<|im_end|>"
+  }
+ ],
+ "wallClockSec": 1623.9,
+ "wallClockNote": "measured while other jobs shared the CPU; not a timing figure for the page",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py broken"
+}

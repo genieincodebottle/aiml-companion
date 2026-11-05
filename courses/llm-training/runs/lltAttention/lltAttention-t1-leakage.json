@@ -1,0 +1,43 @@
+{
+ "runId": "lltAttention-t1-leakage",
+ "module": "lltAttention",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "T": 32,
+  "C": 256,
+  "h": 8,
+  "test": "for every t, perturb token t+1, max abs change at positions 0..t"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "worstChange": {
+   "CausalSelfAttention": 0.0,
+   "SDPAAttention": 0.0,
+   "NoMask": 0.07870621979236603,
+   "MaskAfterSoftmax": 0.013406984508037567
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py errors browser exact",
+ "stdout": "CausalSelfAttention  largest change at positions <= t: 0.00e+00 PASS\nSDPAAttention        largest change at positions <= t: 0.00e+00 PASS\nNoMask               largest change at positions <= t: 7.87e-02 LEAKS\nMaskAfterSoftmax     largest change at positions <= t: 1.34e-02 LEAKS\n"
+}

@@ -1,0 +1,52 @@
+{
+ "runId": "lltGeneration-t1-qwen3-params",
+ "module": "lltGeneration",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "torchThreads": 2
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "huggingface_hub": "2.4.0",
+  "datasets": "5.1.0",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "Qwen/Qwen3-0.6B",
+  "dtype": "bfloat16"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "model": "Qwen/Qwen3-0.6B",
+  "distinctParams": 596049920,
+  "embeddingParams": 155582464,
+  "tieWordEmbeddings": true,
+  "outputSharesInputEmbedding": true,
+  "weightBytesBf16": 1192099840,
+  "kvBytesPerTokenBf16": 114688,
+  "kvBytes8Users4096": 3758096384,
+  "kvOverWeights": 3.15,
+  "layers": 28,
+  "kvHeads": 8,
+  "headDim": 128,
+  "queryHeads": 16
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure_qwen_params.py"
+}

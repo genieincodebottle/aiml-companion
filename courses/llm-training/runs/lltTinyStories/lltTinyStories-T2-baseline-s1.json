@@ -1,0 +1,932 @@
+{
+ "runId": "lltTinyStories-T2-baseline-s1",
+ "module": "lltTinyStories",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6,
+  "capability": [
+   7,
+   5
+  ],
+  "concurrent": "one run per GPU, two GPUs busy"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "ampDtype": "float16",
+  "gradScaler": true
+ },
+ "config": {
+  "vocab": 4096,
+  "d": 320,
+  "layers": 8,
+  "heads": 8,
+  "ctx": 512,
+  "batch": 64,
+  "lr": 0.001,
+  "warmup": 200,
+  "steps": 3000,
+  "eval_every": 250,
+  "eval_batches": 40,
+  "wd": 0.1,
+  "clip": 1.0,
+  "seed": 1,
+  "prompts": [
+   "Once upon a time",
+   "Tom and his dog went to the park. Tom",
+   "Lily wanted to bake a cake for her mom, but",
+   "The little bird could not fly. One day,",
+   "Max found a shiny key under his bed."
+  ],
+  "saveAt": 2000,
+  "resumeTests": [
+   0,
+   100
+  ],
+  "saveFinal": true
+ },
+ "seed": 1,
+ "params": 11474240,
+ "nonEmbeddingParams": 10163520,
+ "flopsPerToken6N": 68845440,
+ "metrics": [
+  {
+   "step": 0,
+   "tokens": 0,
+   "valLoss": 8.3791,
+   "valBpb": 3.0234,
+   "valBLoss": 8.3693,
+   "valBBpb": 3.069,
+   "lr": 5e-06,
+   "elapsedSec": 3.1,
+   "memGB": 0.4
+  },
+  {
+   "step": 250,
+   "tokens": 8192000,
+   "valLoss": 2.7809,
+   "valBpb": 1.0034,
+   "valBLoss": 2.8157,
+   "valBBpb": 1.0325,
+   "lr": 0.0009992920667580174,
+   "elapsedSec": 126.6,
+   "memGB": 6.91,
+   "tokPerSec": 66300
+  },
+  {
+   "step": 500,
+   "tokens": 16384000,
+   "valLoss": 2.2678,
+   "valBpb": 0.8183,
+   "valBLoss": 2.3047,
+   "valBBpb": 0.8451,
+   "lr": 0.0009747474986387655,
+   "elapsedSec": 245.8,
+   "memGB": 6.91,
+   "tokPerSec": 68727
+  },
+  {
+   "step": 750,
+   "tokens": 24576000,
+   "valLoss": 2.0657,
+   "valBpb": 0.7454,
+   "valBLoss": 2.1015,
+   "valBBpb": 0.7706,
+   "lr": 0.0009170023910316671,
+   "elapsedSec": 365.3,
+   "memGB": 6.91,
+   "tokPerSec": 68567
+  },
+  {
+   "step": 1000,
+   "tokens": 32768000,
+   "valLoss": 1.9521,
+   "valBpb": 0.7044,
+   "valBLoss": 1.9883,
+   "valBBpb": 0.7291,
+   "lr": 0.0008305704108364302,
+   "elapsedSec": 485.0,
+   "memGB": 6.91,
+   "tokPerSec": 68464
+  },
+  {
+   "step": 1250,
+   "tokens": 40960000,
+   "valLoss": 1.8787,
+   "valBpb": 0.6779,
+   "valBLoss": 1.9096,
+   "valBBpb": 0.7003,
+   "lr": 0.0007222075445642904,
+   "elapsedSec": 607.3,
+   "memGB": 6.91,
+   "tokPerSec": 66948
+  },
+  {
+   "step": 1500,
+   "tokens": 49152000,
+   "valLoss": 1.82,
+   "valBpb": 0.6567,
+   "valBLoss": 1.8504,
+   "valBBpb": 0.6786,
+   "lr": 0.0006003840142464886,
+   "elapsedSec": 727.0,
+   "memGB": 6.91,
+   "tokPerSec": 68452
+  },
+  {
+   "step": 1750,
+   "tokens": 57344000,
+   "valLoss": 1.7708,
+   "valBpb": 0.639,
+   "valBLoss": 1.7985,
+   "valBBpb": 0.6595,
+   "lr": 0.0004746221995128687,
+   "elapsedSec": 846.7,
+   "memGB": 6.91,
+   "tokPerSec": 68446
+  },
+  {
+   "step": 2000,
+   "tokens": 65536000,
+   "valLoss": 1.7323,
+   "valBpb": 0.6251,
+   "valBLoss": 1.7609,
+   "valBBpb": 0.6457,
+   "lr": 0.0003547523173970989,
+   "elapsedSec": 966.4,
+   "memGB": 6.91,
+   "tokPerSec": 68453
+  },
+  {
+   "step": 2250,
+   "tokens": 73728000,
+   "valLoss": 1.6969,
+   "valBpb": 0.6123,
+   "valBLoss": 1.7248,
+   "valBBpb": 0.6325,
+   "lr": 0.0002501440399215983,
+   "elapsedSec": 1089.2,
+   "memGB": 6.91,
+   "tokPerSec": 66671
+  },
+  {
+   "step": 2500,
+   "tokens": 81920000,
+   "valLoss": 1.6711,
+   "valBpb": 0.603,
+   "valBLoss": 1.6995,
+   "valBBpb": 0.6232,
+   "lr": 0.00016897411034727216,
+   "elapsedSec": 1208.8,
+   "memGB": 6.91,
+   "tokPerSec": 68495
+  },
+  {
+   "step": 2750,
+   "tokens": 90112000,
+   "valLoss": 1.6547,
+   "valBpb": 0.5971,
+   "valBLoss": 1.6826,
+   "valBBpb": 0.617,
+   "lr": 0.00011758720512470524,
+   "elapsedSec": 1328.5,
+   "memGB": 6.91,
+   "tokPerSec": 68434
+  },
+  {
+   "step": 3000,
+   "tokens": 98304000,
+   "valLoss": 1.6433,
+   "valBpb": 0.593,
+   "valBLoss": 1.6713,
+   "valBBpb": 0.6129,
+   "lr": 0.0001,
+   "elapsedSec": 1448.2,
+   "memGB": 6.91,
+   "tokPerSec": 68432
+  }
+ ],
+ "trainCurve": [
+  {
+   "step": 25,
+   "trainLoss": 7.6342,
+   "gradNorm": 3.5311
+  },
+  {
+   "step": 50,
+   "trainLoss": 6.1785,
+   "gradNorm": 1.6659
+  },
+  {
+   "step": 75,
+   "trainLoss": 4.9499,
+   "gradNorm": 0.938
+  },
+  {
+   "step": 100,
+   "trainLoss": 4.2495,
+   "gradNorm": 0.7585
+  },
+  {
+   "step": 125,
+   "trainLoss": 3.8002,
+   "gradNorm": 0.7691
+  },
+  {
+   "step": 150,
+   "trainLoss": 3.4981,
+   "gradNorm": 0.7784
+  },
+  {
+   "step": 175,
+   "trainLoss": 3.2484,
+   "gradNorm": 0.7045
+  },
+  {
+   "step": 200,
+   "trainLoss": 3.0734,
+   "gradNorm": 0.7242
+  },
+  {
+   "step": 225,
+   "trainLoss": 2.9313,
+   "gradNorm": 0.6478
+  },
+  {
+   "step": 250,
+   "trainLoss": 2.8033,
+   "gradNorm": 0.611
+  },
+  {
+   "step": 275,
+   "trainLoss": 2.714,
+   "gradNorm": 0.6077
+  },
+  {
+   "step": 300,
+   "trainLoss": 2.6227,
+   "gradNorm": 0.5742
+  },
+  {
+   "step": 325,
+   "trainLoss": 2.5726,
+   "gradNorm": 0.5614
+  },
+  {
+   "step": 350,
+   "trainLoss": 2.4977,
+   "gradNorm": 0.5454
+  },
+  {
+   "step": 375,
+   "trainLoss": 2.4439,
+   "gradNorm": 0.5272
+  },
+  {
+   "step": 400,
+   "trainLoss": 2.3975,
+   "gradNorm": 0.5371
+  },
+  {
+   "step": 425,
+   "trainLoss": 2.3594,
+   "gradNorm": 0.5287
+  },
+  {
+   "step": 450,
+   "trainLoss": 2.3105,
+   "gradNorm": 0.5069
+  },
+  {
+   "step": 475,
+   "trainLoss": 2.2756,
+   "gradNorm": 0.5053
+  },
+  {
+   "step": 500,
+   "trainLoss": 2.2478,
+   "gradNorm": 0.4942
+  },
+  {
+   "step": 525,
+   "trainLoss": 2.2094,
+   "gradNorm": 0.4897
+  },
+  {
+   "step": 550,
+   "trainLoss": 2.2064,
+   "gradNorm": 0.4758
+  },
+  {
+   "step": 575,
+   "trainLoss": 2.1537,
+   "gradNorm": 0.4764
+  },
+  {
+   "step": 600,
+   "trainLoss": 2.1507,
+   "gradNorm": 0.4672
+  },
+  {
+   "step": 625,
+   "trainLoss": 2.1333,
+   "gradNorm": 0.4704
+  },
+  {
+   "step": 650,
+   "trainLoss": 2.1074,
+   "gradNorm": 0.4571
+  },
+  {
+   "step": 675,
+   "trainLoss": 2.0894,
+   "gradNorm": 0.4528
+  },
+  {
+   "step": 700,
+   "trainLoss": 2.077,
+   "gradNorm": 0.4554
+  },
+  {
+   "step": 725,
+   "trainLoss": 2.0415,
+   "gradNorm": 0.4469
+  },
+  {
+   "step": 750,
+   "trainLoss": 2.048,
+   "gradNorm": 0.4431
+  },
+  {
+   "step": 775,
+   "trainLoss": 2.0287,
+   "gradNorm": 0.4423
+  },
+  {
+   "step": 800,
+   "trainLoss": 2.0309,
+   "gradNorm": 0.4333
+  },
+  {
+   "step": 825,
+   "trainLoss": 1.9801,
+   "gradNorm": 0.4337
+  },
+  {
+   "step": 850,
+   "trainLoss": 1.9879,
+   "gradNorm": 0.428
+  },
+  {
+   "step": 875,
+   "trainLoss": 1.982,
+   "gradNorm": 0.4284
+  },
+  {
+   "step": 900,
+   "trainLoss": 1.9773,
+   "gradNorm": 0.4247
+  },
+  {
+   "step": 925,
+   "trainLoss": 1.9579,
+   "gradNorm": 0.4221
+  },
+  {
+   "step": 950,
+   "trainLoss": 1.9606,
+   "gradNorm": 0.4207
+  },
+  {
+   "step": 975,
+   "trainLoss": 1.9365,
+   "gradNorm": 0.4617
+  },
+  {
+   "step": 1000,
+   "trainLoss": 1.9327,
+   "gradNorm": 0.4205
+  },
+  {
+   "step": 1025,
+   "trainLoss": 1.9157,
+   "gradNorm": 0.4073
+  },
+  {
+   "step": 1050,
+   "trainLoss": 1.9036,
+   "gradNorm": 0.4094
+  },
+  {
+   "step": 1075,
+   "trainLoss": 1.9078,
+   "gradNorm": 0.4046
+  },
+  {
+   "step": 1100,
+   "trainLoss": 1.8842,
+   "gradNorm": 0.4063
+  },
+  {
+   "step": 1125,
+   "trainLoss": 1.8841,
+   "gradNorm": 0.4046
+  },
+  {
+   "step": 1150,
+   "trainLoss": 1.8919,
+   "gradNorm": 0.3999
+  },
+  {
+   "step": 1175,
+   "trainLoss": 1.8847,
+   "gradNorm": 0.4058
+  },
+  {
+   "step": 1200,
+   "trainLoss": 1.8569,
+   "gradNorm": 0.3946
+  },
+  {
+   "step": 1225,
+   "trainLoss": 1.8702,
+   "gradNorm": 0.3976
+  },
+  {
+   "step": 1250,
+   "trainLoss": 1.8453,
+   "gradNorm": 0.3898
+  },
+  {
+   "step": 1275,
+   "trainLoss": 1.8509,
+   "gradNorm": 0.3917
+  },
+  {
+   "step": 1300,
+   "trainLoss": 1.8481,
+   "gradNorm": 0.3936
+  },
+  {
+   "step": 1325,
+   "trainLoss": 1.8252,
+   "gradNorm": 0.3887
+  },
+  {
+   "step": 1350,
+   "trainLoss": 1.8107,
+   "gradNorm": 0.3921
+  },
+  {
+   "step": 1375,
+   "trainLoss": 1.8302,
+   "gradNorm": 0.387
+  },
+  {
+   "step": 1400,
+   "trainLoss": 1.8171,
+   "gradNorm": 0.3845
+  },
+  {
+   "step": 1425,
+   "trainLoss": 1.7923,
+   "gradNorm": 0.3824
+  },
+  {
+   "step": 1450,
+   "trainLoss": 1.8147,
+   "gradNorm": 0.389
+  },
+  {
+   "step": 1475,
+   "trainLoss": 1.7849,
+   "gradNorm": 0.3801
+  },
+  {
+   "step": 1500,
+   "trainLoss": 1.7864,
+   "gradNorm": 0.3819
+  },
+  {
+   "step": 1525,
+   "trainLoss": 1.7796,
+   "gradNorm": 0.3812
+  },
+  {
+   "step": 1550,
+   "trainLoss": 1.7705,
+   "gradNorm": 0.3816
+  },
+  {
+   "step": 1575,
+   "trainLoss": 1.7828,
+   "gradNorm": 0.3822
+  },
+  {
+   "step": 1600,
+   "trainLoss": 1.7644,
+   "gradNorm": 0.3779
+  },
+  {
+   "step": 1625,
+   "trainLoss": 1.7652,
+   "gradNorm": 0.3808
+  },
+  {
+   "step": 1650,
+   "trainLoss": 1.7552,
+   "gradNorm": 0.381
+  },
+  {
+   "step": 1675,
+   "trainLoss": 1.7424,
+   "gradNorm": 0.3792
+  },
+  {
+   "step": 1700,
+   "trainLoss": 1.7498,
+   "gradNorm": 0.3802
+  },
+  {
+   "step": 1725,
+   "trainLoss": 1.7421,
+   "gradNorm": 0.3793
+  },
+  {
+   "step": 1750,
+   "trainLoss": 1.7272,
+   "gradNorm": 0.3741
+  },
+  {
+   "step": 1775,
+   "trainLoss": 1.7333,
+   "gradNorm": 0.3758
+  },
+  {
+   "step": 1800,
+   "trainLoss": 1.7293,
+   "gradNorm": 0.3769
+  },
+  {
+   "step": 1825,
+   "trainLoss": 1.7275,
+   "gradNorm": 0.3799
+  },
+  {
+   "step": 1850,
+   "trainLoss": 1.7141,
+   "gradNorm": 0.3908
+  },
+  {
+   "step": 1875,
+   "trainLoss": 1.7169,
+   "gradNorm": 0.375
+  },
+  {
+   "step": 1900,
+   "trainLoss": 1.7016,
+   "gradNorm": 0.377
+  },
+  {
+   "step": 1925,
+   "trainLoss": 1.6981,
+   "gradNorm": 0.3763
+  },
+  {
+   "step": 1950,
+   "trainLoss": 1.6902,
+   "gradNorm": 0.3755
+  },
+  {
+   "step": 1975,
+   "trainLoss": 1.7075,
+   "gradNorm": 0.3788
+  },
+  {
+   "step": 2000,
+   "trainLoss": 1.6822,
+   "gradNorm": 0.3774
+  },
+  {
+   "step": 2025,
+   "trainLoss": 1.693,
+   "gradNorm": 0.381
+  },
+  {
+   "step": 2050,
+   "trainLoss": 1.6948,
+   "gradNorm": 0.3769
+  },
+  {
+   "step": 2075,
+   "trainLoss": 1.6907,
+   "gradNorm": 0.377
+  },
+  {
+   "step": 2100,
+   "trainLoss": 1.6899,
+   "gradNorm": 0.3809
+  },
+  {
+   "step": 2125,
+   "trainLoss": 1.6866,
+   "gradNorm": 0.3825
+  },
+  {
+   "step": 2150,
+   "trainLoss": 1.6746,
+   "gradNorm": 0.381
+  },
+  {
+   "step": 2175,
+   "trainLoss": 1.6784,
+   "gradNorm": 0.3777
+  },
+  {
+   "step": 2200,
+   "trainLoss": 1.6788,
+   "gradNorm": 0.382
+  },
+  {
+   "step": 2225,
+   "trainLoss": 1.6672,
+   "gradNorm": 0.3768
+  },
+  {
+   "step": 2250,
+   "trainLoss": 1.6561,
+   "gradNorm": 0.3759
+  },
+  {
+   "step": 2275,
+   "trainLoss": 1.6597,
+   "gradNorm": 0.3773
+  },
+  {
+   "step": 2300,
+   "trainLoss": 1.6602,
+   "gradNorm": 0.3789
+  },
+  {
+   "step": 2325,
+   "trainLoss": 1.6565,
+   "gradNorm": 0.38
+  },
+  {
+   "step": 2350,
+   "trainLoss": 1.6355,
+   "gradNorm": 0.3762
+  },
+  {
+   "step": 2375,
+   "trainLoss": 1.656,
+   "gradNorm": 0.3805
+  },
+  {
+   "step": 2400,
+   "trainLoss": 1.6525,
+   "gradNorm": 0.3783
+  },
+  {
+   "step": 2425,
+   "trainLoss": 1.6366,
+   "gradNorm": 0.3826
+  },
+  {
+   "step": 2450,
+   "trainLoss": 1.6316,
+   "gradNorm": 0.3801
+  },
+  {
+   "step": 2475,
+   "trainLoss": 1.6272,
+   "gradNorm": 0.3828
+  },
+  {
+   "step": 2500,
+   "trainLoss": 1.6527,
+   "gradNorm": 0.3825
+  },
+  {
+   "step": 2525,
+   "trainLoss": 1.6286,
+   "gradNorm": 0.3829
+  },
+  {
+   "step": 2550,
+   "trainLoss": 1.6272,
+   "gradNorm": 0.3809
+  },
+  {
+   "step": 2575,
+   "trainLoss": 1.6366,
+   "gradNorm": 0.3832
+  },
+  {
+   "step": 2600,
+   "trainLoss": 1.6378,
+   "gradNorm": 0.3822
+  },
+  {
+   "step": 2625,
+   "trainLoss": 1.6282,
+   "gradNorm": 0.3835
+  },
+  {
+   "step": 2650,
+   "trainLoss": 1.6231,
+   "gradNorm": 0.3804
+  },
+  {
+   "step": 2675,
+   "trainLoss": 1.6112,
+   "gradNorm": 0.3827
+  },
+  {
+   "step": 2700,
+   "trainLoss": 1.624,
+   "gradNorm": 0.3838
+  },
+  {
+   "step": 2725,
+   "trainLoss": 1.6106,
+   "gradNorm": 0.3841
+  },
+  {
+   "step": 2750,
+   "trainLoss": 1.6216,
+   "gradNorm": 0.3826
+  },
+  {
+   "step": 2775,
+   "trainLoss": 1.6174,
+   "gradNorm": 0.3842
+  },
+  {
+   "step": 2800,
+   "trainLoss": 1.6151,
+   "gradNorm": 0.3887
+  },
+  {
+   "step": 2825,
+   "trainLoss": 1.6089,
+   "gradNorm": 0.3829
+  },
+  {
+   "step": 2850,
+   "trainLoss": 1.6124,
+   "gradNorm": 0.3843
+  },
+  {
+   "step": 2875,
+   "trainLoss": 1.6133,
+   "gradNorm": 0.3843
+  },
+  {
+   "step": 2900,
+   "trainLoss": 1.6024,
+   "gradNorm": 0.3862
+  },
+  {
+   "step": 2925,
+   "trainLoss": 1.605,
+   "gradNorm": 0.3881
+  },
+  {
+   "step": 2950,
+   "trainLoss": 1.6127,
+   "gradNorm": 0.3867
+  },
+  {
+   "step": 2975,
+   "trainLoss": 1.598,
+   "gradNorm": 0.3874
+  },
+  {
+   "step": 3000,
+   "trainLoss": 1.5988,
+   "gradNorm": 0.3861
+  }
+ ],
+ "samples": [
+  {
+   "step": 0,
+   "prompt": "Once upon a time",
+   "completion": "Once upon a time pandaurb clos twins Bellacasturb banana milk milk amazed magnet repe hunter butterf bought anxious shoe hill there Bella per rel week afraid perm togetherepend list banana rainMomlew dreams valuable figrot sun bicyclecil crecil rules squirrel adventq hill}} thereies accidentally plan contentucky stumbled} streonyonyAnna lock compl togethercilAnna rel courseorrow WouldJack behave closyear obseror everyone So free}"
+  },
+  {
+   "step": 0,
+   "prompt": "Tom and his dog went to the park. Tom",
+   "completion": "Tom and his dog went to the park. Tomeez push remind stream card Jimmy Jimmy Jimmy firsteezty otherseez stuff biggest If mail had monkeys flex poin \u00e2keyabyaby sofa biggest hidden attic biggest trumpet sk adventueue pebble squirrel mail shapes dolls Jimmy sunflaffueueue\ufffd fun fun\ufffd avo avo mail mail mail mail} stre}} monkeysangedary impat Lee depend generous happy happy fun monkeys vi others pilEm alligue shone Lucy mic"
+  },
+  {
+   "step": 0,
+   "prompt": "Lily wanted to bake a cake for her mom, but",
+   "completion": "Lily wanted to bake a cake for her mom, butast fruits making mugierierAmy wake pal fier amazednight kids water water wrappedJsc magical Dave blowday gent Bobo No rope neat putft grandma happenedphant fierrr grandma boy kids kidsJ sparklyscscHe gra bathJ Ben bald rope rope tunnel bought Ben housesday rope makes want] singing singing er makesorn cone cone sparklysc wateratoday happenedAmyAmyFromJ T\ufffd dro Fr"
+  },
+  {
+   "step": 0,
+   "prompt": "The little bird could not fly. One day,",
+   "completion": "The little bird could not fly. One day,led Mummy MummyLittleLittle feather amazing taken boxes low lowace're blanketace asks LilyOh\ffully emcks rel week jar wealace hidden earth pic earthLetmomoFrom shirt showing dreamseeze proudly emace pretending hel best showinglightlight unknown blanket avo avo amazing\ufffd wh wh wh stopped Mom\ufffd rules\ufffdlight hipp fairy\ufffd wasn soar likes amazing amazingove guessaceFromFromaff\ufffd yeariss"
+  },
+  {
+   "step": 0,
+   "prompt": "Max found a shiny key under his bed.",
+   "completion": "Max found a shiny key under his bed.ture s s angrysting happenside something ma waff bracelet wis colour As Whenever\u00e2\u00e2\ufffd Z threw pressed liked\ufffd Sometimes Sometimes walksited trust welcYY stronger\u001e potato s s s Sometimes screenger friendsathermyowedThey sweater path gu grace couldn scary\ufffd tough tough things things thingsger Areuddenly threweciallyecially life life paintriedMary\ufffdapeapen discover yourself discover fallsmy splashts shore"
+  },
+  {
+   "step": 1000,
+   "prompt": "Once upon a time",
+   "completion": "Once upon a time, there was a little girl named Lily. She loved to play outside in the sunscreen. One day, she went outside to play with her friends. They were having so much fun that they started to quarrel. \n\nHer friend, Timmy, said, \"Lily, why don't you behave with us? I have lots of fun too\". Lily replied, \"Okay, Timmy."
+  },
+  {
+   "step": 1000,
+   "prompt": "Tom and his dog went to the park. Tom",
+   "completion": "Tom and his dog went to the park. Tom was happy. He learned to be careful and gentle. He liked to play with his dog, Spot."
+  },
+  {
+   "step": 1000,
+   "prompt": "Lily wanted to bake a cake for her mom, but",
+   "completion": "Lily wanted to bake a cake for her mom, but her mom said no. Her mom said, \"Lily, you have to be more careful with your dough.\"\n\nLily was sad and cried. She did not want to make her mom angry. She wanted to make her mom and her red piece too. But when she went to her room, she saw that her mom was not happy. She said, \"Lily, I did it. I"
+  },
+  {
+   "step": 1000,
+   "prompt": "The little bird could not fly. One day,",
+   "completion": "The little bird could not fly. One day, the bird heard a loud noise. It was a small, scary bear. A big bear who lived in the woods were also playing with his toy cars. The bear felt sad and wanted to play with the bear and his doll. The bear walked up to the bear and tried to take the bear with him. A bear came and tried to get the bear back. The bear was scared and said,"
+  },
+  {
+   "step": 1000,
+   "prompt": "Max found a shiny key under his bed.",
+   "completion": "Max found a shiny key under his bed. He carefully put the key in the lock and then put it in the lock.\n\nMax ran back home, thinking about his adventures in the cabinet. He felt very proud and proud. He had helped and knew he could always find new things in the cabinet that was locked."
+  },
+  {
+   "step": 2000,
+   "prompt": "Once upon a time",
+   "completion": "Once upon a time, there was a little girl named Lily. She loved to play outside in the sun. One day, Lily's mom went outside to pick a big, juicy apple. \n\nLily took a bite and said, \"Mommy, this apple is so sweet!\" But when she opened it, she saw that it was very disgusting! She tasted it and said, \"Yuck! This apple is sour"
+  },
+  {
+   "step": 2000,
+   "prompt": "Tom and his dog went to the park. Tom",
+   "completion": "Tom and his dog went to the park. Tom was happy because he got to play on the swings and the slide. He threw his ball at the big dog, and the funny dog came to play. But the weird dog saw the ball and wanted it.\n\nTom smiled and said, \"Hi, doggy! Do you want to play with me?\" The dog wag its tail and nodded. Tom and his dog played with the weird"
+  },
+  {
+   "step": 2000,
+   "prompt": "Lily wanted to bake a cake for her mom, but",
+   "completion": "Lily wanted to bake a cake for her mom, but her mom said she needed to clean the house first. Lily got upset and said, \"I don't want to clean up. I don't want a cake.\"\n\nHer mom replied, \"It's okay, Lily. We can make a beautiful cake together.\" So Lily and her mom cleaned the floor and made the cake. Lily was so happy and said, \"Thank you, Mommy!"
+  },
+  {
+   "step": 2000,
+   "prompt": "The little bird could not fly. One day,",
+   "completion": "The little bird could not fly. One day, a big wind came and blew the rain hard. The rain came and the rain stopped. The little bird was very happy. He saw a big rainbow in the sky. The rainbow was so pretty and pretty.\n\nThe little bird flew to the rainbow and said, \"Hello, pretty rainbow! Do you want to be friends?\" The rainbow smiled and said, \"Yes, I will be your"
+  },
+  {
+   "step": 2000,
+   "prompt": "Max found a shiny key under his bed.",
+   "completion": "Max found a shiny key under his bed. He carefully put the key in the lock and then ran off to show his friends. They were so excited to find what he found! He thanked the owner and they all flew off in the sky. From that day on, Max and his friends never went back to the house and they always made sure it was safe."
+  },
+  {
+   "step": 3000,
+   "prompt": "Once upon a time",
+   "completion": "Once upon a time, there was a little girl named Lily. She loved to play outside in the sun. One day, Lily's mom told her they were going to a party! Lily was so happy and excited.\n\nBut when they got to the party, Lily accidentally knocked over a vase and it broke. Her mom was very upset and cried a lot. Lily felt bad and didn't know what to do"
+  },
+  {
+   "step": 3000,
+   "prompt": "Tom and his dog went to the park. Tom",
+   "completion": "Tom and his dog went to the park. Tom saw a big slide and wanted to go on it. He asked his dog, \"Can I go on the slide, please?\" His dog, Spot, said, \"No, Tom. It is not safe and you have to go on the slide. The slide is too high and too hard for you to play on.\"\n\nTom ran to the slide and tried to go down the slide."
+  },
+  {
+   "step": 3000,
+   "prompt": "Lily wanted to bake a cake for her mom, but",
+   "completion": "Lily wanted to bake a cake for her mom, but her mum said she couldn't because the cake was too big to fit in the oven. \n\nLily was sad and didn't understand why she couldn't bake the cake. But she loved cake and it made her feel happy. She went to the kitchen and helped her mom and dad put the cake on a tray. \n\nAfter they left the park, Lily and her family were very happy."
+  },
+  {
+   "step": 3000,
+   "prompt": "The little bird could not fly. One day,",
+   "completion": "The little bird could not fly. One day, a big wind came and blew the bird away. The bird flew to a tree and saw a new tree. The bird was very happy to have a new friend in the tree. The bird said, \"I will meet you in the tree!\" The bird flew back to the tree and said hello. The bird was very happy to meet the new friend. They flew around and had a fun time together"
+  },
+  {
+   "step": 3000,
+   "prompt": "Max found a shiny key under his bed.",
+   "completion": "Max found a shiny key under his bed. He carefully put the key in the lock and turned the key to the door. Max opened the door and saw a beautiful garden filled with all kinds of beautiful plants!\n\nMax was so excited and he couldn't wait to explore the garden again. He ran back to the garden and put the key in his pocket. He asked his Mom if he could keep the key and she said yes. Max"
+  }
+ ],
+ "data": {
+  "dataset": "roneneldan/TinyStories",
+  "trainStories": 2119719,
+  "valStories": 21990,
+  "trainTokens": 485861106,
+  "valTokens": 4884112,
+  "valAStories": 10995,
+  "valBStartToken": 2328994,
+  "bytesPerToken": 3.953
+ },
+ "date": "2026-11-05",
+ "evalTokens": 327680,
+ "evalBytes": 1310145,
+ "trainSec": 1452.0,
+ "peakMemGB": 6.91
+}

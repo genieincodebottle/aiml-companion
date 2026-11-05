@@ -1,0 +1,132 @@
+{
+ "runId": "lltTokenizer-t1-nfkc",
+ "module": "lltTokenizer",
+ "tier": "T1",
+ "label": "broken:nfkc-normalizer",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": 0,
+  "cpu": "AMD Ryzen 9 5900HS with Radeon Graphics",
+  "cores": 8,
+  "threads": 16,
+  "ramGB": 33.7,
+  "os": "Windows-11-10.0.26200-SP0",
+  "cpuBusyPctAtEnd": 93.5
+ },
+ "env": {
+  "python": "3.12.3",
+  "tokenizers": "0.22.1",
+  "transformers": "5.2.0",
+  "numpy": "2.4.2",
+  "huggingface_hub": "1.5.0",
+  "torch": "2.10.0+cpu",
+  "datasets": "4.6.1"
+ },
+ "notebookCommit": null,
+ "config": {
+  "data": {
+   "flores": "FLORES-200 devtest (eng_Latn, hin_Deva, spa_Latn), 1,012 parallel sentences each, CC BY-SA 4.0, https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz (sha256 b8b0b767...011f6)",
+   "code": "12 CPython 3.12.3 standard library files (every 10th file, see data.py), PSF License"
+  },
+  "vocabSize": 4096
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "en": {
+   "sentences": 1012,
+   "changedByNFC": 0,
+   "changedByNFKC": 3
+  },
+  "hi": {
+   "sentences": 1012,
+   "changedByNFC": 93,
+   "changedByNFKC": 94
+  },
+  "es": {
+   "sentences": 1012,
+   "changedByNFC": 0,
+   "changedByNFKC": 2
+  },
+  "code": {
+   "chunks": 646,
+   "changedByNFKC": 0
+  },
+  "hiChangedChars": [
+   [
+    "U+095C DEVANAGARI LETTER DDDHA",
+    55
+   ],
+   [
+    "U+095B DEVANAGARI LETTER ZA",
+    40
+   ],
+   [
+    "U+095E DEVANAGARI LETTER FA",
+    14
+   ],
+   [
+    "U+095D DEVANAGARI LETTER RHA",
+    9
+   ],
+   [
+    "U+0959 DEVANAGARI LETTER KHHA",
+    2
+   ],
+   [
+    "U+0958 DEVANAGARI LETTER QA",
+    1
+   ],
+   [
+    "U+00BD VULGAR FRACTION ONE HALF",
+    1
+   ],
+   [
+    "U+00BE VULGAR FRACTION THREE QUARTERS",
+    1
+   ],
+   [
+    "U+095A DEVANAGARI LETTER GHHA",
+    1
+   ]
+  ],
+  "roundTripFailuresWithNFKC": {
+   "en": 3,
+   "hi": 94,
+   "es": 2
+  },
+  "shippedRoundTripFailures": {
+   "gpt2": {
+    "normalizer": null,
+    "en": 0,
+    "hi": 0,
+    "es": 0
+   },
+   "smollm2": {
+    "normalizer": null,
+    "en": 0,
+    "hi": 0,
+    "es": 0
+   },
+   "qwen3": {
+    "normalizer": "NFC",
+    "en": 0,
+    "hi": 93,
+    "es": 0
+   }
+  }
+ },
+ "samples": [
+  {
+   "step": 0,
+   "prompt": "x² ﬁle １２３",
+   "completion": "x2 file 123"
+  }
+ ],
+ "wallClockSec": 21.06,
+ "peakMemGB": 2.451,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05"
+}

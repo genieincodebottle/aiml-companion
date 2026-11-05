@@ -1,0 +1,165 @@
+{
+ "runId": "lltTokenizer-t1-vocab-sweep",
+ "module": "lltTokenizer",
+ "tier": "T1",
+ "label": "ablation:vocabSize",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": 0,
+  "cpu": "AMD Ryzen 9 5900HS with Radeon Graphics",
+  "cores": 8,
+  "threads": 16,
+  "ramGB": 33.7,
+  "os": "Windows-11-10.0.26200-SP0",
+  "cpuBusyPctAtEnd": 100.0
+ },
+ "env": {
+  "python": "3.12.3",
+  "tokenizers": "0.22.1",
+  "transformers": "5.2.0",
+  "numpy": "2.4.2",
+  "huggingface_hub": "1.5.0",
+  "torch": "2.10.0+cpu",
+  "datasets": "4.6.1"
+ },
+ "notebookCommit": null,
+ "config": {
+  "data": {
+   "heldout": {
+    "flores": "FLORES-200 devtest (eng_Latn, hin_Deva, spa_Latn), 1,012 parallel sentences each, CC BY-SA 4.0, https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz (sha256 b8b0b767...011f6)",
+    "code": "12 CPython 3.12.3 standard library files (every 10th file, see data.py), PSF License"
+   },
+   "train": {
+    "wikipedia": "wikimedia/wikipedia 20231101.en, .hi, .es: first articles in file order up to 8 MB each, CC BY-SA 3.0 and GFDL",
+    "code": "CPython 3.12.3 standard library files not held out, up to 4 MB, PSF License"
+   },
+   "words": "tokens per word = tokens / number of whitespace-separated words (str.split())"
+  },
+  "trainer": "tokenizers BpeTrainer, ByteLevel pre-tokenizer (GPT-2 regex)",
+  "sizes": [
+   512,
+   1024,
+   2048,
+   4096,
+   8192,
+   16384,
+   32768,
+   65536
+  ]
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 512,
+   "vocabSize": 512,
+   "trainSec": 11.14,
+   "enBytesPerToken": 1.814,
+   "enTokensPerWord": 3.35,
+   "hiBytesPerToken": 3.0,
+   "hiTokensPerWord": 4.395,
+   "esBytesPerToken": 1.876,
+   "esTokensPerWord": 3.29,
+   "codeBytesPerToken": 1.952,
+   "codeTokensPerWord": 5.101
+  },
+  {
+   "step": 1024,
+   "vocabSize": 1024,
+   "trainSec": 19.42,
+   "enBytesPerToken": 2.285,
+   "enTokensPerWord": 2.66,
+   "hiBytesPerToken": 3.35,
+   "hiTokensPerWord": 3.936,
+   "esBytesPerToken": 2.313,
+   "esTokensPerWord": 2.668,
+   "codeBytesPerToken": 2.47,
+   "codeTokensPerWord": 4.03
+  },
+  {
+   "step": 2048,
+   "vocabSize": 2048,
+   "trainSec": 20.02,
+   "enBytesPerToken": 2.687,
+   "enTokensPerWord": 2.262,
+   "hiBytesPerToken": 3.573,
+   "hiTokensPerWord": 3.69,
+   "esBytesPerToken": 2.703,
+   "esTokensPerWord": 2.283,
+   "codeBytesPerToken": 2.85,
+   "codeTokensPerWord": 3.493
+  },
+  {
+   "step": 4096,
+   "vocabSize": 4096,
+   "trainSec": 18.29,
+   "enBytesPerToken": 3.104,
+   "enTokensPerWord": 1.958,
+   "hiBytesPerToken": 3.699,
+   "hiTokensPerWord": 3.564,
+   "esBytesPerToken": 3.101,
+   "esTokensPerWord": 1.99,
+   "codeBytesPerToken": 3.194,
+   "codeTokensPerWord": 3.117
+  },
+  {
+   "step": 8192,
+   "vocabSize": 8192,
+   "trainSec": 17.36,
+   "enBytesPerToken": 3.561,
+   "enTokensPerWord": 1.707,
+   "hiBytesPerToken": 3.813,
+   "hiTokensPerWord": 3.458,
+   "esBytesPerToken": 3.543,
+   "esTokensPerWord": 1.742,
+   "codeBytesPerToken": 3.543,
+   "codeTokensPerWord": 2.81
+  },
+  {
+   "step": 16384,
+   "vocabSize": 16384,
+   "trainSec": 18.45,
+   "enBytesPerToken": 4.049,
+   "enTokensPerWord": 1.501,
+   "hiBytesPerToken": 3.886,
+   "hiTokensPerWord": 3.393,
+   "esBytesPerToken": 4.013,
+   "esTokensPerWord": 1.538,
+   "codeBytesPerToken": 3.858,
+   "codeTokensPerWord": 2.581
+  },
+  {
+   "step": 32768,
+   "vocabSize": 32768,
+   "trainSec": 19.31,
+   "enBytesPerToken": 4.473,
+   "enTokensPerWord": 1.359,
+   "hiBytesPerToken": 3.933,
+   "hiTokensPerWord": 3.353,
+   "esBytesPerToken": 4.465,
+   "esTokensPerWord": 1.382,
+   "codeBytesPerToken": 4.072,
+   "codeTokensPerWord": 2.445
+  },
+  {
+   "step": 65536,
+   "vocabSize": 65536,
+   "trainSec": 22.91,
+   "enBytesPerToken": 4.778,
+   "enTokensPerWord": 1.272,
+   "hiBytesPerToken": 3.957,
+   "hiTokensPerWord": 3.332,
+   "esBytesPerToken": 4.838,
+   "esTokensPerWord": 1.276,
+   "codeBytesPerToken": 4.211,
+   "codeTokensPerWord": 2.365
+  }
+ ],
+ "evals": {},
+ "samples": [],
+ "wallClockSec": 150.64,
+ "peakMemGB": 0.724,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05"
+}

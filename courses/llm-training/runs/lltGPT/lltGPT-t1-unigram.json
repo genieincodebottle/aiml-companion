@@ -1,0 +1,40 @@
+{
+ "runId": "lltGPT-t1-unigram",
+ "module": "lltGPT",
+ "tier": "T1",
+ "label": "reference:unigram",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "transformers": "5.2.0",
+  "tokenizers": "0.22.1",
+  "numpy": "2.4.2",
+  "huggingface_hub": "1.5.0",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "vocab": 2048,
+  "valTargets": 32768
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "unigramValLoss": 5.9205,
+  "lnV": 7.6246,
+  "trainTokens": 5725747
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe check_unigram.py"
+}

@@ -1,0 +1,68 @@
+{
+ "runId": "lltTokenizer-t0-inpage",
+ "module": "lltTokenizer",
+ "tier": "T0",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": 0,
+  "cpu": "AMD Ryzen 9 5900HS with Radeon Graphics",
+  "cores": 8,
+  "threads": 16,
+  "ramGB": 33.7,
+  "os": "Windows-11-10.0.26200-SP0",
+  "cpuBusyPctAtEnd": 100.0
+ },
+ "env": {
+  "python": "3.12.3",
+  "tokenizers": "0.22.1",
+  "transformers": "5.2.0",
+  "numpy": "2.4.2",
+  "huggingface_hub": "1.5.0",
+  "torch": "2.10.0+cpu",
+  "datasets": "4.6.1"
+ },
+ "notebookCommit": null,
+ "config": {
+  "corpus": "the three-line corpus in browser/step2.py, written for this lab (English, Hindi, Spanish)",
+  "merges": 100,
+  "runtime": "CPython stand-in for Pyodide; see lltTokenizer-t0-pyodide for Pyodide 0.27.0"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "steps": {
+   "step1": {
+    "stdout": "English   34 characters  34 bytes 1.00 bytes per character\nHindi     43 characters 117 bytes 2.72 bytes per character\nSpanish   49 characters  50 bytes 1.02 bytes per character\nPython    27 characters  27 bytes 1.00 bytes per character\n[110] [224, 164, 168] [195, 177]\nTrue\n",
+    "processSec": 0.398
+   },
+   "step2": {
+    "stdout": "1054 bytes -> 405 tokens in 0.10 s\n['�', ' �', '�', 's ', 'ा', 'en', 'े', 'to', 'e ', 'ो']\n33 of 100 new tokens hold a space after a non-space byte\n['s ', 'e ', 'r ', 't ', '. ', 'as ']\n",
+    "processSec": 0.647
+   },
+   "step3": {
+    "stdout": "['It', \"'s\", ' 2026', ',', ' and', ' x', ' ', ' =', ' 10', ';']\n['ट', 'ो', 'कन', ' बनत', 'ा', ' ह', 'ै।']\nTrue 15 pieces\npairs that end a word with a space: raw text 12 | inside pieces 0\n",
+    "processSec": 0.397
+   },
+   "step4": {
+    "stdout": "[116, 104, 101, 275] the text\nround-trip failures in 1000 random strings: 0\n",
+    "processSec": 0.635
+   }
+  },
+  "corpusBytes": 1054,
+  "raw100": {
+   "crossBoundary": 33
+  },
+  "pieces100": {
+   "crossBoundary": 0,
+   "tokens": 420
+  }
+ },
+ "samples": [],
+ "wallClockSec": 2.33,
+ "peakMemGB": 0.343,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05"
+}

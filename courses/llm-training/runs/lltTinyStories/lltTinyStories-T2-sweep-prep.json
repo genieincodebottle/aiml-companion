@@ -1,0 +1,23 @@
+{
+ "eot": 0,
+ "valBStartToken": 2328994,
+ "data": {
+  "dataset": "roneneldan/TinyStories",
+  "trainStories": 2119719,
+  "valStories": 21990,
+  "trainTokens": 485861106,
+  "valTokens": 4884112,
+  "valAStories": 10995,
+  "valBStartToken": 2328994,
+  "bytesPerToken": 3.953
+ },
+ "timing": {
+  "datasetLoadSec": 17.6,
+  "tokenizerTrainSec": 42.2,
+  "encodeSec": 381.9,
+  "encoder": "encode_batch_fast",
+  "cacheSaveSec": 0.3,
+  "cacheLoadSec": 0.3,
+  "cpuCount": 4
+ }
+}

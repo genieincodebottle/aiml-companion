@@ -1,0 +1,766 @@
+{
+ "runId": "lltAttention-t2-t4-sweep",
+ "module": "lltAttention",
+ "tier": "T2",
+ "label": "experiment:naive-vs-sdpa",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "countOnMachine": 2,
+  "vramGB": 14.56,
+  "capability": [
+   7,
+   5
+  ],
+  "host": "Kaggle notebook, --accelerator NvidiaTeslaT4"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "os": "Kaggle image"
+ },
+ "notebookCommit": null,
+ "config": {
+  "B": 4,
+  "H": 12,
+  "D": 64,
+  "dtype": "float16",
+  "iters": 20,
+  "warmup": 3,
+  "memory": "torch.cuda.max_memory_allocated() minus memory_allocated() before the timed call",
+  "time": "median of 20 CUDA-event timings after 3 warm-up calls",
+  "kernel": "genieincodebottle/llt-attention-t4 (private), version 1",
+  "started": "2026-11-05T06:32:44Z",
+  "finished": "2026-11-05T06:33:25Z"
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "sweep": [
+   {
+    "peakMiB": 4.52,
+    "ms": 0.25,
+    "msMin": 0.231,
+    "msMax": 0.348,
+    "impl": "naive",
+    "T": 128,
+    "backward": false,
+    "scoresMiB": 1.5
+   },
+   {
+    "peakMiB": 0.75,
+    "ms": 0.062,
+    "msMin": 0.06,
+    "msMax": 0.073,
+    "impl": "sdpa_default",
+    "T": 128,
+    "backward": false,
+    "scoresMiB": 1.5
+   },
+   {
+    "peakMiB": 12.82,
+    "ms": 0.475,
+    "msMin": 0.464,
+    "msMax": 0.496,
+    "impl": "sdpa_math",
+    "T": 128,
+    "backward": false,
+    "scoresMiB": 1.5
+   },
+   {
+    "peakMiB": 0.75,
+    "ms": 0.065,
+    "msMin": 0.06,
+    "msMax": 0.085,
+    "impl": "sdpa_efficient",
+    "T": 128,
+    "backward": false,
+    "scoresMiB": 1.5
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_flash",
+    "T": 128,
+    "backward": false,
+    "scoresMiB": 1.5
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_cudnn",
+    "T": 128,
+    "backward": false,
+    "scoresMiB": 1.5
+   },
+   {
+    "peakMiB": 18.06,
+    "ms": 0.525,
+    "msMin": 0.516,
+    "msMax": 0.56,
+    "impl": "naive",
+    "T": 256,
+    "backward": false,
+    "scoresMiB": 6.0
+   },
+   {
+    "peakMiB": 1.5,
+    "ms": 0.144,
+    "msMin": 0.138,
+    "msMax": 0.159,
+    "impl": "sdpa_default",
+    "T": 256,
+    "backward": false,
+    "scoresMiB": 6.0
+   },
+   {
+    "peakMiB": 39.26,
+    "ms": 1.184,
+    "msMin": 1.18,
+    "msMax": 1.235,
+    "impl": "sdpa_math",
+    "T": 256,
+    "backward": false,
+    "scoresMiB": 6.0
+   },
+   {
+    "peakMiB": 1.5,
+    "ms": 0.141,
+    "msMin": 0.135,
+    "msMax": 0.161,
+    "impl": "sdpa_efficient",
+    "T": 256,
+    "backward": false,
+    "scoresMiB": 6.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_flash",
+    "T": 256,
+    "backward": false,
+    "scoresMiB": 6.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_cudnn",
+    "T": 256,
+    "backward": false,
+    "scoresMiB": 6.0
+   },
+   {
+    "peakMiB": 72.25,
+    "ms": 1.659,
+    "msMin": 1.655,
+    "msMax": 1.679,
+    "impl": "naive",
+    "T": 512,
+    "backward": false,
+    "scoresMiB": 24.0
+   },
+   {
+    "peakMiB": 3.0,
+    "ms": 0.357,
+    "msMin": 0.346,
+    "msMax": 0.383,
+    "impl": "sdpa_default",
+    "T": 512,
+    "backward": false,
+    "scoresMiB": 24.0
+   },
+   {
+    "peakMiB": 133.02,
+    "ms": 3.933,
+    "msMin": 3.833,
+    "msMax": 3.941,
+    "impl": "sdpa_math",
+    "T": 512,
+    "backward": false,
+    "scoresMiB": 24.0
+   },
+   {
+    "peakMiB": 3.0,
+    "ms": 0.361,
+    "msMin": 0.343,
+    "msMax": 0.381,
+    "impl": "sdpa_efficient",
+    "T": 512,
+    "backward": false,
+    "scoresMiB": 24.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_flash",
+    "T": 512,
+    "backward": false,
+    "scoresMiB": 24.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_cudnn",
+    "T": 512,
+    "backward": false,
+    "scoresMiB": 24.0
+   },
+   {
+    "peakMiB": 289.0,
+    "ms": 4.982,
+    "msMin": 4.936,
+    "msMax": 5.04,
+    "impl": "naive",
+    "T": 1024,
+    "backward": false,
+    "scoresMiB": 96.0
+   },
+   {
+    "peakMiB": 6.0,
+    "ms": 0.553,
+    "msMin": 0.547,
+    "msMax": 0.58,
+    "impl": "sdpa_default",
+    "T": 1024,
+    "backward": false,
+    "scoresMiB": 96.0
+   },
+   {
+    "peakMiB": 484.42,
+    "ms": 12.295,
+    "msMin": 12.26,
+    "msMax": 12.372,
+    "impl": "sdpa_math",
+    "T": 1024,
+    "backward": false,
+    "scoresMiB": 96.0
+   },
+   {
+    "peakMiB": 6.0,
+    "ms": 0.513,
+    "msMin": 0.5,
+    "msMax": 0.586,
+    "impl": "sdpa_efficient",
+    "T": 1024,
+    "backward": false,
+    "scoresMiB": 96.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_flash",
+    "T": 1024,
+    "backward": false,
+    "scoresMiB": 96.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_cudnn",
+    "T": 1024,
+    "backward": false,
+    "scoresMiB": 96.0
+   },
+   {
+    "peakMiB": 1156.0,
+    "ms": 20.356,
+    "msMin": 20.171,
+    "msMax": 20.5,
+    "impl": "naive",
+    "T": 2048,
+    "backward": false,
+    "scoresMiB": 384.0
+   },
+   {
+    "peakMiB": 12.0,
+    "ms": 2.037,
+    "msMin": 1.989,
+    "msMax": 2.167,
+    "impl": "sdpa_default",
+    "T": 2048,
+    "backward": false,
+    "scoresMiB": 384.0
+   },
+   {
+    "peakMiB": 1840.09,
+    "ms": 47.002,
+    "msMin": 46.819,
+    "msMax": 47.682,
+    "impl": "sdpa_math",
+    "T": 2048,
+    "backward": false,
+    "scoresMiB": 384.0
+   },
+   {
+    "peakMiB": 12.0,
+    "ms": 2.13,
+    "msMin": 1.986,
+    "msMax": 2.236,
+    "impl": "sdpa_efficient",
+    "T": 2048,
+    "backward": false,
+    "scoresMiB": 384.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_flash",
+    "T": 2048,
+    "backward": false,
+    "scoresMiB": 384.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_cudnn",
+    "T": 2048,
+    "backward": false,
+    "scoresMiB": 384.0
+   },
+   {
+    "peakMiB": 4624.0,
+    "ms": 89.012,
+    "msMin": 87.081,
+    "msMax": 89.643,
+    "impl": "naive",
+    "T": 4096,
+    "backward": false,
+    "scoresMiB": 1536.0
+   },
+   {
+    "peakMiB": 24.0,
+    "ms": 8.655,
+    "msMin": 7.457,
+    "msMax": 8.833,
+    "impl": "sdpa_default",
+    "T": 4096,
+    "backward": false,
+    "scoresMiB": 1536.0
+   },
+   {
+    "peakMiB": 7168.19,
+    "ms": 194.052,
+    "msMin": 191.732,
+    "msMax": 195.059,
+    "impl": "sdpa_math",
+    "T": 4096,
+    "backward": false,
+    "scoresMiB": 1536.0
+   },
+   {
+    "peakMiB": 24.0,
+    "ms": 8.669,
+    "msMin": 8.028,
+    "msMax": 8.875,
+    "impl": "sdpa_efficient",
+    "T": 4096,
+    "backward": false,
+    "scoresMiB": 1536.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_flash",
+    "T": 4096,
+    "backward": false,
+    "scoresMiB": 1536.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_cudnn",
+    "T": 4096,
+    "backward": false,
+    "scoresMiB": 1536.0
+   },
+   {
+    "peakMiB": 7.52,
+    "ms": 0.838,
+    "msMin": 0.776,
+    "msMax": 0.875,
+    "impl": "naive",
+    "T": 128,
+    "backward": true,
+    "scoresMiB": 1.5
+   },
+   {
+    "peakMiB": 5.3,
+    "ms": 0.388,
+    "msMin": 0.371,
+    "msMax": 0.461,
+    "impl": "sdpa_default",
+    "T": 128,
+    "backward": true,
+    "scoresMiB": 1.5
+   },
+   {
+    "peakMiB": 17.25,
+    "ms": 1.037,
+    "msMin": 0.996,
+    "msMax": 1.102,
+    "impl": "sdpa_math",
+    "T": 128,
+    "backward": true,
+    "scoresMiB": 1.5
+   },
+   {
+    "peakMiB": 5.3,
+    "ms": 0.375,
+    "msMin": 0.365,
+    "msMax": 0.44,
+    "impl": "sdpa_efficient",
+    "T": 128,
+    "backward": true,
+    "scoresMiB": 1.5
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_flash",
+    "T": 128,
+    "backward": true,
+    "scoresMiB": 1.5
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_cudnn",
+    "T": 128,
+    "backward": true,
+    "scoresMiB": 1.5
+   },
+   {
+    "peakMiB": 27.06,
+    "ms": 1.305,
+    "msMin": 1.3,
+    "msMax": 1.328,
+    "impl": "naive",
+    "T": 256,
+    "backward": true,
+    "scoresMiB": 6.0
+   },
+   {
+    "peakMiB": 10.6,
+    "ms": 0.671,
+    "msMin": 0.652,
+    "msMax": 0.928,
+    "impl": "sdpa_default",
+    "T": 256,
+    "backward": true,
+    "scoresMiB": 6.0
+   },
+   {
+    "peakMiB": 58.5,
+    "ms": 2.542,
+    "msMin": 2.535,
+    "msMax": 2.655,
+    "impl": "sdpa_math",
+    "T": 256,
+    "backward": true,
+    "scoresMiB": 6.0
+   },
+   {
+    "peakMiB": 10.6,
+    "ms": 0.662,
+    "msMin": 0.636,
+    "msMax": 0.728,
+    "impl": "sdpa_efficient",
+    "T": 256,
+    "backward": true,
+    "scoresMiB": 6.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_flash",
+    "T": 256,
+    "backward": true,
+    "scoresMiB": 6.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_cudnn",
+    "T": 256,
+    "backward": true,
+    "scoresMiB": 6.0
+   },
+   {
+    "peakMiB": 102.25,
+    "ms": 3.417,
+    "msMin": 3.371,
+    "msMax": 4.143,
+    "impl": "naive",
+    "T": 512,
+    "backward": true,
+    "scoresMiB": 24.0
+   },
+   {
+    "peakMiB": 21.19,
+    "ms": 0.965,
+    "msMin": 0.955,
+    "msMax": 0.987,
+    "impl": "sdpa_default",
+    "T": 512,
+    "backward": true,
+    "scoresMiB": 24.0
+   },
+   {
+    "peakMiB": 213.0,
+    "ms": 6.346,
+    "msMin": 6.138,
+    "msMax": 6.429,
+    "impl": "sdpa_math",
+    "T": 512,
+    "backward": true,
+    "scoresMiB": 24.0
+   },
+   {
+    "peakMiB": 21.19,
+    "ms": 0.992,
+    "msMin": 0.965,
+    "msMax": 1.094,
+    "impl": "sdpa_efficient",
+    "T": 512,
+    "backward": true,
+    "scoresMiB": 24.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_flash",
+    "T": 512,
+    "backward": true,
+    "scoresMiB": 24.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_cudnn",
+    "T": 512,
+    "backward": true,
+    "scoresMiB": 24.0
+   },
+   {
+    "peakMiB": 397.0,
+    "ms": 12.519,
+    "msMin": 12.461,
+    "msMax": 12.646,
+    "impl": "naive",
+    "T": 1024,
+    "backward": true,
+    "scoresMiB": 96.0
+   },
+   {
+    "peakMiB": 42.39,
+    "ms": 2.923,
+    "msMin": 2.747,
+    "msMax": 3.14,
+    "impl": "sdpa_default",
+    "T": 1024,
+    "backward": true,
+    "scoresMiB": 96.0
+   },
+   {
+    "peakMiB": 810.0,
+    "ms": 24.241,
+    "msMin": 24.013,
+    "msMax": 24.53,
+    "impl": "sdpa_math",
+    "T": 1024,
+    "backward": true,
+    "scoresMiB": 96.0
+   },
+   {
+    "peakMiB": 42.39,
+    "ms": 3.073,
+    "msMin": 2.867,
+    "msMax": 3.176,
+    "impl": "sdpa_efficient",
+    "T": 1024,
+    "backward": true,
+    "scoresMiB": 96.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_flash",
+    "T": 1024,
+    "backward": true,
+    "scoresMiB": 96.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_cudnn",
+    "T": 1024,
+    "backward": true,
+    "scoresMiB": 96.0
+   },
+   {
+    "peakMiB": 1564.0,
+    "ms": 49.581,
+    "msMin": 49.434,
+    "msMax": 49.733,
+    "impl": "naive",
+    "T": 2048,
+    "backward": true,
+    "scoresMiB": 384.0
+   },
+   {
+    "peakMiB": 84.77,
+    "ms": 10.728,
+    "msMin": 10.457,
+    "msMax": 11.254,
+    "impl": "sdpa_default",
+    "T": 2048,
+    "backward": true,
+    "scoresMiB": 384.0
+   },
+   {
+    "peakMiB": 3156.0,
+    "ms": 92.644,
+    "msMin": 91.994,
+    "msMax": 93.467,
+    "impl": "sdpa_math",
+    "T": 2048,
+    "backward": true,
+    "scoresMiB": 384.0
+   },
+   {
+    "peakMiB": 84.77,
+    "ms": 10.946,
+    "msMin": 10.663,
+    "msMax": 11.866,
+    "impl": "sdpa_efficient",
+    "T": 2048,
+    "backward": true,
+    "scoresMiB": 384.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_flash",
+    "T": 2048,
+    "backward": true,
+    "scoresMiB": 384.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_cudnn",
+    "T": 2048,
+    "backward": true,
+    "scoresMiB": 384.0
+   },
+   {
+    "peakMiB": 6208.0,
+    "ms": 204.396,
+    "msMin": 202.989,
+    "msMax": 206.051,
+    "impl": "naive",
+    "T": 4096,
+    "backward": true,
+    "scoresMiB": 1536.0
+   },
+   {
+    "peakMiB": 169.55,
+    "ms": 40.408,
+    "msMin": 39.523,
+    "msMax": 43.739,
+    "impl": "sdpa_default",
+    "T": 4096,
+    "backward": true,
+    "scoresMiB": 1536.0
+   },
+   {
+    "peakMiB": 12456.0,
+    "ms": 395.883,
+    "msMin": 352.706,
+    "msMax": 402.316,
+    "impl": "sdpa_math",
+    "T": 4096,
+    "backward": true,
+    "scoresMiB": 1536.0
+   },
+   {
+    "peakMiB": 169.55,
+    "ms": 40.581,
+    "msMin": 39.981,
+    "msMax": 44.546,
+    "impl": "sdpa_efficient",
+    "T": 4096,
+    "backward": true,
+    "scoresMiB": 1536.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_flash",
+    "T": 4096,
+    "backward": true,
+    "scoresMiB": 1536.0
+   },
+   {
+    "error": "RuntimeError",
+    "detail": "No available kernel. Aborting execution.",
+    "impl": "sdpa_cudnn",
+    "T": 4096,
+    "backward": true,
+    "scoresMiB": 1536.0
+   }
+  ],
+  "fp16Accuracy": [
+   {
+    "T": 128,
+    "maxAbsNaiveVsSdpa": 0.001953125,
+    "maxAbsSdpaVsFp32": 0.0010137557983398438,
+    "maxAbsNaiveVsFp32": 0.0017189979553222656
+   },
+   {
+    "T": 256,
+    "maxAbsNaiveVsSdpa": 0.001953125,
+    "maxAbsSdpaVsFp32": 0.0010483264923095703,
+    "maxAbsNaiveVsFp32": 0.002124309539794922
+   },
+   {
+    "T": 512,
+    "maxAbsNaiveVsSdpa": 0.001953125,
+    "maxAbsSdpaVsFp32": 0.0010058879852294922,
+    "maxAbsNaiveVsFp32": 0.0016086101531982422
+   },
+   {
+    "T": 1024,
+    "maxAbsNaiveVsSdpa": 0.001953125,
+    "maxAbsSdpaVsFp32": 0.0011699199676513672,
+    "maxAbsNaiveVsFp32": 0.002899169921875
+   },
+   {
+    "T": 2048,
+    "maxAbsNaiveVsSdpa": 0.001953125,
+    "maxAbsSdpaVsFp32": 0.0010364055633544922,
+    "maxAbsNaiveVsFp32": 0.0019507408142089844
+   },
+   {
+    "T": 4096,
+    "maxAbsNaiveVsSdpa": 0.001953125,
+    "maxAbsSdpaVsFp32": 0.0010540485382080078,
+    "maxAbsNaiveVsFp32": 0.0015560388565063477
+   }
+  ],
+  "fp16LeakageSdpaWorst": 0.0,
+  "sdpBackendsEnabled": {
+   "flash": true,
+   "memEfficient": true,
+   "math": true
+  },
+  "flashWarning": "Flash attention only supports gpu architectures in the range [sm80, sm121]. Attempting to run on a sm 7.5 gpu."
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe import_kaggle.py"
+}

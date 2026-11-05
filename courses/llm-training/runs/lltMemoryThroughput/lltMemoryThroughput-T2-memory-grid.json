@@ -1,0 +1,242 @@
+{
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6,
+  "platform": "Kaggle, accelerator NvidiaTeslaT4, CUDA_VISIBLE_DEVICES=0"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4"
+  ]
+ },
+ "notebook": "kaggle genieincodebottle/llt-memthru-p1 version 2",
+ "date": "2026-11-05",
+ "seed": 0,
+ "model": "GPT-2 small, 124,439,808 parameters (steps/gpt.py)",
+ "runId": "lltMemoryThroughput-T2-memory-grid",
+ "label": "baseline",
+ "config": {
+  "precision": "fp16 autocast + GradScaler",
+  "optimizer": "AdamW fused",
+  "measuredStep": 3
+ },
+ "metrics": [
+  {
+   "batch": 1,
+   "seq": 256,
+   "tokens": 256,
+   "predictedGB": 2.145,
+   "allocatedGB": 2.174,
+   "reservedGB": 2.502,
+   "oom": false
+  },
+  {
+   "batch": 2,
+   "seq": 256,
+   "tokens": 512,
+   "predictedGB": 2.233,
+   "allocatedGB": 2.27,
+   "reservedGB": 2.642,
+   "oom": false
+  },
+  {
+   "batch": 4,
+   "seq": 256,
+   "tokens": 1024,
+   "predictedGB": 2.723,
+   "allocatedGB": 2.754,
+   "reservedGB": 2.905,
+   "oom": false
+  },
+  {
+   "batch": 8,
+   "seq": 256,
+   "tokens": 2048,
+   "predictedGB": 3.704,
+   "allocatedGB": 3.7,
+   "reservedGB": 3.827,
+   "oom": false
+  },
+  {
+   "batch": 12,
+   "seq": 256,
+   "tokens": 3072,
+   "predictedGB": 4.685,
+   "allocatedGB": 4.668,
+   "reservedGB": 5.335,
+   "oom": false
+  },
+  {
+   "batch": 16,
+   "seq": 256,
+   "tokens": 4096,
+   "predictedGB": 5.666,
+   "allocatedGB": 5.631,
+   "reservedGB": 5.958,
+   "oom": false
+  },
+  {
+   "batch": 1,
+   "seq": 512,
+   "tokens": 512,
+   "predictedGB": 2.233,
+   "allocatedGB": 2.27,
+   "reservedGB": 2.642,
+   "oom": false
+  },
+  {
+   "batch": 2,
+   "seq": 512,
+   "tokens": 1024,
+   "predictedGB": 2.723,
+   "allocatedGB": 2.754,
+   "reservedGB": 2.902,
+   "oom": false
+  },
+  {
+   "batch": 4,
+   "seq": 512,
+   "tokens": 2048,
+   "predictedGB": 3.704,
+   "allocatedGB": 3.7,
+   "reservedGB": 3.827,
+   "oom": false
+  },
+  {
+   "batch": 8,
+   "seq": 512,
+   "tokens": 4096,
+   "predictedGB": 5.666,
+   "allocatedGB": 5.631,
+   "reservedGB": 5.956,
+   "oom": false
+  },
+  {
+   "batch": 12,
+   "seq": 512,
+   "tokens": 6144,
+   "predictedGB": 7.627,
+   "allocatedGB": 7.555,
+   "reservedGB": 8.512,
+   "oom": false
+  },
+  {
+   "batch": 16,
+   "seq": 512,
+   "tokens": 8192,
+   "predictedGB": 9.589,
+   "allocatedGB": 9.476,
+   "reservedGB": 11.027,
+   "oom": false
+  },
+  {
+   "batch": 1,
+   "seq": 1024,
+   "tokens": 1024,
+   "predictedGB": 2.723,
+   "allocatedGB": 2.755,
+   "reservedGB": 2.902,
+   "oom": false
+  },
+  {
+   "batch": 2,
+   "seq": 1024,
+   "tokens": 2048,
+   "predictedGB": 3.704,
+   "allocatedGB": 3.7,
+   "reservedGB": 3.827,
+   "oom": false
+  },
+  {
+   "batch": 4,
+   "seq": 1024,
+   "tokens": 4096,
+   "predictedGB": 5.666,
+   "allocatedGB": 5.631,
+   "reservedGB": 5.956,
+   "oom": false
+  },
+  {
+   "batch": 8,
+   "seq": 1024,
+   "tokens": 8192,
+   "predictedGB": 9.589,
+   "allocatedGB": 9.477,
+   "reservedGB": 11.027,
+   "oom": false
+  },
+  {
+   "batch": 12,
+   "seq": 1024,
+   "tokens": 12288,
+   "predictedGB": 13.513,
+   "allocatedGB": 13.323,
+   "reservedGB": 13.636,
+   "oom": false
+  },
+  {
+   "batch": 16,
+   "seq": 1024,
+   "tokens": 16384,
+   "predictedGB": 17.436,
+   "allocatedGB": null,
+   "reservedGB": null,
+   "oom": true
+  }
+ ],
+ "evals": {
+  "phases_b8_s1024": {
+   "baseline": {
+    "before": 1.523,
+    "after_forward": 6.184,
+    "forward_peak": 7.857,
+    "backward_peak": 9.478,
+    "after_backward": 2.027,
+    "optimizer_peak": 2.027,
+    "saved_per_token_bytes": 568988
+   },
+   "checkpointing": {
+    "before": 1.523,
+    "after_forward": 3.586,
+    "forward_peak": 5.438,
+    "backward_peak": 6.88,
+    "after_backward": 2.03,
+    "optimizer_peak": 2.03,
+    "saved_per_token_bytes": 251932
+   },
+   "chunked CE x8": {
+    "before": 1.523,
+    "after_forward": 4.474,
+    "forward_peak": 4.885,
+    "backward_peak": 5.348,
+    "after_backward": 2.027,
+    "optimizer_peak": 2.027,
+    "saved_per_token_bytes": 360137
+   },
+   "both": {
+    "before": 1.523,
+    "after_forward": 1.875,
+    "forward_peak": 2.464,
+    "backward_peak": 2.75,
+    "after_backward": 2.029,
+    "optimizer_peak": 2.029,
+    "saved_per_token_bytes": 43017
+   }
+  },
+  "bytesPerTokenPerBlock": 29856.1
+ },
+ "stdout": {
+  "check": "GPUs: ['Tesla T4'] | capability (7, 5)\nOne GPU. Part 2 (two GPUs) needs Kaggle: Settings > Accelerator > GPU T4 x2. Parts 1 and 3 run here.\npython 3.13.16 | torch 2.11.0+cu130 | RAM 34 GB | free disk in /tmp 1038 GB\nRuntime OK\n",
+  "s01": "Tesla T4 (7, 5) | is_bf16_supported(): True | using torch.float16\nparameters 124,439,808\nallocated after a step 2.020 GB = 16.23 bytes per parameter\n16 bytes per parameter 1.991 GB\nreserved by the caching allocator 2.867 GB\n",
+  "s02": "b= 1 s= 256  predicted peak  2.15 GB\nb= 8 s=1024  predicted peak  9.59 GB\nb=12 s=1024  predicted peak 13.51 GB\nb=16 s=1024  predicted peak 17.44 GB\nper token: blocks 350,208 B, logits 603,084 B\n",
+  "s03": "b= 1 s= 256  predicted  2.15  allocated  2.17  reserved  2.50 GB  error -1.3%\nb= 2 s= 256  predicted  2.23  allocated  2.27  reserved  2.64 GB  error -1.6%\nb= 4 s= 256  predicted  2.72  allocated  2.75  reserved  2.90 GB  error -1.1%\nb= 8 s= 256  predicted  3.70  allocated  3.70  reserved  3.83 GB  error +0.1%\nb=12 s= 256  predicted  4.68  allocated  4.67  reserved  5.34 GB  error +0.4%\nb=16 s= 256  predicted  5.67  allocated  5.63  reserved  5.96 GB  error +0.6%\nb= 1 s= 512  predicted  2.23  allocated  2.27  reserved  2.64 GB  error -1.6%\nb= 2 s= 512  predicted  2.72  allocated  2.75  reserved  2.90 GB  error -1.1%\nb= 4 s= 512  predicted  3.70  allocated  3.70  reserved  3.83 GB  error +0.1%\nb= 8 s= 512  predicted  5.67  allocated  5.63  reserved  5.96 GB  error +0.6%\nb=12 s= 512  predicted  7.63  allocated  7.56  reserved  8.51 GB  error +1.0%\nb=16 s= 512  predicted  9.59  allocated  9.48  reserved 11.03 GB  error +1.2%\nb= 1 s=1024  predicted  2.72  allocated  2.76  reserved  2.90 GB  error -1.2%\nb= 2 s=1024  predicted  3.70  allocated  3.70  reserved  3.83 GB  error +0.1%\nb= 4 s=1024  predicted  5.67  allocated  5.63  reserved  5.96 GB  error +0.6%\nb= 8 s=1024  predicted  9.59  allocated  9.48  reserved 11.03 GB  error +1.2%\nb=12 s=1024  predicted 13.51  allocated 13.32  reserved 13.64 GB  error +1.4%\nb=16 s=1024  predicted 17.44 GB  measured OUT OF MEMORY\n"
+ },
+ "wallClockSec": 54.7,
+ "module": "lltMemoryThroughput",
+ "tier": "T2",
+ "costUSD": 0
+}

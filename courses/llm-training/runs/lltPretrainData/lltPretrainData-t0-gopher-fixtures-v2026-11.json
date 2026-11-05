@@ -1,0 +1,104 @@
+{
+ "runId": "lltPretrainData-t0-gopher-fixtures-v2026-11",
+ "module": "lltPretrainData",
+ "tier": "T0",
+ "label": "check",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "numpy": "2.5.4",
+  "torch": "2.15.0+cpu",
+  "tokenizers": "0.23.3",
+  "trafilatura": "2.3.1",
+  "datasketch": "2.0.0",
+  "sklearn": "1.9.1",
+  "pandas": "3.1.1",
+  "pyarrow": "26.0.1",
+  "fasttext": "fasttext-wheel 0.9.2",
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "rules": "ptd.py"
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "good_page": {
+   "expected": null,
+   "got": null,
+   "ok": true
+  },
+  "too_short": {
+   "expected": "too_few_words",
+   "got": "too_few_words",
+   "ok": true
+  },
+  "hash_tags": {
+   "expected": "hash_ratio",
+   "got": "hash_ratio",
+   "ok": true
+  },
+  "no_stop_words": {
+   "expected": "stop_words",
+   "got": "stop_words",
+   "ok": true
+  },
+  "symbols": {
+   "expected": "alpha_words",
+   "got": "alpha_words",
+   "ok": true
+  },
+  "bullets": {
+   "expected": "bullet_lines",
+   "got": "bullet_lines",
+   "ok": true
+  },
+  "repeated_lines": {
+   "expected": "dup_lines",
+   "got": "dup_lines",
+   "ok": true
+  },
+  "c4_keeps_good": {
+   "expected": null,
+   "got": null,
+   "ok": true
+  },
+  "c4_lorem": {
+   "expected": "lorem_ipsum",
+   "got": "lorem_ipsum",
+   "ok": true
+  },
+  "c4_curly": {
+   "expected": "curly_bracket",
+   "got": "curly_bracket",
+   "ok": true
+  },
+  "c4_two_sentences": {
+   "expected": "fewer_than_3_sentences",
+   "got": "fewer_than_3_sentences",
+   "ok": true
+  },
+  "c4_drops_lines": {
+   "keptLines": 1,
+   "ok": true
+  },
+  "pii": {
+   "text": "Write to <EMAIL> or ping <IP>, not 192.168.1.1.",
+   "emails": 1,
+   "ips": 1,
+   "ok": true
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py <scratch>/llt/ptd/raw/arc_easy_test.parquet ../../kaggle/out/llt-ptd-prep/ptd_prep_stats.json"
+}

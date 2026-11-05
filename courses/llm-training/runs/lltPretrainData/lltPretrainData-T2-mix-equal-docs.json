@@ -1,0 +1,220 @@
+{
+ "runId": "lltPretrainData-T2-mix-equal-docs",
+ "module": "lltPretrainData",
+ "tier": "T2",
+ "label": "broken:weights-by-documents",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "capability": [
+   7,
+   5
+  ],
+  "concurrent": "one run per GPU, two GPUs busy"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "ampDtype": "float16",
+  "gradScaler": true
+ },
+ "config": {
+  "vocab": 4096,
+  "d": 320,
+  "layers": 8,
+  "heads": 8,
+  "ctx": 512,
+  "batch": 64,
+  "lr": 0.001,
+  "warmup": 100,
+  "steps": 300,
+  "eval_every": 100,
+  "wd": 0.1,
+  "clip": 1.0,
+  "seed": 0,
+  "evalTokens": 131072,
+  "evalTokensFinal": 600000,
+  "data": {
+   "kind": "mixture",
+   "by": "docs",
+   "domains": {
+    "F_train": 0.3333333333333333,
+    "wiki_train": 0.3333333333333333,
+    "ts_train": 0.3333333333333333
+   }
+  },
+  "evals": [
+   "F_val",
+   "wiki_test",
+   "ts_val"
+  ]
+ },
+ "seed": 0,
+ "params": 11474240,
+ "metrics": [
+  {
+   "step": 0,
+   "tokens": 0,
+   "lr": 1e-05,
+   "elapsedSec": 0.0,
+   "F_val": {
+    "loss": 8.393,
+    "bpb": 3.8058,
+    "tokens": 131072
+   },
+   "wiki_test": {
+    "loss": 8.3748,
+    "bpb": 3.6817,
+    "tokens": 131072
+   },
+   "ts_val": {
+    "loss": 8.3663,
+    "bpb": 3.2963,
+    "tokens": 131072
+   },
+   "memGB": 0.74
+  },
+  {
+   "step": 100,
+   "tokens": 3276800,
+   "lr": 0.001,
+   "elapsedSec": 48.3,
+   "F_val": {
+    "loss": 5.7031,
+    "bpb": 2.586,
+    "tokens": 131072
+   },
+   "wiki_test": {
+    "loss": 5.1497,
+    "bpb": 2.2639,
+    "tokens": 131072
+   },
+   "ts_val": {
+    "loss": 4.9384,
+    "bpb": 1.9457,
+    "tokens": 131072
+   },
+   "memGB": 6.91
+  },
+  {
+   "step": 200,
+   "tokens": 6553600,
+   "lr": 0.00055,
+   "elapsedSec": 96.3,
+   "F_val": {
+    "loss": 5.0888,
+    "bpb": 2.3075,
+    "tokens": 131072
+   },
+   "wiki_test": {
+    "loss": 4.3702,
+    "bpb": 1.9212,
+    "tokens": 131072
+   },
+   "ts_val": {
+    "loss": 4.0062,
+    "bpb": 1.5784,
+    "tokens": 131072
+   },
+   "memGB": 6.91
+  },
+  {
+   "step": 300,
+   "tokens": 9830400,
+   "lr": 0.00010005551538325275,
+   "elapsedSec": 144.5,
+   "F_val": {
+    "loss": 4.7083,
+    "bpb": 2.0825,
+    "tokens": 599552
+   },
+   "wiki_test": {
+    "loss": 4.097,
+    "bpb": 1.8012,
+    "tokens": 392704
+   },
+   "ts_val": {
+    "loss": 3.7601,
+    "bpb": 1.48,
+    "tokens": 599552
+   },
+   "memGB": 6.91
+  }
+ ],
+ "trainCurve": [
+  {
+   "step": 25,
+   "trainLoss": 7.8103
+  },
+  {
+   "step": 50,
+   "trainLoss": 6.7425
+  },
+  {
+   "step": 75,
+   "trainLoss": 5.968
+  },
+  {
+   "step": 100,
+   "trainLoss": 5.3984
+  },
+  {
+   "step": 125,
+   "trainLoss": 5.0426
+  },
+  {
+   "step": 150,
+   "trainLoss": 4.8184
+  },
+  {
+   "step": 175,
+   "trainLoss": 4.6323
+  },
+  {
+   "step": 200,
+   "trainLoss": 4.4879
+  },
+  {
+   "step": 225,
+   "trainLoss": 4.3568
+  },
+  {
+   "step": 250,
+   "trainLoss": 4.2519
+  },
+  {
+   "step": 275,
+   "trainLoss": 4.1669
+  },
+  {
+   "step": 300,
+   "trainLoss": 4.131
+  }
+ ],
+ "date": "2026-11-05",
+ "data": {
+  "by": "docs",
+  "weights": {
+   "F_train": 0.3333333333333333,
+   "wiki_train": 0.3333333333333333,
+   "ts_train": 0.3333333333333333
+  },
+  "tokensPerDomain": {
+   "F_train": 1330994,
+   "wiki_train": 8200067,
+   "ts_train": 362685
+  },
+  "tokenShare": {
+   "F_train": 0.1345,
+   "wiki_train": 0.8288,
+   "ts_train": 0.0367
+  }
+ },
+ "streamBuildSec": 0.7,
+ "trainSec": 151.9,
+ "peakMemGB": 6.91,
+ "notebookCommit": null,
+ "kernel": "genieincodebottle/llt-ptd-train v1 (Kaggle, 2x T4, one run per GPU)",
+ "costUSD": 0
+}

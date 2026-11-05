@@ -1,0 +1,1057 @@
+{
+ "runId": "lltGeneration-t1-induction-toy-L1-s0",
+ "module": "lltGeneration",
+ "tier": "T1",
+ "label": "research:induction-toy-1layer-control",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "torchThreads": 4
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "huggingface_hub": "2.4.0",
+  "datasets": "5.1.0",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "V": 128,
+  "d": 64,
+  "L": 1,
+  "H": 4,
+  "ctx": 64,
+  "n": 32,
+  "batch": 32,
+  "lr": 0.001,
+  "warmup": 100,
+  "wd": 0.0,
+  "steps": 1500,
+  "data": "n random tokens from 128 repeated until the sequence is 64 long, with the period n drawn from 8..32 for each sequence, fresh every step. The period varies, so a head that attends a fixed distance back cannot predict the repeats",
+  "probe": "n = 32 random tokens repeated twice, 64 sequences"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 0,
+   "tokens": 0,
+   "lossFirstCopy": 4.8707,
+   "lossSecondCopy": 4.8711,
+   "iclScore_60_minus_10": -0.0099,
+   "inductionByHead": [
+    [
+     0.0214,
+     0.0214,
+     0.0214,
+     0.0214
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0214
+  },
+  {
+   "step": 25,
+   "tokens": 51200,
+   "lossFirstCopy": 4.8696,
+   "lossSecondCopy": 4.8661,
+   "iclScore_60_minus_10": -0.01,
+   "inductionByHead": [
+    [
+     0.0214,
+     0.0214,
+     0.0214,
+     0.0214
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0214
+  },
+  {
+   "step": 50,
+   "tokens": 102400,
+   "lossFirstCopy": 4.8674,
+   "lossSecondCopy": 4.8521,
+   "iclScore_60_minus_10": -0.0121,
+   "inductionByHead": [
+    [
+     0.0214,
+     0.0214,
+     0.0214,
+     0.0214
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0214
+  },
+  {
+   "step": 75,
+   "tokens": 153600,
+   "lossFirstCopy": 4.8673,
+   "lossSecondCopy": 4.8289,
+   "iclScore_60_minus_10": -0.0409,
+   "inductionByHead": [
+    [
+     0.0214,
+     0.0215,
+     0.0214,
+     0.0215
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0215
+  },
+  {
+   "step": 100,
+   "tokens": 204800,
+   "lossFirstCopy": 4.8739,
+   "lossSecondCopy": 4.8017,
+   "iclScore_60_minus_10": -0.064,
+   "inductionByHead": [
+    [
+     0.0215,
+     0.0215,
+     0.0215,
+     0.0215
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0215
+  },
+  {
+   "step": 125,
+   "tokens": 256000,
+   "lossFirstCopy": 4.8787,
+   "lossSecondCopy": 4.7744,
+   "iclScore_60_minus_10": -0.114,
+   "inductionByHead": [
+    [
+     0.0216,
+     0.0217,
+     0.0216,
+     0.0217
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0217
+  },
+  {
+   "step": 150,
+   "tokens": 307200,
+   "lossFirstCopy": 4.886,
+   "lossSecondCopy": 4.7541,
+   "iclScore_60_minus_10": -0.1241,
+   "inductionByHead": [
+    [
+     0.0217,
+     0.0218,
+     0.0217,
+     0.0218
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0218
+  },
+  {
+   "step": 175,
+   "tokens": 358400,
+   "lossFirstCopy": 4.8927,
+   "lossSecondCopy": 4.739,
+   "iclScore_60_minus_10": -0.1167,
+   "inductionByHead": [
+    [
+     0.0217,
+     0.0219,
+     0.0217,
+     0.0219
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0219
+  },
+  {
+   "step": 200,
+   "tokens": 409600,
+   "lossFirstCopy": 4.9018,
+   "lossSecondCopy": 4.726,
+   "iclScore_60_minus_10": -0.149,
+   "inductionByHead": [
+    [
+     0.0218,
+     0.022,
+     0.0218,
+     0.022
+    ]
+   ],
+   "inductionMaxLastLayer": 0.022
+  },
+  {
+   "step": 225,
+   "tokens": 460800,
+   "lossFirstCopy": 4.9139,
+   "lossSecondCopy": 4.7161,
+   "iclScore_60_minus_10": -0.1345,
+   "inductionByHead": [
+    [
+     0.0218,
+     0.022,
+     0.0218,
+     0.0221
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0221
+  },
+  {
+   "step": 250,
+   "tokens": 512000,
+   "lossFirstCopy": 4.9235,
+   "lossSecondCopy": 4.7046,
+   "iclScore_60_minus_10": -0.1387,
+   "inductionByHead": [
+    [
+     0.0219,
+     0.022,
+     0.0218,
+     0.0222
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0222
+  },
+  {
+   "step": 275,
+   "tokens": 563200,
+   "lossFirstCopy": 4.9322,
+   "lossSecondCopy": 4.697,
+   "iclScore_60_minus_10": -0.1231,
+   "inductionByHead": [
+    [
+     0.022,
+     0.022,
+     0.0219,
+     0.0222
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0222
+  },
+  {
+   "step": 300,
+   "tokens": 614400,
+   "lossFirstCopy": 4.9463,
+   "lossSecondCopy": 4.6927,
+   "iclScore_60_minus_10": -0.1792,
+   "inductionByHead": [
+    [
+     0.022,
+     0.022,
+     0.0219,
+     0.0222
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0222
+  },
+  {
+   "step": 325,
+   "tokens": 665600,
+   "lossFirstCopy": 4.9558,
+   "lossSecondCopy": 4.6882,
+   "iclScore_60_minus_10": -0.1853,
+   "inductionByHead": [
+    [
+     0.022,
+     0.022,
+     0.0219,
+     0.0222
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0222
+  },
+  {
+   "step": 350,
+   "tokens": 716800,
+   "lossFirstCopy": 4.9696,
+   "lossSecondCopy": 4.6849,
+   "iclScore_60_minus_10": -0.145,
+   "inductionByHead": [
+    [
+     0.022,
+     0.022,
+     0.022,
+     0.0223
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0223
+  },
+  {
+   "step": 375,
+   "tokens": 768000,
+   "lossFirstCopy": 4.9793,
+   "lossSecondCopy": 4.6775,
+   "iclScore_60_minus_10": -0.139,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.022,
+     0.022,
+     0.0224
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0224
+  },
+  {
+   "step": 400,
+   "tokens": 819200,
+   "lossFirstCopy": 4.993,
+   "lossSecondCopy": 4.6722,
+   "iclScore_60_minus_10": -0.202,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.0221,
+     0.0221,
+     0.0224
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0224
+  },
+  {
+   "step": 425,
+   "tokens": 870400,
+   "lossFirstCopy": 5.0023,
+   "lossSecondCopy": 4.6697,
+   "iclScore_60_minus_10": -0.207,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.022,
+     0.022,
+     0.0225
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0225
+  },
+  {
+   "step": 450,
+   "tokens": 921600,
+   "lossFirstCopy": 5.009,
+   "lossSecondCopy": 4.6644,
+   "iclScore_60_minus_10": -0.2227,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.0221,
+     0.022,
+     0.0225
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0225
+  },
+  {
+   "step": 475,
+   "tokens": 972800,
+   "lossFirstCopy": 5.0153,
+   "lossSecondCopy": 4.6601,
+   "iclScore_60_minus_10": -0.2226,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.022,
+     0.022,
+     0.0226
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0226
+  },
+  {
+   "step": 500,
+   "tokens": 1024000,
+   "lossFirstCopy": 5.0285,
+   "lossSecondCopy": 4.6606,
+   "iclScore_60_minus_10": -0.236,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.022,
+     0.0221,
+     0.0226
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0226
+  },
+  {
+   "step": 525,
+   "tokens": 1075200,
+   "lossFirstCopy": 5.0401,
+   "lossSecondCopy": 4.6594,
+   "iclScore_60_minus_10": -0.1835,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.0221,
+     0.0221,
+     0.0226
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0226
+  },
+  {
+   "step": 550,
+   "tokens": 1126400,
+   "lossFirstCopy": 5.0445,
+   "lossSecondCopy": 4.659,
+   "iclScore_60_minus_10": -0.2039,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.0221,
+     0.0222,
+     0.0226
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0226
+  },
+  {
+   "step": 575,
+   "tokens": 1177600,
+   "lossFirstCopy": 5.0501,
+   "lossSecondCopy": 4.6559,
+   "iclScore_60_minus_10": -0.2108,
+   "inductionByHead": [
+    [
+     0.0221,
+     0.0221,
+     0.0221,
+     0.0226
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0226
+  },
+  {
+   "step": 600,
+   "tokens": 1228800,
+   "lossFirstCopy": 5.0519,
+   "lossSecondCopy": 4.6494,
+   "iclScore_60_minus_10": -0.2157,
+   "inductionByHead": [
+    [
+     0.0221,
+     0.0221,
+     0.0222,
+     0.0227
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0227
+  },
+  {
+   "step": 625,
+   "tokens": 1280000,
+   "lossFirstCopy": 5.0526,
+   "lossSecondCopy": 4.6446,
+   "iclScore_60_minus_10": -0.2109,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.0221,
+     0.0221,
+     0.0226
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0226
+  },
+  {
+   "step": 650,
+   "tokens": 1331200,
+   "lossFirstCopy": 5.0584,
+   "lossSecondCopy": 4.6423,
+   "iclScore_60_minus_10": -0.1996,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.0221,
+     0.0221,
+     0.0225
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0225
+  },
+  {
+   "step": 675,
+   "tokens": 1382400,
+   "lossFirstCopy": 5.0657,
+   "lossSecondCopy": 4.6396,
+   "iclScore_60_minus_10": -0.2256,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.0221,
+     0.022,
+     0.0226
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0226
+  },
+  {
+   "step": 700,
+   "tokens": 1433600,
+   "lossFirstCopy": 5.0687,
+   "lossSecondCopy": 4.6352,
+   "iclScore_60_minus_10": -0.2565,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.0221,
+     0.022,
+     0.0227
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0227
+  },
+  {
+   "step": 725,
+   "tokens": 1484800,
+   "lossFirstCopy": 5.068,
+   "lossSecondCopy": 4.6319,
+   "iclScore_60_minus_10": -0.2106,
+   "inductionByHead": [
+    [
+     0.0223,
+     0.0222,
+     0.022,
+     0.0226
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0226
+  },
+  {
+   "step": 750,
+   "tokens": 1536000,
+   "lossFirstCopy": 5.0695,
+   "lossSecondCopy": 4.6342,
+   "iclScore_60_minus_10": -0.2002,
+   "inductionByHead": [
+    [
+     0.0223,
+     0.0222,
+     0.022,
+     0.0226
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0226
+  },
+  {
+   "step": 775,
+   "tokens": 1587200,
+   "lossFirstCopy": 5.0733,
+   "lossSecondCopy": 4.6361,
+   "iclScore_60_minus_10": -0.2244,
+   "inductionByHead": [
+    [
+     0.0223,
+     0.0222,
+     0.022,
+     0.0225
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0225
+  },
+  {
+   "step": 800,
+   "tokens": 1638400,
+   "lossFirstCopy": 5.0782,
+   "lossSecondCopy": 4.6353,
+   "iclScore_60_minus_10": -0.2209,
+   "inductionByHead": [
+    [
+     0.0223,
+     0.0222,
+     0.022,
+     0.0225
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0225
+  },
+  {
+   "step": 825,
+   "tokens": 1689600,
+   "lossFirstCopy": 5.0816,
+   "lossSecondCopy": 4.635,
+   "iclScore_60_minus_10": -0.2482,
+   "inductionByHead": [
+    [
+     0.0223,
+     0.0222,
+     0.0219,
+     0.0224
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0224
+  },
+  {
+   "step": 850,
+   "tokens": 1740800,
+   "lossFirstCopy": 5.0825,
+   "lossSecondCopy": 4.6336,
+   "iclScore_60_minus_10": -0.2559,
+   "inductionByHead": [
+    [
+     0.0223,
+     0.0222,
+     0.0219,
+     0.0224
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0224
+  },
+  {
+   "step": 875,
+   "tokens": 1792000,
+   "lossFirstCopy": 5.0863,
+   "lossSecondCopy": 4.6298,
+   "iclScore_60_minus_10": -0.2504,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.0222,
+     0.0219,
+     0.0224
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0224
+  },
+  {
+   "step": 900,
+   "tokens": 1843200,
+   "lossFirstCopy": 5.0886,
+   "lossSecondCopy": 4.6261,
+   "iclScore_60_minus_10": -0.2175,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.0222,
+     0.022,
+     0.0225
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0225
+  },
+  {
+   "step": 925,
+   "tokens": 1894400,
+   "lossFirstCopy": 5.0925,
+   "lossSecondCopy": 4.6288,
+   "iclScore_60_minus_10": -0.1673,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.0222,
+     0.0221,
+     0.0224
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0224
+  },
+  {
+   "step": 950,
+   "tokens": 1945600,
+   "lossFirstCopy": 5.0949,
+   "lossSecondCopy": 4.6281,
+   "iclScore_60_minus_10": -0.1723,
+   "inductionByHead": [
+    [
+     0.0223,
+     0.0221,
+     0.0221,
+     0.0224
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0224
+  },
+  {
+   "step": 975,
+   "tokens": 1996800,
+   "lossFirstCopy": 5.093,
+   "lossSecondCopy": 4.6242,
+   "iclScore_60_minus_10": -0.2047,
+   "inductionByHead": [
+    [
+     0.0223,
+     0.0222,
+     0.0222,
+     0.0224
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0224
+  },
+  {
+   "step": 1000,
+   "tokens": 2048000,
+   "lossFirstCopy": 5.092,
+   "lossSecondCopy": 4.6228,
+   "iclScore_60_minus_10": -0.2067,
+   "inductionByHead": [
+    [
+     0.0223,
+     0.0222,
+     0.0222,
+     0.0224
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0224
+  },
+  {
+   "step": 1025,
+   "tokens": 2099200,
+   "lossFirstCopy": 5.0933,
+   "lossSecondCopy": 4.6224,
+   "iclScore_60_minus_10": -0.2699,
+   "inductionByHead": [
+    [
+     0.0223,
+     0.0222,
+     0.0221,
+     0.0224
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0224
+  },
+  {
+   "step": 1050,
+   "tokens": 2150400,
+   "lossFirstCopy": 5.096,
+   "lossSecondCopy": 4.6219,
+   "iclScore_60_minus_10": -0.2952,
+   "inductionByHead": [
+    [
+     0.0223,
+     0.0222,
+     0.0221,
+     0.0224
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0224
+  },
+  {
+   "step": 1075,
+   "tokens": 2201600,
+   "lossFirstCopy": 5.1014,
+   "lossSecondCopy": 4.6263,
+   "iclScore_60_minus_10": -0.2992,
+   "inductionByHead": [
+    [
+     0.0223,
+     0.0222,
+     0.0221,
+     0.0224
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0224
+  },
+  {
+   "step": 1100,
+   "tokens": 2252800,
+   "lossFirstCopy": 5.1034,
+   "lossSecondCopy": 4.6284,
+   "iclScore_60_minus_10": -0.2732,
+   "inductionByHead": [
+    [
+     0.0223,
+     0.0222,
+     0.022,
+     0.0224
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0224
+  },
+  {
+   "step": 1125,
+   "tokens": 2304000,
+   "lossFirstCopy": 5.1057,
+   "lossSecondCopy": 4.6318,
+   "iclScore_60_minus_10": -0.2628,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.0222,
+     0.022,
+     0.0223
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0223
+  },
+  {
+   "step": 1150,
+   "tokens": 2355200,
+   "lossFirstCopy": 5.1007,
+   "lossSecondCopy": 4.6298,
+   "iclScore_60_minus_10": -0.2753,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.0222,
+     0.0219,
+     0.0222
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0222
+  },
+  {
+   "step": 1175,
+   "tokens": 2406400,
+   "lossFirstCopy": 5.0992,
+   "lossSecondCopy": 4.6276,
+   "iclScore_60_minus_10": -0.2778,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.0221,
+     0.0218,
+     0.0222
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0222
+  },
+  {
+   "step": 1200,
+   "tokens": 2457600,
+   "lossFirstCopy": 5.1012,
+   "lossSecondCopy": 4.6274,
+   "iclScore_60_minus_10": -0.3275,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.0221,
+     0.0217,
+     0.0223
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0223
+  },
+  {
+   "step": 1225,
+   "tokens": 2508800,
+   "lossFirstCopy": 5.1002,
+   "lossSecondCopy": 4.6257,
+   "iclScore_60_minus_10": -0.3394,
+   "inductionByHead": [
+    [
+     0.0222,
+     0.0221,
+     0.0216,
+     0.0222
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0222
+  },
+  {
+   "step": 1250,
+   "tokens": 2560000,
+   "lossFirstCopy": 5.1037,
+   "lossSecondCopy": 4.6326,
+   "iclScore_60_minus_10": -0.3773,
+   "inductionByHead": [
+    [
+     0.0221,
+     0.022,
+     0.0215,
+     0.0222
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0222
+  },
+  {
+   "step": 1275,
+   "tokens": 2611200,
+   "lossFirstCopy": 5.1073,
+   "lossSecondCopy": 4.6346,
+   "iclScore_60_minus_10": -0.3357,
+   "inductionByHead": [
+    [
+     0.0221,
+     0.022,
+     0.0214,
+     0.0221
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0221
+  },
+  {
+   "step": 1300,
+   "tokens": 2662400,
+   "lossFirstCopy": 5.1089,
+   "lossSecondCopy": 4.6352,
+   "iclScore_60_minus_10": -0.2714,
+   "inductionByHead": [
+    [
+     0.0221,
+     0.0219,
+     0.0213,
+     0.0221
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0221
+  },
+  {
+   "step": 1325,
+   "tokens": 2713600,
+   "lossFirstCopy": 5.107,
+   "lossSecondCopy": 4.6337,
+   "iclScore_60_minus_10": -0.2243,
+   "inductionByHead": [
+    [
+     0.0221,
+     0.0219,
+     0.0213,
+     0.0222
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0222
+  },
+  {
+   "step": 1350,
+   "tokens": 2764800,
+   "lossFirstCopy": 5.1058,
+   "lossSecondCopy": 4.629,
+   "iclScore_60_minus_10": -0.242,
+   "inductionByHead": [
+    [
+     0.0221,
+     0.0219,
+     0.0213,
+     0.0222
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0222
+  },
+  {
+   "step": 1375,
+   "tokens": 2816000,
+   "lossFirstCopy": 5.1072,
+   "lossSecondCopy": 4.6275,
+   "iclScore_60_minus_10": -0.2653,
+   "inductionByHead": [
+    [
+     0.0221,
+     0.0219,
+     0.0213,
+     0.0222
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0222
+  },
+  {
+   "step": 1400,
+   "tokens": 2867200,
+   "lossFirstCopy": 5.1071,
+   "lossSecondCopy": 4.6242,
+   "iclScore_60_minus_10": -0.3008,
+   "inductionByHead": [
+    [
+     0.022,
+     0.0219,
+     0.0213,
+     0.0222
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0222
+  },
+  {
+   "step": 1425,
+   "tokens": 2918400,
+   "lossFirstCopy": 5.1062,
+   "lossSecondCopy": 4.6261,
+   "iclScore_60_minus_10": -0.3286,
+   "inductionByHead": [
+    [
+     0.022,
+     0.0219,
+     0.0212,
+     0.0222
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0222
+  },
+  {
+   "step": 1450,
+   "tokens": 2969600,
+   "lossFirstCopy": 5.1078,
+   "lossSecondCopy": 4.627,
+   "iclScore_60_minus_10": -0.3234,
+   "inductionByHead": [
+    [
+     0.022,
+     0.0219,
+     0.0212,
+     0.0223
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0223
+  },
+  {
+   "step": 1475,
+   "tokens": 3020800,
+   "lossFirstCopy": 5.1087,
+   "lossSecondCopy": 4.6265,
+   "iclScore_60_minus_10": -0.3307,
+   "inductionByHead": [
+    [
+     0.0221,
+     0.0218,
+     0.0213,
+     0.0221
+    ]
+   ],
+   "inductionMaxLastLayer": 0.0221
+  },
+  {
+   "step": 1500,
+   "tokens": 3072000,
+   "lossFirstCopy": 5.1115,
+   "lossSecondCopy": 4.63,
+   "iclScore_60_minus_10": -0.3454,
+   "inductionByHead": [
+    [
+     0.022,
+     0.0218,
+     0.0211,
+     0.022
+    ]
+   ],
+   "inductionMaxLastLayer": 0.022
+  }
+ ],
+ "evals": {
+  "params": 24704,
+  "lnV": 4.852,
+  "inductionCrosses0p5AtStep": null,
+  "largestIclDrop": {
+   "drop": 0.0632,
+   "fromStep": 1000,
+   "toStep": 1025
+  },
+  "largestInductionJump": {
+   "jump": 0.0002,
+   "fromStep": 100,
+   "toStep": 125
+  },
+  "final": {
+   "step": 1500,
+   "tokens": 3072000,
+   "lossFirstCopy": 5.1115,
+   "lossSecondCopy": 4.63,
+   "iclScore_60_minus_10": -0.3454,
+   "inductionByHead": [
+    [
+     0.022,
+     0.0218,
+     0.0211,
+     0.022
+    ]
+   ],
+   "inductionMaxLastLayer": 0.022
+  }
+ },
+ "samples": [],
+ "wallClockSec": 61.1,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe induction.py --seed 0 --threads 4 --steps 1500 --eval-every 25 --layers 1",
+ "notes": "Timing is from a shared machine with other jobs running; do not quote wallClockSec."
+}

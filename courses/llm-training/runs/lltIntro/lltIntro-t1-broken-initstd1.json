@@ -1,0 +1,153 @@
+{
+ "runId": "lltIntro-t1-broken-initstd1",
+ "module": "lltIntro",
+ "tier": "T1",
+ "label": "broken:init-std=1.0",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "transformers": "5.2.0",
+  "tokenizers": "0.22.1",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "vocab_size": 63,
+  "d_model": 64,
+  "n_layer": 4,
+  "n_head": 4,
+  "ctx": 128,
+  "batch_size": 64,
+  "steps": 300,
+  "lr_max": 0.003,
+  "lr_min": 0.00030000000000000003,
+  "warmup": 100,
+  "weight_decay": 0.1,
+  "betas": [
+   0.9,
+   0.95
+  ],
+  "grad_clip": 1.0,
+  "init_std": 1.0,
+  "dataset": "roneneldan/TinyStories TinyStoriesV2-GPT4-valid.txt",
+  "stories_total": 27630,
+  "stories_kept": 27381,
+  "train_chars": 20816763,
+  "val_chars": 1090683,
+  "split": "95/5 by story, shuffle seed 0",
+  "threads": 3,
+  "n_params": 209408
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 0,
+   "tokens": 0,
+   "valLoss": 20.1997,
+   "trainLoss": null,
+   "lr": 0.0
+  },
+  {
+   "step": 1,
+   "tokens": 8192,
+   "trainLoss": 20.3253,
+   "firstBatchLoss": 20.3253,
+   "gradNorm": 44.946
+  },
+  {
+   "step": 50,
+   "tokens": 409600,
+   "trainLoss": 8.5622,
+   "valLoss": 8.2938,
+   "gradNorm": 17.212,
+   "lr": 0.0015,
+   "tokPerSec": 7010.4,
+   "elapsedSec": 58.4
+  },
+  {
+   "step": 100,
+   "tokens": 819200,
+   "trainLoss": 3.2778,
+   "valLoss": 3.2473,
+   "gradNorm": 0.484,
+   "lr": 0.003,
+   "tokPerSec": 6858.2,
+   "elapsedSec": 119.4
+  },
+  {
+   "step": 150,
+   "tokens": 1228800,
+   "trainLoss": 2.9907,
+   "valLoss": 2.9939,
+   "gradNorm": 0.291,
+   "lr": 0.002619,
+   "tokPerSec": 6641.3,
+   "elapsedSec": 185.0
+  },
+  {
+   "step": 200,
+   "tokens": 1638400,
+   "trainLoss": 2.8966,
+   "valLoss": 2.9084,
+   "gradNorm": 0.25,
+   "lr": 0.001671,
+   "tokPerSec": 6722.8,
+   "elapsedSec": 243.7
+  },
+  {
+   "step": 250,
+   "tokens": 2048000,
+   "trainLoss": 2.8682,
+   "valLoss": 2.8582,
+   "gradNorm": 0.183,
+   "lr": 0.000711,
+   "tokPerSec": 7128.8,
+   "elapsedSec": 287.3
+  },
+  {
+   "step": 300,
+   "tokens": 2457600,
+   "trainLoss": 2.8309,
+   "valLoss": 2.8392,
+   "gradNorm": 0.207,
+   "lr": 0.0003,
+   "tokPerSec": 7169.5,
+   "elapsedSec": 342.8
+  }
+ ],
+ "evals": {
+  "finalValLoss200Batches": 2.8399,
+  "lnV": 4.1431,
+  "step0ValLoss": 20.1997,
+  "trainSec": 415.3
+ },
+ "samples": [
+  {
+   "step": 300,
+   "prompt": "Once upon a time",
+   "temperature": 0.8,
+   "seed": 0,
+   "completion": "Once upon a timev fetyveo t repn  asor S\" t amngl  y, hedhgehiag v ssewly me t lthenda cat f,slthey d t touh \na theod fn tnee ng tan. a f t tkee.a t tor\"ico.u wa antoe t al am aee nto cxe ob te hean ah p,siroth Hyd w ain dg hecm ar tk s bu tha touw th tit  l wah So d h.ee shen.,, whe t c tee pe k to oe wol re Tor u"
+  },
+  {
+   "step": 300,
+   "prompt": "Tom and Lily",
+   "temperature": 0.8,
+   "seed": 0,
+   "completion": "Tom and Lilye ttty lo torypn  toar S\" t h dl t y, n de.shiag v ss wly m c bltal d  cr T , lt se ditwlo  b\na  ahed he tn.e n  ian. ao s t kee.atheeer\"ico.u d a ntoe t al am ane nto cxe ee teahean ah p, i ovh tyd a ain wathece ar tk s bu tha touw th tih alewehuoa d htee sheo.,, whe t c tahe t k to oe are rraToo u"
+  }
+ ],
+ "wallClockSec": 449.2,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe train_story_model.py --seed 0 --steps 300 --eval-every 50 --threads 3 --init-std 1.0 --run-id lltIntro-t1-broken-initstd1 --label broken:init-std=1.0"
+}

@@ -1,0 +1,29 @@
+{
+ "runId": "lltTinyStories-T1-resume-check",
+ "module": "lltTinyStories",
+ "tier": "T1",
+ "label": "check:weights-only-reload",
+ "hardware": {
+  "gpu": null,
+  "count": 0
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "datasets": "5.1.0",
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "torchThreads": 4
+ },
+ "config": {
+  "checkpoint": "lltTinyStories-T2-baseline-s0 step 2000"
+ },
+ "seed": 0,
+ "evals": {
+  "step2000ValLossCpuFp32": 1.7323,
+  "kaggleReportedStep2000": 1.7323
+ },
+ "date": "2026-11-05",
+ "command": "python measure.py resumecheck"
+}

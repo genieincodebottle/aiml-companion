@@ -1,0 +1,157 @@
+{
+ "runId": "lltTokenizer-t1-regex-off-8k",
+ "module": "lltTokenizer",
+ "tier": "T1",
+ "label": "broken:no-pretokenize",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": 0,
+  "cpu": "AMD Ryzen 9 5900HS with Radeon Graphics",
+  "cores": 8,
+  "threads": 16,
+  "ramGB": 33.7,
+  "os": "Windows-11-10.0.26200-SP0",
+  "cpuBusyPctAtEnd": 100.0
+ },
+ "env": {
+  "python": "3.12.3",
+  "tokenizers": "0.22.1",
+  "transformers": "5.2.0",
+  "numpy": "2.4.2",
+  "huggingface_hub": "1.5.0",
+  "torch": "2.10.0+cpu",
+  "datasets": "4.6.1"
+ },
+ "notebookCommit": null,
+ "config": {
+  "data": {
+   "heldout": {
+    "flores": "FLORES-200 devtest (eng_Latn, hin_Deva, spa_Latn), 1,012 parallel sentences each, CC BY-SA 4.0, https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz (sha256 b8b0b767...011f6)",
+    "code": "12 CPython 3.12.3 standard library files (every 10th file, see data.py), PSF License"
+   },
+   "train": {
+    "wikipedia": "wikimedia/wikipedia 20231101.en, .hi, .es: first articles in file order up to 8 MB each, CC BY-SA 3.0 and GFDL",
+    "code": "CPython 3.12.3 standard library files not held out, up to 4 MB, PSF License"
+   },
+   "words": "tokens per word = tokens / number of whitespace-separated words (str.split())"
+  },
+  "vocabSize": 8192,
+  "compare": "ByteLevel(use_regex=True) vs ByteLevel(use_regex=False)"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "regexOn": {
+   "trainSec": 17.1,
+   "learned": 7936,
+   "crossBoundary": 0,
+   "crossShare": 0.0,
+   "heldout": {
+    "en": {
+     "tokens": 37380,
+     "bytes": 133108,
+     "words": 21901,
+     "bytesPerToken": 3.561,
+     "tokensPerWord": 1.707,
+     "tokensSpanningASpace": 0,
+     "shareSpanning": 0.0
+    },
+    "hi": {
+     "tokens": 88681,
+     "bytes": 338106,
+     "words": 25643,
+     "bytesPerToken": 3.813,
+     "tokensPerWord": 3.458,
+     "tokensSpanningASpace": 0,
+     "shareSpanning": 0.0
+    },
+    "es": {
+     "tokens": 45434,
+     "bytes": 160955,
+     "words": 26081,
+     "bytesPerToken": 3.543,
+     "tokensPerWord": 1.742,
+     "tokensSpanningASpace": 0,
+     "shareSpanning": 0.0
+    },
+    "code": {
+     "tokens": 47668,
+     "bytes": 168874,
+     "words": 16962,
+     "bytesPerToken": 3.543,
+     "tokensPerWord": 2.81,
+     "tokensSpanningASpace": 0,
+     "shareSpanning": 0.0
+    }
+   }
+  },
+  "regexOff": {
+   "trainSec": 408.35,
+   "learned": 7936,
+   "crossBoundary": 2970,
+   "crossShare": 0.3742,
+   "heldout": {
+    "en": {
+     "tokens": 36711,
+     "bytes": 133108,
+     "words": 21901,
+     "bytesPerToken": 3.626,
+     "tokensPerWord": 1.676,
+     "tokensSpanningASpace": 17221,
+     "shareSpanning": 0.4691
+    },
+    "hi": {
+     "tokens": 52246,
+     "bytes": 338106,
+     "words": 25643,
+     "bytesPerToken": 6.471,
+     "tokensPerWord": 2.037,
+     "tokensSpanningASpace": 11583,
+     "shareSpanning": 0.2217
+    },
+    "es": {
+     "tokens": 43019,
+     "bytes": 160955,
+     "words": 26081,
+     "bytesPerToken": 3.741,
+     "tokensPerWord": 1.649,
+     "tokensSpanningASpace": 19639,
+     "shareSpanning": 0.4565
+    },
+    "code": {
+     "tokens": 42013,
+     "bytes": 168874,
+     "words": 16962,
+     "bytesPerToken": 4.02,
+     "tokensPerWord": 2.477,
+     "tokensSpanningASpace": 11059,
+     "shareSpanning": 0.2632
+    }
+   },
+   "firstCrossTokens": [
+    "e ",
+    "s ",
+    "n ",
+    "a ",
+    ", ",
+    "o ",
+    "d ",
+    "y ",
+    "de ",
+    "the ",
+    "as ",
+    ". ",
+    "t ",
+    "es ",
+    "f "
+   ]
+  }
+ },
+ "samples": [],
+ "wallClockSec": 426.89,
+ "peakMemGB": 2.451,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05"
+}

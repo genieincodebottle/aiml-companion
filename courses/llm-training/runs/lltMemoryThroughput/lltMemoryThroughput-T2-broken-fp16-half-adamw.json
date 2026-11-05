@@ -1,0 +1,215 @@
+{
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6,
+  "platform": "Kaggle, accelerator NvidiaTeslaT4, CUDA_VISIBLE_DEVICES=0"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpus": [
+   "Tesla T4"
+  ]
+ },
+ "notebook": "kaggle genieincodebottle/llt-memthru-p1 version 2",
+ "date": "2026-11-05",
+ "seed": 0,
+ "model": "GPT-2 small, 124,439,808 parameters (steps/gpt.py)",
+ "runId": "lltMemoryThroughput-T2-broken-fp16-half-adamw",
+ "label": "broken:model.half()-with-AdamW",
+ "config": {
+  "batch": 4,
+  "seq": 512,
+  "lr": 0.0006,
+  "optimizer": "AdamW default (foreach), eps 1e-8",
+  "steps": 30,
+  "control": "same seed and batch, fp32 weights, fp16 autocast + GradScaler"
+ },
+ "metrics": [
+  {
+   "step": 1,
+   "loss": 9.8959,
+   "nonFiniteParams": 123499562,
+   "controlLoss": 9.8959
+  },
+  {
+   "step": 2,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 9.3506
+  },
+  {
+   "step": 3,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 8.9191
+  },
+  {
+   "step": 4,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 9.3754
+  },
+  {
+   "step": 5,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 9.7334
+  },
+  {
+   "step": 6,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 9.7225
+  },
+  {
+   "step": 7,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 9.0488
+  },
+  {
+   "step": 8,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 8.6048
+  },
+  {
+   "step": 9,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 8.1586
+  },
+  {
+   "step": 10,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 8.3711
+  },
+  {
+   "step": 11,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 7.869
+  },
+  {
+   "step": 12,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 6.8508
+  },
+  {
+   "step": 13,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 7.1517
+  },
+  {
+   "step": 14,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 6.1538
+  },
+  {
+   "step": 15,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 8.2739
+  },
+  {
+   "step": 16,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 6.7954
+  },
+  {
+   "step": 17,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 7.4938
+  },
+  {
+   "step": 18,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 7.4938
+  },
+  {
+   "step": 19,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 6.6098
+  },
+  {
+   "step": 20,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 5.7587
+  },
+  {
+   "step": 21,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 4.8442
+  },
+  {
+   "step": 22,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 5.667
+  },
+  {
+   "step": 23,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 4.9116
+  },
+  {
+   "step": 24,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 4.1153
+  },
+  {
+   "step": 25,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 4.1308
+  },
+  {
+   "step": 26,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 3.5717
+  },
+  {
+   "step": 27,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 3.2296
+  },
+  {
+   "step": 28,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 2.8196
+  },
+  {
+   "step": 29,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 2.7193
+  },
+  {
+   "step": 30,
+   "loss": NaN,
+   "nonFiniteParams": 124439808,
+   "controlLoss": 2.2662
+  }
+ ],
+ "module": "lltMemoryThroughput",
+ "tier": "T2",
+ "costUSD": 0
+}

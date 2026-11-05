@@ -1,0 +1,168 @@
+{
+ "runId": "lltAttention-t1-mask-control-s1",
+ "module": "lltAttention",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "as": "lltAttention-t1-mask-control-s0 with another seed (model init and batch order)"
+ },
+ "seed": 1,
+ "metrics": [
+  {
+   "step": 1,
+   "tokens": 4096,
+   "trainLoss": 4.5242
+  },
+  {
+   "step": 25,
+   "tokens": 102400,
+   "trainLoss": 2.4701
+  },
+  {
+   "step": 50,
+   "tokens": 204800,
+   "trainLoss": 2.3898
+  },
+  {
+   "step": 75,
+   "tokens": 307200,
+   "trainLoss": 2.3667
+  },
+  {
+   "step": 100,
+   "tokens": 409600,
+   "trainLoss": 2.3297,
+   "valLoss": 2.2983
+  },
+  {
+   "step": 125,
+   "tokens": 512000,
+   "trainLoss": 2.2342
+  },
+  {
+   "step": 150,
+   "tokens": 614400,
+   "trainLoss": 2.1636
+  },
+  {
+   "step": 175,
+   "tokens": 716800,
+   "trainLoss": 2.152
+  },
+  {
+   "step": 200,
+   "tokens": 819200,
+   "trainLoss": 2.0818,
+   "valLoss": 2.0672
+  },
+  {
+   "step": 225,
+   "tokens": 921600,
+   "trainLoss": 1.9787
+  },
+  {
+   "step": 250,
+   "tokens": 1024000,
+   "trainLoss": 1.9331
+  },
+  {
+   "step": 275,
+   "tokens": 1126400,
+   "trainLoss": 1.7436
+  },
+  {
+   "step": 300,
+   "tokens": 1228800,
+   "trainLoss": 1.7543,
+   "valLoss": 1.7757
+  },
+  {
+   "step": 325,
+   "tokens": 1331200,
+   "trainLoss": 1.6675
+  },
+  {
+   "step": 350,
+   "tokens": 1433600,
+   "trainLoss": 1.7004
+  },
+  {
+   "step": 375,
+   "tokens": 1536000,
+   "trainLoss": 1.6173
+  },
+  {
+   "step": 400,
+   "tokens": 1638400,
+   "trainLoss": 1.5268,
+   "valLoss": 1.5817
+  },
+  {
+   "step": 425,
+   "tokens": 1740800,
+   "trainLoss": 1.5302
+  },
+  {
+   "step": 450,
+   "tokens": 1843200,
+   "trainLoss": 1.5999
+  },
+  {
+   "step": 475,
+   "tokens": 1945600,
+   "trainLoss": 1.432
+  },
+  {
+   "step": 500,
+   "tokens": 2048000,
+   "trainLoss": 1.4958,
+   "valLoss": 1.4677
+  },
+  {
+   "step": 525,
+   "tokens": 2150400,
+   "trainLoss": 1.4446
+  },
+  {
+   "step": 550,
+   "tokens": 2252800,
+   "trainLoss": 1.4942
+  },
+  {
+   "step": 575,
+   "tokens": 2355200,
+   "trainLoss": 1.3885
+  },
+  {
+   "step": 600,
+   "tokens": 2457600,
+   "trainLoss": 1.3759,
+   "valLoss": 1.3936
+  }
+ ],
+ "evals": {
+  "finalTrainLoss": 1.3758904933929443,
+  "valLossFullSequence": 1.3936272859573364,
+  "valLossPrefixOnly": 1.3936271667480469
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py train ablation dropout seeds"
+}

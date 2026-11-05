@@ -1,0 +1,119 @@
+{
+ "runId": "lltAttention-t1-broken-dropout-eval",
+ "module": "lltAttention",
+ "tier": "T1",
+ "label": "broken:attention-dropout-on-at-eval",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "TinyLM as in page step 8, attention dropout 0.1",
+  "steps": 300,
+  "bug": "F.scaled_dot_product_attention(..., dropout_p=self.p) with no self.training check"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 1,
+   "tokens": 4096,
+   "trainLoss": 4.681
+  },
+  {
+   "step": 25,
+   "tokens": 102400,
+   "trainLoss": 2.5194
+  },
+  {
+   "step": 50,
+   "tokens": 204800,
+   "trainLoss": 2.3871
+  },
+  {
+   "step": 75,
+   "tokens": 307200,
+   "trainLoss": 2.3448
+  },
+  {
+   "step": 100,
+   "tokens": 409600,
+   "trainLoss": 2.3021,
+   "valLoss": 2.3069
+  },
+  {
+   "step": 125,
+   "tokens": 512000,
+   "trainLoss": 2.2343
+  },
+  {
+   "step": 150,
+   "tokens": 614400,
+   "trainLoss": 2.1462
+  },
+  {
+   "step": 175,
+   "tokens": 716800,
+   "trainLoss": 2.1443
+  },
+  {
+   "step": 200,
+   "tokens": 819200,
+   "trainLoss": 2.0774,
+   "valLoss": 2.0378
+  },
+  {
+   "step": 225,
+   "tokens": 921600,
+   "trainLoss": 2.0186
+  },
+  {
+   "step": 250,
+   "tokens": 1024000,
+   "trainLoss": 1.8774
+  },
+  {
+   "step": 275,
+   "tokens": 1126400,
+   "trainLoss": 1.8953
+  },
+  {
+   "step": 300,
+   "tokens": 1228800,
+   "trainLoss": 1.7999,
+   "valLoss": 1.792
+  }
+ ],
+ "evals": {
+  "valLossEvalMode": {
+   "correct": [
+    1.7919793128967285,
+    1.7919793128967285,
+    1.7919793128967285
+   ],
+   "dropoutAlwaysOn": [
+    1.830588698387146,
+    1.8295406103134155,
+    1.8297185897827148
+   ]
+  },
+  "maxAbsLogitDiffTwoBugPasses": 4.307272911071777,
+  "maxAbsLogitDiffBugVsCorrect": 3.4236841201782227,
+  "finalTrainLoss": 1.7998764514923096
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py train ablation dropout seeds"
+}

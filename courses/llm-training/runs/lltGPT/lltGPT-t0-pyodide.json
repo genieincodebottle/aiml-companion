@@ -1,0 +1,37 @@
+{
+ "runId": "lltGPT-t0-pyodide",
+ "module": "lltGPT",
+ "tier": "T0",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null
+ },
+ "env": {
+  "pyodide": "0.27.0",
+  "numpy": "2.0.2"
+ },
+ "notebookCommit": null,
+ "config": {
+  "cells": [
+   "step1",
+   "challenge_starter",
+   "challenge_solution"
+  ]
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "stdout": {
+   "step1": "RoPE         m =    3  n =   0  score -8.446152\nRoPE         m =   10  n =   7  score -8.446152\nRoPE         m =  100  n =  97  score -8.446152\nRoPE         m = 1000  n = 997  score -8.446152\nRoPE, 1,997 pairs with gap 3, max - min = 8.7e-13\nRoPE, gap 5 instead   score -9.991476\nlength of q 7.315344, after rotating to position 1000 7.315344\nadded vector m =    3  n =   0  score -19.453887\nadded vector m =   10  n =   7  score -11.389229\nadded vector m =  100  n =  97  score -1.600629\nadded vector m = 1000  n = 997  score -13.359451\n",
+   "challenge_starter": "[exception] AssertionError: count_params returns None\n",
+   "challenge_solution": "GPT-2 124M 124,439,808 | 12Ld^2 + Vd 123,532,032 | embedding share 31%\nAll checks passed\n"
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05"
+}

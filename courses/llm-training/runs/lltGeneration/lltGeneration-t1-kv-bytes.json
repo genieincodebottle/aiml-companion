@@ -1,0 +1,110 @@
+{
+ "runId": "lltGeneration-t1-kv-bytes",
+ "module": "lltGeneration",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "torchThreads": 4
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "huggingface_hub": "2.4.0",
+  "datasets": "5.1.0",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "ours": {
+   "V": 2048,
+   "d": 192,
+   "L": 4,
+   "H": 6,
+   "ctx": 256,
+   "H_kv": 6,
+   "mlp": true
+  }
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "ours": [
+   {
+    "T": 256,
+    "dtype": "torch.float32",
+    "formula": 1572864,
+    "tensorBytes": 1572864,
+    "kShape": [
+     4,
+     1,
+     6,
+     256,
+     32
+    ]
+   },
+   {
+    "T": 256,
+    "dtype": "torch.float16",
+    "formula": 786432,
+    "tensorBytes": 786432,
+    "kShape": [
+     4,
+     1,
+     6,
+     256,
+     32
+    ]
+   },
+   {
+    "T": 1,
+    "dtype": "torch.float32",
+    "formula": 6144,
+    "tensorBytes": 6144,
+    "kShape": [
+     4,
+     1,
+     6,
+     1,
+     32
+    ]
+   }
+  ],
+  "smollm2_135m": {
+   "model": "HuggingFaceTB/SmolLM2-135M",
+   "layers": 30,
+   "kvHeads": 3,
+   "headDim": 64,
+   "T": 512,
+   "dtype": "float32",
+   "formula": 23592960,
+   "cacheTensorBytes": 23592960,
+   "keyShape": [
+    1,
+    3,
+    512,
+    64
+   ],
+   "cacheClass": "DynamicCache",
+   "perTokenBf16": 23040
+  },
+  "lltTinyStoriesDerived": {
+   "model": "lltTinyStories baseline (d 320, 8 layers, 8 heads, head dim 40, ctx 512)",
+   "perTokenFp16": 10240,
+   "fullContextFp16": 5242880
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py --threads 4"
+}

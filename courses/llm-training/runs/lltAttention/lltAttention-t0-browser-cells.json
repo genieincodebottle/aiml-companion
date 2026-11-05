@@ -1,0 +1,43 @@
+{
+ "runId": "lltAttention-t0-browser-cells",
+ "module": "lltAttention",
+ "tier": "T0",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "cells": [
+   "step1",
+   "step2",
+   "step3"
+  ],
+  "runtime": "CPython 3.12.3 + NumPy 2.4.2, fresh process per cell; the same files print identical output in Pyodide 0.27.0 (scratch harness run_pyodide.mjs)"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "stdout": {
+   "step1": "x (6, 16) | q, k, v (6, 8) | weights (6, 6) | y (6, 8)\nrow sums [1. 1. 1. 1. 1. 1.]\nweight on future tokens 0.0\n[[1.   0.   0.   0.   0.   0.  ]\n [0.28 0.72 0.   0.   0.   0.  ]\n [0.68 0.2  0.13 0.   0.   0.  ]\n [0.17 0.21 0.33 0.28 0.   0.  ]\n [0.1  0.22 0.14 0.04 0.51 0.  ]\n [0.1  0.1  0.11 0.45 0.08 0.17]]\n",
+   "step2": "x (2, 6, 16) | one head of q (2, 4, 6, 4) | y (2, 6, 16)\nmax abs difference from the per-head loop 0.0\nsame shape? True | max abs difference 3.161\n",
+   "step3": "     d   var(q.k)   var / d\n    16       16.0     0.998\n    64       64.4     1.007\n   256      255.0     0.996\n  1024     1035.9     1.012\n\n     d   top weight        rows above 0.99   median gradient\n         raw    scaled     raw    scaled     raw      scaled\n    16   0.561  0.104     0.010  0.000     0.33249  0.178\n    64   0.799  0.110     0.200  0.000     0.19049  0.181\n   256   0.897  0.107     0.470  0.000     0.03046  0.178\n  1024   0.953  0.111     0.728  0.000     0.00008  0.182\n"
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py errors browser exact"
+}

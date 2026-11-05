@@ -1,0 +1,38 @@
+{
+ "runId": "lltAttention-t1-error-messages",
+ "module": "lltAttention",
+ "tier": "T1",
+ "label": "broken:error-text",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.10.0+cpu",
+  "numpy": "2.4.2",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "what": "exact error text for the fp16 -1e9 mask and .view after .transpose, torch CPU"
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "fp16_masked_fill_minus_1e9_cpu": "value cannot be converted to type c10::Half without overflow",
+  "fp16_cast_minus_1e9": "-inf",
+  "fp16_finfo_min": -65504.0,
+  "fp16_softmax_all_minus_inf": "[nan, nan, nan, nan]",
+  "view_after_transpose": "view size is not compatible with input tensor's size and stride (at least one dimension spans across two contiguous subspaces). Use .reshape(...) instead."
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-05",
+ "command": "python.exe measure.py errors browser exact"
+}
