@@ -15,6 +15,8 @@ For the owner. This runbook trains our 124M GPT on 10B FineWeb-Edu tokens on one
 
 The scripts are in this folder: `run_reference.sh`, `prep_fineweb.py`, `train.py`, `gpt.py`, `eval.py`, `hf_wrapper.py`, `calib_summary.py`, `hf_upload_capstone.py`. The resume logic in `train.py` was tested on Kaggle 2x T4 on 2026-11-05 (run `lltCapstoneGPT2-T2-resume-check`). Two changes came after that test and were checked only on CPU: checkpoints now load with `weights_only=True`, and `--resume` also accepts a downloaded `state.pt` file.
 
+**Using Google Cloud instead (owner's choice, 2026-11-06):** follow `RUNBOOK_GCP.md`. It replaces sections 1 and 2 and the delete step; everything else here applies unchanged.
+
 ## 1. Rent the pod
 
 | Choice | Value |
