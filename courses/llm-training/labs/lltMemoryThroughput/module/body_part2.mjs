@@ -2,7 +2,7 @@
                 heading: 'Measure the all-reduce between two T4s',
                 kind: 'step',
                 blocks: [
-                    { text: 'Part 2 needs two GPUs, and Kaggle is the free service that gives two. If you ran part 1 on Colab, open the notebook on Kaggle from the Lab card, under Change hardware. In Kaggle\'s settings, choose the GPU T4 x2 accelerator. If part 1 ran in the same Kaggle session, restart the kernel first, so part 1\'s tensors no longer hold GPU 0.' },
+                    { text: 'Part 2 needs two GPUs, and Kaggle is the free service that gives two. If you ran part 1 on Colab, open the notebook on Kaggle from the Lab card, under Other ways to run. In Kaggle\'s settings, choose the GPU T4 x2 accelerator. If part 1 ran in the same Kaggle session, restart the kernel first, so part 1\'s tensors no longer hold GPU 0.' },
                     { text: 'Data parallel training averages the gradients across GPUs with an all-reduce, a collective operation that leaves every GPU holding the sum. dlDistributed and collectiveCommsNetworking explain how it works. Here you measure what it costs on two T4s.' },
                     { text: 'The script reports bus bandwidth, the message size per second times 2(n-1)/n. That factor is the share of the message each GPU sends in NCCL\'s ring all-reduce, and for 2 GPUs it is 1.' },
                     { text: '`torchrun` starts one Python process per GPU and sets the rank, world size and rendezvous address for each. Write the script to a file, then launch it.' },

@@ -103,7 +103,7 @@ nb = nbf.v4.new_notebook()
 nb.cells = [
     md("# lltPretrainData, Turn Raw Web Pages Into Pretraining Data\n\n"
        "LLM Training Lab, module 9. Steps 1 to 7 run on a CPU on the first 60 MB of one Common Crawl WARC file. "
-       "Our recorded runs are in `courses/llm-training/runs/lltPretrainData/`."),
+       "Our recorded runs are in [https://github.com/genieincodebottle/aiml-companion/tree/main/courses/llm-training/runs/lltPretrainData](https://github.com/genieincodebottle/aiml-companion/tree/main/courses/llm-training/runs/lltPretrainData)."),
     cc(runtime_check),
     md("Install the three libraries this lab adds. NumPy, pandas, scikit-learn and PyTorch come with Colab and Kaggle, and this notebook never installs NumPy."),
     cc(install_cell),
