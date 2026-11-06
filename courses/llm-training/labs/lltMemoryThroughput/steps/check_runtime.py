@@ -14,8 +14,11 @@ else:
         problems.append("P100 found. Current PyTorch wheels dropped it. Kaggle: Settings > Accelerator > GPU T4 x2.")
     if len(names) < 2:
         print("One GPU. Part 2 (two GPUs) needs Kaggle: Settings > Accelerator > GPU T4 x2. Parts 1 and 3 run here.")
-ram = os.sysconf("SC_PAGE_SIZE") * os.sysconf("SC_PHYS_PAGES") / 1e9
-disk = shutil.disk_usage("/tmp").free / 1e9
+try:
+    ram = os.sysconf("SC_PAGE_SIZE") * os.sysconf("SC_PHYS_PAGES") / 1e9
+except (AttributeError, ValueError, OSError):   # os.sysconf does not exist on Windows
+    ram = float("nan")
+disk = shutil.disk_usage("/tmp" if os.path.isdir("/tmp") else ".").free / 1e9
 print(f"python {sys.version.split()[0]} | torch {torch.__version__} | RAM {ram:.0f} GB | free disk in /tmp {disk:.0f} GB")
 if disk < 20:
     problems.append("Under 20 GB free in /tmp. Step 10 writes a 16.2 GB checkpoint there.")

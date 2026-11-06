@@ -3,6 +3,25 @@
 LLM Training Lab, module 1 (free). Regime: INFERENCE & EVAL. No weights change in the lab itself.
 Every number on the lab page comes from a run in `../../runs/lltIntro/` or from a derivation.
 
+## Run it
+
+On Colab (no GPU needed, the default CPU runtime is enough):
+https://colab.research.google.com/github/genieincodebottle/aiml-companion/blob/main/courses/llm-training/labs/lltIntro/lltIntro.ipynb
+
+Run the cells in order from the top. The first cell checks Python, RAM and disk and prints a fix for each problem. The install cell adds transformers 5.22.1 and tokenizers 0.23.3. Step 3 downloads SmolLM2-135M, a 269 MB file, once.
+
+On a laptop (Python 3.11 or later, 3.12 recommended):
+
+```
+python -m venv .venv
+.venv\Scripts\activate            # Windows
+source .venv/bin/activate         # macOS and Linux
+pip install torch numpy psutil notebook
+jupyter notebook lltIntro.ipynb
+```
+
+Run the notebook with the kernel of this environment. The install cell uses `%pip`, which installs into the running kernel.
+
 ## Files
 
 | File | What it does |

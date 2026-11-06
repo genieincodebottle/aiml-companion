@@ -38,10 +38,14 @@ def measure(fn, T, backward, B=4, h=12, d=64, iters=20):
         times.append(start.elapsed_time(end))
     return peak, statistics.median(times)
 
-print(torch.cuda.get_device_name(0), torch.cuda.get_device_capability(0), torch.__version__)
-for backward in (False, True):
-    print("forward + backward" if backward else "forward only")
-    print("     T   naive MiB   SDPA MiB   naive ms   SDPA ms")
-    for T in [128, 256, 512, 1024, 2048, 4096]:
-        (nm, nt), (sm, st) = measure(naive, T, backward), measure(sdpa, T, backward)
-        print(f"{T:6d} {nm:11.1f} {sm:10.1f} {nt:10.2f} {st:9.2f}")
+if not torch.cuda.is_available():
+    print("No CUDA GPU on this runtime, so this cell stops here. Read the table on the lab page,",
+          "or switch to a T4 GPU (Colab: Runtime > Change runtime type) and run it again.")
+else:
+    print(torch.cuda.get_device_name(0), torch.cuda.get_device_capability(0), torch.__version__)
+    for backward in (False, True):
+        print("forward + backward" if backward else "forward only")
+        print("     T   naive MiB   SDPA MiB   naive ms   SDPA ms")
+        for T in [128, 256, 512, 1024, 2048, 4096]:
+            (nm, nt), (sm, st) = measure(naive, T, backward), measure(sdpa, T, backward)
+            print(f"{T:6d} {nm:11.1f} {sm:10.1f} {nt:10.2f} {st:9.2f}")

@@ -2,6 +2,17 @@
 
 LLM Training Lab, module 5. Regime FROM SCRATCH. Char-level Tiny Shakespeare.
 
+## Run it on a laptop
+
+Use Python 3.11 or later (3.12 recommended). In a fresh virtual environment:
+
+```
+pip install torch numpy jupyter
+jupyter notebook lltTrainingLoop.ipynb
+```
+
+Run the cells in order. The notebook needs no other package. Step 1 downloads Tiny Shakespeare (1.1 MB) into `data/`. Steps 1 to 8 and 10 run on the CPU; step 9 needs a GPU, so read our runs for it or run it on a free T4.
+
 ## Files
 
 | File | What it is |

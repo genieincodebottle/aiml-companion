@@ -5,6 +5,17 @@ LLM Training Lab, module 3. Regime: FROM SCRATCH for the small character model i
 Open the notebook in Colab (a CPU runtime runs every step except step 7, which needs a T4):
 https://colab.research.google.com/github/genieincodebottle/aiml-companion/blob/main/courses/llm-training/labs/lltAttention/lltAttention.ipynb
 
+## Run it on a laptop
+
+Use Python 3.11 or later (3.12 recommended). In a fresh virtual environment:
+
+```
+pip install torch numpy jupyter
+jupyter notebook lltAttention.ipynb
+```
+
+Run the cells in order. Step 7 needs a CUDA GPU; on a CPU it prints one line and stops. Step 8 downloads 22.5 MB from the Hugging Face Hub.
+
 ## Files
 
 | File | What it is |

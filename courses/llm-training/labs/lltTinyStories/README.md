@@ -29,7 +29,7 @@ The GPU runs come from two Kaggle kernels in `../../kaggle/`: `llt-tinystories-p
 ## Reproduce
 
 ```
-pip install torch tokenizers==0.22.1 datasets numpy
+pip install torch "tokenizers==0.23.3" "datasets==5.1.0" numpy
 python run_cells.py            # T1 CPU run
 python measure.py bpb          # needs the step-3,000 checkpoint; set LLT_CKPT_DIR to the folder that holds it
 python scaling_fit.py synth

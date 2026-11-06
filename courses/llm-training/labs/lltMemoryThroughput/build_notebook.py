@@ -38,7 +38,7 @@ CELLS = [
     ("code", wf("fsdp_ckpt.py")),
     ("code", "!torchrun --nproc_per_node=2 fsdp_ckpt.py\n!rm -rf /tmp/ckpt_fsdp /tmp/rank0_only.pt\n"),
     ("md", "## Part 3. When training blows up"),
-    ("code", "!pip install -q datasets tokenizers\n"),
+    ("code", "# The versions part 3 was checked with. prep.py runs as its own process, so no restart is needed.\n!pip install -q \"datasets==5.1.0\" \"tokenizers==0.23.3\"\n"),
     ("code", wf("prep.py")),
     ("code", wf("tiny.py")),
     ("code", wf("sweep.py")),

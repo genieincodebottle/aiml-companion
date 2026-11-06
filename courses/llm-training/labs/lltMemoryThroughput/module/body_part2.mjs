@@ -2,11 +2,11 @@
                 heading: 'Measure the all-reduce between two T4s',
                 kind: 'step',
                 blocks: [
-                    { text: 'Part 2 needs two GPUs. In the Kaggle notebook\'s settings, choose the GPU T4 x2 accelerator. Restart the notebook so part 1\'s tensors no longer hold GPU 0.' },
+                    { text: 'Part 2 needs two GPUs, and Kaggle is the free service that gives two. If you ran part 1 on Colab, open the notebook on Kaggle from the Lab card, under Change hardware. In Kaggle\'s settings, choose the GPU T4 x2 accelerator. If part 1 ran in the same Kaggle session, restart the kernel first, so part 1\'s tensors no longer hold GPU 0.' },
                     { text: 'Data parallel training averages the gradients across GPUs with an all-reduce, a collective operation that leaves every GPU holding the sum. dlDistributed and collectiveCommsNetworking explain how it works. Here you measure what it costs on two T4s.' },
                     { text: 'The script reports bus bandwidth, the message size per second times 2(n-1)/n. That factor is the share of the message each GPU sends in NCCL\'s ring all-reduce, and for 2 GPUs it is 1.' },
                     { text: '`torchrun` starts one Python process per GPU and sets the rank, world size and rendezvous address for each. Write the script to a file, then launch it.' },
-                    { code: CODE.allreduce, language: 'python', title: 'allreduce.py' },
+                    { code: CODE.allreduce, language: 'py', title: 'allreduce.py' },
                     { code: 'torchrun --nproc_per_node=2 allreduce.py', language: 'bash', title: 'Launch from the notebook with a leading !' },
                     { table: {
                         caption: 'fp32 all-reduce on Kaggle\'s 2x T4 (run lltMemoryThroughput-T2x2-allreduce)',
@@ -32,7 +32,7 @@
                     { text: 'DistributedDataParallel, DDP, wraps the model so the backward pass all-reduces the gradients. It groups gradients into buckets and starts each bucket\'s all-reduce while the rest of the backward pass is still running (Li et al. 2020).' },
                     { text: 'With gradient accumulation, several micro-batches add their gradients before one optimizer step. Only the last one needs the all-reduce. `model.no_sync()` turns it off for the others.' },
                     { text: 'Give every rank, one process and its GPU, its own data seed. The model seed stays the same, and DDP also copies rank 0\'s weights to every rank at start-up.' },
-                    { code: CODE.ddp, language: 'python', title: 'ddp.py' },
+                    { code: CODE.ddp, language: 'py', title: 'ddp.py' },
                     { code: CODE.launch_ddp, language: 'bash', title: 'Four runs, each launched with a leading ! in the notebook' },
                     { table: {
                         caption: 'GPT-2 124M, micro-batch 8 x 1,024 per GPU, 4 micro-batches per step (runs lltMemoryThroughput-T2x2-ddp and -broken-same-seed)',
@@ -66,7 +66,7 @@
                     ] },
                     { text: 'Call `fully_shard` on each block and then on the whole model. `MixedPrecisionPolicy` all-gathers the weights in fp16 and reduce-scatters the gradients in fp32. Turn on both memory switches from step 5.' },
                     { text: 'A plain `torch.amp.GradScaler` works here. In the PyTorch 2.15.0 source, DTensor combines the scaler\'s overflow check across ranks, so every rank skips the same steps.' },
-                    { code: CODE.fsdp, language: 'python', title: 'fsdp.py' },
+                    { code: CODE.fsdp, language: 'py', title: 'fsdp.py' },
                     { code: 'torchrun --nproc_per_node=1 fsdp.py\ntorchrun --nproc_per_node=2 fsdp.py', language: 'bash', title: 'One T4, then two' },
                     { table: {
                         caption: '1,313,626,112-parameter GPT, 2 x 1,024 tokens per GPU, checkpointing and chunked cross-entropy on (run lltMemoryThroughput-T2x2-fsdp2)',
@@ -89,7 +89,7 @@
                     { text: 'Under FSDP each rank holds only its shards. A checkpoint therefore needs every rank to write, and a load needs every rank to read its part back.' },
                     { text: '`torch.distributed.checkpoint`, DCP, does both. `get_state_dict` collects the model and optimizer state of the sharded model, `dcp.save` writes one file per rank plus a metadata file, and `dcp.load` reads into a fresh sharded model.' },
                     { text: 'Run the wrong way first. Rank 0 alone calls `torch.save(model.state_dict())`. Then save with DCP, train 2 more steps, and compare with a fresh model that loads the checkpoint and trains the same 2 steps.' },
-                    { code: CODE.fsdp_ckpt, language: 'python', title: 'fsdp_ckpt.py' },
+                    { code: CODE.fsdp_ckpt, language: 'py', title: 'fsdp_ckpt.py' },
                     { code: 'torchrun --nproc_per_node=2 fsdp_ckpt.py', language: 'bash', title: 'Launch' },
                     { table: {
                         caption: 'Sharded checkpoint of the 1.31B model on 2x T4 (runs lltMemoryThroughput-T2x2-dcp and -broken-rank0-save)',

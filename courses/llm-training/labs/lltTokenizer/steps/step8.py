@@ -12,5 +12,5 @@ def crossing(tok):
 
 for name, tok in (("gpt2", gpt2), ("regex on", on), ("regex off", off)):
     print(f"{name:9} {len(crossing(tok)):5} learned tokens cross a space, "
-          f"en {bytes_per_token(tok, held['en'])} bytes per token")
+          f"bytes per token en {bytes_per_token(tok, held['en'])}, hi {bytes_per_token(tok, held['hi'])}")
 print([t for t in crossing(off) if t.isascii()][:12])

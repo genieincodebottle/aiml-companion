@@ -51,7 +51,7 @@ export const lltMemoryThroughput = {
     lab: {
         defaultTier: 'T2',
         quickPath: { minutes: '@@QUICK_MIN@@', reaches: '@@QUICK_REACHES@@' },
-        noGpuPath: 'This lab needs a GPU for its notebook. Without one, run the predictor in step 2 and both challenges in this page, and read every other result from our recorded Kaggle runs.',
+        noGpuPath: 'This lab needs a GPU for its notebook. Without one, run the predictor in step 2 and both challenges in this page, and read every other result from our recorded Kaggle runs. The run files, with configs, seeds and versions, are at https://github.com/genieincodebottle/aiml-companion/tree/main/courses/llm-training/runs/lltMemoryThroughput.',
         tiers: [
             { tier: 'T2', model: 'Kaggle, GPU T4 x2. GPT-2 small on one T4, DDP and a 1.3B FSDP2 model on two, a 10M TinyStories sweep', peakMemGB: 13.32, wallClock: '@@T2_WALL@@', costUSD: 0, givesUp: 'Nothing. bf16 runs but is emulated on a T4, so its speed is not what an Ampere GPU gives.' },
             { tier: 'T0', model: 'The predictor in step 2 and both challenges, in this page', costUSD: 0, givesUp: 'Every measurement. Read them from our runs.' },
@@ -60,7 +60,7 @@ export const lltMemoryThroughput = {
             colab: 'https://colab.research.google.com/github/genieincodebottle/aiml-companion/blob/main/courses/llm-training/labs/lltMemoryThroughput/lltMemoryThroughput.ipynb',
             kaggle: 'https://www.kaggle.com/kernels/welcome?src=https://github.com/genieincodebottle/aiml-companion/blob/main/courses/llm-training/labs/lltMemoryThroughput/lltMemoryThroughput.ipynb',
         },
-        env: 'Kaggle 2x Tesla T4 15.6 GB | python 3.13.16 | torch 2.11.0+cu130, the APIs used also checked in the PyTorch 2.15.0 source | datasets 4.8.5 and tokenizers 0.23.3 for part 3 | browser cells on Pyodide 0.27',
+        env: 'Kaggle 2x Tesla T4 15.6 GB | python 3.13.16 | torch 2.11.0+cu130, the APIs used also checked in the PyTorch 2.15.0 source | datasets 4.8.5 and tokenizers 0.23.3 for part 3; the notebook pins datasets 5.1.0, which writes the same token files on our CPU check | browser cells on Pyodide 0.27',
         checkedOn: '2026-11-05',
     },
     lesson: {

@@ -59,7 +59,7 @@ def build(peak_gb):
     nb = nbf.v4.new_notebook()
     nb.cells = [
         md("# lltGPT, Assemble a Modern GPT\n\nLLM Training Lab, module 4. This notebook runs every step of the lab page "
-           "on a CPU. No GPU is needed. Our recorded runs are in `courses/llm-training/runs/lltGPT/`."),
+           "on a CPU. No GPU is needed. Our recorded runs: https://github.com/genieincodebottle/aiml-companion/tree/main/courses/llm-training/runs/lltGPT"),
         cc(runtime_check.replace("PEAK", str(peak_gb))),
         md("Install the pinned versions. PyTorch and NumPy are already installed on Colab and Kaggle, so keep the image's versions. Our CPU figures were measured on torch 2.15.0 and numpy 2.5.4."),
         cc('%pip install -q "transformers==5.22.1" "tokenizers==0.23.3" "huggingface_hub==2.4.0"'),
@@ -79,7 +79,8 @@ def build(peak_gb):
         md("## Step 7. Load GPT-2 124M and match Hugging Face's logits"),
         cc(code("step7")),
         md("## Step 8. Toggle each modern component\n\nPredict first. Which swap back to GPT-2's choice raises the "
-           "validation loss most after 600 steps? Each run takes several minutes on a laptop CPU."),
+           "validation loss most after 600 steps? Each run takes several minutes on a laptop CPU. To cut the wait, "
+           "keep two variants in `VARIANTS` in the second cell and read the rest from the table on the lab page."),
         cc(code("step8")),
         cc(code("step8b")),
         cc(peak_ram),

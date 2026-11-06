@@ -1,0 +1,60 @@
+{
+ "runId": "lltGeneration-t1-tinystories-exit-v2026-11b",
+ "module": "lltGeneration",
+ "tier": "T1",
+ "label": "checkpoint-exit",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM, shared with other jobs",
+  "torchThreads": 3
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0",
+  "venv": "fresh venv: torch 2.15.0 CPU wheel, numpy, then the notebook's own install cell"
+ },
+ "notebookCommit": "f42f03c (lltGeneration.ipynb as pushed)",
+ "config": {
+  "what": "The step 2 help path: skip the setup training cell, load our lltTinyStories checkpoint into the notebook's GPT, then run the notebook's step 2, 3, 4, 5 and 8 cells unchanged.",
+  "checkpoint": "https://huggingface.co/aimlcompanion/llm-training-lab/resolve/main/lltTinyStories/step2000.pt",
+  "tokenizer": "https://huggingface.co/aimlcompanion/llm-training-lab/resolve/main/lltTinyStories/tokenizer.json",
+  "model": "GPT(4096, 320, 8, 8, 512), the notebook's own class (H_kv defaults to H)",
+  "load": "model.load_state_dict(torch.load(path, map_location='cpu', weights_only=True)['model'])",
+  "script": "llt5/fr/f3/ts_ckpt_test.py (scratch), exec of notebook cells 5, 11, 13, 15, 17, 24"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "parameters": 11474240,
+  "loadStateDict": "all keys matched",
+  "step2PromptTokens": 14,
+  "step3": {
+   "T0.5": {"entropyNats": 0.40, "topToken": 0.90, "topP09Keeps": 1},
+   "T0.8": {"entropyNats": 0.89, "topToken": 0.73, "topP09Keeps": 3},
+   "T1.0": {"entropyNats": 1.18, "topToken": 0.63, "topP09Keeps": 3},
+   "T1.5": {"entropyNats": 2.27, "topToken": 0.43, "topP09Keeps": 8}
+  },
+  "step4": "torch.Size([1, 14, 4096]) cache.pos 14",
+  "step5": {"steps": 200, "maxAbsErr": 9.5e-06, "largestLogit": 20.3, "allclose": true, "sameGreedyTokens": true},
+  "step8": "6, 3, 2 and 1 KV heads: 1,572,864 / 786,432 / 524,288 / 262,144 bytes, allclose True, max errors 1.2e-06 to 9.5e-07",
+  "maxPromptId": 498,
+  "note": "Step 8 builds 2,048-token models with random weights; the prompt ids from the 4,096-token tokenizer are all below 2,048 (max 498), so step 8 runs unchanged."
+ },
+ "samples": [
+  {"step": 2000, "prompt": "Once upon a time, there was a little girl named Lily. She", "settings": "step 2 cell, temperature 0.8, top-k 50, seed 0", "completion": " loved to play outside and explore the world around her. One day, she saw a big, wild dog running towards her! It was barking fast and Lily got scared. \n\nLily's mom came"}
+ ],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "<venv>/Scripts/python.exe -u ts_ckpt_test.py lltGeneration.ipynb",
+ "notes": "Checks the help-panel exit only. Wall times are not recorded: the machine was shared with other jobs. Step 7 (timing) was not run on this path."
+}

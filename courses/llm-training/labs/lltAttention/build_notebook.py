@@ -48,7 +48,7 @@ cells = [
     nbf.v4.new_markdown_cell("# lltAttention, Causal Self-Attention, Built and Tested\n\nLLM Training Lab, module 3. "
                              "The cells below are the lab page's code, in the same order. Steps 1 to 3 need only NumPy. "
                              "Steps 4 to 6 and 8 run on a CPU. Step 7 needs a CUDA GPU, such as a free Colab T4.\n\n"
-                             "Recorded results for every step: `../../runs/lltAttention/`."),
+                             "Recorded results for every step: https://github.com/genieincodebottle/aiml-companion/tree/main/courses/llm-training/runs/lltAttention"),
     nbf.v4.new_code_cell(RUNTIME_CHECK),
     nbf.v4.new_markdown_cell("## Step 1. Write single-head causal attention in NumPy"),
     nbf.v4.new_code_cell(code("step1")),
@@ -62,7 +62,7 @@ cells = [
     nbf.v4.new_code_cell(code("step5")),
     nbf.v4.new_markdown_cell("## Step 6. Measure attention memory on the CPU"),
     nbf.v4.new_code_cell(code("step6")),
-    nbf.v4.new_markdown_cell("## Step 7. Measure naive attention and SDPA on a T4\n\nSkip this cell on a CPU runtime. "
+    nbf.v4.new_markdown_cell("## Step 7. Measure naive attention and SDPA on a T4\n\nOn a CPU runtime this cell prints one line and stops. "
                              "The table on the lab page is our run on a Kaggle T4."),
     nbf.v4.new_code_cell(code("step_t4")),
     nbf.v4.new_markdown_cell("## Step 8. Train a small model with a broken mask\n\nUses the classes from steps 4 and 5."),

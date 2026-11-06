@@ -1,13 +1,13 @@
 def merge(ids, pair, new_id):
     # Return a NEW list where every non-overlapping (a, b) == pair, read left to right,
     # is replaced by new_id. Do not change ids.
-    raise NotImplementedError
+    raise NotImplementedError("write merge(), then run the cell again")
 
 def encode(text, merges):
     # merges maps (a, b) -> new_id, and a smaller new_id means an earlier merge.
     # Start from the UTF-8 bytes of text. While some neighbouring pair is in merges,
     # merge the pair with the smallest new_id. Return the list of ids.
-    raise NotImplementedError
+    raise NotImplementedError("write encode(), then run the cell again")
 
 # Checks. Run the cell; it prints All checks passed when both functions are right.
 ids = [1, 2, 3, 1, 2]

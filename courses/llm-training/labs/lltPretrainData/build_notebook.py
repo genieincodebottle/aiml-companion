@@ -67,6 +67,36 @@ gpu_md = ("## Steps 8 to 10. Training runs on a T4\n\n"
           "The cells below run on a CPU: the extraction test from step 9, the token accounting and the RegMix "
           "regression from step 10.")
 
+# fasttext-numpy2 ships wheels for Linux x86_64 only (PyPI, checked 2026-11-06) and its source build
+# fails with MSVC 2019 on Windows. Elsewhere the cell installs fasttext-wheel 0.9.2 (wheels for Windows
+# and Intel macOS up to Python 3.12, Apple Silicon up to 3.11) and patches its predict(), which calls
+# np.array(copy=False) under NumPy 2.
+install_cell = '''# Pinned versions of the recorded runs. pip runs inside this notebook's own Python.
+import platform, subprocess, sys
+pkgs = ["trafilatura==2.3.1", "warcio==1.8.2"]
+linux = platform.system() == "Linux" and platform.machine() == "x86_64"
+if linux:
+    pkgs.append("fasttext-numpy2==0.10.4")  # the NumPy 2 build of fastText, Linux wheels only
+elif sys.version_info >= (3, 13):
+    print("FIX: on Windows and macOS, fastText has wheels up to Python 3.12. Use a Python 3.12 environment.")
+elif platform.system() == "Darwin" and platform.machine() == "arm64" and sys.version_info >= (3, 12):
+    print("FIX: on Apple Silicon, fastText has wheels up to Python 3.11. Use a Python 3.11 environment.")
+else:
+    pkgs.append("fasttext-wheel==0.9.2")  # prebuilt for Windows and macOS, patched below for NumPy 2
+subprocess.run([sys.executable, "-m", "pip", "install", "-q"] + pkgs, check=True)
+if any(p.startswith("fasttext-wheel") for p in pkgs):
+    import numpy as np
+    import fasttext.FastText as FT
+
+    def _predict(self, text, k=1, threshold=0.0, on_unicode_error="strict"):
+        pred = self.f.predict(text, k, threshold, on_unicode_error)
+        probs, labels = zip(*pred) if pred else ((), ())
+        return labels, np.asarray(probs)
+
+    FT._FastText.predict = _predict
+    print("fasttext-wheel predict() patched for NumPy 2. After a restart, run this cell again.")
+print("Installed", ", ".join(pkgs))'''
+
 md = nbf.v4.new_markdown_cell
 cc = nbf.v4.new_code_cell
 nb = nbf.v4.new_notebook()
@@ -76,7 +106,7 @@ nb.cells = [
        "Our recorded runs are in `courses/llm-training/runs/lltPretrainData/`."),
     cc(runtime_check),
     md("Install the three libraries this lab adds. NumPy, pandas, scikit-learn and PyTorch come with Colab and Kaggle, and this notebook never installs NumPy."),
-    cc('%pip install -q "trafilatura==2.3.1" "warcio==1.8.2" "fasttext-numpy2==0.10.4"'),
+    cc(install_cell),
     md("The filters, PII scrub, decontamination and MinHash code, as one file the steps import."),
     cc("%%writefile ptd.py\n" + src("ptd.py")),
     md("## Step 1. Download one Common Crawl file and extract the text"),

@@ -5,6 +5,17 @@ Every number on the lab page comes from a run in `../../runs/lltGPT/` or from a 
 
 The model matches our Kaggle TinyStories pretraining test (`../../kaggle/cells_tinystories.py`) as the **modern** config: pre-norm RMSNorm, RoPE on interleaved pairs, SwiGLU with the hidden width rounded up to a multiple of 64, tied embeddings, init std 0.02 and 0.02/sqrt(2L) on the two residual writes per block. The **gpt2** config (LayerNorm, tanh GELU, learned positions, biases) loads OpenAI's GPT-2 124M weights.
 
+## Run it on a laptop
+
+Use Python 3.11 or later (3.12 recommended). In a fresh virtual environment:
+
+```
+pip install torch numpy jupyter ipywidgets
+jupyter notebook lltGPT.ipynb
+```
+
+Run the cells in order. The notebook installs the pinned Hugging Face libraries itself and keeps your PyTorch and NumPy. Step 7 downloads GPT-2 (about 0.55 GB) and step 8 a 22 MB TinyStories file.
+
 ## Files
 
 | File | What it does |
@@ -43,4 +54,4 @@ Exact figures were measured with `torch.set_num_threads(4)`. The step 8 losses c
 Data: `roneneldan/TinyStories`, file `TinyStoriesV2-GPT4-valid.txt` (CDLA-Sharing-1.0, Eldan and Li 2023), 27,630 stories split 95/5 in file order; a 2,048-token byte-level BPE trained on the 95%.
 Model: `openai-community/gpt2` (MIT licence).
 
-Environment of the CPU runs on the page (suffix `-v2026-11`): the venv `../../.venv-latest`, Python 3.12.3, torch 2.15.0+cpu, transformers 5.22.1, tokenizers 0.23.3, huggingface_hub 2.4.0, numpy 2.5.4, AMD Ryzen 9 5900HS, no GPU. Run the measure scripts with `LLT_RUN_SUFFIX=-v2026-11` and that interpreter. Every figure matched the earlier torch 2.10.0 runs except peak RAM (2.97 -> 2.87 GB). The CPU reference `lltGPT-t1-toggle-modern-s0` (2.5973) ran on torch 2.10.0+cpu, tokenizers 0.22.1. The step 8 table ran on the Kaggle T4 image of 2026-11-05: Python 3.13.16, torch 2.11.0+cu130, tokenizers 0.22.1. Browser cells checked on Pyodide 0.27.0.
+Environment of the CPU runs on the page (suffix `-v2026-11`): the venv `../../.venv-latest`, Python 3.12.3, torch 2.15.0+cpu, transformers 5.22.1, tokenizers 0.23.3, huggingface_hub 2.4.0, numpy 2.5.4, AMD Ryzen 9 5900HS, no GPU. Run the measure scripts with `LLT_RUN_SUFFIX=-v2026-11` and that interpreter. Every figure matched the earlier torch 2.10.0 runs except peak RAM (2.97 -> 2.87 GB). The CPU reference `lltGPT-t1-toggle-modern-s0` (2.5973) ran on torch 2.10.0+cpu, tokenizers 0.22.1, and gave 2.5973 again on torch 2.15.0+cpu, tokenizers 0.23.3, transformers 5.22.1 (`lltGPT-t1-toggle-modern-s0-v2026-11b`, 2026-11-06). The step 8 table ran on the Kaggle T4 image of 2026-11-05: Python 3.13.16, torch 2.11.0+cu130, tokenizers 0.22.1. Browser cells checked on Pyodide 0.27.0.

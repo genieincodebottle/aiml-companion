@@ -4,6 +4,17 @@ LLM Training Lab, module 6. Regime: INFERENCE & EVAL. No weights change in steps
 pretrains the lab model FROM SCRATCH on a CPU. Every number on the lab page comes from a run in
 `../../runs/lltGeneration/` or from an exact derivation.
 
+## Run it on a laptop
+
+Use Python 3.11 or later (3.12 recommended). In a fresh virtual environment:
+
+```
+pip install torch numpy jupyter
+jupyter notebook lltGeneration.ipynb
+```
+
+Run the cells in order. The first cell installs the pinned Hugging Face libraries and keeps your PyTorch and NumPy. The setup cell downloads a 22 MB TinyStories file and pretrains the lab model on the CPU, and step 6 downloads SmolLM2-135M (about 270 MB).
+
 ## Files
 
 | File | What it does |

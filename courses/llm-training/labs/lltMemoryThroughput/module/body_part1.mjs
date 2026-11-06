@@ -9,9 +9,9 @@
                         { label: 'fp32 weight, fp32 gradient, Adam first and second moments', tex: '4 + 4 + 4 + 4 = \\mathbf{16 \\text{ bytes per parameter}}' },
                         { label: 'GPT-2 small, N = 124,439,808', tex: '16 \\times 124{,}439{,}808 = \\mathbf{1.99 \\text{ GB}}' },
                     ] },
-                    { text: 'Save the model below as `gpt.py`. It is GPT-2 small in plain PyTorch, with two switches you will use in step 5. Then run one training step and keep the gradients, so all four numbers per parameter are in memory.' },
-                    { code: CODE.gpt, language: 'python', title: 'gpt.py, GPT-2 small with two memory switches' },
-                    { code: CODE.s01, language: 'python', title: 'Step 1, measure the training state' },
+                    { text: 'Every code block on this page is a cell of the lab notebook, in order, after its runtime check. The first cell of part 1 saves the model below as `gpt.py`. It is GPT-2 small in plain PyTorch, with two switches you will use in step 5. The next cell runs one training step and keeps the gradients, so all four numbers per parameter are in memory.' },
+                    { code: CODE.gpt, language: 'py', title: 'gpt.py, GPT-2 small with two memory switches' },
+                    { code: CODE.s01, language: 'py', title: 'Step 1, measure the training state' },
                     { text: '`torch.cuda.memory_allocated()` counts the bytes held by live tensors. `memory_reserved()` counts what the caching allocator has taken from the GPU, which includes freed blocks it keeps for reuse. Read allocated when you check a prediction.' },
                     { text: 'The last line deletes `loss` as well as the model. A finished loss still points, through its graph, at every parameter and its gradient.' },
                     { depth: 'deep', note: 'derivation', text: 'The ZeRO paper (Rajbhandari et al. 2020) counts the same 16 bytes another way. It keeps fp16 weights and gradients, 2 bytes each, plus K = 12 bytes of fp32 optimizer state, a master copy of the weights and Adam\'s two moments. PyTorch AMP holds fp32 weights and gradients instead and needs no separate master copy. Both come to 16 bytes, but the split matters when you shard it in part 2.' },
@@ -67,7 +67,7 @@
                 predict: 'Step 2 predicts 13.51 GB at b = 12, s = 1,024 and 17.44 GB at b = 16. The T4 has 15.6 GB. Which batch sizes fit at s = 1,024, and how close do you expect the prediction to land?',
                 blocks: [
                     { text: 'Train three steps for each batch size and sequence length. Reset the peak counter before the third step, so Adam\'s state already exists. Stop a row at the first out-of-memory error.' },
-                    { code: CODE.s03, language: 'python', title: 'Step 3, predicted against measured peak memory' },
+                    { code: CODE.s03, language: 'py', title: 'Step 3, predicted against measured peak memory' },
                     { table: {
                         caption: 'Peak memory of one training step, GPT-2 124M, fp16 autocast, one T4 (run lltMemoryThroughput-T2-memory-grid)',
                         head: ['Batch x sequence', 'Tokens', 'Predicted GB', 'Allocated GB', 'Reserved GB', 'Error'],
@@ -104,7 +104,7 @@
                         { label: 'MFU', tex: '\\text{MFU} = \\frac{\\text{tokens/s} \\times \\text{FLOPs per token}}{\\text{peak FLOP/s}}' },
                         { label: 'GPT-2 124M at s = 1,024 on a T4, peak 65 TFLOPS fp16', tex: '\\frac{14{,}399 \\times (746.6 + 113.2) \\times 10^{6}}{65 \\times 10^{12}} = \\mathbf{19.0\\%}' },
                     ] },
-                    { code: CODE.s04, language: 'python', title: 'Step 4, tokens per second, MFU and the synchronize trap' },
+                    { code: CODE.s04, language: 'py', title: 'Step 4, tokens per second, MFU and the synchronize trap' },
                     { text: 'The second half of the cell times the forward and backward passes with and without `synchronize`. Without it, the forward pass reads 9.2 ms and the backward pass 13.6 ms. With it they take 204.3 ms and 317.9 ms.' },
                     { text: 'The T4\'s 65 TFLOPS is the datasheet figure for fp16 tensor cores. The same Kaggle T4 measured 22.1 TFLOPS on one large fp16 matrix multiply (run lltMemoryThroughput-T2-gpu-smoke), so 19% of the datasheet is about 56% of what a single matmul reached.' },
                 ],
@@ -118,7 +118,7 @@
                 blocks: [
                     { text: 'Activation checkpointing, also called recomputation, keeps only each block\'s input in the forward pass. The backward pass runs the block forward again to rebuild the rest (Chen et al. 2016). In `gpt.py`, `ckpt=True` wraps each block in `torch.utils.checkpoint`.' },
                     { text: 'Chunked cross-entropy applies the same idea to the output head. `chunks=8` splits the tokens into 8 groups. Each group\'s logits are computed, scored and freed, then recomputed one group at a time in the backward pass.' },
-                    { code: CODE.s05, language: 'python', title: 'Step 5, four memory settings compared' },
+                    { code: CODE.s05, language: 'py', title: 'Step 5, four memory settings compared' },
                     { table: {
                         caption: 'GPT-2 124M, b = 8, s = 1,024, one T4 (run lltMemoryThroughput-T2-memory-cuts)',
                         head: ['Setting', 'Predicted GB', 'Measured GB', 'Tokens/s', 'Largest batch at s = 1,024'],
@@ -141,7 +141,7 @@
                 predict: 'The T4 has fp16 tensor cores and no bf16 tensor cores. `torch.cuda.is_bf16_supported()` returns True on it anyway. Rank fp32, fp16 autocast and bf16 autocast by tokens per second.',
                 blocks: [
                     { text: 'Run the same training step under four settings at b = 4, s = 1,024. Then measure what loss scaling does for fp16 gradients.' },
-                    { code: CODE.s06, language: 'python', title: 'Step 6, precision and compile on a T4' },
+                    { code: CODE.s06, language: 'py', title: 'Step 6, precision and compile on a T4' },
                     { table: {
                         caption: 'GPT-2 124M, b = 4, s = 1,024, one T4 (run lltMemoryThroughput-T2-precision)',
                         head: ['Setting', 'Tokens/s', 'First step, s', 'Against fp16'],

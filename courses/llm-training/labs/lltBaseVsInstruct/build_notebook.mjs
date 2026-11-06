@@ -31,17 +31,31 @@ print("Free disk", round(free, 1), "GB")
 if free < 3:
     ok = False
     print("The two SmolLM2-360M checkpoints need about 1.5 GB of disk. Free some space.")
-try:
-    import torch, transformers
-    print("torch", torch.__version__, "| transformers", transformers.__version__)
-    if int(transformers.__version__.split(".")[0]) < 5:
-        print("transformers 4.x returns a list from apply_chat_template. Install 5.x with the next cell.")
-except ImportError:
-    print("Install the pinned versions with the next cell.")
+# Read versions without importing transformers, so the install in the next cell takes effect with no restart.
+from importlib.metadata import PackageNotFoundError, version
+for pkg in ["torch", "transformers"]:
+    try:
+        print(pkg, version(pkg))
+    except PackageNotFoundError:
+        print(pkg, "not installed")
+        if pkg == "torch":
+            ok = False
+            print("FIX: install PyTorch for your machine from pytorch.org. Colab and Kaggle ship it.")
 print("No GPU is needed for this lab." if ok else "Fix the items above, then run this cell again.")`;
 
-const INSTALL = `# Pinned Hugging Face versions of the recorded runs. torch and numpy stay as the runtime ships them. Restart the runtime after installing if transformers was already imported.
-!pip install -q "transformers==5.22.1" "tokenizers==0.23.3" "huggingface_hub==2.4.0"`;
+const INSTALL = `# Pinned Hugging Face versions of the recorded runs. torch and numpy stay as the runtime ships them.
+# %pip installs into this notebook's own Python, also on a laptop with a virtual environment.
+# pip may print a note about restarting the kernel. Restart only if this cell prints a FIX line.
+%pip install -q "transformers==5.22.1" "tokenizers==0.23.3" "huggingface_hub==2.4.0"
+import sys
+from importlib.metadata import version
+print("transformers", version("transformers"), "| tokenizers", version("tokenizers"), "| huggingface_hub", version("huggingface_hub"))
+if version("transformers") != "5.22.1":
+    print("FIX: the install failed. Read the pip error above, then run this cell again.")
+elif "transformers" in sys.modules and sys.modules["transformers"].__version__ != "5.22.1":
+    print("FIX: an older transformers is already loaded. Restart the session (Colab: Runtime > Restart session), then run the cells below this one.")
+else:
+    print("Versions match the recorded runs.")`;
 
 const cells = [];
 const md = (text) => cells.push({ cell_type: 'markdown', metadata: {}, source: text });

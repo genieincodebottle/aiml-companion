@@ -3,16 +3,16 @@ import numpy as np
 def kl_per_row(p, q):
     # p, q: arrays of shape (T, V), each row a probability distribution.
     # Return KL(p || q) for each row, in nats. A zero in p adds nothing (0 log 0 = 0).
-    raise NotImplementedError
+    raise NotImplementedError("write kl_per_row")
 
 def base_rank(q, tokens):
     # q: (T, V) base-model distributions. tokens: the token id the instruct model chose at each row.
     # Rank 1 means the base model also put that token first. Ties count in the token's favour.
-    raise NotImplementedError
+    raise NotImplementedError("write base_rank")
 
 def shift_label(rank):
     # URIAL's three groups: rank 1 unshifted, rank 2 or 3 marginal, above 3 shifted.
-    raise NotImplementedError
+    raise NotImplementedError("write shift_label")
 
 # Checks. Run the cell; it prints All checks passed when all three functions are right.
 p = np.array([[0.90, 0.05, 0.03, 0.02, 0.00],

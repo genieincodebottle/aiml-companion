@@ -1,0 +1,208 @@
+{
+ "runId": "lltPretrainData-t1-notebook-fresh-venv-v2026-11b",
+ "module": "lltPretrainData",
+ "tier": "T1",
+ "label": "fresh-venv notebook execution",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM, shared with other jobs"
+ },
+ "env": {
+  "python": "3.12.3",
+  "os": "Windows-11-10.0.26200-SP0",
+  "torch": "2.15.0+cpu",
+  "numpy": "2.5.4",
+  "trafilatura": "2.3.1",
+  "warcio": "1.8.2",
+  "fasttext-wheel": "0.9.2",
+  "pandas": "3.1.1",
+  "scikit-learn": "1.9.1",
+  "pyarrow": "26.0.1"
+ },
+ "notebookCommit": "working tree after the 2026-11-06 friction fixes (not yet committed)",
+ "config": {
+  "venv": "uv venv --seed --python 3.12, torch CPU, numpy and the Colab-preinstalled libraries only; the notebook's own install cell did the rest",
+  "threads": "OMP_NUM_THREADS=3",
+  "hfToken": null
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "cells": [
+   {
+    "cell": 1,
+    "firstLine": "# Runtime check. Run this first. It prints the fix for each problem it finds.",
+    "stdout": [
+     "Python 3.12.3",
+     "RAM 33.7 GB",
+     "Free disk 7.6 GB",
+     "Steps 1 to 7 run on a CPU. No GPU is needed."
+    ]
+   },
+   {
+    "cell": 3,
+    "firstLine": "# Pinned versions of the recorded runs. pip runs inside this notebook's own Python.",
+    "stdout": [
+     "fasttext-wheel predict() patched for NumPy 2. After a restart, run this cell again.",
+     "Installed trafilatura==2.3.1, warcio==1.8.2, fasttext-wheel==0.9.2"
+    ]
+   },
+   {
+    "cell": 5,
+    "firstLine": "%%writefile ptd.py",
+    "stdout": [
+     "Writing ptd.py"
+    ]
+   },
+   {
+    "cell": 7,
+    "firstLine": "import os",
+    "stdout": [
+     "download failed, The read operation timed out | retrying in 15 s",
+     "WARC records 11223 | HTML pages with status 200 3674 | pages with text 3118",
+     "HTML characters 237103300 | text characters 7357528"
+    ]
+   },
+   {
+    "cell": 9,
+    "firstLine": "import collections",
+    "stdout": [
+     "[('en', 1058), ('zh', 484), ('ru', 381), ('ja', 208), ('fr', 143), ('es', 114)]",
+     "English with score >= 0.65 846 | English below 0.65 212"
+    ]
+   },
+   {
+    "cell": 11,
+    "firstLine": "STOP = {\"the\", \"be\", \"to\", \"of\", \"and\", \"that\", \"have\", \"with\"}",
+    "stdout": [
+     "article       kept",
+     "menu          removed, word count outside 50 to 100,000",
+     "price list    removed, under 80% of words have a letter",
+     "keyword spam  removed, top 2-gram covers 27% of characters",
+     "tag cloud     removed, too many # or ..."
+    ]
+   },
+   {
+    "cell": 13,
+    "firstLine": "import collections",
+    "stdout": [
+     "too_few_words              250",
+     "fewer_than_3_sentences      93",
+     "alpha_words                 69",
+     "dup_lines                   18",
+     "ellipsis_lines              14",
+     "dup_5_gram                  12",
+     "bullet_lines                 5",
+     "mean_word_length             4",
+     "top_4_gram                   3",
+     "dup_7_gram                   1",
+     "too_many_words               1",
+     "dup_line_chars               1",
+     "dup_6_gram                   1",
+     "dup_10_gram                  1",
+     "stop_words                   1",
+     "kept 372 of 846",
+     "words kept 175629 of 526691"
+    ]
+   },
+   {
+    "cell": 15,
+    "firstLine": "import urllib.request",
+    "stdout": [
+     "rows 58428 | share of test pages scored 3 or more 0.0903",
+     "mean squared error 0.3632 | predicting the mean 0.7102",
+     "AUC for score >= 3 0.9247",
+     "keep pred >= 3.0: F1 0.1104, pages kept 63",
+     "keep pred >= 2.0: F1 0.5789, pages kept 1042"
+    ]
+   },
+   {
+    "cell": 17,
+    "firstLine": "import hashlib",
+    "stdout": [
+     "same page, new footer            Jaccard 0.831  MinHash estimate 0.839  bands matched 2",
+     "same page, one sentence changed  Jaccard 0.716  MinHash estimate 0.705  bands matched 0",
+     "different page                   Jaccard 0.000  MinHash estimate 0.000  bands matched 0",
+     "P(candidate) = 1 - (1 - J**8)**14",
+     "  J = 0.3   0.0009",
+     "  J = 0.5   0.0533",
+     "  J = 0.7   0.5645",
+     "  J = 0.8   0.9235",
+     "  J = 0.9   0.9996"
+    ]
+   },
+   {
+    "cell": 18,
+    "firstLine": "import numpy as np",
+    "stdout": [
+     "exact duplicates removed 2",
+     "candidate pairs 1 | near duplicates removed 1 | pages left 369",
+     "pair 120-200  exact Jaccard 0.872  signature agreement 0.929"
+    ]
+   },
+   {
+    "cell": 20,
+    "firstLine": "import urllib.request",
+    "stdout": [
+     "evaluation items 12418 | distinct 13-grams 582293",
+     "pages sharing a 13-gram with ARC-Easy or HellaSwag 0",
+     "emails replaced 10 | public IPv4 addresses replaced 1",
+     "verbatim caught True | paraphrase caught False"
+    ]
+   },
+   {
+    "cell": 22,
+    "firstLine": "# Band checks against our recorded run (lltPretrainData-t1-notebook, one CPU process).",
+    "stdout": [
+     "pages with text 3118 | English 846 | after rules 372 | after dedup 369",
+     "All band checks passed"
+    ]
+   },
+   {
+    "cell": 23,
+    "firstLine": "# Peak RAM of this notebook so far",
+    "stdout": [
+     "Peak RAM 2.73 GB"
+    ]
+   },
+   {
+    "cell": 25,
+    "firstLine": "import torch",
+    "stdout": [
+     "extraction rate, token match: (1.0, 1.0)"
+    ]
+   },
+   {
+    "cell": 26,
+    "firstLine": "import numpy as np",
+    "stdout": [
+     "equal weights by document -> web       gets 13.7% of the tokens",
+     "equal weights by document -> wikipedia gets 82.7% of the tokens",
+     "equal weights by document -> stories   gets 3.7% of the tokens",
+     "equal weights by token    -> web       is seen 0.059 times",
+     "equal weights by token    -> wikipedia is seen 0.055 times",
+     "equal weights by token    -> stories   is seen 0.083 times"
+    ]
+   },
+   {
+    "cell": 27,
+    "firstLine": "import numpy as np",
+    "stdout": [
+     "web      leave-one-out error, mean absolute 0.044 bits per byte",
+     "wiki     leave-one-out error, mean absolute 0.052 bits per byte",
+     "stories  leave-one-out error, mean absolute 0.162 bits per byte",
+     "prediction for web 0.5, wiki 0.3, stories 0.2: [2.027, 1.945, 1.226]"
+    ]
+   }
+  ]
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "wallClockNote": "machine shared with other jobs; not a timing figure for the page",
+ "costUSD": 0,
+ "date": "2026-11-06",
+ "command": "nbclient, top to bottom",
+ "note": "Windows 11 fresh venv with fasttext-wheel 0.9.2 installed by the fixed install cell. Step 1's first download attempt timed out after 300 s and the second succeeded. Every figure matches run lltPretrainData-t1-notebook-v2026-11; all band checks passed; peak RAM 2.73 GB."
+}
