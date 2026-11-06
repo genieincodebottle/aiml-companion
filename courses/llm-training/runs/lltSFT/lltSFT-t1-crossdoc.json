@@ -1,0 +1,80 @@
+{
+ "runId": "lltSFT-t1-crossdoc",
+ "module": "lltSFT",
+ "tier": "T1",
+ "label": "ablation:packing",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "dtype": "float32",
+  "collator": "sft_common.cross_doc_collator",
+  "rows": "smoltalk_smollm3_smol_rewrite_no_think training rows 0-5"
+ },
+ "seed": null,
+ "metrics": [
+  {
+   "step": 0,
+   "peakRssGB": 1.85
+  }
+ ],
+ "evals": {
+  "rowDocLengths": [
+   388,
+   380,
+   220
+  ],
+  "trlBatchLosses": {
+   "documentMask": 1.8207818269729614,
+   "continuousNoMaskObject": 1.7453254461288452,
+   "continuousExplicitCausal": 1.7453254461288452,
+   "restartExplicitCausal": 3.368110179901123
+  },
+  "directRestartCausal": 3.3681103422548726,
+  "absDiffRestartArmVsDirect": 1.623537495554217e-07,
+  "absDiffContinuousArms": 0.0,
+  "context": {
+   "conversation2": {
+    "alone": 1.7672,
+    "afterSimilarContinuous": 1.6344,
+    "afterSimilarRestart": 3.1707,
+    "afterUnrelatedContinuous": 1.7432,
+    "afterUnrelatedRestart": 6.1133
+   },
+   "conversation3": {
+    "alone": 1.9605,
+    "afterSimilarContinuous": 1.8918,
+    "afterSimilarRestart": 4.0095,
+    "afterUnrelatedContinuous": 1.9652,
+    "afterUnrelatedRestart": 6.135
+   }
+  },
+  "unrelated": "first Magpie training conversation",
+  "similar": "the rewrite conversation before it"
+ },
+ "samples": [],
+ "wallClockSec": 246.3,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "python.exe measure.py crossdoc"
+}

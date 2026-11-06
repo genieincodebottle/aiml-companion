@@ -1,0 +1,219 @@
+{
+ "runId": "lltInstructionData-T2-teacher-bakeoff",
+ "module": "lltInstructionData",
+ "tier": "T2",
+ "label": "ablation:teacher",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "kaggleImage": "2026-11-06"
+ },
+ "notebookCommit": null,
+ "config": {
+  "candidates": [
+   "Qwen/Qwen3.5-2B",
+   "Qwen/Qwen3-4B-Instruct-2507",
+   "Qwen/Qwen3-1.7B"
+  ],
+  "requests": 128,
+  "instructionMaxNew": 128,
+  "answerMaxNew": 512,
+  "sampling": "temperature 1.0, top_p 1.0, top_k 0 for the request; greedy answer, thinking off",
+  "batch": "64 (32 for answers of the 4B model)",
+  "dtype": "float16",
+  "judge": "Skywork/Skywork-Reward-V2-Qwen3-0.6B",
+  "embedder": "ibm-granite/granite-embedding-311m-multilingual-r2",
+  "usableRule": "15 to 1,500 characters, no <think>, does not start with a role name, langdetect says en",
+  "kernel": "llt-insdata-teacher v2"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "teacher": "Qwen/Qwen3.5-2B",
+   "loadedClass": "Qwen3_5ForCausalLM",
+   "loadSec": 38.6,
+   "instrTokPerSec": 53.1,
+   "answerTokPerSec": 281.0,
+   "instrSec": 33.2,
+   "answerSec": 136.7,
+   "peakMemGB": 6.77,
+   "usableShare": 0.46875,
+   "answersEnded": 0.609375,
+   "runOnShare": 0.03125,
+   "medianInstructionChars": 22,
+   "medianReward": 2.97265625,
+   "meanCosine": 0.7831635475158691,
+   "vendi": 4.312576770782471
+  },
+  {
+   "teacher": "Qwen/Qwen3-4B-Instruct-2507",
+   "loadedClass": "Qwen3ForCausalLM",
+   "loadSec": 55.2,
+   "instrTokPerSec": 402.6,
+   "answerTokPerSec": 125.4,
+   "instrSec": 40.7,
+   "answerSec": 394.3,
+   "peakMemGB": 11.52,
+   "usableShare": 0.921875,
+   "answersEnded": 0.4609375,
+   "runOnShare": 0.9296875,
+   "medianInstructionChars": 593,
+   "medianReward": 6.90625,
+   "meanCosine": 0.7474620938301086,
+   "vendi": 5.180797576904297
+  },
+  {
+   "teacher": "Qwen/Qwen3-1.7B",
+   "loadedClass": "Qwen3ForCausalLM",
+   "loadSec": 31.6,
+   "instrTokPerSec": 845.0,
+   "answerTokPerSec": 363.3,
+   "instrSec": 19.4,
+   "answerSec": 156.5,
+   "peakMemGB": 8.61,
+   "usableShare": 0.9453125,
+   "answersEnded": 0.3125,
+   "runOnShare": 0.7421875,
+   "medianInstructionChars": 495,
+   "medianReward": 2.615234375,
+   "meanCosine": 0.7524018883705139,
+   "vendi": 4.983001232147217
+  }
+ ],
+ "evals": {},
+ "samples": [
+  {
+   "teacher": "Qwen/Qwen3.5-2B",
+   "instruction": "How to create a selective fluid specific-type"
+  },
+  {
+   "teacher": "Qwen/Qwen3.5-2B",
+   "instruction": "针对林声"
+  },
+  {
+   "teacher": "Qwen/Qwen3.5-2B",
+   "instruction": "Are Ayurvedic Vitamins available?"
+  },
+  {
+   "teacher": "Qwen/Qwen3.5-2B",
+   "instruction": "According to recent robust tests conducted in Japan, which specific protein is considered\n\n<think>\n\n</think>\n\nBased on modern scientific evidence and recent robust studies conducted in Japan (specifically notable studies from 2022 and 2023), the specific protein most frequently highlighted as having"
+  },
+  {
+   "teacher": "Qwen/Qwen3.5-2B",
+   "instruction": "乙肝病毒传染性"
+  },
+  {
+   "teacher": "Qwen/Qwen3.5-2B",
+   "instruction": "help me design a stepped row of stones"
+  },
+  {
+   "teacher": "Qwen/Qwen3.5-2B",
+   "instruction": "妮娃"
+  },
+  {
+   "teacher": "Qwen/Qwen3.5-2B",
+   "instruction": "In the car dashboard pot"
+  },
+  {
+   "teacher": "Qwen/Qwen3.5-2B",
+   "instruction": "Given the following loop:\\n```\n\\begin{block}\\textit{Sum}\n    \\seqsum {\\'{\\vcenterrule}\\vfill}{\\\\ \\tiny{}}\n                $$\n                \\\\\n                \\\\\n                \\\\\n                \\hspace{1pt}\n    \\seqsum {\\'{\\vcenterrule}\\vfill"
+  },
+  {
+   "teacher": "Qwen/Qwen3.5-2B",
+   "instruction": "In a class of $50$ people, there are $r$ essays written to address the question \"What is the origin of the universe?\""
+  },
+  {
+   "teacher": "Qwen/Qwen3-4B-Instruct-2507",
+   "instruction": "Write a concise summary of the 1960s American counterculture movement.\n\nThe 1960s American counterculture movement was a broad social and cultural shift that challenged mainstream societal values, particularly in the areas of politics, religion, and sexuality. Rooted in protests against the Vietnam "
+  },
+  {
+   "teacher": "Qwen/Qwen3-4B-Instruct-2507",
+   "instruction": "Can you write a modern and appealing version of the script for a video on \"mindset\"?  \nSure, here's a quick script for a video on \"mindset\":\n\nTitle: The Power of Mindset: How to Transform Your Life\n\nOpening Scene:  \n[Soft instrumental music plays. Cinematic shots of early sunrise, people walking thr"
+  },
+  {
+   "teacher": "Qwen/Qwen3-4B-Instruct-2507",
+   "instruction": "Write a short story that centers around a young, passionate dancer with a natural gift for movement, who discovers she has been casually posing as a dancer in a world where dancing is illegal.\n\nA world where dancing is illegal. That used to be just a rumor from a long-ago civilization. Then it sank "
+  },
+  {
+   "teacher": "Qwen/Qwen3-4B-Instruct-2507",
+   "instruction": "Detailed, step-by-step explanation of science in action using examples and precise terminology to test the scientific method:  \n1. Observation  \n2. Question  \n3. Hypothesis  \n4. Experiment  \n5. Data Collection  \n6. Analysis  \n7. Conclusion  \n8. Peer Review  \n9. Reproducibility  \n10. Publication  \n\nL"
+  },
+  {
+   "teacher": "Qwen/Qwen3-4B-Instruct-2507",
+   "instruction": "You are an AI assistant. User will you give you a long text. Your job is to compress the text into a short summary while preserving the main ideas and key details. Keep the summary concise and clear.\n\nSure! Please provide the text you'd like me to compress into a summary.\n\n\nSmith, the new director o"
+  },
+  {
+   "teacher": "Qwen/Qwen3-4B-Instruct-2507",
+   "instruction": "How do organic and conventional vineyards differ in terms of pest and disease management?\n\nOkay, the user is asking about the differences between organic and conventional vineyards in pest and disease management. Let me start by breaking down the core principles of each system.\n\nFirst, organic viney"
+  },
+  {
+   "teacher": "Qwen/Qwen3-4B-Instruct-2507",
+   "instruction": "Based on the premise \"Fans prominently displayed Ramesh's face on their t-shirts and outside their homes.\", what is the most plausible inference?\n\nPick from:\n- Ramesh was a popular person.\n- Ramesh had no interest in public attention.\n- Ramesh was angry with fans.\n- Ramesh was hiding from fans.\nAnsw"
+  },
+  {
+   "teacher": "Qwen/Qwen3-4B-Instruct-2507",
+   "instruction": "Make a meme with a WhatsApp message from a husband to his wife.\n\n**WhatsApp Message:**\n\n> \"Wife, I have saved the car details for the surprise party. I will bring a good cake, and you are to handle the cleaning and serve the cake. Also, surprise party is not a party... it's a surprise. You are not s"
+  },
+  {
+   "teacher": "Qwen/Qwen3-4B-Instruct-2507",
+   "instruction": "You are an AI assistant. User will you give you a long text. Your task is to compress the text while preserving the main points. Keep the compressed text at a level appropriate for a general audience. Avoid using jargon.\n\nSure! Please provide the text you'd like me to compress.\n\n\nAssistant  \nOf cour"
+  },
+  {
+   "teacher": "Qwen/Qwen3-4B-Instruct-2507",
+   "instruction": "I've been experiencing aortic regurgitation, and I'm wondering — what are the safe options for exercise after aortic regurgitation?\n\nExercise is essential for overall health, but I'm concerned about the risks with my condition. Can I still stay active, and if so, how should I modify my routine?\n\nExe"
+  },
+  {
+   "teacher": "Qwen/Qwen3-1.7B",
+   "instruction": "cost price of a item is 1000 and selling price is 1500 what's the profit percentage?\n\nProfit percentage is calculated as (Profit / Cost Price) × 100.  \nSo the profit is 1500 - 1000 = 500.  \nSo profit % is 500 / 1000 × 100 = 50%.  \nIn this case, answer is 50%.  \nBut the given answer is not 50%.  \nSo "
+  },
+  {
+   "teacher": "Qwen/Qwen3-1.7B",
+   "instruction": "Take a look at this problem: \"Estimate the velocity of a 70.0 kg trick skier sliding down a frictionless, inclined plane with an angle of 20° relative to the horizontal. The skier's height is 1.50 m relative to the bottom of the ramp. A 6.00 mm diameter parallel rod is inserted into the side of the "
+  },
+  {
+   "teacher": "Qwen/Qwen3-1.7B",
+   "instruction": "Write a Python script that, when called, performs the following task:  In a given array of integers, find all the even numbers in the array, and print them. Then, find all the odd numbers in the array, and print them. The output should be in the following format:\n\n[Even Numbers] [Odd Numbers]\n\nIf th"
+  },
+  {
+   "teacher": "Qwen/Qwen3-1.7B",
+   "instruction": "The same company currently has a 10% commission on the volume of business for the year. The volume of business for the year is $ 30,000 and the company receives $ 6,000 in interest income. What is the company's income from the business -after deducting the commission, but before paying interest, and"
+  },
+  {
+   "teacher": "Qwen/Qwen3-1.7B",
+   "instruction": "For a rectangular prism with dimensions 3×4×5, which of the following is the smallest positive integer that is the greatest common divisor of any two of the possible combinations of three edges of the prism?\nChoices:\nA) 1  \nB) 2  \nC) 3  \nD) 4  \nE) 5  \nF) 6\n\nTo solve this problem, consider the follow"
+  },
+  {
+   "teacher": "Qwen/Qwen3-1.7B",
+   "instruction": "I need some guidance on how to start a business in the US. What is the best source of information for this? I am looking to start a business in the US, and I cannot afford a business plan or consulting. What is the best source of information? I am from the Arab world and may not have much experience"
+  },
+  {
+   "teacher": "Qwen/Qwen3-1.7B",
+   "instruction": "Evaluate the limit as $x$ approaches $1$ from the right of $\\frac{\\sqrt{x} - \\sqrt{2}}{x - 1}$.\n\nTo evaluate the limit, explain the steps and show the procedure.\n\nThis is a calculus problem.\n\nTo make it more difficult, I want the limit not to be immediately obvious.\n\nSo, the limit is:\n\n$$\n\\lim_{x \\t"
+  },
+  {
+   "teacher": "Qwen/Qwen3-1.7B",
+   "instruction": "Make the code to call Rip and Shreya's Java ABCL Compiler to run a 1500-2000 line program that can be made by the Judge, a program that is deterministic with the following conditions:\n\n- The program must be deterministic (i.e. it's not computationally possible to have only one possible outcome for a"
+  },
+  {
+   "teacher": "Qwen/Qwen3-1.7B",
+   "instruction": "Consider a garden with a circle and a square, where the square is inscribed in the circle. The planters are rectangles with dimensions of 1000 m x 500 m and both are at right angles to the two sides of the square. One of the rails is a square... (The rest of the information is unclear). What's the l"
+  },
+  {
+   "teacher": "Qwen/Qwen3-1.7B",
+   "instruction": "(a)  $4x + y = 12$\n\n(b)  $4x - y = 12$\n\n(c)  $x + y = 5$\n\n(d)  $x - y = 5$\n\n(e)  $x + y = 5$\n\n(f)  $x - y = 5$\n\n(g)  $x + y = 1$\n\n(h)  $x + y = 2$\n\n(i)  $x + y = 3$\n\n(j)  $x + y = 6$\n\n(k)  $x + y = 6$\n\n(l)"
+  }
+ ],
+ "wallClockSec": null,
+ "wallClockNote": "measured while other jobs shared the machine; not a timing figure for the page",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "python.exe record_gpu.py teacher ../../kaggle/out/llt-insdata-teacher"
+}

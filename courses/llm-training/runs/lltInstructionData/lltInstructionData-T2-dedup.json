@@ -1,0 +1,90 @@
+{
+ "runId": "lltInstructionData-T2-dedup",
+ "module": "lltInstructionData",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "image": "Kaggle GPU image 2026-11-06, torch from the image (2.11.0+cu130 in the same-day kernel llt-insdata-teacher)",
+  "pinned": "transformers 5.22.1, tokenizers 0.23.3, huggingface_hub 2.4.0, datasets 5.1.0, trl 1.17.1, accelerate 1.15.0, sentence-transformers 6.2.0, lm-eval 0.4.13, langdetect 1.0.9"
+ },
+ "notebookCommit": null,
+ "config": {
+  "embedder": "ibm-granite/granite-embedding-311m-multilingual-r2",
+  "maxSeqLength": 512,
+  "rule": "exact match after lower-casing and collapsing whitespace, then greedy in pool order at cosine 0.95",
+  "kernel": "llt-insdata-notebook v1 (cells 1 to 7 completed; cell 10 stopped on CUDA out of memory, fixed and re-run in llt-insdata-exp)"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "rows": 8289,
+   "exactDuplicates": 192,
+   "nearDroppedByThreshold": {
+    "0.8": 7751,
+    "0.85": 5626,
+    "0.9": 2061,
+    "0.95": 940,
+    "0.98": 551
+   },
+   "rowsAfterDedup": 7157,
+   "nearestNeighbourBands": [
+    {
+     "band": [
+      0.9,
+      0.93
+     ],
+     "rows": 1507
+    },
+    {
+     "band": [
+      0.93,
+      0.95
+     ],
+     "rows": 372
+    },
+    {
+     "band": [
+      0.95,
+      0.97
+     ],
+     "rows": 298
+    },
+    {
+     "band": [
+      0.97,
+      0.99
+     ],
+     "rows": 457
+    },
+    {
+     "band": [
+      0.99,
+      1.01
+     ],
+     "rows": 495
+    }
+   ],
+   "nearestNeighbourQuantiles": {
+    "0.1": 0.8546,
+    "0.25": 0.8685,
+    "0.5": 0.8887,
+    "0.75": 0.9192,
+    "0.9": 0.9783
+   }
+  }
+ ],
+ "evals": {},
+ "samples": [],
+ "wallClockSec": 205.3,
+ "wallClockNote": "measured while other jobs shared the machine; not a timing figure for the page",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "python.exe record_data.py ../../kaggle/out/llt-insdata-notebook"
+}

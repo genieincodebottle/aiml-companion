@@ -1,0 +1,74 @@
+{
+ "runId": "lltInstructionData-T2-reward",
+ "module": "lltInstructionData",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "image": "Kaggle GPU image 2026-11-06, torch from the image (2.11.0+cu130 in the same-day kernel llt-insdata-teacher)",
+  "pinned": "transformers 5.22.1, tokenizers 0.23.3, huggingface_hub 2.4.0, datasets 5.1.0, trl 1.17.1, accelerate 1.15.0, sentence-transformers 6.2.0, lm-eval 0.4.13, langdetect 1.0.9"
+ },
+ "notebookCommit": null,
+ "config": {
+  "rewardModel": "Skywork/Skywork-Reward-V2-Qwen3-0.6B",
+  "dtype": "float16",
+  "maxLen": 2048,
+  "labels": "nvidia/HelpSteer2 validation, single-turn rows, human helpfulness 0 to 4",
+  "floor": "the median reward of those HelpSteer2 responses",
+  "kernel": "llt-insdata-notebook v1 (cells 1 to 7 completed; cell 10 stopped on CUDA out of memory, fixed and re-run in llt-insdata-exp)"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "helpsteerResponses": 712,
+   "pairsWithDifferentHelpfulness": 252,
+   "pairAgreement": 0.71,
+   "thresholds": [
+    {
+     "keepAtLeast": -0.27,
+     "kept": 534,
+     "keptShareRated3or4": 0.826,
+     "droppedShareRated3or4": 0.461
+    },
+    {
+     "keepAtLeast": 1.82,
+     "kept": 356,
+     "keptShareRated3or4": 0.871,
+     "droppedShareRated3or4": 0.598
+    },
+    {
+     "keepAtLeast": 3.77,
+     "kept": 178,
+     "keptShareRated3or4": 0.893,
+     "droppedShareRated3or4": 0.682
+    }
+   ],
+   "floor": 1.8212890625,
+   "poolMedianReward": {
+    "dolci": 4.533,
+    "wildchat": 2.479,
+    "synthetic": 5.379
+   },
+   "poolQuantiles": {
+    "0.1": -1.517,
+    "0.25": 0.559,
+    "0.5": 3.318,
+    "0.75": 6.375,
+    "0.9": 8.923
+   }
+  }
+ ],
+ "evals": {},
+ "samples": [],
+ "wallClockSec": 706.7,
+ "wallClockNote": "measured while other jobs shared the machine; not a timing figure for the page",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "python.exe record_data.py ../../kaggle/out/llt-insdata-notebook"
+}

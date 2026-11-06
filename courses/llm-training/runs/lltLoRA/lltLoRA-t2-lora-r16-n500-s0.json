@@ -1,0 +1,409 @@
+{
+ "runId": "lltLoRA-t2-lora-r16-n500-s0",
+ "module": "lltLoRA",
+ "tier": "T2",
+ "label": "ablation:lora-r16-n500-s0",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "gpu": "Tesla T4",
+  "bitsandbytes": "0.50.2"
+ },
+ "kaggleKernel": "genieincodebottle/llt-lora-sweep-a2",
+ "notebookCommit": null,
+ "config": {
+  "tag": "lora-r16-n500-s0",
+  "lr": 0.0003,
+  "seed": 0,
+  "model": "Qwen/Qwen3.5-0.8B-Base",
+  "n_train": 500,
+  "batch": 16,
+  "eval_every": 25,
+  "n_heldout": 300,
+  "n_wiki": 32,
+  "n_acc": 200,
+  "warmup": 10,
+  "mode": "lora",
+  "r": 16,
+  "alpha": 32,
+  "targets": "all",
+  "budget": 2048
+ },
+ "seed": 0,
+ "ok": true,
+ "error": null,
+ "data": {
+  "nTrain": 500,
+  "trainAnswerTokens": 45933,
+  "trainTokens": 78130,
+  "heldout": 300,
+  "wikiRows": 32,
+  "accProblems": 200
+ },
+ "trainableParams": 10822656,
+ "totalParams": 763215680,
+ "peakMemGB": 9.97,
+ "peakReservedGB": 12.1,
+ "memAfterLoadGB": 3.05,
+ "secPerStepMedian": 3.195,
+ "trainSec": 107.2,
+ "skippedSteps": 0,
+ "nonFinite": 0,
+ "metrics": [
+  {
+   "step": 1,
+   "trainLoss": 0.97346,
+   "gradNorm": 2.7499,
+   "lr": 5.806451612903226e-05,
+   "skipped": false,
+   "sec": 3.985,
+   "tokens": 1459,
+   "memGB": 9.67
+  },
+  {
+   "step": 2,
+   "trainLoss": 0.92317,
+   "gradNorm": 2.0271,
+   "lr": 8.419354838709677e-05,
+   "skipped": false,
+   "sec": 3.519,
+   "tokens": 1739,
+   "memGB": 9.67
+  },
+  {
+   "step": 3,
+   "trainLoss": 0.77803,
+   "gradNorm": 2.4773,
+   "lr": 0.00010838709677419355,
+   "skipped": false,
+   "sec": 2.939,
+   "tokens": 1517,
+   "memGB": 9.67
+  },
+  {
+   "step": 4,
+   "trainLoss": 0.69859,
+   "gradNorm": 2.5064,
+   "lr": 0.00013064516129032258,
+   "skipped": false,
+   "sec": 2.719,
+   "tokens": 1119,
+   "memGB": 9.67
+  },
+  {
+   "step": 5,
+   "trainLoss": 0.65769,
+   "gradNorm": 1.2383,
+   "lr": 0.00015096774193548384,
+   "skipped": false,
+   "sec": 3.104,
+   "tokens": 1373,
+   "memGB": 9.7
+  },
+  {
+   "step": 6,
+   "trainLoss": 0.72393,
+   "gradNorm": 1.3544,
+   "lr": 0.0001693548387096774,
+   "skipped": false,
+   "sec": 3.06,
+   "tokens": 1496,
+   "memGB": 9.7
+  },
+  {
+   "step": 7,
+   "trainLoss": 0.62244,
+   "gradNorm": 1.1973,
+   "lr": 0.00018580645161290322,
+   "skipped": false,
+   "sec": 3.196,
+   "tokens": 1463,
+   "memGB": 9.97
+  },
+  {
+   "step": 8,
+   "trainLoss": 0.58143,
+   "gradNorm": 1.2121,
+   "lr": 0.00020032258064516128,
+   "skipped": false,
+   "sec": 2.896,
+   "tokens": 1215,
+   "memGB": 9.97
+  },
+  {
+   "step": 9,
+   "trainLoss": 0.58688,
+   "gradNorm": 1.1968,
+   "lr": 0.0002129032258064516,
+   "skipped": false,
+   "sec": 3.059,
+   "tokens": 1341,
+   "memGB": 9.97
+  },
+  {
+   "step": 10,
+   "trainLoss": 0.7283,
+   "gradNorm": 1.1899,
+   "lr": 0.0002032258064516129,
+   "skipped": false,
+   "sec": 3.017,
+   "tokens": 1405,
+   "memGB": 9.97
+  },
+  {
+   "step": 11,
+   "trainLoss": 0.64548,
+   "gradNorm": 1.1299,
+   "lr": 0.00019354838709677416,
+   "skipped": false,
+   "sec": 3.099,
+   "tokens": 1490,
+   "memGB": 9.97
+  },
+  {
+   "step": 12,
+   "trainLoss": 0.6327,
+   "gradNorm": 1.1167,
+   "lr": 0.00018387096774193548,
+   "skipped": false,
+   "sec": 3.53,
+   "tokens": 1454,
+   "memGB": 9.97
+  },
+  {
+   "step": 13,
+   "trainLoss": 0.79469,
+   "gradNorm": 1.0647,
+   "lr": 0.00017419354838709675,
+   "skipped": false,
+   "sec": 3.59,
+   "tokens": 1685,
+   "memGB": 9.97
+  },
+  {
+   "step": 14,
+   "trainLoss": 0.6375,
+   "gradNorm": 0.9396,
+   "lr": 0.00016451612903225804,
+   "skipped": false,
+   "sec": 3.447,
+   "tokens": 1457,
+   "memGB": 9.97
+  },
+  {
+   "step": 15,
+   "trainLoss": 0.59643,
+   "gradNorm": 1.0635,
+   "lr": 0.00015483870967741934,
+   "skipped": false,
+   "sec": 3.114,
+   "tokens": 1343,
+   "memGB": 9.97
+  },
+  {
+   "step": 16,
+   "trainLoss": 0.66749,
+   "gradNorm": 0.978,
+   "lr": 0.00014516129032258063,
+   "skipped": false,
+   "sec": 3.572,
+   "tokens": 1565,
+   "memGB": 9.97
+  },
+  {
+   "step": 17,
+   "trainLoss": 0.57393,
+   "gradNorm": 0.8615,
+   "lr": 0.00013548387096774193,
+   "skipped": false,
+   "sec": 3.189,
+   "tokens": 1491,
+   "memGB": 9.97
+  },
+  {
+   "step": 18,
+   "trainLoss": 0.65062,
+   "gradNorm": 1.1982,
+   "lr": 0.0001258064516129032,
+   "skipped": false,
+   "sec": 3.128,
+   "tokens": 1249,
+   "memGB": 9.97
+  },
+  {
+   "step": 19,
+   "trainLoss": 0.72107,
+   "gradNorm": 0.8448,
+   "lr": 0.0001161290322580645,
+   "skipped": false,
+   "sec": 3.861,
+   "tokens": 1820,
+   "memGB": 9.97
+  },
+  {
+   "step": 20,
+   "trainLoss": 0.63849,
+   "gradNorm": 0.9592,
+   "lr": 0.0001064516129032258,
+   "skipped": false,
+   "sec": 3.461,
+   "tokens": 1491,
+   "memGB": 9.97
+  },
+  {
+   "step": 21,
+   "trainLoss": 0.58881,
+   "gradNorm": 1.0359,
+   "lr": 9.677419354838711e-05,
+   "skipped": false,
+   "sec": 3.162,
+   "tokens": 1421,
+   "memGB": 9.97
+  },
+  {
+   "step": 22,
+   "trainLoss": 0.58789,
+   "gradNorm": 0.9078,
+   "lr": 8.709677419354838e-05,
+   "skipped": false,
+   "sec": 3.143,
+   "tokens": 1653,
+   "memGB": 9.97
+  },
+  {
+   "step": 23,
+   "trainLoss": 0.64254,
+   "gradNorm": 1.0147,
+   "lr": 7.741935483870967e-05,
+   "skipped": false,
+   "sec": 3.195,
+   "tokens": 1463,
+   "memGB": 9.97
+  },
+  {
+   "step": 24,
+   "trainLoss": 0.62984,
+   "gradNorm": 0.8456,
+   "lr": 6.774193548387096e-05,
+   "skipped": false,
+   "sec": 3.426,
+   "tokens": 1696,
+   "memGB": 9.97
+  },
+  {
+   "step": 25,
+   "trainLoss": 0.62978,
+   "gradNorm": 0.9619,
+   "lr": 5.8064516129032266e-05,
+   "skipped": false,
+   "sec": 3.437,
+   "tokens": 1539,
+   "memGB": 9.97
+  },
+  {
+   "step": 26,
+   "trainLoss": 0.55707,
+   "gradNorm": 1.0343,
+   "lr": 4.8387096774193533e-05,
+   "skipped": false,
+   "sec": 3.113,
+   "tokens": 1413,
+   "memGB": 9.97
+  },
+  {
+   "step": 27,
+   "trainLoss": 0.74488,
+   "gradNorm": 0.8978,
+   "lr": 3.8709677419354835e-05,
+   "skipped": false,
+   "sec": 3.796,
+   "tokens": 1564,
+   "memGB": 9.97
+  },
+  {
+   "step": 28,
+   "trainLoss": 0.67233,
+   "gradNorm": 0.975,
+   "lr": 2.9032258064516133e-05,
+   "skipped": false,
+   "sec": 3.643,
+   "tokens": 1597,
+   "memGB": 9.97
+  },
+  {
+   "step": 29,
+   "trainLoss": 0.5471,
+   "gradNorm": 0.8249,
+   "lr": 1.9354838709677434e-05,
+   "skipped": false,
+   "sec": 2.787,
+   "tokens": 1275,
+   "memGB": 9.97
+  },
+  {
+   "step": 30,
+   "trainLoss": 0.70062,
+   "gradNorm": 0.9603,
+   "lr": 9.6774193548387e-06,
+   "skipped": false,
+   "sec": 3.938,
+   "tokens": 1579,
+   "memGB": 9.97
+  },
+  {
+   "step": 31,
+   "trainLoss": 0.72818,
+   "gradNorm": 0.997,
+   "lr": 0.0,
+   "skipped": false,
+   "sec": 3.294,
+   "tokens": 1366,
+   "memGB": 9.97
+  }
+ ],
+ "curve": [
+  {
+   "step": 0,
+   "heldoutLoss": 0.98627
+  },
+  {
+   "step": 25,
+   "heldoutLoss": 0.63162
+  },
+  {
+   "step": 31,
+   "heldoutLoss": 0.6277
+  }
+ ],
+ "evals": {
+  "base": null,
+  "final": {
+   "heldoutLoss": 0.64439,
+   "wikiLoss": 2.76993,
+   "accStrict": 0.455,
+   "accLenient": 0.455,
+   "samples": [
+    " She lays 16 eggs per day, so she sells 16/2 = 8 eggs per day at the farmers' market.\nShe eats 3 eggs per day, so she has 16-3 = 13 eggs left.\nShe bakes muffins for her friends every day with 4 muffins, so she has 13-4 = 9 eggs left.\nShe sells 9 eggs per day at the farmers' market for $2 per egg, so she makes 9*2 = $18 every day at the farmers' market.\n#### 18",
+    " The robe takes 2/2=1 bolt of white fiber.\nSo, the robe takes 2+1=3 bolts in total.\n#### 3",
+    " The value of the house increased by 150% of $80,000, which is $120,000.\nSo the total value of the house is $80,000 + $120,000 = $200,000.\nThe profit is $200,000 - $80,000 = $120,000.\n#### 120000"
+   ],
+   "evalSec": 137.2
+  },
+  "truncation": null,
+  "dropoutEvalTrainMode": null,
+  "dropoutEvalEvalMode": null
+ },
+ "adapterBytes": null,
+ "spectraFile": null,
+ "costUSD": 0,
+ "date": "2026-11-06"
+}

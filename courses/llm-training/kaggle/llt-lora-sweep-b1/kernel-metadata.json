@@ -1,0 +1,16 @@
+{
+ "id": "genieincodebottle/llt-lora-sweep-b1",
+ "title": "LLT LoRA Sweep B1",
+ "code_file": "llt-lora-sweep-b1.ipynb",
+ "language": "python",
+ "kernel_type": "notebook",
+ "is_private": true,
+ "enable_gpu": true,
+ "enable_tpu": false,
+ "enable_internet": true,
+ "dataset_sources": [],
+ "competition_sources": [],
+ "kernel_sources": [],
+ "model_sources": [],
+ "keywords": []
+}

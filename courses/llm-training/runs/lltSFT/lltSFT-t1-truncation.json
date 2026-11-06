@@ -1,0 +1,68 @@
+{
+ "runId": "lltSFT-t1-truncation",
+ "module": "lltSFT",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "rowsPerSplit": 2000,
+  "splits": [
+   "smoltalk_smollm3_smol_magpie_ultra_no_think",
+   "smoltalk_smollm3_smol_rewrite_no_think",
+   "smoltalk_smollm3_smol_summarize_no_think"
+  ],
+  "tokenizer": "HuggingFaceTB/SmolLM2-135M"
+ },
+ "seed": null,
+ "metrics": [
+  {
+   "step": 0
+  }
+ ],
+ "evals": {
+  "shareLongerThanMaxLength": {
+   "512": {
+    "smoltalk_smollm3_smol_magpie_ultra_no_think": 0.994,
+    "smoltalk_smollm3_smol_rewrite_no_think": 0.095,
+    "smoltalk_smollm3_smol_summarize_no_think": 0.268
+   },
+   "1024": {
+    "smoltalk_smollm3_smol_magpie_ultra_no_think": 0.869,
+    "smoltalk_smollm3_smol_rewrite_no_think": 0.0,
+    "smoltalk_smollm3_smol_summarize_no_think": 0.16
+   },
+   "2048": {
+    "smoltalk_smollm3_smol_magpie_ultra_no_think": 0.1395,
+    "smoltalk_smollm3_smol_rewrite_no_think": 0.0,
+    "smoltalk_smollm3_smol_summarize_no_think": 0.0155
+   }
+  },
+  "note": "a conversation longer than max_length loses its last <|im_end|> under keep_start truncation"
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "python.exe measure.py truncation"
+}

@@ -1,0 +1,35 @@
+{
+ "runId": "lltLoRA-t0-pyodide",
+ "module": "lltLoRA",
+ "tier": "T0",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null
+ },
+ "env": {
+  "pyodide": "0.27.8",
+  "numpy": "2.0.2"
+ },
+ "notebookCommit": null,
+ "config": {
+  "cells": [
+   "challenge_starter",
+   "challenge_solution"
+  ]
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "stdout": {
+   "challenge_starter": "[exception] NotImplementedError\n",
+   "challenge_solution": "random full-rank matrix, energy in the top 4 of 64 values: 0.179\ntrainable values per layer: 640 of 6144\nAll checks passed\n"
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06"
+}

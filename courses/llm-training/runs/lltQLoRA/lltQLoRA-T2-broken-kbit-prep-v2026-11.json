@@ -1,0 +1,32 @@
+{
+ "module": "lltQLoRA",
+ "tier": "T2",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "bitsandbytes": "0.50.2",
+  "trl": "n/a"
+ },
+ "date": "2026-11-06",
+ "costUSD": 0,
+ "runId": "lltQLoRA-T2-broken-kbit-prep-v2026-11",
+ "label": "broken:prepare_model_for_kbit_training",
+ "source": "runs/_probes/llt-model-probe-2026-11.json, run q35-9b-qlora (kernel llt-model-probe v2)",
+ "config": {
+  "model": "Qwen/Qwen3.5-9B-Base",
+  "quant": "nf4, double quant, fp16 compute",
+  "prep": "prepare_model_for_kbit_training"
+ },
+ "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 3.79 GiB. GPU 0 has a total capacity of 14.56 GiB of which 3.44 GiB is free. Including non-PyTorch memory, this process has 11.12 GiB memory in use. Of the allocated memory 9.02 GiB is allocated by PyTorch, and 1.99 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)",
+ "peakMemGB": 11.72,
+ "loadSec": 155.1,
+ "derivation": "embedding 248,320 x 4,096 = 1,017,118,720 weights x 4 bytes = 4,068,474,880 B = 3.79 GiB"
+}

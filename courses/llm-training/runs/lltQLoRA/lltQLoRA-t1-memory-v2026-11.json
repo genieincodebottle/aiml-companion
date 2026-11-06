@@ -1,0 +1,39 @@
+{
+ "runId": "lltQLoRA-t1-memory-v2026-11",
+ "module": "lltQLoRA",
+ "tier": "T1",
+ "label": "measurement:memory",
+ "env": {
+  "python": "3.12.3",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "torch": "2.15.0+cpu",
+  "bitsandbytes": "0.50.2"
+ },
+ "date": "2026-11-06",
+ "source": "safetensors headers of Qwen/Qwen3.5-9B-Base (HTTP range reads)",
+ "textParams": 8953803264,
+ "quantizedLinearParams": 6918504448,
+ "nonQuantizedTextParams": 2035298816,
+ "linearParamsByName": {
+  "down_proj": 1610612736,
+  "gate_proj": 1610612736,
+  "up_proj": 1610612736,
+  "in_proj_qkv": 805306368,
+  "q_proj": 268435456,
+  "in_proj_a": 3145728,
+  "in_proj_b": 3145728,
+  "in_proj_z": 402653184,
+  "out_proj": 402653184,
+  "k_proj": 33554432,
+  "o_proj": 134217728,
+  "v_proj": 33554432
+ },
+ "linearTensorCount": 248,
+ "bf16TextGB": 17.907606528,
+ "predictedNF4GB_singleQuant": 7.962256384,
+ "predictedNF4GB_doubleQuant": 7.639640576,
+ "predictedNF4GB_doubleQuant_linearOnly": 3.569042944,
+ "nonQuantizedFp16GB": 4.070597632,
+ "numelCountedByTorchAfter4bit": 5494551040
+}

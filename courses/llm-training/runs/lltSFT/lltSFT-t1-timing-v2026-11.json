@@ -1,0 +1,24 @@
+{
+ "runId": "lltSFT-t1-timing-v2026-11",
+ "module": "lltSFT",
+ "tier": "T1",
+ "label": "timing",
+ "hardware": {
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "threads": 4
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "datasets": "5.1.0"
+ },
+ "script": "labs/lltSFT/measure_timing.py",
+ "results": {
+  "t1_steps_min": 6,
+  "hand_loop_min": 4.2
+ },
+ "note": "serial pass on a quiet machine; models already in the Hugging Face cache, step 2 streams SmolTalk2 rows from the Hub, so t1_steps_min includes that network time",
+ "date": "2026-11-06"
+}

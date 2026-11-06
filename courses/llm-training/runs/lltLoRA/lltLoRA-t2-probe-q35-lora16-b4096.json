@@ -1,0 +1,73 @@
+{
+ "runId": "lltLoRA-t2-probe-q35-lora16-b4096",
+ "module": "lltLoRA",
+ "tier": "T2",
+ "label": "ablation:q35-lora16-b4096",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "gpu": "Tesla T4",
+  "bitsandbytes": "0.50.2"
+ },
+ "kaggleKernel": "genieincodebottle/llt-lora-probe",
+ "notebookCommit": null,
+ "config": {
+  "tag": "q35-lora16-b4096",
+  "model": "Qwen/Qwen3.5-0.8B-Base",
+  "mode": "lora",
+  "r": 16,
+  "budget": 4096,
+  "steps": 6,
+  "batch": 8,
+  "pad_to": 512,
+  "eval_final": false,
+  "n_acc": 0,
+  "n_heldout": 50,
+  "n_wiki": 4,
+  "lr": 0.0002,
+  "seed": 0,
+  "warmup": 2
+ },
+ "seed": 0,
+ "ok": false,
+ "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 3.79 GiB. GPU 0 has a total capacity of 14.56 GiB of which 3.07 GiB is free. Including non-PyTorch memory, this process has 11.49 GiB memory in use. Of the allocated memory 11.30 GiB is allocated by PyTorch, and 67.30 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)",
+ "data": {
+  "nTrain": 2000,
+  "trainAnswerTokens": 187893,
+  "trainTokens": 1024000,
+  "heldout": 50,
+  "wikiRows": 4,
+  "accProblems": 0
+ },
+ "trainableParams": 10822656,
+ "totalParams": 763215680,
+ "peakMemGB": 14.2,
+ "peakReservedGB": null,
+ "memAfterLoadGB": 3.05,
+ "secPerStepMedian": null,
+ "trainSec": null,
+ "skippedSteps": null,
+ "nonFinite": null,
+ "metrics": [],
+ "curve": [],
+ "evals": {
+  "base": null,
+  "final": null,
+  "truncation": null,
+  "dropoutEvalTrainMode": null,
+  "dropoutEvalEvalMode": null
+ },
+ "adapterBytes": null,
+ "spectraFile": null,
+ "costUSD": 0,
+ "date": "2026-11-06"
+}

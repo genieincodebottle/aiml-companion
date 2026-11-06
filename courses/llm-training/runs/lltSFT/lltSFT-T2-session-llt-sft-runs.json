@@ -1,0 +1,33 @@
+{
+ "runId": "lltSFT-T2-session-llt-sft-runs",
+ "module": "lltSFT",
+ "tier": "T2",
+ "kaggleKernel": "genieincodebottle/llt-sft-runs",
+ "data_selection": {
+  "stats": {
+   "smoltalk_smollm3_smol_magpie_ultra_no_think": {
+    "rowsRead": 9010,
+    "kept": 1300,
+    "keptShare": 0.1443
+   },
+   "smoltalk_smollm3_smol_rewrite_no_think": {
+    "rowsRead": 1300,
+    "kept": 1300,
+    "keptShare": 1.0
+   },
+   "smoltalk_smollm3_smol_summarize_no_think": {
+    "rowsRead": 1547,
+    "kept": 1300,
+    "keptShare": 0.8403
+   }
+  },
+  "trainHash": "764b1eb5a20e45f8b97adf3a6bab2a03841ef433aa9382e43497b255777ab368",
+  "evalHash": "59faa43c4671534c643ffd4955fcf1d5fd8049e0406a9f5e808713ebd7517f14",
+  "nTrain": 3600,
+  "nEval": 300,
+  "selectSec": 47.4
+ },
+ "session": {
+  "sessionSec": 6431.1
+ }
+}

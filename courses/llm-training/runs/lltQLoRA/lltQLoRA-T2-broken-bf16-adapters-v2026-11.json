@@ -1,0 +1,24 @@
+{
+ "module": "lltQLoRA",
+ "tier": "T2",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2"
+ },
+ "date": "2026-11-05",
+ "costUSD": 0,
+ "runId": "lltQLoRA-T2-broken-bf16-adapters-v2026-11",
+ "label": "broken:sftrainer-bf16-adapters",
+ "source": "kaggle/out/llt-finetune-test/llt-finetune-test.log (QLoRA cell, Qwen3-8B-Base, SFTTrainer peft_config) and kaggle/out/llt-qlora-test/llt_qlora_results.json (504 trainable tensors bf16 after SFTTrainer init)",
+ "error": "NotImplementedError: \"_amp_foreach_non_finite_check_and_unscale_cuda\" not implemented for 'BFloat16'",
+ "errorFoundInLog": true,
+ "cause": "trl/trainer/sft_trainer.py (1.17.1): for a quantized model, every trainable parameter except DoRA magnitudes is cast to bf16 in __init__"
+}

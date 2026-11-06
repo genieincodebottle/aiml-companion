@@ -1,0 +1,78 @@
+{
+ "runId": "lltLoRA-t2-full32loop-lr1e-05-s0",
+ "module": "lltLoRA",
+ "tier": "T2",
+ "label": "ablation:full32loop-lr1e-05-s0",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "gpu": "Tesla T4",
+  "bitsandbytes": "0.50.2"
+ },
+ "kaggleKernel": "genieincodebottle/llt-lora-sweep-a2",
+ "notebookCommit": null,
+ "config": {
+  "tag": "full32loop-lr1e-05-s0",
+  "lr": 1e-05,
+  "seed": 0,
+  "model": "Qwen/Qwen3.5-0.8B-Base",
+  "n_train": 2000,
+  "batch": 16,
+  "eval_every": 25,
+  "n_heldout": 300,
+  "n_wiki": 32,
+  "n_acc": 200,
+  "warmup": 10,
+  "mode": "full",
+  "opt": "adamw32-loop",
+  "budget": 512,
+  "spectra": false,
+  "pool": [
+   "model.layers.11.self_attn.v_proj",
+   "model.layers.11.mlp.down_proj",
+   "model.layers.11.self_attn.q_proj"
+  ]
+ },
+ "seed": 0,
+ "ok": false,
+ "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.79 GiB. GPU 0 has a total capacity of 14.56 GiB of which 1.66 GiB is free. Including non-PyTorch memory, this process has 12.90 GiB memory in use. Of the allocated memory 12.52 GiB is allocated by PyTorch, and 247.77 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)",
+ "data": {
+  "nTrain": 2000,
+  "trainAnswerTokens": 187893,
+  "trainTokens": 316472,
+  "heldout": 300,
+  "wikiRows": 32,
+  "accProblems": 200
+ },
+ "trainableParams": 752393024,
+ "totalParams": 752393024,
+ "peakMemGB": 14.88,
+ "peakReservedGB": null,
+ "memAfterLoadGB": 3.01,
+ "secPerStepMedian": null,
+ "trainSec": null,
+ "skippedSteps": null,
+ "nonFinite": null,
+ "metrics": [],
+ "curve": [],
+ "evals": {
+  "base": null,
+  "final": null,
+  "truncation": null,
+  "dropoutEvalTrainMode": null,
+  "dropoutEvalEvalMode": null
+ },
+ "adapterBytes": null,
+ "spectraFile": null,
+ "costUSD": 0,
+ "date": "2026-11-06"
+}

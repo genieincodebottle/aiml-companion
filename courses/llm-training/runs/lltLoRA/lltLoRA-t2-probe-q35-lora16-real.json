@@ -1,0 +1,218 @@
+{
+ "runId": "lltLoRA-t2-probe-q35-lora16-real",
+ "module": "lltLoRA",
+ "tier": "T2",
+ "label": "ablation:q35-lora16-real",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "gpu": "Tesla T4",
+  "bitsandbytes": "0.50.2"
+ },
+ "kaggleKernel": "genieincodebottle/llt-lora-probe",
+ "notebookCommit": null,
+ "config": {
+  "tag": "q35-lora16-real",
+  "model": "Qwen/Qwen3.5-0.8B-Base",
+  "mode": "lora",
+  "r": 16,
+  "lr": 0.0002,
+  "budget": 2048,
+  "steps": 12,
+  "batch": 16,
+  "n_train": 400,
+  "eval_every": 6,
+  "n_heldout": 300,
+  "n_wiki": 32,
+  "n_acc": 50,
+  "seed": 0,
+  "warmup": 3
+ },
+ "seed": 0,
+ "ok": true,
+ "error": null,
+ "data": {
+  "nTrain": 400,
+  "trainAnswerTokens": 36587,
+  "trainTokens": 62194,
+  "heldout": 300,
+  "wikiRows": 32,
+  "accProblems": 50
+ },
+ "trainableParams": 10822656,
+ "totalParams": 763215680,
+ "peakMemGB": 9.95,
+ "peakReservedGB": 11.93,
+ "memAfterLoadGB": 3.05,
+ "secPerStepMedian": 3.268,
+ "trainSec": 45.8,
+ "skippedSteps": 0,
+ "nonFinite": 0,
+ "metrics": [
+  {
+   "step": 1,
+   "trainLoss": 0.95191,
+   "gradNorm": 2.9728,
+   "lr": 0.00012222222222222221,
+   "skipped": false,
+   "sec": 3.639,
+   "tokens": 1471,
+   "memGB": 9.17
+  },
+  {
+   "step": 2,
+   "trainLoss": 0.83575,
+   "gradNorm": 1.8794,
+   "lr": 0.0001666666666666667,
+   "skipped": false,
+   "sec": 3.999,
+   "tokens": 1688,
+   "memGB": 9.68
+  },
+  {
+   "step": 3,
+   "trainLoss": 0.76054,
+   "gradNorm": 1.6978,
+   "lr": 0.00015000000000000001,
+   "skipped": false,
+   "sec": 3.033,
+   "tokens": 1543,
+   "memGB": 9.68
+  },
+  {
+   "step": 4,
+   "trainLoss": 0.86553,
+   "gradNorm": 1.2909,
+   "lr": 0.00013333333333333337,
+   "skipped": false,
+   "sec": 3.972,
+   "tokens": 1559,
+   "memGB": 9.95
+  },
+  {
+   "step": 5,
+   "trainLoss": 0.61752,
+   "gradNorm": 1.2224,
+   "lr": 0.00011666666666666665,
+   "skipped": false,
+   "sec": 3.725,
+   "tokens": 1482,
+   "memGB": 9.95
+  },
+  {
+   "step": 6,
+   "trainLoss": 0.70935,
+   "gradNorm": 1.1895,
+   "lr": 0.0001,
+   "skipped": false,
+   "sec": 3.698,
+   "tokens": 1486,
+   "memGB": 9.95
+  },
+  {
+   "step": 7,
+   "trainLoss": 0.6065,
+   "gradNorm": 1.0893,
+   "lr": 8.333333333333333e-05,
+   "skipped": false,
+   "sec": 3.035,
+   "tokens": 1251,
+   "memGB": 9.95
+  },
+  {
+   "step": 8,
+   "trainLoss": 0.57679,
+   "gradNorm": 1.0082,
+   "lr": 6.666666666666668e-05,
+   "skipped": false,
+   "sec": 3.351,
+   "tokens": 1426,
+   "memGB": 9.95
+  },
+  {
+   "step": 9,
+   "trainLoss": 0.7906,
+   "gradNorm": 1.1814,
+   "lr": 5e-05,
+   "skipped": false,
+   "sec": 3.11,
+   "tokens": 1339,
+   "memGB": 9.95
+  },
+  {
+   "step": 10,
+   "trainLoss": 0.74207,
+   "gradNorm": 1.3793,
+   "lr": 3.333333333333333e-05,
+   "skipped": false,
+   "sec": 3.006,
+   "tokens": 1441,
+   "memGB": 9.95
+  },
+  {
+   "step": 11,
+   "trainLoss": 0.57243,
+   "gradNorm": 1.0049,
+   "lr": 1.6666666666666674e-05,
+   "skipped": false,
+   "sec": 2.968,
+   "tokens": 1216,
+   "memGB": 9.95
+  },
+  {
+   "step": 12,
+   "trainLoss": 0.65021,
+   "gradNorm": 1.1646,
+   "lr": 0.0,
+   "skipped": false,
+   "sec": 3.268,
+   "tokens": 1461,
+   "memGB": 9.95
+  }
+ ],
+ "curve": [
+  {
+   "step": 0,
+   "heldoutLoss": 0.98627
+  },
+  {
+   "step": 6,
+   "heldoutLoss": 0.67421
+  },
+  {
+   "step": 12,
+   "heldoutLoss": 0.67062
+  }
+ ],
+ "evals": {
+  "base": null,
+  "final": {
+   "heldoutLoss": 0.67062,
+   "wikiLoss": 2.76052,
+   "accStrict": 0.42,
+   "accLenient": 0.42,
+   "samples": [
+    " Janet eats 3 eggs for breakfast every morning, so she lays 16 - 3 = 13 eggs per day.\nShe bakes muffins for her friends every day with 4 eggs, so she lays 13 - 4 = 9 eggs per day.\nShe sells the remainder at the farmers' market daily for $2 per fresh duck egg, so she makes 9 * 2 = $18 per day at the farmers' market.\n#### 18",
+    " The robe takes 2 bolts of blue fiber and 2/2 = 1 bolt of white fiber.\nSo, the robe takes 2 + 1 = 3 bolts of fiber in total.\n#### 3",
+    " The value of the house after repairs is $80,000 + $50,000 = $130,000\nThe value of the house after the increase is $130,000 * 1.15 = $149,500\nThe profit is $149,500 - $80,000 = $69,500\n#### 69500"
+   ],
+   "evalSec": 51.9
+  },
+  "truncation": null,
+  "dropoutEvalTrainMode": null,
+  "dropoutEvalEvalMode": null
+ },
+ "adapterBytes": null,
+ "spectraFile": null,
+ "costUSD": 0,
+ "date": "2026-11-06"
+}

@@ -1,0 +1,127 @@
+{
+ "runId": "lltSFT-t1-data",
+ "module": "lltSFT",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "dataset": "HuggingFaceTB/smoltalk2",
+  "config": "SFT",
+  "splits": [
+   "smoltalk_smollm3_smol_magpie_ultra_no_think",
+   "smoltalk_smollm3_smol_rewrite_no_think",
+   "smoltalk_smollm3_smol_summarize_no_think"
+  ],
+  "maxTokens": 1024,
+  "nEvalPerSplit": 100,
+  "nTrainPerSplit": 1200,
+  "tokenizer": "HuggingFaceTB/SmolLM2-135M"
+ },
+ "seed": null,
+ "metrics": [
+  {
+   "step": 0,
+   "peakRssGB": 1.26
+  }
+ ],
+ "evals": {
+  "selection": {
+   "smoltalk_smollm3_smol_magpie_ultra_no_think": {
+    "rowsRead": 9010,
+    "kept": 1300,
+    "keptShare": 0.1443
+   },
+   "smoltalk_smollm3_smol_rewrite_no_think": {
+    "rowsRead": 1300,
+    "kept": 1300,
+    "keptShare": 1.0
+   },
+   "smoltalk_smollm3_smol_summarize_no_think": {
+    "rowsRead": 1547,
+    "kept": 1300,
+    "keptShare": 0.8403
+   }
+  },
+  "perSplit": {
+   "smoltalk_smollm3_smol_magpie_ultra_no_think": {
+    "train": 1200,
+    "tokens": 994326,
+    "meanTokens": 828.6,
+    "lossTokens": 794247,
+    "lossShare": 0.7988,
+    "assistantTurnsMean": 3.0,
+    "withSystem": 0
+   },
+   "smoltalk_smollm3_smol_rewrite_no_think": {
+    "train": 1200,
+    "tokens": 415575,
+    "meanTokens": 346.3,
+    "lossTokens": 177570,
+    "lossShare": 0.4273,
+    "assistantTurnsMean": 1.0,
+    "withSystem": 1200
+   },
+   "smoltalk_smollm3_smol_summarize_no_think": {
+    "train": 1200,
+    "tokens": 387688,
+    "meanTokens": 323.1,
+    "lossTokens": 76173,
+    "lossShare": 0.1965,
+    "assistantTurnsMean": 1.0,
+    "withSystem": 1200
+   }
+  },
+  "train": {
+   "conversations": 3600,
+   "tokens": 1797589,
+   "meanTokens": 499.3,
+   "lossTokens": 1047990,
+   "lossShare": 0.583
+  },
+  "eval": {
+   "conversations": 300,
+   "tokens": 150504
+  },
+  "padded4": {
+   "positions": 2941056,
+   "padShare": 0.3888,
+   "lossShareOfPositions": 0.3563
+  },
+  "packedBfd1024": {
+   "rows": 1934,
+   "positions": 1980416,
+   "fill": 0.9077,
+   "meanConversationsPerRow": 1.86,
+   "maxConversationsPerRow": 6,
+   "lossShareOfPositions": 0.5292
+  },
+  "trainHash": "764b1eb5a20e45f8b97adf3a6bab2a03841ef433aa9382e43497b255777ab368",
+  "evalHash": "59faa43c4671534c643ffd4955fcf1d5fd8049e0406a9f5e808713ebd7517f14"
+ },
+ "samples": [],
+ "wallClockSec": 84.5,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "python.exe measure.py data"
+}

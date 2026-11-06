@@ -1,0 +1,100 @@
+{
+ "runId": "lltInstructionData-T2-decontam",
+ "module": "lltInstructionData",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "image": "Kaggle GPU image 2026-11-06, torch from the image (2.11.0+cu130 in the same-day kernel llt-insdata-teacher)",
+  "pinned": "transformers 5.22.1, tokenizers 0.23.3, huggingface_hub 2.4.0, datasets 5.1.0, trl 1.17.1, accelerate 1.15.0, sentence-transformers 6.2.0, lm-eval 0.4.13, langdetect 1.0.9"
+ },
+ "notebookCommit": null,
+ "config": {
+  "evals": {
+   "IFEval": 541,
+   "GSM8K test": 1319,
+   "HumanEval": 164,
+   "MMLU test": 14042
+  },
+  "rule8gram": "a pool prompt is flagged when it holds half or more of one eval item's word 8-grams",
+  "ruleEmbedding": "cosine of prompt embeddings; only IFEval matches at 0.95 or more are removed",
+  "kernel": "llt-insdata-notebook v1 (cells 1 to 7 completed; cell 10 stopped on CUDA out of memory, fixed and re-run in llt-insdata-exp)"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "eightGramHits": {
+    "IFEval": 14,
+    "GSM8K test": 0,
+    "HumanEval": 0,
+    "MMLU test": 1
+   },
+   "eightGramHitSources": {
+    "IFEval": {
+     "Dolci Instruct Precise IF": 14
+    },
+    "GSM8K test": {},
+    "HumanEval": {},
+    "MMLU test": {
+     "wildchat": 1
+    }
+   },
+   "embedding": {
+    "IFEval": {
+     "0.9": {
+      "rows": 21,
+      "notCaughtBy8grams": 21
+     },
+     "0.95": {
+      "rows": 0,
+      "notCaughtBy8grams": 0
+     }
+    },
+    "GSM8K test": {
+     "0.9": {
+      "rows": 233,
+      "notCaughtBy8grams": 233
+     },
+     "0.95": {
+      "rows": 4,
+      "notCaughtBy8grams": 4
+     }
+    },
+    "HumanEval": {
+     "0.9": {
+      "rows": 172,
+      "notCaughtBy8grams": 172
+     },
+     "0.95": {
+      "rows": 19,
+      "notCaughtBy8grams": 19
+     }
+    },
+    "MMLU test": {
+     "0.9": {
+      "rows": 410,
+      "notCaughtBy8grams": 409
+     },
+     "0.95": {
+      "rows": 6,
+      "notCaughtBy8grams": 5
+     }
+    }
+   },
+   "ifevalParaphrasesRemoved": 0
+  }
+ ],
+ "evals": {},
+ "samples": [],
+ "wallClockSec": 137.7,
+ "wallClockNote": "measured while other jobs shared the machine; not a timing figure for the page",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "python.exe record_data.py ../../kaggle/out/llt-insdata-notebook"
+}

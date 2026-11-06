@@ -1,0 +1,96 @@
+{
+ "runId": "lltSFT-t1-cells",
+ "module": "lltSFT",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "cells": [
+   "cell01_step1.py",
+   "cell02_step2.py",
+   "cell03_step3.py",
+   "cell04_step4.py",
+   "cell05_step5.py",
+   "cell06_step6.py",
+   "cell07_step7.py"
+  ],
+  "threads": 4,
+  "source": "steps/ from build_notebook.mjs"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 0,
+   "peakRssGB": 5.24
+  }
+ ],
+ "evals": {
+  "selectionHashes": {
+   "train": "764b1eb5a20e45f8b97adf3a6bab2a03841ef433aa9382e43497b255777ab368",
+   "eval": "59faa43c4671534c643ffd4955fcf1d5fd8049e0406a9f5e808713ebd7517f14"
+  },
+  "sameAsSftCommon": true
+ },
+ "samples": [
+  {
+   "cell": "cell01_step1.py",
+   "stdout": "base chat template: False | base EOS <|endoftext|> | base pad None\ninstruct EOS <|im_end|> 2 | instruct pad <|im_end|> 2\n<|im_start|>system\nYou are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>\n<|im_start|>user\nName a fruit.<|im_end|>\n<|im_start|>assistant\nA mango.<|im_end|>\n\n39 tokens, the first 21 of them the system prompt you did not write\n",
+   "secShared": 14.9
+  },
+  {
+   "cell": "cell02_step2.py",
+   "stdout": "smoltalk_smollm3_smol_magpie_ultra_no_think read 9010 rows, kept 1300\nsmoltalk_smollm3_smol_rewrite_no_think read 1300 rows, kept 1300\nsmoltalk_smollm3_smol_summarize_no_think read 1547 rows, kept 1300\n3600 training and 300 held-out conversations\nsystem prompts lost without to_messages: 2400\n",
+   "secShared": 125.7
+  },
+  {
+   "cell": "cell03_step3.py",
+   "stdout": "assistant header [1, 520, 9531, 198] ['<|im_start|>', 'ass', 'istant', 'Ċ']\n<|im_start|>system\nYou're an AI assistant for text re-writing. Rewrite the input text to make it more friendly and approachable while maintaining its main points.<|im_end|>\n<|im_start|>user\nDr. Carter,\n\nI hope this message finds you well. I am reaching out to  ... hanks][ so][ much][ for][ your][ help][!][\n][\n][Best][,][\n][Sarah][ Thompson][<|im_end|>]\n\nsmoltalk_smollm3_smol_magpie_ultra_no_think | tokens 994326 | share with loss 0.799\nsmoltalk_smollm3_smol_rewrite_no_think | tokens 415575 | share with loss 0.427\nsmoltalk_smollm3_smol_summarize_no_think | tokens 387688 | share with loss 0.196\n",
+   "secShared": 11.4
+  },
+  {
+   "cell": "cell04_step4.py",
+   "stdout": "assistant tokens 124 | own 1.78691 | transformers 1.78691\nall 265 tokens | loss 2.81612\n",
+   "secShared": 6.2
+  },
+  {
+   "cell": "cell05_step5.py",
+   "stdout": "renders the same ids: True\nlabels equal: True | batch [4, 890]\nown 1.4967340849535544 | TRL 1.4967341423034668 | difference 5.734991237460463e-08\n",
+   "secShared": 35.9
+  },
+  {
+   "cell": "cell06_step6.py",
+   "stdout": "alone           [1.7869, 1.7672, 1.9604]\npacked, reset   [1.7869, 1.7672, 1.9604]\npacked, naive   [1.7869, 1.6344, 1.8997]\nreset, cache on [1.7869, 3.1706, 4.2893]\nuse_cache in the config after step 5: False\ntensor([[1, 0, 0, 0, 0],\n        [1, 1, 0, 0, 0],\n        [1, 1, 1, 0, 0],\n        [0, 0, 0, 1, 0],\n        [0, 0, 0, 1, 1]], dtype=torch.int32)\n",
+   "secShared": 16.6
+  },
+  {
+   "cell": "cell07_step7.py",
+   "stdout": "24 packed rows | held-out loss before 1.8262\nstep 0 train loss 1.7746\nstep 8 train loss 1.4583\nstep 16 train loss 1.3747\nheld-out loss after 1.4856\n",
+   "secShared": 349.7
+  }
+ ],
+ "wallClockSec": 560.6,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "python.exe run_steps.py"
+}

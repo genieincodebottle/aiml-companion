@@ -1,0 +1,93 @@
+{
+ "runId": "lltSFT-t1-template",
+ "module": "lltSFT",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "base": "HuggingFaceTB/SmolLM2-135M",
+  "instruct": "HuggingFaceTB/SmolLM2-135M-Instruct"
+ },
+ "seed": null,
+ "metrics": [
+  {
+   "step": 0
+  }
+ ],
+ "evals": {
+  "base135HasTemplate": false,
+  "base360HasTemplate": false,
+  "baseEos": [
+   "<|endoftext|>",
+   0
+  ],
+  "basePad": [
+   null,
+   null
+  ],
+  "instructEos": [
+   "<|im_end|>",
+   2
+  ],
+  "instructPad": [
+   "<|im_end|>",
+   2
+  ],
+  "instructPadIsEos": true,
+  "sameTemplate135and360": true,
+  "sameVocab": true,
+  "vocab": 49152,
+  "trainingTemplateRendersSameIds": true,
+  "exampleTokens": 39,
+  "exampleTokensWithShortSystem": 26,
+  "defaultEqualsExplicit": true,
+  "headerIds": [
+   1,
+   520,
+   9531,
+   198
+  ],
+  "headerTokens": [
+   "<|im_start|>",
+   "ass",
+   "istant",
+   "Ċ"
+  ],
+  "imEnd": 2,
+  "endoftext": 0,
+  "newlineToken": [
+   "x",
+   "Ċ",
+   "y"
+  ],
+  "defaultSystemBlockTokens": 21,
+  "defaultSystemBlockShareOfExample": 0.5385,
+  "renderedExample": "<|im_start|>system\nYou are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>\n<|im_start|>user\nName a fruit.<|im_end|>\n<|im_start|>assistant\nA mango.<|im_end|>\n"
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "python.exe measure.py template"
+}

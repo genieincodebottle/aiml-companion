@@ -1,0 +1,207 @@
+{
+ "runId": "lltInstructionData-T2-lima-compare",
+ "module": "lltInstructionData",
+ "tier": "T2",
+ "label": "ablation:data=curated|bulk1k|bulk4k",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.6,
+  "note": "2x T4; one run per GPU"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "datasets": "5.1.0",
+  "sentence_transformers": "6.2.0",
+  "numpy": "2.1.3",
+  "image": "Kaggle GPU image 2026-11-06"
+ },
+ "notebookCommit": null,
+ "config": {
+  "metric": "IFEval prompt-level loose accuracy",
+  "ci": "paired bootstrap over the 541 prompts, 10,000 resamples, seed 0",
+  "seedMean": "per-prompt mean of the two seeds, then paired"
+ },
+ "seed": null,
+ "metrics": [
+  {
+   "bulk-1k-s0": {
+    "ifevalLoose": 0.1904,
+    "ifevalStrict": 0.177,
+    "stopped": 0.662,
+    "trainSec": 1274.7,
+    "ifevalSec": null,
+    "peakMemGB": null,
+    "lossFirstLast": [
+     [
+      10,
+      1.4892
+     ],
+     [
+      250,
+      0.8026
+     ]
+    ],
+    "ranIn": "notebook"
+   },
+   "bulk-1k-s1": {
+    "ifevalLoose": 0.183,
+    "ifevalStrict": 0.1682,
+    "stopped": 0.6543438077634011,
+    "trainSec": 1247.5,
+    "ifevalSec": 693.6,
+    "peakMemGB": 7.9,
+    "lossFirstLast": [
+     [
+      10,
+      1.3447
+     ],
+     [
+      250,
+      0.752
+     ]
+    ],
+    "ranIn": "worker"
+   },
+   "bulk-4k-s0": {
+    "ifevalLoose": 0.183,
+    "ifevalStrict": 0.1682,
+    "stopped": 0.4066543438077634,
+    "trainSec": 1304.9,
+    "ifevalSec": 694.5,
+    "peakMemGB": 7.9,
+    "lossFirstLast": [
+     [
+      10,
+      1.3565
+     ],
+     [
+      250,
+      1.1466
+     ]
+    ],
+    "ranIn": "worker"
+   },
+   "bulk-4k-s1": {
+    "ifevalLoose": 0.1738,
+    "ifevalStrict": 0.1682,
+    "stopped": 0.46210720887245843,
+    "trainSec": 1284.1,
+    "ifevalSec": 688.1,
+    "peakMemGB": 7.9,
+    "lossFirstLast": [
+     [
+      10,
+      1.4251
+     ],
+     [
+      250,
+      1.0696
+     ]
+    ],
+    "ranIn": "worker"
+   },
+   "curated-1k-s0": {
+    "ifevalLoose": 0.1479,
+    "ifevalStrict": 0.131,
+    "stopped": 0.349,
+    "trainSec": 1344.7,
+    "ifevalSec": null,
+    "peakMemGB": null,
+    "lossFirstLast": [
+     [
+      10,
+      1.1758
+     ],
+     [
+      250,
+      0.7732
+     ]
+    ],
+    "ranIn": "notebook"
+   },
+   "curated-1k-s1": {
+    "ifevalLoose": 0.1738,
+    "ifevalStrict": 0.1516,
+    "stopped": 0.3789279112754159,
+    "trainSec": 1304.2,
+    "ifevalSec": 693.2,
+    "peakMemGB": 7.91,
+    "lossFirstLast": [
+     [
+      10,
+      1.1738
+     ],
+     [
+      250,
+      0.6761
+     ]
+    ],
+    "ranIn": "worker"
+   },
+   "ref-instruct": {
+    "ifevalLoose": 0.3567,
+    "ifevalStrict": 0.329,
+    "stopped": 0.5878003696857671,
+    "trainSec": 0.0,
+    "ifevalSec": 785.2,
+    "peakMemGB": 4.04,
+    "lossFirstLast": null,
+    "ranIn": "worker"
+   }
+  }
+ ],
+ "evals": {
+  "curated_minus_bulk1k_seedmean": [
+   -0.0259,
+   -0.0536,
+   0.0018
+  ],
+  "curated_minus_bulk4k_seedmean": [
+   -0.0176,
+   -0.0462,
+   0.0111
+  ],
+  "bulk4k_minus_bulk1k_seedmean": [
+   -0.0083,
+   -0.0314,
+   0.0148
+  ],
+  "curated_minus_bulk1k_seed0": [
+   -0.0425,
+   -0.0758,
+   -0.0092
+  ],
+  "curated_minus_bulk1k_seed1": [
+   -0.0092,
+   -0.0444,
+   0.0277
+  ],
+  "curated_minus_bulk4k_seed0": [
+   -0.0351,
+   -0.0684,
+   -0.0018
+  ],
+  "curated_minus_bulk4k_seed1": [
+   0.0,
+   -0.0351,
+   0.0351
+  ],
+  "seed_spread_curated": [
+   0.0259,
+   -0.0018,
+   0.0536
+  ]
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "wallClockNote": "measured while other jobs shared the machine; not a timing figure for the page",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "python.exe record_exp.py ../../kaggle/out/llt-insdata-exp"
+}

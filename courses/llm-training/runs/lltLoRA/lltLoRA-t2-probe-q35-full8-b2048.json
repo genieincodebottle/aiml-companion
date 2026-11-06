@@ -1,0 +1,134 @@
+{
+ "runId": "lltLoRA-t2-probe-q35-full8-b2048",
+ "module": "lltLoRA",
+ "tier": "T2",
+ "label": "ablation:q35-full8-b2048",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "gpu": "Tesla T4",
+  "bitsandbytes": "0.50.2"
+ },
+ "kaggleKernel": "genieincodebottle/llt-lora-probe",
+ "notebookCommit": null,
+ "config": {
+  "tag": "q35-full8-b2048",
+  "model": "Qwen/Qwen3.5-0.8B-Base",
+  "mode": "full",
+  "opt": "adamw8bit",
+  "budget": 2048,
+  "steps": 6,
+  "batch": 8,
+  "pad_to": 512,
+  "eval_final": false,
+  "n_acc": 0,
+  "n_heldout": 50,
+  "n_wiki": 4,
+  "lr": 1e-05,
+  "seed": 0,
+  "warmup": 2
+ },
+ "seed": 0,
+ "ok": true,
+ "error": null,
+ "data": {
+  "nTrain": 2000,
+  "trainAnswerTokens": 187893,
+  "trainTokens": 1024000,
+  "heldout": 50,
+  "wikiRows": 4,
+  "accProblems": 0
+ },
+ "trainableParams": 752393024,
+ "totalParams": 752393024,
+ "peakMemGB": 14.4,
+ "peakReservedGB": 15.27,
+ "memAfterLoadGB": 3.01,
+ "secPerStepMedian": 4.188,
+ "trainSec": 26.2,
+ "skippedSteps": 0,
+ "nonFinite": 0,
+ "metrics": [
+  {
+   "step": 1,
+   "trainLoss": 0.9491,
+   "gradNorm": 31.3715,
+   "lr": 8.333333333333334e-06,
+   "skipped": false,
+   "sec": 5.243,
+   "tokens": 739,
+   "memGB": 12.87
+  },
+  {
+   "step": 2,
+   "trainLoss": 0.736,
+   "gradNorm": 17.8168,
+   "lr": 6.666666666666668e-06,
+   "skipped": false,
+   "sec": 4.26,
+   "tokens": 748,
+   "memGB": 14.4
+  },
+  {
+   "step": 3,
+   "trainLoss": 0.66245,
+   "gradNorm": 13.4363,
+   "lr": 5e-06,
+   "skipped": false,
+   "sec": 4.121,
+   "tokens": 841,
+   "memGB": 14.4
+  },
+  {
+   "step": 4,
+   "trainLoss": 0.51496,
+   "gradNorm": 10.3548,
+   "lr": 3.333333333333334e-06,
+   "skipped": false,
+   "sec": 4.17,
+   "tokens": 849,
+   "memGB": 14.4
+  },
+  {
+   "step": 5,
+   "trainLoss": 0.90602,
+   "gradNorm": 14.3821,
+   "lr": 1.6666666666666665e-06,
+   "skipped": false,
+   "sec": 4.188,
+   "tokens": 920,
+   "memGB": 14.4
+  },
+  {
+   "step": 6,
+   "trainLoss": 0.62174,
+   "gradNorm": 13.7003,
+   "lr": 0.0,
+   "skipped": false,
+   "sec": 4.201,
+   "tokens": 806,
+   "memGB": 14.4
+  }
+ ],
+ "curve": [],
+ "evals": {
+  "base": null,
+  "final": null,
+  "truncation": null,
+  "dropoutEvalTrainMode": null,
+  "dropoutEvalEvalMode": null
+ },
+ "adapterBytes": null,
+ "spectraFile": null,
+ "costUSD": 0,
+ "date": "2026-11-06"
+}

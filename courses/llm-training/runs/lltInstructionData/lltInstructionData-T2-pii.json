@@ -1,0 +1,58 @@
+{
+ "runId": "lltInstructionData-T2-pii",
+ "module": "lltInstructionData",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "image": "Kaggle GPU image 2026-11-06, torch from the image (2.11.0+cu130 in the same-day kernel llt-insdata-teacher)",
+  "pinned": "transformers 5.22.1, tokenizers 0.23.3, huggingface_hub 2.4.0, datasets 5.1.0, trl 1.17.1, accelerate 1.15.0, sentence-transformers 6.2.0, lm-eval 0.4.13, langdetect 1.0.9"
+ },
+ "notebookCommit": null,
+ "config": {
+  "regex": "email, phone, IPv4, card numbers that pass the Luhn check, written without backslashes",
+  "ner": "dslim/bert-base-NER, PER entities with score 0.9 or more, English WildChat prompts, first 1,500 characters",
+  "handling": "drop every row with a regex hit from the curated set; report NER hits, do not drop on a name alone",
+  "kernel": "llt-insdata-notebook v1 (cells 1 to 7 completed; cell 10 stopped on CUDA out of memory, fixed and re-run in llt-insdata-exp)"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "userPrompts": 3992,
+   "rowsWithRegexHit": 21,
+   "hitsByKind": {
+    "email": 4,
+    "phone": 12,
+    "ipv4": 4,
+    "card": 3
+   },
+   "wildchatRedactedFlag": 20,
+   "handLabels": {
+    "personal data about a person (an app data export with an email, a public IP and phone-like ids)": 1,
+    "public business or support contact": 3,
+    "placeholder address at example.com": 1,
+    "private or loopback network address": 3,
+    "not personal data (timestamps, ids, an ISBN, digit runs, map coordinates)": 13
+   },
+   "englishPrompts": 1932,
+   "rowsNamingAPerson": 399,
+   "nerSampleOf25": {
+    "public figures, authors or fictional characters": 24,
+    "a private person (a student named by first name with questionnaire answers)": 1
+   }
+  }
+ ],
+ "evals": {},
+ "samples": [],
+ "wallClockSec": 78.7,
+ "wallClockNote": "measured while other jobs shared the machine; not a timing figure for the page",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "python.exe record_data.py ../../kaggle/out/llt-insdata-notebook"
+}

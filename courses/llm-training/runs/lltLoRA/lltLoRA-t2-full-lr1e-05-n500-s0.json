@@ -1,0 +1,413 @@
+{
+ "runId": "lltLoRA-t2-full-lr1e-05-n500-s0",
+ "module": "lltLoRA",
+ "tier": "T2",
+ "label": "ablation:full-lr1e-05-n500-s0",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "gpu": "Tesla T4",
+  "bitsandbytes": "0.50.2"
+ },
+ "kaggleKernel": "genieincodebottle/llt-lora-sweep-b1",
+ "notebookCommit": null,
+ "config": {
+  "tag": "full-lr1e-05-n500-s0",
+  "lr": 1e-05,
+  "seed": 0,
+  "model": "Qwen/Qwen3.5-0.8B-Base",
+  "n_train": 500,
+  "batch": 16,
+  "eval_every": 25,
+  "n_heldout": 300,
+  "n_wiki": 32,
+  "n_acc": 200,
+  "warmup": 10,
+  "mode": "full",
+  "opt": "adamw8bit",
+  "budget": 1024,
+  "spectra": false,
+  "pool": [
+   "model.layers.11.self_attn.v_proj",
+   "model.layers.11.mlp.down_proj",
+   "model.layers.11.self_attn.q_proj"
+  ]
+ },
+ "seed": 0,
+ "ok": true,
+ "error": null,
+ "data": {
+  "nTrain": 500,
+  "trainAnswerTokens": 45933,
+  "trainTokens": 78130,
+  "heldout": 300,
+  "wikiRows": 32,
+  "accProblems": 200
+ },
+ "trainableParams": 752393024,
+ "totalParams": 752393024,
+ "peakMemGB": 11.73,
+ "peakReservedGB": 12.95,
+ "memAfterLoadGB": 3.01,
+ "secPerStepMedian": 3.422,
+ "trainSec": 107.6,
+ "skippedSteps": 0,
+ "nonFinite": 0,
+ "metrics": [
+  {
+   "step": 1,
+   "trainLoss": 0.9735,
+   "gradNorm": 24.9884,
+   "lr": 1.9354838709677424e-06,
+   "skipped": false,
+   "sec": 3.469,
+   "tokens": 1459,
+   "memGB": 10.1
+  },
+  {
+   "step": 2,
+   "trainLoss": 0.91791,
+   "gradNorm": 18.3285,
+   "lr": 2.806451612903226e-06,
+   "skipped": false,
+   "sec": 4.107,
+   "tokens": 1739,
+   "memGB": 11.56
+  },
+  {
+   "step": 3,
+   "trainLoss": 0.73363,
+   "gradNorm": 16.5582,
+   "lr": 3.6129032258064524e-06,
+   "skipped": false,
+   "sec": 3.043,
+   "tokens": 1517,
+   "memGB": 11.56
+  },
+  {
+   "step": 4,
+   "trainLoss": 0.67416,
+   "gradNorm": 16.3053,
+   "lr": 4.35483870967742e-06,
+   "skipped": false,
+   "sec": 2.601,
+   "tokens": 1119,
+   "memGB": 11.56
+  },
+  {
+   "step": 5,
+   "trainLoss": 0.64497,
+   "gradNorm": 10.092,
+   "lr": 5.032258064516129e-06,
+   "skipped": false,
+   "sec": 2.936,
+   "tokens": 1373,
+   "memGB": 11.59
+  },
+  {
+   "step": 6,
+   "trainLoss": 0.72023,
+   "gradNorm": 11.3655,
+   "lr": 5.64516129032258e-06,
+   "skipped": false,
+   "sec": 3.422,
+   "tokens": 1496,
+   "memGB": 11.59
+  },
+  {
+   "step": 7,
+   "trainLoss": 0.61521,
+   "gradNorm": 9.3353,
+   "lr": 6.193548387096775e-06,
+   "skipped": false,
+   "sec": 3.146,
+   "tokens": 1463,
+   "memGB": 11.73
+  },
+  {
+   "step": 8,
+   "trainLoss": 0.57889,
+   "gradNorm": 9.7667,
+   "lr": 6.67741935483871e-06,
+   "skipped": false,
+   "sec": 2.776,
+   "tokens": 1215,
+   "memGB": 11.73
+  },
+  {
+   "step": 9,
+   "trainLoss": 0.58523,
+   "gradNorm": 9.449,
+   "lr": 7.096774193548388e-06,
+   "skipped": false,
+   "sec": 2.812,
+   "tokens": 1341,
+   "memGB": 11.73
+  },
+  {
+   "step": 10,
+   "trainLoss": 0.73827,
+   "gradNorm": 11.7773,
+   "lr": 6.774193548387098e-06,
+   "skipped": false,
+   "sec": 3.036,
+   "tokens": 1405,
+   "memGB": 11.73
+  },
+  {
+   "step": 11,
+   "trainLoss": 0.65163,
+   "gradNorm": 9.5881,
+   "lr": 6.451612903225806e-06,
+   "skipped": false,
+   "sec": 3.25,
+   "tokens": 1490,
+   "memGB": 11.73
+  },
+  {
+   "step": 12,
+   "trainLoss": 0.63901,
+   "gradNorm": 9.8464,
+   "lr": 6.129032258064517e-06,
+   "skipped": false,
+   "sec": 3.458,
+   "tokens": 1454,
+   "memGB": 11.73
+  },
+  {
+   "step": 13,
+   "trainLoss": 0.79898,
+   "gradNorm": 9.4709,
+   "lr": 5.8064516129032256e-06,
+   "skipped": false,
+   "sec": 3.507,
+   "tokens": 1685,
+   "memGB": 11.73
+  },
+  {
+   "step": 14,
+   "trainLoss": 0.64392,
+   "gradNorm": 9.0508,
+   "lr": 5.483870967741935e-06,
+   "skipped": false,
+   "sec": 3.394,
+   "tokens": 1457,
+   "memGB": 11.73
+  },
+  {
+   "step": 15,
+   "trainLoss": 0.61174,
+   "gradNorm": 9.9829,
+   "lr": 5.161290322580646e-06,
+   "skipped": false,
+   "sec": 3.406,
+   "tokens": 1343,
+   "memGB": 11.73
+  },
+  {
+   "step": 16,
+   "trainLoss": 0.68326,
+   "gradNorm": 9.6998,
+   "lr": 4.838709677419355e-06,
+   "skipped": false,
+   "sec": 3.739,
+   "tokens": 1565,
+   "memGB": 11.73
+  },
+  {
+   "step": 17,
+   "trainLoss": 0.6027,
+   "gradNorm": 9.0936,
+   "lr": 4.516129032258066e-06,
+   "skipped": false,
+   "sec": 3.443,
+   "tokens": 1491,
+   "memGB": 11.73
+  },
+  {
+   "step": 18,
+   "trainLoss": 0.65786,
+   "gradNorm": 10.1759,
+   "lr": 4.193548387096774e-06,
+   "skipped": false,
+   "sec": 2.89,
+   "tokens": 1249,
+   "memGB": 11.73
+  },
+  {
+   "step": 19,
+   "trainLoss": 0.73705,
+   "gradNorm": 8.1939,
+   "lr": 3.870967741935484e-06,
+   "skipped": false,
+   "sec": 3.883,
+   "tokens": 1820,
+   "memGB": 11.73
+  },
+  {
+   "step": 20,
+   "trainLoss": 0.65193,
+   "gradNorm": 8.7789,
+   "lr": 3.548387096774194e-06,
+   "skipped": false,
+   "sec": 3.706,
+   "tokens": 1491,
+   "memGB": 11.73
+  },
+  {
+   "step": 21,
+   "trainLoss": 0.5953,
+   "gradNorm": 9.9499,
+   "lr": 3.225806451612904e-06,
+   "skipped": false,
+   "sec": 3.223,
+   "tokens": 1421,
+   "memGB": 11.73
+  },
+  {
+   "step": 22,
+   "trainLoss": 0.59176,
+   "gradNorm": 9.2897,
+   "lr": 2.9032258064516128e-06,
+   "skipped": false,
+   "sec": 3.554,
+   "tokens": 1653,
+   "memGB": 11.73
+  },
+  {
+   "step": 23,
+   "trainLoss": 0.64345,
+   "gradNorm": 9.1254,
+   "lr": 2.580645161290323e-06,
+   "skipped": false,
+   "sec": 3.314,
+   "tokens": 1463,
+   "memGB": 11.73
+  },
+  {
+   "step": 24,
+   "trainLoss": 0.62471,
+   "gradNorm": 7.8938,
+   "lr": 2.258064516129033e-06,
+   "skipped": false,
+   "sec": 3.515,
+   "tokens": 1696,
+   "memGB": 11.73
+  },
+  {
+   "step": 25,
+   "trainLoss": 0.63715,
+   "gradNorm": 9.528,
+   "lr": 1.9354838709677424e-06,
+   "skipped": false,
+   "sec": 3.424,
+   "tokens": 1539,
+   "memGB": 11.73
+  },
+  {
+   "step": 26,
+   "trainLoss": 0.56226,
+   "gradNorm": 9.4085,
+   "lr": 1.6129032258064514e-06,
+   "skipped": false,
+   "sec": 3.387,
+   "tokens": 1413,
+   "memGB": 11.73
+  },
+  {
+   "step": 27,
+   "trainLoss": 0.74867,
+   "gradNorm": 8.3968,
+   "lr": 1.2903225806451614e-06,
+   "skipped": false,
+   "sec": 3.553,
+   "tokens": 1564,
+   "memGB": 11.73
+  },
+  {
+   "step": 28,
+   "trainLoss": 0.67729,
+   "gradNorm": 9.165,
+   "lr": 9.677419354838712e-07,
+   "skipped": false,
+   "sec": 3.602,
+   "tokens": 1597,
+   "memGB": 11.73
+  },
+  {
+   "step": 29,
+   "trainLoss": 0.55638,
+   "gradNorm": 8.5345,
+   "lr": 6.451612903225812e-07,
+   "skipped": false,
+   "sec": 2.794,
+   "tokens": 1275,
+   "memGB": 11.73
+  },
+  {
+   "step": 30,
+   "trainLoss": 0.69608,
+   "gradNorm": 8.4316,
+   "lr": 3.225806451612901e-07,
+   "skipped": false,
+   "sec": 3.618,
+   "tokens": 1579,
+   "memGB": 11.73
+  },
+  {
+   "step": 31,
+   "trainLoss": 0.73556,
+   "gradNorm": 8.6707,
+   "lr": 0.0,
+   "skipped": false,
+   "sec": 3.482,
+   "tokens": 1366,
+   "memGB": 11.73
+  }
+ ],
+ "curve": [
+  {
+   "step": 0,
+   "heldoutLoss": 0.98627
+  },
+  {
+   "step": 25,
+   "heldoutLoss": 0.63225
+  },
+  {
+   "step": 31,
+   "heldoutLoss": 0.62544
+  }
+ ],
+ "evals": {
+  "base": null,
+  "final": {
+   "heldoutLoss": 0.64274,
+   "wikiLoss": 2.77418,
+   "accStrict": 0.375,
+   "accLenient": 0.375,
+   "samples": [
+    " She lays 16 eggs per day, so she makes 16*2 = $32 from selling the eggs.\nShe eats 3 eggs per day, so she makes 3*2 = $6 from eating them.\nShe bakes muffins for her friends every day with 4 muffins, so she makes 4*2 = $8 from baking them.\nShe makes 32+6+8 = $46 from selling, eating, and baking the ducks every day.\n#### 46",
+    " The robe needs 2 bolts of blue fiber and 2/2 = 1 bolt of white fiber.\nSo, it takes 2+1 = 3 bolts in total.\n#### 3",
+    " The value of the house increased by 150% of $80,000, which is $120,000.\nSo, the house is now worth $80,000 + $120,000 = $200,000.\nHe made $200,000 - $80,000 = $120,000 in profit.\n#### 120000"
+   ],
+   "evalSec": 123.4
+  },
+  "truncation": null,
+  "dropoutEvalTrainMode": null,
+  "dropoutEvalEvalMode": null
+ },
+ "adapterBytes": null,
+ "spectraFile": null,
+ "costUSD": 0,
+ "date": "2026-11-06"
+}

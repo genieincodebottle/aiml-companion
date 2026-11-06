@@ -1,0 +1,89 @@
+{
+ "runId": "lltInstructionData-T1-length-check",
+ "module": "lltInstructionData",
+ "tier": "T1",
+ "label": "analysis:length",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "datasets": "5.1.0",
+  "sentence_transformers": "6.2.0",
+  "datasketch": "2.0.0",
+  "lm_eval": "0.4.13",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "tokenizer": "HuggingFaceTB/SmolLM2-360M-Instruct chat template",
+  "maxLength": 1024,
+  "rewardSample": "1,500 pool rows, seed 0"
+ },
+ "seed": null,
+ "metrics": [
+  {
+   "arm": "curated-1k",
+   "rows": 1000,
+   "medianTotalTokens": 620,
+   "medianAnswerTokens": 443,
+   "shareOver1024": 0.285
+  },
+  {
+   "arm": "bulk-1k-s0",
+   "rows": 1000,
+   "medianTotalTokens": 506,
+   "medianAnswerTokens": 308,
+   "shareOver1024": 0.201
+  },
+  {
+   "arm": "bulk-4k-s0",
+   "rows": 4000,
+   "medianTotalTokens": 488,
+   "medianAnswerTokens": 295,
+   "shareOver1024": 0.206
+  },
+  {
+   "arm": "bulk-1k-s1",
+   "rows": 1000,
+   "medianTotalTokens": 452,
+   "medianAnswerTokens": 256,
+   "shareOver1024": 0.186
+  },
+  {
+   "arm": "bulk-4k-s1",
+   "rows": 4000,
+   "medianTotalTokens": 472,
+   "medianAnswerTokens": 278,
+   "shareOver1024": 0.199
+  }
+ ],
+ "evals": {
+  "spearmanRewardVsAnswerTokens": 0.442,
+  "ifevalAnswersEnded": {
+   "bulk-1k-s1-s1": 0.654,
+   "bulk-4k-s0-s0": 0.407,
+   "bulk-4k-s1-s1": 0.462,
+   "curated-1k-s1": 0.379,
+   "ref-instruct": 0.588,
+   "curated-1k-s0": 0.349,
+   "bulk-1k-s0": 0.662
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "wallClockNote": "measured while other jobs shared the machine; not a timing figure for the page",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "python.exe measure_lengths.py ../../kaggle/out/llt-insdata-exp/data ../../kaggle/out/llt-insdata-exp"
+}

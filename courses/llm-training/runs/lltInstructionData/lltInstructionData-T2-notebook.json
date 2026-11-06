@@ -1,0 +1,64 @@
+{
+ "runId": "lltInstructionData-T2-notebook",
+ "module": "lltInstructionData",
+ "tier": "T2",
+ "label": "notebook end to end",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.6,
+  "note": "2x T4; one run per GPU"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "datasets": "5.1.0",
+  "sentence_transformers": "6.2.0",
+  "numpy": "2.1.3",
+  "image": "Kaggle GPU image 2026-11-06"
+ },
+ "notebookCommit": null,
+ "config": {
+  "kernel": "llt-insdata-exp v3, GPU 0, the page cells in order with a timer around each"
+ },
+ "seed": null,
+ "metrics": [
+  {
+   "stepSeconds": {
+    "c01_pool.py": 24.5,
+    "c02_teacher.py": 1011.0,
+    "c03_dedup.py": 219.6,
+    "c04_decontam.py": 152.1,
+    "c05_pii.py": 86.8,
+    "c06_reward.py": 766.0,
+    "c07_select.py": 18.3,
+    "c08_train.py": 2.9,
+    "c09_eval.py": 0.5,
+    "c10_experiment.py": 4033.7
+   },
+   "env": {
+    "python": "3.13.16",
+    "torch": "2.11.0+cu130",
+    "cuda": "13.0",
+    "transformers": "5.22.1",
+    "trl": "1.17.1",
+    "datasets": "5.1.0",
+    "sentence_transformers": "6.2.0",
+    "numpy": "2.1.3"
+   },
+   "gpu": "Tesla T4",
+   "date": "2026-11-06 05:06"
+  }
+ ],
+ "evals": {},
+ "samples": [],
+ "wallClockSec": null,
+ "wallClockNote": "measured while other jobs shared the machine; not a timing figure for the page",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "python.exe record_exp.py ../../kaggle/out/llt-insdata-exp"
+}

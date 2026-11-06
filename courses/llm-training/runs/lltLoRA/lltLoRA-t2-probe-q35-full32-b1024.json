@@ -1,0 +1,73 @@
+{
+ "runId": "lltLoRA-t2-probe-q35-full32-b1024",
+ "module": "lltLoRA",
+ "tier": "T2",
+ "label": "ablation:q35-full32-b1024",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "gpu": "Tesla T4",
+  "bitsandbytes": "0.50.2"
+ },
+ "kaggleKernel": "genieincodebottle/llt-lora-probe",
+ "notebookCommit": null,
+ "config": {
+  "tag": "q35-full32-b1024",
+  "model": "Qwen/Qwen3.5-0.8B-Base",
+  "mode": "full",
+  "opt": "adamw32",
+  "budget": 1024,
+  "steps": 6,
+  "batch": 8,
+  "pad_to": 512,
+  "eval_final": false,
+  "n_acc": 0,
+  "n_heldout": 50,
+  "n_wiki": 4,
+  "lr": 1e-05,
+  "seed": 0,
+  "warmup": 2
+ },
+ "seed": 0,
+ "ok": false,
+ "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 970.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 212.81 MiB is free. Including non-PyTorch memory, this process has 14.35 GiB memory in use. Of the allocated memory 14.16 GiB is allocated by PyTorch, and 55.40 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)",
+ "data": {
+  "nTrain": 2000,
+  "trainAnswerTokens": 187893,
+  "trainTokens": 1024000,
+  "heldout": 50,
+  "wikiRows": 4,
+  "accProblems": 0
+ },
+ "trainableParams": 752393024,
+ "totalParams": 752393024,
+ "peakMemGB": 15.2,
+ "peakReservedGB": null,
+ "memAfterLoadGB": 3.01,
+ "secPerStepMedian": null,
+ "trainSec": null,
+ "skippedSteps": null,
+ "nonFinite": null,
+ "metrics": [],
+ "curve": [],
+ "evals": {
+  "base": null,
+  "final": null,
+  "truncation": null,
+  "dropoutEvalTrainMode": null,
+  "dropoutEvalEvalMode": null
+ },
+ "adapterBytes": null,
+ "spectraFile": null,
+ "costUSD": 0,
+ "date": "2026-11-06"
+}

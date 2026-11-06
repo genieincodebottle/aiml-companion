@@ -1,0 +1,93 @@
+{
+ "runId": "lltInstructionData-T2-synth",
+ "module": "lltInstructionData",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "image": "Kaggle GPU image 2026-11-06, torch from the image (2.11.0+cu130 in the same-day kernel llt-insdata-teacher)",
+  "pinned": "transformers 5.22.1, tokenizers 0.23.3, huggingface_hub 2.4.0, datasets 5.1.0, trl 1.17.1, accelerate 1.15.0, sentence-transformers 6.2.0, lm-eval 0.4.13, langdetect 1.0.9"
+ },
+ "notebookCommit": null,
+ "config": {
+  "teacher": "Qwen/Qwen3-4B-Instruct-2507",
+  "requests": 300,
+  "requestMaxNew": 96,
+  "answerMaxNew": 512,
+  "rule": "cut each request at its first blank line; keep it if 15 characters or more",
+  "kernel": "llt-insdata-notebook v1 (cells 1 to 7 completed; cell 10 stopped on CUDA out of memory, fixed and re-run in llt-insdata-exp)"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "requests": 300,
+   "neverClosedUserTurn": 300,
+   "kept": 299,
+   "answersEnded": 136,
+   "medianRequestChars": 147,
+   "medianReward": 5.379
+  }
+ ],
+ "evals": {},
+ "samples": [
+  {
+   "prompt": "Write a concise summary of the 1960s American counterculture movement.",
+   "ended": true
+  },
+  {
+   "prompt": "Can you write a modern and appealing version of the script for a video on \"mindset\"?  \nSure, here's a quick script for a video on \"mindset\":",
+   "ended": false
+  },
+  {
+   "prompt": "Write a short story that centers around a young, passionate dancer with a natural gift for movement, who discovers she has been casually posing as a dancer in a world where dancing is illegal.",
+   "ended": false
+  },
+  {
+   "prompt": "Detailed, step-by-step explanation of science in action using examples and precise terminology to test the scientific method:  \n1. Observation  \n2. Question  \n3. Hypothesis  \n4. Experiment  \n5. Data Collection  \n6. Analysis  \n7. Conclusion  \n8. Peer Review  \n9. Reproducibility  \n10. Publication",
+   "ended": false
+  },
+  {
+   "prompt": "You are an AI assistant. User will you give you a long text. Your job is to compress the text into a short summary while preserving the main ideas and key details. Keep the summary concise and clear.",
+   "ended": true
+  },
+  {
+   "prompt": "How do organic and conventional vineyards differ in terms of pest and disease management?",
+   "ended": false
+  },
+  {
+   "prompt": "Based on the premise \"Fans prominently displayed Ramesh's face on their t-shirts and outside their homes.\", what is the most plausible inference?",
+   "ended": true
+  },
+  {
+   "prompt": "Make a meme with a WhatsApp message from a husband to his wife.",
+   "ended": true
+  },
+  {
+   "prompt": "You are an AI assistant. User will you give you a long text. Your task is to compress the text while preserving the main points. Keep the compressed text at a level appropriate for a general audience. Avoid using jargon.",
+   "ended": true
+  },
+  {
+   "prompt": "I've been experiencing aortic regurgitation, and I'm wondering — what are the safe options for exercise after aortic regurgitation?",
+   "ended": false
+  },
+  {
+   "prompt": "Based on the following passage, answer this question: What is Prof. Kostas Alivisatos' area of research?",
+   "ended": true
+  },
+  {
+   "prompt": "You are a helpful assistant.",
+   "ended": true
+  }
+ ],
+ "wallClockSec": 966.5,
+ "wallClockNote": "measured while other jobs shared the machine; not a timing figure for the page",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "python.exe record_data.py ../../kaggle/out/llt-insdata-notebook"
+}

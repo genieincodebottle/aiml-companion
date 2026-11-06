@@ -1,0 +1,71 @@
+{
+ "runId": "lltSFT-t1-trl-packing",
+ "module": "lltSFT",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "dtype": "float32",
+  "trl": "SFTConfig(assistant_only_loss=True, packing=True, packing_strategy='bfd', max_length=1024)",
+  "conversations": 6,
+  "source": "smoltalk_smollm3_smol_rewrite_no_think training rows 0-5"
+ },
+ "seed": null,
+ "metrics": [
+  {
+   "step": 0,
+   "peakRssGB": 1.74
+  }
+ ],
+ "evals": {
+  "rowTokens": 845,
+  "docsInRow": 2,
+  "docLengths": [
+   456,
+   389
+  ],
+  "keys": [
+   "cu_seq_lens_k",
+   "cu_seq_lens_q",
+   "input_ids",
+   "labels",
+   "max_length_k",
+   "max_length_q",
+   "position_ids",
+   "seq_idx"
+  ],
+  "trlPackedLoss": 1.7815163135528564,
+  "ownSeparateLoss": 1.7815162932857704,
+  "absDiff": 2.026708600944005e-08,
+  "naiveSameIdsAndLabels": true,
+  "trlNaiveLoss": 1.7989619970321655,
+  "lossTokens": 347
+ },
+ "samples": [],
+ "wallClockSec": 25.0,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "python.exe measure.py trlpack"
+}

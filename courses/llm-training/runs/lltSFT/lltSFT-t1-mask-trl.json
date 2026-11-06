@@ -1,0 +1,75 @@
+{
+ "runId": "lltSFT-t1-mask-trl",
+ "module": "lltSFT",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "dtype": "float32",
+  "conversations": 8,
+  "trl": "SFTConfig(assistant_only_loss=True, max_length=1024, per_device_train_batch_size=4)"
+ },
+ "seed": null,
+ "metrics": [
+  {
+   "step": 0,
+   "peakRssGB": 6.07
+  }
+ ],
+ "evals": {
+  "stockTemplateError": "ValueError: The chat template is not training-compatible (missing prefix-preservation or `{% generation %}` markers) and patching is not supported for this template. Please manually modify the chat template for training.",
+  "labelsEqual": true,
+  "batchShape": [
+   4,
+   890
+  ],
+  "lossTokenShare": 0.742,
+  "ownLoss": 1.4967340849535544,
+  "trlLoss": 1.4967341423034668,
+  "hfLoss": 1.4967206716537476,
+  "absDiffOwnTrl": 5.734991237460463e-08,
+  "absDiffOwnHf": 1.3413299806863677e-05,
+  "lossTokens": 1734,
+  "defaultConfigOnCpu": "ValueError: Your setup doesn't support bf16/gpu. You need to assign use_cpu if you want to train the model on CPU.",
+  "sftConfigDefaults": {
+   "bf16": true,
+   "fp16": false,
+   "gradientCheckpointing": true,
+   "learningRate": 2e-05,
+   "maxLength": 1024,
+   "packing": false,
+   "packingStrategy": "bfd",
+   "completionOnlyLoss": null,
+   "assistantOnlyLoss": false,
+   "lossType": "nll",
+   "loggingSteps": 10
+  }
+ },
+ "samples": [],
+ "wallClockSec": 47.3,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "python.exe measure.py masktrl"
+}

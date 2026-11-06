@@ -1,0 +1,24 @@
+{
+ "runId": "lltLoRA-t1-timing-v2026-11",
+ "module": "lltLoRA",
+ "tier": "T1",
+ "label": "timing",
+ "hardware": {
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "threads": 4
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "peft": "0.21.2"
+ },
+ "script": "labs/lltLoRA/measure_timing.py",
+ "results": {
+  "steps_1_to_3_s": 6,
+  "step_4_min": 0.7,
+  "cpu_lora_step_s": 22
+ },
+ "note": "second of two passes; the first (7, 0.6, 31) overlapped a CPU smoke test of ours and is not used",
+ "date": "2026-11-06"
+}

@@ -1,0 +1,167 @@
+{
+ "runId": "lltInstructionData-T2-select",
+ "module": "lltInstructionData",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "image": "Kaggle GPU image 2026-11-06, torch from the image (2.11.0+cu130 in the same-day kernel llt-insdata-teacher)",
+  "pinned": "transformers 5.22.1, tokenizers 0.23.3, huggingface_hub 2.4.0, datasets 5.1.0, trl 1.17.1, accelerate 1.15.0, sentence-transformers 6.2.0, lm-eval 0.4.13, langdetect 1.0.9"
+ },
+ "notebookCommit": null,
+ "config": {
+  "clusters": "k-means, 100 clusters, random_state 0, n_init 3, on the candidates' prompt embeddings",
+  "rule": "take the best-scored row from each cluster in turn until 1,000",
+  "bulk": "random rows from the pool minus decontamination hits, seed 0 and 1",
+  "kernel": "llt-insdata-notebook v1 (cells 1 to 7 completed; cell 10 stopped on CUDA out of memory, fixed and re-run in llt-insdata-exp)"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "stages": [
+    {
+     "stage": "pool",
+     "rows": 8289,
+     "sources": "{'dolci': 3998, 'wildchat': 3992, 'synthetic': 299}"
+    },
+    {
+     "stage": "no exact or near duplicate",
+     "rows": 7157,
+     "sources": "{'dolci': 3407, 'wildchat': 3464, 'synthetic': 286}"
+    },
+    {
+     "stage": "not contaminated",
+     "rows": 7142,
+     "sources": "{'dolci': 3393, 'wildchat': 3463, 'synthetic': 286}"
+    },
+    {
+     "stage": "no personal data hit",
+     "rows": 7124,
+     "sources": "{'dolci': 3393, 'wildchat': 3445, 'synthetic': 286}"
+    },
+    {
+     "stage": "English",
+     "rows": 4901,
+     "sources": "{'dolci': 3047, 'synthetic': 262, 'wildchat': 1592}"
+    },
+    {
+     "stage": "answer not cut off",
+     "rows": 4756,
+     "sources": "{'dolci': 3047, 'synthetic': 117, 'wildchat': 1592}"
+    },
+    {
+     "stage": "reward score 1.82 or more",
+     "rows": 3401,
+     "sources": "{'dolci': 2401, 'synthetic': 91, 'wildchat': 909}"
+    }
+   ],
+   "printedDiversity": [
+    {
+     "arm": "curated-1k",
+     "meanCosine": 0.747,
+     "vendi": 6.0,
+     "medianReward": 9.11
+    },
+    {
+     "arm": "bulk-1k-s0",
+     "meanCosine": 0.756,
+     "vendi": 5.8,
+     "medianReward": 3.23
+    },
+    {
+     "arm": "bulk-4k-s0",
+     "meanCosine": 0.756,
+     "vendi": 5.8,
+     "medianReward": 3.27
+    },
+    {
+     "arm": "bulk-1k-s1",
+     "meanCosine": 0.756,
+     "vendi": 5.8,
+     "medianReward": 3.08
+    },
+    {
+     "arm": "bulk-4k-s1",
+     "meanCosine": 0.756,
+     "vendi": 5.8,
+     "medianReward": 3.22
+    }
+   ],
+   "arms": {
+    "curated-1k": {
+     "rows": 1000,
+     "sources": {
+      "dolci": 786,
+      "wildchat": 174,
+      "synthetic": 40
+     },
+     "vendi1k": 6.024,
+     "medianReward": 9.109,
+     "english": 1.0
+    },
+    "bulk-1k-s0": {
+     "rows": 1000,
+     "sources": {
+      "dolci": 491,
+      "wildchat": 471,
+      "synthetic": 38
+     },
+     "vendi1k": 5.831,
+     "medianReward": 3.227,
+     "english": 0.736
+    },
+    "bulk-4k-s0": {
+     "rows": 4000,
+     "sources": {
+      "dolci": 1912,
+      "wildchat": 1941,
+      "synthetic": 147
+     },
+     "vendi1k": 5.831,
+     "medianReward": 3.269,
+     "english": 0.712
+    },
+    "bulk-1k-s1": {
+     "rows": 1000,
+     "sources": {
+      "dolci": 483,
+      "wildchat": 482,
+      "synthetic": 35
+     },
+     "vendi1k": 5.811,
+     "medianReward": 3.081,
+     "english": 0.703
+    },
+    "bulk-4k-s1": {
+     "rows": 4000,
+     "sources": {
+      "dolci": 1931,
+      "wildchat": 1925,
+      "synthetic": 144
+     },
+     "vendi1k": 5.811,
+     "medianReward": 3.221,
+     "english": 0.711
+    }
+   },
+   "vendiFirst299BySource": {
+    "dolci-first299": 5.118,
+    "wildchat-first299": 5.515,
+    "synthetic-first299": 5.566
+   }
+  }
+ ],
+ "evals": {},
+ "samples": [],
+ "wallClockSec": 19.5,
+ "wallClockNote": "measured while other jobs shared the machine; not a timing figure for the page",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-06",
+ "command": "python.exe record_data.py ../../kaggle/out/llt-insdata-notebook"
+}

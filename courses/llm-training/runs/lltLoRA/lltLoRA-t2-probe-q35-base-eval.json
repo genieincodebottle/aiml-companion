@@ -1,0 +1,75 @@
+{
+ "runId": "lltLoRA-t2-probe-q35-base-eval",
+ "module": "lltLoRA",
+ "tier": "T2",
+ "label": "ablation:q35-base-eval",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "gpu": "Tesla T4",
+  "bitsandbytes": "0.50.2"
+ },
+ "kaggleKernel": "genieincodebottle/llt-lora-probe",
+ "notebookCommit": null,
+ "config": {
+  "tag": "q35-base-eval",
+  "model": "Qwen/Qwen3.5-0.8B-Base",
+  "mode": "eval",
+  "n_heldout": 300,
+  "n_wiki": 32,
+  "n_acc": 50
+ },
+ "seed": null,
+ "ok": true,
+ "error": null,
+ "data": {
+  "nTrain": 2000,
+  "trainAnswerTokens": 187893,
+  "trainTokens": 316472,
+  "heldout": 300,
+  "wikiRows": 32,
+  "accProblems": 50
+ },
+ "trainableParams": 752393024,
+ "totalParams": 752393024,
+ "peakMemGB": null,
+ "peakReservedGB": null,
+ "memAfterLoadGB": 3.01,
+ "secPerStepMedian": null,
+ "trainSec": null,
+ "skippedSteps": null,
+ "nonFinite": null,
+ "metrics": [],
+ "curve": [],
+ "evals": {
+  "base": null,
+  "final": {
+   "heldoutLoss": 0.97966,
+   "wikiLoss": 2.75786,
+   "accStrict": 0.0,
+   "accLenient": 0.18,
+   "samples": [
+    " 12",
+    " 3 bolts of blue fiber and 1 bolt of white fiber.\nExplanation:\nThe robe takes 2 bolts of blue fiber and half that much white fiber.\nSo, it takes 2 bolts of blue fiber and 1 bolt of white fiber.\nTherefore, it takes 3 bolts in total.",
+    " $100,000\nExplanation:\nThe value of the house increased by 150%, so the value of the house is $80,000 + $150% of $80,000 = $80,000 + $120,000 = $200,000.\nThe profit is the value of the house minus the cost of the house, so the profit is $200,000 - $80,000 = $120,000.\nHowever, Josh put in $50,000 in repairs, so the profit is $120,000 - $50,000 = $70,000.\nNote: The original answer provided in the extract was incorrect."
+   ],
+   "evalSec": 45.1
+  },
+  "truncation": null,
+  "dropoutEvalTrainMode": null,
+  "dropoutEvalEvalMode": null
+ },
+ "adapterBytes": null,
+ "spectraFile": null,
+ "costUSD": 0,
+ "date": "2026-11-06"
+}

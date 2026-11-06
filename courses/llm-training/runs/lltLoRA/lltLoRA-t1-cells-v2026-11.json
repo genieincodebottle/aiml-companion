@@ -1,0 +1,59 @@
+{
+ "runId": "lltLoRA-t1-cells-v2026-11",
+ "module": "lltLoRA",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "peft": "0.21.2",
+  "numpy": "2.5.4",
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "cells": [
+   "s01_lora_linear.py",
+   "s02_merge.py",
+   "s03_inject_gpt.py",
+   "s04_peft_check.py"
+  ],
+  "threads": 4
+ },
+ "seed": null,
+ "metrics": [
+  {
+   "step": 0,
+   "peakRssGB": 4.85
+  }
+ ],
+ "evals": {},
+ "samples": [
+  {
+   "cell": "s01_lora_linear.py",
+   "stdout": "output unchanged at init: True\ntrainable 73,728 | frozen 3,670,016 | 2.01% of the layer\ngrad on W: None | grad on A is all zero: True | grad on B is all zero: False\nr =   1  alpha/r = 32.0000  rsLoRA alpha/sqrt(r) = 32.0000\nr =   4  alpha/r =  8.0000  rsLoRA alpha/sqrt(r) = 16.0000\nr =  16  alpha/r =  2.0000  rsLoRA alpha/sqrt(r) =  8.0000\nr =  64  alpha/r =  0.5000  rsLoRA alpha/sqrt(r) =  4.0000\nr = 256  alpha/r =  0.1250  rsLoRA alpha/sqrt(r) =  2.0000\n"
+  },
+  {
+   "cell": "s02_merge.py",
+   "stdout": "merged output matches the adapter output: True | max abs diff 1.19e-06\nrank of the merged update: 16 of a possible 1024\nunmerge restores W: True | max abs diff 1.86e-09\n"
+  },
+  {
+   "cell": "s03_inject_gpt.py",
+   "stdout": "attention only     trainable 122,880 of 11,597,120 (1.06%)  logits unchanged: True\nall linear layers  trainable 356,352 of 11,830,592 (3.01%)  logits unchanged: True\nhead stays tied and frozen: True False\n"
+  },
+  {
+   "cell": "s04_peft_check.py",
+   "stdout": "186 layers wrapped by PEFT: ['down_proj', 'gate_proj', 'in_proj_a', 'in_proj_b', 'in_proj_qkv', 'in_proj_z', 'k_proj', 'o_proj', 'out_proj', 'q_proj', 'up_proj', 'v_proj']\ntrainable  ours 10,822,656  PEFT 10,822,656\nloss       ours 1.588583  PEFT 1.588583\nmax abs logit difference 0.00e+00\nafter merge, loss 1.588583, max abs logit difference 9.21e-05\n"
+  }
+ ],
+ "date": "2026-11-06"
+}

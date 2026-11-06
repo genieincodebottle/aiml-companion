@@ -1,0 +1,60 @@
+{
+ "module": "lltQLoRA",
+ "tier": "T2",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "bitsandbytes": "0.50.2",
+  "trl": "n/a"
+ },
+ "date": "2026-11-06",
+ "costUSD": 0,
+ "runId": "lltQLoRA-T2-broken-skipped-steps-v2026-11",
+ "label": "broken:gradscaler-skips-all-steps",
+ "source": "runs/_probes/llt-model-probe-2026-11.json, run q35-9b-qlora-v2 (kernel llt-model-probe v3)",
+ "config": {
+  "model": "Qwen/Qwen3.5-9B-Base",
+  "batch": "2 x 1,024",
+  "steps": 5,
+  "gradScalerInit": 65536
+ },
+ "metrics": [
+  {
+   "step": 1,
+   "trainLoss": 2.4005,
+   "sec": 15.14
+  },
+  {
+   "step": 2,
+   "trainLoss": 2.4937,
+   "sec": 8.88
+  },
+  {
+   "step": 3,
+   "trainLoss": 2.1287,
+   "sec": 9.17
+  },
+  {
+   "step": 4,
+   "trainLoss": 2.3544,
+   "sec": 9.31
+  },
+  {
+   "step": 5,
+   "trainLoss": 2.2493,
+   "sec": 9.66
+  }
+ ],
+ "skippedSteps": 5,
+ "gradScalerFinal": 2048.0,
+ "peakMemGB": 14.5,
+ "note": "every optimizer step was skipped (5 of 5); the loss differs only because each step saw a new batch"
+}
