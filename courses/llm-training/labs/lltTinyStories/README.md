@@ -5,7 +5,7 @@ LLM Training Lab, module 7. Regime: FROM SCRATCH. Random weights, every weight c
 Open the notebook in Colab (Runtime > Change runtime type > T4 GPU):
 https://colab.research.google.com/github/genieincodebottle/aiml-companion/blob/main/courses/llm-training/labs/lltTinyStories/lltTinyStories.ipynb
 
-With no GPU the same notebook runs the CPU config (T1, a 3.0M-parameter model).
+With no GPU the same notebook runs the CPU config (T1, a 3.0M-parameter model). Set `FROM_OUR_CHECKPOINT = True` in the config cell to skip the CPU training: it loads our 11.5M step-2,000 model and only evaluates and samples it (val loss 1.7323, 3.4 min on our laptop; run `runs/lltTinyStories/lltTinyStories-T1-from-our-checkpoint.json`).
 
 ## Files
 

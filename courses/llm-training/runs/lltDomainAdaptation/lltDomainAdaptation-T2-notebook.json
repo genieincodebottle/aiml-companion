@@ -1,0 +1,278 @@
+{
+ "runId": "lltDomainAdaptation-T2-notebook",
+ "module": "lltDomainAdaptation",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6,
+  "note": "Kaggle T4 x2 session, CUDA_VISIBLE_DEVICES=0"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformersPreinstalled": "5.20.2",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "bitsandbytes": "0.50.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "sentence_transformers": "6.2.0",
+  "gpu": "Tesla T4",
+  "note": "python, torch and the preinstalled transformers are printed by the runtime-check cell; the other versions are the pins of the %pip -q install cell, which completed without error and prints nothing"
+ },
+ "notebookCommit": null,
+ "config": {
+  "notebook": "labs/lltDomainAdaptation/lltDomainAdaptation.ipynb",
+  "kernel": "genieincodebottle/llt-da-notebook",
+  "quickSteps": 150,
+  "rowsPerStep": 8,
+  "micro": 4,
+  "peakLr": 3e-05,
+  "replay": 0.05,
+  "qloraEpochs": 2,
+  "qloraBatch": 8,
+  "qloraMicro": 2
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 1,
+   "tokens": 8192,
+   "trainLoss": 1.128,
+   "lr": 5e-06,
+   "gradNorm": 3.537,
+   "scale": 65536.0,
+   "sec": 7.6
+  },
+  {
+   "step": 2,
+   "tokens": 16384,
+   "trainLoss": 1.316,
+   "lr": 1e-05,
+   "gradNorm": 4.11,
+   "scale": 65536.0,
+   "sec": 15.2
+  },
+  {
+   "step": 3,
+   "tokens": 24576,
+   "trainLoss": 1.3224,
+   "lr": 1.5e-05,
+   "gradNorm": 4.356,
+   "scale": 65536.0,
+   "sec": 22.7
+  },
+  {
+   "step": 25,
+   "tokens": 204800,
+   "trainLoss": 1.3642,
+   "lr": 2.8972373688902372e-05,
+   "gradNorm": 4.274,
+   "scale": 65536.0,
+   "sec": 188.3
+  },
+  {
+   "step": 50,
+   "tokens": 409600,
+   "trainLoss": 1.4037,
+   "lr": 2.4482680252908365e-05,
+   "gradNorm": 3.597,
+   "scale": 65536.0,
+   "sec": 376.3,
+   "hiBpb": 0.6416,
+   "enBpb": 0.8223
+  },
+  {
+   "step": 75,
+   "tokens": 614400,
+   "trainLoss": 1.4634,
+   "lr": 1.767660252709339e-05,
+   "gradNorm": 3.393,
+   "scale": 65536.0,
+   "sec": 580.3
+  },
+  {
+   "step": 100,
+   "tokens": 819200,
+   "trainLoss": 1.4186,
+   "lr": 1.0529102682043488e-05,
+   "gradNorm": 3.124,
+   "scale": 65536.0,
+   "sec": 768.2,
+   "hiBpb": 0.6155,
+   "enBpb": 0.8251
+  },
+  {
+   "step": 125,
+   "tokens": 1024000,
+   "trainLoss": 1.3079,
+   "lr": 5.114215481526045e-06,
+   "gradNorm": 3.037,
+   "scale": 65536.0,
+   "sec": 972.2
+  },
+  {
+   "step": 150,
+   "tokens": 1228800,
+   "trainLoss": 1.2043,
+   "lr": 3.003212634421227e-06,
+   "gradNorm": 2.96,
+   "scale": 65536.0,
+   "sec": 1160.1,
+   "hiBpb": 0.6025,
+   "enBpb": 0.8224
+  },
+  {
+   "step": 1,
+   "trainLoss": 1.1135,
+   "sec": 8.6
+  },
+  {
+   "step": 2,
+   "trainLoss": 1.1402,
+   "sec": 17.1
+  },
+  {
+   "step": 30,
+   "trainLoss": 0.1815,
+   "sec": 283.9
+  },
+  {
+   "step": 60,
+   "trainLoss": 0.1856,
+   "sec": 562.2
+  },
+  {
+   "step": 90,
+   "trainLoss": 0.0384,
+   "sec": 836.4
+  },
+  {
+   "step": 120,
+   "trainLoss": 0.1064,
+   "sec": 1113.4
+  },
+  {
+   "step": 150,
+   "trainLoss": 0.0422,
+   "sec": 1393.5
+  },
+  {
+   "step": 180,
+   "trainLoss": 0.037,
+   "sec": 1662.2
+  }
+ ],
+ "evals": {
+  "panelBase": {
+   "hiBpb": 0.61307,
+   "enBpb": 0.79922,
+   "xscHi": 0.51621,
+   "xscHiCorrect": 780,
+   "xscEn": 0.6724,
+   "xscEnCorrect": 1016,
+   "hellaswag": 0.496,
+   "hellaswagCorrect": 992
+  },
+  "panelAfter150Steps": {
+   "hiBpb": 0.61815,
+   "enBpb": 0.81551,
+   "xscHi": 0.51489,
+   "xscHiCorrect": 778,
+   "xscEn": 0.6552,
+   "xscEnCorrect": 990,
+   "hellaswag": 0.4905,
+   "hellaswagCorrect": 981
+  },
+  "interpolation": [
+   {
+    "a": 0.25,
+    "hiBpb": 0.60397,
+    "enBpb": 0.79959
+   },
+   {
+    "a": 0.5,
+    "hiBpb": 0.60455,
+    "enBpb": 0.8026
+   },
+   {
+    "a": 0.75,
+    "hiBpb": 0.60958,
+    "enBpb": 0.80789
+   }
+  ],
+  "gpuBeforeTraining": "GPU before training: 2.23 GiB allocated, 2.25 GiB reserved",
+  "trainLine": "peak GB 14.29 | train s 1176.0 | tokens/s 1045",
+  "extensionStep0First100Texts": "Hindi bpb, step 0 2.389 | English bpb, step 0 0.8051",
+  "gpuBeforeQLoRA": "GPU before QLoRA: 0.02 GiB allocated",
+  "qloraLine": "181 steps | loss 1.1135 -> 0.0974 | peak GB 14.87 | s 1670.6",
+  "qaBaseline": {
+   "closed0": [
+    0.0,
+    0.0429
+   ],
+   "closed3": [
+    0.0022,
+    0.0368
+   ],
+   "rag0": [
+    0.0151,
+    0.129
+   ],
+   "rag3": [
+    0.0774,
+    0.213
+   ]
+  },
+  "qaAfterQLoRA": {
+   "closed0": [
+    0.0022,
+    0.0141
+   ],
+   "rag0": [
+    0.2968,
+    0.4595
+   ]
+  },
+  "retrieval": [
+   "recall@1 0.8688",
+   "recall@2 0.9247",
+   "recall@5 0.9656"
+  ],
+  "fertility": [
+   "Qwen/Qwen3-0.6B-Base         151669 in vocab | 4.51 tokens per word | 2.42 pieces per word",
+   "Qwen/Qwen3.5-0.8B-Base       248077 in vocab | 2.06 tokens per word | 1.14 pieces per word",
+   "HuggingFaceTB/SmolLM2-360M   49152 in vocab | 5.32 tokens per word | 3.13 pieces per word",
+   "Qwen3     151669 in vocab | 4.51 tokens per Hindi word",
+   "extended  161669 in vocab | 2.49 tokens per Hindi word"
+  ]
+ },
+ "cellSeconds": {
+  "setupToPanelPrinted": 353.4,
+  "step3QaBaselines": 1300.0,
+  "step4CellStartToPanel": 1452.2,
+  "step8Training": 1670.6,
+  "step8Eval": 596.0
+ },
+ "notebookCellTimeSec": 5762.2,
+ "firstCellToStep4PanelSec": 3155.7,
+ "timeNote": "Seconds since kernel start from the Kaggle log timestamps. notebookCellTimeSec runs from the first log line to the last cell's printed result.",
+ "samples": [
+  {
+   "q": "पीटरलू हत्याकांड के बाद किस कवि ने द मास्क ऑफ एनार्की लिखा था?",
+   "gold": "पर्सी शेली",
+   "pred": "पर्सी शेली"
+  }
+ ],
+ "wallClockSec": 5762.2,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "kaggleKernel": "genieincodebottle/llt-da-notebook",
+ "kaggleKernelVersion": 2,
+ "date": "2026-11-07"
+}

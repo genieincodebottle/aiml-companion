@@ -1,0 +1,91 @@
+{
+ "runId": "lltTinyStories-T1-from-our-checkpoint",
+ "module": "lltTinyStories",
+ "tier": "T1",
+ "label": "check:cpu-from-our-checkpoint",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "torchThreads": 8,
+  "note": "other jobs may have shared the CPU; TinyStories already in the Hugging Face datasets cache"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "datasets": "5.1.0"
+ },
+ "config": {
+  "vocab": 4096,
+  "d": 320,
+  "layers": 8,
+  "heads": 8,
+  "ctx": 512,
+  "batch": 64,
+  "lr": 0.001,
+  "warmup": 200,
+  "steps": 2000,
+  "eval_every": 250,
+  "eval_batches": 40,
+  "wd": 0.1,
+  "clip": 1.0,
+  "train_stories": 20000,
+  "fromOurCheckpoint": true,
+  "checkpoint": "Hugging Face Hub aimlcompanion/llm-training-lab lltTinyStories/step2000.pt + tokenizer.json (lltTinyStories-T2-baseline-s0 step 2000)"
+ },
+ "seed": 0,
+ "params": 11474240,
+ "data": {
+  "trainStories": 20000,
+  "trainTokens": 4573868,
+  "valTokens": 4884112,
+  "bytesPerTokenVal": 3.939
+ },
+ "evals": {
+  "step0ValLoss": 8.3755,
+  "step0ValBpb": 3.0221,
+  "step2000ValLossCpuFp32": 1.7323,
+  "step2000ValBpbCpuFp32": 0.6251,
+  "kaggleReportedStep2000": {
+   "valLoss": 1.7323,
+   "valBpb": 0.6251
+  }
+ },
+ "metrics": [
+  {
+   "step": 2000,
+   "valLoss": 1.7323,
+   "valBpb": 0.6251,
+   "lr": 0.0001,
+   "sec": 90.8
+  }
+ ],
+ "samples": [
+  {
+   "step": 2000,
+   "prompt": "Once upon a time",
+   "completion": "Once upon a time, there was a little girl named Lily. She loved going to the park with her mom and dad. One day, they went to a park and saw many trees and flowers. Suddenly, Lily saw a big bird that was very dangerous. \n\n\"Mommy, can we go see the birds?\" Lily asked.\n\n\"Be careful, sweetie. The birds are not toys. We should look"
+  },
+  {
+   "step": 2000,
+   "prompt": "Tom and his dog went to the park. Tom",
+   "completion": "Tom and his dog went to the park. Tom saw a big slide and wanted to try it. He ran to his owner and asked for a slide. His owner gave him a seat and some cookies. Tom sat down and ate his cookie. It was very yummy. He smiled and said, \"I love apples!\""
+  }
+ ],
+ "cellSec": [
+  4.6,
+  0.0,
+  0.0,
+  14.2,
+  0.0,
+  0.2,
+  79.5,
+  107.9,
+  0.0
+ ],
+ "wallClockSec": 206.5,
+ "date": "2026-11-07",
+ "command": "notebook code cells executed in order with FROM_OUR_CHECKPOINT = True (scratch runner ts_exec.py), fresh llt_cache"
+}

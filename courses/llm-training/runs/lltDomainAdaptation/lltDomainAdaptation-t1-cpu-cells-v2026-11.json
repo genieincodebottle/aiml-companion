@@ -1,0 +1,19 @@
+{
+ "date": "2026-11-06",
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3"
+ },
+ "blocks": {
+  "FERT": {
+   "stdout": "Qwen/Qwen3-0.6B-Base         151669 in vocab | 4.51 tokens per word | 2.42 pieces per word\nQwen/Qwen3.5-0.8B-Base       248077 in vocab | 2.06 tokens per word | 1.14 pieces per word\nHuggingFaceTB/SmolLM2-360M   49152 in vocab | 5.32 tokens per word | 3.13 pieces per word\nQwen/Qwen3-0.6B-Base ['भ', 'ारत', ' क', 'ी', ' र', 'ाजध', 'ान', 'ी']\nQwen/Qwen3.5-0.8B-Base ['भारत', ' की', ' राजधानी']\n",
+   "sec": 52.3
+  },
+  "EXT": {
+   "stdout": "Qwen3     151669 in vocab | 4.51 tokens per Hindi word\nextended  161669 in vocab | 2.49 tokens per Hindi word\n{'pieces': 30234, 'alphabet': 135, 'mergesAdded': 10000, 'newTokens': 10000, 'firstNewId': 151669, 'lastNewId': 161668, 'mergesSha': '9c808efd80ee1298', 'pinSpecial': True, 'markRegex': False}\nendoftext 151643 | im_end 151645\n",
+   "sec": 347.7
+  }
+ }
+}

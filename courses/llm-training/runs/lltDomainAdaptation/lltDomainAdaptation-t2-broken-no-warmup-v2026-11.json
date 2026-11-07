@@ -1,0 +1,186 @@
+{
+ "module": "lltDomainAdaptation",
+ "tier": "T2",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "kernel": "genieincodebottle/llt-da-smoke v1 (kaggle/out/llt-da-smoke)",
+ "date": "2026-11-06",
+ "costUSD": 0,
+ "runId": "lltDomainAdaptation-t2-broken-no-warmup-v2026-11",
+ "label": "broken:no-warmup",
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "gpu": "Tesla T4",
+  "peft": "0.21.2",
+  "bitsandbytes": "0.50.2",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "accelerate": "1.15.0"
+ },
+ "config": {
+  "kind": "cpt",
+  "rows_per_step": 8,
+  "micro": 4,
+  "eval_every": 6,
+  "qa": true,
+  "tag": "smoke-cpt-r5",
+  "replay": 0.05,
+  "peak_lr": 0.0001,
+  "steps": 12,
+  "interp": [
+   0.5
+  ],
+  "save": true,
+  "smoke": true
+ },
+ "evalSizes": {
+  "hi": 40,
+  "en": 40,
+  "xsc_hi": 60,
+  "xsc_en": 60,
+  "hellaswag": 100
+ },
+ "note": "Smoke-test sizes: 40 Hindi and 40 English held-out texts, 60 XStoryCloze items per language, 100 HellaSwag items. Warmup rounds to 1 step (4% of 12 steps), so the first update runs at the full 1e-4 peak.",
+ "panel0": {
+  "hiBpb": 0.59648,
+  "enBpb": 0.81548,
+  "xscHi": 0.46667,
+  "xscHiCorrect": 28,
+  "xscEn": 0.66667,
+  "xscEnCorrect": 40,
+  "hellaswag": 0.51,
+  "hellaswagCorrect": 51
+ },
+ "panelFinal": {
+  "hiBpb": 0.98362,
+  "enBpb": 0.94439,
+  "xscHi": 0.48333,
+  "xscHiCorrect": 29,
+  "xscEn": 0.56667,
+  "xscEnCorrect": 34,
+  "hellaswag": 0.48,
+  "hellaswagCorrect": 48
+ },
+ "metrics": [
+  {
+   "step": 1,
+   "tokens": 8192,
+   "trainLoss": 1.349,
+   "lr": 0.0001,
+   "gradNorm": 3.659,
+   "scale": 65536.0,
+   "sec": 7.6
+  },
+  {
+   "step": 2,
+   "tokens": 16384,
+   "trainLoss": 2.694,
+   "lr": 0.0001,
+   "gradNorm": Infinity,
+   "scale": 32768.0,
+   "sec": 15.2
+  },
+  {
+   "step": 3,
+   "tokens": 24576,
+   "trainLoss": 2.7045,
+   "lr": 9.81771838126524e-05,
+   "gradNorm": 35.267,
+   "scale": 32768.0,
+   "sec": 22.9
+  },
+  {
+   "step": 4,
+   "tokens": 32768,
+   "trainLoss": 4.7458,
+   "lr": 9.285640897740315e-05,
+   "gradNorm": Infinity,
+   "scale": 16384.0,
+   "sec": 30.6
+  },
+  {
+   "step": 5,
+   "tokens": 40960,
+   "trainLoss": 4.6975,
+   "lr": 8.446873302753784e-05,
+   "gradNorm": 101.984,
+   "scale": 16384.0,
+   "sec": 38.5
+  },
+  {
+   "step": 6,
+   "tokens": 49152,
+   "trainLoss": 2.8005,
+   "lr": 7.369367558508489e-05,
+   "gradNorm": 17.97,
+   "scale": 16384.0,
+   "sec": 46.6,
+   "hiBpb": 1.2587,
+   "enBpb": 0.94531
+  },
+  {
+   "step": 7,
+   "tokens": 57344,
+   "trainLoss": 2.5531,
+   "lr": 6.140416772229784e-05,
+   "gradNorm": 52.419,
+   "scale": 16384.0,
+   "sec": 65.9
+  },
+  {
+   "step": 8,
+   "tokens": 65536,
+   "trainLoss": 2.4709,
+   "lr": 4.859583227770218e-05,
+   "gradNorm": 22.641,
+   "scale": 16384.0,
+   "sec": 74.7
+  },
+  {
+   "step": 9,
+   "tokens": 73728,
+   "trainLoss": 2.3441,
+   "lr": 3.630632441491512e-05,
+   "gradNorm": 9.088,
+   "scale": 16384.0,
+   "sec": 83.5
+  },
+  {
+   "step": 10,
+   "tokens": 81920,
+   "trainLoss": 2.2354,
+   "lr": 2.5531266972462177e-05,
+   "gradNorm": 5.721,
+   "scale": 16384.0,
+   "sec": 92.2
+  },
+  {
+   "step": 11,
+   "tokens": 90112,
+   "trainLoss": 1.9411,
+   "lr": 1.7143591022596845e-05,
+   "gradNorm": 4.821,
+   "scale": 16384.0,
+   "sec": 100.6
+  },
+  {
+   "step": 12,
+   "tokens": 98304,
+   "trainLoss": 2.0655,
+   "lr": 1.1822816187347623e-05,
+   "gradNorm": 4.351,
+   "scale": 16384.0,
+   "sec": 108.9,
+   "hiBpb": 0.98362,
+   "enBpb": 0.94439
+  }
+ ],
+ "peakMemGB": 14.29,
+ "wallClockSec": 241.8
+}

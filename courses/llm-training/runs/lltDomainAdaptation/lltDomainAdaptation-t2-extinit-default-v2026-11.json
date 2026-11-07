@@ -1,0 +1,68 @@
+{
+ "runId": "lltDomainAdaptation-t2-extinit-default-v2026-11",
+ "module": "lltDomainAdaptation",
+ "tier": "T2",
+ "label": "ablation:init=default",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6,
+  "note": "one of the two T4s of a Kaggle T4 x2 session; the other GPU ran a second job list"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "gpu": "Tesla T4",
+  "peft": "0.21.2",
+  "bitsandbytes": "0.50.2",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "accelerate": "1.15.0"
+ },
+ "kernel": "genieincodebottle/llt-da-sweep v1 (kaggle/out/llt-da-sweep)",
+ "notebookCommit": null,
+ "config": {
+  "kind": "extinit",
+  "tag": "extinit-default",
+  "new_tokens": 10000,
+  "mark_regex": false
+ },
+ "seed": 0,
+ "date": "2026-11-06",
+ "wallClockSec": 312.1,
+ "costUSD": 0,
+ "evalSizes": {
+  "hi": 200,
+  "en": 200,
+  "xsc_hi": 1511,
+  "xsc_en": 1511,
+  "hellaswag": 2000
+ },
+ "qaTestQuestions": 465,
+ "evalNotes": "hiBpb/enBpb: bits per byte on 200 held-out FineWeb2 hin_Deva test texts (first 1,000 chars) and 200 FineWeb-Edu texts (first 3,000 chars). xscHi/xscEn: XStoryCloze eval split accuracy (1,511 each). hellaswag: acc_norm on the first 2,000 validation items. qa: XQuAD hi, 465 test questions from paragraphs 140-239, SQuAD-style EM and F1, greedy 40 tokens cut at the first newline; closed0/closed3 = no context, 0 or 3 example QA pairs; rag0/rag3 = the top-2 paragraphs retrieved by multilingual-e5-small from an 888-paragraph pool.",
+ "metrics": [],
+ "panel0": {
+  "hiBpb": 3.24239,
+  "enBpb": 0.79922,
+  "xscHi": 0.46128,
+  "xscHiCorrect": 697,
+  "xscEn": 0.6724,
+  "xscEnCorrect": 1016,
+  "hellaswag": 0.496,
+  "hellaswagCorrect": 992
+ },
+ "tokenizer": {
+  "pieces": 30234,
+  "alphabet": 135,
+  "mergesAdded": 10000,
+  "newTokens": 10000,
+  "firstNewId": 151669,
+  "lastNewId": 161668,
+  "mergesSha": "9c808efd80ee1298",
+  "pinSpecial": true,
+  "markRegex": false
+ },
+ "vocabRows": 161728
+}

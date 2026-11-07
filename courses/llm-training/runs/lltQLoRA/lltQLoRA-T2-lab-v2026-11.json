@@ -89,6 +89,10 @@
    "sPerStep": 12.353540182113647,
    "tokPerSec": 165.78243724541755,
    "peakGB": 14.854249472
+  },
+  "2048x2": {
+   "outOfMemory": true,
+   "note": "4,096 tokens per step. The run printed '2048 x 2 | out of memory' (Kaggle output llt-qlora-lab/llt-qlora-lab.log); added to this file 2026-11-07 from that log, whose other five sweep lines match the rows above."
   }
  },
  "base": {

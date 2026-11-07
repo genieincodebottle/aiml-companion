@@ -1,0 +1,186 @@
+{
+ "runId": "lltSFT-T2-notebook-v3",
+ "module": "lltSFT",
+ "tier": "T2",
+ "label": "rerun",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "datasets": "5.1.0",
+  "accelerate": "1.15.0",
+  "gpu": "Tesla T4"
+ },
+ "notebookCommit": null,
+ "config": {
+  "notebook": "labs/lltSFT/lltSFT.ipynb",
+  "kernel": "genieincodebottle/llt-sft-notebook",
+  "note": "make_sft_notebook_kernel.py swaps the Prove it starter for its solution and appends two recording cells; v3 = rerun 2026-11-07 after the runtime-check fix (nvidia-smi wrapped for CPU runtimes), to confirm the notebook still runs end to end"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 5,
+   "trainLoss": 1.3071041107177734
+  },
+  {
+   "step": 10,
+   "trainLoss": 1.3201762199401856
+  },
+  {
+   "step": 15,
+   "trainLoss": 1.1568222045898438
+  },
+  {
+   "step": 20,
+   "trainLoss": 1.2235122680664063
+  },
+  {
+   "step": 25,
+   "trainLoss": 1.1322124481201172
+  },
+  {
+   "step": 30,
+   "trainLoss": 1.2260018348693849
+  },
+  {
+   "step": 35,
+   "trainLoss": 1.2057599067687987
+  },
+  {
+   "step": 40,
+   "trainLoss": 1.1759449005126954
+  },
+  {
+   "step": 45,
+   "trainLoss": 1.1278373718261718
+  },
+  {
+   "step": 50,
+   "trainLoss": 1.0924507141113282
+  },
+  {
+   "step": 55,
+   "trainLoss": 1.1186090469360352
+  },
+  {
+   "step": 60,
+   "trainLoss": 1.1600396156311035
+  },
+  {
+   "step": 65,
+   "trainLoss": 1.0867280960083008
+  },
+  {
+   "step": 70,
+   "trainLoss": 1.1348607063293457
+  },
+  {
+   "step": 75,
+   "trainLoss": 1.1610886573791503
+  },
+  {
+   "step": 80,
+   "trainLoss": 1.0566404342651368
+  },
+  {
+   "step": 85,
+   "trainLoss": 1.0778351783752442
+  },
+  {
+   "step": 90,
+   "trainLoss": 1.0947892189025878
+  },
+  {
+   "step": 95,
+   "trainLoss": 1.1306728363037108
+  },
+  {
+   "step": 100,
+   "trainLoss": 1.066323184967041
+  },
+  {
+   "step": 105,
+   "trainLoss": 1.096479320526123
+  },
+  {
+   "step": 110,
+   "trainLoss": 0.9802983283996582
+  },
+  {
+   "step": 115,
+   "trainLoss": 1.0178092956542968
+  },
+  {
+   "step": 120,
+   "trainLoss": 1.0696898460388184
+  }
+ ],
+ "evals": {
+  "base": {
+   "evalLoss": 1.4291964985096632,
+   "generation": {
+    "n": 60,
+    "stopRate": 0.0,
+    "meanNewTokens": 512.0,
+    "meanNewTokensStopped": null
+   }
+  },
+  "final": {
+   "evalLoss": 1.0869379423725516,
+   "generation": {
+    "n": 60,
+    "stopRate": 0.8667,
+    "meanNewTokens": 182.9,
+    "meanNewTokensStopped": 132.2
+   }
+  }
+ },
+ "train": {
+  "steps": 121,
+  "rows": 1934,
+  "runtimeSec": 760.9408,
+  "firstLoss": 1.3071041107177734,
+  "lastLoss": 1.0696898460388184,
+  "peakMemGB": 7.03,
+  "tokens": 1784319.0
+ },
+ "samples": [
+  {
+   "stopped": false,
+   "newTokens": 512,
+   "text": "I'm happy to help you revise your essay for better structure and clarity. Here's a step-by-step guide to help you improve your writing:\n\nStep 1: Read your essay out loud. This will help you identify awkward sentences, unclear transitions, and areas where you can rephrase or rephrase your ideas. It's also a great way to catch any grammatical errors or awkward phrasing.\n\nStep 2: Check for logical flow. Make sure your essay flows smoothly from one idea to the next. Look for transitions that connect your ideas and make your writing more cohesive.\n\nStep 3: Check for word choice. Ensure that your vocabulary is appropriate for your audience and purpose. Avoid using overly formal or technical language that may not be familiar to your readers.\n\nStep 4: Check for sentence structure. Make sure your sentences are clear, concise, and grammatically correct. Avoid run-on sentences, fragments, and awkward constructions.\n\nStep 5: Check for clarity. Ensure that your writing is easy to understand and that your arguments are supported by evidence and reasoning. Remove any unnecessary words or phrases that don't contribute to the message you're trying to convey.\n\nStep 6: Check for coherence. Ensure that your essay is logically organized, with a clear introduction, body paragraphs, and conclusion. Check for transitions between paragraphs and sections to create a smooth flow.\n\nStep 7: Check for grammar and punctuation. Make sure your writing is error-free and that your sentences are well-structured. Use proper grammar, spelling, and punctuation to enhance the clarity and professionalism of your writing.\n\nStep 8: Proofread for errors. Check for spelling, grammar, and punctuation mistakes. Ask someone else to proofread your essay for accuracy and to catch any errors you might have missed.\n\nStep 9: Revise and refine. Go back to your essay and make any necessary changes to improve its structure, clarity, and overall quality. Consider rephrasing sentences, reordering paragraphs, or adding more detail to enhance your writing.\n\nStep 10: Edit for style. Ensure that your essay is written in a clear and concise style that suits your audience and purpose. Avoid using overly formal or informal language that may not be suitable for your readers.\n\nStep 11: Edit for tone. Ensure that your essay is written in a tone that is appropriate for your audience and purpose. Avoid using overly formal or informal language that may not be suitable"
+  },
+  {
+   "stopped": false,
+   "newTokens": 512,
+   "text": "To solve this problem, let's consider the equation:\n\nn^3 + (n-1)^3 + (n-2)^3 + (n-3)^3 = 0\n\nWe can rearrange the terms to get:\n\nn^3 + (n-1)^3 + (n-2)^3 + (n-3)^3 = 0\n\nNow, let's focus on the terms that are not the cubes of consecutive integers. We can see that the first term, n^3, is the sum of the cubes of the first four consecutive integers. The second term, (n-1)^3, is the sum of the cubes of the first three consecutive integers. The third term, (n-2)^3, is the sum of the cubes of the first two consecutive integers. And the fourth term, (n-3)^3, is the sum of the cubes of the first one consecutive integer.\n\nSo, we can write the equation as:\n\nn^3 + (n-1)^3 + (n-2)^3 + (n-3)^3 = 0\n\nWe can also express this as:\n\nn^3 + (n-1)^3 + (n-2)^3 + (n-3)^3 = 0\n\nWe can also express this as:\n\nn^3 + (n-1)^3 + (n-2)^3 + (n-3)^3 = 0\n\nWe can also express this as:\n\nn^3 + (n-1)^3 + (n-2)^3 + (n-3)^3 = 0\n\nWe can also express this as:\n\nn^3 + (n-1)^3 + (n-2)^3 + (n-3)^3 = 0\n\nWe can also express this as:\n\nn^3 + (n-1)^3 + (n-2)^3 + (n-3)^3 = 0\n\nWe can also express this as:\n\nn^3 + (n-1)^3 + (n-2)^3 + (n-3)^3 = 0\n\nWe can also express this as:\n\nn^3 + (n-1)^3 + (n-2)^3 + (n-3)^3 = 0\n\nWe can also express this as:\n"
+  },
+  {
+   "stopped": false,
+   "newTokens": 512,
+   "text": "I'm sorry, Commander. I've been hit by an asteroid, and I'm in a bit of a pickle. I've got a damaged ship, and I'm running low on power. I need to find a way to recharge my ship's batteries, but I'm not sure where to start. I've got a few options, but I'm not sure if I can get any help from the crew.\n\nI've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I'm not sure if I can get any help from the crew. I've got a few options, but I"
+  },
+  {
+   "stopped": true,
+   "newTokens": 163,
+   "text": "The derivative of 4^x is 4^x * (1/x). This is a simple example of a power rule, which states that the derivative of a power function is equal to the original function multiplied by the exponent and the reciprocal of the exponent.\n\nIn this case, the derivative of 4^x is 4^x * (1/x). This is because 4^x is a constant multiplied by a power function, and the derivative of a constant is 0. The derivative of 4^x is 4^x * (1/x), where 1/x is the derivative of x^-1.\n\nThis rule is often used in calculus to find the derivative of a function, and it's a fundamental concept in calculus.<|im_end|>"
+  },
+  {
+   "stopped": true,
+   "newTokens": 148,
+   "text": "\"Welcome to our village, my friend. I'm here to help you understand the importance of the forest and its role in our lives. The forest is more than just a place to hunt or gather food; it's a vital part of our culture and way of life. We rely on it for our survival, and it's our responsibility to take care of it.\"\n\n\"I've heard rumors of a mysterious creature that's been terrorizing the forest. It's a large, winged beast with a long, pointed beak and a tail that's as long as a man's arm. People say it's a dragon, but I've never seen one. What's its name, and what's its purpose in the forest?\"<|im_end|>"
+  }
+ ],
+ "wallClockSec": 760.9408,
+ "kaggleKernel": "genieincodebottle/llt-sft-notebook (version 3)",
+ "date": "2026-11-07",
+ "note": "Matches run lltSFT-T2-notebook within fp16 run-to-run noise: held-out loss 1.0869 (page quotes 1.0870), stops 52 of 60, peak 7.03 GB; training 761 s vs 830 s in the earlier notebook run."
+}

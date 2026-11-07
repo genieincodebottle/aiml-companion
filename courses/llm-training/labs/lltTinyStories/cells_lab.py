@@ -11,7 +11,7 @@ LLM Training Lab, module 7. Regime FROM SCRATCH: random weights, every weight ch
 
 Run the cells in order. On a T4 (Colab or Kaggle) this trains our 11.5M-parameter GPT on 98.3M TinyStories tokens. Without a GPU it trains a 3.0M model on a smaller budget (T1).
 
-Set `FROM_OUR_CHECKPOINT = True` in the config cell to load our weights at step 2,000 and run only the last 1,000 steps."""),
+Set `FROM_OUR_CHECKPOINT = True` in the config cell to load our weights at step 2,000 and run only the last 1,000 steps. Without a GPU the same switch loads our 11.5M model at step 2,000 and only evaluates and samples it, so you skip the CPU training run."""),
 ("code", r'''
 # Step 1. Runtime check. Run this first; it prints the fix for each problem it finds.
 import os
@@ -71,7 +71,7 @@ print("versions OK", PINS)
 '''),
 ("code", r'''
 # Step 2. Config. Change one value at a time for the experiments.
-FROM_OUR_CHECKPOINT = False   # True loads our step-2,000 weights (T2 only) and trains steps 2,000 to 3,000
+FROM_OUR_CHECKPOINT = False   # True loads our step-2,000 weights. T2 trains steps 2,000 to 3,000; T1 only evaluates and samples them
 SEED = 0
 CONFIGS = {
     "T2": dict(vocab=4096, d=320, layers=8, heads=8, ctx=512, batch=64, lr=1e-3, warmup=200, steps=3000,
@@ -84,8 +84,11 @@ CFG["steps"] = int(os.environ.get("LLT_STEPS", CFG["steps"]))
 OUR_FILES = "https://huggingface.co/aimlcompanion/llm-training-lab/resolve/main/lltTinyStories/"   # our files on the Hugging Face Hub
 CACHE = os.environ.get("LLT_CACHE", "llt_cache")
 os.makedirs(CACHE, exist_ok=True)
-if FROM_OUR_CHECKPOINT and TIER != "T2":
-    raise SystemExit("Our checkpoint is the 11.5M T2 model. Without a GPU, use the recorded runs on the lab page.")
+if FROM_OUR_CHECKPOINT and TIER == "T1":
+    # Our checkpoint is the 11.5M T2 model. On a CPU it gets the T2 shape and steps = 2,000, so step 6
+    # evaluates and samples it and stops before any training step. Step 3 encodes a small train slice only.
+    CFG = dict(CONFIGS["T2"], steps=2000, train_stories=20000)
+    print("No GPU: you get our 11.5M T2 model at step 2,000, not a T1 run of your own. Nothing trains.")
 print(TIER, CFG)
 '''),
 ("code", r'''
@@ -105,7 +108,7 @@ else:
     from datasets import load_dataset
     ds = load_dataset("roneneldan/TinyStories")
     val_text = ds["validation"]["text"]
-    n_train = 400000 if FROM_OUR_CHECKPOINT else CFG["train_stories"]
+    n_train = 400000 if FROM_OUR_CHECKPOINT and TIER == "T2" else CFG["train_stories"]
     train_text = ds["train"].select(range(n_train))["text"] if n_train else ds["train"]["text"]
     if FROM_OUR_CHECKPOINT:
         urllib.request.urlretrieve(OUR_FILES + "tokenizer.json", paths["tokenizer.json"])
@@ -278,21 +281,23 @@ def get_batch():
     y = np.stack([np.asarray(train_ids[i + 1:i + 1 + CFG["ctx"]], dtype=np.int64) for i in ix])
     return torch.from_numpy(x).to(DEV), torch.from_numpy(y).to(DEV)
 
-CKPT = os.path.join(CACHE, "ckpt-" + TIER + "-s" + str(SEED) + ".pt")
+CKPT = os.path.join(CACHE, "ckpt-" + tag + "-s" + str(SEED) + ".pt")   # tag from step 3: runs from scratch and from our checkpoint never share a file
 start, REWARM = 0, 0
 LOG = {"metrics": [], "samples": []}
-if FROM_OUR_CHECKPOINT:
-    urllib.request.urlretrieve(OUR_FILES + "step2000.pt", os.path.join(CACHE, "our-step2000.pt"))
-    model.load_state_dict(torch.load(os.path.join(CACHE, "our-step2000.pt"), map_location=DEV, weights_only=True)["model"])
-    start, REWARM = 2000, 0   # weights only, fresh AdamW state; no re-warmup needed (run lltTinyStories-T2-baseline-s1-resume2000-rewarm0)
-elif os.path.exists(CKPT):
+if os.path.exists(CKPT):
     ck = torch.load(CKPT, map_location=DEV, weights_only=False)
+    if ck.get("origin", tag) != tag:
+        raise SystemExit(CKPT + " comes from a " + ck["origin"] + " run, not " + tag + ". Delete it, or set FROM_OUR_CHECKPOINT to match.")
     model.load_state_dict(ck["model"]); opt.load_state_dict(ck["opt"])
     if scaler and ck.get("scaler"):
         scaler.load_state_dict(ck["scaler"])
     np.random.set_state(ck["np_rng"]); torch.set_rng_state(ck["torch_rng"])
     start, LOG = ck["step"], ck["log"]
     print("resumed at step", start)
+elif FROM_OUR_CHECKPOINT:
+    urllib.request.urlretrieve(OUR_FILES + "step2000.pt", os.path.join(CACHE, "our-step2000.pt"))
+    model.load_state_dict(torch.load(os.path.join(CACHE, "our-step2000.pt"), map_location=DEV, weights_only=True)["model"])
+    start, REWARM = 2000, 0   # weights only, fresh AdamW state; no re-warmup needed (run lltTinyStories-T2-baseline-s1-resume2000-rewarm0)
 
 t_save = time.time(); t_train = time.time()
 for step in range(start, CFG["steps"] + 1):
@@ -326,10 +331,10 @@ for step in range(start, CFG["steps"] + 1):
         opt.step()
     if time.time() - t_save > 20 * 60:
         torch.save({"model": model.state_dict(), "opt": opt.state_dict(), "scaler": scaler.state_dict() if scaler else None,
-                    "np_rng": np.random.get_state(), "torch_rng": torch.get_rng_state(), "step": step + 1, "log": LOG}, CKPT)
+                    "np_rng": np.random.get_state(), "torch_rng": torch.get_rng_state(), "step": step + 1, "log": LOG, "origin": tag}, CKPT)
         t_save = time.time()
 TRAIN_SEC = time.time() - t_train
-print("trained in", round(TRAIN_SEC), "s")
+print("no training steps, our checkpoint evaluated and sampled in" if start == CFG["steps"] else "trained in", round(TRAIN_SEC), "s")
 '''),
 ("code", r'''
 # Step 7. Compare with our runs and save your run file.
@@ -338,6 +343,8 @@ final = LOG["metrics"][-1]
 lo, hi = BANDS[TIER]
 if CFG["steps"] == CONFIGS[TIER]["steps"] and lo is not None:
     print("final val loss", final["valLoss"], "| our band", (lo, hi), "| inside" if lo <= final["valLoss"] <= hi else "| OUTSIDE: check the config cell")
+if FROM_OUR_CHECKPOINT and TIER == "T1":
+    print("our step-2,000 model on your CPU, val loss", final["valLoss"], "| the same weights gave 1.7323 on our T4 and on our CPU")
 run = {"runId": "my-lltTinyStories-" + TIER + "-s" + str(SEED), "module": "lltTinyStories", "tier": TIER,
        "env": {"python": platform.python_version(), "torch": torch.__version__, "gpu": GPU},
        "config": CFG, "seed": SEED, "params": N_PARAMS, "fromOurCheckpoint": FROM_OUR_CHECKPOINT,

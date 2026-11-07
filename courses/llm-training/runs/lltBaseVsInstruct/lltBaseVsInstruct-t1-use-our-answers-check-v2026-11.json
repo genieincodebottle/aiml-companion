@@ -1,0 +1,97 @@
+{
+ "runId": "lltBaseVsInstruct-t1-use-our-answers-check-v2026-11",
+ "module": "lltBaseVsInstruct",
+ "tier": "T1",
+ "label": "check:use-our-answers",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM, other jobs may have shared it"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4"
+ },
+ "notebookCommit": "working tree 2026-11-07 (step 5 USE_OUR_ANSWERS switch, not yet committed)",
+ "config": {
+  "threads": 4,
+  "ourRun": "lltBaseVsInstruct-t1-smollm2-kl-v2026-11 via raw.githubusercontent.com",
+  "order": [
+   "step1",
+   "step2",
+   "step3",
+   "step4",
+   "step5-ours",
+   "step6-after-ours",
+   "step5-computed",
+   "step6-after-computed"
+  ]
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "step5StdoutIdentical": true,
+  "step6StdoutIdentical": true,
+  "secShared": {
+   "step1": 36.3,
+   "step2": 0.2,
+   "step3": 38.2,
+   "step4": 12.8,
+   "step5-ours": 0.7,
+   "step6-after-ours": 82.4,
+   "step5-computed": 660.7,
+   "step6-after-computed": 172.7
+  }
+ },
+ "samples": [
+  {
+   "cell": "step1",
+   "sec": 36.3,
+   "stdout": "How do I make a cup of green tea?\n   base      '\\n\\nHow do I make a cup of green tea?\\n\\nHow do I make a cup of green tea?\\n\\nHow do I make a cu'\n   instruct  '\\n\\nTo make a cup of green tea, start by boiling water in a kettle or pot. Once the water is'\nWhy is the sky blue?\n   base      '\\n\\nThe sky is blue because of a phenomenon called Rayleigh scattering. When sunlight reache'\n   instruct  '<|im_end|>'\nWhat is 15 percent of 80?\n   base      '\\n\\nThe 15 percent of 80 is 12.\\n\\n### How much is 15 percent of 80?\\n\\n15 percent of 80 is'\n   instruct  '<|im_end|>'\n"
+  },
+  {
+   "cell": "step2",
+   "sec": 0.2,
+   "stdout": "<|im_start|>system\nYou are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>\n<|im_start|>user\nWhat is the capital of France?<|im_end|>\n<|im_start|>assistant\n\nBatchEncoding ['input_ids', 'attention_mask'] 37 tokens\n['ĠFrance', '?', '<|im_end|>', 'Ċ', '<|im_start|>', 'ass', 'istant', 'Ċ']\n33 tokens without the generation prompt\ninstruct EOS '<|im_end|>' 2 | base EOS '<|endoftext|>' 0\nbase ships a chat template: False\nsame vocabulary: True 49152 tokens\n"
+  },
+  {
+   "cell": "step3",
+   "sec": 38.2,
+   "stdout": "How do I make a cup of green tea?\n   base      'How do I make a cup of green tea?��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n'\n   instruct  'To make a cup of green tea, you will need the following ingredients:\\n\\n1. Green tea leaves '\nWhy is the sky blue?\n   base      'Why is the sky blue?��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n��\\n'\n   instruct  'The sky is blue because of a phenomenon known as Rayleigh scattering. This occurs when sun'\nWhat is 15 percent of 80?\n   base      'What is 15 percent of 80?��boutiqueassistant\\nWhat is 15 percent of 80?��boutiqueassistant\\n'\n   instruct  'To find 15 percent of 80, you can multiply 80 by 0.15. \\n\\n80 * 0.15 = 12\\n\\nSo'\n"
+  },
+  {
+   "cell": "step4",
+   "sec": 12.8,
+   "stdout": "  1 'The'            KL 2.575 base rank 6\n  2 ' sky'           KL 2.238 base rank 1\n  3 ' is'            KL 0.86 base rank 1\n  4 ' blue'          KL 0.285 base rank 1\n  5 ' because'       KL 0.762 base rank 1\n  6 ' of'            KL 0.391 base rank 1\n  7 ' a'             KL 1.631 base rank 3\n  8 ' phenomenon'    KL 1.538 base rank 3\n  9 ' known'         KL 0.318 base rank 2\n 10 ' as'            KL 0.01 base rank 1\n 11 ' Ray'           KL 0.066 base rank 1\n 12 'leigh'          KL 0.003 base rank 1\n82 tokens, mean KL 0.651 nats\n"
+  },
+  {
+   "cell": "step5-ours",
+   "sec": 0.7,
+   "stdout": "4048 response tokens from 40 prompts\nunshifted, base rank 1   0.74\nmarginal, base rank 2-3  0.163\nshifted, base rank > 3   0.097\npositions 1 to 1 | 0.01 of tokens | 0.068 of the KL\npositions 2 to 5 | 0.039 of tokens | 0.097 of the KL\npositions 6 to 20 | 0.135 of tokens | 0.195 of the KL\npositions 21 to 60 | 0.332 of tokens | 0.32 of the KL\npositions 61 to 128 | 0.484 of tokens | 0.319 of the KL\n[('The', 11), ('the', 8), (\"'\\\\n\\\\n'\", 8), ('This', 7), ('a', 7), ('A', 7), ('Here', 6), ('and', 5), (',', 5), ('To', 4), ('tea', 4), ('1', 4)]\n"
+  },
+  {
+   "cell": "step6-after-ours",
+   "sec": 82.4,
+   "stdout": "chat tokens     mean KL 0.525 | unshifted 0.74 | shifted 0.097 | KL in first 5 tokens 0.165\nplain question  mean KL 0.43 | unshifted 0.761 | shifted 0.077 | KL in first 5 tokens 0.122\n"
+  },
+  {
+   "cell": "step5-computed",
+   "sec": 660.7,
+   "stdout": "4048 response tokens from 40 prompts\nunshifted, base rank 1   0.74\nmarginal, base rank 2-3  0.163\nshifted, base rank > 3   0.097\npositions 1 to 1 | 0.01 of tokens | 0.068 of the KL\npositions 2 to 5 | 0.039 of tokens | 0.097 of the KL\npositions 6 to 20 | 0.135 of tokens | 0.195 of the KL\npositions 21 to 60 | 0.332 of tokens | 0.32 of the KL\npositions 61 to 128 | 0.484 of tokens | 0.319 of the KL\n[('The', 11), ('the', 8), (\"'\\\\n\\\\n'\", 8), ('This', 7), ('a', 7), ('A', 7), ('Here', 6), ('and', 5), (',', 5), ('To', 4), ('tea', 4), ('1', 4)]\n"
+  },
+  {
+   "cell": "step6-after-computed",
+   "sec": 172.7,
+   "stdout": "chat tokens     mean KL 0.525 | unshifted 0.74 | shifted 0.097 | KL in first 5 tokens 0.165\nplain question  mean KL 0.43 | unshifted 0.761 | shifted 0.077 | KL in first 5 tokens 0.122\n"
+  }
+ ],
+ "wallClockNote": "machine possibly shared; only the 0.7 s load time is quoted on the page",
+ "costUSD": 0,
+ "date": "2026-11-07",
+ "command": "notebook code cells in one namespace: steps 1-4, step 5 with USE_OUR_ANSWERS = True, step 6, step 5 computed, step 6 (scratch runner bvi_exec.py)"
+}

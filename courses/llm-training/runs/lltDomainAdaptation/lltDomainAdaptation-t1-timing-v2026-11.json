@@ -1,0 +1,25 @@
+{
+ "runId": "lltDomainAdaptation-t1-timing-v2026-11",
+ "module": "lltDomainAdaptation",
+ "tier": "T1",
+ "label": "timing",
+ "hardware": {
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "threads": 4
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "sentence-transformers": "6.2.0"
+ },
+ "script": "labs/lltDomainAdaptation/measure_timing.py",
+ "results": {
+  "fertility_sec": 4.9,
+  "extend_build_min": 2.0,
+  "rag_index_min": 1.9,
+  "bpb_100_hi_min": 18.7
+ },
+ "note": "serial pass run right after the lltSFT timing pass; models already in the Hugging Face cache; data from the lab's local prep (hi_train.jsonl, hi_test.jsonl)",
+ "date": "2026-11-06"
+}

@@ -1,0 +1,46 @@
+{
+ "date": "2026-11-06",
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "sentence_transformers": "6.2.0"
+ },
+ "pool": {
+  "xquadParagraphs": 240,
+  "distractors": 648,
+  "total": 888,
+  "sha": "9759f51894d45de6"
+ },
+ "questions": {
+  "total": 1190,
+  "train": 725,
+  "test": 465,
+  "trainParagraphs": 140,
+  "testParagraphs": 100
+ },
+ "retrievers": [
+  {
+   "model": "intfloat/multilingual-e5-small",
+   "dim": 384,
+   "recallAt1": 0.8688,
+   "recallAt2": 0.9247,
+   "recallAt5": 0.9656,
+   "encodePoolSec": 375.5
+  }
+ ],
+ "shots": [
+  [
+   "पैंथर्स डिफ़ेंस ने कितने अंक दिए?",
+   "308"
+  ],
+  [
+   "जेरेड एलन के पास कितने करियर सैक थे?",
+   "136"
+  ],
+  [
+   "ल्यूक कुएक्ली ने कितने टैकल रजिस्टर किए?",
+   "118"
+  ]
+ ]
+}

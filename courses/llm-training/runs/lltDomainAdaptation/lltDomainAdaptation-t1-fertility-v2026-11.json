@@ -1,0 +1,51 @@
+{
+ "date": "2026-11-06",
+ "env": {
+  "python": "3.12.3",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3"
+ },
+ "data": {
+  "hi": "HuggingFaceFW/fineweb-2 hin_Deva test, first 1000 docs",
+  "en": "HuggingFaceFW/fineweb-edu sample-10BT train, first 500 docs",
+  "hiWords": 528670,
+  "hiBytes": 6648646,
+  "enWords": 355162,
+  "enBytes": 2190858
+ },
+ "rows": [
+  {
+   "model": "Qwen/Qwen3-0.6B-Base",
+   "lenTokenizer": 151669,
+   "hiTokens": 2385234,
+   "hiTokPerWord": 4.512,
+   "hiBytesPerTok": 2.787,
+   "enTokens": 478282,
+   "enTokPerWord": 1.347,
+   "enBytesPerTok": 4.581,
+   "hiOverEn": 3.35
+  },
+  {
+   "model": "Qwen/Qwen3.5-0.8B-Base",
+   "lenTokenizer": 248077,
+   "hiTokens": 1091126,
+   "hiTokPerWord": 2.064,
+   "hiBytesPerTok": 6.093,
+   "enTokens": 483208,
+   "enTokPerWord": 1.361,
+   "enBytesPerTok": 4.534,
+   "hiOverEn": 1.52
+  },
+  {
+   "model": "HuggingFaceTB/SmolLM2-360M",
+   "lenTokenizer": 49152,
+   "hiTokens": 2811848,
+   "hiTokPerWord": 5.319,
+   "hiBytesPerTok": 2.365,
+   "enTokens": 487780,
+   "enTokPerWord": 1.373,
+   "enBytesPerTok": 4.491,
+   "hiOverEn": 3.87
+  }
+ ]
+}
