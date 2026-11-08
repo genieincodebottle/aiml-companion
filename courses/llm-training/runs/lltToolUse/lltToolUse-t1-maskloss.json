@@ -1,0 +1,75 @@
+{
+ "runId": "lltToolUse-t1-maskloss",
+ "module": "lltToolUse",
+ "tier": "T1",
+ "hardware": {
+  "cpu": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+  "threads": 4
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "peft": "0.21.2",
+  "datasets": "5.1.0"
+ },
+ "date": "2026-11-07",
+ "label": "mask and loss vs TRL",
+ "model": "Qwen/Qwen3.5-0.8B-Base",
+ "results": {
+  "singleturnBadJsonRows": 793,
+  "arrow": {
+   "ourTokens": [
+    1427,
+    702,
+    955,
+    960,
+    594,
+    646,
+    633,
+    607
+   ],
+   "fromListTokens": [
+    1930,
+    1059,
+    1126,
+    1455,
+    964,
+    1016,
+    1003,
+    977
+   ],
+   "jsonFeatureTokens": [
+    1427,
+    702,
+    955,
+    960,
+    594,
+    646,
+    633,
+    607
+   ],
+   "noneArgumentsAdded": 244,
+   "argumentKeysInFirstCall": 16
+  },
+  "header": [
+   248045,
+   74455,
+   198
+  ],
+  "trlInitSec": 16.2,
+  "labelsEqual": true,
+  "batchShape": [
+   4,
+   1427
+  ],
+  "lossShare": 0.1715,
+  "ownLoss": 0.46008850529893996,
+  "trlLoss": 0.46008846163749695,
+  "absDiff": 4.3661443016596024e-08,
+  "labelledTokens": 622
+ }
+}

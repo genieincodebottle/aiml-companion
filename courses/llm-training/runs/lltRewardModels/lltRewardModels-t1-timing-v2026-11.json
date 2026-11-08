@@ -1,0 +1,20 @@
+{
+ "runId": "lltRewardModels-t1-timing-v2026-11",
+ "module": "lltRewardModels",
+ "tier": "T1",
+ "label": "timing",
+ "hardware": {
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "threads": 4
+ },
+ "env": {
+  "python": "3.12.3"
+ },
+ "script": "labs/lltRewardModels/measure_timing.py",
+ "results": {
+  "t1_steps1to4_min": 2.5,
+  "t1_peak_rss_gb": 2.55
+ },
+ "note": "page cells 1 to 4 in one process, 4 torch threads, models and datasets already in the local cache",
+ "date": "2026-11-08"
+}

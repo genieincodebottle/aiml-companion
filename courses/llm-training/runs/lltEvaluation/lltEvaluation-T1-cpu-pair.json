@@ -1,0 +1,323 @@
+{
+ "runId": "lltEvaluation-T1-cpu-pair",
+ "module": "lltEvaluation",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "cpu": "AMD Ryzen 9 5900HS, 4 threads"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "lm_eval": "0.4.13",
+  "datasets": "5.1.0",
+  "numpy": "2.5.4",
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "kernel": null,
+ "config": {
+  "models": [
+   "HuggingFaceTB/SmolLM2-360M",
+   "HuggingFaceTB/SmolLM2-360M-Instruct"
+  ],
+  "limit": 200,
+  "mmluPerSubject": 5,
+  "dtype": "float32",
+  "cells": "c01-c05",
+  "timing": "machine shared with other jobs; timings come from measure_timing.py"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "panel": {
+   "HuggingFaceTB/SmolLM2-360M": {
+    "arc_easy": {
+     "n": 200,
+     "acc": 0.665,
+     "wilson": [
+      0.597,
+      0.7268
+     ],
+     "accNorm": 0.675
+    },
+    "arc_challenge": {
+     "n": 200,
+     "acc": 0.34,
+     "wilson": [
+      0.2779,
+      0.4081
+     ],
+     "accNorm": 0.36
+    },
+    "hellaswag": {
+     "n": 200,
+     "acc": 0.46,
+     "wilson": [
+      0.3923,
+      0.5292
+     ],
+     "accNorm": 0.555
+    },
+    "piqa": {
+     "n": 200,
+     "acc": 0.68,
+     "wilson": [
+      0.6125,
+      0.7407
+     ],
+     "accNorm": 0.72
+    },
+    "winogrande": {
+     "n": 200,
+     "acc": 0.6,
+     "wilson": [
+      0.5308,
+      0.6654
+     ],
+     "accNorm": null
+    },
+    "mmlu": {
+     "n": 285,
+     "acc": 0.2772,
+     "wilson": [
+      0.2285,
+      0.3319
+     ],
+     "accNorm": null
+    }
+   },
+   "HuggingFaceTB/SmolLM2-360M-Instruct": {
+    "arc_easy": {
+     "n": 200,
+     "acc": 0.515,
+     "wilson": [
+      0.4461,
+      0.5833
+     ],
+     "accNorm": 0.495
+    },
+    "arc_challenge": {
+     "n": 200,
+     "acc": 0.285,
+     "wilson": [
+      0.227,
+      0.3512
+     ],
+     "accNorm": 0.35
+    },
+    "hellaswag": {
+     "n": 200,
+     "acc": 0.46,
+     "wilson": [
+      0.3923,
+      0.5292
+     ],
+     "accNorm": 0.555
+    },
+    "piqa": {
+     "n": 200,
+     "acc": 0.685,
+     "wilson": [
+      0.6177,
+      0.7454
+     ],
+     "accNorm": 0.73
+    },
+    "winogrande": {
+     "n": 200,
+     "acc": 0.6,
+     "wilson": [
+      0.5308,
+      0.6654
+     ],
+     "accNorm": null
+    },
+    "mmlu": {
+     "n": 285,
+     "acc": 0.2421,
+     "wilson": [
+      0.196,
+      0.2951
+     ],
+     "accNorm": null
+    }
+   }
+  },
+  "scorer": {
+   "n": 799,
+   "maxGap": 1.9073486328125e-05,
+   "meanGap": 2.7575167607007843e-06,
+   "itemsDiffer": 0,
+   "items": 200
+  },
+  "formats": {
+   "HuggingFaceTB/SmolLM2-360M": {
+    "Question/Answer cloze": 0.665,
+    "Q/A cloze": 0.66,
+    "bare cloze": 0.645,
+    "lettered, MMLU style": 0.28,
+    "lettered, (a) style": 0.28
+   },
+   "HuggingFaceTB/SmolLM2-360M-Instruct": {
+    "Question/Answer cloze": 0.515,
+    "Q/A cloze": 0.565,
+    "bare cloze": 0.52,
+    "lettered, MMLU style": 0.19,
+    "lettered, (a) style": 0.2
+   }
+  },
+  "paired": {
+   "arc_easy": {
+    "gain": -0.15,
+    "paired": [
+     -0.22,
+     -0.08
+    ],
+    "unpaired": [
+     -0.245,
+     -0.05499999999999994
+    ],
+    "agree": 0.71
+   },
+   "arc_challenge": {
+    "gain": -0.055,
+    "paired": [
+     -0.12,
+     0.005
+    ],
+    "unpaired": [
+     -0.14500000000000002,
+     0.03999999999999998
+    ],
+    "agree": 0.785
+   },
+   "hellaswag": {
+    "gain": 0.0,
+    "paired": [
+     -0.03,
+     0.03
+    ],
+    "unpaired": [
+     -0.09500000000000003,
+     0.10000000000000003
+    ],
+    "agree": 0.96
+   },
+   "piqa": {
+    "gain": 0.005,
+    "paired": [
+     -0.03,
+     0.04
+    ],
+    "unpaired": [
+     -0.08499999999999996,
+     0.09999999999999998
+    ],
+    "agree": 0.935
+   },
+   "winogrande": {
+    "gain": 0.0,
+    "paired": [
+     -0.06,
+     0.06
+    ],
+    "unpaired": [
+     -0.09499999999999997,
+     0.09499999999999997
+    ],
+    "agree": 0.81
+   },
+   "mmlu": {
+    "gain": -0.03508771929824561,
+    "paired": [
+     -0.10526315789473684,
+     0.031578947368421054
+    ],
+    "unpaired": [
+     -0.10877192982456141,
+     0.03508771929824561
+    ],
+    "agree": 0.6421052631578947
+   },
+   "ARC-Easy, Question/Answer cloze": {
+    "gain": -0.15,
+    "paired": [
+     -0.22,
+     -0.08
+    ],
+    "unpaired": [
+     -0.245,
+     -0.05499999999999994
+    ],
+    "agree": 0.71
+   },
+   "ARC-Easy, Q/A cloze": {
+    "gain": -0.095,
+    "paired": [
+     -0.155,
+     -0.03
+    ],
+    "unpaired": [
+     -0.18999999999999995,
+     0.0
+    ],
+    "agree": 0.795
+   },
+   "ARC-Easy, bare cloze": {
+    "gain": -0.125,
+    "paired": [
+     -0.185,
+     -0.065
+    ],
+    "unpaired": [
+     -0.22000000000000003,
+     -0.029999999999999916
+    ],
+    "agree": 0.785
+   },
+   "ARC-Easy, lettered, MMLU style": {
+    "gain": -0.09,
+    "paired": [
+     -0.18,
+     0.0
+    ],
+    "unpaired": [
+     -0.17500000000000002,
+     -0.009999999999999981
+    ],
+    "agree": 0.59
+   },
+   "ARC-Easy, lettered, (a) style": {
+    "gain": -0.08,
+    "paired": [
+     -0.17,
+     0.01
+    ],
+    "unpaired": [
+     -0.16499999999999998,
+     0.0
+    ],
+    "agree": 0.57
+   }
+  },
+  "timing": {
+   "t1_index_s": 180,
+   "t1_harness_base_s": 935,
+   "t1_harness_tuned_s": 927,
+   "t1_steps1to5_min": 67.3,
+   "t1_peak_gb": 5.62,
+   "script": "labs/lltEvaluation/measure_timing.py",
+   "machine": "AMD Ryzen 9 5900HS laptop, 4 threads, shared with other jobs at the time",
+   "date": "2026-11-08"
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-07"
+}

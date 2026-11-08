@@ -1,0 +1,60 @@
+{
+ "runId": "lltRewardModels-t1-trlfilter",
+ "module": "lltRewardModels",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "trainer": "trl 1.17.1 RewardTrainer",
+  "pairs": "first 1,000 of train_prefs shuffled with seed 0, conversational",
+  "max_length": [
+   512,
+   1024
+  ]
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "pairsGiven": 1000,
+  "maxLength512": {
+   "kept": 523,
+   "droppedShare": 0.477,
+   "warningsLogged": "",
+   "progressBarSeen": true,
+   "stderrTail": "#7| 971/1000 [00:03<00:00, 307.03 examples/s]\rTokenizing train dataset: 100%|##########| 1000/1000 [00:03<00:00, 268.39 examples/s]\n\rFiltering train >512 tokens:   0%|          | 0/1000 [00:00<?, ? examples/s]\rFiltering train >512 tokens: 100%|##########| 1000/1000 [00:00<00:00, 10520.16 examples/s]"
+  },
+  "maxLength1024": {
+   "kept": 897,
+   "droppedShare": 0.103,
+   "warningsLogged": "",
+   "progressBarSeen": true,
+   "stderrTail": "0/1000 [00:03<00:00, 302.39 examples/s]\n\rFiltering train >1024 tokens:   0%|          | 0/1000 [00:00<?, ? examples/s]\rFiltering train >1024 tokens: 100%|##########| 1000/1000 [00:00<00:00, 9905.10 examples/s]\rFiltering train >1024 tokens: 100%|##########| 1000/1000 [00:00<00:00, 9711.64 examples/s]"
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-07",
+ "command": "python.exe measure.py trlfilter"
+}

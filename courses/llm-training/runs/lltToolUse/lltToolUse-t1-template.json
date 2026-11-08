@@ -1,0 +1,41 @@
+{
+ "runId": "lltToolUse-t1-template",
+ "module": "lltToolUse",
+ "tier": "T1",
+ "hardware": {
+  "cpu": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+  "threads": 4
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "peft": "0.21.2",
+  "datasets": "5.1.0"
+ },
+ "date": "2026-11-07",
+ "label": "template",
+ "results": {
+  "qwen3.5": {
+   "eos": "<|endoftext|>",
+   "pad": "<|endoftext|>",
+   "vocab": 248077,
+   "reply": "<tool_call>\n<function=get_weather>\n<parameter=city>\nPune\n</parameter>\n<parameter=days>\n3\n</parameter>\n<parameter=metric>\nTrue\n</parameter>\n</function>\n</tool_call><|im_end|>\n",
+   "promptEndsWith": "|im_start|>assistant\n<think>\n\n</think>\n\n",
+   "toolPromptTokens": 276,
+   "trlTrainingTemplate": "available"
+  },
+  "qwen3": {
+   "eos": "<|endoftext|>",
+   "pad": "<|endoftext|>",
+   "vocab": 151669,
+   "reply": "<think>\n\n</think>\n\n<tool_call>\n{\"name\": \"get_weather\", \"arguments\": {\"city\": \"Pune\", \"days\": 3, \"metric\": true}}\n</tool_call><|im_end|>\n",
+   "promptEndsWith": "3 days?<|im_end|>\n<|im_start|>assistant\n",
+   "toolPromptTokens": 157,
+   "trlTrainingTemplate": "ValueError: The chat template is not training-compatible (missing prefix-preservation or `{% generation %}` markers) and patching is"
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "runId": "lltToolUse-t1-cells",
+ "module": "lltToolUse",
+ "tier": "T1",
+ "label": "page cells 1-3 and 5-7 (steps 1, 2, 3a, 4, 5, 6) run in order on CPU, final page code",
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "datasets": "5.1.0",
+  "bfcl_eval": "2026.3.23 (unpacked wheel)"
+ },
+ "date": "2026-11-08",
+ "note": "wall times here were taken on a shared machine and are not quoted; measure_timing.py gives the quiet-machine figures",
+ "cells": {
+  "cell01_step1.py": {
+   "stdout": "== Qwen/Qwen3.5-2B-Base | the tool prompt adds 275 tokens | the prompt ends '>assistant\\n<think>\\n\\n</think>\\n\\n'\n<tool_call>\n<function=get_weather>\n<parameter=city>\nPune\n</parameter>\n<parameter=days>\n3\n</parameter>\n<parameter=metric>\nTrue\n</parameter>\n</function>\n</tool_call><|im_end|>\n\n== Qwen/Qwen3-1.7B-Base | the tool prompt adds 156 tokens | the prompt ends 'm_end|>\\n<|im_start|>assistant\\n'\n<think>\n\n</think>\n\n<tool_call>\n{\"name\": \"get_weather\", \"arguments\": {\"city\": \"Pune\", \"days\": 3, \"metric\": true}}\n</tool_call><|im_end|>\n\n"
+  },
+  "cell02_step2.py": {
+   "stdout": "<tool_call>\n{\"name\": \"get_camera_live_feed\", \"arguments\": {\"camera_id\": \"front_door\", \"stream_quality\": \"1080p\"}}\n</tool_call>\n<tool_call>\n{\"name\": \"r\n{'type': 'function', 'function': {'name': 'get_camera_live_feed', 'arguments': {'camera_id': 'front_door', 'stream_quality': '1080p'}}}\nsingleturn | kept 600 | dropped {'bad_json': 0, 'too_long': 30, 'no_tools': 0}\nglaive | kept 600 | dropped {'bad_json': 0, 'too_long': 0, 'no_tools': 0}\n1200 training conversations | singleturn rows with a call that is not valid JSON: 793 of 1893\n"
+  },
+  "cell03_step3.py": {
+   "stdout": "<|im_start|>user\nHi, can you tell me the current stock price of Apple?<|im_end|>\n<|im_start|>assistant\n[<think>][\n\n][</think>][\n\n][<tool_call>][\n][<][function][=get][_stock][_price][>][\n][<][parameter][=][company][>][\n][Apple][\n][</][parameter][>][\n][</][function][>][\n][</tool_call>][<|im_end|>][\n]<|im_start|>user\n<tool_response>\n{\"name\": \"get_stock_price\", \"content\": {\"stock_price\": \"$150.75\"}}\n</tool_response><|im_end|>\n<|im_start|>assistant\n[<think>][\n\n][</think>][\n\n][The][ current][ stock][ price][ of][ Apple][ is][ $][1][5][0][.][7][5][.][<|im_end|>][\n]<|im_start|>user\nThat's great. Can you also tell me the stock price for Microsoft?<|im_end|>\n<|im_start|>assistant\n[<think>][\n\n][</think>][\n\n][<tool_call>][\n][<][function][=get][_stock][_price][>][\n][<][parameter][=][company][>][\n][Microsoft][\n][</][parameter][>][\n][</][function][>][\n][</tool_call>][<|im_end|>][\n]<|im_start|>user\n<too\nsingleturn | tokens 582533 | share with loss 0.141\nglaive | tokens 403953 | share with loss 0.229\n"
+  },
+  "cell05_step4.py": {
+   "stdout": "310 items {'simple_python': 100, 'multiple': 50, 'parallel': 50, 'parallel_multiple': 50, 'irrelevance': 60}\nFind the area of a triangle with a base of 10 units and height of 5 units.\n{'type': 'integer', 'description': 'The base of the triangle.'} -> object\nanswer: [{'calculate_triangle_area': {'base': [10], 'height': [5], 'unit': ['units', '']}}]\n"
+  },
+  "cell06_step5.py": {
+   "stdout": "<tool_call>\n<function=spotify.play>\n<parameter=artist>\nTaylor Swift\n</parameter>\n<parameter=duration>\n20\n</parameter>\n</function>\n</tool_call>\n<tool_call>\n<function=spotify.play>\n<parameter=artist>\nMaroon 5\n</parameter>\n<parameter=duration>\n15\n</parameter>\n</function>\n</tool_call>\nXML parser : [{'spotify.play': {'artist': 'Taylor Swift', 'duration': 20}}, {'spotify.play': {'artist': 'Maroon 5', 'duration': 15}}]\nJSON parser: None\nQwen3 reply: <think>\n\n</think>\n\n<tool_call>\n{\"name\": \"spotify.play\", \"arguments\": {\"artist\": \"Taylor Swift\", \"duration\": 20}}\n</tool_\n"
+  },
+  "cell07_step6.py": {
+   "stdout": "Qwen3.5 XML | right answers scored correct, ours 308 BFCL 308 of 310 | agree 310\nQwen3 JSON | right answers scored correct, ours 309 BFCL 309 of 310 | agree 310\n"
+  }
+ }
+}

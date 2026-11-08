@@ -1,0 +1,74 @@
+{
+ "runId": "lltEvaluation-T2-peak-memory",
+ "module": "lltEvaluation",
+ "tier": "T2",
+ "label": "analysis",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "kernel": "genieincodebottle/llt-eval-peak v1",
+ "env": {
+  "image": "Kaggle GPU image 2026-11-07",
+  "pins": "same install cell as llt-eval-main v2"
+ },
+ "config": {
+  "what": "torch.cuda.max_memory_allocated and max_memory_reserved, reset before each cell; cells c01, c02, c06, c07 rerun unchanged; c03's definitions executed with its recorded per-item output from llt-eval-main v2; c10's peak (9.17 GB) is recorded by the cell in llt-eval-main v2",
+  "softmaxCheck": "lm-eval arc_easy on Qwen3-1.7B-Base with HFLM.softmax_dtype = float32, compared with our float32 scorer on the same 1,000 items"
+ },
+ "evals": {
+  "cells": {
+   "c01_harness": {
+    "seconds": 697.3,
+    "peakAllocatedGB": 11.74,
+    "peakReservedGB": 12.88
+   },
+   "c02_scorer": {
+    "seconds": 40.0,
+    "peakAllocatedGB": 7.79,
+    "peakReservedGB": 7.93
+   },
+   "softmax_fp32_check": {
+    "seconds": 41.6,
+    "peakAllocatedGB": 8.49,
+    "peakReservedGB": 8.94
+   },
+   "c03_defs_and_recorded_formats": {
+    "seconds": 0.5,
+    "peakAllocatedGB": 6.89,
+    "peakReservedGB": 8.94
+   },
+   "c06_generative": {
+    "seconds": 382.5,
+    "peakAllocatedGB": 12.73,
+    "peakReservedGB": 14.0
+   },
+   "c07_contamination": {
+    "seconds": 291.5,
+    "peakAllocatedGB": 14.54,
+    "peakReservedGB": 15.07
+   }
+  },
+  "maxPeakAllocatedGB": 14.54,
+  "c10PeakAllocatedGB_fromV2": 9.17,
+  "softmax": {
+   "n": 3997,
+   "fp16": {
+    "maxGap": 0.10383033752441406,
+    "meanGap": 0.016151589835200098,
+    "itemsDiffer": 1
+   },
+   "fp32": {
+    "maxGap": 0.10625076293945312,
+    "meanGap": 0.015708510286515136,
+    "itemsDiffer": 1,
+    "harnessAcc": 0.727
+   },
+   "pickDiffers": 294
+  },
+  "errors": [],
+  "skipped": null
+ },
+ "date": "2026-11-07"
+}

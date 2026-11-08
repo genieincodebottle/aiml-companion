@@ -1,0 +1,91 @@
+{
+ "runId": "lltRewardModels-T2-notebook",
+ "module": "lltRewardModels",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.0
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "source": "notebook install cell pins; runtime line of the kernel log"
+ },
+ "notebookCommit": null,
+ "config": {
+  "kernel": "llt-rm-notebook v2",
+  "notebook": "labs/lltRewardModels/lltRewardModels.ipynb (same cells, plus a stdout tee)",
+  "RUN_TRAINING": true,
+  "RUN_EXPERIMENT": false
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 1,
+   "trainLoss75": 0.7705,
+   "batchAcc75": 0.25,
+   "sec": 3
+  },
+  {
+   "step": 75,
+   "trainLoss75": 0.687,
+   "batchAcc75": 0.56,
+   "sec": 162
+  },
+  {
+   "step": 150,
+   "trainLoss75": 0.6481,
+   "batchAcc75": 0.637,
+   "sec": 343
+  },
+  {
+   "step": 225,
+   "trainLoss75": 0.6315,
+   "batchAcc75": 0.652,
+   "sec": 536
+  },
+  {
+   "step": 300,
+   "trainLoss75": 0.6231,
+   "batchAcc75": 0.653,
+   "sec": 730
+  },
+  {
+   "step": 375,
+   "trainLoss75": 0.6172,
+   "batchAcc75": 0.643,
+   "sec": 926
+  }
+ ],
+ "evals": {
+  "cellEndSecAfterInstall": {
+   "cell01_step1": 0.0,
+   "cell02_step2": 36.5,
+   "cell03_step3": 60.6,
+   "cell04_step4": 134.8,
+   "cell05_step5": 1062.2,
+   "cell06_step6": 1122.1,
+   "cell07_step7": 1122.1,
+   "cell08_step8": 1179.4,
+   "cell09_step9": 1229.9
+  },
+  "kernelSec": 1274.3,
+  "stdout": "CELL cell01_step1 start 0.0\nP(chosen preferred) at margin 0.5: 0.6225 | loss 0.4741\nloss at margin 0: 0.6931 | ln 2 = 0.6931\nadd 7 to both rewards: 0.4741 | scale the margin by 4: 0.1269\nanalytic dL/dr_chosen [-0.08965 -0.22999 -0.16667] | finite difference [-0.08965 -0.22999 -0.16667]\ngradient sums to zero per pair: True\nCELL cell01_step1 end 0.0\nCELL cell02_step2 start 0.0\nLinear(in_features=960, out_features=1, bias=False) | parameters 361822080\nrows of 39 and 47 tokens, last token of row 0: '\\n'\nValueError: Cannot handle batch sizes > 1 if no padding token is defined.\nrewards [-0.7736781239509583, -0.6970269680023193] | by hand [-0.7736781239509583, -0.697026789188385] | equal True\nCELL cell02_step2 end 36.5\nCELL cell03_step3 start 36.5\ntrain | kept 3000 of 3331 read | chosen longer 0.554 | equal GPT-4 scores 0.118 | mean tokens 407\nheld-out | kept 1000 of 1113 read | chosen longer 0.575 | equal GPT-4 scores 0.13 | mean tokens 415\nlength-only rule on held-out, pick the longer reply: 0.575\nCELL cell03_step3 end 60.6\nCELL cell04_step4 start 60.7\nsame token ids as yours: True\nbatch [8, 982] | own 0.7014636397361755 | TRL 0.7014636397361755 | difference 0.0\nrewards chosen [-0.743, -1.365, -1.237, -0.994] | rejected [-0.534, -1.888, -1.018, -0.924]\nCELL cell04_step4 end 134.8\nCELL cell05_step5 start 134.9\nstep 1 of 375 | loss 0.7705 | batch accuracy 0.25 | seconds 3\nstep 75 of 375 | loss 0.687 | batch accuracy 0.56 | seconds 162\nstep 150 of 375 | loss 0.6481 | batch accuracy 0.637 | seconds 343\nstep 225 of 375 | loss 0.6315 | batch accuracy 0.652 | seconds 536\nstep 300 of 375 | loss 0.6231 | batch accuracy 0.653 | seconds 730\nstep 375 of 375 | loss 0.6172 | batch accuracy 0.643 | seconds 926\npeak GB 8.84\nCELL cell05_step5 end 1062.2\nCELL cell06_step6 start 1062.2\naccuracy 0.642 95% CI 0.612 to 0.672 | without equal-score pairs 0.667\nchosen longer 0.758 of 575 | chosen shorter 0.482 of 421 | length-only rule 0.575\ncorrelation of reward with length 0.589\nCELL cell06_step6 end 1122.1\nCELL cell07_step7 start 1122.1\nCELL cell07_step7 end 1122.1\nCELL cell08_step8 start 1122.2\nn    KL nats   proxy    gold     new tokens\n1    0.0    -1.216    -4.847    92.0\n2    0.193    -1.044    -4.491    96.9\n4    0.636    -0.908    -4.367    104.0\n8    1.204    -0.791    -4.385    111.7\n16    1.835    -0.685    -4.479    118.9\n32    2.497    -0.586    -4.604    124.6\n64    3.175    -0.496    -4.753    130.7\ngold picking by gold, n = 64: 1.044\nCELL cell08_step8 end 1179.4\nCELL cell09_step9 start 1179.4\nFactuality 0.367\nPrecise IF 0.2\nMath 0.367\nSafety 0.25\nFocus 0.05\nmean of the five 0.247 | random guessing 0.25\nCELL cell09_step9 end 1229.9\n"
+ },
+ "samples": [],
+ "wallClockSec": 1274.3,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-07",
+ "command": "python.exe record_notebook.py",
+ "notes": "Kaggle kernel llt-rm-notebook v2, 2026-11-07. v1 failed in its first second (the stdout tee lacked isatty)."
+}

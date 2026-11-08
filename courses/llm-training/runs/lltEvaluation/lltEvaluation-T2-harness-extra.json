@@ -1,0 +1,272 @@
+{
+ "runId": "lltEvaluation-T2-harness-extra",
+ "module": "lltEvaluation",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.6,
+  "note": "page cells on GPU 0; the experiment queue (worker_eval.py) ran on GPU 1 in v1 only, and was off in v2"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "numpy": "2.1.3",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "datasets": "5.1.0",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "lm-eval": "0.4.13",
+  "nltk": "3.10.4",
+  "langdetect": "1.0.9",
+  "image": "Kaggle GPU image 2026-11-07"
+ },
+ "notebookCommit": null,
+ "kernel": "genieincodebottle/llt-eval-main v1 (experiment queue, GPU 1)",
+ "config": {
+  "models": [
+   "Qwen/Qwen3-0.6B-Base",
+   "Qwen/Qwen3.5-2B-Base",
+   "Qwen/Qwen3.5-2B",
+   "HuggingFaceTB/SmolLM2-360M-Instruct",
+   "HuggingFaceTB/SmolLM2-360M"
+  ],
+  "panel": "same tasks and limits as lltEvaluation-T2-harness, lm-eval batch 16"
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "Qwen/Qwen3-0.6B-Base": {
+   "arc_easy": {
+    "n": 1000,
+    "acc": 0.636,
+    "accWilson": [
+     0.6057,
+     0.6652
+    ],
+    "stderr": 0.0152,
+    "accNorm": 0.564
+   },
+   "arc_challenge": {
+    "n": 1000,
+    "acc": 0.33,
+    "accWilson": [
+     0.3016,
+     0.3597
+    ],
+    "stderr": 0.0149,
+    "accNorm": 0.374
+   },
+   "hellaswag": {
+    "n": 1000,
+    "acc": 0.413,
+    "accWilson": [
+     0.3829,
+     0.4438
+    ],
+    "stderr": 0.0156,
+    "accNorm": 0.501
+   },
+   "piqa": {
+    "n": 1000,
+    "acc": 0.71,
+    "accWilson": [
+     0.6811,
+     0.7373
+    ],
+    "stderr": 0.0144,
+    "accNorm": 0.701
+   },
+   "winogrande": {
+    "n": 1000,
+    "acc": 0.599,
+    "accWilson": [
+     0.5683,
+     0.6289
+    ],
+    "stderr": 0.0155,
+    "accNorm": null
+   },
+   "mmlu": {
+    "n": 1140,
+    "acc": 0.5105,
+    "accWilson": [
+     0.4815,
+     0.5395
+    ],
+    "stderr": 0.0144,
+    "accNorm": null
+   },
+   "seconds": 167.2,
+   "peakGB": 10.91,
+   "formatsSeconds": 131.9,
+   "formats": {
+    "Question/Answer cloze": 0.636,
+    "Q/A cloze": 0.684,
+    "bare cloze": 0.581,
+    "lettered, MMLU style": 0.811,
+    "lettered, (a) style": 0.8
+   }
+  },
+  "Qwen/Qwen3.5-2B-Base": {
+   "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 7.40 GiB. GPU 0 has a total capacity of 14.56 GiB of which 3.49 GiB is free. Including non-PyTorch memory, this process has 11.07 GiB memory in use. Of the allocated memory 10.91 GiB is allocated by PyTorch, and 28.18 MiB is reserved by PyTorch",
+   "wallSec": 330.4
+  },
+  "Qwen/Qwen3.5-2B": {
+   "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 7.40 GiB. GPU 0 has a total capacity of 14.56 GiB of which 3.49 GiB is free. Including non-PyTorch memory, this process has 11.07 GiB memory in use. Of the allocated memory 10.91 GiB is allocated by PyTorch, and 28.18 MiB is reserved by PyTorch",
+   "wallSec": 334.2
+  },
+  "HuggingFaceTB/SmolLM2-360M-Instruct": {
+   "arc_easy": {
+    "n": 1000,
+    "acc": 0.548,
+    "accWilson": [
+     0.517,
+     0.5786
+    ],
+    "stderr": 0.0157,
+    "accNorm": 0.5
+   },
+   "arc_challenge": {
+    "n": 1000,
+    "acc": 0.313,
+    "accWilson": [
+     0.285,
+     0.3424
+    ],
+    "stderr": 0.0147,
+    "accNorm": 0.333
+   },
+   "hellaswag": {
+    "n": 1000,
+    "acc": 0.409,
+    "accWilson": [
+     0.3789,
+     0.4398
+    ],
+    "stderr": 0.0156,
+    "accNorm": 0.527
+   },
+   "piqa": {
+    "n": 1000,
+    "acc": 0.717,
+    "accWilson": [
+     0.6883,
+     0.744
+    ],
+    "stderr": 0.0143,
+    "accNorm": 0.723
+   },
+   "winogrande": {
+    "n": 1000,
+    "acc": 0.562,
+    "accWilson": [
+     0.5311,
+     0.5925
+    ],
+    "stderr": 0.0157,
+    "accNorm": null
+   },
+   "mmlu": {
+    "n": 1140,
+    "acc": 0.2439,
+    "accWilson": [
+     0.2198,
+     0.2696
+    ],
+    "stderr": 0.0127,
+    "accNorm": null
+   },
+   "seconds": 136.8,
+   "peakGB": 4.14,
+   "formatsSeconds": 76.3,
+   "formats": {
+    "Question/Answer cloze": 0.548,
+    "Q/A cloze": 0.574,
+    "bare cloze": 0.555,
+    "lettered, MMLU style": 0.248,
+    "lettered, (a) style": 0.239
+   }
+  },
+  "HuggingFaceTB/SmolLM2-360M": {
+   "arc_easy": {
+    "n": 1000,
+    "acc": 0.702,
+    "accWilson": [
+     0.6729,
+     0.7295
+    ],
+    "stderr": 0.0145,
+    "accNorm": 0.682
+   },
+   "arc_challenge": {
+    "n": 1000,
+    "acc": 0.366,
+    "accWilson": [
+     0.3367,
+     0.3963
+    ],
+    "stderr": 0.0152,
+    "accNorm": 0.384
+   },
+   "hellaswag": {
+    "n": 1000,
+    "acc": 0.413,
+    "accWilson": [
+     0.3829,
+     0.4438
+    ],
+    "stderr": 0.0156,
+    "accNorm": 0.531
+   },
+   "piqa": {
+    "n": 1000,
+    "acc": 0.724,
+    "accWilson": [
+     0.6955,
+     0.7508
+    ],
+    "stderr": 0.0141,
+    "accNorm": 0.729
+   },
+   "winogrande": {
+    "n": 1000,
+    "acc": 0.584,
+    "accWilson": [
+     0.5532,
+     0.6142
+    ],
+    "stderr": 0.0156,
+    "accNorm": null
+   },
+   "mmlu": {
+    "n": 1140,
+    "acc": 0.2719,
+    "accWilson": [
+     0.2469,
+     0.2985
+    ],
+    "stderr": 0.0132,
+    "accNorm": null
+   },
+   "seconds": 264.4,
+   "peakGB": 4.14,
+   "formatsSeconds": 78.1,
+   "formats": {
+    "Question/Answer cloze": 0.702,
+    "Q/A cloze": 0.692,
+    "bare cloze": 0.67,
+    "lettered, MMLU style": 0.255,
+    "lettered, (a) style": 0.275
+   }
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-07"
+}

@@ -1,0 +1,75 @@
+{
+ "runId": "lltToolUse-t1-data",
+ "module": "lltToolUse",
+ "tier": "T1",
+ "hardware": {
+  "cpu": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+  "threads": 4
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "peft": "0.21.2",
+  "datasets": "5.1.0"
+ },
+ "date": "2026-11-07",
+ "label": "data",
+ "results": {
+  "singleturn": {
+   "rowsInFile": 1893,
+   "kept": 600,
+   "dropped": {
+    "bad_json": 0,
+    "too_long": 30,
+    "no_tools": 0
+   },
+   "rowsRead": 630,
+   "meanTokens": 970.9,
+   "maxTokens": 1519,
+   "calls": 1167,
+   "assistantTurnsWithCalls": 598,
+   "toolResponses": 0
+  },
+  "glaive": {
+   "rowsInFile": 5209,
+   "kept": 600,
+   "dropped": {
+    "bad_json": 0,
+    "too_long": 0,
+    "no_tools": 0
+   },
+   "rowsRead": 600,
+   "meanTokens": 673.3,
+   "maxTokens": 1212,
+   "calls": 1130,
+   "assistantTurnsWithCalls": 1130,
+   "toolResponses": 1130
+  },
+  "bfclSubset": {
+   "items": 310,
+   "byCategory": {
+    "simple_python": 100,
+    "multiple": 50,
+    "parallel": 50,
+    "parallel_multiple": 50,
+    "irrelevance": 60
+   },
+   "functionNames": 377,
+   "namesAlsoInTraining": [
+    "book_hotel",
+    "calculate_area",
+    "calculate_average",
+    "calculate_bmi",
+    "convert_currency",
+    "find_restaurants",
+    "get_news",
+    "get_song_lyrics",
+    "get_stock_price"
+   ]
+  }
+ }
+}

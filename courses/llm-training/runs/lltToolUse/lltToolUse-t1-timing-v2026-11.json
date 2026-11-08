@@ -1,0 +1,21 @@
+{
+ "runId": "lltToolUse-t1-timing-v2026-11",
+ "module": "lltToolUse",
+ "tier": "T1",
+ "label": "timing",
+ "hardware": {
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM",
+  "threads": 4
+ },
+ "env": {
+  "python": "3.12.3"
+ },
+ "script": "labs/lltToolUse/measure_timing.py",
+ "results": {
+  "t1_steps_min": 4.1,
+  "t1_check_min": 3.7,
+  "t1_peak_gb": 8.67
+ },
+ "note": "page cells 1 to 7 (steps 1 to 6) in one process, 4 torch threads, models and datasets already in the local cache; second of two runs kept (first: check 2.9 min, peak 8.46 GB). t1_steps_min is the sum of the seven per-cell times in run_steps_out.json (8.5+12.4+3.2+221.2+0.1+0.0+0.4 s = 245.8 s), because the script's own total printed 0.0 (run_steps.py reassigns t0 inside the exec'd code).",
+ "date": "2026-11-08"
+}

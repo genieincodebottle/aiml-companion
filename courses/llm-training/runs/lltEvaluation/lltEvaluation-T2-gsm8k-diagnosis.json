@@ -1,0 +1,82 @@
+{
+ "runId": "lltEvaluation-T2-gsm8k-diagnosis",
+ "module": "lltEvaluation",
+ "tier": "T2",
+ "label": "broken:max-new-tokens",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.6,
+  "note": "page cells on GPU 0; the experiment queue (worker_eval.py) ran on GPU 1 in v1 only, and was off in v2"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "numpy": "2.1.3",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "datasets": "5.1.0",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "lm-eval": "0.4.13",
+  "nltk": "3.10.4",
+  "langdetect": "1.0.9",
+  "image": "Kaggle GPU image 2026-11-07"
+ },
+ "notebookCommit": null,
+ "kernel": "genieincodebottle/llt-eval-main v1 (experiment queue, GPU 1)",
+ "config": {
+  "task": "lm-eval gsm8k, 8-shot, batch 16, HF backend, fp16",
+  "cause": "Qwen3 base checkpoints ship generation_config.max_new_tokens = 2048, which overrides lm-eval's max_length",
+  "fix": "lm.model.generation_config.max_new_tokens = None"
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "asis-0.6b": {
+   "model": "Qwen/Qwen3-0.6B-Base",
+   "mode": "asis",
+   "limit": 16,
+   "seconds": null,
+   "strict": null,
+   "flexible": null,
+   "meanReplyTokens": null,
+   "maxReplyTokens": null,
+   "wallSec": 300.3,
+   "capSec": 300,
+   "timedOut": true
+  },
+  "fix-0.6b": {
+   "model": "Qwen/Qwen3-0.6B-Base",
+   "mode": "fix",
+   "limit": 16,
+   "seconds": 62.0,
+   "strict": 0.25,
+   "flexible": 0.25,
+   "meanReplyTokens": 164.9375,
+   "maxReplyTokens": 256,
+   "wallSec": 74.5,
+   "capSec": 300,
+   "timedOut": false
+  },
+  "fix-1.7b-250": {
+   "model": "Qwen/Qwen3-1.7B-Base",
+   "mode": "fix",
+   "limit": 250,
+   "seconds": 649.7,
+   "strict": 0.724,
+   "flexible": 0.748,
+   "meanReplyTokens": 115.556,
+   "maxReplyTokens": 256,
+   "wallSec": 661.2,
+   "capSec": 900,
+   "timedOut": false
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-07"
+}

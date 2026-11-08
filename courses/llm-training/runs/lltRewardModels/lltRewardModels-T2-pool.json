@@ -1,0 +1,140 @@
+{
+ "runId": "lltRewardModels-T2-pool",
+ "module": "lltRewardModels",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "policy": "HuggingFaceTB/SmolLM2-360M-Instruct",
+  "dtype": "float32",
+  "prompts": 64,
+  "n": 64,
+  "newTokens": 256,
+  "temperature": 1.0,
+  "top_p": 1.0,
+  "top_k": 0,
+  "promptRule": "first 64 test_prefs prompts, prompt <= 200 tokens, chosen reference <= 160 tokens",
+  "gold": "Skywork/Skywork-Reward-V2-Qwen3-1.7B fp16, model-card chat format"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "sample": {
+   "completions": 4096,
+   "totalGenSec": 1844.9,
+   "batchSec": [
+    70.6,
+    24.0,
+    53.7,
+    74.3,
+    65.2,
+    49.2,
+    26.1,
+    43.6,
+    74.6,
+    64.8,
+    50.9,
+    58.2,
+    62.0,
+    71.8,
+    54.7,
+    52.1,
+    48.9,
+    73.8,
+    73.2,
+    65.6,
+    70.8,
+    68.3,
+    39.7,
+    56.4,
+    49.5,
+    54.8,
+    71.7,
+    78.0,
+    56.0,
+    47.5,
+    72.1,
+    22.8
+   ],
+   "peakMemGB": 6.73,
+   "endedShare": 0.86083984375,
+   "meanNewTokens": 91.994873046875,
+   "loadSec": 7.5
+  },
+  "gold": {
+   "loadSec": 28.2,
+   "residentGB": 3.44,
+   "peakMemGB": 4.13,
+   "poolSec": 157.7,
+   "poolSeqPerSec": 25.97,
+   "heldSec": 183.7,
+   "heldOut": {
+    "n": 1000,
+    "acc": 0.758,
+    "accNoScoreTie": 0.7931034482758621,
+    "nScoreTie": 130,
+    "accChosenLonger": 0.8452173913043478,
+    "nChosenLonger": 575,
+    "accChosenShorter": 0.6413301662707839,
+    "nChosenShorter": 421,
+    "lengthOnlyAcc": 0.575,
+    "meanMargin": 3.392671081542969,
+    "pearsonRewardLength": 0.2808712202863788
+   },
+   "heldOutCapped": 0,
+   "rb2": {
+    "Factuality": {
+     "n": 60,
+     "acc": 0.6833333333333333
+    },
+    "Precise IF": {
+     "n": 60,
+     "acc": 0.45
+    },
+    "Math": {
+     "n": 60,
+     "acc": 0.7333333333333333
+    },
+    "Safety": {
+     "n": 60,
+     "acc": 0.9333333333333333
+    },
+    "Focus": {
+     "n": 60,
+     "acc": 0.8833333333333333
+    }
+   },
+   "rb2Mean": 0.7366666666666666,
+   "rb2Sec": 144.6,
+   "exampleRendered": "<|im_start|>user\nName a fruit.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\nA mango.<|im_end|>\n",
+   "padToken": "<|vision_pad|>"
+  },
+  "goldPoolMean": -4.8466473538428545,
+  "goldPoolStd": 4.396240727563206,
+  "goldVsLengthPearson": -0.47836031097057247,
+  "goldEndedMean": -4.2346365566762145,
+  "goldCappedMean": -8.632524671052632
+ },
+ "samples": [],
+ "wallClockSec": 2418.8,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-07",
+ "command": "python.exe C:/projects/aiml-companion/courses/llm-training/labs/lltRewardModels/record_gpu.py",
+ "notes": "Kaggle kernel llt-rm-main v1. Gold held-out accuracy uses the gold model's own chat format."
+}

@@ -1,0 +1,106 @@
+{
+ "runId": "lltToolUse-t1-specialtokens",
+ "module": "lltToolUse",
+ "tier": "T1",
+ "hardware": {
+  "cpu": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+  "threads": 4
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "peft": "0.21.2",
+  "datasets": "5.1.0"
+ },
+ "date": "2026-11-07",
+ "label": "special-token embedding rows",
+ "results": {
+  "Qwen/Qwen3-1.7B-Base": {
+   "tied": true,
+   "rows": 151936,
+   "medianNorm": 1.6223,
+   "special": {
+    "<tool_call>": {
+     "id": 151657,
+     "norm": 0.3748
+    },
+    "</tool_call>": {
+     "id": 151658,
+     "norm": 0.3748
+    },
+    "<|im_end|>": {
+     "id": 151645,
+     "norm": 0.3748
+    },
+    "<think>": {
+     "id": 151667,
+     "norm": 0.3748
+    },
+    "</think>": {
+     "id": 151668,
+     "norm": 0.3748
+    }
+   },
+   "allSpecialRowsIdentical": true,
+   "oddToken": {
+    "text": "𫟦",
+    "ids": [
+     123531
+    ],
+    "norms": [
+     0.3776
+    ]
+   },
+   "oddTokenCosineToToolCallRow": 0.9896,
+   "rowsWithHigherCosineToToolCallRow": 2265,
+   "cosineNote": "float32 rows, measured 2026-11-08 in the same venv; many rows (several byte tokens among them) have cosine 1.0 with the tag row"
+  },
+  "Qwen/Qwen3.5-2B-Base": {
+   "tied": true,
+   "rows": 248320,
+   "medianNorm": 0.6763,
+   "special": {
+    "<tool_call>": {
+     "id": 248058,
+     "norm": 0.5198
+    },
+    "</tool_call>": {
+     "id": 248059,
+     "norm": 0.5748
+    },
+    "<|im_end|>": {
+     "id": 248046,
+     "norm": 0.5859
+    },
+    "<think>": {
+     "id": 248068,
+     "norm": 0.5709
+    },
+    "</think>": {
+     "id": 248069,
+     "norm": 0.6264
+    }
+   },
+   "allSpecialRowsIdentical": false,
+   "oddToken": {
+    "text": "𫟦",
+    "ids": [
+     172,
+     104,
+     253,
+     99
+    ],
+    "norms": [
+     0.6264,
+     0.7562,
+     0.8008,
+     0.7874
+    ]
+   }
+  }
+ }
+}

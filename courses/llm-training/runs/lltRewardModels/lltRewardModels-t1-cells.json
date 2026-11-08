@@ -1,0 +1,72 @@
+{
+ "runId": "lltRewardModels-t1-cells",
+ "module": "lltRewardModels",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "cells": [
+   "cell01_step1.py",
+   "cell02_step2.py",
+   "cell03_step3.py",
+   "cell04_step4.py"
+  ],
+  "threads": 4,
+  "source": "steps/"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 0,
+   "peakRssGB": 2.56
+  }
+ ],
+ "evals": {},
+ "samples": [
+  {
+   "cell": "cell01_step1.py",
+   "stdout": "P(chosen preferred) at margin 0.5: 0.6225 | loss 0.4741\nloss at margin 0: 0.6931 | ln 2 = 0.6931\nadd 7 to both rewards: 0.4741 | scale the margin by 4: 0.1269\nanalytic dL/dr_chosen [-0.08965 -0.22999 -0.16667] | finite difference [-0.08965 -0.22999 -0.16667]\ngradient sums to zero per pair: True\n",
+   "secShared": 0.3
+  },
+  {
+   "cell": "cell02_step2.py",
+   "stdout": "Linear(in_features=960, out_features=1, bias=False) | parameters 361822080\nrows of 39 and 47 tokens, last token of row 0: '\\n'\nValueError: Cannot handle batch sizes > 1 if no padding token is defined.\nrewards [-0.7736796140670776, -0.6970275640487671] | by hand [-0.7736796140670776, -0.6970275640487671] | equal True\n",
+   "secShared": 28.9
+  },
+  {
+   "cell": "cell03_step3.py",
+   "stdout": "train | kept 3000 of 3331 read | chosen longer 0.554 | equal GPT-4 scores 0.118 | mean tokens 407\nheld-out | kept 1000 of 1113 read | chosen longer 0.575 | equal GPT-4 scores 0.13 | mean tokens 415\nlength-only rule on held-out, pick the longer reply: 0.575\n",
+   "secShared": 35.8
+  },
+  {
+   "cell": "cell04_step4.py",
+   "stdout": "same token ids as yours: True\nbatch [8, 982] | own 0.7014635801315308 | TRL 0.7014635801315308 | difference 0.0\nrewards chosen [-0.743, -1.365, -1.237, -0.994] | rejected [-0.534, -1.888, -1.018, -0.924]\n",
+   "secShared": 110.2
+  }
+ ],
+ "wallClockSec": 175.2,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-07",
+ "command": "python.exe run_steps.py"
+}

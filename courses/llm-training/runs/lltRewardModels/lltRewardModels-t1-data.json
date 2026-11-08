@@ -1,0 +1,80 @@
+{
+ "runId": "lltRewardModels-t1-data",
+ "module": "lltRewardModels",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "dataset": "HuggingFaceH4/ultrafeedback_binarized",
+  "tokenizer": "SmolLM2-360M + SmolLM2-360M-Instruct chat template",
+  "count": "tokens of the full chat (default system turn, user prompt, assistant reply)"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "train_prefs": {
+   "rows": 61135,
+   "scoreTieShare": 0.1208309479021837,
+   "identicalReplies": 435,
+   "chosenLongerShare": 0.5500940541424716,
+   "equalLengthShare": 0.01629181320029443,
+   "meanChosenTokens": 504.55343093154494,
+   "meanRejectedTokens": 467.2605217960252,
+   "medianChosenTokens": 439.0,
+   "medianRejectedTokens": 383.0,
+   "fitShare512": 0.5200458002780731,
+   "chosenLongerShareWithin512": 0.5227251281728682,
+   "fitShare768": 0.7749243477549685,
+   "chosenLongerShareWithin768": 0.5476728232189974,
+   "fitShare1024": 0.9045882064283962,
+   "chosenLongerShareWithin1024": 0.5513543813966945,
+   "fitShare2048": 0.9946675390529157,
+   "chosenLongerShareWithin2048": 0.5501981614563634
+  },
+  "test_prefs": {
+   "rows": 2000,
+   "scoreTieShare": 0.136,
+   "identicalReplies": 12,
+   "chosenLongerShare": 0.561,
+   "equalLengthShare": 0.0125,
+   "meanChosenTokens": 498.5985,
+   "meanRejectedTokens": 454.891,
+   "medianChosenTokens": 436.5,
+   "medianRejectedTokens": 376.0,
+   "fitShare512": 0.531,
+   "chosenLongerShareWithin512": 0.5103578154425612,
+   "fitShare768": 0.781,
+   "chosenLongerShareWithin768": 0.559539052496799,
+   "fitShare1024": 0.9095,
+   "chosenLongerShareWithin1024": 0.5629466739967015,
+   "fitShare2048": 0.9955,
+   "chosenLongerShareWithin2048": 0.5610246107483676
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-07",
+ "command": "python.exe measure.py data"
+}

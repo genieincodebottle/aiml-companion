@@ -1,0 +1,300 @@
+{
+ "runId": "lltRewardModels-T2-trl-check",
+ "module": "lltRewardModels",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "pairs": 64,
+  "batchPairs": 4,
+  "steps": 40,
+  "lr": 1e-05,
+  "max_length": 1024,
+  "fp16": true
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 1,
+   "trainLoss": 0.5094329118728638,
+   "accuracy": 1.0,
+   "margin": 0.426513671875
+  },
+  {
+   "step": 2,
+   "trainLoss": 0.703559398651123,
+   "accuracy": 0.75,
+   "margin": -0.0174560546875
+  },
+  {
+   "step": 3,
+   "trainLoss": 0.8435767292976379,
+   "accuracy": 0.25,
+   "margin": -0.25823974609375
+  },
+  {
+   "step": 4,
+   "trainLoss": 0.7586740255355835,
+   "accuracy": 0.5,
+   "margin": -0.075958251953125
+  },
+  {
+   "step": 5,
+   "trainLoss": 1.1477711200714111,
+   "accuracy": 0.25,
+   "margin": -0.68572998046875
+  },
+  {
+   "step": 6,
+   "trainLoss": 0.728302001953125,
+   "accuracy": 0.5,
+   "margin": -0.001953125
+  },
+  {
+   "step": 7,
+   "trainLoss": 0.8350778222084045,
+   "accuracy": 0.5,
+   "margin": -0.184814453125
+  },
+  {
+   "step": 8,
+   "trainLoss": 0.7284043431282043,
+   "accuracy": 0.5,
+   "margin": -0.062744140625
+  },
+  {
+   "step": 9,
+   "trainLoss": 0.616203784942627,
+   "accuracy": 0.75,
+   "margin": 0.177703857421875
+  },
+  {
+   "step": 10,
+   "trainLoss": 0.6228480339050293,
+   "accuracy": 0.75,
+   "margin": 0.162353515625
+  },
+  {
+   "step": 11,
+   "trainLoss": 0.6022107005119324,
+   "accuracy": 0.75,
+   "margin": 0.1968994140625
+  },
+  {
+   "step": 12,
+   "trainLoss": 0.7077052593231201,
+   "accuracy": 0.5,
+   "margin": -0.0235595703125
+  },
+  {
+   "step": 13,
+   "trainLoss": 0.8250896334648132,
+   "accuracy": 0.25,
+   "margin": -0.236083984375
+  },
+  {
+   "step": 14,
+   "trainLoss": 0.5965088605880737,
+   "accuracy": 0.5,
+   "margin": 0.339599609375
+  },
+  {
+   "step": 15,
+   "trainLoss": 0.7201776504516602,
+   "accuracy": 0.5,
+   "margin": -0.051025390625
+  },
+  {
+   "step": 16,
+   "trainLoss": 0.7706059217453003,
+   "accuracy": 0.25,
+   "margin": -0.13427734375
+  },
+  {
+   "step": 17,
+   "trainLoss": 0.3848379850387573,
+   "accuracy": 1.0,
+   "margin": 0.81378173828125
+  },
+  {
+   "step": 18,
+   "trainLoss": 0.5956989526748657,
+   "accuracy": 0.75,
+   "margin": 0.227783203125
+  },
+  {
+   "step": 19,
+   "trainLoss": 0.5118066072463989,
+   "accuracy": 1.0,
+   "margin": 0.49277305603027344
+  },
+  {
+   "step": 20,
+   "trainLoss": 0.6224433183670044,
+   "accuracy": 0.5,
+   "margin": 0.1827392578125
+  },
+  {
+   "step": 21,
+   "trainLoss": 0.6630990505218506,
+   "accuracy": 0.75,
+   "margin": 0.103759765625
+  },
+  {
+   "step": 22,
+   "trainLoss": 0.5699979662895203,
+   "accuracy": 0.75,
+   "margin": 0.453125
+  },
+  {
+   "step": 23,
+   "trainLoss": 0.5991129875183105,
+   "accuracy": 0.5,
+   "margin": 0.2584228515625
+  },
+  {
+   "step": 24,
+   "trainLoss": 0.4621950387954712,
+   "accuracy": 1.0,
+   "margin": 0.628662109375
+  },
+  {
+   "step": 25,
+   "trainLoss": 0.559286892414093,
+   "accuracy": 1.0,
+   "margin": 0.294677734375
+  },
+  {
+   "step": 26,
+   "trainLoss": 0.5695942044258118,
+   "accuracy": 0.75,
+   "margin": 0.345703125
+  },
+  {
+   "step": 27,
+   "trainLoss": 0.5015121698379517,
+   "accuracy": 1.0,
+   "margin": 0.5023193359375
+  },
+  {
+   "step": 28,
+   "trainLoss": 0.9750803709030151,
+   "accuracy": 0.75,
+   "margin": -0.34326171875
+  },
+  {
+   "step": 29,
+   "trainLoss": 0.5695385932922363,
+   "accuracy": 0.75,
+   "margin": 0.289306640625
+  },
+  {
+   "step": 30,
+   "trainLoss": 0.5326156616210938,
+   "accuracy": 1.0,
+   "margin": 0.3641510009765625
+  },
+  {
+   "step": 31,
+   "trainLoss": 0.7164337635040283,
+   "accuracy": 0.75,
+   "margin": -0.0029296875
+  },
+  {
+   "step": 32,
+   "trainLoss": 0.32128506898880005,
+   "accuracy": 1.0,
+   "margin": 1.0369873046875
+  },
+  {
+   "step": 33,
+   "trainLoss": 0.582250714302063,
+   "accuracy": 0.75,
+   "margin": 0.242919921875
+  },
+  {
+   "step": 34,
+   "trainLoss": 0.6809344291687012,
+   "accuracy": 0.5,
+   "margin": 0.0531005859375
+  },
+  {
+   "step": 35,
+   "trainLoss": 0.5016790628433228,
+   "accuracy": 1.0,
+   "margin": 0.43890380859375
+  },
+  {
+   "step": 36,
+   "trainLoss": 0.41178810596466064,
+   "accuracy": 1.0,
+   "margin": 0.730224609375
+  },
+  {
+   "step": 37,
+   "trainLoss": 0.45437371730804443,
+   "accuracy": 1.0,
+   "margin": 0.577789306640625
+  },
+  {
+   "step": 38,
+   "trainLoss": 0.40467607975006104,
+   "accuracy": 1.0,
+   "margin": 0.755126953125
+  },
+  {
+   "step": 39,
+   "trainLoss": 0.5428364276885986,
+   "accuracy": 0.75,
+   "margin": 0.52642822265625
+  },
+  {
+   "step": 40,
+   "trainLoss": 0.5565314292907715,
+   "accuracy": 0.75,
+   "margin": 0.3392333984375
+  }
+ ],
+ "evals": {
+  "lossCheck": {
+   "batchShape": [
+    8,
+    803
+   ],
+   "trl": 0.5087864398956299,
+   "own": 0.5087865591049194,
+   "absDiff": 1.1920928955078125e-07
+  },
+  "idsEqual": true,
+  "trainableDtypes": [
+   "torch.float32"
+  ],
+  "trlKeptPairs": 64,
+  "pairsGiven": 64,
+  "trainSec": 73.1,
+  "peakMemGB": 6.18,
+  "trl": "1.17.1"
+ },
+ "samples": [],
+ "wallClockSec": 101.0,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-07",
+ "command": "python.exe C:/projects/aiml-companion/courses/llm-training/labs/lltRewardModels/record_gpu.py",
+ "notes": "Kaggle kernel llt-rm-main v1"
+}

@@ -1,0 +1,175 @@
+{
+ "runId": "lltEvaluation-T2-paired",
+ "module": "lltEvaluation",
+ "tier": "T2",
+ "label": "analysis",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 15.6,
+  "note": "page cells on GPU 0; the experiment queue (worker_eval.py) ran on GPU 1 in v1 only, and was off in v2"
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "numpy": "2.1.3",
+  "transformers": "5.22.1",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "datasets": "5.1.0",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "lm-eval": "0.4.13",
+  "nltk": "3.10.4",
+  "langdetect": "1.0.9",
+  "image": "Kaggle GPU image 2026-11-07"
+ },
+ "notebookCommit": null,
+ "kernel": "genieincodebottle/llt-eval-main v2",
+ "config": {
+  "test": "paired vs unpaired bootstrap, 10,000 resamples, seed 0",
+  "a": "Qwen/Qwen3-1.7B-Base",
+  "b": "Qwen/Qwen3-1.7B"
+ },
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "arc_easy": {
+   "gain": -0.003,
+   "paired": [
+    -0.027,
+    0.022
+   ],
+   "unpaired": [
+    -0.041000000000000036,
+    0.03700000000000003
+   ],
+   "agree": 0.847
+  },
+  "arc_challenge": {
+   "gain": -0.026,
+   "paired": [
+    -0.052,
+    0.001
+   ],
+   "unpaired": [
+    -0.069,
+    0.01799999999999996
+   ],
+   "agree": 0.814
+  },
+  "hellaswag": {
+   "gain": -0.039,
+   "paired": [
+    -0.058,
+    -0.021
+   ],
+   "unpaired": [
+    -0.08200000000000002,
+    0.0040000000000000036
+   ],
+   "agree": 0.909
+  },
+  "piqa": {
+   "gain": -0.03,
+   "paired": [
+    -0.049,
+    -0.011
+   ],
+   "unpaired": [
+    -0.06800000000000006,
+    0.009000000000000008
+   ],
+   "agree": 0.906
+  },
+  "winogrande": {
+   "gain": -0.025,
+   "paired": [
+    -0.057,
+    0.006
+   ],
+   "unpaired": [
+    -0.06700000000000006,
+    0.017000000000000015
+   ],
+   "agree": 0.745
+  },
+  "mmlu": {
+   "gain": -0.06315789473684211,
+   "paired": [
+    -0.08947368421052632,
+    -0.03684210526315789
+   ],
+   "unpaired": [
+    -0.1043859649122807,
+    -0.023684210526315752
+   ],
+   "agree": 0.7894736842105263
+  },
+  "ARC-Easy, Question/Answer cloze": {
+   "gain": -0.004,
+   "paired": [
+    -0.028,
+    0.02
+   ],
+   "unpaired": [
+    -0.04200000000000004,
+    0.03600000000000003
+   ],
+   "agree": 0.848
+  },
+  "ARC-Easy, Q/A cloze": {
+   "gain": -0.096,
+   "paired": [
+    -0.119,
+    -0.073
+   ],
+   "unpaired": [
+    -0.134,
+    -0.05700000000000005
+   ],
+   "agree": 0.85
+  },
+  "ARC-Easy, bare cloze": {
+   "gain": -0.032,
+   "paired": [
+    -0.058,
+    -0.006
+   ],
+   "unpaired": [
+    -0.07400000000000007,
+    0.010000000000000009
+   ],
+   "agree": 0.828
+  },
+  "ARC-Easy, lettered, MMLU style": {
+   "gain": -0.039,
+   "paired": [
+    -0.058,
+    -0.02
+   ],
+   "unpaired": [
+    -0.06500000000000006,
+    -0.013000000000000012
+   ],
+   "agree": 0.907
+  },
+  "ARC-Easy, lettered, (a) style": {
+   "gain": -0.05,
+   "paired": [
+    -0.07,
+    -0.029975000000000362
+   ],
+   "unpaired": [
+    -0.07700000000000007,
+    -0.02300000000000002
+   ],
+   "agree": 0.89
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-07"
+}

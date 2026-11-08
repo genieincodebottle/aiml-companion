@@ -1,0 +1,119 @@
+{
+ "runId": "lltToolUse-t1-roundtrip",
+ "module": "lltToolUse",
+ "tier": "T1",
+ "hardware": {
+  "cpu": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+  "threads": 4
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "tokenizers": "0.23.3",
+  "numpy": "2.5.4",
+  "peft": "0.21.2",
+  "datasets": "5.1.0"
+ },
+ "date": "2026-11-07",
+ "label": "roundtrip",
+ "results": {
+  "qwen3.5": {
+   "items": 310,
+   "ownCorrect": 308,
+   "officialCorrect": 308,
+   "agree": 310,
+   "fails": [
+    {
+     "id": "parallel_152",
+     "text": "<tool_call>\n<function=math.power>\n<parameter=base>\n2\n</parameter>\n<parameter=exponent>\n3\n</parameter>\n<parameter=mod>\nNone\n</parameter>\n</function>\n</tool_call>\n<tool_call>\n<function=math.power>\n<parameter=base>\n3\n</parameter>\n<parameter=exponent>\n5\n</parameter>\n<parameter=mod>\nNone\n</parameter>\n</f",
+     "calls": [
+      {
+       "math.power": {
+        "base": 2,
+        "exponent": 3,
+        "mod": "None"
+       }
+      },
+      {
+       "math.power": {
+        "base": 3,
+        "exponent": 5,
+        "mod": "None"
+       }
+      }
+     ],
+     "own": false,
+     "official": false
+    },
+    {
+     "id": "parallel_multiple_12",
+     "text": "<tool_call>\n<function=calculate_magnetic_field>\n<parameter=current>\n4.0\n</parameter>\n<parameter=distance>\n2.0\n</parameter>\n</function>\n</tool_call>\n<tool_call>\n<function=calculate_voltage_difference>\n<parameter=electric_field>\n5.0\n</parameter>\n<parameter=distance>\n3.0\n</parameter>\n<parameter=charge>",
+     "calls": [
+      {
+       "calculate_magnetic_field": {
+        "current": 4.0,
+        "distance": 2.0
+       }
+      },
+      {
+       "calculate_voltage_difference": {
+        "electric_field": 5.0,
+        "distance": 3.0,
+        "charge": 0.0,
+        "permeability": "0.1"
+       }
+      }
+     ],
+     "own": false,
+     "official": false
+    }
+   ]
+  },
+  "qwen3": {
+   "items": 310,
+   "ownCorrect": 309,
+   "officialCorrect": 309,
+   "agree": 310,
+   "fails": [
+    {
+     "id": "parallel_multiple_12",
+     "text": "<think>\n\n</think>\n\n<tool_call>\n{\"name\": \"calculate_magnetic_field\", \"arguments\": {\"current\": 4.0, \"distance\": 2.0}}\n</tool_call>\n<tool_call>\n{\"name\": \"calculate_voltage_difference\", \"arguments\": {\"electric_field\": 5.0, \"distance\": 3.0, \"charge\": 0.0, \"permeability\": 0.1}}\n</tool_call>",
+     "calls": [
+      {
+       "calculate_magnetic_field": {
+        "current": 4.0,
+        "distance": 2.0
+       }
+      },
+      {
+       "calculate_voltage_difference": {
+        "electric_field": 5.0,
+        "distance": 3.0,
+        "charge": 0.0,
+        "permeability": 0.1
+       }
+      }
+     ],
+     "own": false,
+     "official": false
+    }
+   ]
+  },
+  "xmlReadWithJsonParser": {
+   "relevantItems": 250,
+   "unparsed": 250
+  }
+ },
+ "examples": {
+  "qwen3.5": {
+   "simple_python_0": "<tool_call>\n<function=calculate_triangle_area>\n<parameter=base>\n10\n</parameter>\n<parameter=height>\n5\n</parameter>\n<parameter=unit>\nunits\n</parameter>\n</function>\n</tool_call>",
+   "parallel_0": "<tool_call>\n<function=spotify.play>\n<parameter=artist>\nTaylor Swift\n</parameter>\n<parameter=duration>\n20\n</parameter>\n</function>\n</tool_call>\n<tool_call>\n<function=spotify.play>\n<parameter=artist>\nMaroon 5\n</parameter>\n<parameter=duration>\n15\n</parameter>\n</function>\n</tool_call>"
+  },
+  "qwen3": {
+   "simple_python_0": "<think>\n\n</think>\n\n<tool_call>\n{\"name\": \"calculate_triangle_area\", \"arguments\": {\"base\": 10, \"height\": 5, \"unit\": \"units\"}}\n</tool_call>",
+   "parallel_0": "<think>\n\n</think>\n\n<tool_call>\n{\"name\": \"spotify.play\", \"arguments\": {\"artist\": \"Taylor Swift\", \"duration\": 20}}\n</tool_call>\n<tool_call>\n{\"name\": \"spotify.play\", \"arguments\": {\"artist\": \"Maroon 5\", \"duration\": 15}}\n</tool_call>"
+  }
+ }
+}
