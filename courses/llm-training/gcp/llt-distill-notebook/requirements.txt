@@ -1,0 +1,9 @@
+# lltDistillation notebook check. Same Hugging Face pins as the lab notebook. torch and numpy come from the VM image (do not pip-install them).
+transformers==5.22.1
+trl==1.17.1
+peft==0.21.2
+accelerate==1.15.0
+datasets==5.1.0
+tokenizers==0.23.3
+huggingface_hub==2.4.0
+bitsandbytes==0.50.2

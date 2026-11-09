@@ -1,0 +1,61 @@
+{
+ "runId": "lltDPO-t1-refmismatch",
+ "module": "lltDPO",
+ "tier": "T1",
+ "label": "broken:reference-mismatch",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "policy": "lltDPO sft-s0 (the SFT model)",
+  "references": [
+   "sft-s0 (right)",
+   "Qwen/Qwen3-0.6B-Base (wrong)"
+  ],
+  "pairs": 32,
+  "beta": 0.1,
+  "selection": "first 32 held-out test_prefs pairs that fit 512 tokens, file order"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "sft": {
+   "lossStep0": 0.6931,
+   "accuracyStep0": 0.0,
+   "meanChosenLogRatio": 0.0,
+   "meanRejectedLogRatio": 0.0,
+   "maxAbsLogRatio": 0.0
+  },
+  "base": {
+   "lossStep0": 0.7971,
+   "accuracyStep0": 0.625,
+   "meanChosenLogRatio": 13.3,
+   "meanRejectedLogRatio": 8.31,
+   "maxAbsLogRatio": 84.92
+  }
+ },
+ "samples": [],
+ "wallClockSec": 373.8,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-08",
+ "command": "python.exe measure_refmismatch.py ../../kaggle/out/llt-dpo-core/sft-model"
+}

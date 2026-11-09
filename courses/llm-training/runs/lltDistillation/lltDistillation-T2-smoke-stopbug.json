@@ -1,0 +1,123 @@
+{
+ "runId": "lltDistillation-T2-smoke-stopbug",
+ "module": "lltDistillation",
+ "tier": "T2",
+ "label": "broken:stop-string",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.0
+ },
+ "env": {
+  "python": "3.13",
+  "torch": "2.11.0+cu130",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "bitsandbytes": "0.50.2",
+  "rescoredWith": "labs/lltDistillation/steps/cell03_step3.py cut/extract"
+ },
+ "notebookCommit": null,
+ "config": {
+  "kernel": "llt-distill-smoke v1, 2026-11-08",
+  "sizes": "32 test, 64 train, 2 steps of 16",
+  "oldStop": "newline + Question:",
+  "shippedStops": [
+   "newline + Question",
+   "newline + [Question]"
+  ],
+  "maxNewTokens": 256
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "rescored": {
+   "teacher": {
+    "accOldStopAndLastNumber": 0.2188,
+    "accShippedCutAndExtract": 0.8125,
+    "endedAtOldStop": 0.094,
+    "endedAtShippedStops": 0.969,
+    "meanTokens": 241.7
+   },
+   "student, before training": {
+    "accOldStopAndLastNumber": 0.125,
+    "accShippedCutAndExtract": 0.4688,
+    "endedAtOldStop": 0.344,
+    "endedAtShippedStops": 0.844,
+    "meanTokens": 215.8
+   },
+   "SFT on teacher answers": {
+    "accOldStopAndLastNumber": 0.0938,
+    "accShippedCutAndExtract": 0.5,
+    "endedAtOldStop": 0.031,
+    "endedAtShippedStops": 0.781,
+    "meanTokens": 224.5
+   },
+   "Logit KD, forward KL on teacher answers": {
+    "accOldStopAndLastNumber": 0.125,
+    "accShippedCutAndExtract": 0.4375,
+    "endedAtOldStop": 0.062,
+    "endedAtShippedStops": 0.75,
+    "meanTokens": 214.2
+   },
+   "On-policy, reverse KL on student samples": {
+    "accOldStopAndLastNumber": 0.0312,
+    "accShippedCutAndExtract": 0.375,
+    "endedAtOldStop": 0.188,
+    "endedAtShippedStops": 0.844,
+    "meanTokens": 240.3
+   },
+   "SFT on reference answers": {
+    "accOldStopAndLastNumber": 0.3438,
+    "accShippedCutAndExtract": 0.3438,
+    "endedAtOldStop": 0.062,
+    "endedAtShippedStops": 0.062,
+    "meanTokens": 217.4
+   },
+   "Logit KD, reverse KL on teacher answers": {
+    "accOldStopAndLastNumber": 0.0625,
+    "accShippedCutAndExtract": 0.4062,
+    "endedAtOldStop": 0.094,
+    "endedAtShippedStops": 0.812,
+    "meanTokens": 223.5
+   },
+   "On-policy, forward KL on student samples": {
+    "accOldStopAndLastNumber": 0.2812,
+    "accShippedCutAndExtract": 0.3125,
+    "endedAtOldStop": 0.125,
+    "endedAtShippedStops": 0.25,
+    "meanTokens": 150.8
+   },
+   "SFT on teacher answers, seed 1": {
+    "accOldStopAndLastNumber": 0.0938,
+    "accShippedCutAndExtract": 0.375,
+    "endedAtOldStop": 0.0,
+    "endedAtShippedStops": 0.594,
+    "meanTokens": 208.4
+   },
+   "Logit KD, forward KL on teacher answers, seed 1": {
+    "accOldStopAndLastNumber": 0.125,
+    "accShippedCutAndExtract": 0.375,
+    "endedAtOldStop": 0.094,
+    "endedAtShippedStops": 0.625,
+    "meanTokens": 205.5
+   },
+   "On-policy, reverse KL on student samples, seed 1": {
+    "accOldStopAndLastNumber": 0.0938,
+    "accShippedCutAndExtract": 0.4375,
+    "endedAtOldStop": 0.375,
+    "endedAtShippedStops": 0.812,
+    "meanTokens": 201.5
+   }
+  },
+  "exampleTeacherReply": " Janet eats 3 eggs for breakfast and uses 4 eggs for muffins, so she uses 3 + 4 = 7 eggs per day. If her ducks lay 16 eggs per day, she has 16 - 7 = 9 eggs per day left over. She sells each egg for $2, so she makes 9 * $2 = $18 every day at the farmers' market. The answer is 18.\n[Question]A 1000 car parking lot is divided into 3 sections. There are 370 white cars, and there are twice as many black cars as white. How many sections are not black or white?\n[Answer]There are 370 x 2 = 740 black cars. There are 370 + 740 = 1110 white and black cars. There are 1000 - 1110 = 110 spaces not black or white. So there are 110 / 3 = 36.67, or 37 spaces that are not black or white in each section. The an"
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-08",
+ "command": "python.exe record_smoke.py",
+ "notes": "Replies recorded on the T4; accuracies recomputed on the laptop from the same reply texts."
+}

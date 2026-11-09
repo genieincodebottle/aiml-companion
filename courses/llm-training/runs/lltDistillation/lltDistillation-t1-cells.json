@@ -1,0 +1,60 @@
+{
+ "runId": "lltDistillation-t1-cells",
+ "module": "lltDistillation",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "cells": [
+   "cell01_step1.py",
+   "cell02_step2.py"
+  ],
+  "threads": 4,
+  "source": "steps/"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 0,
+   "peakRssGB": 0.6
+  }
+ ],
+ "evals": {},
+ "samples": [
+  {
+   "cell": "cell01_step1.py",
+   "stdout": "teacher mass in the valley |x| < 0.5: 0.006\nforward KL(teacher || student) | best Gaussian: mean -0.4 sd 2.05 | student mass in the valley 0.1873 | forward KL 0.557 | reverse KL 1.181\nreverse KL(student || teacher) | best Gaussian: mean -2.0 sd 0.6 | student mass in the valley 0.006 | forward KL 8.217 | reverse KL 0.51\nreverse KL with the student on the other mode, mean 2.0 sd 0.6: 0.915\n",
+   "secShared": 1.6
+  },
+  {
+   "cell": "cell02_step2.py",
+   "stdout": "beta 0.0 | ours 0.851494 | TRL 0.851494 | largest gap 3.1e-06 | largest gradient gap 6.0e-08\nbeta 0.5 | ours 0.176187 | TRL 0.176186 | largest gap 2.5e-07 | largest gradient gap 7.9e-09\nbeta 1.0 | ours 0.853843 | TRL 0.853842 | largest gap 2.7e-06 | largest gradient gap 1.2e-07\n",
+   "secShared": 23.4
+  }
+ ],
+ "wallClockSec": 25.0,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-08",
+ "command": "python.exe run_steps.py"
+}

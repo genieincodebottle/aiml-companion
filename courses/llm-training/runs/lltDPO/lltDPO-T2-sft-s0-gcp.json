@@ -1,0 +1,1550 @@
+{
+ "runId": "lltDPO-T2-sft-s0-gcp",
+ "module": "lltDPO",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "image": "Google Cloud T4 VM llt-c2, 2.11.0+cu130"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "Qwen/Qwen3-0.6B-Base",
+  "method": "LoRA r16 all-linear, merged",
+  "pairs": 3000,
+  "lr": 0.0002,
+  "batch": 8,
+  "maxLen": 512,
+  "kernel": "gcp:llt-dpo-exp-gcp",
+  "file": "llt_dpo_exp-gcp.json",
+  "restarts": 0
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 1,
+   "trainLoss": 1.1247
+  },
+  {
+   "step": 2,
+   "trainLoss": 1.3794
+  },
+  {
+   "step": 3,
+   "trainLoss": 1.4219
+  },
+  {
+   "step": 4,
+   "trainLoss": 1.773
+  },
+  {
+   "step": 5,
+   "trainLoss": 1.6292
+  },
+  {
+   "step": 6,
+   "trainLoss": 0.965
+  },
+  {
+   "step": 7,
+   "trainLoss": 1.4695
+  },
+  {
+   "step": 8,
+   "trainLoss": 1.4826
+  },
+  {
+   "step": 9,
+   "trainLoss": 0.9234
+  },
+  {
+   "step": 10,
+   "trainLoss": 1.2677
+  },
+  {
+   "step": 11,
+   "trainLoss": 1.7689
+  },
+  {
+   "step": 12,
+   "trainLoss": 1.3563
+  },
+  {
+   "step": 13,
+   "trainLoss": 1.3233
+  },
+  {
+   "step": 14,
+   "trainLoss": 1.3428
+  },
+  {
+   "step": 15,
+   "trainLoss": 1.7421
+  },
+  {
+   "step": 16,
+   "trainLoss": 1.0903
+  },
+  {
+   "step": 17,
+   "trainLoss": 1.1471
+  },
+  {
+   "step": 18,
+   "trainLoss": 1.5261
+  },
+  {
+   "step": 19,
+   "trainLoss": 0.8305
+  },
+  {
+   "step": 20,
+   "trainLoss": 1.3755
+  },
+  {
+   "step": 21,
+   "trainLoss": 1.1426
+  },
+  {
+   "step": 22,
+   "trainLoss": 1.3184
+  },
+  {
+   "step": 23,
+   "trainLoss": 1.5885
+  },
+  {
+   "step": 24,
+   "trainLoss": 1.3181
+  },
+  {
+   "step": 25,
+   "trainLoss": 0.9042
+  },
+  {
+   "step": 26,
+   "trainLoss": 1.1916
+  },
+  {
+   "step": 27,
+   "trainLoss": 1.3493
+  },
+  {
+   "step": 28,
+   "trainLoss": 1.685
+  },
+  {
+   "step": 29,
+   "trainLoss": 1.2979
+  },
+  {
+   "step": 30,
+   "trainLoss": 1.4687
+  },
+  {
+   "step": 31,
+   "trainLoss": 1.3525
+  },
+  {
+   "step": 32,
+   "trainLoss": 1.4083
+  },
+  {
+   "step": 33,
+   "trainLoss": 1.4974
+  },
+  {
+   "step": 34,
+   "trainLoss": 1.4516
+  },
+  {
+   "step": 35,
+   "trainLoss": 1.3238
+  },
+  {
+   "step": 36,
+   "trainLoss": 1.1271
+  },
+  {
+   "step": 37,
+   "trainLoss": 1.2142
+  },
+  {
+   "step": 38,
+   "trainLoss": 1.2568
+  },
+  {
+   "step": 39,
+   "trainLoss": 1.0816
+  },
+  {
+   "step": 40,
+   "trainLoss": 1.4363
+  },
+  {
+   "step": 41,
+   "trainLoss": 0.9546
+  },
+  {
+   "step": 42,
+   "trainLoss": 1.048
+  },
+  {
+   "step": 43,
+   "trainLoss": 1.3167
+  },
+  {
+   "step": 44,
+   "trainLoss": 1.4454
+  },
+  {
+   "step": 45,
+   "trainLoss": 1.4482
+  },
+  {
+   "step": 46,
+   "trainLoss": 1.3638
+  },
+  {
+   "step": 47,
+   "trainLoss": 1.1483
+  },
+  {
+   "step": 48,
+   "trainLoss": 1.178
+  },
+  {
+   "step": 49,
+   "trainLoss": 1.381
+  },
+  {
+   "step": 50,
+   "trainLoss": 1.4085
+  },
+  {
+   "step": 51,
+   "trainLoss": 1.4477
+  },
+  {
+   "step": 52,
+   "trainLoss": 1.2769
+  },
+  {
+   "step": 53,
+   "trainLoss": 1.2286
+  },
+  {
+   "step": 54,
+   "trainLoss": 1.1898
+  },
+  {
+   "step": 55,
+   "trainLoss": 1.4613
+  },
+  {
+   "step": 56,
+   "trainLoss": 1.3493
+  },
+  {
+   "step": 57,
+   "trainLoss": 1.0976
+  },
+  {
+   "step": 58,
+   "trainLoss": 1.3923
+  },
+  {
+   "step": 59,
+   "trainLoss": 1.017
+  },
+  {
+   "step": 60,
+   "trainLoss": 1.0032
+  },
+  {
+   "step": 61,
+   "trainLoss": 0.9234
+  },
+  {
+   "step": 62,
+   "trainLoss": 1.371
+  },
+  {
+   "step": 63,
+   "trainLoss": 1.9433
+  },
+  {
+   "step": 64,
+   "trainLoss": 1.6317
+  },
+  {
+   "step": 65,
+   "trainLoss": 1.0666
+  },
+  {
+   "step": 66,
+   "trainLoss": 1.1503
+  },
+  {
+   "step": 67,
+   "trainLoss": 1.4863
+  },
+  {
+   "step": 68,
+   "trainLoss": 1.2968
+  },
+  {
+   "step": 69,
+   "trainLoss": 1.3523
+  },
+  {
+   "step": 70,
+   "trainLoss": 1.4809
+  },
+  {
+   "step": 71,
+   "trainLoss": 1.3657
+  },
+  {
+   "step": 72,
+   "trainLoss": 0.9862
+  },
+  {
+   "step": 73,
+   "trainLoss": 1.4293
+  },
+  {
+   "step": 74,
+   "trainLoss": 1.099
+  },
+  {
+   "step": 75,
+   "trainLoss": 1.5934
+  },
+  {
+   "step": 76,
+   "trainLoss": 1.0877
+  },
+  {
+   "step": 77,
+   "trainLoss": 1.0284
+  },
+  {
+   "step": 78,
+   "trainLoss": 1.8457
+  },
+  {
+   "step": 79,
+   "trainLoss": 1.2448
+  },
+  {
+   "step": 80,
+   "trainLoss": 1.1232
+  },
+  {
+   "step": 81,
+   "trainLoss": 1.306
+  },
+  {
+   "step": 82,
+   "trainLoss": 1.1923
+  },
+  {
+   "step": 83,
+   "trainLoss": 0.8835
+  },
+  {
+   "step": 84,
+   "trainLoss": 1.4503
+  },
+  {
+   "step": 85,
+   "trainLoss": 1.3456
+  },
+  {
+   "step": 86,
+   "trainLoss": 1.2481
+  },
+  {
+   "step": 87,
+   "trainLoss": 0.8877
+  },
+  {
+   "step": 88,
+   "trainLoss": 1.2928
+  },
+  {
+   "step": 89,
+   "trainLoss": 1.173
+  },
+  {
+   "step": 90,
+   "trainLoss": 1.4535
+  },
+  {
+   "step": 91,
+   "trainLoss": 1.3045
+  },
+  {
+   "step": 92,
+   "trainLoss": 1.0705
+  },
+  {
+   "step": 93,
+   "trainLoss": 1.1404
+  },
+  {
+   "step": 94,
+   "trainLoss": 1.2533
+  },
+  {
+   "step": 95,
+   "trainLoss": 1.3587
+  },
+  {
+   "step": 96,
+   "trainLoss": 1.0059
+  },
+  {
+   "step": 97,
+   "trainLoss": 1.1789
+  },
+  {
+   "step": 98,
+   "trainLoss": 1.4259
+  },
+  {
+   "step": 99,
+   "trainLoss": 1.1384
+  },
+  {
+   "step": 100,
+   "trainLoss": 1.3117
+  },
+  {
+   "step": 101,
+   "trainLoss": 1.2905
+  },
+  {
+   "step": 102,
+   "trainLoss": 1.3858
+  },
+  {
+   "step": 103,
+   "trainLoss": 1.0502
+  },
+  {
+   "step": 104,
+   "trainLoss": 1.5249
+  },
+  {
+   "step": 105,
+   "trainLoss": 1.5133
+  },
+  {
+   "step": 106,
+   "trainLoss": 1.321
+  },
+  {
+   "step": 107,
+   "trainLoss": 1.2104
+  },
+  {
+   "step": 108,
+   "trainLoss": 1.1773
+  },
+  {
+   "step": 109,
+   "trainLoss": 1.1672
+  },
+  {
+   "step": 110,
+   "trainLoss": 1.0126
+  },
+  {
+   "step": 111,
+   "trainLoss": 1.4006
+  },
+  {
+   "step": 112,
+   "trainLoss": 1.311
+  },
+  {
+   "step": 113,
+   "trainLoss": 1.153
+  },
+  {
+   "step": 114,
+   "trainLoss": 1.063
+  },
+  {
+   "step": 115,
+   "trainLoss": 1.416
+  },
+  {
+   "step": 116,
+   "trainLoss": 1.302
+  },
+  {
+   "step": 117,
+   "trainLoss": 0.862
+  },
+  {
+   "step": 118,
+   "trainLoss": 1.2745
+  },
+  {
+   "step": 119,
+   "trainLoss": 1.2724
+  },
+  {
+   "step": 120,
+   "trainLoss": 1.2566
+  },
+  {
+   "step": 121,
+   "trainLoss": 1.2253
+  },
+  {
+   "step": 122,
+   "trainLoss": 1.2235
+  },
+  {
+   "step": 123,
+   "trainLoss": 1.4033
+  },
+  {
+   "step": 124,
+   "trainLoss": 1.2997
+  },
+  {
+   "step": 125,
+   "trainLoss": 1.2028
+  },
+  {
+   "step": 126,
+   "trainLoss": 1.2402
+  },
+  {
+   "step": 127,
+   "trainLoss": 1.3574
+  },
+  {
+   "step": 128,
+   "trainLoss": 1.3168
+  },
+  {
+   "step": 129,
+   "trainLoss": 1.0671
+  },
+  {
+   "step": 130,
+   "trainLoss": 1.034
+  },
+  {
+   "step": 131,
+   "trainLoss": 1.5383
+  },
+  {
+   "step": 132,
+   "trainLoss": 1.342
+  },
+  {
+   "step": 133,
+   "trainLoss": 1.471
+  },
+  {
+   "step": 134,
+   "trainLoss": 1.5422
+  },
+  {
+   "step": 135,
+   "trainLoss": 1.3072
+  },
+  {
+   "step": 136,
+   "trainLoss": 1.2984
+  },
+  {
+   "step": 137,
+   "trainLoss": 1.1769
+  },
+  {
+   "step": 138,
+   "trainLoss": 1.1582
+  },
+  {
+   "step": 139,
+   "trainLoss": 1.0266
+  },
+  {
+   "step": 140,
+   "trainLoss": 1.3001
+  },
+  {
+   "step": 141,
+   "trainLoss": 1.2768
+  },
+  {
+   "step": 142,
+   "trainLoss": 1.155
+  },
+  {
+   "step": 143,
+   "trainLoss": 1.203
+  },
+  {
+   "step": 144,
+   "trainLoss": 1.5471
+  },
+  {
+   "step": 145,
+   "trainLoss": 1.5747
+  },
+  {
+   "step": 146,
+   "trainLoss": 1.2342
+  },
+  {
+   "step": 147,
+   "trainLoss": 1.429
+  },
+  {
+   "step": 148,
+   "trainLoss": 0.9988
+  },
+  {
+   "step": 149,
+   "trainLoss": 1.259
+  },
+  {
+   "step": 150,
+   "trainLoss": 1.2295
+  },
+  {
+   "step": 151,
+   "trainLoss": 1.1898
+  },
+  {
+   "step": 152,
+   "trainLoss": 1.0583
+  },
+  {
+   "step": 153,
+   "trainLoss": 1.4779
+  },
+  {
+   "step": 154,
+   "trainLoss": 1.3592
+  },
+  {
+   "step": 155,
+   "trainLoss": 1.007
+  },
+  {
+   "step": 156,
+   "trainLoss": 0.8619
+  },
+  {
+   "step": 157,
+   "trainLoss": 1.1348
+  },
+  {
+   "step": 158,
+   "trainLoss": 1.1199
+  },
+  {
+   "step": 159,
+   "trainLoss": 1.256
+  },
+  {
+   "step": 160,
+   "trainLoss": 1.4994
+  },
+  {
+   "step": 161,
+   "trainLoss": 1.5983
+  },
+  {
+   "step": 162,
+   "trainLoss": 1.6691
+  },
+  {
+   "step": 163,
+   "trainLoss": 1.3056
+  },
+  {
+   "step": 164,
+   "trainLoss": 1.3649
+  },
+  {
+   "step": 165,
+   "trainLoss": 1.57
+  },
+  {
+   "step": 166,
+   "trainLoss": 1.2409
+  },
+  {
+   "step": 167,
+   "trainLoss": 1.2426
+  },
+  {
+   "step": 168,
+   "trainLoss": 1.0996
+  },
+  {
+   "step": 169,
+   "trainLoss": 1.0215
+  },
+  {
+   "step": 170,
+   "trainLoss": 1.3464
+  },
+  {
+   "step": 171,
+   "trainLoss": 1.1049
+  },
+  {
+   "step": 172,
+   "trainLoss": 1.1022
+  },
+  {
+   "step": 173,
+   "trainLoss": 0.9932
+  },
+  {
+   "step": 174,
+   "trainLoss": 1.0615
+  },
+  {
+   "step": 175,
+   "trainLoss": 1.3166
+  },
+  {
+   "step": 176,
+   "trainLoss": 0.9723
+  },
+  {
+   "step": 177,
+   "trainLoss": 1.3601
+  },
+  {
+   "step": 178,
+   "trainLoss": 1.136
+  },
+  {
+   "step": 179,
+   "trainLoss": 1.2678
+  },
+  {
+   "step": 180,
+   "trainLoss": 1.1626
+  },
+  {
+   "step": 181,
+   "trainLoss": 1.2514
+  },
+  {
+   "step": 182,
+   "trainLoss": 1.1764
+  },
+  {
+   "step": 183,
+   "trainLoss": 1.4634
+  },
+  {
+   "step": 184,
+   "trainLoss": 1.0316
+  },
+  {
+   "step": 185,
+   "trainLoss": 1.9101
+  },
+  {
+   "step": 186,
+   "trainLoss": 1.1321
+  },
+  {
+   "step": 187,
+   "trainLoss": 1.214
+  },
+  {
+   "step": 188,
+   "trainLoss": 1.4515
+  },
+  {
+   "step": 189,
+   "trainLoss": 1.3257
+  },
+  {
+   "step": 190,
+   "trainLoss": 0.9521
+  },
+  {
+   "step": 191,
+   "trainLoss": 1.109
+  },
+  {
+   "step": 192,
+   "trainLoss": 1.1872
+  },
+  {
+   "step": 193,
+   "trainLoss": 1.4494
+  },
+  {
+   "step": 194,
+   "trainLoss": 1.3374
+  },
+  {
+   "step": 195,
+   "trainLoss": 0.7501
+  },
+  {
+   "step": 196,
+   "trainLoss": 1.0979
+  },
+  {
+   "step": 197,
+   "trainLoss": 1.0862
+  },
+  {
+   "step": 198,
+   "trainLoss": 1.0199
+  },
+  {
+   "step": 199,
+   "trainLoss": 1.37
+  },
+  {
+   "step": 200,
+   "trainLoss": 1.3408
+  },
+  {
+   "step": 201,
+   "trainLoss": 1.1955
+  },
+  {
+   "step": 202,
+   "trainLoss": 1.3039
+  },
+  {
+   "step": 203,
+   "trainLoss": 1.4335
+  },
+  {
+   "step": 204,
+   "trainLoss": 1.2383
+  },
+  {
+   "step": 205,
+   "trainLoss": 1.2731
+  },
+  {
+   "step": 206,
+   "trainLoss": 1.1457
+  },
+  {
+   "step": 207,
+   "trainLoss": 1.2294
+  },
+  {
+   "step": 208,
+   "trainLoss": 1.4524
+  },
+  {
+   "step": 209,
+   "trainLoss": 1.1694
+  },
+  {
+   "step": 210,
+   "trainLoss": 1.1849
+  },
+  {
+   "step": 211,
+   "trainLoss": 1.1602
+  },
+  {
+   "step": 212,
+   "trainLoss": 1.0178
+  },
+  {
+   "step": 213,
+   "trainLoss": 1.4984
+  },
+  {
+   "step": 214,
+   "trainLoss": 1.2759
+  },
+  {
+   "step": 215,
+   "trainLoss": 1.2863
+  },
+  {
+   "step": 216,
+   "trainLoss": 0.9822
+  },
+  {
+   "step": 217,
+   "trainLoss": 0.94
+  },
+  {
+   "step": 218,
+   "trainLoss": 0.999
+  },
+  {
+   "step": 219,
+   "trainLoss": 1.4836
+  },
+  {
+   "step": 220,
+   "trainLoss": 1.1802
+  },
+  {
+   "step": 221,
+   "trainLoss": 0.943
+  },
+  {
+   "step": 222,
+   "trainLoss": 1.209
+  },
+  {
+   "step": 223,
+   "trainLoss": 1.0229
+  },
+  {
+   "step": 224,
+   "trainLoss": 1.2637
+  },
+  {
+   "step": 225,
+   "trainLoss": 1.2807
+  },
+  {
+   "step": 226,
+   "trainLoss": 0.8749
+  },
+  {
+   "step": 227,
+   "trainLoss": 1.0403
+  },
+  {
+   "step": 228,
+   "trainLoss": 1.0749
+  },
+  {
+   "step": 229,
+   "trainLoss": 1.3887
+  },
+  {
+   "step": 230,
+   "trainLoss": 1.0685
+  },
+  {
+   "step": 231,
+   "trainLoss": 1.5132
+  },
+  {
+   "step": 232,
+   "trainLoss": 1.1202
+  },
+  {
+   "step": 233,
+   "trainLoss": 0.984
+  },
+  {
+   "step": 234,
+   "trainLoss": 1.085
+  },
+  {
+   "step": 235,
+   "trainLoss": 1.0442
+  },
+  {
+   "step": 236,
+   "trainLoss": 1.3976
+  },
+  {
+   "step": 237,
+   "trainLoss": 1.3159
+  },
+  {
+   "step": 238,
+   "trainLoss": 1.077
+  },
+  {
+   "step": 239,
+   "trainLoss": 1.4728
+  },
+  {
+   "step": 240,
+   "trainLoss": 1.0128
+  },
+  {
+   "step": 241,
+   "trainLoss": 1.1323
+  },
+  {
+   "step": 242,
+   "trainLoss": 1.2358
+  },
+  {
+   "step": 243,
+   "trainLoss": 1.1185
+  },
+  {
+   "step": 244,
+   "trainLoss": 1.5561
+  },
+  {
+   "step": 245,
+   "trainLoss": 1.4858
+  },
+  {
+   "step": 246,
+   "trainLoss": 1.232
+  },
+  {
+   "step": 247,
+   "trainLoss": 1.3825
+  },
+  {
+   "step": 248,
+   "trainLoss": 1.0842
+  },
+  {
+   "step": 249,
+   "trainLoss": 1.1106
+  },
+  {
+   "step": 250,
+   "trainLoss": 1.1963
+  },
+  {
+   "step": 251,
+   "trainLoss": 1.1285
+  },
+  {
+   "step": 252,
+   "trainLoss": 0.9537
+  },
+  {
+   "step": 253,
+   "trainLoss": 1.4238
+  },
+  {
+   "step": 254,
+   "trainLoss": 1.2705
+  },
+  {
+   "step": 255,
+   "trainLoss": 1.223
+  },
+  {
+   "step": 256,
+   "trainLoss": 1.0335
+  },
+  {
+   "step": 257,
+   "trainLoss": 1.1812
+  },
+  {
+   "step": 258,
+   "trainLoss": 1.2996
+  },
+  {
+   "step": 259,
+   "trainLoss": 1.1422
+  },
+  {
+   "step": 260,
+   "trainLoss": 1.0134
+  },
+  {
+   "step": 261,
+   "trainLoss": 1.3731
+  },
+  {
+   "step": 262,
+   "trainLoss": 1.4568
+  },
+  {
+   "step": 263,
+   "trainLoss": 1.0889
+  },
+  {
+   "step": 264,
+   "trainLoss": 0.9892
+  },
+  {
+   "step": 265,
+   "trainLoss": 1.3157
+  },
+  {
+   "step": 266,
+   "trainLoss": 1.2513
+  },
+  {
+   "step": 267,
+   "trainLoss": 1.291
+  },
+  {
+   "step": 268,
+   "trainLoss": 1.2141
+  },
+  {
+   "step": 269,
+   "trainLoss": 1.093
+  },
+  {
+   "step": 270,
+   "trainLoss": 1.0229
+  },
+  {
+   "step": 271,
+   "trainLoss": 1.132
+  },
+  {
+   "step": 272,
+   "trainLoss": 1.6541
+  },
+  {
+   "step": 273,
+   "trainLoss": 1.2561
+  },
+  {
+   "step": 274,
+   "trainLoss": 1.4072
+  },
+  {
+   "step": 275,
+   "trainLoss": 2.6343
+  },
+  {
+   "step": 276,
+   "trainLoss": 1.2767
+  },
+  {
+   "step": 277,
+   "trainLoss": 1.3726
+  },
+  {
+   "step": 278,
+   "trainLoss": 1.3632
+  },
+  {
+   "step": 279,
+   "trainLoss": 1.0845
+  },
+  {
+   "step": 280,
+   "trainLoss": 1.1234
+  },
+  {
+   "step": 281,
+   "trainLoss": 1.5768
+  },
+  {
+   "step": 282,
+   "trainLoss": 1.0668
+  },
+  {
+   "step": 283,
+   "trainLoss": 1.1566
+  },
+  {
+   "step": 284,
+   "trainLoss": 1.2884
+  },
+  {
+   "step": 285,
+   "trainLoss": 0.9443
+  },
+  {
+   "step": 286,
+   "trainLoss": 1.9361
+  },
+  {
+   "step": 287,
+   "trainLoss": 1.0797
+  },
+  {
+   "step": 288,
+   "trainLoss": 1.1202
+  },
+  {
+   "step": 289,
+   "trainLoss": 1.2643
+  },
+  {
+   "step": 290,
+   "trainLoss": 1.4565
+  },
+  {
+   "step": 291,
+   "trainLoss": 1.5472
+  },
+  {
+   "step": 292,
+   "trainLoss": 1.0668
+  },
+  {
+   "step": 293,
+   "trainLoss": 1.1685
+  },
+  {
+   "step": 294,
+   "trainLoss": 1.2436
+  },
+  {
+   "step": 295,
+   "trainLoss": 1.3441
+  },
+  {
+   "step": 296,
+   "trainLoss": 1.3733
+  },
+  {
+   "step": 297,
+   "trainLoss": 1.3316
+  },
+  {
+   "step": 298,
+   "trainLoss": 1.3174
+  },
+  {
+   "step": 299,
+   "trainLoss": 0.9833
+  },
+  {
+   "step": 300,
+   "trainLoss": 1.1973
+  },
+  {
+   "step": 301,
+   "trainLoss": 1.1763
+  },
+  {
+   "step": 302,
+   "trainLoss": 1.2755
+  },
+  {
+   "step": 303,
+   "trainLoss": 1.1595
+  },
+  {
+   "step": 304,
+   "trainLoss": 1.2152
+  },
+  {
+   "step": 305,
+   "trainLoss": 1.0476
+  },
+  {
+   "step": 306,
+   "trainLoss": 1.694
+  },
+  {
+   "step": 307,
+   "trainLoss": 1.6516
+  },
+  {
+   "step": 308,
+   "trainLoss": 1.1522
+  },
+  {
+   "step": 309,
+   "trainLoss": 1.3601
+  },
+  {
+   "step": 310,
+   "trainLoss": 1.3956
+  },
+  {
+   "step": 311,
+   "trainLoss": 1.2121
+  },
+  {
+   "step": 312,
+   "trainLoss": 1.4437
+  },
+  {
+   "step": 313,
+   "trainLoss": 0.935
+  },
+  {
+   "step": 314,
+   "trainLoss": 1.323
+  },
+  {
+   "step": 315,
+   "trainLoss": 1.3462
+  },
+  {
+   "step": 316,
+   "trainLoss": 1.1745
+  },
+  {
+   "step": 317,
+   "trainLoss": 1.0422
+  },
+  {
+   "step": 318,
+   "trainLoss": 1.2067
+  },
+  {
+   "step": 319,
+   "trainLoss": 1.3888
+  },
+  {
+   "step": 320,
+   "trainLoss": 1.4586
+  },
+  {
+   "step": 321,
+   "trainLoss": 1.1977
+  },
+  {
+   "step": 322,
+   "trainLoss": 1.1176
+  },
+  {
+   "step": 323,
+   "trainLoss": 1.6402
+  },
+  {
+   "step": 324,
+   "trainLoss": 1.1337
+  },
+  {
+   "step": 325,
+   "trainLoss": 1.1186
+  },
+  {
+   "step": 326,
+   "trainLoss": 1.4567
+  },
+  {
+   "step": 327,
+   "trainLoss": 1.2584
+  },
+  {
+   "step": 328,
+   "trainLoss": 1.5313
+  },
+  {
+   "step": 329,
+   "trainLoss": 0.9015
+  },
+  {
+   "step": 330,
+   "trainLoss": 1.0332
+  },
+  {
+   "step": 331,
+   "trainLoss": 1.2215
+  },
+  {
+   "step": 332,
+   "trainLoss": 1.2638
+  },
+  {
+   "step": 333,
+   "trainLoss": 0.9163
+  },
+  {
+   "step": 334,
+   "trainLoss": 1.1049
+  },
+  {
+   "step": 335,
+   "trainLoss": 1.0806
+  },
+  {
+   "step": 336,
+   "trainLoss": 1.2922
+  },
+  {
+   "step": 337,
+   "trainLoss": 1.2195
+  },
+  {
+   "step": 338,
+   "trainLoss": 1.2544
+  },
+  {
+   "step": 339,
+   "trainLoss": 1.2754
+  },
+  {
+   "step": 340,
+   "trainLoss": 1.1313
+  },
+  {
+   "step": 341,
+   "trainLoss": 1.0091
+  },
+  {
+   "step": 342,
+   "trainLoss": 1.0921
+  },
+  {
+   "step": 343,
+   "trainLoss": 1.3037
+  },
+  {
+   "step": 344,
+   "trainLoss": 1.3497
+  },
+  {
+   "step": 345,
+   "trainLoss": 1.3811
+  },
+  {
+   "step": 346,
+   "trainLoss": 1.0953
+  },
+  {
+   "step": 347,
+   "trainLoss": 1.1242
+  },
+  {
+   "step": 348,
+   "trainLoss": 1.2366
+  },
+  {
+   "step": 349,
+   "trainLoss": 0.9111
+  },
+  {
+   "step": 350,
+   "trainLoss": 1.353
+  },
+  {
+   "step": 351,
+   "trainLoss": 0.9737
+  },
+  {
+   "step": 352,
+   "trainLoss": 1.1069
+  },
+  {
+   "step": 353,
+   "trainLoss": 1.2525
+  },
+  {
+   "step": 354,
+   "trainLoss": 1.0906
+  },
+  {
+   "step": 355,
+   "trainLoss": 1.337
+  },
+  {
+   "step": 356,
+   "trainLoss": 1.1507
+  },
+  {
+   "step": 357,
+   "trainLoss": 1.2922
+  },
+  {
+   "step": 358,
+   "trainLoss": 1.0999
+  },
+  {
+   "step": 359,
+   "trainLoss": 1.2
+  },
+  {
+   "step": 360,
+   "trainLoss": 1.1001
+  },
+  {
+   "step": 361,
+   "trainLoss": 1.1882
+  },
+  {
+   "step": 362,
+   "trainLoss": 1.6642
+  },
+  {
+   "step": 363,
+   "trainLoss": 1.1105
+  },
+  {
+   "step": 364,
+   "trainLoss": 1.0798
+  },
+  {
+   "step": 365,
+   "trainLoss": 1.1699
+  },
+  {
+   "step": 366,
+   "trainLoss": 1.0185
+  },
+  {
+   "step": 367,
+   "trainLoss": 0.922
+  },
+  {
+   "step": 368,
+   "trainLoss": 1.386
+  },
+  {
+   "step": 369,
+   "trainLoss": 1.2584
+  },
+  {
+   "step": 370,
+   "trainLoss": 1.0491
+  },
+  {
+   "step": 371,
+   "trainLoss": 1.3349
+  },
+  {
+   "step": 372,
+   "trainLoss": 1.0051
+  },
+  {
+   "step": 373,
+   "trainLoss": 1.2197
+  },
+  {
+   "step": 374,
+   "trainLoss": 1.2484
+  },
+  {
+   "step": 375,
+   "trainLoss": 1.272
+  }
+ ],
+ "evals": {
+  "steps": 375,
+  "sec": 467.0,
+  "peakGB": 5.18,
+  "lossFirst75": 1.3158,
+  "lossLast75": 1.2159
+ },
+ "samples": [],
+ "wallClockSec": 467.0,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-09",
+ "command": "python.exe record_gpu.py ../../kaggle/out/llt-dpo-core/llt_dpo_core.json ../../kaggle/out/gcp-llt-dpo-exp/llt_dpo_exp-gcp.json ../../kaggle/out/gcp-llt-dpo-defaults/llt_dpo_defaults-gcp.json"
+}

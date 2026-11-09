@@ -1,0 +1,66 @@
+{
+ "runId": "lltDPO-t1-cells",
+ "module": "lltDPO",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "cells": [
+   "cell01_step1.py",
+   "cell02_step2.py",
+   "cell03_step3.py"
+  ],
+  "threads": 4,
+  "source": "steps/"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 0,
+   "peakRssGB": 8.13
+  }
+ ],
+ "evals": {},
+ "samples": [
+  {
+   "cell": "cell01_step1.py",
+   "stdout": "policy = reference | loss 0.6931 | ln 2 = 0.6931\nchosen +5, rejected -5 | loss 0.3133 | implicit rewards 0.5 and -0.5\nchosen -10, rejected -20 | loss 0.3133 | implicit rewards -1.0 and -2.0\nchosen -40, rejected -50 | loss 0.3133 | implicit rewards -4.0 and -5.0\nbeta 0.01 | margin of 10 nats: loss 0.6444 | push left 0.475\nbeta 0.1 | margin of 10 nats: loss 0.3133 | push left 0.269\nbeta 0.5 | margin of 10 nats: loss 0.0067 | push left 0.007\nIPO at the start, beta 0.1: (0 - 1 / (2 * 0.1)) squared = 25.0\n",
+   "secShared": 0.2
+  },
+  {
+   "cell": "cell02_step2.py",
+   "stdout": "control rows identical: True | their norm 0.3497 | <|endoftext|> norm 1.1042 | median row norm 0.9675\nprompt 10 tokens | chosen row 14 | rejected row 16 | pad id = EOS id: True\nreply log-probs [-8.596, -19.896] | with prompt tokens counted [-47.53, -58.829]\nchosen minus rejected, reply only 11.2994 | prompt counted 11.2994\n",
+   "secShared": 20.1
+  },
+  {
+   "cell": "cell03_step3.py",
+   "stdout": "TRL token ids equal yours, EOS included: True\nbatch [8, 172] | own 0.637768 | TRL 0.637754 | difference 1.4007091522216797e-05\npolicy minus reference, chosen [-23.49, -19.62, -33.99, -35.7] | rejected [-19.05, -25.1, -41.53, -34.22]\n",
+   "secShared": 88.9
+  }
+ ],
+ "wallClockSec": 109.1,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-08",
+ "command": "python.exe run_steps.py"
+}

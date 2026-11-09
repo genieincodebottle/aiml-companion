@@ -1,0 +1,75 @@
+{
+ "runId": "lltDPO-T2-sft-s0",
+ "module": "lltDPO",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "image": "Kaggle GPU image, 2.11.0+cu130"
+ },
+ "notebookCommit": null,
+ "config": {
+  "model": "Qwen/Qwen3-0.6B-Base",
+  "method": "LoRA r16 all-linear, merged",
+  "pairs": 3000,
+  "lr": 0.0002,
+  "batch": 8,
+  "maxLen": 512,
+  "kernel": "llt-dpo-core",
+  "file": "llt_dpo_core.json",
+  "restarts": 0
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 1,
+   "trainLossMeanLast75": 1.1247
+  },
+  {
+   "step": 75,
+   "trainLossMeanLast75": 1.3158
+  },
+  {
+   "step": 150,
+   "trainLossMeanLast75": 1.2554
+  },
+  {
+   "step": 225,
+   "trainLossMeanLast75": 1.223
+  },
+  {
+   "step": 300,
+   "trainLossMeanLast75": 1.2471
+  },
+  {
+   "step": 375,
+   "trainLossMeanLast75": 1.2159
+  }
+ ],
+ "evals": {
+  "steps": 375,
+  "sec": 468.1,
+  "peakGB": 5.18,
+  "lossFirst75": 1.3158,
+  "lossLast75": 1.2159
+ },
+ "samples": [],
+ "wallClockSec": 468.1,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-09",
+ "command": "python.exe record_gpu.py ../../kaggle/out/llt-dpo-core/llt_dpo_core.json ../../kaggle/out/gcp-llt-dpo-exp/llt_dpo_exp-gcp.json ../../kaggle/out/gcp-llt-dpo-defaults/llt_dpo_defaults-gcp.json",
+ "notes": "per-step loss not kept in this session; rows are the cell's printed means of the last 75 steps"
+}

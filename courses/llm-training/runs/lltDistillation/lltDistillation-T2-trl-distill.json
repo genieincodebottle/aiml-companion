@@ -1,0 +1,52 @@
+{
+ "runId": "lltDistillation-T2-trl-distill",
+ "module": "lltDistillation",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.0
+ },
+ "env": {
+  "python": null,
+  "torch": null,
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "bitsandbytes": "0.50.2",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "source": "notebook install cell pins; Python and torch from the runtime line of the log"
+ },
+ "notebookCommit": null,
+ "config": {
+  "teacher": "Qwen/Qwen3-4B-Base, NF4 double quant, fp16 compute, frozen",
+  "student": "Qwen/Qwen3-0.6B-Base, frozen fp16 base + fp32 LoRA r16 alpha 32 all-linear",
+  "data": "openai/gsm8k main; test first N_TEST, train shuffled seed 0 first N_TRAIN",
+  "prompt": "Question: <q> + newline + Answer:",
+  "stop": "newline + Question:",
+  "eval": "greedy, 256 new tokens",
+  "kernel": "Kaggle kernel llt-distill-main v1, 2026-11-08, 234 min",
+  "trainer": "trl.DistillationTrainer beta 1",
+  "steps": 3,
+  "batch": 8,
+  "maxCompletion": 256
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "log": [],
+  "sec": 76.7,
+  "trainableDtypes": "{'torch.float32'}"
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-08",
+ "command": "python.exe record_gpu.py ../../kaggle/out/llt-distill-main main Kaggle kernel llt-distill-main v1, 2026-11-08, 234 min"
+}

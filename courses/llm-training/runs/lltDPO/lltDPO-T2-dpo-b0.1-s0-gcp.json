@@ -1,0 +1,1486 @@
+{
+ "runId": "lltDPO-T2-dpo-b0.1-s0-gcp",
+ "module": "lltDPO",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15.6
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "image": "Google Cloud T4 VM llt-c2, 2.11.0+cu130"
+ },
+ "notebookCommit": null,
+ "config": {
+  "kind": "dpo",
+  "beta": 0.1,
+  "lr": 5e-05,
+  "pairs": 1000,
+  "epochs": 1,
+  "steps": 125,
+  "kernel": "gcp:llt-dpo-exp-gcp",
+  "file": "llt_dpo_exp-gcp.json",
+  "restarts": 0
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 1,
+   "trainLoss": 0.6937,
+   "chosenLogRatio": 0.001,
+   "rejectedLogRatio": 0.012
+  },
+  {
+   "step": 2,
+   "trainLoss": 0.6935,
+   "chosenLogRatio": -0.025,
+   "rejectedLogRatio": -0.017
+  },
+  {
+   "step": 3,
+   "trainLoss": 0.6889,
+   "chosenLogRatio": 0.076,
+   "rejectedLogRatio": -0.011
+  },
+  {
+   "step": 4,
+   "trainLoss": 0.6962,
+   "chosenLogRatio": -0.055,
+   "rejectedLogRatio": 0.004
+  },
+  {
+   "step": 5,
+   "trainLoss": 0.6884,
+   "chosenLogRatio": 0.016,
+   "rejectedLogRatio": -0.08
+  },
+  {
+   "step": 6,
+   "trainLoss": 0.7013,
+   "chosenLogRatio": 0.034,
+   "rejectedLogRatio": 0.191
+  },
+  {
+   "step": 7,
+   "trainLoss": 0.696,
+   "chosenLogRatio": -0.041,
+   "rejectedLogRatio": 0.016
+  },
+  {
+   "step": 8,
+   "trainLoss": 0.6948,
+   "chosenLogRatio": -0.108,
+   "rejectedLogRatio": -0.076
+  },
+  {
+   "step": 9,
+   "trainLoss": 0.6911,
+   "chosenLogRatio": -0.152,
+   "rejectedLogRatio": -0.196
+  },
+  {
+   "step": 10,
+   "trainLoss": 0.7178,
+   "chosenLogRatio": -0.427,
+   "rejectedLogRatio": 0.047
+  },
+  {
+   "step": 11,
+   "trainLoss": 0.6937,
+   "chosenLogRatio": -0.148,
+   "rejectedLogRatio": -0.162
+  },
+  {
+   "step": 12,
+   "trainLoss": 0.6865,
+   "chosenLogRatio": -0.066,
+   "rejectedLogRatio": -0.199
+  },
+  {
+   "step": 13,
+   "trainLoss": 0.6999,
+   "chosenLogRatio": -0.047,
+   "rejectedLogRatio": 0.084
+  },
+  {
+   "step": 14,
+   "trainLoss": 0.6684,
+   "chosenLogRatio": 0.121,
+   "rejectedLogRatio": -0.404
+  },
+  {
+   "step": 15,
+   "trainLoss": 0.6621,
+   "chosenLogRatio": -0.143,
+   "rejectedLogRatio": -0.86
+  },
+  {
+   "step": 16,
+   "trainLoss": 0.6621,
+   "chosenLogRatio": -0.383,
+   "rejectedLogRatio": -1.129
+  },
+  {
+   "step": 17,
+   "trainLoss": 0.6901,
+   "chosenLogRatio": -1.16,
+   "rejectedLogRatio": -1.283
+  },
+  {
+   "step": 18,
+   "trainLoss": 0.6375,
+   "chosenLogRatio": 0.307,
+   "rejectedLogRatio": -0.956
+  },
+  {
+   "step": 19,
+   "trainLoss": 0.6258,
+   "chosenLogRatio": -0.346,
+   "rejectedLogRatio": -1.784
+  },
+  {
+   "step": 20,
+   "trainLoss": 0.6737,
+   "chosenLogRatio": 0.19,
+   "rejectedLogRatio": -0.305
+  },
+  {
+   "step": 21,
+   "trainLoss": 0.6864,
+   "chosenLogRatio": -0.528,
+   "rejectedLogRatio": -0.749
+  },
+  {
+   "step": 22,
+   "trainLoss": 0.6373,
+   "chosenLogRatio": 0.073,
+   "rejectedLogRatio": -1.14
+  },
+  {
+   "step": 23,
+   "trainLoss": 0.6638,
+   "chosenLogRatio": -0.888,
+   "rejectedLogRatio": -1.554
+  },
+  {
+   "step": 24,
+   "trainLoss": 0.6609,
+   "chosenLogRatio": -0.608,
+   "rejectedLogRatio": -1.335
+  },
+  {
+   "step": 25,
+   "trainLoss": 0.6584,
+   "chosenLogRatio": -1.184,
+   "rejectedLogRatio": -2.197
+  },
+  {
+   "step": 26,
+   "trainLoss": 0.6495,
+   "chosenLogRatio": -1.213,
+   "rejectedLogRatio": -2.166
+  },
+  {
+   "step": 27,
+   "trainLoss": 0.6266,
+   "chosenLogRatio": -1.203,
+   "rejectedLogRatio": -3.058
+  },
+  {
+   "step": 28,
+   "trainLoss": 0.5838,
+   "chosenLogRatio": -0.352,
+   "rejectedLogRatio": -2.992
+  },
+  {
+   "step": 29,
+   "trainLoss": 0.6509,
+   "chosenLogRatio": -0.845,
+   "rejectedLogRatio": -2.043
+  },
+  {
+   "step": 30,
+   "trainLoss": 0.6631,
+   "chosenLogRatio": -2.908,
+   "rejectedLogRatio": -4.549
+  },
+  {
+   "step": 31,
+   "trainLoss": 0.5552,
+   "chosenLogRatio": -1.738,
+   "rejectedLogRatio": -5.239
+  },
+  {
+   "step": 32,
+   "trainLoss": 0.5979,
+   "chosenLogRatio": -0.653,
+   "rejectedLogRatio": -3.65
+  },
+  {
+   "step": 33,
+   "trainLoss": 0.4854,
+   "chosenLogRatio": -1.308,
+   "rejectedLogRatio": -6.964
+  },
+  {
+   "step": 34,
+   "trainLoss": 0.6707,
+   "chosenLogRatio": -2.111,
+   "rejectedLogRatio": -2.896
+  },
+  {
+   "step": 35,
+   "trainLoss": 0.6335,
+   "chosenLogRatio": -3.946,
+   "rejectedLogRatio": -5.716
+  },
+  {
+   "step": 36,
+   "trainLoss": 0.5621,
+   "chosenLogRatio": -0.474,
+   "rejectedLogRatio": -3.403
+  },
+  {
+   "step": 37,
+   "trainLoss": 0.7421,
+   "chosenLogRatio": -6.591,
+   "rejectedLogRatio": -7.472
+  },
+  {
+   "step": 38,
+   "trainLoss": 0.7601,
+   "chosenLogRatio": -4.538,
+   "rejectedLogRatio": -3.476
+  },
+  {
+   "step": 39,
+   "trainLoss": 0.857,
+   "chosenLogRatio": -6.988,
+   "rejectedLogRatio": -6.185
+  },
+  {
+   "step": 40,
+   "trainLoss": 0.839,
+   "chosenLogRatio": -8.589,
+   "rejectedLogRatio": -6.272
+  },
+  {
+   "step": 41,
+   "trainLoss": 0.7004,
+   "chosenLogRatio": -3.632,
+   "rejectedLogRatio": -5.518
+  },
+  {
+   "step": 42,
+   "trainLoss": 0.6213,
+   "chosenLogRatio": -4.211,
+   "rejectedLogRatio": -7.66
+  },
+  {
+   "step": 43,
+   "trainLoss": 0.6481,
+   "chosenLogRatio": -5.457,
+   "rejectedLogRatio": -8.316
+  },
+  {
+   "step": 44,
+   "trainLoss": 0.8484,
+   "chosenLogRatio": -8.399,
+   "rejectedLogRatio": -7.6
+  },
+  {
+   "step": 45,
+   "trainLoss": 0.529,
+   "chosenLogRatio": -3.121,
+   "rejectedLogRatio": -8.328
+  },
+  {
+   "step": 46,
+   "trainLoss": 0.608,
+   "chosenLogRatio": -5.408,
+   "rejectedLogRatio": -7.719
+  },
+  {
+   "step": 47,
+   "trainLoss": 0.7046,
+   "chosenLogRatio": -4.574,
+   "rejectedLogRatio": -5.762
+  },
+  {
+   "step": 48,
+   "trainLoss": 0.6439,
+   "chosenLogRatio": -2.494,
+   "rejectedLogRatio": -4.288
+  },
+  {
+   "step": 49,
+   "trainLoss": 0.6034,
+   "chosenLogRatio": -1.583,
+   "rejectedLogRatio": -4.333
+  },
+  {
+   "step": 50,
+   "trainLoss": 0.7464,
+   "chosenLogRatio": -7.023,
+   "rejectedLogRatio": -9.516
+  },
+  {
+   "step": 51,
+   "trainLoss": 0.5688,
+   "chosenLogRatio": -3.846,
+   "rejectedLogRatio": -7.02
+  },
+  {
+   "step": 52,
+   "trainLoss": 0.7719,
+   "chosenLogRatio": -5.855,
+   "rejectedLogRatio": -5.238
+  },
+  {
+   "step": 53,
+   "trainLoss": 0.6697,
+   "chosenLogRatio": -1.822,
+   "rejectedLogRatio": -2.552
+  },
+  {
+   "step": 54,
+   "trainLoss": 0.7833,
+   "chosenLogRatio": -4.963,
+   "rejectedLogRatio": -3.837
+  },
+  {
+   "step": 55,
+   "trainLoss": 0.6074,
+   "chosenLogRatio": -5.549,
+   "rejectedLogRatio": -8.894
+  },
+  {
+   "step": 56,
+   "trainLoss": 0.6719,
+   "chosenLogRatio": -3.239,
+   "rejectedLogRatio": -4.156
+  },
+  {
+   "step": 57,
+   "trainLoss": 0.7454,
+   "chosenLogRatio": -4.825,
+   "rejectedLogRatio": -4.686
+  },
+  {
+   "step": 58,
+   "trainLoss": 0.6003,
+   "chosenLogRatio": -1.361,
+   "rejectedLogRatio": -4.221
+  },
+  {
+   "step": 59,
+   "trainLoss": 0.6649,
+   "chosenLogRatio": -3.736,
+   "rejectedLogRatio": -5.036
+  },
+  {
+   "step": 60,
+   "trainLoss": 0.5616,
+   "chosenLogRatio": -2.196,
+   "rejectedLogRatio": -5.306
+  },
+  {
+   "step": 61,
+   "trainLoss": 0.7634,
+   "chosenLogRatio": -4.993,
+   "rejectedLogRatio": -4.868
+  },
+  {
+   "step": 62,
+   "trainLoss": 0.7617,
+   "chosenLogRatio": -5.176,
+   "rejectedLogRatio": -5.994
+  },
+  {
+   "step": 63,
+   "trainLoss": 0.5377,
+   "chosenLogRatio": -1.119,
+   "rejectedLogRatio": -5.533
+  },
+  {
+   "step": 64,
+   "trainLoss": 0.5939,
+   "chosenLogRatio": -3.159,
+   "rejectedLogRatio": -5.743
+  },
+  {
+   "step": 65,
+   "trainLoss": 0.702,
+   "chosenLogRatio": -4.361,
+   "rejectedLogRatio": -5.021
+  },
+  {
+   "step": 66,
+   "trainLoss": 0.6883,
+   "chosenLogRatio": -5.915,
+   "rejectedLogRatio": -6.852
+  },
+  {
+   "step": 67,
+   "trainLoss": 0.5496,
+   "chosenLogRatio": -2.563,
+   "rejectedLogRatio": -6.907
+  },
+  {
+   "step": 68,
+   "trainLoss": 0.5933,
+   "chosenLogRatio": -2.142,
+   "rejectedLogRatio": -5.267
+  },
+  {
+   "step": 69,
+   "trainLoss": 0.654,
+   "chosenLogRatio": -5.262,
+   "rejectedLogRatio": -7.205
+  },
+  {
+   "step": 70,
+   "trainLoss": 0.6984,
+   "chosenLogRatio": -1.819,
+   "rejectedLogRatio": -2.077
+  },
+  {
+   "step": 71,
+   "trainLoss": 0.541,
+   "chosenLogRatio": -2.519,
+   "rejectedLogRatio": -6.266
+  },
+  {
+   "step": 72,
+   "trainLoss": 0.6748,
+   "chosenLogRatio": -6.072,
+   "rejectedLogRatio": -6.746
+  },
+  {
+   "step": 73,
+   "trainLoss": 0.5931,
+   "chosenLogRatio": -3.561,
+   "rejectedLogRatio": -6.411
+  },
+  {
+   "step": 74,
+   "trainLoss": 0.5791,
+   "chosenLogRatio": -3.227,
+   "rejectedLogRatio": -6.226
+  },
+  {
+   "step": 75,
+   "trainLoss": 0.4976,
+   "chosenLogRatio": -4.51,
+   "rejectedLogRatio": -9.785
+  },
+  {
+   "step": 76,
+   "trainLoss": 0.8491,
+   "chosenLogRatio": -4.649,
+   "rejectedLogRatio": -2.902
+  },
+  {
+   "step": 77,
+   "trainLoss": 0.7111,
+   "chosenLogRatio": -3.886,
+   "rejectedLogRatio": -4.496
+  },
+  {
+   "step": 78,
+   "trainLoss": 0.5601,
+   "chosenLogRatio": -0.626,
+   "rejectedLogRatio": -4.103
+  },
+  {
+   "step": 79,
+   "trainLoss": 0.5744,
+   "chosenLogRatio": -4.539,
+   "rejectedLogRatio": -7.511
+  },
+  {
+   "step": 80,
+   "trainLoss": 0.6481,
+   "chosenLogRatio": -4.207,
+   "rejectedLogRatio": -5.657
+  },
+  {
+   "step": 81,
+   "trainLoss": 0.7764,
+   "chosenLogRatio": -5.236,
+   "rejectedLogRatio": -5.234
+  },
+  {
+   "step": 82,
+   "trainLoss": 0.5136,
+   "chosenLogRatio": -2.446,
+   "rejectedLogRatio": -6.664
+  },
+  {
+   "step": 83,
+   "trainLoss": 0.6421,
+   "chosenLogRatio": -3.398,
+   "rejectedLogRatio": -4.914
+  },
+  {
+   "step": 84,
+   "trainLoss": 0.5956,
+   "chosenLogRatio": -1.225,
+   "rejectedLogRatio": -3.701
+  },
+  {
+   "step": 85,
+   "trainLoss": 0.5945,
+   "chosenLogRatio": -1.568,
+   "rejectedLogRatio": -3.844
+  },
+  {
+   "step": 86,
+   "trainLoss": 0.5519,
+   "chosenLogRatio": -2.116,
+   "rejectedLogRatio": -5.654
+  },
+  {
+   "step": 87,
+   "trainLoss": 0.3991,
+   "chosenLogRatio": -3.873,
+   "rejectedLogRatio": -12.998
+  },
+  {
+   "step": 88,
+   "trainLoss": 0.7575,
+   "chosenLogRatio": -6.562,
+   "rejectedLogRatio": -6.162
+  },
+  {
+   "step": 89,
+   "trainLoss": 0.8104,
+   "chosenLogRatio": -6.527,
+   "rejectedLogRatio": -4.873
+  },
+  {
+   "step": 90,
+   "trainLoss": 0.6627,
+   "chosenLogRatio": -7.641,
+   "rejectedLogRatio": -9.186
+  },
+  {
+   "step": 91,
+   "trainLoss": 0.5111,
+   "chosenLogRatio": -0.576,
+   "rejectedLogRatio": -5.413
+  },
+  {
+   "step": 92,
+   "trainLoss": 0.5417,
+   "chosenLogRatio": -0.938,
+   "rejectedLogRatio": -4.684
+  },
+  {
+   "step": 93,
+   "trainLoss": 0.7148,
+   "chosenLogRatio": -6.456,
+   "rejectedLogRatio": -6.655
+  },
+  {
+   "step": 94,
+   "trainLoss": 0.6902,
+   "chosenLogRatio": -3.919,
+   "rejectedLogRatio": -4.894
+  },
+  {
+   "step": 95,
+   "trainLoss": 0.8974,
+   "chosenLogRatio": -6.415,
+   "rejectedLogRatio": -2.958
+  },
+  {
+   "step": 96,
+   "trainLoss": 0.5522,
+   "chosenLogRatio": -3.744,
+   "rejectedLogRatio": -9.7
+  },
+  {
+   "step": 97,
+   "trainLoss": 0.574,
+   "chosenLogRatio": -2.817,
+   "rejectedLogRatio": -5.652
+  },
+  {
+   "step": 98,
+   "trainLoss": 0.7062,
+   "chosenLogRatio": -3.984,
+   "rejectedLogRatio": -3.934
+  },
+  {
+   "step": 99,
+   "trainLoss": 0.6844,
+   "chosenLogRatio": -3.288,
+   "rejectedLogRatio": -4.549
+  },
+  {
+   "step": 100,
+   "trainLoss": 0.5797,
+   "chosenLogRatio": -1.668,
+   "rejectedLogRatio": -5.233
+  },
+  {
+   "step": 101,
+   "trainLoss": 0.5882,
+   "chosenLogRatio": -2.663,
+   "rejectedLogRatio": -5.408
+  },
+  {
+   "step": 102,
+   "trainLoss": 0.5622,
+   "chosenLogRatio": -3.0,
+   "rejectedLogRatio": -6.447
+  },
+  {
+   "step": 103,
+   "trainLoss": 0.4365,
+   "chosenLogRatio": -1.369,
+   "rejectedLogRatio": -10.387
+  },
+  {
+   "step": 104,
+   "trainLoss": 0.5822,
+   "chosenLogRatio": -1.404,
+   "rejectedLogRatio": -6.681
+  },
+  {
+   "step": 105,
+   "trainLoss": 0.89,
+   "chosenLogRatio": -3.983,
+   "rejectedLogRatio": -1.216
+  },
+  {
+   "step": 106,
+   "trainLoss": 0.7605,
+   "chosenLogRatio": -3.854,
+   "rejectedLogRatio": -3.592
+  },
+  {
+   "step": 107,
+   "trainLoss": 0.6632,
+   "chosenLogRatio": -2.548,
+   "rejectedLogRatio": -3.759
+  },
+  {
+   "step": 108,
+   "trainLoss": 0.9425,
+   "chosenLogRatio": -7.005,
+   "rejectedLogRatio": -3.527
+  },
+  {
+   "step": 109,
+   "trainLoss": 0.4708,
+   "chosenLogRatio": -3.351,
+   "rejectedLogRatio": -9.176
+  },
+  {
+   "step": 110,
+   "trainLoss": 0.5442,
+   "chosenLogRatio": -2.096,
+   "rejectedLogRatio": -6.089
+  },
+  {
+   "step": 111,
+   "trainLoss": 0.4967,
+   "chosenLogRatio": 1.014,
+   "rejectedLogRatio": -4.839
+  },
+  {
+   "step": 112,
+   "trainLoss": 0.5921,
+   "chosenLogRatio": -3.746,
+   "rejectedLogRatio": -6.442
+  },
+  {
+   "step": 113,
+   "trainLoss": 0.7869,
+   "chosenLogRatio": -3.447,
+   "rejectedLogRatio": -2.159
+  },
+  {
+   "step": 114,
+   "trainLoss": 0.6846,
+   "chosenLogRatio": -2.883,
+   "rejectedLogRatio": -3.41
+  },
+  {
+   "step": 115,
+   "trainLoss": 0.526,
+   "chosenLogRatio": -3.527,
+   "rejectedLogRatio": -8.224
+  },
+  {
+   "step": 116,
+   "trainLoss": 0.5553,
+   "chosenLogRatio": -4.295,
+   "rejectedLogRatio": -8.266
+  },
+  {
+   "step": 117,
+   "trainLoss": 0.5274,
+   "chosenLogRatio": -2.608,
+   "rejectedLogRatio": -8.255
+  },
+  {
+   "step": 118,
+   "trainLoss": 0.4878,
+   "chosenLogRatio": -1.436,
+   "rejectedLogRatio": -7.569
+  },
+  {
+   "step": 119,
+   "trainLoss": 0.5813,
+   "chosenLogRatio": -1.031,
+   "rejectedLogRatio": -4.708
+  },
+  {
+   "step": 120,
+   "trainLoss": 0.7569,
+   "chosenLogRatio": -8.562,
+   "rejectedLogRatio": -7.919
+  },
+  {
+   "step": 121,
+   "trainLoss": 0.6202,
+   "chosenLogRatio": -1.476,
+   "rejectedLogRatio": -3.32
+  },
+  {
+   "step": 122,
+   "trainLoss": 0.7036,
+   "chosenLogRatio": -8.682,
+   "rejectedLogRatio": -9.559
+  },
+  {
+   "step": 123,
+   "trainLoss": 0.6132,
+   "chosenLogRatio": -4.04,
+   "rejectedLogRatio": -7.464
+  },
+  {
+   "step": 124,
+   "trainLoss": 0.5942,
+   "chosenLogRatio": 0.028,
+   "rejectedLogRatio": -2.791
+  },
+  {
+   "step": 125,
+   "trainLoss": 0.5606,
+   "chosenLogRatio": -2.319,
+   "rejectedLogRatio": -6.351
+  }
+ ],
+ "evals": {
+  "held": [
+   {
+    "step": 0,
+    "chosen": 0.0,
+    "rejected": 0.0,
+    "margin": -0.0,
+    "accuracy": 0.317,
+    "chosenDown": 0.297,
+    "bothDown": 0.123
+   },
+   {
+    "step": 25,
+    "chosen": -1.4,
+    "rejected": -2.13,
+    "margin": 0.73,
+    "accuracy": 0.61,
+    "chosenDown": 0.72,
+    "bothDown": 0.623
+   },
+   {
+    "step": 50,
+    "chosen": -4.31,
+    "rejected": -5.66,
+    "margin": 1.35,
+    "accuracy": 0.603,
+    "chosenDown": 0.8,
+    "bothDown": 0.733
+   },
+   {
+    "step": 75,
+    "chosen": -3.87,
+    "rejected": -5.32,
+    "margin": 1.45,
+    "accuracy": 0.597,
+    "chosenDown": 0.827,
+    "bothDown": 0.74
+   },
+   {
+    "step": 100,
+    "chosen": -4.21,
+    "rejected": -6.11,
+    "margin": 1.9,
+    "accuracy": 0.617,
+    "chosenDown": 0.813,
+    "bothDown": 0.73
+   },
+   {
+    "step": 125,
+    "chosen": -4.27,
+    "rejected": -6.2,
+    "margin": 1.93,
+    "accuracy": 0.617,
+    "chosenDown": 0.817,
+    "bothDown": 0.733
+   }
+  ],
+  "vsSFT": {
+   "win": 0.595,
+   "winCI": [
+    0.53,
+    0.657
+   ],
+   "diff": 0.51,
+   "diffCI": [
+    0.106,
+    0.921
+   ]
+  },
+  "vsSFT2": {
+   "win": 0.57,
+   "winCI": [
+    0.505,
+    0.635
+   ],
+   "diff": 0.426,
+   "diffCI": [
+    0.039,
+    0.824
+   ]
+  },
+  "perPair": {
+   "chosen": [
+    -10.82,
+    -1.42,
+    -12.0,
+    -0.0,
+    -19.83,
+    -1.68,
+    -0.8,
+    -8.94,
+    -9.7,
+    -7.24,
+    -5.71,
+    3.82,
+    -0.37,
+    0.96,
+    0.22,
+    -3.1,
+    -1.83,
+    -2.55,
+    -22.86,
+    -3.87,
+    -11.79,
+    -3.44,
+    0.0,
+    2.4,
+    -0.07,
+    3.41,
+    -0.16,
+    -9.43,
+    0.01,
+    4.8,
+    -19.14,
+    -10.07,
+    -0.15,
+    -3.17,
+    -1.78,
+    3.57,
+    -2.13,
+    -6.62,
+    -1.89,
+    -3.09,
+    0.36,
+    -7.95,
+    -8.13,
+    -1.67,
+    1.39,
+    -8.74,
+    1.73,
+    -2.7,
+    -9.73,
+    -1.24,
+    -5.63,
+    -2.63,
+    3.15,
+    -0.71,
+    -3.23,
+    -8.93,
+    -1.65,
+    -5.33,
+    -1.16,
+    0.77,
+    -18.7,
+    -6.7,
+    -1.85,
+    -3.27,
+    -5.59,
+    4.61,
+    0.67,
+    1.05,
+    -0.21,
+    0.51,
+    -5.71,
+    -6.62,
+    -1.48,
+    0.09,
+    2.64,
+    -10.1,
+    -1.91,
+    -3.75,
+    -1.83,
+    1.62,
+    -2.49,
+    -9.22,
+    1.96,
+    -7.84,
+    -2.46,
+    -5.77,
+    -0.0,
+    -1.02,
+    -2.21,
+    -14.8,
+    -6.43,
+    -13.94,
+    -2.76,
+    -8.19,
+    -5.59,
+    -0.57,
+    0.31,
+    -15.79,
+    0.31,
+    -10.09,
+    0.95,
+    -2.14,
+    -1.53,
+    -12.35,
+    -10.96,
+    -2.44,
+    -5.29,
+    -9.37,
+    -15.44,
+    -2.5,
+    0.16,
+    -6.72,
+    4.31,
+    -8.53,
+    -4.35,
+    0.34,
+    -6.36,
+    -1.5,
+    -8.47,
+    -10.19,
+    -13.32,
+    -14.44,
+    -7.83,
+    -1.0,
+    -2.29,
+    -0.33,
+    -1.78,
+    -4.38,
+    -2.82,
+    -0.69,
+    -3.88,
+    -6.6,
+    0.18,
+    -8.18,
+    -1.42,
+    -1.02,
+    -0.02,
+    -8.5,
+    -7.32,
+    -4.54,
+    -0.53,
+    3.55,
+    -3.28,
+    -5.9,
+    -2.39,
+    -2.03,
+    -6.74,
+    -11.73,
+    -2.81,
+    -0.72,
+    -4.23,
+    -5.12,
+    -5.26,
+    1.46,
+    0.93,
+    -6.04,
+    1.5,
+    -16.3,
+    -3.55,
+    -10.12,
+    -1.45,
+    0.77,
+    -4.41,
+    -6.95,
+    0.05,
+    -18.06,
+    -5.51,
+    -9.56,
+    0.14,
+    -16.45,
+    -1.47,
+    -11.85,
+    -1.43,
+    6.55,
+    -1.66,
+    -14.47,
+    -2.33,
+    1.53,
+    -2.62,
+    -5.31,
+    -1.1,
+    -3.43,
+    -2.0,
+    -4.18,
+    -0.8,
+    -2.15,
+    -3.07,
+    -9.45,
+    -15.69,
+    -15.32,
+    -3.71,
+    1.23,
+    -1.06,
+    -5.54,
+    -5.0,
+    -0.59,
+    -0.19,
+    -1.83,
+    -5.1,
+    -6.02,
+    -16.86,
+    -0.26,
+    1.33,
+    1.19,
+    -5.01,
+    0.73,
+    -3.48,
+    -2.42,
+    -4.27,
+    -5.41,
+    -0.46,
+    -3.89,
+    -11.11,
+    -0.01,
+    -2.54,
+    -0.7,
+    -5.9,
+    -5.67,
+    -3.4,
+    -2.55,
+    0.26,
+    -2.07,
+    -10.96,
+    -2.16,
+    -0.16,
+    -5.64,
+    -23.07,
+    -1.1,
+    -3.86,
+    -0.97,
+    0.22,
+    -3.84,
+    -8.0,
+    1.1,
+    -9.05,
+    -13.96,
+    -4.0,
+    -8.5,
+    -1.83,
+    -1.47,
+    -5.57,
+    -1.95,
+    -0.81,
+    -5.8,
+    -0.24,
+    -10.21,
+    0.09,
+    -0.72,
+    -8.62,
+    0.74,
+    -4.35,
+    -8.83,
+    -6.05,
+    -1.6,
+    -1.95,
+    -2.2,
+    -8.26,
+    -9.26,
+    -1.02,
+    -2.56,
+    -4.66,
+    1.91,
+    -2.87,
+    -1.68,
+    -5.1,
+    -3.02,
+    4.54,
+    -15.43,
+    -17.46,
+    -0.91,
+    -2.27,
+    0.22,
+    -1.89,
+    -17.06,
+    0.02,
+    0.87,
+    -9.71,
+    -4.1,
+    -11.59,
+    -5.23,
+    -6.03,
+    1.12,
+    -1.02,
+    -0.27,
+    -9.4,
+    -10.49,
+    -0.47,
+    -6.81,
+    -2.92,
+    -2.02,
+    -7.46,
+    -0.92,
+    -8.56,
+    -12.78,
+    0.4,
+    -8.75,
+    -6.7,
+    -11.16,
+    3.46,
+    -2.2
+   ],
+   "rejected": [
+    -25.11,
+    -5.38,
+    -9.25,
+    -6.44,
+    -10.97,
+    -5.13,
+    -14.15,
+    -26.7,
+    -13.6,
+    -8.82,
+    -6.34,
+    -10.96,
+    -2.12,
+    -3.31,
+    0.29,
+    -2.87,
+    -9.98,
+    -7.42,
+    -17.94,
+    -8.45,
+    -11.04,
+    -3.01,
+    0.14,
+    -7.94,
+    -0.01,
+    -8.89,
+    -0.55,
+    -7.69,
+    -5.15,
+    -7.15,
+    -12.76,
+    -0.98,
+    -3.62,
+    -1.08,
+    -5.16,
+    0.78,
+    -2.38,
+    -12.47,
+    -9.55,
+    -4.26,
+    -9.35,
+    -1.52,
+    -4.95,
+    -2.13,
+    -11.38,
+    -5.24,
+    -0.82,
+    -6.66,
+    -11.02,
+    -8.2,
+    5.86,
+    3.63,
+    -20.59,
+    -9.56,
+    -6.61,
+    0.29,
+    -9.53,
+    -15.31,
+    -3.78,
+    -4.83,
+    -11.3,
+    -6.19,
+    -2.66,
+    -12.19,
+    -14.46,
+    -1.71,
+    -3.98,
+    -1.92,
+    -22.05,
+    -7.01,
+    -7.67,
+    -5.24,
+    -4.7,
+    0.53,
+    -6.2,
+    -3.56,
+    -2.73,
+    -6.19,
+    -1.3,
+    -7.07,
+    -0.84,
+    -12.11,
+    -10.65,
+    -5.79,
+    -9.24,
+    -10.47,
+    -3.4,
+    -1.89,
+    -0.69,
+    1.97,
+    -7.96,
+    -5.42,
+    -1.92,
+    -8.19,
+    -10.33,
+    -5.95,
+    -0.16,
+    -9.0,
+    -11.7,
+    -0.92,
+    -2.89,
+    -6.93,
+    -11.37,
+    -8.08,
+    0.05,
+    -10.13,
+    -3.1,
+    -8.47,
+    -10.47,
+    1.65,
+    6.89,
+    -3.83,
+    -6.23,
+    -3.58,
+    -6.87,
+    -11.11,
+    1.26,
+    -9.45,
+    -1.26,
+    -12.7,
+    -9.29,
+    -8.61,
+    -5.58,
+    -5.37,
+    -4.88,
+    -4.88,
+    0.3,
+    0.4,
+    -4.28,
+    -4.67,
+    -0.92,
+    -5.82,
+    -2.11,
+    -4.12,
+    -0.93,
+    -1.68,
+    1.26,
+    3.8,
+    -9.83,
+    -4.43,
+    -6.38,
+    -2.03,
+    -13.05,
+    0.98,
+    -12.03,
+    0.56,
+    -12.83,
+    -6.32,
+    -0.62,
+    -12.04,
+    -17.61,
+    -3.14,
+    -2.15,
+    -10.66,
+    -5.07,
+    -8.76,
+    -7.89,
+    -19.15,
+    -0.93,
+    -9.76,
+    -5.81,
+    0.84,
+    -9.87,
+    -3.25,
+    -0.87,
+    -2.42,
+    -7.91,
+    -3.91,
+    -3.94,
+    -14.3,
+    -0.16,
+    -6.65,
+    -7.96,
+    -9.57,
+    -6.85,
+    -2.74,
+    -1.41,
+    -1.72,
+    -2.45,
+    -3.9,
+    -5.57,
+    -9.73,
+    -5.29,
+    -9.13,
+    -0.29,
+    0.24,
+    -4.12,
+    -13.43,
+    -11.63,
+    -13.25,
+    -11.06,
+    -5.42,
+    -5.87,
+    -7.98,
+    -10.54,
+    -5.14,
+    -8.22,
+    0.44,
+    -1.49,
+    1.75,
+    -5.2,
+    -0.49,
+    -5.63,
+    -3.95,
+    -1.22,
+    -8.84,
+    -6.62,
+    -2.16,
+    -9.06,
+    -14.52,
+    -1.89,
+    -21.78,
+    -0.7,
+    -2.03,
+    -2.38,
+    -4.92,
+    -4.51,
+    -3.26,
+    -4.48,
+    -8.3,
+    0.69,
+    -2.66,
+    0.3,
+    -2.23,
+    -2.15,
+    -5.06,
+    -15.88,
+    -5.3,
+    -7.35,
+    0.08,
+    -11.48,
+    -12.64,
+    -16.86,
+    -5.94,
+    -16.38,
+    6.05,
+    -13.21,
+    -2.61,
+    -4.13,
+    -1.57,
+    -20.86,
+    -6.36,
+    -1.85,
+    -14.97,
+    -4.53,
+    -7.74,
+    -0.12,
+    -12.42,
+    -13.23,
+    -8.83,
+    -5.42,
+    -4.88,
+    4.04,
+    -12.86,
+    -3.6,
+    -4.17,
+    -11.32,
+    -13.66,
+    3.67,
+    -7.98,
+    -4.3,
+    0.5,
+    -3.92,
+    -7.43,
+    -8.01,
+    -27.12,
+    -9.21,
+    -9.13,
+    -13.25,
+    -5.54,
+    -3.63,
+    -2.66,
+    -4.33,
+    -10.35,
+    0.03,
+    -9.01,
+    -7.87,
+    -8.01,
+    -8.51,
+    -1.85,
+    -11.05,
+    -4.51,
+    -2.19,
+    0.35,
+    -19.1,
+    -7.34,
+    1.76,
+    0.36,
+    -7.03,
+    -12.64,
+    0.29,
+    -4.61,
+    -8.92,
+    -7.19,
+    -0.59,
+    -3.97,
+    -8.69,
+    -16.91,
+    -4.16,
+    -14.12
+   ]
+  }
+ },
+ "samples": [],
+ "wallClockSec": 588.6,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-09",
+ "command": "python.exe record_gpu.py ../../kaggle/out/llt-dpo-core/llt_dpo_core.json ../../kaggle/out/gcp-llt-dpo-exp/llt_dpo_exp-gcp.json ../../kaggle/out/gcp-llt-dpo-defaults/llt_dpo_defaults-gcp.json",
+ "notes": {
+  "trainSec": 350.5,
+  "trainPeakGB": 5.22,
+  "evalPeakGB": 6.36
+ }
+}

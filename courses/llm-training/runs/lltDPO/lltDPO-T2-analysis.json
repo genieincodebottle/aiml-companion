@@ -1,0 +1,1283 @@
+{
+ "runId": "lltDPO-T2-analysis",
+ "module": "lltDPO",
+ "tier": "T2",
+ "label": "analysis",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "offline analysis of recorded T4 runs"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "inputs": [
+   "llt_dpo_core.json",
+   "llt_dpo_exp-gcp.json",
+   "llt_dpo_defaults-gcp.json"
+  ],
+  "script": "labs/lltDPO/analyze_runs.py",
+  "rule": "each session analysed on its own; arms paired with their own session's SFT replies"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "kaggle:core": {
+   "length": {
+    "dpo-b0.1-s0": {
+     "all": {
+      "win": 0.562,
+      "winCI": [
+       0.497,
+       0.627
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.588,
+      "winCI": [
+       0.509,
+       0.668
+      ],
+      "n": 113
+     },
+     "goldTokenCorr": -0.058
+    },
+    "dpo-b0.01-s0": {
+     "all": {
+      "win": 0.682,
+      "winCI": [
+       0.62,
+       0.743
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.763,
+      "winCI": [
+       0.687,
+       0.833
+      ],
+      "n": 99
+     },
+     "goldTokenCorr": 0.052
+    },
+    "dpo-b0.5-s0": {
+     "all": {
+      "win": 0.568,
+      "winCI": [
+       0.505,
+       0.63
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.567,
+      "winCI": [
+       0.496,
+       0.639
+      ],
+      "n": 126
+     },
+     "goldTokenCorr": -0.088
+    },
+    "dpo-b0.1-s1": {
+     "all": {
+      "win": 0.585,
+      "winCI": [
+       0.517,
+       0.652
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.622,
+      "winCI": [
+       0.539,
+       0.704
+      ],
+      "n": 115
+     },
+     "goldTokenCorr": -0.147
+    }
+   },
+   "armVsArm": {
+    "dpo-b0.1-s0 vs dpo-b0.01-s0": {
+     "win": 0.38,
+     "winCI": [
+      0.32,
+      0.445
+     ],
+     "n": 200
+    },
+    "dpo-b0.1-s0 vs dpo-b0.5-s0": {
+     "win": 0.505,
+     "winCI": [
+      0.445,
+      0.568
+     ],
+     "n": 200
+    },
+    "dpo-b0.1-s0 vs dpo-b0.1-s1": {
+     "win": 0.5,
+     "winCI": [
+      0.435,
+      0.565
+     ],
+     "n": 200
+    },
+    "dpo-b0.01-s0 vs dpo-b0.5-s0": {
+     "win": 0.66,
+     "winCI": [
+      0.598,
+      0.72
+     ],
+     "n": 200
+    },
+    "dpo-b0.01-s0 vs dpo-b0.1-s1": {
+     "win": 0.62,
+     "winCI": [
+      0.555,
+      0.682
+     ],
+     "n": 200
+    },
+    "dpo-b0.5-s0 vs dpo-b0.1-s1": {
+     "win": 0.47,
+     "winCI": [
+      0.405,
+      0.535
+     ],
+     "n": 200
+    }
+   },
+   "heldOut": {
+    "dpo-b0.1-s0": {
+     "accuracy": 0.617,
+     "accuracyCI": [
+      0.56,
+      0.67
+     ],
+     "chosenMean": -4.26,
+     "chosenCI": [
+      -4.844,
+      -3.69
+     ],
+     "rejectedMean": -6.2,
+     "chosenFell": 0.82,
+     "bothFell": 0.737,
+     "corr": 0.26,
+     "chosenMedian": -2.72,
+     "gapPerTokenMean": 0.0653,
+     "gapPerTokenMedian": 0.0212,
+     "chosenPerToken": -0.0406,
+     "rejectedPerToken": -0.1059
+    },
+    "dpo-b0.01-s0": {
+     "accuracy": 0.61,
+     "accuracyCI": [
+      0.553,
+      0.663
+     ],
+     "chosenMean": -18.57,
+     "chosenCI": [
+      -20.674,
+      -16.542
+     ],
+     "rejectedMean": -23.04,
+     "chosenFell": 0.9,
+     "bothFell": 0.863,
+     "corr": 0.374,
+     "chosenMedian": -13.98,
+     "gapPerTokenMean": 0.1494,
+     "gapPerTokenMedian": 0.0566,
+     "chosenPerToken": -0.1501,
+     "rejectedPerToken": -0.2995
+    },
+    "dpo-b0.5-s0": {
+     "accuracy": 0.647,
+     "accuracyCI": [
+      0.593,
+      0.7
+     ],
+     "chosenMean": -1.17,
+     "chosenCI": [
+      -1.405,
+      -0.938
+     ],
+     "rejectedMean": -2.03,
+     "chosenFell": 0.713,
+     "bothFell": 0.613,
+     "corr": 0.156,
+     "chosenMedian": -0.76,
+     "gapPerTokenMean": 0.0279,
+     "gapPerTokenMedian": 0.0085,
+     "chosenPerToken": -0.0111,
+     "rejectedPerToken": -0.0389
+    },
+    "dpo-b0.1-s1": {
+     "accuracy": 0.637,
+     "accuracyCI": [
+      0.583,
+      0.69
+     ],
+     "chosenMean": -4.36,
+     "chosenCI": [
+      -4.956,
+      -3.788
+     ],
+     "rejectedMean": -6.36,
+     "chosenFell": 0.813,
+     "bothFell": 0.753,
+     "corr": 0.185,
+     "chosenMedian": -3.3,
+     "gapPerTokenMean": 0.061,
+     "gapPerTokenMedian": 0.0173,
+     "chosenPerToken": -0.0421,
+     "rejectedPerToken": -0.103
+    }
+   },
+   "judge2": {},
+   "sftGoldTokenCorr": -0.114,
+   "sftGoldEnded": -0.391,
+   "sftGoldCapped": -1.99,
+   "sftCapped": 42,
+   "armVsArm2": {}
+  },
+  "gcp:exp-gcp": {
+   "length": {
+    "dpo-b0.1-s0": {
+     "all": {
+      "win": 0.595,
+      "winCI": [
+       0.53,
+       0.657
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.619,
+      "winCI": [
+       0.538,
+       0.7
+      ],
+      "n": 105
+     },
+     "goldTokenCorr": -0.057
+    },
+    "ipo-s0": {
+     "all": {
+      "win": 0.555,
+      "winCI": [
+       0.492,
+       0.618
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.553,
+      "winCI": [
+       0.481,
+       0.625
+      ],
+      "n": 132
+     },
+     "goldTokenCorr": -0.092
+    },
+    "simpo-s0": {
+     "all": {
+      "win": 0.627,
+      "winCI": [
+       0.562,
+       0.693
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.681,
+      "winCI": [
+       0.597,
+       0.759
+      ],
+      "n": 108
+     },
+     "goldTokenCorr": -0.014
+    },
+    "orpo-s0": {
+     "all": {
+      "win": 0.495,
+      "winCI": [
+       0.43,
+       0.56
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.484,
+      "winCI": [
+       0.413,
+       0.558
+      ],
+      "n": 155
+     },
+     "goldTokenCorr": -0.026
+    },
+    "kto-s0": {
+     "all": {
+      "win": 0.642,
+      "winCI": [
+       0.578,
+       0.708
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.637,
+      "winCI": [
+       0.552,
+       0.722
+      ],
+      "n": 106
+     },
+     "goldTokenCorr": -0.043
+    },
+    "onpolicy-gold-s0": {
+     "all": {
+      "win": 0.58,
+      "winCI": [
+       0.515,
+       0.645
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.594,
+      "winCI": [
+       0.518,
+       0.67
+      ],
+      "n": 138
+     },
+     "goldTokenCorr": -0.092
+    },
+    "onpolicy-proxy-s0": {
+     "all": {
+      "win": 0.588,
+      "winCI": [
+       0.522,
+       0.65
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.613,
+      "winCI": [
+       0.526,
+       0.696
+      ],
+      "n": 97
+     },
+     "goldTokenCorr": -0.12
+    },
+    "offline-gold-s0": {
+     "all": {
+      "win": 0.625,
+      "winCI": [
+       0.56,
+       0.688
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.627,
+      "winCI": [
+       0.53,
+       0.717
+      ],
+      "n": 83
+     },
+     "goldTokenCorr": -0.134
+    }
+   },
+   "armVsArm": {
+    "dpo-b0.1-s0 vs ipo-s0": {
+     "win": 0.605,
+     "winCI": [
+      0.54,
+      0.667
+     ],
+     "n": 200
+    },
+    "dpo-b0.1-s0 vs simpo-s0": {
+     "win": 0.443,
+     "winCI": [
+      0.378,
+      0.507
+     ],
+     "n": 200
+    },
+    "dpo-b0.1-s0 vs orpo-s0": {
+     "win": 0.603,
+     "winCI": [
+      0.535,
+      0.667
+     ],
+     "n": 200
+    },
+    "dpo-b0.1-s0 vs kto-s0": {
+     "win": 0.445,
+     "winCI": [
+      0.383,
+      0.507
+     ],
+     "n": 200
+    },
+    "dpo-b0.1-s0 vs onpolicy-gold-s0": {
+     "win": 0.525,
+     "winCI": [
+      0.46,
+      0.588
+     ],
+     "n": 200
+    },
+    "dpo-b0.1-s0 vs onpolicy-proxy-s0": {
+     "win": 0.565,
+     "winCI": [
+      0.5,
+      0.63
+     ],
+     "n": 200
+    },
+    "dpo-b0.1-s0 vs offline-gold-s0": {
+     "win": 0.502,
+     "winCI": [
+      0.438,
+      0.568
+     ],
+     "n": 200
+    },
+    "ipo-s0 vs simpo-s0": {
+     "win": 0.405,
+     "winCI": [
+      0.34,
+      0.47
+     ],
+     "n": 200
+    },
+    "ipo-s0 vs orpo-s0": {
+     "win": 0.552,
+     "winCI": [
+      0.487,
+      0.618
+     ],
+     "n": 200
+    },
+    "ipo-s0 vs kto-s0": {
+     "win": 0.378,
+     "winCI": [
+      0.315,
+      0.44
+     ],
+     "n": 200
+    },
+    "ipo-s0 vs onpolicy-gold-s0": {
+     "win": 0.445,
+     "winCI": [
+      0.378,
+      0.51
+     ],
+     "n": 200
+    },
+    "ipo-s0 vs onpolicy-proxy-s0": {
+     "win": 0.497,
+     "winCI": [
+      0.432,
+      0.56
+     ],
+     "n": 200
+    },
+    "ipo-s0 vs offline-gold-s0": {
+     "win": 0.422,
+     "winCI": [
+      0.36,
+      0.487
+     ],
+     "n": 200
+    },
+    "simpo-s0 vs orpo-s0": {
+     "win": 0.625,
+     "winCI": [
+      0.56,
+      0.69
+     ],
+     "n": 200
+    },
+    "simpo-s0 vs kto-s0": {
+     "win": 0.5,
+     "winCI": [
+      0.435,
+      0.565
+     ],
+     "n": 200
+    },
+    "simpo-s0 vs onpolicy-gold-s0": {
+     "win": 0.54,
+     "winCI": [
+      0.47,
+      0.605
+     ],
+     "n": 200
+    },
+    "simpo-s0 vs onpolicy-proxy-s0": {
+     "win": 0.593,
+     "winCI": [
+      0.525,
+      0.66
+     ],
+     "n": 200
+    },
+    "simpo-s0 vs offline-gold-s0": {
+     "win": 0.52,
+     "winCI": [
+      0.45,
+      0.588
+     ],
+     "n": 200
+    },
+    "orpo-s0 vs kto-s0": {
+     "win": 0.367,
+     "winCI": [
+      0.302,
+      0.432
+     ],
+     "n": 200
+    },
+    "orpo-s0 vs onpolicy-gold-s0": {
+     "win": 0.4,
+     "winCI": [
+      0.337,
+      0.465
+     ],
+     "n": 200
+    },
+    "orpo-s0 vs onpolicy-proxy-s0": {
+     "win": 0.438,
+     "winCI": [
+      0.372,
+      0.505
+     ],
+     "n": 200
+    },
+    "orpo-s0 vs offline-gold-s0": {
+     "win": 0.365,
+     "winCI": [
+      0.3,
+      0.43
+     ],
+     "n": 200
+    },
+    "kto-s0 vs onpolicy-gold-s0": {
+     "win": 0.522,
+     "winCI": [
+      0.455,
+      0.588
+     ],
+     "n": 200
+    },
+    "kto-s0 vs onpolicy-proxy-s0": {
+     "win": 0.595,
+     "winCI": [
+      0.53,
+      0.66
+     ],
+     "n": 200
+    },
+    "kto-s0 vs offline-gold-s0": {
+     "win": 0.502,
+     "winCI": [
+      0.438,
+      0.568
+     ],
+     "n": 200
+    },
+    "onpolicy-gold-s0 vs onpolicy-proxy-s0": {
+     "win": 0.55,
+     "winCI": [
+      0.485,
+      0.615
+     ],
+     "n": 200
+    },
+    "onpolicy-gold-s0 vs offline-gold-s0": {
+     "win": 0.47,
+     "winCI": [
+      0.405,
+      0.537
+     ],
+     "n": 200
+    },
+    "onpolicy-proxy-s0 vs offline-gold-s0": {
+     "win": 0.443,
+     "winCI": [
+      0.378,
+      0.507
+     ],
+     "n": 200
+    }
+   },
+   "heldOut": {
+    "dpo-b0.1-s0": {
+     "accuracy": 0.617,
+     "accuracyCI": [
+      0.56,
+      0.67
+     ],
+     "chosenMean": -4.27,
+     "chosenCI": [
+      -4.855,
+      -3.7
+     ],
+     "rejectedMean": -6.2,
+     "chosenFell": 0.817,
+     "bothFell": 0.733,
+     "corr": 0.259,
+     "chosenMedian": -2.73,
+     "gapPerTokenMean": 0.0658,
+     "gapPerTokenMedian": 0.0207,
+     "chosenPerToken": -0.0403,
+     "rejectedPerToken": -0.1061
+    },
+    "ipo-s0": {
+     "accuracy": 0.6,
+     "accuracyCI": [
+      0.543,
+      0.653
+     ],
+     "chosenMean": -1.52,
+     "chosenCI": [
+      -1.815,
+      -1.243
+     ],
+     "rejectedMean": -2.1,
+     "chosenFell": 0.677,
+     "bothFell": 0.6,
+     "corr": 0.291,
+     "chosenMedian": -0.91,
+     "gapPerTokenMean": 0.0173,
+     "gapPerTokenMedian": 0.0089,
+     "chosenPerToken": -0.0069,
+     "rejectedPerToken": -0.0243
+    },
+    "simpo-s0": {
+     "accuracy": 0.62,
+     "accuracyCI": [
+      0.563,
+      0.673
+     ],
+     "chosenMean": -23.82,
+     "chosenCI": [
+      -26.809,
+      -20.944
+     ],
+     "rejectedMean": -25.73,
+     "chosenFell": 0.907,
+     "bothFell": 0.86,
+     "corr": 0.446,
+     "chosenMedian": -15.12,
+     "gapPerTokenMean": 0.1056,
+     "gapPerTokenMedian": 0.0562,
+     "chosenPerToken": -0.1663,
+     "rejectedPerToken": -0.272
+    },
+    "orpo-s0": {
+     "accuracy": 0.54,
+     "accuracyCI": [
+      0.483,
+      0.597
+     ],
+     "chosenMean": -0.33,
+     "chosenCI": [
+      -0.504,
+      -0.165
+     ],
+     "rejectedMean": -0.42,
+     "chosenFell": 0.59,
+     "bothFell": 0.38,
+     "corr": 0.124,
+     "chosenMedian": -0.2,
+     "gapPerTokenMean": 0.0054,
+     "gapPerTokenMedian": 0.0011,
+     "chosenPerToken": 0.0046,
+     "rejectedPerToken": -0.0008
+    },
+    "kto-s0": {
+     "accuracy": 0.617,
+     "accuracyCI": [
+      0.563,
+      0.67
+     ],
+     "chosenMean": -12.02,
+     "chosenCI": [
+      -13.542,
+      -10.554
+     ],
+     "rejectedMean": -15.54,
+     "chosenFell": 0.857,
+     "bothFell": 0.807,
+     "corr": 0.273,
+     "chosenMedian": -8.17,
+     "gapPerTokenMean": 0.1137,
+     "gapPerTokenMedian": 0.0517,
+     "chosenPerToken": -0.1006,
+     "rejectedPerToken": -0.2144
+    },
+    "onpolicy-gold-s0": {
+     "accuracy": 0.583,
+     "accuracyCI": [
+      0.527,
+      0.637
+     ],
+     "chosenMean": -5.61,
+     "chosenCI": [
+      -6.414,
+      -4.828
+     ],
+     "rejectedMean": -7.2,
+     "chosenFell": 0.803,
+     "bothFell": 0.697,
+     "corr": 0.239,
+     "chosenMedian": -2.88,
+     "gapPerTokenMean": 0.047,
+     "gapPerTokenMedian": 0.0207,
+     "chosenPerToken": -0.0335,
+     "rejectedPerToken": -0.0805
+    },
+    "onpolicy-proxy-s0": {
+     "accuracy": 0.627,
+     "accuracyCI": [
+      0.573,
+      0.68
+     ],
+     "chosenMean": -2.02,
+     "chosenCI": [
+      -2.371,
+      -1.675
+     ],
+     "rejectedMean": -3.05,
+     "chosenFell": 0.76,
+     "bothFell": 0.667,
+     "corr": 0.17,
+     "chosenMedian": -1.26,
+     "gapPerTokenMean": 0.0376,
+     "gapPerTokenMedian": 0.0115,
+     "chosenPerToken": -0.0247,
+     "rejectedPerToken": -0.0623
+    },
+    "offline-gold-s0": {
+     "accuracy": 0.62,
+     "accuracyCI": [
+      0.563,
+      0.677
+     ],
+     "chosenMean": -5.72,
+     "chosenCI": [
+      -6.528,
+      -4.936
+     ],
+     "rejectedMean": -8.1,
+     "chosenFell": 0.837,
+     "bothFell": 0.777,
+     "corr": 0.253,
+     "chosenMedian": -3.7,
+     "gapPerTokenMean": 0.0805,
+     "gapPerTokenMedian": 0.0266,
+     "chosenPerToken": -0.0686,
+     "rejectedPerToken": -0.1491
+    }
+   },
+   "judge2": {
+    "dpo-b0.1-s0": {
+     "all": {
+      "win": 0.57,
+      "winCI": [
+       0.505,
+       0.635
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.59,
+      "winCI": [
+       0.505,
+       0.676
+      ],
+      "n": 105
+     }
+    },
+    "ipo-s0": {
+     "all": {
+      "win": 0.52,
+      "winCI": [
+       0.455,
+       0.583
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.545,
+      "winCI": [
+       0.47,
+       0.618
+      ],
+      "n": 132
+     }
+    },
+    "simpo-s0": {
+     "all": {
+      "win": 0.615,
+      "winCI": [
+       0.55,
+       0.68
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.694,
+      "winCI": [
+       0.611,
+       0.773
+      ],
+      "n": 108
+     }
+    },
+    "orpo-s0": {
+     "all": {
+      "win": 0.497,
+      "winCI": [
+       0.432,
+       0.562
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.506,
+      "winCI": [
+       0.435,
+       0.577
+      ],
+      "n": 155
+     }
+    },
+    "kto-s0": {
+     "all": {
+      "win": 0.615,
+      "winCI": [
+       0.55,
+       0.68
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.67,
+      "winCI": [
+       0.585,
+       0.75
+      ],
+      "n": 106
+     }
+    },
+    "onpolicy-gold-s0": {
+     "all": {
+      "win": 0.627,
+      "winCI": [
+       0.562,
+       0.69
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.638,
+      "winCI": [
+       0.565,
+       0.71
+      ],
+      "n": 138
+     }
+    },
+    "onpolicy-proxy-s0": {
+     "all": {
+      "win": 0.547,
+      "winCI": [
+       0.482,
+       0.613
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.572,
+      "winCI": [
+       0.485,
+       0.66
+      ],
+      "n": 97
+     }
+    },
+    "offline-gold-s0": {
+     "all": {
+      "win": 0.615,
+      "winCI": [
+       0.55,
+       0.68
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.675,
+      "winCI": [
+       0.584,
+       0.759
+      ],
+      "n": 83
+     }
+    }
+   },
+   "sftGoldTokenCorr": -0.105,
+   "sftGoldEnded": -0.436,
+   "sftGoldCapped": -1.761,
+   "sftCapped": 40,
+   "armVsArm2": {
+    "dpo-b0.1-s0 vs ipo-s0": {
+     "win": 0.6,
+     "winCI": [
+      0.535,
+      0.665
+     ],
+     "n": 200
+    },
+    "dpo-b0.1-s0 vs simpo-s0": {
+     "win": 0.46,
+     "winCI": [
+      0.393,
+      0.527
+     ],
+     "n": 200
+    },
+    "dpo-b0.1-s0 vs orpo-s0": {
+     "win": 0.578,
+     "winCI": [
+      0.512,
+      0.642
+     ],
+     "n": 200
+    },
+    "dpo-b0.1-s0 vs kto-s0": {
+     "win": 0.458,
+     "winCI": [
+      0.398,
+      0.517
+     ],
+     "n": 200
+    },
+    "dpo-b0.1-s0 vs onpolicy-gold-s0": {
+     "win": 0.44,
+     "winCI": [
+      0.375,
+      0.505
+     ],
+     "n": 200
+    },
+    "dpo-b0.1-s0 vs onpolicy-proxy-s0": {
+     "win": 0.552,
+     "winCI": [
+      0.485,
+      0.618
+     ],
+     "n": 200
+    },
+    "dpo-b0.1-s0 vs offline-gold-s0": {
+     "win": 0.48,
+     "winCI": [
+      0.412,
+      0.547
+     ],
+     "n": 200
+    },
+    "ipo-s0 vs simpo-s0": {
+     "win": 0.385,
+     "winCI": [
+      0.32,
+      0.453
+     ],
+     "n": 200
+    },
+    "ipo-s0 vs orpo-s0": {
+     "win": 0.497,
+     "winCI": [
+      0.432,
+      0.56
+     ],
+     "n": 200
+    },
+    "ipo-s0 vs kto-s0": {
+     "win": 0.383,
+     "winCI": [
+      0.318,
+      0.448
+     ],
+     "n": 200
+    },
+    "ipo-s0 vs onpolicy-gold-s0": {
+     "win": 0.393,
+     "winCI": [
+      0.33,
+      0.458
+     ],
+     "n": 200
+    },
+    "ipo-s0 vs onpolicy-proxy-s0": {
+     "win": 0.47,
+     "winCI": [
+      0.405,
+      0.535
+     ],
+     "n": 200
+    },
+    "ipo-s0 vs offline-gold-s0": {
+     "win": 0.403,
+     "winCI": [
+      0.338,
+      0.468
+     ],
+     "n": 200
+    },
+    "simpo-s0 vs orpo-s0": {
+     "win": 0.61,
+     "winCI": [
+      0.542,
+      0.677
+     ],
+     "n": 200
+    },
+    "simpo-s0 vs kto-s0": {
+     "win": 0.517,
+     "winCI": [
+      0.448,
+      0.585
+     ],
+     "n": 200
+    },
+    "simpo-s0 vs onpolicy-gold-s0": {
+     "win": 0.495,
+     "winCI": [
+      0.427,
+      0.562
+     ],
+     "n": 200
+    },
+    "simpo-s0 vs onpolicy-proxy-s0": {
+     "win": 0.593,
+     "winCI": [
+      0.522,
+      0.66
+     ],
+     "n": 200
+    },
+    "simpo-s0 vs offline-gold-s0": {
+     "win": 0.492,
+     "winCI": [
+      0.425,
+      0.562
+     ],
+     "n": 200
+    },
+    "orpo-s0 vs kto-s0": {
+     "win": 0.378,
+     "winCI": [
+      0.312,
+      0.443
+     ],
+     "n": 200
+    },
+    "orpo-s0 vs onpolicy-gold-s0": {
+     "win": 0.41,
+     "winCI": [
+      0.345,
+      0.475
+     ],
+     "n": 200
+    },
+    "orpo-s0 vs onpolicy-proxy-s0": {
+     "win": 0.445,
+     "winCI": [
+      0.38,
+      0.512
+     ],
+     "n": 200
+    },
+    "orpo-s0 vs offline-gold-s0": {
+     "win": 0.375,
+     "winCI": [
+      0.31,
+      0.44
+     ],
+     "n": 200
+    },
+    "kto-s0 vs onpolicy-gold-s0": {
+     "win": 0.485,
+     "winCI": [
+      0.42,
+      0.55
+     ],
+     "n": 200
+    },
+    "kto-s0 vs onpolicy-proxy-s0": {
+     "win": 0.573,
+     "winCI": [
+      0.505,
+      0.64
+     ],
+     "n": 200
+    },
+    "kto-s0 vs offline-gold-s0": {
+     "win": 0.492,
+     "winCI": [
+      0.425,
+      0.557
+     ],
+     "n": 200
+    },
+    "onpolicy-gold-s0 vs onpolicy-proxy-s0": {
+     "win": 0.583,
+     "winCI": [
+      0.517,
+      0.65
+     ],
+     "n": 200
+    },
+    "onpolicy-gold-s0 vs offline-gold-s0": {
+     "win": 0.475,
+     "winCI": [
+      0.407,
+      0.542
+     ],
+     "n": 200
+    },
+    "onpolicy-proxy-s0 vs offline-gold-s0": {
+     "win": 0.448,
+     "winCI": [
+      0.383,
+      0.515
+     ],
+     "n": 200
+    }
+   },
+   "judgeAgreement": {
+    "dpo-b0.1-s0": 0.843,
+    "ipo-s0": 0.85,
+    "simpo-s0": 0.809,
+    "orpo-s0": 0.844,
+    "kto-s0": 0.807,
+    "onpolicy-gold-s0": 0.818,
+    "onpolicy-proxy-s0": 0.864,
+    "offline-gold-s0": 0.849,
+    "sft": 0.826
+   }
+  },
+  "gcp:defaults-gcp": {
+   "length": {
+    "dpo-b0.1-s0": {
+     "all": {
+      "win": 0.562,
+      "winCI": [
+       0.497,
+       0.627
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.588,
+      "winCI": [
+       0.509,
+       0.668
+      ],
+      "n": 113
+     },
+     "goldTokenCorr": -0.058
+    }
+   },
+   "armVsArm": {},
+   "heldOut": {
+    "dpo-b0.1-s0": {
+     "accuracy": 0.617,
+     "accuracyCI": [
+      0.56,
+      0.67
+     ],
+     "chosenMean": -4.26,
+     "chosenCI": [
+      -4.844,
+      -3.69
+     ],
+     "rejectedMean": -6.2,
+     "chosenFell": 0.82,
+     "bothFell": 0.737,
+     "corr": 0.26,
+     "chosenMedian": -2.72,
+     "gapPerTokenMean": 0.0653,
+     "gapPerTokenMedian": 0.0212,
+     "chosenPerToken": -0.0406,
+     "rejectedPerToken": -0.1059
+    }
+   },
+   "judge2": {
+    "dpo-b0.1-s0": {
+     "all": {
+      "win": 0.59,
+      "winCI": [
+       0.525,
+       0.655
+      ],
+      "n": 200
+     },
+     "notLonger": {
+      "win": 0.584,
+      "winCI": [
+       0.5,
+       0.664
+      ],
+      "n": 113
+     }
+    }
+   },
+   "sftGoldTokenCorr": -0.114,
+   "sftGoldEnded": -0.391,
+   "sftGoldCapped": -1.99,
+   "sftCapped": 42,
+   "armVsArm2": {},
+   "judgeAgreement": {
+    "dpo-b0.1-s0": 0.851,
+    "sft": 0.824
+   }
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-09",
+ "command": "python.exe analyze_runs.py ../../kaggle/out/llt-dpo-core/llt_dpo_core.json ../../kaggle/out/gcp-llt-dpo-exp/llt_dpo_exp-gcp.json ../../kaggle/out/gcp-llt-dpo-defaults/llt_dpo_defaults-gcp.json"
+}
