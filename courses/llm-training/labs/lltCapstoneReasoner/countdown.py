@@ -195,7 +195,7 @@ def correct(reply, gold):
 
 
 def reward_with_format(reply, gold, bonus=0.1):
-    """The TinyZero-style alternative: bonus for a well-formed but wrong answer. Not used in our reference runs."""
+    """The TinyZero-style shaped reward: a small bonus for a well-formed but wrong answer. Our reference runs use it (train.py --reward format, the default)."""
     p = json.loads(gold)
     expr = extract_answer(reply)
     ok, why = check(expr, p["nums"], p["target"])

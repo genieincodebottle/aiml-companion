@@ -350,7 +350,7 @@
    "kl": 0.11429,
    "clipFrac": 0.0002,
    "entropy": 0.5098,
-   "gradNorm": NaN,
+   "gradNorm": null,
    "genSec": 33.9,
    "sec": 46.0
   },

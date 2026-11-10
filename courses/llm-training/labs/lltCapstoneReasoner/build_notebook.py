@@ -23,7 +23,7 @@ CELLS = [
              "LAB = os.path.join(WORK, 'aiml-companion/courses/llm-training/labs/lltCapstoneReasoner')\n"
              "os.chdir(LAB)\n"
              "!python test_capstone.py"),
-    ("md", "## Choose the cell this session trains\n\nThe ablation has 4 cells x 2 seeds. Keep `OUT` on storage that survives the session "
+    ("md", "## Choose the cell this session trains\n\nThe ablation has 4 cells x 3 seeds (our reference ran 3 seeds per cell). Keep `OUT` on storage that survives the session "
            "(Kaggle: save the output as a dataset or download `runs/`; Colab: mount Google Drive and point `RUNS` there)."),
     ("code", "AGG, SCALE, SEED = 'grpo', 1, 0          # agg: grpo | dr_grpo ; scale: 1 | 0 ; seed: 0 | 1\n"
              "MAX_MINUTES = 100                         # stop cleanly before the session limit, then resume\n"
