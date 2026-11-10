@@ -1,0 +1,200 @@
+{"nums": [43, 49, 7], "target": 50, "solution": "43 + (49 / 7)"}
+{"nums": [5, 30, 11], "target": 95, "solution": "5 * (30 - 11)"}
+{"nums": [9, 15, 43], "target": 37, "solution": "9 - (15 - 43)"}
+{"nums": [44, 32, 13], "target": 89, "solution": "13 + (32 + 44)"}
+{"nums": [15, 30, 12], "target": 10, "solution": "12 - (30 / 15)"}
+{"nums": [10, 30, 46], "target": 66, "solution": "30 - (10 - 46)"}
+{"nums": [2, 49, 35], "target": 86, "solution": "2 + (35 + 49)"}
+{"nums": [35, 12, 45], "target": 92, "solution": "12 + (35 + 45)"}
+{"nums": [17, 11, 19], "target": 13, "solution": "11 - (17 - 19)"}
+{"nums": [21, 2, 41], "target": 40, "solution": "2 * (41 - 21)"}
+{"nums": [34, 50, 50], "target": 33, "solution": "34 - (50 / 50)"}
+{"nums": [19, 25, 21], "target": 76, "solution": "19 * (25 - 21)"}
+{"nums": [15, 23, 40], "target": 48, "solution": "23 - (15 - 40)"}
+{"nums": [19, 25, 30], "target": 36, "solution": "25 - (19 - 30)"}
+{"nums": [39, 18, 31], "target": 52, "solution": "31 - (18 - 39)"}
+{"nums": [4, 10, 29], "target": 69, "solution": "29 + (4 * 10)"}
+{"nums": [15, 19, 2], "target": 49, "solution": "19 + (2 * 15)"}
+{"nums": [14, 9, 41], "target": 85, "solution": "(9 * 14) - 41"}
+{"nums": [23, 22, 19], "target": 88, "solution": "22 * (23 - 19)"}
+{"nums": [44, 13, 26], "target": 88, "solution": "26 / (13 / 44)"}
+{"nums": [15, 16, 20], "target": 21, "solution": "16 - (15 - 20)"}
+{"nums": [21, 1, 36], "target": 57, "solution": "1 * (21 + 36)"}
+{"nums": [7, 32, 27], "target": 66, "solution": "7 + (27 + 32)"}
+{"nums": [26, 34, 2], "target": 30, "solution": "(26 + 34) / 2"}
+{"nums": [3, 13, 13], "target": 23, "solution": "13 - (3 - 13)"}
+{"nums": [13, 10, 7], "target": 16, "solution": "10 - (7 - 13)"}
+{"nums": [36, 18, 14], "target": 40, "solution": "18 - (14 - 36)"}
+{"nums": [7, 47, 14], "target": 26, "solution": "47 - (7 + 14)"}
+{"nums": [10, 50, 48], "target": 43, "solution": "48 - (50 / 10)"}
+{"nums": [6, 32, 18], "target": 44, "solution": "18 - (6 - 32)"}
+{"nums": [18, 40, 2], "target": 60, "solution": "2 + (18 + 40)"}
+{"nums": [16, 49, 10], "target": 75, "solution": "10 + (16 + 49)"}
+{"nums": [31, 11, 17], "target": 59, "solution": "11 + (17 + 31)"}
+{"nums": [46, 50, 1], "target": 97, "solution": "1 + (46 + 50)"}
+{"nums": [30, 48, 39], "target": 21, "solution": "30 + (39 - 48)"}
+{"nums": [5, 45, 31], "target": 40, "solution": "31 + (45 / 5)"}
+{"nums": [2, 28, 7], "target": 33, "solution": "7 - (2 - 28)"}
+{"nums": [22, 15, 22], "target": 15, "solution": "15 + (22 - 22)"}
+{"nums": [15, 49, 38], "target": 26, "solution": "15 - (38 - 49)"}
+{"nums": [35, 32, 31], "target": 34, "solution": "31 - (32 - 35)"}
+{"nums": [47, 46, 45], "target": 46, "solution": "45 - (46 - 47)"}
+{"nums": [13, 39, 39], "target": 91, "solution": "13 + (39 + 39)"}
+{"nums": [22, 7, 17], "target": 35, "solution": "7 * (22 - 17)"}
+{"nums": [21, 50, 32], "target": 61, "solution": "32 - (21 - 50)"}
+{"nums": [12, 10, 19], "target": 41, "solution": "10 + (12 + 19)"}
+{"nums": [8, 49, 17], "target": 40, "solution": "8 - (17 - 49)"}
+{"nums": [41, 26, 11], "target": 56, "solution": "26 - (11 - 41)"}
+{"nums": [17, 17, 35], "target": 34, "solution": "35 - (17 / 17)"}
+{"nums": [48, 35, 34], "target": 21, "solution": "34 + (35 - 48)"}
+{"nums": [10, 48, 31], "target": 69, "solution": "31 - (10 - 48)"}
+{"nums": [46, 13, 9], "target": 68, "solution": "9 + (13 + 46)"}
+{"nums": [1, 20, 46], "target": 67, "solution": "1 + (20 + 46)"}
+{"nums": [6, 26, 43], "target": 23, "solution": "6 - (26 - 43)"}
+{"nums": [24, 25, 50], "target": 51, "solution": "25 - (24 - 50)"}
+{"nums": [45, 1, 48], "target": 94, "solution": "1 + (45 + 48)"}
+{"nums": [19, 29, 19], "target": 29, "solution": "19 - (19 - 29)"}
+{"nums": [49, 5, 46], "target": 15, "solution": "5 * (49 - 46)"}
+{"nums": [17, 49, 9], "target": 23, "solution": "49 - (9 + 17)"}
+{"nums": [49, 15, 30], "target": 98, "solution": "30 / (15 / 49)"}
+{"nums": [32, 19, 46], "target": 59, "solution": "32 - (19 - 46)"}
+{"nums": [5, 41, 32], "target": 78, "solution": "5 + (32 + 41)"}
+{"nums": [16, 9, 41], "target": 16, "solution": "41 - (9 + 16)"}
+{"nums": [13, 28, 30], "target": 45, "solution": "28 - (13 - 30)"}
+{"nums": [21, 43, 18], "target": 40, "solution": "18 - (21 - 43)"}
+{"nums": [23, 8, 35], "target": 50, "solution": "23 - (8 - 35)"}
+{"nums": [33, 1, 32], "target": 64, "solution": "32 - (1 - 33)"}
+{"nums": [41, 8, 26], "target": 59, "solution": "26 - (8 - 41)"}
+{"nums": [43, 12, 44], "target": 13, "solution": "12 - (43 - 44)"}
+{"nums": [1, 29, 22], "target": 51, "solution": "1 * (22 + 29)"}
+{"nums": [23, 32, 4], "target": 60, "solution": "(4 * 23) - 32"}
+{"nums": [43, 25, 27], "target": 45, "solution": "27 - (25 - 43)"}
+{"nums": [34, 35, 46], "target": 45, "solution": "34 - (35 - 46)"}
+{"nums": [46, 44, 42], "target": 48, "solution": "44 - (42 - 46)"}
+{"nums": [41, 49, 7], "target": 83, "solution": "41 - (7 - 49)"}
+{"nums": [22, 15, 3], "target": 67, "solution": "22 + (3 * 15)"}
+{"nums": [36, 48, 30], "target": 54, "solution": "36 - (30 - 48)"}
+{"nums": [37, 47, 47], "target": 36, "solution": "37 - (47 / 47)"}
+{"nums": [9, 4, 40], "target": 27, "solution": "40 - (4 + 9)"}
+{"nums": [33, 10, 3], "target": 63, "solution": "33 + (3 * 10)"}
+{"nums": [23, 14, 42], "target": 79, "solution": "14 + (23 + 42)"}
+{"nums": [42, 41, 41], "target": 42, "solution": "41 - (41 - 42)"}
+{"nums": [31, 34, 4], "target": 69, "solution": "4 + (31 + 34)"}
+{"nums": [11, 15, 19], "target": 23, "solution": "15 - (11 - 19)"}
+{"nums": [47, 50, 15], "target": 82, "solution": "47 - (15 - 50)"}
+{"nums": [36, 15, 39], "target": 45, "solution": "15 * (39 - 36)"}
+{"nums": [18, 50, 38], "target": 30, "solution": "18 - (38 - 50)"}
+{"nums": [6, 46, 24], "target": 98, "solution": "(6 * 24) - 46"}
+{"nums": [10, 48, 46], "target": 84, "solution": "46 - (10 - 48)"}
+{"nums": [24, 39, 34], "target": 29, "solution": "24 - (34 - 39)"}
+{"nums": [38, 12, 37], "target": 87, "solution": "12 + (37 + 38)"}
+{"nums": [27, 20, 47], "target": 94, "solution": "20 + (27 + 47)"}
+{"nums": [49, 40, 47], "target": 20, "solution": "40 / (49 - 47)"}
+{"nums": [13, 37, 22], "target": 28, "solution": "13 - (22 - 37)"}
+{"nums": [12, 31, 33], "target": 76, "solution": "12 + (31 + 33)"}
+{"nums": [13, 19, 36], "target": 68, "solution": "13 + (19 + 36)"}
+{"nums": [40, 13, 20], "target": 15, "solution": "13 + (40 / 20)"}
+{"nums": [22, 8, 47], "target": 33, "solution": "8 - (22 - 47)"}
+{"nums": [44, 36, 7], "target": 87, "solution": "7 + (36 + 44)"}
+{"nums": [2, 3, 28], "target": 62, "solution": "2 * (3 + 28)"}
+{"nums": [9, 14, 3], "target": 69, "solution": "3 * (9 + 14)"}
+{"nums": [4, 50, 31, 50], "target": 31, "solution": "31 + (4 * (50 - 50))"}
+{"nums": [37, 41, 9, 50], "target": 44, "solution": "(9 * (50 - 41)) - 37"}
+{"nums": [42, 10, 35, 43], "target": 44, "solution": "10 + (35 + (42 - 43))"}
+{"nums": [23, 34, 28, 2], "target": 31, "solution": "2 + (23 - (28 - 34))"}
+{"nums": [39, 41, 38, 45], "target": 85, "solution": "38 - (39 - (41 + 45))"}
+{"nums": [5, 46, 3, 15], "target": 75, "solution": "5 / ((46 / 15) - 3)"}
+{"nums": [38, 48, 15, 34], "target": 12, "solution": "(15 * (38 - 34)) - 48"}
+{"nums": [30, 27, 4, 22], "target": 45, "solution": "27 * (30 / (22 - 4))"}
+{"nums": [13, 26, 30, 40], "target": 12, "solution": "40 - (30 - (26 / 13))"}
+{"nums": [19, 7, 42, 20], "target": 10, "solution": "7 - (19 + (20 - 42))"}
+{"nums": [3, 7, 8, 33], "target": 62, "solution": "8 + (33 + (3 * 7))"}
+{"nums": [14, 13, 35, 1], "target": 30, "solution": "35 / (14 / (13 - 1))"}
+{"nums": [10, 42, 9, 20], "target": 31, "solution": "42 - (9 + (20 / 10))"}
+{"nums": [35, 37, 33, 35], "target": 74, "solution": "35 - (33 - (35 + 37))"}
+{"nums": [15, 39, 1, 29], "target": 52, "solution": "29 - (1 + (15 - 39))"}
+{"nums": [22, 2, 10, 25], "target": 36, "solution": "(2 + 10) * (25 - 22)"}
+{"nums": [35, 27, 48, 26], "target": 20, "solution": "26 + (48 / (27 - 35))"}
+{"nums": [3, 15, 1, 45], "target": 63, "solution": "1 * (3 + (15 + 45))"}
+{"nums": [35, 46, 39, 24], "target": 96, "solution": "35 - (24 - (39 + 46))"}
+{"nums": [13, 39, 46, 28], "target": 92, "solution": "46 * (13 + (28 - 39))"}
+{"nums": [18, 50, 43, 10], "target": 12, "solution": "10 - (50 / (18 - 43))"}
+{"nums": [37, 48, 49, 21], "target": 63, "solution": "((48 * 49) - 21) / 37"}
+{"nums": [11, 46, 27, 23], "target": 43, "solution": "(27 / (23 / 46)) - 11"}
+{"nums": [37, 11, 11, 16], "target": 16, "solution": "16 + (37 * (11 - 11))"}
+{"nums": [27, 36, 39, 20], "target": 11, "solution": "20 + (27 / (36 - 39))"}
+{"nums": [41, 8, 6, 13], "target": 71, "solution": "41 - (6 * (8 - 13))"}
+{"nums": [46, 25, 20, 42], "target": 83, "solution": "20 - (25 - (42 + 46))"}
+{"nums": [27, 3, 14, 9], "target": 43, "solution": "3 * (14 + (9 / 27))"}
+{"nums": [14, 39, 33, 35], "target": 89, "solution": "33 - (14 * (35 - 39))"}
+{"nums": [25, 8, 13, 37], "target": 28, "solution": "25 - ((13 - 37) / 8)"}
+{"nums": [50, 1, 6, 25], "target": 28, "solution": "25 * (1 + (6 / 50))"}
+{"nums": [34, 1, 8, 43], "target": 16, "solution": "8 - (1 + (34 - 43))"}
+{"nums": [35, 41, 36, 47], "target": 29, "solution": "35 + (36 / (41 - 47))"}
+{"nums": [16, 47, 42, 49], "target": 56, "solution": "16 + (42 + (47 - 49))"}
+{"nums": [29, 31, 8, 5], "target": 24, "solution": "8 * (5 + (29 - 31))"}
+{"nums": [35, 13, 46, 31], "target": 70, "solution": "35 * (46 - (13 + 31))"}
+{"nums": [46, 7, 3, 6], "target": 13, "solution": "6 + ((3 + 46) / 7)"}
+{"nums": [29, 24, 27, 40], "target": 95, "solution": "(27 * (29 - 24)) - 40"}
+{"nums": [46, 7, 32, 35], "target": 19, "solution": "46 - (32 - (35 / 7))"}
+{"nums": [49, 20, 34, 5], "target": 79, "solution": "34 + (49 - (20 / 5))"}
+{"nums": [32, 31, 5, 33], "target": 69, "solution": "5 - (32 * (31 - 33))"}
+{"nums": [36, 5, 7, 22], "target": 33, "solution": "36 + ((7 - 22) / 5)"}
+{"nums": [14, 37, 39, 15], "target": 76, "solution": "37 - (39 * (14 - 15))"}
+{"nums": [1, 21, 4, 46], "target": 59, "solution": "(21 * (1 + 4)) - 46"}
+{"nums": [44, 24, 21, 16], "target": 57, "solution": "16 + (21 - (24 - 44))"}
+{"nums": [34, 25, 10, 41], "target": 41, "solution": "41 * (10 + (25 - 34))"}
+{"nums": [15, 47, 50, 22], "target": 13, "solution": "15 + (50 / (22 - 47))"}
+{"nums": [40, 38, 21, 36], "target": 82, "solution": "40 - (21 * (36 - 38))"}
+{"nums": [44, 6, 9, 11], "target": 22, "solution": "6 / (9 / (44 - 11))"}
+{"nums": [19, 13, 1, 2], "target": 25, "solution": "1 * ((2 * 19) - 13)"}
+{"nums": [19, 39, 35, 18], "target": 74, "solution": "35 - (39 * (18 - 19))"}
+{"nums": [42, 15, 31, 44], "target": 70, "solution": "15 - (31 - (42 + 44))"}
+{"nums": [11, 10, 12, 2], "target": 89, "solution": "(10 * (12 - 2)) - 11"}
+{"nums": [46, 49, 35, 16], "target": 83, "solution": "35 - (16 * (46 - 49))"}
+{"nums": [17, 16, 17, 23], "target": 40, "solution": "16 + (23 + (17 / 17))"}
+{"nums": [17, 33, 45, 28], "target": 15, "solution": "45 / (33 / (28 - 17))"}
+{"nums": [10, 45, 10, 13], "target": 32, "solution": "10 - (10 + (13 - 45))"}
+{"nums": [19, 10, 7, 49], "target": 90, "solution": "(7 - 10) * (19 - 49)"}
+{"nums": [26, 43, 21, 26], "target": 74, "solution": "26 - (21 - (26 + 43))"}
+{"nums": [10, 44, 49, 40], "target": 38, "solution": "40 + (10 / (44 - 49))"}
+{"nums": [21, 12, 39, 24], "target": 25, "solution": "12 - (39 / (21 - 24))"}
+{"nums": [35, 22, 4, 1], "target": 61, "solution": "1 * (4 + (22 + 35))"}
+{"nums": [23, 6, 10, 50], "target": 69, "solution": "6 - (10 - (23 + 50))"}
+{"nums": [2, 8, 7, 29], "target": 54, "solution": "2 * ((7 * 8) - 29)"}
+{"nums": [12, 11, 33, 21], "target": 12, "solution": "11 - (12 / (21 - 33))"}
+{"nums": [17, 4, 2, 39], "target": 52, "solution": "2 * (4 - (17 - 39))"}
+{"nums": [24, 36, 37, 7], "target": 47, "solution": "(7 * (36 - 24)) - 37"}
+{"nums": [48, 30, 50, 32], "target": 70, "solution": "50 + (30 * (32 / 48))"}
+{"nums": [36, 18, 31, 2], "target": 45, "solution": "18 / (2 / (36 - 31))"}
+{"nums": [44, 21, 43, 23], "target": 44, "solution": "21 - (23 * (43 - 44))"}
+{"nums": [10, 28, 8, 35], "target": 66, "solution": "10 - (8 * (28 - 35))"}
+{"nums": [32, 10, 20, 26], "target": 48, "solution": "10 - (20 - (26 + 32))"}
+{"nums": [38, 3, 44, 27], "target": 18, "solution": "27 - (3 - (38 - 44))"}
+{"nums": [34, 24, 32, 15], "target": 75, "solution": "24 - (15 - (32 + 34))"}
+{"nums": [19, 29, 1, 32], "target": 79, "solution": "19 - (1 - (29 + 32))"}
+{"nums": [12, 33, 25, 34], "target": 54, "solution": "12 - (25 - (33 + 34))"}
+{"nums": [25, 14, 42, 43], "target": 15, "solution": "43 - (25 + (42 / 14))"}
+{"nums": [14, 27, 47, 12], "target": 100, "solution": "12 + (14 + (27 + 47))"}
+{"nums": [13, 7, 30, 40], "target": 15, "solution": "30 / (40 / (7 + 13))"}
+{"nums": [39, 19, 27, 50], "target": 97, "solution": "27 - (19 - (39 + 50))"}
+{"nums": [45, 13, 33, 19], "target": 49, "solution": "45 + ((19 + 33) / 13)"}
+{"nums": [3, 41, 32, 27], "target": 24, "solution": "27 + ((32 - 41) / 3)"}
+{"nums": [5, 24, 37, 10], "target": 11, "solution": "24 + (37 - (5 * 10))"}
+{"nums": [43, 30, 7, 30], "target": 25, "solution": "30 * (30 / (43 - 7))"}
+{"nums": [35, 27, 10, 27], "target": 54, "solution": "27 * (10 + (27 - 35))"}
+{"nums": [7, 23, 4, 12], "target": 53, "solution": "(4 * (7 + 12)) - 23"}
+{"nums": [9, 27, 14, 34], "target": 35, "solution": "(9 - 14) * (27 - 34)"}
+{"nums": [19, 28, 14, 45], "target": 24, "solution": "45 - (19 + (28 / 14))"}
+{"nums": [25, 30, 42, 16], "target": 22, "solution": "25 + (42 / (16 - 30))"}
+{"nums": [31, 41, 13, 47], "target": 12, "solution": "31 - (13 - (41 - 47))"}
+{"nums": [41, 40, 12, 41], "target": 54, "solution": "12 - (40 - (41 + 41))"}
+{"nums": [1, 14, 13, 45], "target": 17, "solution": "45 - (1 + (13 + 14))"}
+{"nums": [42, 44, 17, 17], "target": 86, "solution": "17 - (17 - (42 + 44))"}
+{"nums": [46, 14, 24, 13], "target": 19, "solution": "((13 * 24) - 46) / 14"}
+{"nums": [18, 33, 8, 5], "target": 21, "solution": "(5 * 33) - (8 * 18)"}
+{"nums": [48, 1, 49, 13], "target": 84, "solution": "1 * (48 - (13 - 49))"}
+{"nums": [28, 43, 49, 1], "target": 24, "solution": "28 / (49 / (43 - 1))"}
+{"nums": [4, 6, 9, 40], "target": 16, "solution": "40 / (4 - (9 / 6))"}
+{"nums": [23, 31, 35, 14], "target": 36, "solution": "(14 - 23) * (31 - 35)"}
+{"nums": [10, 29, 2, 26], "target": 17, "solution": "26 - (29 - (2 * 10))"}
