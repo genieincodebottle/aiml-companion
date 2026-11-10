@@ -1,0 +1,57 @@
+{
+ "runId": "lltShip-T3-ollama",
+ "module": "lltShip",
+ "tier": "T3",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "Google Cloud a2-highgpu-1g, 12 vCPU, GPU hidden (CUDA_VISIBLE_DEVICES empty)",
+  "provider": "Google Cloud Spot VM llt-c3, us-central1-a"
+ },
+ "env": {
+  "ollama": "0.40.16",
+  "python": "3.12.16"
+ },
+ "notebookCommit": null,
+ "config": {
+  "ollama": "0.40.16",
+  "file": "merged-Q4_K_M.gguf (task arithmetic 1.0 / 0.5)",
+  "prompts": 20,
+  "options": {
+   "temperature": 0,
+   "num_predict": 256
+  },
+  "models": {
+   "ship": "Modelfile from code cell 11",
+   "ship-notemplate": "same file, no TEMPLATE line"
+  }
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "ship": {
+   "stopRate": 0.8,
+   "leakRate": 0.0,
+   "sec": 46.9,
+   "template": "### Instruction:\n{{ .Prompt }}\n\n### Response:\n",
+   "first": "The body was found in the ice in Charlotte (Rochester) early the next spring by Silas Hudson."
+  },
+  "ship-notemplate": {
+   "stopRate": 0.55,
+   "leakRate": 0.0,
+   "sec": 70.7,
+   "template": "{% for m in messages %}{% if m['role'] == 'user' %}### Instruction:\n{{ m['content'] }}\n\n### Response:\n{% elif m['role'] == 'assistant' %}{{ m['content'] }}<|endoftext|>{% endif %}{% endfor %}",
+   "first": "****\nQ: The first step is to find out what the problem is and then to solve it ."
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-11",
+ "command": "python.exe ollama_check.py ollama-0.40.16/bin/ollama",
+ "notes": "CPU only, run while another job used the GPU and some CPU, so seconds are rough. Version string read from 'ollama --version' (client line)."
+}

@@ -1,0 +1,152 @@
+2026-11-10T10:03:32Z start data
+2026-11-10T10:04:25Z end data rc=0
+0 MiB
+2026-11-10T10:04:25Z start sft
+2026-11-10T10:04:33Z end sft rc=1
+0 MiB
+2026-11-10T10:09:31Z start data
+2026-11-10T10:09:33Z end data rc=0
+0 MiB
+2026-11-10T10:09:33Z start sft
+2026-11-10T10:11:04Z end sft rc=0
+0 MiB
+2026-11-10T10:11:04Z start sample
+2026-11-10T10:12:34Z end sample rc=1
+0 MiB
+2026-11-10T10:14:04Z start data
+2026-11-10T10:14:06Z end data rc=0
+0 MiB
+2026-11-10T10:14:06Z start sft
+2026-11-10T10:14:07Z end sft rc=0
+0 MiB
+2026-11-10T10:14:07Z start sample
+2026-11-10T10:17:08Z end sample rc=0
+0 MiB
+2026-11-10T10:17:08Z start label
+2026-11-10T10:20:22Z end label rc=0
+0 MiB
+2026-11-10T10:20:22Z start dpo
+2026-11-10T10:20:35Z end dpo rc=1
+0 MiB
+2026-11-10T10:21:25Z start data
+2026-11-10T10:21:45Z end data rc=0
+0 MiB
+2026-11-10T10:21:45Z start sft
+2026-11-10T10:21:47Z end sft rc=0
+0 MiB
+2026-11-10T10:21:47Z start sample
+2026-11-10T10:23:02Z end sample rc=0
+0 MiB
+2026-11-10T10:23:02Z start label
+2026-11-10T10:23:22Z end label rc=0
+0 MiB
+2026-11-10T10:23:22Z start dpo
+2026-11-10T10:23:59Z end dpo rc=0
+0 MiB
+2026-11-10T10:23:59Z start evalgen
+2026-11-10T10:32:41Z start data
+2026-11-10T10:32:44Z end data rc=0
+4442 MiB
+2026-11-10T10:32:44Z start sft
+2026-11-10T10:32:46Z end sft rc=0
+0 MiB
+2026-11-10T10:32:46Z start sample
+2026-11-10T10:32:48Z end sample rc=0
+0 MiB
+2026-11-10T10:32:48Z start label
+2026-11-10T10:32:51Z end label rc=0
+0 MiB
+2026-11-10T10:32:51Z start dpo
+2026-11-10T10:32:53Z end dpo rc=0
+0 MiB
+2026-11-10T10:32:53Z start evalgen
+2026-11-10T10:35:09Z end evalgen rc=0
+0 MiB
+2026-11-10T10:35:09Z start scores
+2026-11-10T10:35:21Z end scores rc=0
+0 MiB
+2026-11-10T10:35:21Z start judge
+2026-11-10T10:43:47Z end judge rc=0
+0 MiB
+2026-11-10T10:43:47Z CHAIN DONE
+2026-11-10T10:45:24Z start data
+2026-11-10T10:49:03Z end data rc=0
+0 MiB
+2026-11-10T10:49:03Z start sft
+2026-11-10T12:08:22Z end sft rc=0
+0 MiB
+2026-11-10T12:08:22Z start sample
+2026-11-10T12:18:58Z end sample rc=0
+0 MiB
+2026-11-10T12:18:58Z start label
+2026-11-10T12:51:41Z end label rc=0
+0 MiB
+2026-11-10T12:51:41Z start dpo
+2026-11-10T13:17:28Z end dpo rc=0
+0 MiB
+2026-11-10T13:17:28Z start evalgen
+2026-11-10T13:21:02Z end evalgen rc=1
+0 MiB
+2026-11-10T13:23:20Z start data
+2026-11-10T13:23:22Z end data rc=0
+0 MiB
+2026-11-10T13:23:22Z start sft
+2026-11-10T13:23:24Z end sft rc=0
+0 MiB
+2026-11-10T13:23:24Z start sample
+2026-11-10T13:23:26Z end sample rc=0
+0 MiB
+2026-11-10T13:23:26Z start label
+2026-11-10T13:23:28Z end label rc=0
+0 MiB
+2026-11-10T13:23:28Z start dpo
+2026-11-10T13:23:30Z end dpo rc=0
+0 MiB
+2026-11-10T13:23:30Z start evalgen
+2026-11-10T13:33:34Z end evalgen rc=0
+0 MiB
+2026-11-10T13:33:34Z start scores
+2026-11-10T13:33:53Z end scores rc=0
+0 MiB
+2026-11-10T13:33:53Z start judge
+2026-11-10T14:09:03Z end judge rc=0
+0 MiB
+2026-11-10T14:09:03Z CHAIN DONE
+2026-11-10T14:14:32Z start data
+2026-11-10T14:14:34Z end data rc=0
+0 MiB
+2026-11-10T14:14:34Z start sft
+2026-11-10T14:14:36Z end sft rc=0
+0 MiB
+2026-11-10T14:14:36Z start sample
+2026-11-10T14:14:39Z end sample rc=0
+0 MiB
+2026-11-10T14:14:39Z start label
+2026-11-10T14:14:41Z end label rc=0
+0 MiB
+2026-11-10T14:14:41Z start dpo
+2026-11-10T14:14:43Z end dpo rc=0
+0 MiB
+2026-11-10T14:14:43Z start evalgen
+2026-11-10T14:14:51Z end evalgen rc=0
+0 MiB
+2026-11-10T14:14:51Z start scores
+2026-11-10T14:15:09Z end scores rc=0
+0 MiB
+2026-11-10T14:15:09Z start judge
+2026-11-10T14:15:21Z end judge rc=0
+0 MiB
+2026-11-10T14:15:21Z start refusal
+2026-11-10T14:17:54Z end refusal rc=0
+0 MiB
+2026-11-10T14:17:54Z CHAIN DONE
+2026-11-10T14:17:54Z start sft-noif
+2026-11-10T15:22:43Z end sft-noif rc=0
+0 MiB
+2026-11-10T15:22:43Z start evalgen-noif
+2026-11-10T15:25:06Z end evalgen-noif rc=0
+0 MiB
+2026-11-10T15:25:06Z start scores-noif
+2026-11-10T15:25:24Z end scores-noif rc=0
+0 MiB
+2026-11-10T15:25:24Z ABLATION DONE

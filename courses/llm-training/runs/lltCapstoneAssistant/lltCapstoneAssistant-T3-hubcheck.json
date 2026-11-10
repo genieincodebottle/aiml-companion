@@ -1,0 +1,13 @@
+{
+ "repo": "aimlcompanion/llm-training-lab",
+ "subfolder": "lltCapstoneAssistant/dpo-merged",
+ "template": "### Instruction:\nGive two tips for a code review, in under 50 words.\n\n### Response:\n",
+ "templateMatchesTraining": true,
+ "reply": "1. **Ask Questions and Clarify Ambiguities**: If something is unclear, ask for explanations or examples. Ensure everyone understands the code\u2019s purpose and logic.  \n2. **Focus on Readability and Maintainability**: Review code for clean structure, proper naming, comments, and adherence to coding standards. Look for potential bugs or inefficiencies.",
+ "stoppedOnEos": true,
+ "newTokens": 71,
+ "seconds": 81.9,
+ "transformers": "5.22.1",
+ "torch": "2.15.0+cpu",
+ "device": "cpu"
+}

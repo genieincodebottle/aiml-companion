@@ -1,0 +1,66 @@
+{
+ "runId": "lltShip-t1-cells",
+ "module": "lltShip",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.11.0+cpu",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.2.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "cells": [
+   "cell01_step1.py",
+   "cell02_step2.py",
+   "cell03_step3.py"
+  ],
+  "threads": 4,
+  "source": "steps/"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 0,
+   "peakRssGB": 11.13
+  }
+ ],
+ "evals": {},
+ "samples": [
+  {
+   "cell": "cell01_step1.py",
+   "stdout": "lltToolUse adapter was trained on Qwen/Qwen3.5-2B-Base\nlltDistillation adapter was trained on Qwen/Qwen3-0.6B-Base\nlltDPO/sft-s0 is a full model | Qwen3ForCausalLM | hidden 1024 | layers 28 | vocab 151936\nlltDomainAdaptation/cpt-r5-lr3e-5 is a full model | Qwen3ForCausalLM | hidden 1024 | layers 28 | vocab 151936\nToolUse LoRA A for q_proj [16, 2048] expects inputs of width 2048\nQwen3-0.6B-Base q_proj weight [2048, 1024] has inputs of width 1024\nloss A 0.00122 | permuted copy B 0.00122 | max output gap A vs B 7.152557373046875e-07\naverage of A and B 0.36096 | average of A and its fine-tune C 0.00082\n",
+   "secShared": 14.5
+  },
+  {
+   "cell": "cell02_step2.py",
+   "stdout": "{'base': (310, 'torch.bfloat16'), 'sft': (310, 'torch.float16'), 'hindi': (310, 'torch.float16')}\nsft    | norm 6.53 = 0.451 % of the base norm | nonzero entries 72.3 % | share of the squared norm {'embeddings': 0.0, 'norms': 0.0, 'mlp': 0.611, 'attention': 0.389}\nhindi  | norm 10.65 = 0.736 % of the base norm | nonzero entries 97.3 % | share of the squared norm {'embeddings': 0.594, 'norms': 0.0, 'mlp': 0.248, 'attention': 0.158}\ncosine(sft, hindi) -0.0001 | entries both changed 70.9 % | of those, opposite signs 50.0 % | 12 s\nsft    model.layers.13.self_attn.q_proj.weight singular values 1, 16, 17 relative to the first: [1.0, 0.2158, 0.0035]\nhindi  model.layers.13.self_attn.q_proj.weight singular values 1, 16, 17 relative to the first: [1.0, 0.4286, 0.4267]\n",
+   "secShared": 13.0
+  },
+  {
+   "cell": "cell03_step3.py",
+   "stdout": "task arithmetic, lambda 1  [0.8, 0.2, -0.5, 0.05]\nlinear, equal weights      [0.4, 0.1, -0.25, 0.025]\ntrim to density 0.5        [0.5, -0.2, 0.0, 0.0] [0.0, 0.4, -0.6, 0.0]\nTIES, density 0.5          [0.5, 0.4, -0.6, 0.0]\nDARE p 0.9 keeps 10026 of 100000 | mean before 0.01 after 0.01003\nsft    | kept by trim 20.0 % | of those, lost the sign vote 9.2 % | share of its squared norm kept after the vote 0.61\nhindi  | kept by trim 20.0 % | of those, lost the sign vote 0.8 % | share of its squared norm kept after the vote 0.654\n",
+   "secShared": 0.6
+  }
+ ],
+ "wallClockSec": null,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-10",
+ "command": "python.exe run_steps.py"
+}

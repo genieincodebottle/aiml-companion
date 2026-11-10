@@ -1,0 +1,35 @@
+{
+ "runId": "lltCapstoneGPT2-eval-ours-step018000",
+ "module": "lltCapstoneGPT2",
+ "label": "eval",
+ "hardware": {
+  "gpu": "NVIDIA A100-SXM4-40GB"
+ },
+ "env": {
+  "lm_eval": "0.4.13",
+  "torch": "2.9.1+cu129",
+  "dtype": "torch.bfloat16"
+ },
+ "config": {
+  "tasks": [
+   "hellaswag"
+  ],
+  "num_fewshot": 0,
+  "limit": null,
+  "batch_size": 64,
+  "weights": "weights_step_018000.pt",
+  "step": 18000,
+  "tokens": 9437184000
+ },
+ "evals": {
+  "hellaswag": {
+   "sample_len": 10042,
+   "acc,none": 0.2980481975702051,
+   "acc_stderr,none": 0.00456465977507591,
+   "acc_norm,none": 0.3308105954989046,
+   "acc_norm_stderr,none": 0.004695434103958533
+  }
+ },
+ "wallClockSec": 75.4,
+ "date": "2026-11-10"
+}

@@ -1,0 +1,122 @@
+{
+ "runId": "lltCapstoneGPT2-ref-compute",
+ "module": "lltCapstoneGPT2",
+ "timelineUTC": {
+  "boot1GPU": "2026-11-10T08:42:38Z",
+  "shutdown1GPU": "2026-11-10T10:51:55Z",
+  "prepEnd": "2026-11-10T09:12:55Z",
+  "calibrationEnd": "2026-11-10T09:27:27Z",
+  "mainStart": "2026-11-10T09:29:30Z",
+  "boot4GPU": "2026-11-10T10:53:25Z",
+  "resume4GPU": "2026-11-10T10:54:19Z",
+  "mainEnd": "2026-11-10T14:44:52Z",
+  "branchesEnd": "2026-11-10T15:10:33Z",
+  "evalRelaunch1": "2026-11-10T18:29:22Z",
+  "evalRelaunch2": "2026-11-10T18:40:55Z",
+  "evalsEnd": "2026-11-10T19:15:00Z",
+  "quickStart": "2026-11-10T18:37:30Z",
+  "quickEnd": "2026-11-10T18:48:58Z",
+  "hubUploadEnd": "2026-11-10T19:25:55Z"
+ },
+ "flopsPerToken": 854553600,
+ "flopsFormula": "6N + 12*L*d*T, N = 123,551,232, L = 12, d = 768, T = 1,024",
+ "mainTokens": 9999745024,
+ "mainFlops": 8545318109341286400,
+ "branchTokens": 700973056,
+ "branchFlops": 599019048507801600,
+ "peakFlopsPerGpu": 312000000000000.0,
+ "segments": [
+  {
+   "gpus": 1,
+   "gpu": "NVIDIA A100-SXM4-40GB",
+   "steps": [
+    1,
+    1500
+   ],
+   "layout": "micro 32 x accum 16",
+   "medianTokPerSec": 181427.0,
+   "medianMfu": 0.4969,
+   "peakMemGB": 21.63,
+   "trainSec": 4455.5
+  },
+  {
+   "gpus": 4,
+   "gpu": "NVIDIA A100-SXM4-40GB",
+   "steps": [
+    1501,
+    19073
+   ],
+   "layout": "micro 32 x accum 4",
+   "medianTokPerSec": 706103,
+   "medianMfu": 0.4835,
+   "peakMemGB": 21.64,
+   "trainSec": 13761.8
+  }
+ ],
+ "stages": [
+  {
+   "stage": "Setup, data prep and calibration",
+   "gpus": 1,
+   "wallSec": 2812.0,
+   "gpuHours": 0.781
+  },
+  {
+   "stage": "Training, steps 1 to 1,500",
+   "gpus": 1,
+   "wallSec": 4455.5,
+   "gpuHours": 1.238
+  },
+  {
+   "stage": "Training past the step 1,500 checkpoint, lost at the resize",
+   "gpus": 1,
+   "wallSec": 489.5,
+   "gpuHours": 0.136
+  },
+  {
+   "stage": "Restart on 4 GPUs (boot, compile)",
+   "gpus": 4,
+   "wallSec": 125.2,
+   "gpuHours": 0.139
+  },
+  {
+   "stage": "Training, steps 1,501 to 19,073",
+   "gpus": 4,
+   "wallSec": 13761.8,
+   "gpuHours": 15.291
+  },
+  {
+   "stage": "Five branch decays",
+   "gpus": 4,
+   "wallSec": 1541.0,
+   "gpuHours": 1.712
+  },
+  {
+   "stage": "Evaluation failed on a missing package, VM idle",
+   "gpus": 4,
+   "wallSec": 11929.0,
+   "gpuHours": 13.254
+  },
+  {
+   "stage": "Second evaluation attempt and its fix",
+   "gpus": 4,
+   "wallSec": 693.0,
+   "gpuHours": 0.77
+  },
+  {
+   "stage": "Evaluations, and the learner quick-path check on 2 of the GPUs",
+   "gpus": 4,
+   "wallSec": 2045.0,
+   "gpuHours": 2.272
+  }
+ ],
+ "gpuHoursAttached": 35.593,
+ "gpuHoursTraining": 16.529,
+ "branchTrainSec": {
+  "lltCapstoneGPT2-ref-124m-0p5B-d5": 59.7,
+  "lltCapstoneGPT2-ref-124m-1B-d5": 106.4,
+  "lltCapstoneGPT2-ref-124m-2p5B-d10": 470.0,
+  "lltCapstoneGPT2-ref-124m-2p5B-d5": 239.1,
+  "lltCapstoneGPT2-ref-124m-5B-d5": 471.7
+ },
+ "note": "GPU-hours count every GPU attached to the VM, busy or idle. The stages end when the evaluations end; time after that (copying results, the Hub upload) is not counted."
+}

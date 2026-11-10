@@ -1,0 +1,60 @@
+{
+ "runId": "lltShip-T3-serve",
+ "module": "lltShip",
+ "tier": "T3",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "count": 1,
+  "vramGB": 40,
+  "cpu": "Google Cloud a2-highgpu-1g, 12 vCPU",
+  "provider": "Google Cloud Spot VM llt-c3, us-central1-a"
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.11.0+cu130",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "safetensors": "0.8.0",
+  "cuda": "13.0",
+  "llamaCpp": "b12182",
+  "llmcompressor": "0.15.0 (own venv, transformers 5.21.0)",
+  "vllm": "0.33.0 (own venv, torch 2.14.0)"
+ },
+ "notebookCommit": null,
+ "config": {
+  "server": "llama-server b12182, CPU",
+  "file": "merged-Q4_K_M.gguf",
+  "prompts": 20
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "serve ours": {
+   "stopRate": 0.8,
+   "leakRate": 0.0,
+   "sameTokenIds": 1.0,
+   "sec": 35.3,
+   "first": "The body was found in the ice in Charlotte (Rochester) early the next spring by Silas Hudson."
+  },
+  "serve chatml": {
+   "stopRate": 0.35,
+   "leakRate": 0.0,
+   "sameTokenIds": 1.0,
+   "sec": 61.4,
+   "first": "****\nQ: The first step is to determine the cause of the problem, and then to take the appropriate action to solve it."
+  }
+ },
+ "samples": [],
+ "wallClockSec": 3488.0,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-11",
+ "command": "python.exe record_gpu.py C:/Users/rajsr/AppData/Local/Temp/claude/d07da7e0ca4095f1/7afc6e9a-c508-465b-92a8-899e22cb00d3/scratchpad/llt7/gcp_out",
+ "notes": "Recorded on an A100 40 GB. A T4 runs the same code; T4 times on the page are estimates until re-timed."
+}

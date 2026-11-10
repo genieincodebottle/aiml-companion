@@ -1,0 +1,115 @@
+{
+ "runId": "lltShip-t1-torchao-check",
+ "module": "lltShip",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.11.0+cpu",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.2.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "torchao": "0.18.0",
+  "groupSize": 32,
+  "symmetric": true
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "shape": [
+    64,
+    128
+   ],
+   "bits": 4,
+   "maxAbsGap": 0.0
+  },
+  {
+   "shape": [
+    64,
+    128
+   ],
+   "bits": 3,
+   "maxAbsGap": 0.0
+  },
+  {
+   "shape": [
+    64,
+    128
+   ],
+   "bits": 2,
+   "maxAbsGap": 0.0
+  },
+  {
+   "shape": [
+    2048,
+    1024
+   ],
+   "bits": 4,
+   "maxAbsGap": 0.0
+  },
+  {
+   "shape": [
+    2048,
+    1024
+   ],
+   "bits": 3,
+   "maxAbsGap": 0.0
+  },
+  {
+   "shape": [
+    2048,
+    1024
+   ],
+   "bits": 2,
+   "maxAbsGap": 0.0
+  },
+  {
+   "shape": [
+    3072,
+    1024
+   ],
+   "bits": 4,
+   "maxAbsGap": 0.0
+  },
+  {
+   "shape": [
+    3072,
+    1024
+   ],
+   "bits": 3,
+   "maxAbsGap": 0.0
+  },
+  {
+   "shape": [
+    3072,
+    1024
+   ],
+   "bits": 2,
+   "maxAbsGap": 0.0
+  }
+ ],
+ "evals": {},
+ "samples": [],
+ "wallClockSec": null,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-10",
+ "command": "python.exe check_torchao.py",
+ "notes": "fake_quant from steps/cell09_step9.py against torchao IntxFakeQuantizer on random N(0, 0.02) weights"
+}

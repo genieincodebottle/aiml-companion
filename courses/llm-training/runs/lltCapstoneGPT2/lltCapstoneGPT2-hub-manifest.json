@@ -1,0 +1,240 @@
+{
+ "repo": "aimlcompanion/llm-training-lab",
+ "folder": "lltCapstoneGPT2",
+ "created": "2026-11-10T19:25:25Z",
+ "loadWith": "torch.load(path, map_location='cpu', weights_only=True)",
+ "files": {
+  "step_004529_state.pt": {
+   "bytes": 1483378451,
+   "sha256": "a8db1142de0b291ba9f9e1f105fb4e828ffb83d729003c03463864833ab301e3",
+   "source": "run/ckpt/step_004529/state.pt"
+  },
+  "weights_10B_final.pt": {
+   "bytes": 324324666,
+   "sha256": "fdb5fd6ee16d6a7027d8adf999443e9dc263c892a214663e28eaa9cfbd8826a6",
+   "source": "run/weights/weights_step_019073.pt"
+  },
+  "weights_0p5B.pt": {
+   "bytes": 324324666,
+   "sha256": "5ec135317615d8737b2e3c9333dd1d0ff7333e8da1bb7c0ccaede51c74545af7",
+   "source": "branches/0p5B-d5/weights/weights_step_000954.pt"
+  },
+  "weights_1B.pt": {
+   "bytes": 324324666,
+   "sha256": "6345a18ed5124e111ee77021d4fe3bb0d7e1815d08a77e1a4428c0f612c2e903",
+   "source": "branches/1B-d5/weights/weights_step_001908.pt"
+  },
+  "weights_2p5B.pt": {
+   "bytes": 324324666,
+   "sha256": "594c5ae7eece56c038ce77a28758db6587f387f23c5bec0b20d28aa307ed4628",
+   "source": "branches/2p5B-d5/weights/weights_step_004769.pt"
+  },
+  "weights_2p5B_d10.pt": {
+   "bytes": 324324666,
+   "sha256": "6ba9fd2253ed210ecc1565559504a7feb1e94c684adca67c53b39ebc691c7d69",
+   "source": "branches/2p5B-d10/weights/weights_step_004769.pt"
+  },
+  "weights_5B.pt": {
+   "bytes": 324324666,
+   "sha256": "f611c9b99ccdd03a65bd760685524088b673df185e0c17867494bd60f1643236",
+   "source": "branches/5B-d5/weights/weights_step_009537.pt"
+  },
+  "runs/lltCapstoneGPT2-ref-124m-10B.json": {
+   "bytes": 4939201,
+   "sha256": "8844db4ecca4053336d04d01853d25168b2869165c1410de56b41fa58f23bd33",
+   "source": "run/lltCapstoneGPT2-ref-124m-10B.json"
+  },
+  "runs/evals/0p5B-d5/lltCapstoneGPT2-eval-ours-step000954.json": {
+   "bytes": 1385,
+   "sha256": "1a58e527911b440e59cec0052d5bf8a7fa2cc20ae5ba77f8cf7539b0ce3d44d5",
+   "source": "run/evals/0p5B-d5/lltCapstoneGPT2-eval-ours-step000954.json"
+  },
+  "runs/evals/1B-d5/lltCapstoneGPT2-eval-ours-step001908.json": {
+   "bytes": 1386,
+   "sha256": "e62c31588259b889886c48cdc98413ef7c530ab8c900ae4be3c37d22771bc5d7",
+   "source": "run/evals/1B-d5/lltCapstoneGPT2-eval-ours-step001908.json"
+  },
+  "runs/evals/2p5B-d10/lltCapstoneGPT2-eval-ours-step004769.json": {
+   "bytes": 1383,
+   "sha256": "674efef7ff87c326f0ff52b23cb6fbe1fe2917641467027c7926c85b7d24731f",
+   "source": "run/evals/2p5B-d10/lltCapstoneGPT2-eval-ours-step004769.json"
+  },
+  "runs/evals/2p5B-d5/lltCapstoneGPT2-eval-ours-step004769.json": {
+   "bytes": 1388,
+   "sha256": "d88bb234ffac961080becd8b812f701e983171f8f5fc8c7519d4e434c7a1b59d",
+   "source": "run/evals/2p5B-d5/lltCapstoneGPT2-eval-ours-step004769.json"
+  },
+  "runs/evals/5B-d5/lltCapstoneGPT2-eval-ours-step009537.json": {
+   "bytes": 1383,
+   "sha256": "7c2fecb3602f73c574479dbdc30b1fb470e85510487c808899ffad915015714b",
+   "source": "run/evals/5B-d5/lltCapstoneGPT2-eval-ours-step009537.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step000906.json": {
+   "bytes": 702,
+   "sha256": "c97e2d4e7765479083c5877981a45a5e784dab3718b81c452a47c78e5ead6206",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step000906.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step001000.json": {
+   "bytes": 701,
+   "sha256": "66ba9e49be772e2dbbf1f08491ad2b16235407336cd78d04b4812e6a7a331167",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step001000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step001813.json": {
+   "bytes": 702,
+   "sha256": "a33ba781566ae043cf23d1f90a1fb8c0a81830c155efbece62b855836bec6b3b",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step001813.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step002000.json": {
+   "bytes": 701,
+   "sha256": "e19f7dc89ff055aca8fb8e89fcd9b5e2a717844d00b697bccf63c5368fe42ae2",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step002000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step003000.json": {
+   "bytes": 704,
+   "sha256": "e2cbd3a2add1e5268d6c172db5e5115ede39708cbd0ee4299b1744576234d89f",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step003000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step004000.json": {
+   "bytes": 702,
+   "sha256": "ca702982c174f62ec4afec5a3f00eff75855a47a110e090a5a7095b4aa1d5936",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step004000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step004292.json": {
+   "bytes": 702,
+   "sha256": "ec379067b8996691a8c94210df3fd3dc6af61b44ca9198e7d8e54c04daf15145",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step004292.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step004529.json": {
+   "bytes": 703,
+   "sha256": "5568aa9ff5dc3f9099a6c8d1a65accd868f866cdf75bbbfed6fababb4acb9caf",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step004529.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step005000.json": {
+   "bytes": 703,
+   "sha256": "600b7d6c6b53314bcbe38da9c0cc761023f6e5a9d1ef4553c926bd87fa84ba3b",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step005000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step006000.json": {
+   "bytes": 704,
+   "sha256": "a9e1e74ac5f1e9023d3056682c177abfaaf4ef8434b38f9f69ae429fd03bfc59",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step006000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step007000.json": {
+   "bytes": 705,
+   "sha256": "a2ced266dff7ac86285dbe839f65364ac18ace06427056bae7ea9bf4276b76e3",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step007000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step008000.json": {
+   "bytes": 704,
+   "sha256": "fe5e63d189dfebe474c88483e38e10847a3d5b7cf271308edae57b5ead6506a1",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step008000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step009000.json": {
+   "bytes": 703,
+   "sha256": "e4596e4073daf11bd96d8d89893756bc0066cf136effa26fcbfb115c47352a37",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step009000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step009060.json": {
+   "bytes": 705,
+   "sha256": "982b5142b5a40efbf9034e4b58478b0fd93e63482817fab1e84db1e844c18fca",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step009060.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step010000.json": {
+   "bytes": 704,
+   "sha256": "6f205400292d397cba33653cda9c4956ef70b3c670cc14cfc9fe31d4e87f2e47",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step010000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step011000.json": {
+   "bytes": 703,
+   "sha256": "2970dce1f56e05d97999f124bde863bb665a99e0ed06b7b4337fe61d5d4d5ad5",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step011000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step012000.json": {
+   "bytes": 705,
+   "sha256": "30e10dcea08eb0e82dc3ac5adf532ec49f0f032391fb9235f69ca6e7aae957b8",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step012000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step013000.json": {
+   "bytes": 704,
+   "sha256": "547650debb31ae5eab7e34729c86b4bd91e808ac297cadaea3cc0896355a28f2",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step013000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step014000.json": {
+   "bytes": 705,
+   "sha256": "2a3708dd72ad2c8a6c468cb8a791a1d698db9a67242c0dfa55e5ecfbb7285b8a",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step014000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step015000.json": {
+   "bytes": 706,
+   "sha256": "7bebdb01c313f1637ffec6ae539da883674decc343238d4051045ec58ac95bff",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step015000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step016000.json": {
+   "bytes": 704,
+   "sha256": "ba9fb247c5ffe4264a68ab6fc686f01bd1f469f9d696df070cd16762cecfa876",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step016000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step017000.json": {
+   "bytes": 704,
+   "sha256": "114c4eacef5f1fb6001037ecc9f637eb5b0775ec9e3902024af66ad0402ef0a4",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step017000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step017166.json": {
+   "bytes": 705,
+   "sha256": "883739c18794d4d9a1d3d4bd1ca7d52340ec8aac2bca074e25e581d624e1a770",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step017166.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step018000.json": {
+   "bytes": 702,
+   "sha256": "29f14ea693858efacb38c6d1364196e190578e6086ead2d17fecefba437f79a3",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step018000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step019000.json": {
+   "bytes": 704,
+   "sha256": "d106d846423046f292fb8c0eb9a2aaf123d0d71b39861357ffbb00c26599d7d0",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step019000.json"
+  },
+  "runs/evals/curve/lltCapstoneGPT2-eval-ours-step019073.json": {
+   "bytes": 703,
+   "sha256": "6109dbed5123228bb038878da7224a198582cddeee25782c0bc1c0e150757bd8",
+   "source": "run/evals/curve/lltCapstoneGPT2-eval-ours-step019073.json"
+  },
+  "runs/evals/lltCapstoneGPT2-eval-openai-gpt2.json": {
+   "bytes": 1345,
+   "sha256": "f62afe8fd0f73fd75cc42040cca2bff85d77ff0642ffb820787d6d8168ac2fbe",
+   "source": "run/evals/lltCapstoneGPT2-eval-openai-gpt2.json"
+  },
+  "runs/evals/lltCapstoneGPT2-eval-ours-step019073.json": {
+   "bytes": 1386,
+   "sha256": "d1a5984f35d88b35cd589a4df73f87340a52d4745310b86ef56aab3edbaead59",
+   "source": "run/evals/lltCapstoneGPT2-eval-ours-step019073.json"
+  },
+  "runs/lltCapstoneGPT2-ref-124m-0p5B-d5.json": {
+   "bytes": 253539,
+   "sha256": "c02cc7ec0a2fced3e4e55b694007a1a95e26164cae864b215b9d655e70632453",
+   "source": "branches/0p5B-d5/lltCapstoneGPT2-ref-124m-0p5B-d5.json"
+  },
+  "runs/lltCapstoneGPT2-ref-124m-1B-d5.json": {
+   "bytes": 497461,
+   "sha256": "3266d6170f94632e2576203ba91677c3020c09b01bf8eb7925fe1d2207f6b397",
+   "source": "branches/1B-d5/lltCapstoneGPT2-ref-124m-1B-d5.json"
+  },
+  "runs/lltCapstoneGPT2-ref-124m-2p5B-d10.json": {
+   "bytes": 1235577,
+   "sha256": "aa932f978b08f4e9dfc06af380a907fa9878f38868c138ddab3c65beafab24a2",
+   "source": "branches/2p5B-d10/lltCapstoneGPT2-ref-124m-2p5B-d10.json"
+  },
+  "runs/lltCapstoneGPT2-ref-124m-2p5B-d5.json": {
+   "bytes": 1230245,
+   "sha256": "e974af0da6e3f9407d34452416c7d531d9a08557d82164da7d5a7ffb68095149",
+   "source": "branches/2p5B-d5/lltCapstoneGPT2-ref-124m-2p5B-d5.json"
+  },
+  "runs/lltCapstoneGPT2-ref-124m-5B-d5.json": {
+   "bytes": 2456042,
+   "sha256": "f108e6b70008e1af33cbbbf98d6f5ff2921c3fd261c9b54a90fa062a0b290766",
+   "source": "branches/5B-d5/lltCapstoneGPT2-ref-124m-5B-d5.json"
+  }
+ },
+ "runId": "lltCapstoneGPT2-hub-manifest",
+ "commit": "https://huggingface.co/aimlcompanion/llm-training-lab/commit/a73a54fb65cb1bc65ccfe00391e28389fde27ca8"
+}

@@ -1,0 +1,69 @@
+{
+ "runId": "lltShip-T3-notebook-defaults",
+ "module": "lltShip",
+ "tier": "T3",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "count": 1,
+  "vramGB": 40,
+  "cpu": "Google Cloud a2-highgpu-1g, 12 vCPU",
+  "provider": "Google Cloud Spot VM llt-c3, us-central1-a"
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.11.0+cu130",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "safetensors": "0.8.0",
+  "cuda": "13.0",
+  "llamaCpp": "b12182",
+  "llmcompressor": "0.15.0 (own venv, transformers 5.21.0)",
+  "vllm": "0.33.0 (own venv, torch 2.14.0)"
+ },
+ "notebookCommit": null,
+ "config": {
+  "mode": "defaults",
+  "cells": "1-12"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 0,
+   "peakGB": 10.98
+  }
+ ],
+ "evals": {
+  "cellSec": {
+   "cell01_step1.py": 5.3,
+   "cell02_step2.py": 7.5,
+   "cell03_step3.py": 0.5,
+   "cell04_step4.py": 201.2,
+   "cell05_step5.py": 283.1,
+   "cell06_step6.py": 180.9,
+   "cell07_step7.py": 665.2,
+   "cell08_step8.py": 210.0,
+   "cell09_step9.py": 717.0,
+   "cell10_step10.py": 0.9,
+   "cell11_step11.py": 101.9,
+   "cell12_step12.py": 68.2
+  },
+  "best": "average, lambda 0.5"
+ },
+ "samples": [
+  {
+   "stdout": "===== cell01_step1.py 19:01:17\nlltToolUse adapter was trained on Qwen/Qwen3.5-2B-Base\nlltDistillation adapter was trained on Qwen/Qwen3-0.6B-Base\nlltDPO/sft-s0 is a full model | Qwen3ForCausalLM | hidden 1024 | layers 28 | vocab 151936\nlltDomainAdaptation/cpt-r5-lr3e-5 is a full model | Qwen3ForCausalLM | hidden 1024 | layers 28 | vocab 151936\nToolUse LoRA A for q_proj [16, 2048] expects inputs of width 2048\nQwen3-0.6B-Base q_proj weight [2048, 1024] has inputs of width 1024\nloss A 0.00122 | permuted copy B 0.00122 | max output gap A vs B 5.364418029785156e-07\naverage of A and B 0.36096 | average of A and its fine-tune C 0.00082\n===== done cell01_step1.py 5.3 s\n===== cell02_step2.py 19:01:22\n{'base': (310, 'torch.bfloat16'), 'sft': (310, 'torch.float16'), 'hindi': (310, 'torch.float16')}\nsft    | norm 6.53 = 0.451 % of the base norm | nonzero entries 72.3 % | share of the squared norm {'embeddings': 0.0, 'norms': 0.0, 'mlp': 0.611, 'attention': 0.389}\nhindi  | norm 10.65 = 0.736 % of the base norm | nonzero entries 97.3 % | share of the squared norm {'embeddings': 0.594, 'norms': 0.0, 'mlp': 0.248, 'attention': 0.158}\ncosine(sft, hindi) -0.0001 | entries both changed 70.9 % | of those, opposite signs 50.0 % | 7 s\nsft    model.layers.13.self_attn.q_proj.weight singular values 1, 16, 17 relative to the first: [1.0, 0.2158, 0.0035]\nhindi  model.layers.13.self_attn.q_proj.weight singular values 1, 16, 17 relative to the first: [1.0, 0.4286, 0.4267]\n===== done cell02_step2.py 7.5 s\n===== cell03_step3.py 19:01:30\ntask arithmetic, lambda 1  [0.8, 0.2, -0.5, 0.05]\nlinear, equal weights      [0.4, 0.1, -0.25, 0.025]\ntrim to density 0.5        [0.5, -0.2, 0.0, 0.0] [0.0, 0.4, -0.6, 0.0]\nTIES, density 0.5          [0.5, 0.4, -0.6, 0.0]\nDARE p 0.9 keeps 10026 of 100000 | mean before 0.01 after 0.01003\nsft    | kept by trim 20.0 % | of those, lost the sign vote 9.2 % | share of its squared norm kept after the vote 0.61\nhindi  | kept by trim 20.0 % | of those, lost the sign vote 0.8 % | share of its squared norm kept after the vote 0.654\n===== done cell03_step3.py 0.5 s\n===== cell04_step4.py 19:01:30\n200 Hindi texts | 200 English texts | 300 held-out replies | 100 prompts\nbase                   | Hindi bpb 0.6131 | English bpb 0.7992 | reply NLL 1.3111 | ends 0.65, 144 tokens\nsft                    | Hindi bpb 0.6216 | English bpb 0.8029 | reply NLL 1.2448 | ends 0.86, 106 tokens\nhindi                  | Hindi bpb 0.6002 | English bpb 0.8205 | reply NLL 1.3694 | ends 0.64, 140 tokens\nHindi bpb, hindi minus base [-0.0207, -0.0073] | reply NLL, sft minus base [-0.0768, -0.0568] | 188 s\n===== done cell04_step4.py 201.2 s\n===== cell05_step5.py 19:04:51\naverage, lambda 0.5    | Hindi bpb 0.5952 | English bpb 0.8048 | reply NLL 1.2732 | ends 0.82, 107 tokens\n   kept (Hindi, replies) (1.386, 0.571) | merge 2.7 s on the CPU, panel 62.7 s\ntask arithmetic 1.0    | Hindi bpb 0.6037 | English bpb 0.8235 | reply NLL 1.3184 | ends 0.85, 96 tokens\n   kept (Hindi, replies) (0.73, -0.112) | merge 2.6 s on the CPU, panel 62.9 s\nTIES density 0.2       | Hindi bpb 0.5963 | English bpb 0.8209 | reply NLL 1.3011 | ends 0.80, 107 tokens\n   kept (Hindi, replies) (1.299, 0.15) | merge 86.3 s on the CPU, panel 62.1 s\nship: average, lambda 0.5 | Hindi bpb vs hindi model [-0.0074, -0.0017] | reply NLL vs sft model [0.0244, 0.0327] | English bpb vs base [0.0051, 0.0061]\n['chat_template.jinja', 'config.json', 'generation_config.json', 'model.safetensors', 'tokenizer.json', 'tokenizer_config.json']\n===== done cell05_step5.py 283.1 s\n===== cell06_step6.py 19:09:34\nmergekit took 94 s\nyour TIES took 86 s\n310 tensors compared | 310 identical | largest gap 0.0\n===== done cell06_step6.py 180.9 s\n===== cell07_step7.py 19:12:35\nf16     1142.7 MiB | made in 7.2 s\nQ8_0    609.8 MiB | made in 5.5 s\nQ6_K    472.2 MiB | made in 8.5 s\nQ5_K_M  423.8 MiB | made in 11.7 s\nQ4_K_M  378.3 MiB | made in 13.2 s\nQ3_K_M  331.0 MiB | made in 9.8 s\nQ2_K    282.5 MiB | made in 9.9 s\nGGUF f16               | Hindi bpb 0.5952 | English bpb 0.8048 | reply NLL 1.2732 | ends 0.82, 107 tokens\n   tensor types {'F16': 197, 'F32': 113} | largest weight change 0.0 | Hindi bpb vs merged [0.0, 0.0] | reply NLL vs merged [0.0, 0.0]\nGGUF Q8_0              | Hindi bpb 0.5960 | English bpb 0.8054 | reply NLL 1.2738 | ends 0.78, 112 tokens\n   tensor types {'F32': 113, 'Q8_0': 197} | largest weight change 0.0045 | Hindi bpb vs merged [0.0007, 0.0009] | reply NLL vs merged [0.0002, 0.001]\nGGUF Q4_K_M            | Hindi bpb 0.6243 | English bpb 0.8292 | reply NLL 1.3348 | ends 0.74, 123 tokens\n   tensor types {'F32': 113, 'Q6_K': 29, 'Q4_K': 168} | largest weight change 0.0619 | Hindi bpb vs merged [0.0282, 0.0301] | reply NLL vs merged [0.0575, 0.0656]\nGGUF Q3_K_M            | Hindi bpb 0.7036 | English bpb 0.8911 | reply NLL 1.5231 | ends 0.70, 120 tokens\n   tensor types {'F32': 113, 'Q6_K': 1, 'Q3_K': 112, 'Q4_K': 81, 'Q5_K': 3} | largest weight change 0.1482 | Hindi bpb vs merged [0.1058, 0.1114] | reply NLL vs merged [0.2389, 0.2609]\nGGUF Q2_K              | Hindi bpb 1.2119 | English bpb 1.3709 | reply NLL 3.0173 | ends 0.15, 222 tokens\n   tensor types {'F32': 113, 'Q6_K': 1, 'Q2_K': 112, 'Q3_K': 84} | largest weight change 0.3114 | Hindi bpb vs merged [0.6073, 0.6266] | reply NLL vs merged [1.6922, 1.7953]\nf16     llama-perplexity on the Hindi texts, 40 chunks of 512: 3.2202 +/- 0.04903 | 86.2 s\nQ4_K_M  llama-perplexity on the Hindi texts, 40 chunks of 512: 3.4335 +/- 0.05187 | 54.9 s\nQ2_K    llama-perplexity on the Hindi texts, 40 chunks of 512: 10.9722 +/- 0.16125 | 58.4 s\n===== done cell07_step7.py 665.2 s\n===== cell08_step8.py 19:23:41\nGPTQ W4A16, wikitext   | Hindi bpb 0.7195 | English bpb 0.8379 | reply NLL 1.4162 | ends 0.75, 106 tokens\n    513.5 MiB of weights | GPTQ took 25.8 s | Hindi bpb vs merged [0.1213, 0.1275] | reply NLL vs merged [0.1341, 0.1516]\nGPTQ W4A16, own        | Hindi bpb 0.6311 | English bpb 0.8466 | reply NLL 1.3800 | ends 0.87, 104 tokens\n    513.5 MiB of weights | GPTQ took 27.8 s | Hindi bpb vs merged [0.0347, 0.0373] | reply NLL vs merged [0.0995, 0.1143]\nown minus wikitext calibration, Hindi bpb [-0.0909, -0.086] | reply NLL [-0.0439, -0.0287]\n===== done cell08_step8.py 210.0 s\n===== cell09_step9.py 19:27:11\nRTN 3-bit, no training | Hindi bpb 0.9856 | English bpb 1.0947 | reply NLL 2.2137 | ends 0.18, 216 tokens\nstep 0 | KL to the merged model 0.7135 | 4 s\nstep 25 | KL to the merged model 0.4169 | 101 s\nstep 50 | KL to the merged model 0.4593 | 198 s\nstep 75 | KL to the merged model 0.1911 | 296 s\nstep 100 | KL to the merged model 0.5589 | 394 s\nstep 125 | KL to the merged model 0.1621 | 492 s\nstep 149 | KL to the merged model 0.1542 | 586 s\nQAT 3-bit              | Hindi bpb 0.6876 | English bpb 0.9259 | reply NLL 1.5893 | ends 0.71, 121 tokens\n   QAT minus RTN, Hindi bpb [-0.3046, -0.2918] | reply NLL [-0.6426, -0.6067] | train 585.8 s, peak 10.98 GB\n===== done cell09_step9.py 717.0 s\n===== cell10_step10.py 19:39:08\ntemplate matches training format: True\n['README.md', 'chat_template.jinja', 'config.json', 'generation_config.json', 'model.safetensors', 'tokenizer.json', 'tokenizer_config.json']\n===== done cell10_step10.py 0.9 s\n===== cell11_step11.py 19:39:09\nour template     {'stopRate': 0.9, 'leakRate': 0.0, 'sameTokenIds': 1.0, 'sec': 31.2}\n   first reply: The body was found in the ice in Charlotte (Rochester) early the next spring by Silas Hudson.\nChatML template  {'stopRate': 0.3, 'leakRate': 0.0, 'sameTokenIds': 1.0, 'sec': 66.7}\n   first reply: ****\nQ: The first step is to determine the cause of the problem , and then to take the appropriate action to solve it .\n\nA: The first step is to determine the cause of the problem , and then to take the appropriate action to solve it .\n****\nQ: The first step is to determine the cause of the problem \n===== done cell11_step11.py 101.9 s\n===== cell12_step12.py 19:40:51\n196 layers | largest relative error of the rank-16 rebuild 0.0309\n===== done cell12_step12.py 68.2 s\nWROTE ship_defaults.json 2447.5 s\n"
+  }
+ ],
+ "wallClockSec": 2447.5,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-11",
+ "command": "python.exe record_gpu.py C:/Users/rajsr/AppData/Local/Temp/claude/d07da7e0ca4095f1/7afc6e9a-c508-465b-92a8-899e22cb00d3/scratchpad/llt7/gcp_out",
+ "notes": "Recorded on an A100 40 GB. A T4 runs the same code; T4 times on the page are estimates until re-timed."
+}

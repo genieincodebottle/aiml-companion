@@ -1,0 +1,97 @@
+{
+ "runId": "lltRL-T2-dry-q35-lr1e-4-job",
+ "module": "lltRL",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "count": 1,
+  "vramGB": 40.0,
+  "host": "Google Cloud a2-highgpu-1g Spot (12 vCPU, 85 GB RAM), llt-c3"
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "accelerate": "1.15.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "math_verify": "0.9.0",
+  "source": "~/llt-venv on the VM, recorded by run_job.py; HF pins from gcp/llt-rl/requirements.txt"
+ },
+ "notebookCommit": null,
+ "config": {
+  "mode": "grpo",
+  "args": {
+   "model": "Qwen/Qwen3.5-0.8B-Base",
+   "lr": "1e-4",
+   "steps": "30"
+  },
+  "runs": [
+   "lltRL-T2-dry-q35-lr1e-4"
+  ]
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "base_eval": {
+   "greedy": 0.175,
+   "meanTokens": 53.2,
+   "replies": [
+    " 12<|endoftext|>",
+    " 3 bolts of blue fiber and 1 bolt of white fiber.\nExplanation:\nThe robe takes 2 bolts of blue fiber and half that much white fiber.\nSo, it takes 2 bolts of blue fiber and 1 bolt of white fiber.\nTherefore, it takes 3 bolts in total.<|endoftext|>",
+    " $100,000\nExplanation:\nThe value of the house increased by 150%, so the value of the house is $80,000 + $150% of $80,000 = $80,000 + $120,000 = $200,000.\nThe profit is the value of the house minus the cost of the house, so the profit is $200,000 - $80,000 = $120,000.\nHowever, Josh put in $50,000 in repairs, so the profit is $120,000 - $50,000 = $70,000.\nNote: The original answer provided in the extract was incorrect.<|endoftext|>",
+    " 1800 meters<|endoftext|>",
+    " 100<|endoftext|>",
+    " $10.40\nExplanation:\nThe first glass costs $5. The second glass costs 60% of $5, which is $3. The third glass costs 60% of $3, which is $1.80. The fourth glass costs 60% of $1.80, which is $1.08. The fifth glass costs 60% of $1.08, which is $0.65. The sixth glass costs 60% of $0.65, which is $0.39. The seventh glass costs 60% of $0.39, which is $0.23. The eighth glass costs 60% of $0.23, which is $0.14. The ninth glass costs 60% of $0.14, which is $0.08. The tenth glass costs 60% of $0.08, which is $0.05. The eleventh glass costs 60% of $0.05, which is $0.03. The twelfth glass costs 60% of $0.03, which",
+    " 80<|endoftext|>",
+    "\n200/2 = 100 minutes\n100 + 20 + 20 = 140 minutes\n140/2 = 70 minutes\n70/2 = 35 minutes\n35/2 = 17.5 minutes\n17.5 + 20 = 37.5 minutes\n37.5 + 20 = 57.5 minutes\n57.5/2 = 28.75 minutes\n28.75 + 20 = 48.75 minutes\n48.75/2 = 24.375 minutes\n24.375 + 20 = 44.375 minutes\n44.375/2 = 22.1875 minutes\n22.1875 + 20 = 42.1875 minutes\n42.1875/2 = 21.09375 minutes\n21.09375 + 20 = 41.09375 minutes\n41.0",
+    " 120 miles<|endoftext|>",
+    " $150<|endoftext|>",
+    " 180\nExplanation:\nThe number of downloads in the first month is 60. The number of downloads in the second month is 60 x 3 = 180. The number of downloads in the third month is 180 x (1 - 0.30) = 180 x 0.70 = 126. The total number of downloads over the three months is 60 + 180 + 126 = 366.<|endoftext|>",
+    " $1,000\nAnswer: $1,000\nExplanation:\n3 dozen donuts = 3 x 12 = 36 donuts\n36 x $68 = $2,448\n2 dozen mini cupcakes = 2 x 12 = 24 mini cupcakes\n24 x $80 = $1,920\n6 dozen mini cheesecakes = 6 x 12 = 72 mini cheesecakes\n72 x $55 = $3,960\nTotal cost = $2,448 + $1,920 + $3,960 = $1,000<|endoftext|>",
+    " Carlos will start earning money on the lemon tree after 2 years.\nExplanation:\nThe tree will cost $90 to plant. Each year it will grow 7 lemons, which he can sell for $1.5 each. It costs $3 a year to water and feed the tree.\nThe total cost of the tree is $90.\nThe total cost of the lemons is 7 lemons x $1.5 each = $10.50.\nThe total cost of the tree and lemons is $90 + $10.50 = $100.50.\nThe total cost of the tree and lemons is $100.50.\nThe total cost of the tree and lemons is $100.50.\nThe total cost of the tree and lemons is $100.50.\nThe total cost of the tree and lemons is $100.50.\nThe total cost of the tree and lemons is $100.50.\nThe total cost of the tree and lemons is $100.50.\nThe total cost of the tree and lemons",
+    " 10\nExplanation: Melanie started with 10 vacuum cleaners.\nAnswer: 10\nExplanation: Melanie started with 10 vacuum cleaners.<|endoftext|>",
+    " 10%\nExplanation: 20% of 20 students is 4 students. 25% of 16 students is 4 students. 16 students are left. 10% of 16 students is 1.6 students.\nQuestion",
+    " $1,000\nExplanation: The jewelry market will go up 2.5% while the electronic gadgets market will rise 1.2%. The jewelry market will go up $125, and the electronic gadgets market will rise $96. The merchant will make a profit of $125 - $96 = $29.<|endoftext|>",
+    " 100 miles\nExplanation:\nThe first train travels 80 miles westward and then 150 miles northward. The second train travels 80 miles westward and then 80 miles northward. The distance covered by each train in the two days is 100 miles.<|endoftext|>",
+    " $1,200<|endoftext|>",
+    " 120<|endoftext|>",
+    " 3<|endoftext|>"
+   ],
+   "sec": 169.6
+  },
+  "cellTimes": {
+   "cell02_step2.py": 2.0,
+   "cell03_step3.py": 4.4,
+   "cell04_step4.py": 0.0,
+   "cell07_step7.py": 0.1,
+   "cell08_step8.py": 1.7,
+   "cell09_step9.py": 202.3,
+   "cell10_step10.py": 0.0,
+   "inline7": 1608.0
+  },
+  "sessionPeakGB": 4.84,
+  "totalSec": 1818.5,
+  "peakGBAfterCell": {
+   "cell03_step3.py": 0.0,
+   "cell04_step4.py": 0.0,
+   "cell07_step7.py": 0.0,
+   "cell08_step8.py": 0.0,
+   "cell09_step9.py": 4.43,
+   "cell10_step10.py": 4.43
+  }
+ },
+ "samples": [],
+ "wallClockSec": 1818.5,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-10",
+ "command": "python.exe record_gpu.py ../../kaggle/out/gcp-llt-rl/out_dry_q35_lr1e-4 lltRL-T2-dry-q35-lr1e-4",
+ "notes": "Recorded on an NVIDIA A100 with the T4 recipe (fp16 autocast, GradScaler, fp16 frozen bases). Timings and memory are A100 numbers; T4 times on the page are estimates until re-timed on a T4. Job out_dry_q35_lr1e-4, mode grpo, args {\"model\": \"Qwen/Qwen3.5-0.8B-Base\", \"lr\": \"1e-4\", \"steps\": \"30\"}"
+}

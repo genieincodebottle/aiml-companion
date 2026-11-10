@@ -1,0 +1,297 @@
+{
+ "source": [
+  "lltShip-T3-panel-parents",
+  "lltShip-T3-merge-grid",
+  "lltShip-T3-gguf",
+  "lltShip-T3-gptq",
+  "lltShip-T3-qat"
+ ],
+ "panel": {
+  "hiTexts": 200,
+  "enTexts": 200,
+  "replies": 300,
+  "prompts": 100,
+  "maxNewTokens": 256,
+  "data": "FineWeb-2 hin_Deva test (lltDomainAdaptation panel), FineWeb-Edu sample-10BT, UltraFeedback test_prefs (lltDPO held-out pairs)",
+  "merges": [
+   "average, lambda 0.5",
+   "task arithmetic 1.0",
+   "TIES density 0.2",
+   "task arithmetic 0.75",
+   "task arithmetic 1.25",
+   "task arithmetic 1.0 / 0.5",
+   "task arithmetic 1.0 / 0.25",
+   "TIES density 0.5",
+   "TIES density 1.0",
+   "DARE p 0.5",
+   "DARE p 0.9",
+   "DARE p 0.9 seed 1"
+  ],
+  "best": "task arithmetic 1.0 / 0.5"
+ },
+ "parents": {
+  "base": {
+   "hiBpb": 0.6131,
+   "enBpb": 0.7992,
+   "replyNll": 1.3111,
+   "endRate": 0.65,
+   "meanTokens": 144.29
+  },
+  "sft": {
+   "hiBpb": 0.6216,
+   "enBpb": 0.8029,
+   "replyNll": 1.2448,
+   "endRate": 0.86,
+   "meanTokens": 106.44
+  },
+  "hindi": {
+   "hiBpb": 0.6002,
+   "enBpb": 0.8205,
+   "replyNll": 1.3694,
+   "endRate": 0.64,
+   "meanTokens": 139.63
+  }
+ },
+ "merges": [
+  {
+   "hiBpb": 0.5952,
+   "enBpb": 0.8048,
+   "replyNll": 1.2732,
+   "endRate": 0.82,
+   "meanTokens": 107.23,
+   "name": "average, lambda 0.5",
+   "method": "task arithmetic",
+   "kept": [
+    1.386,
+    0.571
+   ]
+  },
+  {
+   "hiBpb": 0.6037,
+   "enBpb": 0.8235,
+   "replyNll": 1.3184,
+   "endRate": 0.85,
+   "meanTokens": 96.18,
+   "name": "task arithmetic 1.0",
+   "method": "task arithmetic",
+   "kept": [
+    0.73,
+    -0.112
+   ]
+  },
+  {
+   "hiBpb": 0.5963,
+   "enBpb": 0.8209,
+   "replyNll": 1.3011,
+   "endRate": 0.8,
+   "meanTokens": 107.08,
+   "name": "TIES density 0.2",
+   "method": "TIES",
+   "kept": [
+    1.299,
+    0.15
+   ]
+  },
+  {
+   "hiBpb": 0.5973,
+   "enBpb": 0.8128,
+   "replyNll": 1.2889,
+   "endRate": 0.85,
+   "meanTokens": 100.31,
+   "name": "task arithmetic 0.75",
+   "method": "task arithmetic",
+   "kept": [
+    1.226,
+    0.335
+   ]
+  },
+  {
+   "hiBpb": 0.6133,
+   "enBpb": 0.8368,
+   "replyNll": 1.3597,
+   "endRate": 0.83,
+   "meanTokens": 101.96,
+   "name": "task arithmetic 1.25",
+   "method": "task arithmetic",
+   "kept": [
+    -0.018,
+    -0.735
+   ]
+  },
+  {
+   "hiBpb": 0.5986,
+   "enBpb": 0.8073,
+   "replyNll": 1.264,
+   "endRate": 0.86,
+   "meanTokens": 100.9,
+   "name": "task arithmetic 1.0 / 0.5",
+   "method": "task arithmetic",
+   "kept": [
+    1.124,
+    0.711
+   ]
+  },
+  {
+   "hiBpb": 0.6044,
+   "enBpb": 0.8034,
+   "replyNll": 1.2496,
+   "endRate": 0.83,
+   "meanTokens": 101.52,
+   "name": "task arithmetic 1.0 / 0.25",
+   "method": "task arithmetic",
+   "kept": [
+    0.674,
+    0.928
+   ]
+  },
+  {
+   "hiBpb": 0.597,
+   "enBpb": 0.8183,
+   "replyNll": 1.2984,
+   "endRate": 0.85,
+   "meanTokens": 101.44,
+   "name": "TIES density 0.5",
+   "method": "TIES",
+   "kept": [
+    1.244,
+    0.191
+   ]
+  },
+  {
+   "hiBpb": 0.5958,
+   "enBpb": 0.8169,
+   "replyNll": 1.2959,
+   "endRate": 0.82,
+   "meanTokens": 103.41,
+   "name": "TIES density 1.0",
+   "method": "TIES",
+   "kept": [
+    1.341,
+    0.228
+   ]
+  },
+  {
+   "hiBpb": 0.6048,
+   "enBpb": 0.8256,
+   "replyNll": 1.3262,
+   "endRate": 0.9,
+   "meanTokens": 88.98,
+   "name": "DARE p 0.5",
+   "method": "DARE",
+   "kept": [
+    0.645,
+    -0.229
+   ]
+  },
+  {
+   "hiBpb": 0.6139,
+   "enBpb": 0.8411,
+   "replyNll": 1.369,
+   "endRate": 0.82,
+   "meanTokens": 104.84,
+   "name": "DARE p 0.9",
+   "method": "DARE",
+   "kept": [
+    -0.058,
+    -0.875
+   ]
+  },
+  {
+   "hiBpb": 0.6141,
+   "enBpb": 0.8415,
+   "replyNll": 1.3671,
+   "endRate": 0.83,
+   "meanTokens": 101.89,
+   "name": "DARE p 0.9 seed 1",
+   "method": "DARE",
+   "kept": [
+    -0.079,
+    -0.846
+   ]
+  }
+ ],
+ "shipped": "task arithmetic 1.0 / 0.5",
+ "compressed": [
+  {
+   "hiBpb": 0.5986,
+   "enBpb": 0.8073,
+   "replyNll": 1.264,
+   "endRate": 0.86,
+   "meanTokens": 100.9,
+   "name": "gguf f16",
+   "MiB": 1142.7
+  },
+  {
+   "hiBpb": 0.599,
+   "enBpb": 0.808,
+   "replyNll": 1.2647,
+   "endRate": 0.84,
+   "meanTokens": 99.63,
+   "name": "gguf Q8_0",
+   "MiB": 609.8
+  },
+  {
+   "hiBpb": 0.6297,
+   "enBpb": 0.8317,
+   "replyNll": 1.3295,
+   "endRate": 0.74,
+   "meanTokens": 115.05,
+   "name": "gguf Q4_K_M",
+   "MiB": 378.3
+  },
+  {
+   "hiBpb": 0.7056,
+   "enBpb": 0.8947,
+   "replyNll": 1.5147,
+   "endRate": 0.61,
+   "meanTokens": 128.85,
+   "name": "gguf Q3_K_M",
+   "MiB": 331.0
+  },
+  {
+   "hiBpb": 1.225,
+   "enBpb": 1.3329,
+   "replyNll": 2.8466,
+   "endRate": 0.08,
+   "meanTokens": 239.93,
+   "name": "gguf Q2_K",
+   "MiB": 282.5
+  },
+  {
+   "hiBpb": 0.7176,
+   "enBpb": 0.8395,
+   "replyNll": 1.4053,
+   "endRate": 0.75,
+   "meanTokens": 106.97,
+   "name": "gptq wikitext",
+   "MiB": 513.5
+  },
+  {
+   "hiBpb": 0.6341,
+   "enBpb": 0.8483,
+   "replyNll": 1.3686,
+   "endRate": 0.73,
+   "meanTokens": 119.78,
+   "name": "gptq own",
+   "MiB": 513.5
+  },
+  {
+   "hiBpb": 0.9924,
+   "enBpb": 1.0954,
+   "replyNll": 2.1921,
+   "endRate": 0.23,
+   "meanTokens": 208.5,
+   "name": "rtn 3-bit",
+   "MiB": null
+  },
+  {
+   "hiBpb": 0.688,
+   "enBpb": 0.9297,
+   "replyNll": 1.5771,
+   "endRate": 0.71,
+   "meanTokens": 115.53,
+   "name": "qat 3-bit",
+   "MiB": null
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+merge_method: ties
+base_model: C:\Users\rajsr\.cache\huggingface\hub\models--Qwen--Qwen3-0.6B-Base\snapshots\da87bfb608c14b7cf20ba1ce41287e8de496c0cd
+models:
+  - model: C:\Users\rajsr\.cache\huggingface\hub\models--aimlcompanion--llm-training-lab\snapshots\bdcef7052f93b28662d468db950f56347f2cc5c7/lltDPO/sft-s0
+    parameters: {weight: 1.0, density: 0.2}
+  - model: C:\Users\rajsr\.cache\huggingface\hub\models--aimlcompanion--llm-training-lab\snapshots\bdcef7052f93b28662d468db950f56347f2cc5c7/lltDomainAdaptation/cpt-r5-lr3e-5
+    parameters: {weight: 1.0, density: 0.2}
+parameters: {normalize: true, lambda: 1.0}
+dtype: float32
+out_dtype: float32

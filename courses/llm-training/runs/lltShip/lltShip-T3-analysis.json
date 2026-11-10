@@ -1,0 +1,460 @@
+{
+ "runId": "lltShip-T3-analysis",
+ "module": "lltShip",
+ "tier": "T3",
+ "label": "analysis",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.11.0+cpu",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.2.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "bootstrap": 10000,
+  "seed": 0,
+  "from": [
+   "lltShip-T3-panel-parents",
+   "lltShip-T3-merge-grid",
+   "lltShip-T3-gguf",
+   "lltShip-T3-gptq",
+   "lltShip-T3-qat"
+  ]
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "replyVsBase": {
+   "average, lambda 0.5": [
+    -0.0455,
+    -0.0309
+   ],
+   "task arithmetic 1.0": [
+    -0.0062,
+    0.0216
+   ],
+   "TIES density 0.2": [
+    -0.0197,
+    -0.0008
+   ],
+   "task arithmetic 0.75": [
+    -0.0322,
+    -0.0127
+   ],
+   "task arithmetic 1.25": [
+    0.0301,
+    0.0706
+   ],
+   "task arithmetic 1.0 / 0.5": [
+    -0.0576,
+    -0.0376
+   ],
+   "task arithmetic 1.0 / 0.25": [
+    -0.072,
+    -0.0521
+   ],
+   "TIES density 0.5": [
+    -0.0229,
+    -0.003
+   ],
+   "TIES density 1.0": [
+    -0.0247,
+    -0.0061
+   ],
+   "DARE p 0.5": [
+    0.0016,
+    0.0292
+   ],
+   "DARE p 0.9": [
+    0.0427,
+    0.0743
+   ],
+   "DARE p 0.9 seed 1": [
+    0.0416,
+    0.0707
+   ]
+  },
+  "hiVsHindiModel": {
+   "average, lambda 0.5": [
+    -0.0074,
+    -0.0017
+   ],
+   "task arithmetic 1.0": [
+    0.0032,
+    0.0038
+   ],
+   "TIES density 0.2": [
+    -0.0058,
+    -0.0013
+   ],
+   "task arithmetic 0.75": [
+    -0.0039,
+    -0.0017
+   ],
+   "task arithmetic 1.25": [
+    0.0125,
+    0.0138
+   ],
+   "task arithmetic 1.0 / 0.5": [
+    -0.0041,
+    0.0019
+   ],
+   "task arithmetic 1.0 / 0.25": [
+    -0.0,
+    0.0101
+   ],
+   "TIES density 0.5": [
+    -0.0042,
+    -0.0019
+   ],
+   "TIES density 1.0": [
+    -0.0058,
+    -0.0027
+   ],
+   "DARE p 0.5": [
+    0.0042,
+    0.0049
+   ],
+   "DARE p 0.9": [
+    0.0129,
+    0.0144
+   ],
+   "DARE p 0.9 seed 1": [
+    0.0133,
+    0.0146
+   ]
+  },
+  "hiVsBase": {
+   "average, lambda 0.5": [
+    -0.0225,
+    -0.0146
+   ],
+   "task arithmetic 1.0": [
+    -0.0172,
+    -0.0039
+   ],
+   "TIES density 0.2": [
+    -0.0221,
+    -0.013
+   ],
+   "task arithmetic 0.75": [
+    -0.0225,
+    -0.0111
+   ],
+   "task arithmetic 1.25": [
+    -0.008,
+    0.0063
+   ],
+   "task arithmetic 1.0 / 0.5": [
+    -0.0189,
+    -0.0113
+   ],
+   "task arithmetic 1.0 / 0.25": [
+    -0.0107,
+    -0.0072
+   ],
+   "TIES density 0.5": [
+    -0.0227,
+    -0.0113
+   ],
+   "TIES density 1.0": [
+    -0.0235,
+    -0.013
+   ],
+   "DARE p 0.5": [
+    -0.0161,
+    -0.0028
+   ],
+   "DARE p 0.9": [
+    -0.0068,
+    0.0062
+   ],
+   "DARE p 0.9 seed 1": [
+    -0.0065,
+    0.0065
+   ]
+  },
+  "enVsBase": {
+   "average, lambda 0.5": [
+    0.0051,
+    0.0061
+   ],
+   "task arithmetic 1.0": [
+    0.0232,
+    0.0254
+   ],
+   "TIES density 0.2": [
+    0.0207,
+    0.0227
+   ],
+   "task arithmetic 0.75": [
+    0.0128,
+    0.0143
+   ],
+   "task arithmetic 1.25": [
+    0.0362,
+    0.0391
+   ],
+   "task arithmetic 1.0 / 0.5": [
+    0.0076,
+    0.0086
+   ],
+   "task arithmetic 1.0 / 0.25": [
+    0.0038,
+    0.0045
+   ],
+   "TIES density 0.5": [
+    0.0183,
+    0.02
+   ],
+   "TIES density 1.0": [
+    0.0169,
+    0.0186
+   ],
+   "DARE p 0.5": [
+    0.0253,
+    0.0275
+   ],
+   "DARE p 0.9": [
+    0.0402,
+    0.0436
+   ],
+   "DARE p 0.9 seed 1": [
+    0.0407,
+    0.044
+   ],
+   "sft": [
+    0.0034,
+    0.004
+   ],
+   "hindi": [
+    0.0203,
+    0.0223
+   ]
+  },
+  "endedVsBase": {
+   "average, lambda 0.5": [
+    0.07,
+    0.27
+   ],
+   "task arithmetic 1.0": [
+    0.11,
+    0.29
+   ],
+   "TIES density 0.2": [
+    0.06,
+    0.25
+   ],
+   "task arithmetic 0.75": [
+    0.11,
+    0.29
+   ],
+   "task arithmetic 1.25": [
+    0.08,
+    0.28
+   ],
+   "task arithmetic 1.0 / 0.5": [
+    0.11,
+    0.31
+   ],
+   "task arithmetic 1.0 / 0.25": [
+    0.1,
+    0.27
+   ],
+   "TIES density 0.5": [
+    0.11,
+    0.3
+   ],
+   "TIES density 1.0": [
+    0.07,
+    0.27
+   ],
+   "DARE p 0.5": [
+    0.16,
+    0.35
+   ],
+   "DARE p 0.9": [
+    0.07,
+    0.27
+   ],
+   "DARE p 0.9 seed 1": [
+    0.1,
+    0.27
+   ],
+   "sft": [
+    0.12,
+    0.3002
+   ],
+   "hindi": [
+    -0.11,
+    0.09
+   ]
+  },
+  "shipped": {
+   "name": "task arithmetic 1.0 / 0.5",
+   "hiVsHindi": [
+    -0.0041,
+    0.0019
+   ],
+   "replyVsSft": [
+    0.0168,
+    0.0217
+   ],
+   "hiVsBase": [
+    -0.0189,
+    -0.0113
+   ],
+   "replyVsBase": [
+    -0.0576,
+    -0.0376
+   ],
+   "enVsBase": [
+    0.0076,
+    0.0086
+   ],
+   "endedVsSft": [
+    -0.06,
+    0.06
+   ]
+  },
+  "runnerUp": {
+   "name": "task arithmetic 1.0 / 0.25",
+   "hiMinusShipped": [
+    0.0041,
+    0.0083
+   ],
+   "replyMinusShipped": [
+    -0.0161,
+    -0.0129
+   ]
+  },
+  "dareSeeds": {
+   "hi": [
+    -0.0004,
+    0.001
+   ],
+   "reply": [
+    -0.0074,
+    0.0035
+   ]
+  },
+  "gptqOwnMinusGgufQ4KM": {
+   "hi": [
+    0.0032,
+    0.0056
+   ],
+   "reply": [
+    0.0326,
+    0.0458
+   ]
+  },
+  "qatVsMerged": {
+   "hi": [
+    0.0871,
+    0.0918
+   ],
+   "reply": [
+    0.2973,
+    0.3296
+   ],
+   "en": [
+    0.1184,
+    0.1265
+   ]
+  },
+  "qatMinusQ3KM": {
+   "hi": [
+    -0.0202,
+    -0.0151
+   ],
+   "reply": [
+    0.0501,
+    0.0752
+   ]
+  },
+  "compressedVsBase": {
+   "gguf Q8_0": {
+    "hi": [
+     -0.0185,
+     -0.0109
+    ],
+    "reply": [
+     -0.0569,
+     -0.0368
+    ]
+   },
+   "gguf Q4_K_M": {
+    "hi": [
+     0.0125,
+     0.0196
+    ],
+    "reply": [
+     0.0064,
+     0.0297
+    ]
+   },
+   "gguf Q3_K_M": {
+    "hi": [
+     0.0893,
+     0.0955
+    ],
+    "reply": [
+     0.1877,
+     0.2188
+    ]
+   },
+   "gptq own": {
+    "hi": [
+     0.0173,
+     0.0238
+    ],
+    "reply": [
+     0.0435,
+     0.0707
+    ]
+   },
+   "gptq wikitext": {
+    "hi": [
+     0.1011,
+     0.1077
+    ],
+    "reply": [
+     0.0802,
+     0.1074
+    ]
+   },
+   "qat 3-bit": {
+    "hi": [
+     0.0706,
+     0.0787
+    ],
+    "reply": [
+     0.2455,
+     0.2861
+    ]
+   }
+  },
+  "bytesCheckMaxGap": 0.0
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-11",
+ "command": "python.exe analyze_runs.py",
+ "notes": "Computed on a laptop from the recorded per-item scores; no model was run."
+}

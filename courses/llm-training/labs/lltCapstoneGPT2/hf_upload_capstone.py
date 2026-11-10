@@ -37,8 +37,11 @@ FILES = {
     "weights_5B.pt": one("branches/5B-d5/weights/weights_step_*.pt"),
     "runs/lltCapstoneGPT2-ref-124m-10B.json": one("run/lltCapstoneGPT2-ref-124m-10B.json"),
 }
-for f in sorted(glob.glob(os.path.join(W, "run", "evals", "**", "*.json"), recursive=True)):
-    FILES["runs/evals/" + os.path.basename(f)] = f
+# Keep the subfolder (2p5B-d5/, curve/, ...): two branches both end at step 4,769, and the HellaSwag curve also scores
+# step 19,073, so base names alone would collide and one file would silently replace another.
+E = os.path.join(W, "run", "evals")
+for f in sorted(glob.glob(os.path.join(E, "**", "*.json"), recursive=True)):
+    FILES["runs/evals/" + os.path.relpath(f, E).replace(os.sep, "/")] = f
 for f in sorted(glob.glob(os.path.join(W, "branches", "*", "lltCapstoneGPT2-ref-124m-*.json"))):
     FILES["runs/" + os.path.basename(f)] = f
 

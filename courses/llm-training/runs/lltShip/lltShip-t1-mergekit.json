@@ -1,0 +1,53 @@
+{
+ "runId": "lltShip-t1-mergekit",
+ "module": "lltShip",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.11.0+cpu",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.2.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "cell": "cell06_step6.py",
+  "method": "ties",
+  "density": 0.2,
+  "dtype": "float32"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 0,
+   "peakRssGB": 11.13
+  }
+ ],
+ "evals": {},
+ "samples": [
+  {
+   "cell": "cell06_step6.py",
+   "stdout": "mergekit took 128 s\nyour TIES took 104 s\n310 tensors compared | 310 identical | largest gap 0.0\n",
+   "secShared": 233.2
+  }
+ ],
+ "wallClockSec": 233.2,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-10",
+ "command": "python.exe run_steps.py"
+}

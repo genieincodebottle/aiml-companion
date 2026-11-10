@@ -1,0 +1,127 @@
+{
+ "eligible": 52,
+ "n": 30,
+ "maxTokens": 350,
+ "keys": {
+  "eeef1262042a4202": {
+   "A": "dpo",
+   "B": "official"
+  },
+  "0ff178fd6b034c0d": {
+   "A": "official",
+   "B": "dpo"
+  },
+  "7711e0c16401491d": {
+   "A": "dpo",
+   "B": "official"
+  },
+  "51b620f7c9864b4e": {
+   "A": "official",
+   "B": "dpo"
+  },
+  "6a02a908d61e46c5": {
+   "A": "dpo",
+   "B": "official"
+  },
+  "2b84db05365f488c": {
+   "A": "official",
+   "B": "dpo"
+  },
+  "a0a6bb4b819d4a9d": {
+   "A": "official",
+   "B": "dpo"
+  },
+  "40303f2127f04daa": {
+   "A": "official",
+   "B": "dpo"
+  },
+  "b6afa96ec03d49db": {
+   "A": "official",
+   "B": "dpo"
+  },
+  "c70af129d895412c": {
+   "A": "dpo",
+   "B": "official"
+  },
+  "3b778c75f56f4cc0": {
+   "A": "official",
+   "B": "dpo"
+  },
+  "5db4ecd74f604816": {
+   "A": "dpo",
+   "B": "official"
+  },
+  "3054181920b84ba6": {
+   "A": "dpo",
+   "B": "official"
+  },
+  "63ce43d385e349f9": {
+   "A": "official",
+   "B": "dpo"
+  },
+  "c41838dac4504b21": {
+   "A": "dpo",
+   "B": "official"
+  },
+  "199ee703dfb7418e": {
+   "A": "official",
+   "B": "dpo"
+  },
+  "7279f98b9e47479f": {
+   "A": "official",
+   "B": "dpo"
+  },
+  "219615a1a2bd4ae9": {
+   "A": "official",
+   "B": "dpo"
+  },
+  "b5cd2ab13aa249f5": {
+   "A": "dpo",
+   "B": "official"
+  },
+  "d10e31c434fd4ea9": {
+   "A": "official",
+   "B": "dpo"
+  },
+  "8fcada15601b4043": {
+   "A": "official",
+   "B": "dpo"
+  },
+  "dfc9be7c176d46bb": {
+   "A": "dpo",
+   "B": "official"
+  },
+  "97c0474b0f9543c1": {
+   "A": "official",
+   "B": "dpo"
+  },
+  "880af81aabab4159": {
+   "A": "official",
+   "B": "dpo"
+  },
+  "3b72cdccb79646d6": {
+   "A": "dpo",
+   "B": "official"
+  },
+  "7b2368abe4904c8f": {
+   "A": "dpo",
+   "B": "official"
+  },
+  "e25d3798f1c4432a": {
+   "A": "official",
+   "B": "dpo"
+  },
+  "4a275a24bf734014": {
+   "A": "dpo",
+   "B": "official"
+  },
+  "047bd685b30842f6": {
+   "A": "dpo",
+   "B": "official"
+  },
+  "d657b1fb82b141da": {
+   "A": "dpo",
+   "B": "official"
+  }
+ }
+}

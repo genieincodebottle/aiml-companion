@@ -27,7 +27,7 @@ pip install -q "tiktoken==0.14.0" pyarrow huggingface_hub numpy
 nvidia-smi > "$W/run/nvidia-smi.txt"
 pip freeze > "$W/run/pip-freeze.txt"
 
-TRAIN="torchrun --standalone --nproc_per_node=1 train.py"
+TRAIN="torchrun --standalone --nproc_per_node=${NPROC:-1} train.py"
 
 if [ "$MODE" = "calibrate" ]; then
   [ -f "$W/data_cal/index.json" ] || python prep_fineweb.py --out "$W/data_cal" --files 1 | tee "$W/run/calibrate_prep.log"
@@ -36,7 +36,7 @@ if [ "$MODE" = "calibrate" ]; then
       --stable-end 40 --save-every 40 --milestones 40 --export-every 40 --val-every 40 --sample-every 40 \
       2>&1 | tee "$W/run/calibrate_micro$M.log" || echo "micro $M failed (out of memory?); see the log"
   done
-  pip install -q "lm-eval==0.4.13"
+  pip install -q "lm-eval[hf]==0.4.13"
   python eval.py --baseline --out "$W/run/evals_calibration" 2>&1 | tee "$W/run/calibrate_eval.log"
   python calib_summary.py "$W" "$PRICE" | tee "$W/run/calibrate_summary.txt"
   rm -rf "$W"/cal32/ckpt "$W"/cal64/ckpt
@@ -73,7 +73,7 @@ branch 2p5B-d10 4292 4769
 branch 5B-d5 9060 9537
 
 # Evals: the final model and gpt2 on all 4 tasks, each budget model on all 4, then a HellaSwag curve.
-pip install -q "lm-eval==0.4.13"
+pip install -q "lm-eval[hf]==0.4.13"
 E="$W/run/evals"
 [ -f "$E/lltCapstoneGPT2-eval-openai-gpt2.json" ] || \
   python eval.py --weights "$W/run/weights/weights_step_019073.pt" --baseline --val "$W/data/val.bin" --out "$E" 2>&1 | tee -a "$W/run/eval.log"

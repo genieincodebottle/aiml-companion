@@ -1,0 +1,27 @@
+{
+ "runId": "lltCapstoneGPT2-ref-calibration",
+ "runs": {
+  "cal-micro16": {
+   "micro": 16,
+   "medianTokPerSec": 175191.5,
+   "medianMfu": 0.47985,
+   "peakMemGB": 12.21,
+   "gpu": "NVIDIA A100-SXM4-40GB"
+  },
+  "cal-micro32": {
+   "micro": 32,
+   "medianTokPerSec": 182577.0,
+   "medianMfu": 0.50005,
+   "peakMemGB": 21.63,
+   "gpu": "NVIDIA A100-SXM4-40GB"
+  }
+ },
+ "best": {
+  "micro": 32,
+  "medianTokPerSec": 182577.0,
+  "medianMfu": 0.50005,
+  "peakMemGB": 21.63,
+  "gpu": "NVIDIA A100-SXM4-40GB"
+ },
+ "projectedTrainHours": 16.28
+}

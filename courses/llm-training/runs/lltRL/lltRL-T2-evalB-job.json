@@ -1,0 +1,72 @@
+{
+ "runId": "lltRL-T2-evalB-job",
+ "module": "lltRL",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "count": 1,
+  "vramGB": 40.0,
+  "host": "Google Cloud a2-highgpu-1g Spot (12 vCPU, 85 GB RAM), llt-c3"
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "accelerate": "1.15.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "math_verify": "0.9.0",
+  "source": "~/llt-venv on the VM, recorded by run_job.py; HF pins from gcp/llt-rl/requirements.txt"
+ },
+ "notebookCommit": null,
+ "config": {
+  "mode": "evalall",
+  "args": {
+   "base": "0",
+   "adapters": "/home/rajsr/llt-rl/out2_G4/grpo-G4-final,/home/rajsr/llt-rl/out2_G16/grpo-G16-final,/home/rajsr/llt-rl/out2_beta0.04/grpo-beta0.04-final,/home/rajsr/llt-rl/out2_seqmean/grpo-seqmean-final,/home/rajsr/llt-rl/out2_drgrpo/grpo-drgrpo-final"
+  },
+  "runs": [
+   "lltRL-T2-eval-G4",
+   "lltRL-T2-eval-G16",
+   "lltRL-T2-eval-beta0.04",
+   "lltRL-T2-eval-seqmean",
+   "lltRL-T2-eval-drgrpo"
+  ]
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "base_eval": {},
+  "cellTimes": {
+   "cell02_step2.py": 1.8,
+   "cell03_step3.py": 4.5,
+   "cell04_step4.py": 0.0,
+   "cell07_step7.py": 0.1,
+   "cell08_step8.py": 1.7,
+   "cell09_step9.py": 4.0,
+   "inline6": 529.3
+  },
+  "sessionPeakGB": 4.38,
+  "totalSec": 541.5,
+  "peakGBAfterCell": {
+   "cell03_step3.py": 0.0,
+   "cell04_step4.py": 0.0,
+   "cell07_step7.py": 0.0,
+   "cell08_step8.py": 0.0,
+   "cell09_step9.py": 1.23
+  }
+ },
+ "samples": [],
+ "wallClockSec": 541.5,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-10",
+ "command": "python.exe record_gpu.py ../../kaggle/out/gcp-llt-rl/out3_evalB lltRL-T2-evalB",
+ "notes": "Recorded on an NVIDIA A100 with the T4 recipe (fp16 autocast, GradScaler, fp16 frozen bases). Timings and memory are A100 numbers; T4 times on the page are estimates until re-timed on a T4. Job out3_evalB, mode evalall, args {\"base\": \"0\", \"adapters\": \"/home/rajsr/llt-rl/out2_G4/grpo-G4-final,/home/rajsr/llt-rl/out2_G16/grpo-G16-final,/home/rajsr/llt-rl/out2_beta0.04/grpo-beta0.04-final,/home/rajsr/llt-rl/out2_seqmean/grpo-seqmean-final,/home/rajsr/llt-rl/out2_drgrpo/grpo-drgrpo-final\"}"
+}

@@ -1,0 +1,73 @@
+{
+ "runId": "lltRL-T2-grpo-seqmean-job",
+ "module": "lltRL",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "count": 1,
+  "vramGB": 40.0,
+  "host": "Google Cloud a2-highgpu-1g Spot (12 vCPU, 85 GB RAM), llt-c3"
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "accelerate": "1.15.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "math_verify": "0.9.0",
+  "source": "~/llt-venv on the VM, recorded by run_job.py; HF pins from gcp/llt-rl/requirements.txt"
+ },
+ "notebookCommit": null,
+ "config": {
+  "mode": "grpo",
+  "args": {
+   "model": "Qwen/Qwen3-0.6B-Base",
+   "lr": "2e-5",
+   "steps": "150",
+   "base": "0",
+   "arm": "seqmean"
+  },
+  "runs": [
+   "lltRL-T2-grpo-seqmean"
+  ]
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "base_eval": {},
+  "cellTimes": {
+   "cell02_step2.py": 27.3,
+   "cell03_step3.py": 27.2,
+   "cell04_step4.py": 0.0,
+   "cell07_step7.py": 0.5,
+   "cell08_step8.py": 5.4,
+   "cell09_step9.py": 24.0,
+   "cell10_step10.py": 0.0,
+   "inline7": 8317.5
+  },
+  "sessionPeakGB": 4.44,
+  "totalSec": 8402.0,
+  "peakGBAfterCell": {
+   "cell03_step3.py": 0.0,
+   "cell04_step4.py": 0.0,
+   "cell07_step7.py": 0.0,
+   "cell08_step8.py": 0.0,
+   "cell09_step9.py": 1.23,
+   "cell10_step10.py": 1.23
+  }
+ },
+ "samples": [],
+ "wallClockSec": 8402.0,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-10",
+ "command": "python.exe record_gpu.py ../../kaggle/out/gcp-llt-rl/out2_seqmean lltRL-T2-grpo-seqmean",
+ "notes": "Recorded on an NVIDIA A100 with the T4 recipe (fp16 autocast, GradScaler, fp16 frozen bases). Timings and memory are A100 numbers; T4 times on the page are estimates until re-timed on a T4. Job out2_seqmean, mode grpo, args {\"model\": \"Qwen/Qwen3-0.6B-Base\", \"lr\": \"2e-5\", \"steps\": \"150\", \"base\": \"0\", \"arm\": \"seqmean\"}"
+}

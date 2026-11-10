@@ -1,0 +1,64 @@
+{
+ "runId": "lltCapstoneGPT2-quickpath-data-index",
+ "dataset": "HuggingFaceFW/fineweb-edu",
+ "config": "sample-10BT",
+ "licence": "ODC-By 1.0",
+ "tokenizer": "gpt2 (tiktoken 0.14.0)",
+ "eot": 50256,
+ "dtype": "uint16",
+ "minIntScore": 0,
+ "maxDocsPerFile": 150000,
+ "val": {
+  "file": "val.bin",
+  "tokens": 10485760
+ },
+ "train": [
+  {
+   "file": "train_000.bin",
+   "tokens": 155805979,
+   "start": 10485760
+  },
+  {
+   "file": "train_012.bin",
+   "tokens": 151778537,
+   "start": 0
+  },
+  {
+   "file": "train_013.bin",
+   "tokens": 155587911,
+   "start": 0
+  }
+ ],
+ "trainTokens": 452686667,
+ "docs": 450000,
+ "chars": 2128429949,
+ "perFile": [
+  {
+   "file": 0,
+   "tokens": 155805979,
+   "docs": 150000,
+   "chars": 715708437,
+   "downloadSec": 0.2,
+   "sec": 87.1
+  },
+  {
+   "file": 12,
+   "tokens": 151778537,
+   "docs": 150000,
+   "chars": 697664095,
+   "downloadSec": 0.2,
+   "sec": 86.2
+  },
+  {
+   "file": 13,
+   "tokens": 155587911,
+   "docs": 150000,
+   "chars": 715057417,
+   "downloadSec": 0.2,
+   "sec": 84.0
+  }
+ ],
+ "workers": 3,
+ "sec": 87.6,
+ "charsPerToken": 4.595
+}

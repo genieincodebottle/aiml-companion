@@ -1,0 +1,60 @@
+{
+ "runId": "lltCapstoneAssistant-T3-evalgen_noif",
+ "module": "lltCapstoneAssistant",
+ "tier": "T3",
+ "label": "reference:evalgen_noif",
+ "hardware": {
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "count": 1,
+  "vramGB": 39.5
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.14.0+cu130",
+  "transformers": "5.20.2",
+  "datasets": "5.2.0",
+  "vllm": "0.33.0",
+  "lm_eval": "0.4.13",
+  "numpy": "2.3.5",
+  "cuda": "13.0"
+ },
+ "notebookCommit": null,
+ "config": {},
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "sets": {
+   "sft-noif/ifeval": {
+    "n": 541,
+    "sec": 21.4,
+    "loadSec": 109.4,
+    "finishedShare": 0.8688,
+    "meanTokens": 376.7
+   }
+  },
+  "decoding": {
+   "ifeval": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_new": 1536
+   },
+   "arena": {
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "max_new": 1536
+   },
+   "xstest": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_new": 64
+   }
+  }
+ },
+ "samples": [],
+ "wallClockSec": 135.0,
+ "costUSD": null,
+ "price": null,
+ "priceCheckedOn": null,
+ "date": "2026-11-10",
+ "command": "python /home/rajsr/capstoneP2/lab/capstone/evalgen.py --tier T3 --work /home/rajsr/capstoneP2/work --models sft-noif --sets ifeval --record evalgen_noif"
+}

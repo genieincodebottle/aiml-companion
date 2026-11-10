@@ -1,0 +1,279 @@
+{
+ "runId": "lltRL-T2-analysis",
+ "module": "lltRL",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "source": "lltRL-T2-eval-*",
+  "bootstrap": "10,000 paired resamples of 200 questions, seed 0"
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "models": {
+   "base": {
+    "greedy": 0.495,
+    "passk": {
+     "pass@1": 0.2162,
+     "pass@2": 0.3425,
+     "pass@4": 0.4844,
+     "pass@8": 0.62
+    },
+    "runId": "lltRL-T2-eval-base"
+   },
+   "beta0.04": {
+    "greedy": 0.565,
+    "passk": {},
+    "runId": "lltRL-T2-eval-beta0.04"
+   },
+   "drgrpo": {
+    "greedy": 0.655,
+    "passk": {},
+    "runId": "lltRL-T2-eval-drgrpo"
+   },
+   "G16": {
+    "greedy": 0.575,
+    "passk": {},
+    "runId": "lltRL-T2-eval-G16"
+   },
+   "G4": {
+    "greedy": 0.59,
+    "passk": {},
+    "runId": "lltRL-T2-eval-G4"
+   },
+   "main-s0": {
+    "greedy": 0.66,
+    "passk": {
+     "pass@1": 0.6338,
+     "pass@2": 0.7436,
+     "pass@4": 0.8344,
+     "pass@8": 0.905
+    },
+    "runId": "lltRL-T2-eval-main-s0"
+   },
+   "main-s1": {
+    "greedy": 0.675,
+    "passk": {
+     "pass@1": 0.6019,
+     "pass@2": 0.7075,
+     "pass@4": 0.7876,
+     "pass@8": 0.845
+    },
+    "runId": "lltRL-T2-eval-main-s1"
+   },
+   "rloo": {
+    "greedy": 0.61,
+    "passk": {
+     "pass@1": 0.5725,
+     "pass@2": 0.6986,
+     "pass@4": 0.8017,
+     "pass@8": 0.875
+    },
+    "runId": "lltRL-T2-eval-rloo"
+   },
+   "seqmean": {
+    "greedy": 0.545,
+    "passk": {},
+    "runId": "lltRL-T2-eval-seqmean"
+   }
+  },
+  "pairs": {
+   "base vs main-s0": {
+    "diff": -0.165,
+    "lo": -0.245,
+    "hi": -0.085,
+    "onlyA": 20,
+    "onlyB": 53
+   },
+   "base vs main-s1": {
+    "diff": -0.18,
+    "lo": -0.265,
+    "hi": -0.1,
+    "onlyA": 21,
+    "onlyB": 57
+   },
+   "beta0.04 vs base": {
+    "diff": 0.07,
+    "lo": 0.005,
+    "hi": 0.135,
+    "onlyA": 30,
+    "onlyB": 16
+   },
+   "beta0.04 vs main-s0": {
+    "diff": -0.095,
+    "lo": -0.165,
+    "hi": -0.03,
+    "onlyA": 15,
+    "onlyB": 34
+   },
+   "beta0.04 vs main-s1": {
+    "diff": -0.11,
+    "lo": -0.19,
+    "hi": -0.03,
+    "onlyA": 23,
+    "onlyB": 45
+   },
+   "drgrpo vs base": {
+    "diff": 0.16,
+    "lo": 0.08,
+    "hi": 0.24,
+    "onlyA": 51,
+    "onlyB": 19
+   },
+   "drgrpo vs main-s0": {
+    "diff": -0.005,
+    "lo": -0.07,
+    "hi": 0.065,
+    "onlyA": 23,
+    "onlyB": 24
+   },
+   "drgrpo vs main-s1": {
+    "diff": -0.02,
+    "lo": -0.09,
+    "hi": 0.05,
+    "onlyA": 23,
+    "onlyB": 27
+   },
+   "G16 vs base": {
+    "diff": 0.08,
+    "lo": 0.005,
+    "hi": 0.155,
+    "onlyA": 37,
+    "onlyB": 21
+   },
+   "G16 vs main-s0": {
+    "diff": -0.085,
+    "lo": -0.16,
+    "hi": -0.01,
+    "onlyA": 21,
+    "onlyB": 38
+   },
+   "G16 vs main-s1": {
+    "diff": -0.1,
+    "lo": -0.175,
+    "hi": -0.02,
+    "onlyA": 23,
+    "onlyB": 43
+   },
+   "G4 vs base": {
+    "diff": 0.095,
+    "lo": 0.02,
+    "hi": 0.17,
+    "onlyA": 38,
+    "onlyB": 19
+   },
+   "G4 vs main-s0": {
+    "diff": -0.07,
+    "lo": -0.135,
+    "hi": -0.005,
+    "onlyA": 17,
+    "onlyB": 31
+   },
+   "G4 vs main-s1": {
+    "diff": -0.085,
+    "lo": -0.16,
+    "hi": -0.01,
+    "onlyA": 21,
+    "onlyB": 38
+   },
+   "main-s0 vs base": {
+    "diff": 0.165,
+    "lo": 0.085,
+    "hi": 0.245,
+    "onlyA": 53,
+    "onlyB": 20
+   },
+   "main-s0 vs main-s1": {
+    "diff": -0.015,
+    "lo": -0.08,
+    "hi": 0.05,
+    "onlyA": 20,
+    "onlyB": 23
+   },
+   "main-s1 vs base": {
+    "diff": 0.18,
+    "lo": 0.1,
+    "hi": 0.265,
+    "onlyA": 57,
+    "onlyB": 21
+   },
+   "main-s1 vs main-s0": {
+    "diff": 0.015,
+    "lo": -0.05,
+    "hi": 0.08,
+    "onlyA": 23,
+    "onlyB": 20
+   },
+   "rloo vs base": {
+    "diff": 0.115,
+    "lo": 0.035,
+    "hi": 0.195,
+    "onlyA": 47,
+    "onlyB": 24
+   },
+   "rloo vs main-s0": {
+    "diff": -0.05,
+    "lo": -0.115,
+    "hi": 0.015,
+    "onlyA": 18,
+    "onlyB": 28
+   },
+   "rloo vs main-s1": {
+    "diff": -0.065,
+    "lo": -0.13,
+    "hi": 0.0,
+    "onlyA": 16,
+    "onlyB": 29
+   },
+   "seqmean vs base": {
+    "diff": 0.05,
+    "lo": -0.03,
+    "hi": 0.125,
+    "onlyA": 37,
+    "onlyB": 27
+   },
+   "seqmean vs main-s0": {
+    "diff": -0.115,
+    "lo": -0.185,
+    "hi": -0.045,
+    "onlyA": 15,
+    "onlyB": 38
+   },
+   "seqmean vs main-s1": {
+    "diff": -0.13,
+    "lo": -0.21,
+    "hi": -0.05,
+    "onlyA": 22,
+    "onlyB": 48
+   }
+  }
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-10",
+ "command": "python.exe analyze_eval.py",
+ "notes": "Offline analysis on a CPU of recorded per-question correctness; no model was run."
+}

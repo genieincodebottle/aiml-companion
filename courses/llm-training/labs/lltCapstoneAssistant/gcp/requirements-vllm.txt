@@ -1,0 +1,10 @@
+vllm==0.33.0
+lm-eval==0.4.13
+langdetect
+immutabledict
+nltk
+pandas
+pyarrow
+scipy
+psutil
+ninja

@@ -1,0 +1,71 @@
+{
+ "runId": "lltRL-t1-cells",
+ "module": "lltRL",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.15.0+cpu",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "cells": [
+   "cell01_step1.py",
+   "cell02_step2.py",
+   "cell07_step7.py",
+   "cell08_step8.py"
+  ],
+  "source": "steps/"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 0,
+   "peakRssGB": 1.88
+  }
+ ],
+ "evals": {},
+ "samples": [
+  {
+   "cell": "cell01_step1.py",
+   "stdout": "exact gradient [-0.5  -0.25  0.    0.75]\nrewards +0 | no baseline | mean of 2,000 estimates [-0.503 -0.25  -0.003  0.756] | spread (std, summed over the 4 logits) 1.367\nrewards +0 | baseline = mean reward | mean of 2,000 estimates [-0.495 -0.252  0.002  0.745] | spread (std, summed over the 4 logits) 0.9\nrewards +100 | no baseline | mean of 2,000 estimates [-0.363 -0.755  0.427  0.691] | spread (std, summed over the 4 logits) 61.101\nrewards +100 | baseline = mean reward | mean of 2,000 estimates [-0.499 -0.252  0.002  0.749] | spread (std, summed over the 4 logits) 0.916\nstep 0 | p(best reply) 0.25 | expected reward 2.0\nstep 50 | p(best reply) 0.979 | expected reward 4.917\nstep 100 | p(best reply) 0.993 | expected reward 4.974\nstep 150 | p(best reply) 0.996 | expected reward 4.983\nstep 200 | p(best reply) 0.997 | expected reward 4.986\n",
+   "secShared": 0.7
+  },
+  {
+   "cell": "cell02_step2.py",
+   "stdout": "ratio 1.5 | advantage 1.0 | loss -1.2 | gradient 0.0 | clip zeroes the gradient True\nratio 0.5 | advantage 1.0 | loss -0.5 | gradient -0.5 | clip zeroes the gradient False\nratio 1.5 | advantage -1.0 | loss 1.5 | gradient 1.5 | clip zeroes the gradient False\nratio 0.5 | advantage -1.0 | loss 0.8 | gradient 0.0 | clip zeroes the gradient True\npolicy near the reference | exact KL 0.0234 | k1 mean 0.0223 std 0.217 min -0.753 | k3 mean 0.0234 std 0.038 min 0.0\npolicy far from it | exact KL 1.155 | k1 mean 1.1565 std 1.491 min -3.192 | k3 mean 1.1639 std 2.176 min 0.0042\nshaped rewards [-0.01, 0.025, 2.0]\nAll PPO pieces pass their tests\n",
+   "secShared": 3.6
+  },
+  {
+   "cell": "cell07_step7.py",
+   "stdout": "1.0 | final answer ' 18.' | ' Janet sells 16 - 3 - 4 = 9 eggs. 9 * 2 = 18. The answer is '\n1.0 | final answer '18.00' | ' She makes 9 * 2 = $18.00 a day.\\n'\n1.0 | final answer ' 18' | ' 16 - 3 - 4 = 9 eggs, so she makes 9 * 2 = 18 dollars. #### '\n0.0 | final answer ' 16.' | ' The answer is 16.'\n0.0 | final answer '' | ' She sells the rest at the market.'\nGRPO, scaled by std | correct reply in A, D: 1.207 2.474 | wrong reply in A, D: -0.724 -0.353 | groups B and C all zero: True\nDr. GRPO, not scaled | correct reply in A, D: 0.625 0.875 | wrong reply in A, D: -0.375 -0.125 | groups B and C all zero: True\nRLOO | correct reply in A, D: 0.714 1.0 | wrong reply in A, D: -0.429 -0.143 | groups B and C all zero: True\nshare of groups with zero spread, which give no gradient: 0.5\n",
+   "secShared": 1.7
+  },
+  {
+   "cell": "cell08_step8.py",
+   "stdout": "dapo | beta 0.0 | epsilon_high None | ours 0.035332 | GRPOTrainer 0.03533 | difference 1.5459954738616943e-06\ngrpo | beta 0.04 | epsilon_high None | ours 0.042007 | GRPOTrainer 0.042004 | difference 2.995133399963379e-06\ndr_grpo | beta 0.0 | epsilon_high 0.28 | ours 0.01973 | GRPOTrainer 0.019729 | difference 1.0970979928970337e-06\nTRL GRPOConfig defaults: loss_type dapo | beta 0.0 | num_generations 8 | epsilon 0.2 | scale_rewards group | learning_rate 1e-06\n",
+   "secShared": 29.1
+  }
+ ],
+ "wallClockSec": 35.0,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-11",
+ "command": "python.exe run_steps.py"
+}

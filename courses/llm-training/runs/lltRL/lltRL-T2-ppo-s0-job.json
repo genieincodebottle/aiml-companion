@@ -1,0 +1,97 @@
+{
+ "runId": "lltRL-T2-ppo-s0-job",
+ "module": "lltRL",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "count": 1,
+  "vramGB": 40.0,
+  "host": "Google Cloud a2-highgpu-1g Spot (12 vCPU, 85 GB RAM), llt-c3"
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "accelerate": "1.15.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "math_verify": "0.9.0",
+  "source": "~/llt-venv on the VM, recorded by run_job.py; HF pins from gcp/llt-rl/requirements.txt"
+ },
+ "notebookCommit": null,
+ "config": {
+  "mode": "ppo",
+  "args": {
+   "seed": "0",
+   "exp": "1"
+  },
+  "runs": [
+   "lltRL-T2-ppo-kl0.05-s0",
+   "lltRL-T2-ppo-kl0.0-s0",
+   "lltRL-T2-ppo-kl0.2-s0",
+   "lltRL-T2-ppo-noclip-s0",
+   "lltRL-T2-ppo-epochs1-s0"
+  ]
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "mem": {
+   "start": 0.0,
+   "policy": 0.538,
+   "reference": 0.807,
+   "value": 1.345,
+   "reward": 1.613
+  },
+  "start": {
+   "score": 0.846,
+   "kl": 0.0009,
+   "distinct": 0.8779,
+   "samples": [
+    "This movie was awesome. It's a tremendous montage of film, pop culture, and Diesel \"lol Mohamed!\" So just to say this a detail,\n(ie: no.",
+    "When the Italians and Miles O'keeffe met in 1891, the main focus of the Fascist project was Italy's \"rebuilding of its gold mines\" and establishing \"a",
+    "Forget what I said about Emeril'),\n\t'really crammed on it': 'whatever damn stuff I do,' Magona grimaces.\n\tMangaianaHaFour more",
+    "This is one of my 3 favorite words in life.\n\n\n\nBuild a decision tree in CloudFlare Studio.\n\nSee the game and build your decision tree.\n\nCreates a"
+   ]
+  },
+  "end": {
+   "score": 5.2895,
+   "kl": 13.3601,
+   "distinct": 0.8154,
+   "samples": [
+    "This movie was awesome. It's a tremendous montage of film, it's smart, very well thought out and well executed. It's a good review but it's a great movie that brings great",
+    "When the Italians and Miles O'keeffe met in 1961, it was a brand new experience. It was brilliant, the performance was stunning, and the performances by both pioneers and",
+    "Forget what I said about Emeril, this one is a gem. It's an amazing movie with absolutely amazing performance by Xavier Magona. It's filled with fun and emotion and the more",
+    "This is one of my 3 favorite books. It's good, it's funny, it's fun, it's realistic and does it well and that's really wonderful. It flows well with good"
+   ]
+  },
+  "cellTimes": {
+   "cell02_step2.py": 1.9,
+   "cell03_step3.py": 12.7,
+   "cell04_step4.py": 1658.6,
+   "cell05_step5.py": 3932.0,
+   "cell06_step6.py": 2963.1
+  },
+  "sessionPeakGB": 11.78,
+  "totalSec": 8569.7,
+  "peakGBAfterCell": {
+   "cell03_step3.py": 1.65,
+   "cell04_step4.py": 9.63,
+   "cell05_step5.py": 11.78,
+   "cell06_step6.py": 11.78
+  }
+ },
+ "samples": [],
+ "wallClockSec": 8569.7,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-10",
+ "command": "python.exe record_gpu.py ../../kaggle/out/gcp-llt-rl/out_ppo_s0 lltRL-T2-ppo-s0",
+ "notes": "Recorded on an NVIDIA A100 with the T4 recipe (fp16 autocast, GradScaler, fp16 frozen bases). Timings and memory are A100 numbers; T4 times on the page are estimates until re-timed on a T4. Job out_ppo_s0, mode ppo, args {\"seed\": \"0\", \"exp\": \"1\"}"
+}

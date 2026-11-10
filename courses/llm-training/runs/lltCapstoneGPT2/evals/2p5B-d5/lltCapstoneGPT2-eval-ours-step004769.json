@@ -1,0 +1,59 @@
+{
+ "runId": "lltCapstoneGPT2-eval-ours-step004769",
+ "module": "lltCapstoneGPT2",
+ "label": "eval",
+ "hardware": {
+  "gpu": "NVIDIA A100-SXM4-40GB"
+ },
+ "env": {
+  "lm_eval": "0.4.13",
+  "torch": "2.9.1+cu129",
+  "dtype": "torch.bfloat16"
+ },
+ "config": {
+  "tasks": [
+   "hellaswag",
+   "arc_easy",
+   "piqa",
+   "lambada_openai"
+  ],
+  "num_fewshot": 0,
+  "limit": null,
+  "batch_size": 64,
+  "weights": "weights_step_004769.pt",
+  "step": 4769,
+  "tokens": 2500329472
+ },
+ "evals": {
+  "hellaswag": {
+   "sample_len": 10042,
+   "acc,none": 0.2806213901613224,
+   "acc_stderr,none": 0.004483845735187833,
+   "acc_norm,none": 0.2953594901414061,
+   "acc_norm_stderr,none": 0.0045527183605131045
+  },
+  "arc_easy": {
+   "sample_len": 2376,
+   "acc,none": 0.4861111111111111,
+   "acc_stderr,none": 0.010255824507190344,
+   "acc_norm,none": 0.4393939393939394,
+   "acc_norm_stderr,none": 0.010184134315437665
+  },
+  "piqa": {
+   "sample_len": 1838,
+   "acc,none": 0.6256800870511425,
+   "acc_stderr,none": 0.01129127680119499,
+   "acc_norm,none": 0.6082698585418934,
+   "acc_norm_stderr,none": 0.011389038597720011
+  },
+  "lambada_openai": {
+   "sample_len": 5153,
+   "perplexity,none": 233.78581234089867,
+   "perplexity_stderr,none": 11.596003629448342,
+   "acc,none": 0.20395885891713564,
+   "acc_stderr,none": 0.005613724772406602
+  }
+ },
+ "wallClockSec": 130.2,
+ "date": "2026-11-10"
+}

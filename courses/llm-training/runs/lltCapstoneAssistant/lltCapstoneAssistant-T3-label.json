@@ -1,0 +1,58 @@
+{
+ "runId": "lltCapstoneAssistant-T3-label",
+ "module": "lltCapstoneAssistant",
+ "tier": "T3",
+ "label": "reference:label",
+ "hardware": {
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "count": 1,
+  "vramGB": 39.5
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.11.0+cu130",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "bitsandbytes": "0.50.2",
+  "numpy": "2.5.4",
+  "cuda": "13.0"
+ },
+ "notebookCommit": null,
+ "config": {},
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "rm": "Skywork/Skywork-Reward-V2-Qwen3-8B",
+  "minGap": 1.0,
+  "n_scored": 20000,
+  "n_pairs": 4593,
+  "skipped": {
+   "no reply ended on its own": 82,
+   "gap below min": 325
+  },
+  "scoreLengthPearson": 0.3761,
+  "chosenLongerShare": 0.6151,
+  "meanLenChosen": 347.2,
+  "meanLenRejected": 281.3,
+  "meanGap": 7.009,
+  "second": {
+   "model": "Skywork/Skywork-Reward-V2-Qwen3-1.7B",
+   "sec": 413.5,
+   "pearsonWithMain": 0.9113,
+   "pairs": 4508,
+   "samePairShare": 0.5499,
+   "sameChosenShare": 0.7275,
+   "sharedPrompts": 4448
+  }
+ },
+ "samples": [],
+ "wallClockSec": 1543.5,
+ "costUSD": null,
+ "price": null,
+ "priceCheckedOn": null,
+ "date": "2026-11-10",
+ "command": "python /home/rajsr/capstoneP2/lab/capstone/label.py --tier T3 --work /home/rajsr/capstoneP2/work --second Skywork/Skywork-Reward-V2-Qwen3-1.7B"
+}

@@ -126,8 +126,8 @@ What goes up (sizes from the measured checkpoint format; weights are bf16):
 | Repo file | Source on the pod | Size | Used by |
 |---|---|---|---|
 | `step_004529_state.pt` | `run/ckpt/step_004529/state.pt` | 1.483 GB | Free path: full training state at the end of the stable phase |
-| `weights_10B_final.pt` | `run/weights/weights_step_019073.pt` | about 0.25 GB | The final model |
-| `weights_0p5B.pt`, `weights_1B.pt`, `weights_2p5B.pt`, `weights_2p5B_d10.pt`, `weights_5B.pt` | `branches/*/weights/` | about 0.25 GB each | Budget comparison; `weights_2p5B.pt` is the free path's target |
+| `weights_10B_final.pt` | `run/weights/weights_step_019073.pt` | 0.324 GB (measured; bf16, the tied embedding is stored twice) | The final model |
+| `weights_0p5B.pt`, `weights_1B.pt`, `weights_2p5B.pt`, `weights_2p5B_d10.pt`, `weights_5B.pt` | `branches/*/weights/` | 0.324 GB each (measured) | Budget comparison; `weights_2p5B.pt` is the free path's target |
 | `runs/*.json`, `runs/evals/*.json` | Run Library files and evals | small | Run Explorer |
 | `manifest.json` | written by the script | small | Size and sha256 of every file |
 

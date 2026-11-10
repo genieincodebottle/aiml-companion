@@ -1,0 +1,123 @@
+{
+ "runId": "lltCapstoneAssistant-T3-evalgen",
+ "module": "lltCapstoneAssistant",
+ "tier": "T3",
+ "label": "reference:evalgen",
+ "hardware": {
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "count": 1,
+  "vramGB": 39.5
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.14.0+cu130",
+  "transformers": "5.20.2",
+  "datasets": "5.2.0",
+  "vllm": "0.33.0",
+  "lm_eval": "0.4.13",
+  "numpy": "2.3.5",
+  "cuda": "13.0"
+ },
+ "notebookCommit": null,
+ "config": {},
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "sets": {
+   "base/ifeval": {
+    "n": 541,
+    "sec": 24.6,
+    "loadSec": 82.2,
+    "finishedShare": 0.8336,
+    "meanTokens": 457.8
+   },
+   "sft/ifeval": {
+    "n": 541,
+    "sec": 23.4,
+    "loadSec": 71.0,
+    "finishedShare": 0.8595,
+    "meanTokens": 436.7
+   },
+   "sft/arena": {
+    "n": 500,
+    "sec": 68.1,
+    "loadSec": 71.5,
+    "finishedShare": 0.854,
+    "meanTokens": 728.3
+   },
+   "sft/xstest": {
+    "n": 450,
+    "sec": 1.5,
+    "loadSec": 71.5,
+    "finishedShare": 0.3,
+    "meanTokens": 59.3
+   },
+   "dpo/ifeval": {
+    "n": 541,
+    "sec": 18.8,
+    "loadSec": 73.0,
+    "finishedShare": 0.9556,
+    "meanTokens": 358.3
+   },
+   "dpo/arena": {
+    "n": 500,
+    "sec": 67.3,
+    "loadSec": 73.0,
+    "finishedShare": 0.934,
+    "meanTokens": 723.5
+   },
+   "dpo/xstest": {
+    "n": 450,
+    "sec": 1.3,
+    "loadSec": 73.0,
+    "finishedShare": 0.02,
+    "meanTokens": 63.5
+   },
+   "official/ifeval": {
+    "n": 541,
+    "sec": 18.8,
+    "loadSec": 179.9,
+    "finishedShare": 0.9464,
+    "meanTokens": 338.2
+   },
+   "official/arena": {
+    "n": 500,
+    "sec": 81.4,
+    "loadSec": 179.9,
+    "finishedShare": 0.826,
+    "meanTokens": 910.7
+   },
+   "official/xstest": {
+    "n": 450,
+    "sec": 1.5,
+    "loadSec": 179.9,
+    "finishedShare": 0.0844,
+    "meanTokens": 63.1
+   }
+  },
+  "decoding": {
+   "ifeval": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_new": 1536
+   },
+   "arena": {
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "max_new": 1536
+   },
+   "xstest": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_new": 64
+   }
+  }
+ },
+ "samples": [],
+ "wallClockSec": 0.1,
+ "costUSD": null,
+ "price": null,
+ "priceCheckedOn": null,
+ "date": "2026-11-10",
+ "command": "python /home/rajsr/capstoneP2/lab/capstone/evalgen.py --tier T3 --work /home/rajsr/capstoneP2/work"
+}

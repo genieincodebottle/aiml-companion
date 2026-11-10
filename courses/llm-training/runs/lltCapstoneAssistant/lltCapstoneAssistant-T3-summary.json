@@ -1,0 +1,77 @@
+{
+ "stages": {
+  "card": {
+   "runId": "lltCapstoneAssistant-T3-card",
+   "wallClockSec": null,
+   "gpu": true
+  },
+  "data": {
+   "runId": "lltCapstoneAssistant-T3-data",
+   "wallClockSec": 202.6,
+   "gpu": false
+  },
+  "dpo": {
+   "runId": "lltCapstoneAssistant-T3-dpo",
+   "wallClockSec": 1455.3,
+   "gpu": true
+  },
+  "evalgen": {
+   "runId": "lltCapstoneAssistant-T3-evalgen",
+   "wallClockSec": 0.1,
+   "gpu": true
+  },
+  "evalgen_noif": {
+   "runId": "lltCapstoneAssistant-T3-evalgen_noif",
+   "wallClockSec": 135.0,
+   "gpu": true
+  },
+  "handlabel": {
+   "runId": "lltCapstoneAssistant-T3-handlabel",
+   "wallClockSec": null,
+   "gpu": true
+  },
+  "judge": {
+   "runId": "lltCapstoneAssistant-T3-judge",
+   "wallClockSec": 4.0,
+   "gpu": true
+  },
+  "label": {
+   "runId": "lltCapstoneAssistant-T3-label",
+   "wallClockSec": 1543.5,
+   "gpu": true
+  },
+  "refusal": {
+   "runId": "lltCapstoneAssistant-T3-refusal",
+   "wallClockSec": 0.1,
+   "gpu": true
+  },
+  "sample": {
+   "runId": "lltCapstoneAssistant-T3-sample",
+   "wallClockSec": 627.1,
+   "gpu": true
+  },
+  "scores": {
+   "runId": "lltCapstoneAssistant-T3-scores",
+   "wallClockSec": 11.1,
+   "gpu": false
+  },
+  "scores_noif": {
+   "runId": "lltCapstoneAssistant-T3-scores_noif",
+   "wallClockSec": 9.3,
+   "gpu": true
+  },
+  "sft": {
+   "runId": "lltCapstoneAssistant-T3-sft",
+   "wallClockSec": 4568.6,
+   "gpu": true
+  },
+  "sft-noif": {
+   "runId": "lltCapstoneAssistant-T3-sft-noif",
+   "wallClockSec": 3779.2,
+   "gpu": true
+  }
+ },
+ "gpuStageSec": 12122.2,
+ "gpuStageHours": 3.37,
+ "written": "2026-11-10"
+}

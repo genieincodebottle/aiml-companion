@@ -1,0 +1,74 @@
+{
+ "runId": "lltShip-t1-timing",
+ "module": "lltShip",
+ "tier": "T1",
+ "label": "baseline",
+ "hardware": {
+  "gpu": null,
+  "count": 0,
+  "vramGB": null,
+  "cpu": "AMD Ryzen 9 5900HS (8 cores, 16 threads), 32 GB RAM"
+ },
+ "env": {
+  "python": "3.12.3",
+  "torch": "2.11.0+cpu",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.2.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "cuda": null,
+  "os": "Windows-11-10.0.26200-SP0"
+ },
+ "notebookCommit": null,
+ "config": {
+  "script": "measure_timing.py",
+  "cells": [
+   1,
+   2,
+   3,
+   6
+  ],
+  "threads": 4,
+  "mergekitOnPath": "mergekit-yaml 0.1.5"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "run": 1,
+   "startedUTC": "2026-11-10T13:27:24Z",
+   "t1_steps123_min": 1.8,
+   "t1_step6_min": 8.0,
+   "t1_peak_rss_gb": 12.12,
+   "note": "included a 40 s Hub fetch in step 1-2"
+  },
+  {
+   "run": 2,
+   "startedUTC": "2026-11-10T13:37:32Z",
+   "t1_steps123_min": 0.8,
+   "t1_step6_min": 7.0,
+   "t1_peak_rss_gb": 12.09,
+   "note": "warm cache; the page quotes this run"
+  }
+ ],
+ "evals": {
+  "quoted": {
+   "run": 2,
+   "startedUTC": "2026-11-10T13:37:32Z",
+   "t1_steps123_min": 0.8,
+   "t1_step6_min": 7.0,
+   "t1_peak_rss_gb": 12.09,
+   "note": "warm cache; the page quotes this run"
+  }
+ },
+ "samples": [],
+ "wallClockSec": 468.0,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-10",
+ "command": "python.exe measure_timing.py",
+ "notes": "Laptop not idle: other sessions shared the CPU (about 42% busy right after run 2), so these are upper-end times. Peak RSS is the whole process (Windows peak working set) over steps 1, 2, 3 and 6."
+}

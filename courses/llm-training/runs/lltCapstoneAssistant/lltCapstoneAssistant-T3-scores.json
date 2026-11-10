@@ -1,0 +1,304 @@
+{
+ "runId": "lltCapstoneAssistant-T3-scores",
+ "module": "lltCapstoneAssistant",
+ "tier": "T3",
+ "label": "reference:scores",
+ "hardware": {
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "count": 1,
+  "vramGB": 39.5
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.14.0+cu130",
+  "transformers": "5.20.2",
+  "datasets": "5.2.0",
+  "vllm": "0.33.0",
+  "lm_eval": "0.4.13",
+  "numpy": "2.3.5",
+  "cuda": "13.0"
+ },
+ "notebookCommit": null,
+ "config": {},
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "ifeval": {
+   "base": {
+    "n": 541,
+    "promptStrict": 0.3863,
+    "promptStrictCI": [
+     0.3457,
+     0.427
+    ],
+    "promptLoose": 0.4159,
+    "instStrict": 0.506
+   },
+   "sft": {
+    "n": 541,
+    "promptStrict": 0.5453,
+    "promptStrictCI": [
+     0.5028,
+     0.586
+    ],
+    "promptLoose": 0.586,
+    "instStrict": 0.6391
+   },
+   "dpo": {
+    "n": 541,
+    "promptStrict": 0.5342,
+    "promptStrictCI": [
+     0.4917,
+     0.5786
+    ],
+    "promptLoose": 0.5915,
+    "instStrict": 0.6331
+   },
+   "official": {
+    "n": 541,
+    "promptStrict": 0.6876,
+    "promptStrictCI": [
+     0.6488,
+     0.7264
+    ],
+    "promptLoose": 0.7246,
+    "instStrict": 0.7662
+   }
+  },
+  "ifevalPaired": {
+   "sft - base": {
+    "diff": 0.159,
+    "ci": [
+     0.1165,
+     0.1978
+    ]
+   },
+   "dpo - sft": {
+    "diff": -0.0111,
+    "ci": [
+     -0.0463,
+     0.0259
+    ]
+   },
+   "dpo - official": {
+    "diff": -0.1534,
+    "ci": [
+     -0.1959,
+     -0.1109
+    ]
+   },
+   "sft - official": {
+    "diff": -0.1423,
+    "ci": [
+     -0.1848,
+     -0.1035
+    ]
+   }
+  },
+  "xstest": {
+   "sft": {
+    "safeRefusal": 0.176,
+    "safeCI": [
+     0.1338,
+     0.228
+    ],
+    "unsafeRefusal": 0.895,
+    "unsafeCI": [
+     0.8448,
+     0.9303
+    ],
+    "nSafe": 250,
+    "nUnsafe": 200
+   },
+   "dpo": {
+    "safeRefusal": 0.008,
+    "safeCI": [
+     0.0022,
+     0.0287
+    ],
+    "unsafeRefusal": 0.445,
+    "unsafeCI": [
+     0.3778,
+     0.5143
+    ],
+    "nSafe": 250,
+    "nUnsafe": 200
+   },
+   "official": {
+    "safeRefusal": 0.048,
+    "safeCI": [
+     0.0277,
+     0.082
+    ],
+    "unsafeRefusal": 0.57,
+    "unsafeCI": [
+     0.5007,
+     0.6367
+    ],
+    "nSafe": 250,
+    "nUnsafe": 200
+   }
+  },
+  "ifevalPerInstruction": {
+   "base": {
+    "change_case": {
+     "n": 89,
+     "pass": 0.3483
+    },
+    "combination": {
+     "n": 65,
+     "pass": 0.2769
+    },
+    "detectable_content": {
+     "n": 53,
+     "pass": 0.6792
+    },
+    "detectable_format": {
+     "n": 157,
+     "pass": 0.7197
+    },
+    "keywords": {
+     "n": 163,
+     "pass": 0.5092
+    },
+    "language": {
+     "n": 31,
+     "pass": 0.6774
+    },
+    "length_constraints": {
+     "n": 143,
+     "pass": 0.5035
+    },
+    "punctuation": {
+     "n": 66,
+     "pass": 0.2727
+    },
+    "startend": {
+     "n": 67,
+     "pass": 0.4478
+    }
+   },
+   "sft": {
+    "change_case": {
+     "n": 89,
+     "pass": 0.6404
+    },
+    "combination": {
+     "n": 65,
+     "pass": 0.5538
+    },
+    "detectable_content": {
+     "n": 53,
+     "pass": 0.8302
+    },
+    "detectable_format": {
+     "n": 157,
+     "pass": 0.8025
+    },
+    "keywords": {
+     "n": 163,
+     "pass": 0.589
+    },
+    "language": {
+     "n": 31,
+     "pass": 0.7742
+    },
+    "length_constraints": {
+     "n": 143,
+     "pass": 0.6364
+    },
+    "punctuation": {
+     "n": 66,
+     "pass": 0.2879
+    },
+    "startend": {
+     "n": 67,
+     "pass": 0.597
+    }
+   },
+   "dpo": {
+    "change_case": {
+     "n": 89,
+     "pass": 0.4831
+    },
+    "combination": {
+     "n": 65,
+     "pass": 0.6615
+    },
+    "detectable_content": {
+     "n": 53,
+     "pass": 0.8868
+    },
+    "detectable_format": {
+     "n": 157,
+     "pass": 0.8217
+    },
+    "keywords": {
+     "n": 163,
+     "pass": 0.6442
+    },
+    "language": {
+     "n": 31,
+     "pass": 0.7742
+    },
+    "length_constraints": {
+     "n": 143,
+     "pass": 0.5874
+    },
+    "punctuation": {
+     "n": 66,
+     "pass": 0.1818
+    },
+    "startend": {
+     "n": 67,
+     "pass": 0.6119
+    }
+   },
+   "official": {
+    "change_case": {
+     "n": 89,
+     "pass": 0.809
+    },
+    "combination": {
+     "n": 65,
+     "pass": 0.8
+    },
+    "detectable_content": {
+     "n": 53,
+     "pass": 0.8868
+    },
+    "detectable_format": {
+     "n": 157,
+     "pass": 0.9045
+    },
+    "keywords": {
+     "n": 163,
+     "pass": 0.681
+    },
+    "language": {
+     "n": 31,
+     "pass": 0.6774
+    },
+    "length_constraints": {
+     "n": 143,
+     "pass": 0.6643
+    },
+    "punctuation": {
+     "n": 66,
+     "pass": 0.6212
+    },
+    "startend": {
+     "n": 67,
+     "pass": 0.8657
+    }
+   }
+  }
+ },
+ "samples": [],
+ "wallClockSec": 11.1,
+ "costUSD": null,
+ "price": null,
+ "priceCheckedOn": null,
+ "date": "2026-11-10",
+ "command": "python /home/rajsr/capstoneP2/lab/capstone/scores.py --tier T3 --work /home/rajsr/capstoneP2/work"
+}

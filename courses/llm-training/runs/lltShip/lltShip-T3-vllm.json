@@ -1,0 +1,67 @@
+{
+ "runId": "lltShip-T3-vllm",
+ "module": "lltShip",
+ "tier": "T3",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "count": 1,
+  "vramGB": 40,
+  "cpu": "Google Cloud a2-highgpu-1g, 12 vCPU",
+  "provider": "Google Cloud Spot VM llt-c3, us-central1-a"
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.11.0+cu130",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "safetensors": "0.8.0",
+  "cuda": "13.0",
+  "llamaCpp": "b12182",
+  "llmcompressor": "0.15.0 (own venv, transformers 5.21.0)",
+  "vllm": "0.33.0 (own venv, torch 2.14.0)"
+ },
+ "notebookCommit": null,
+ "config": {
+  "vllm": "0.33.0",
+  "prompts": 100,
+  "maxTokens": 256
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "vllm": {
+   "merged": {
+    "sec": 1.27,
+    "tokens": 10163,
+    "requests": 100,
+    "stopRate": 0.86
+   },
+   "sft-full": {
+    "sec": 0.97,
+    "tokens": 10291,
+    "requests": 100,
+    "stopRate": 0.88
+   },
+   "multi-lora": {
+    "sec": 2.05,
+    "tokens": 24592,
+    "requests": 200,
+    "stopRate": 0.79
+   },
+   "identical": 90
+  }
+ },
+ "samples": [],
+ "wallClockSec": 3488.0,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-11",
+ "command": "python.exe record_gpu.py C:/Users/rajsr/AppData/Local/Temp/claude/d07da7e0ca4095f1/7afc6e9a-c508-465b-92a8-899e22cb00d3/scratchpad/llt7/gcp_out",
+ "notes": "Recorded on an A100 40 GB. A T4 runs the same code; T4 times on the page are estimates until re-timed."
+}

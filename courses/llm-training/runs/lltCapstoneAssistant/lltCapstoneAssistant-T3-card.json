@@ -1,0 +1,23 @@
+{
+ "runId": "lltCapstoneAssistant-T3-card",
+ "module": "lltCapstoneAssistant",
+ "tier": "T3",
+ "label": "reference:card",
+ "hardware": null,
+ "env": null,
+ "notebookCommit": null,
+ "config": {},
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "path": "/home/rajsr/capstoneP2/work/dpo/merged/README.md",
+  "chars": 5762
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": null,
+ "price": null,
+ "priceCheckedOn": null,
+ "date": "",
+ "command": null
+}

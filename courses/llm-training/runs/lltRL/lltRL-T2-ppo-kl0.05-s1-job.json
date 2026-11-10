@@ -1,0 +1,88 @@
+{
+ "runId": "lltRL-T2-ppo-kl0.05-s1-job",
+ "module": "lltRL",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "count": 1,
+  "vramGB": 40.0,
+  "host": "Google Cloud a2-highgpu-1g Spot (12 vCPU, 85 GB RAM), llt-c3"
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "accelerate": "1.15.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "math_verify": "0.9.0",
+  "source": "~/llt-venv on the VM, recorded by run_job.py; HF pins from gcp/llt-rl/requirements.txt"
+ },
+ "notebookCommit": null,
+ "config": {
+  "mode": "ppo",
+  "args": {
+   "seed": "1"
+  },
+  "runs": [
+   "lltRL-T2-ppo-kl0.05-s1"
+  ]
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "mem": {
+   "start": 0.0,
+   "policy": 0.538,
+   "reference": 0.807,
+   "value": 1.345,
+   "reward": 1.613
+  },
+  "start": {
+   "score": 0.846,
+   "kl": 0.0009,
+   "distinct": 0.8779,
+   "samples": [
+    "This movie was awesome. It's a tremendous montage of film, pop culture, and Diesel \"lol Mohamed!\" So just to say this a detail,\n(ie: no.",
+    "When the Italians and Miles O'keeffe met in 1891, the main focus of the Fascist project was Italy's \"rebuilding of its gold mines\" and establishing \"a",
+    "Forget what I said about Emeril'),\n\t'really crammed on it': 'whatever damn stuff I do,' Magona grimaces.\n\tMangaianaHaFour more",
+    "This is one of my 3 favorite words in life.\n\n\n\nBuild a decision tree in CloudFlare Studio.\n\nSee the game and build your decision tree.\n\nCreates a"
+   ]
+  },
+  "end": {
+   "score": 5.1578,
+   "kl": 12.1189,
+   "distinct": 0.8447,
+   "samples": [
+    "This movie was awesome. It's a tremendous approach to Golden Age, pop culture history, very absorbing, very popular, extremely fragile of individual points, but a detail beautiful. Very well-written.",
+    "When the Italians and Miles O'keeffe wrote their songs, these Emilio Brown commands the scene with a perfect intensity. The colors are so brilliant and the architecture so captivating that the reader loses himself",
+    "Forget what I said about Emeril, this one is a gem. It's effortlessly effective, with a charming sensibility contrasted by a tasteful set of words and fun action sequences. And more",
+    "This is one of my 3 favorite artists of ours. It's so beautifully visual and also works quite well as a sculpting technique.\nThis is a really strong channel that flows effortlessly with the"
+   ]
+  },
+  "cellTimes": {
+   "cell02_step2.py": 2.0,
+   "cell03_step3.py": 28.2,
+   "cell04_step4.py": 1300.4
+  },
+  "sessionPeakGB": 9.63,
+  "totalSec": 1331.9,
+  "peakGBAfterCell": {
+   "cell03_step3.py": 1.65,
+   "cell04_step4.py": 9.63
+  }
+ },
+ "samples": [],
+ "wallClockSec": 1331.9,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-10",
+ "command": "python.exe record_gpu.py ../../kaggle/out/gcp-llt-rl/out3_ppo_s1 lltRL-T2-ppo-kl0.05-s1",
+ "notes": "Recorded on an NVIDIA A100 with the T4 recipe (fp16 autocast, GradScaler, fp16 frozen bases). Timings and memory are A100 numbers; T4 times on the page are estimates until re-timed on a T4. Job out3_ppo_s1, mode ppo, args {\"seed\": \"1\"}"
+}

@@ -1,0 +1,159 @@
+{
+ "runId": "lltCapstoneAssistant-T3-data",
+ "module": "lltCapstoneAssistant",
+ "tier": "T3",
+ "label": "reference:data",
+ "hardware": {
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "count": 1,
+  "vramGB": 39.5
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.11.0+cu130",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "bitsandbytes": "0.50.2",
+  "numpy": "2.5.4",
+  "cuda": "13.0"
+ },
+ "notebookCommit": null,
+ "config": {},
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "card": {
+   "sft": {
+    "n": 20000,
+    "n_heldout": 300,
+    "tokens": 11350253,
+    "completion_tokens": 8371453,
+    "per_group": {
+     "precise_if": 3992,
+     "chat": 7416,
+     "oasst": 798,
+     "code": 2393,
+     "flan": 1005,
+     "science": 600,
+     "safety": 1392,
+     "math": 2404
+    },
+    "per_source": {
+     "Wildchat": 7511,
+     "Dolci Instruct Precise IF": 4060,
+     "FLAN": 1015,
+     "OpenAssistant": 812,
+     "Tulu 3 Persona GSM": 476,
+     "OpenMathInstruct 2": 455,
+     "Tulu 3 Persona MATH": 1318,
+     "Tulu 3 Persona Algebra": 187,
+     "Tulu 3 Persona Python": 251,
+     "Dolci Instruct Python Algorithms": 1414,
+     "Evol CodeAlpaca": 771,
+     "WildJailbreak": 651,
+     "WildGuardMix": 628,
+     "CoCoNot": 142,
+     "Dolci Instruct OpenThoughts3+ Science": 609
+    },
+    "drops": {
+     "not single-turn": 2464,
+     "not English": 1218,
+     "too long for max_length": 1145,
+     "duplicate prompt": 175,
+     "overlaps an evaluation prompt": 1213,
+     "names a model or lab in the reply": 70,
+     "empty": 12
+    },
+    "dropsByGroup": {
+     "chat": {
+      "not English": 539,
+      "too long for max_length": 858,
+      "duplicate prompt": 133,
+      "overlaps an evaluation prompt": 11,
+      "names a model or lab in the reply": 67,
+      "empty": 2
+     },
+     "precise_if": {
+      "overlaps an evaluation prompt": 1198,
+      "not English": 485,
+      "too long for max_length": 86,
+      "names a model or lab in the reply": 3
+     },
+     "flan": {
+      "not English": 105,
+      "too long for max_length": 41,
+      "duplicate prompt": 2
+     },
+     "oasst": {
+      "not English": 84,
+      "too long for max_length": 2,
+      "duplicate prompt": 1
+     },
+     "math": {
+      "too long for max_length": 81,
+      "duplicate prompt": 1,
+      "overlaps an evaluation prompt": 1
+     },
+     "code": {
+      "overlaps an evaluation prompt": 3,
+      "too long for max_length": 22,
+      "not English": 3
+     },
+     "safety": {
+      "empty": 9,
+      "duplicate prompt": 7,
+      "not English": 1
+     },
+     "science": {
+      "too long for max_length": 55,
+      "duplicate prompt": 31,
+      "empty": 1,
+      "not English": 1
+     }
+    },
+    "max_len": 2048,
+    "mean_completion_tokens": 418.6
+   },
+   "pref": {
+    "n": 5000,
+    "drops": {
+     "duplicate prompt": 64,
+     "prompt over 512 tokens": 328,
+     "not English": 294,
+     "also an SFT prompt": 1
+    },
+    "pool": 61135
+   },
+   "eval": {
+    "ifeval": 541,
+    "arena": 500,
+    "arena_per_category": {
+     "coding": 169,
+     "creative_writing": 167,
+     "math": 164
+    },
+    "xstest": 450,
+    "xstest_per_label": {
+     "safe": 250,
+     "unsafe": 200
+    },
+    "calib": 300,
+    "calib_human_A": 146
+   },
+   "decontamination": {
+    "method": "13-word overlap or exact normalised match against all IFEval, Arena-Hard v2.0 and XSTest prompts",
+    "eval_ngrams": 113016
+   }
+  }
+ },
+ "samples": [],
+ "wallClockSec": 202.6,
+ "costUSD": null,
+ "price": null,
+ "priceCheckedOn": null,
+ "date": "2026-11-10",
+ "command": "python /home/rajsr/capstoneP2/lab/capstone/data.py --tier T3 --work /home/rajsr/capstoneP2/work"
+}

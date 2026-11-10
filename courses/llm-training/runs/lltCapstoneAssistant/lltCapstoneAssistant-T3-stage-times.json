@@ -1,0 +1,45 @@
+{
+ "stages": {
+  "data": 3.6,
+  "sft": 79.3,
+  "sample": 10.6,
+  "label": 32.7,
+  "dpo": 25.8,
+  "evalgen": 10.1,
+  "scores": 0.3,
+  "judge": 35.2,
+  "refusal": 2.5,
+  "sft-noif": 64.8,
+  "evalgen-noif": 2.4,
+  "scores-noif": 0.3
+ },
+ "referenceGpuHours": 3.34,
+ "spentMin": {
+  "data": 3.7,
+  "sft": 79.4,
+  "sample": 10.7,
+  "label": 32.8,
+  "dpo": 25.9,
+  "evalgen": 13.8,
+  "scores": 0.6,
+  "judge": 35.4,
+  "refusal": 2.5,
+  "sft-noif": 64.8,
+  "evalgen-noif": 2.4,
+  "scores-noif": 0.3
+ },
+ "ablationGpuHours": 1.12,
+ "smokeMin": 24.2,
+ "t2Projected": {
+  "data": "about 5 to 10 min (CPU)",
+  "sft": "about 1.5 h",
+  "sample": "about 2.5 to 3 h",
+  "label": "about 10 min",
+  "dpo": "about 30 to 45 min",
+  "evalgen": "about 3.5 h",
+  "scores": "a few min (CPU)",
+  "judge": "about 1.5 to 2 h, one judge",
+  "refusal": "about 1 h"
+ },
+ "t2Basis": "T4 rates measured in llt-c-probe (2026-11-07): Qwen3-1.7B-Base LoRA training about 790 tokens/s; HF generate about 20-30 s per batch step of 256 new tokens; Skywork-Reward-V2-Qwen3-1.7B 10.6 sequences/s; times the T2 token counts. DPO from our A100 time per pair and the A100/T4 training ratio of our SFT (2,485 vs 790 tokens/s)."
+}

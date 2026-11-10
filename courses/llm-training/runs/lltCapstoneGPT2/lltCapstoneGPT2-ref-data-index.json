@@ -1,0 +1,207 @@
+{
+ "runId": "lltCapstoneGPT2-ref-data-index",
+ "dataset": "HuggingFaceFW/fineweb-edu",
+ "config": "sample-10BT",
+ "licence": "ODC-By 1.0",
+ "tokenizer": "gpt2 (tiktoken 0.14.0)",
+ "eot": 50256,
+ "dtype": "uint16",
+ "minIntScore": 0,
+ "maxDocsPerFile": 0,
+ "val": {
+  "file": "val.bin",
+  "tokens": 10485760
+ },
+ "train": [
+  {
+   "file": "train_000.bin",
+   "tokens": 752097492,
+   "start": 10485760
+  },
+  {
+   "file": "train_001.bin",
+   "tokens": 751222612,
+   "start": 0
+  },
+  {
+   "file": "train_002.bin",
+   "tokens": 751366161,
+   "start": 0
+  },
+  {
+   "file": "train_003.bin",
+   "tokens": 749837496,
+   "start": 0
+  },
+  {
+   "file": "train_004.bin",
+   "tokens": 748433153,
+   "start": 0
+  },
+  {
+   "file": "train_005.bin",
+   "tokens": 750306746,
+   "start": 0
+  },
+  {
+   "file": "train_006.bin",
+   "tokens": 752005781,
+   "start": 0
+  },
+  {
+   "file": "train_007.bin",
+   "tokens": 751610759,
+   "start": 0
+  },
+  {
+   "file": "train_008.bin",
+   "tokens": 751233551,
+   "start": 0
+  },
+  {
+   "file": "train_009.bin",
+   "tokens": 753202608,
+   "start": 0
+  },
+  {
+   "file": "train_010.bin",
+   "tokens": 751624393,
+   "start": 0
+  },
+  {
+   "file": "train_011.bin",
+   "tokens": 750695987,
+   "start": 0
+  },
+  {
+   "file": "train_012.bin",
+   "tokens": 751214441,
+   "start": 0
+  },
+  {
+   "file": "train_013.bin",
+   "tokens": 189138164,
+   "start": 0
+  }
+ ],
+ "trainTokens": 9943503584,
+ "docs": 9672101,
+ "chars": 45735998438,
+ "perFile": [
+  {
+   "file": 0,
+   "tokens": 752097492,
+   "docs": 726000,
+   "chars": 3451992934,
+   "downloadSec": 138.2,
+   "sec": 620.8
+  },
+  {
+   "file": 1,
+   "tokens": 751222612,
+   "docs": 729000,
+   "chars": 3454339231,
+   "downloadSec": 138.6,
+   "sec": 620.4
+  },
+  {
+   "file": 2,
+   "tokens": 751366161,
+   "docs": 727000,
+   "chars": 3462297503,
+   "downloadSec": 140.8,
+   "sec": 622.4
+  },
+  {
+   "file": 3,
+   "tokens": 749837496,
+   "docs": 734000,
+   "chars": 3461584669,
+   "downloadSec": 136.7,
+   "sec": 619.8
+  },
+  {
+   "file": 4,
+   "tokens": 748433153,
+   "docs": 745000,
+   "chars": 3441934906,
+   "downloadSec": 139.4,
+   "sec": 619.8
+  },
+  {
+   "file": 5,
+   "tokens": 750306746,
+   "docs": 738000,
+   "chars": 3441866565,
+   "downloadSec": 140.8,
+   "sec": 623.7
+  },
+  {
+   "file": 6,
+   "tokens": 752005781,
+   "docs": 732000,
+   "chars": 3448501263,
+   "downloadSec": 137.4,
+   "sec": 622.6
+  },
+  {
+   "file": 7,
+   "tokens": 751610759,
+   "docs": 725000,
+   "chars": 3448004805,
+   "downloadSec": 112.7,
+   "sec": 534.8
+  },
+  {
+   "file": 8,
+   "tokens": 751233551,
+   "docs": 724000,
+   "chars": 3445218371,
+   "downloadSec": 53.8,
+   "sec": 454.3
+  },
+  {
+   "file": 9,
+   "tokens": 753202608,
+   "docs": 713000,
+   "chars": 3453354670,
+   "downloadSec": 133.1,
+   "sec": 551.3
+  },
+  {
+   "file": 10,
+   "tokens": 751624393,
+   "docs": 730000,
+   "chars": 3452543742,
+   "downloadSec": 101.9,
+   "sec": 522.0
+  },
+  {
+   "file": 11,
+   "tokens": 750695987,
+   "docs": 735000,
+   "chars": 3452331028,
+   "downloadSec": 135.6,
+   "sec": 552.9
+  },
+  {
+   "file": 12,
+   "tokens": 751214441,
+   "docs": 732000,
+   "chars": 3452835983,
+   "downloadSec": 136.4,
+   "sec": 554.9
+  },
+  {
+   "file": 13,
+   "tokens": 189138164,
+   "docs": 182101,
+   "chars": 869192768,
+   "downloadSec": 81.0,
+   "sec": 173.4
+  }
+ ],
+ "workers": 7,
+ "sec": 1178.4,
+ "charsPerToken": 4.595
+}
