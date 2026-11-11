@@ -1,4 +1,4 @@
-RUN_EXPERIMENT = False   # True trains two more policies, 35 and 15 min on our shared A100. False: read our runs below
+RUN_EXPERIMENT = False   # True trains two more policies, 27 and 11 min on a T4 (35 and 15 min on our shared A100). False: read our runs below
 
 if RUN_EXPERIMENT:
     for name, cfg in [("noclip", dict(PPO, clip=1e6, vf_clip=1e6)),     # no clip on the policy or the value

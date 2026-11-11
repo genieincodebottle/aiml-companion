@@ -1,0 +1,220 @@
+{
+ "runId": "lltCapstoneReasoner-T2-gcpT4-notebook",
+ "module": "lltCapstoneReasoner",
+ "tier": "T2",
+ "label": "learner notebook, timed",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 15,
+  "vm": "n1-highmem-4, 2 x T4, 26 GB RAM",
+  "driver": "580.178.04",
+  "provider": "Google Cloud on-demand VM, us-central1-f, set up like Kaggle's GPU T4 x2 (the notebook uses one T4)"
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.11.0+cu130",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "mathVerify": "0.9.0",
+  "numpy": "2.5.4",
+  "safetensors": "0.8.0",
+  "nbconvert": "7.17.2",
+  "cuda": "13.0",
+  "driver": "580.178.04"
+ },
+ "date": "2026-11-11",
+ "setup": {
+  "env": {
+   "python": "3.12.16",
+   "torch": "2.11.0+cu130",
+   "transformers": "5.22.1",
+   "trl": "1.17.1",
+   "peft": "0.21.2",
+   "accelerate": "1.15.0",
+   "datasets": "5.1.0",
+   "mathVerify": "0.9.0",
+   "numpy": "2.5.4",
+   "safetensors": "0.8.0",
+   "nbconvert": "7.17.2",
+   "cuda": "13.0",
+   "driver": "580.178.04"
+  },
+  "vm": {
+   "name": "llt-c10",
+   "zone": "us-central1-f",
+   "machine": "n1-highmem-4 (4 vCPU Intel Xeon 2.3 GHz, 26 GB RAM)",
+   "gpus": "2 x NVIDIA Tesla T4 15 GB",
+   "disk": "200 GB",
+   "image": "Deep Learning VM pytorch-2-9-cu129-ubuntu-2204-nvidia-580, system Python 3.10, so a Python 3.12 venv was built with uv"
+  },
+  "setupSec": {
+   "pythonVenv": 1,
+   "torchAndJupyterInstall": 320,
+   "notebookInstallCellFirstRun": 29.0,
+   "notebookInstallCellRerun": 1.4,
+   "sparseClone": 1.3,
+   "testsAndLabFolderCell": 12.1,
+   "note": "Kaggle and Colab ship torch, so torchAndJupyterInstall is not a learner cost. The model download (about 1.2 GB) is inside the base evaluation cell."
+  },
+  "baseEvalCellSec": 2281.2,
+  "notes": [
+   "The lab folder was copied from the local checkout (identical to the GitHub copy apart from line endings in data/*.jsonl, which were replaced by the cloned copies), so the notebook's clone cell was skipped; a separate sparse clone took 1.3 s.",
+   "The notebook sets CUDA_VISIBLE_DEVICES=0. The second T4 ran a second ablation cell at the same time, started by changing that line and the parameter cell only."
+  ]
+ },
+ "perRun": {
+  "agg-dr_grpo_scale-0_s0": {
+   "trainCellSec": 4963.9,
+   "evalCellSec": 943.0,
+   "sessions": 1,
+   "peakGB": 6.63,
+   "steps": 100,
+   "metricsSecSum": 4480.9,
+   "medianStepSec": 35.6,
+   "passAt1": 0.1981,
+   "passAt16": 0.255,
+   "greedy": 0.215,
+   "meanTokens": 75.1,
+   "ref": {
+    "runId": "lltCapstoneReasoner-A100-agg-dr_grpo_scale-0_s0",
+    "passAt1": 0.2383,
+    "passAt16": 0.3695,
+    "greedy": 0.225,
+    "meanTokens": 78.6,
+    "engine": "vllm",
+    "n": 64,
+    "wallClockSec": 4140.8,
+    "runsSideBySide": 4
+   }
+  },
+  "agg-dr_grpo_scale-0_s1": {
+   "trainCellSec": 4371.2,
+   "evalCellSec": 900.6,
+   "sessions": 1,
+   "peakGB": 6.63,
+   "steps": 100,
+   "metricsSecSum": 3961.7,
+   "medianStepSec": 32.2,
+   "passAt1": 0.2234,
+   "passAt16": 0.265,
+   "greedy": 0.22,
+   "meanTokens": 69.1,
+   "ref": {
+    "runId": "lltCapstoneReasoner-A100-agg-dr_grpo_scale-0_s1",
+    "passAt1": 0.3086,
+    "passAt16": 0.3711,
+    "greedy": 0.32,
+    "meanTokens": 70.6,
+    "engine": "vllm",
+    "n": 64,
+    "wallClockSec": 4010.1,
+    "runsSideBySide": 4
+   }
+  },
+  "agg-dr_grpo_scale-1_s0": {
+   "trainCellSec": 4178.8,
+   "evalCellSec": 801.1,
+   "sessions": 1,
+   "peakGB": 6.63,
+   "steps": 100,
+   "metricsSecSum": 3806.8,
+   "medianStepSec": 30.4,
+   "passAt1": 0.2091,
+   "passAt16": 0.29,
+   "greedy": 0.21,
+   "meanTokens": 70.1,
+   "ref": {
+    "runId": "lltCapstoneReasoner-A100-agg-dr_grpo_scale-1_s0",
+    "passAt1": 0.1941,
+    "passAt16": 0.2258,
+    "greedy": 0.065,
+    "meanTokens": 77.2,
+    "engine": "vllm",
+    "n": 64,
+    "wallClockSec": 3451.2,
+    "runsSideBySide": 4
+   }
+  },
+  "agg-grpo_scale-0_s0": {
+   "trainCellSec": 4482.6,
+   "evalCellSec": 743.0,
+   "sessions": 1,
+   "peakGB": 6.63,
+   "steps": 100,
+   "metricsSecSum": 4239.9,
+   "medianStepSec": 30.3,
+   "passAt1": 0.1703,
+   "passAt16": 0.24,
+   "greedy": 0.175,
+   "meanTokens": 21.1,
+   "ref": {
+    "runId": "lltCapstoneReasoner-A100-agg-grpo_scale-0_s0",
+    "passAt1": 0.2918,
+    "passAt16": 0.3548,
+    "greedy": 0.275,
+    "meanTokens": 76.5,
+    "engine": "vllm",
+    "n": 64,
+    "wallClockSec": 4834.9,
+    "runsSideBySide": 4
+   }
+  },
+  "agg-grpo_scale-1_s0": {
+   "trainCellSec": 3805.6,
+   "evalCellSec": 590.8,
+   "sessions": 1,
+   "peakGB": 6.63,
+   "steps": 100,
+   "metricsSecSum": 3559.7,
+   "medianStepSec": 28.3,
+   "passAt1": 0.1741,
+   "passAt16": 0.23,
+   "greedy": 0.17,
+   "meanTokens": 20.2,
+   "ref": {
+    "runId": "lltCapstoneReasoner-A100-agg-grpo_scale-1_s0",
+    "passAt1": 0.2917,
+    "passAt16": 0.3702,
+    "greedy": 0.305,
+    "meanTokens": 71.0,
+    "engine": "vllm",
+    "n": 64,
+    "wallClockSec": 3707.3,
+    "runsSideBySide": 4
+   }
+  },
+  "agg-grpo_scale-1_s1": {
+   "trainCellSec": 6397.3,
+   "evalCellSec": 1781.1,
+   "sessions": 2,
+   "peakGB": 5.77,
+   "steps": 100,
+   "metricsSecSum": 5785.6,
+   "medianStepSec": 67.1,
+   "passAt1": 0.3109,
+   "passAt16": 0.39,
+   "greedy": 0.325,
+   "meanTokens": 77.6,
+   "ref": {
+    "runId": "lltCapstoneReasoner-A100-agg-grpo_scale-1_s1",
+    "passAt1": 0.2302,
+    "passAt16": 0.2829,
+    "greedy": 0.24,
+    "meanTokens": 18.4,
+    "engine": "vllm",
+    "n": 64,
+    "wallClockSec": 3029.2,
+    "runsSideBySide": 4
+   }
+  }
+ },
+ "gpuMemNvidiaSmiPeakMiB": {
+  "0": 7029,
+  "1": 7009
+ },
+ "note": "The first run executed the notebook alone on GPU 0 (hardware check, install, tests, base evaluation, one ablation run, its evaluation). Later cells ran with the notebook's parameter cell changed, two at a time, one per T4."
+}

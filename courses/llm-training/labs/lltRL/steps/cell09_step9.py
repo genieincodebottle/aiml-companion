@@ -10,7 +10,7 @@ if DEV.type == "cuda":
 
 GMODEL = "Qwen/Qwen3-0.6B-Base"
 N_TEST, MAX_NEW = 200, 256
-PASS_AT_K = False     # True: also sample 8 replies per test question for pass@k (12 min more on our shared A100)
+PASS_AT_K = False     # True: also sample 8 replies per test question for pass@k (11 min more on a T4, 12 on our shared A100)
 qtok = AutoTokenizer.from_pretrained(GMODEL, padding_side="left")
 gsm = load_dataset("openai/gsm8k", "main")
 test = [dict(q=e["question"], gold=e["answer"].split("####")[-1].strip().replace(",", "")) for e in gsm["test"].select(range(N_TEST))]

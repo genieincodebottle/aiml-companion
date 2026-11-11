@@ -27,7 +27,9 @@ compared with TRL's `GRPOTrainer` (TRL 1.17.1).
 
 GPU runs ran on a Google Cloud A100 (llt-c3) with the T4 recipe: fp16 autocast with a GradScaler, fp16 frozen bases,
 fp32 trained weights. Numerics follow the T4 path; wall-clock and memory are A100 numbers, and the A100 was shared by
-several jobs at once. T4 times on the page are projections until the notebook is re-timed on a Kaggle T4.
+several jobs at once.
+
+T4 times on the page are measured (2026-11-11) on a Google Cloud VM set up like Kaggle's GPU T4 x2 (n1-highmem-4, 4 vCPU, 26 GB RAM, 2x T4 of which the notebook uses one, Python 3.12.16, torch 2.11.0+cu130), not on Kaggle or Colab themselves. `run_notebook_timed.py` runs the notebook headless and times every cell; `record_gcp_t4.py` writes the Run Library files `lltRL-T2-gcpT4-notebook-*` and `lltRL-T1-gcpT4-cpu-cells`. Runs: the default notebook with a cold cache (15.8 min), the notebook with START_FROM = None (150 GRPO steps, 80.5 min of training), the notebook with RUN_PPO, PASS_AT_K and RUN_TRL on (PPO 26.8 min, pass@k +11 min, TRL 13.3 min), and steps 5 and 6 with RUN_EXPERIMENT on (27, 27, 27 and 11 min). Step 12 (six more 150-step runs) was not run; its time is six times the measured 150-step run.
 
 Checkpoints on the Hugging Face Hub, `aimlcompanion/llm-training-lab`:
 - `lltRL/ppo-kl0.05-s0/`: SmolLM2-135M after 200 PPO iterations, KL coefficient 0.05, seed 0.

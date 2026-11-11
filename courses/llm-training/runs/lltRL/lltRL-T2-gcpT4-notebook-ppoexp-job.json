@@ -1,0 +1,206 @@
+{
+ "runId": "lltRL-T2-gcpT4-notebook-ppoexp-job",
+ "module": "lltRL",
+ "tier": "T2",
+ "label": "notebook-ppo-experiments",
+ "hardware": {
+  "gpu": "NVIDIA Tesla T4",
+  "count": 1,
+  "vramGB": 15.36,
+  "host": "Google Cloud n1-highmem-4 (4 vCPU Intel Xeon 2.30 GHz, 26 GB RAM) with 2x T4 (the notebook uses one), on-demand, llt-c7; set up like Kaggle's GPU T4 x2"
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "datasets": "5.1.0",
+  "accelerate": "1.15.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "math_verify": "0.9.0",
+  "nvidiaDriver": "580.178.04",
+  "os": "Linux-6.8.0-1070-gcp-x86_64-with-glibc2.35 (Deep Learning VM image pytorch-2-9-cu129-ubuntu-2204-nvidia-580)",
+  "source": "~/llt-venv (uv, Python 3.12.16, torch 2.11.0 from the cu130 index); the notebook's own %pip cell installed the Hugging Face pins"
+ },
+ "notebookCommit": null,
+ "config": {
+  "runs": [
+   "lltRL-T2-gcpT4-notebook-ppoexp-ppo-kl0.0-s0",
+   "lltRL-T2-gcpT4-notebook-ppoexp-ppo-kl0.2-s0",
+   "lltRL-T2-gcpT4-notebook-ppoexp-ppo-noclip-s0",
+   "lltRL-T2-gcpT4-notebook-ppoexp-ppo-epochs1-s0"
+  ],
+  "subs": [
+   "RUN_EXPERIMENT = False   # True trains two more policies, 31=>RUN_EXPERIMENT = True   # True trains two more policies, 31",
+   "RUN_EXPERIMENT = False   # True trains two more policies, 35 and 15=>RUN_EXPERIMENT = True   # True trains two more policies, 35 and 15"
+  ]
+ },
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "cells": [
+   {
+    "cell": 0,
+    "type": "markdown",
+    "sec": 0.0,
+    "first": "# RL for LLMs: PPO from scratch, then GRPO",
+    "peakAfter": null
+   },
+   {
+    "cell": 1,
+    "type": "markdown",
+    "sec": 0.0,
+    "first": "<!-- llt-run-help -->",
+    "peakAfter": null
+   },
+   {
+    "cell": 2,
+    "type": "code",
+    "sec": 0.06,
+    "first": "import os, sys, platform, shutil, subprocess",
+    "peakAfter": {
+     "peakAllocGB": 0.0,
+     "peakReservedGB": 0.0
+    }
+   },
+   {
+    "cell": 3,
+    "type": "code",
+    "sec": 1.41,
+    "first": "# Pinned Hugging Face stack of our recorded runs. torch and numpy stay",
+    "peakAfter": {
+     "peakAllocGB": 0.0,
+     "peakReservedGB": 0.0
+    }
+   },
+   {
+    "cell": 4,
+    "type": "markdown",
+    "sec": 0.0,
+    "first": "## Step 1. Derive the policy gradient and write REINFORCE with a basel",
+    "peakAfter": null
+   },
+   {
+    "cell": 5,
+    "type": "code",
+    "sec": 0.52,
+    "first": "import numpy as np",
+    "peakAfter": {
+     "peakAllocGB": 0.0,
+     "peakReservedGB": 0.0
+    }
+   },
+   {
+    "cell": 6,
+    "type": "markdown",
+    "sec": 0.0,
+    "first": "## Step 2. Write the PPO pieces and test them (PyTorch, CPU)",
+    "peakAfter": null
+   },
+   {
+    "cell": 7,
+    "type": "code",
+    "sec": 0.04,
+    "first": "import torch",
+    "peakAfter": {
+     "peakAllocGB": 0.0,
+     "peakReservedGB": 0.0
+    }
+   },
+   {
+    "cell": 8,
+    "type": "markdown",
+    "sec": 0.0,
+    "first": "## Step 3. Load the four PPO models and score a rollout (GPU from here",
+    "peakAfter": null
+   },
+   {
+    "cell": 9,
+    "type": "code",
+    "sec": 12.49,
+    "first": "import os",
+    "peakAfter": {
+     "peakAllocGB": 1.647,
+     "peakReservedGB": 1.657
+    }
+   },
+   {
+    "cell": 10,
+    "type": "markdown",
+    "sec": 0.0,
+    "first": "## Step 4. Train PPO on IMDb prefixes (RUN_PPO = False downloads our p",
+    "peakAfter": null
+   },
+   {
+    "cell": 11,
+    "type": "code",
+    "sec": 4.25,
+    "first": "RUN_PPO = False      # False: download our trained policy and only eva",
+    "peakAfter": {
+     "peakAllocGB": 5.651,
+     "peakReservedGB": 6.47
+    }
+   },
+   {
+    "cell": 12,
+    "type": "markdown",
+    "sec": 0.0,
+    "first": "## Step 5. Sweep the KL coefficient (RUN_EXPERIMENT = True trains two ",
+    "peakAfter": null
+   },
+   {
+    "cell": 13,
+    "type": "code",
+    "sec": 3219.83,
+    "first": "RUN_EXPERIMENT = True   # True trains two more policies, 31 and 35 min",
+    "peakAfter": {
+     "peakAllocGB": 11.242,
+     "peakReservedGB": 13.09
+    }
+   },
+   {
+    "cell": 14,
+    "type": "markdown",
+    "sec": 0.0,
+    "first": "## Step 6. Remove the clip, cut the epochs (RUN_EXPERIMENT = True trai",
+    "peakAfter": null
+   },
+   {
+    "cell": 15,
+    "type": "code",
+    "sec": 2275.4,
+    "first": "RUN_EXPERIMENT = True   # True trains two more policies, 35 and 15 min",
+    "peakAfter": null
+   }
+  ],
+  "totalCodeSec": 5514.0,
+  "wallSec": 5517.9,
+  "error": null,
+  "start": "2026-11-11T10:24:31Z",
+  "nvidiaSmiPeakMiBPerGPU": {
+   "0": 12789,
+   "1": 0
+  },
+  "base_eval": null,
+  "after": null,
+  "mem": {
+   "start": 0.0,
+   "policy": 0.538,
+   "reference": 0.807,
+   "value": 1.345,
+   "reward": 1.613
+  }
+ },
+ "samples": [],
+ "wallClockSec": 5517.9,
+ "wallClockNote": "Measured on a Google Cloud T4 VM set up like Kaggle's GPU T4 x2 (llt-c7), nothing else running on it. Not a Kaggle or Colab session.",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-11",
+ "command": "python.exe record_gcp_t4.py C:/Users/rajsr/AppData/Local/Temp/rl/ppoexp lltRL-T2-gcpT4-notebook-ppoexp notebook-ppo-experiments",
+ "notes": "Measured on a Google Cloud VM set up like Kaggle's GPU T4 x2 (4 vCPU, 26 GB RAM, 2x T4, the notebook uses one). Notebook lltRL.ipynb run headless with run_notebook_timed.py, substitutions [\"RUN_EXPERIMENT = False   # True trains two more policies, 31=>RUN_EXPERIMENT = True   # True trains two more policies, 31\", \"RUN_EXPERIMENT = False   # True trains two more policies, 35 and 15=>RUN_EXPERIMENT = True   # True trains two more policies, 35 and 15\"], default settings otherwise."
+}

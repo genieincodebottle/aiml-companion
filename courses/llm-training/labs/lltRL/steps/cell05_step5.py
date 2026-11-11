@@ -1,4 +1,4 @@
-RUN_EXPERIMENT = False   # True trains two more policies, 31 and 35 min on our shared A100. False: read our runs below
+RUN_EXPERIMENT = False   # True trains two more policies, 27 min each on a T4 (31 and 35 min on our shared A100). False: read our runs below
 
 def summary(name, r):
     e = r["evals"][-1]

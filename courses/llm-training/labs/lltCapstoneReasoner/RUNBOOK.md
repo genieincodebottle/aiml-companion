@@ -43,6 +43,18 @@ Two seeds per cell (`--seed 0`, `--seed 1`), 8 runs; we added `--seed 2` (12 run
 7. Evaluate each finished run: `python evaluate.py --out evals/agg-grpo_scale-1_s0.json --adapter runs/agg-grpo_scale-1_s0/adapter-final --n 16 --batch 64`.
 8. After all 8 runs: `python analyze.py`.
 
+Measured on a T4 (2026-11-11, a Google Cloud VM set up like Kaggle's GPU T4 x2, running this notebook top to bottom, one ablation cell per T4):
+
+| Step | Time on one T4 |
+|---|---|
+| Install cell, tests | 29 seconds, 12 seconds |
+| Base model evaluation (`--n 16 --batch 64`) | 38 minutes (includes the model download) |
+| One ablation run, 100 steps | 63 to 83 minutes in five runs, 107 minutes in the sixth, which hit the 100-minute limit and resumed |
+| Evaluation of a finished run | 10 to 16 minutes in five runs, 30 minutes in the sixth |
+| Peak GPU memory in training | 6.6 GB of 15 GB |
+
+A step takes about 68 seconds while replies are still long. It drops to 28 to 35 seconds once replies shrink, so runs where replies collapsed to about 20 tokens finish fastest. Six runs averaged 1.3 T4-hours of training and 16 minutes of evaluation each. Eight runs plus the base evaluation come to about 13 T4-hours, projected from those six. The run files are `lltCapstoneReasoner-T2-gcpT4-*` in the Run Library.
+
 Without a GPU you can still do the analysis. Download our run files and evaluations from the Run Library and run `analyze.py` on them.
 
 Our adapters (12 ablation runs, step 50 and final for two of them, and the two 1.7B runs) are on the Hub under `aimlcompanion/llm-training-lab/lltCapstoneReasoner/<run>/adapter-final` and `adapter-step50`. Evaluate one with `python evaluate.py --adapter hub:lltCapstoneReasoner/<run>/adapter-final`.

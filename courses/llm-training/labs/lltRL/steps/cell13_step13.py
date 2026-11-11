@@ -1,4 +1,4 @@
-RUN_TRL = False     # True: 30 GRPOTrainer steps with the same settings, 12 min on our A100; not yet timed on a T4
+RUN_TRL = False     # True: 30 GRPOTrainer steps with the same settings, 13 min on a T4, 12 min on our A100
 from trl import GRPOConfig, GRPOTrainer
 
 def gsm_reward(completions, gold, **kw):

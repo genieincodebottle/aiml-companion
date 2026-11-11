@@ -1,4 +1,4 @@
-RUN_EXPERIMENT = False   # True trains six more 150-step policies, projected 7 to 8 h on a T4. False: read our runs below
+RUN_EXPERIMENT = False   # True trains six more 150-step policies, about 8 h on a T4 (6 x 80 min, projected). False: read our runs below
 ARMS = {"G4":      dict(GRPO, prompts=8, G=4),            # same 32 replies per step, smaller groups
         "G16":     dict(GRPO, prompts=2, G=16),           # bigger groups, fewer prompts
         "beta0.04": dict(GRPO, beta=0.04),                # KL penalty to the base model, the DeepSeekMath setting

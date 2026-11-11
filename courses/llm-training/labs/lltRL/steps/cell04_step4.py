@@ -1,4 +1,4 @@
-RUN_PPO = False      # False: download our trained policy and only evaluate it. True: train it here (28 min on our shared A100; not yet timed on a T4)
+RUN_PPO = False      # False: download our trained policy and only evaluate it. True: train it here (27 min on a T4, 28 min on our shared A100)
 PPO = dict(iters=200, batch=64, epochs=4, minibatch=16, lr=1e-5, kl_coef=0.05, clip=0.2, vf_clip=0.2, gamma=1.0, lam=0.95, seed=0)
 AMP = DEV.type == "cuda"     # fp16 autocast on the GPU; the trained weights stay fp32
 
