@@ -2,7 +2,7 @@ import copy, random
 import torch.nn.utils.parametrize as P
 
 BITS, GROUP = 3, 32         # 3-bit weights in groups of 32 columns: round-to-nearest loses clearly at this size
-RUN_QAT = DEV.type == "cuda"   # 150 training steps, 593 s on our A100, longer on a T4; needs a GPU
+RUN_QAT = DEV.type == "cuda" and not FROM_OUR_CHECKPOINT   # 150 training steps, 593 s on our A100 and 905 s on our T4; needs a GPU
 
 def fake_quant(w, bits=BITS, group=GROUP):
     # Symmetric round-to-nearest per group of columns, returned in float: the values a 3-bit file would hold
@@ -81,3 +81,11 @@ if RUN_QAT:
     print("   QAT minus RTN, Hindi bpb", ci(runs["rtn 3-bit"], runs["qat 3-bit"], "hi"), "| reply NLL",
           ci(runs["rtn 3-bit"], runs["qat 3-bit"], "reply"), "| train", runs["qat"]["trainSec"], "s, peak", runs["qat"]["peakGB"], "GB")
     load_into(merged_sd)
+elif FROM_OUR_CHECKPOINT:
+    q = REC["qat"]
+    runs["qat"], runs["qat 3-bit"] = {k: q[k] for k in ("klFirst", "klLast", "trainSec", "peakGB")}, q["qat"]
+    print("QAT, recorded on our A100 (set FROM_OUR_CHECKPOINT = False to train it yourself)")
+    print("   KL to the merge", q["klFirst"], "at step 0 and", q["klLast"], "at step", q["steps"] - 1, "| trained", q["trainSec"], "s, peak", q["peakGB"], "GB")
+    for name, m in (("RTN 3-bit", q["rtn"]), ("QAT 3-bit", q["qat"])):
+        print("   " + name.ljust(10), "| Hindi bpb", format(m["hiBpb"], ".4f"), "| English bpb", format(m["enBpb"], ".4f"),
+              "| reply NLL", format(m["replyNll"], ".4f"), "| ends", format(m["endRate"], ".2f"))

@@ -1,4 +1,4 @@
-RUN_GRID = False      # True scores 9 more merges (each panel took about 1 min on our A100, longer on a T4)
+RUN_GRID = False      # True scores 9 more merges (each panel took about 1 min on our A100 and 2 min on our T4). With FROM_OUR_CHECKPOINT on, only our best merge is scored
 
 def kept(m):
     # Share of each fine-tune's gain the merge keeps: 1.0 = as good as that fine-tune, 0 = no better than the base
@@ -19,6 +19,13 @@ if RUN_GRID:
              ("DARE p 0.5", "dare", dict(p=0.5, seed=0)),
              ("DARE p 0.9", "dare", dict(p=0.9, seed=0)),
              ("DARE p 0.9 seed 1", "dare", dict(p=0.9, seed=1))]
+elif FROM_OUR_CHECKPOINT:
+    # Score only the merge we shipped, and read the other eight from our grid, so the rule and every later step match the page
+    GRID.append(("task arithmetic 1.0 / 0.5", "ta", dict(lams=(1.0, 0.5))))
+    for n, m in REC["grid"].items():
+        if n not in [g[0] for g in GRID]:
+            print((n.ljust(26) + " | Hindi bpb " + format(m["hiBpb"], ".4f") + " | reply NLL " + format(m["replyNll"], ".4f")
+                   + " | kept " + str(m["kept"])), "| recorded on our A100")
 for name, method, kw in GRID:
     t0 = time.time()
     sd = merge_model(method, **kw)

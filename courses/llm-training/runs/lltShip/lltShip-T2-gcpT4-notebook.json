@@ -1,0 +1,84 @@
+{
+ "runId": "lltShip-T2-gcpT4-notebook",
+ "module": "lltShip",
+ "tier": "T2",
+ "label": "baseline",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "gpusUsed": 1,
+  "vramGB": 15,
+  "cpu": "Google Cloud n1-highmem-4, 4 vCPU, 26 GB RAM",
+  "provider": "Google Cloud on-demand VM llt-c8, us-central1-b, set up like Kaggle's GPU T4 x2 (not Kaggle itself)"
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.11.0+cu130",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "safetensors": "0.8.0",
+  "mergekit": "0.1.5",
+  "gguf": "0.19.0",
+  "compressedTensors": "0.20.1 (in lc-env)",
+  "cuda": "13.0",
+  "llamaCpp": "b12182",
+  "llmcompressor": "0.15.0 (own venv, transformers 5.21.0)",
+  "vllm": "not run (RUN_VLLM = False)"
+ },
+ "notebookCommit": null,
+ "config": {
+  "mode": "the learner notebook with nbconvert, FROM_OUR_CHECKPOINT = True (the new default)",
+  "cells": "runtime check, install, steps 1-12",
+  "runGrid": false,
+  "runQat": false,
+  "runVllm": false
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 0,
+   "peakGB": 6.52
+  }
+ ],
+ "evals": {
+  "cellSec": {
+   "runtimeCheck": 0.1,
+   "install": 2.7,
+   "cell01_step1.py": 10.3,
+   "cell02_step2.py": 12.7,
+   "cell03_step3.py": 0.5,
+   "cell04_step4.py": 385.4,
+   "cell05_step5.py": 593.7,
+   "cell06_step6.py": 214.5,
+   "cell07_step7.py": 8.5,
+   "cell08_step8.py": 384.6,
+   "cell09_step9.py": 122.0,
+   "cell10_step10.py": 0.9,
+   "cell11_step11.py": 221.4,
+   "cell12_step12.py": 83.7
+  },
+  "peakGiBNvidiaSmiPerGpu": [
+   6.52,
+   0.0
+  ],
+  "note": "peakGB is nvidia-smi memory.used (includes the CUDA context and the caching allocator), not torch's allocated peak",
+  "notebookWallSec": 2051
+ },
+ "samples": [
+  {
+   "stdout": "Python 3.12.16 | GPU Tesla T4, 15360 MiB | torch 2.11.0+cu130 | disk free 160 GB\nRuntime OK\n\n\u001b[33mWARNING: Skipping torchao as it is not installed.\u001b[0m\r\n\nNote: you may need to restart the kernel to use updated packages.\n\nNote: you may need to restart the kernel to use updated packages.\n\nWarning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n\nlltToolUse adapter was trained on Qwen/Qwen3.5-2B-Base\nlltDistillation adapter was trained on Qwen/Qwen3-0.6B-Base\n\nlltDPO/sft-s0 is a full model | Qwen3ForCausalLM | hidden 1024 | layers 28 | vocab 151936\nlltDomainAdaptation/cpt-r5-lr3e-5 is a full model | Qwen3ForCausalLM | hidden 1024 | layers 28 | vocab 151936\n\nToolUse LoRA A for q_proj [16, 2048] expects inputs of width 2048\nQwen3-0.6B-Base q_proj weight [2048, 1024] has inputs of width 1024\n\nloss A 0.00122 | permuted copy B 0.00122 | max output gap A vs B 5.960464477539062e-07\naverage of A and B 0.36096 | average of A and its fine-tune C 0.00082\n\n{'base': (310, 'torch.bfloat16'), 'sft': (310, 'torch.float16'), 'hindi': (310, 'torch.float16')}\n\nsft    | norm 6.53 = 0.451 % of the base norm | nonzero entries 72.3 % | share of the squared norm {'embeddings': 0.0, 'norms': 0.0, 'mlp': 0.611, 'attention': 0.389}\nhindi  | norm 10.65 = 0.736 % of the base norm | nonzero entries 97.3 % | share of the squared norm {'embeddings': 0.594, 'norms': 0.0, 'mlp': 0.248, 'attention': 0.158}\ncosine(sft, hindi) -0.0001 | entries both changed 70.9 % | of those, opposite signs 50.0 % | 12 s\nsft    model.layers.13.self_attn.q_proj.weight singular values 1, 16, 17 relative to the first: [1.0, 0.2158, 0.0035]\n\nhindi  model.layers.13.self_attn.q_proj.weight singular values 1, 16, 17 relative to the first: [1.0, 0.4286, 0.4267]\n\ntask arithmetic, lambda 1  [0.8, 0.2, -0.5, 0.05]\nlinear, equal weights      [0.4, 0.1, -0.25, 0.025]\ntrim to density 0.5        [0.5, -0.2, 0.0, 0.0] [0.0, 0.4, -0.6, 0.0]\nTIES, density 0.5          [0.5, 0.4, -0.6, 0.0]\nDARE p 0.9 keeps 10026 of 100000 | mean before 0.01 after 0.01003\n\nsft    | kept by trim 20.0 % | of those, lost the sign vote 9.2 % | share of its squared norm kept after the vote 0.61\nhindi  | kept by trim 20.0 % | of those, lost the sign vote 0.8 % | share of its squared norm kept after the vote 0.654\n\n200 Hindi texts | 200 English texts | 300 held-out replies | 100 prompts\n\nbase                   | Hindi bpb 0.6131 | English bpb 0.7992 | reply NLL 1.3111 | ends 0.66, 144 tokens\n\nsft                    | Hindi bpb 0.6216 | English bpb 0.8029 | reply NLL 1.2449 | ends 0.88, 104 tokens\n\nhindi                  | Hindi bpb 0.6002 | English bpb 0.8205 | reply NLL 1.3694 | ends 0.65, 139 tokens\nHindi bpb, hindi minus base [-0.0207, -0.0073] | reply NLL, sft minus base [-0.0768, -0.0567] | 361 s\n\ntask arithmetic 0.75       | Hindi bpb 0.5973 | reply NLL 1.2889 | kept [1.226, 0.335] | recorded on our A100\ntask arithmetic 1.25       | Hindi bpb 0.6133 | reply NLL 1.3597 | kept [-0.018, -0.735] | recorded on our A100\ntask arithmetic 1.0 / 0.25 | Hindi bpb 0.6044 | reply NLL 1.2496 | kept [0.674, 0.928] | recorded on our A100\nTIES density 0.5           | Hindi bpb 0.5970 | reply NLL 1.2984 | kept [1.244, 0.191] | recorded on our A100\nTIES density 1.0           | Hindi bpb 0.5958 | reply NLL 1.2959 | kept [1.341, 0.228] | recorded on our A100\nDARE p 0.5                 | Hindi bpb 0.6048 | reply NLL 1.3262 | kept [0.645, -0.229] | recorded on our A100\nDARE p 0.9                 | Hindi bpb 0.6139 | reply NLL 1.3690 | kept [-0.058, -0.875] | recorded on our A100\nDARE p 0.9 seed 1          | Hindi bpb 0.6141 | reply NLL 1.3671 | kept [-0.079, -0.846] | recorded on our A100\n\naverage, lambda 0.5    | Hindi bpb 0.5952 | English bpb 0.8048 | reply NLL 1.2732 | ends 0.81, 109 tokens\n   kept (Hindi, replies) (1.386, 0.572) | merge 4.9 s on the CPU, panel 120.1 s\n\ntask arithmetic 1.0    | Hindi bpb 0.6037 | English bpb 0.8235 | reply NLL 1.3184 | ends 0.84, 98 tokens\n   kept (Hindi, replies) (0.73, -0.111) | merge 4.7 s on the CPU, panel 120.4 s\n\nTIES density 0.2       | Hindi bpb 0.5963 | English bpb 0.8209 | reply NLL 1.3011 | ends 0.81, 106 tokens\n   kept (Hindi, replies) (1.299, 0.151) | merge 93.0 s on the CPU, panel 120.6 s\n\ntask arithmetic 1.0 / 0.5 | Hindi bpb 0.5986 | English bpb 0.8073 | reply NLL 1.2640 | ends 0.85, 101 tokens\n   kept (Hindi, replies) (1.124, 0.711) | merge 3.8 s on the CPU, panel 120.4 s\nship: task arithmetic 1.0 / 0.5 | Hindi bpb vs hindi model [-0.0041, 0.0019] | reply NLL vs sft model [0.0167, 0.0217] | English bpb vs base [0.0075, 0.0086]\n\n['chat_template.jinja', 'config.json', 'generation_config.json', 'model.safetensors', 'tokenizer.json', 'tokenizer_config.json']\n\n[transformers] `torch_dtype` is deprecated! Use `dtype` instead!\n\nmergekit took 119 s\n\nyour TIES took 94 s\n\n310 tensors compared | 310 identical | largest gap 0.0\n\nf16     1142.7 MiB | made in 7.2 s | recorded on our A100 VM | llama-perplexity on the Hindi texts: 3.2489 +/- 0.04894\nQ8_0    609.8 MiB | made in 5.5 s | recorded on our A100 VM\nQ6_K    472.2 MiB | made in 8.6 s | recorded on our A100 VM\nQ5_K_M  423.8 MiB | made in 11.8 s | recorded on our A100 VM\nQ4_K_M  378.3 MiB | made in 13.2 s | recorded on our A100 VM | llama-perplexity on the Hindi texts: 3.4786 +/- 0.05229\nQ3_K_M  331.0 MiB | made in 9.6 s | recorded on our A100 VM\nQ2_K    282.5 MiB | made in 9.9 s | recorded on our A100 VM | llama-perplexity on the Hindi texts: 11.3498 +/- 0.17021\nGGUF f16               | Hindi bpb 0.5986 | English bpb 0.8073 | reply NLL 1.2640 | ends 0.86 | tensor types {'F16': 197, 'F32': 113}\nGGUF Q8_0              | Hindi bpb 0.5990 | English bpb 0.8080 | reply NLL 1.2647 | ends 0.84 | tensor types {'F32': 113, 'Q8_0': 197}\nGGUF Q4_K_M            | Hindi bpb 0.6297 | English bpb 0.8317 | reply NLL 1.3295 | ends 0.74 | tensor types {'F32': 113, 'Q6_K': 29, 'Q4_K': 168}\nGGUF Q3_K_M            | Hindi bpb 0.7056 | English bpb 0.8947 | reply NLL 1.5147 | ends 0.61 | tensor types {'F32': 113, 'Q6_K': 1, 'Q3_K': 112, 'Q4_K': 81, 'Q5_K': 3}\nGGUF Q2_K              | Hindi bpb 1.2250 | English bpb 1.3329 | reply NLL 2.8466 | ends 0.08 | tensor types {'F32': 113, 'Q6_K': 1, 'Q2_K': 112, 'Q3_K': 84}\n\nGPTQ W4A16, wikitext   | Hindi bpb 0.7199 | English bpb 0.8391 | reply NLL 1.3976 | ends 0.74, 110 tokens\n    513.5 MiB of weights | GPTQ took 38.6 s | Hindi bpb vs merged [0.1185, 0.1243] | reply NLL vs merged [0.1255, 0.1419]\n\nGPTQ W4A16, own        | Hindi bpb 0.6347 | English bpb 0.8485 | reply NLL 1.3669 | ends 0.81, 107 tokens\n    513.5 MiB of weights | GPTQ took 50.0 s | Hindi bpb vs merged [0.0349, 0.0375] | reply NLL vs merged [0.0958, 0.1104]\nown minus wikitext calibration, Hindi bpb [-0.0874, -0.083] | reply NLL [-0.0376, -0.0237]\n\nRTN 3-bit, no training | Hindi bpb 0.9924 | English bpb 1.0954 | reply NLL 2.1921 | ends 0.22, 210 tokens\n\nQAT, recorded on our A100 (set FROM_OUR_CHECKPOINT = False to train it yourself)\n   KL to the merge 0.6779 at step 0 and 0.1375 at step 149 | trained 592.7 s, peak 10.98 GB\n   RTN 3-bit  | Hindi bpb 0.9924 | English bpb 1.0954 | reply NLL 2.1921 | ends 0.23\n   QAT 3-bit  | Hindi bpb 0.6880 | English bpb 0.9297 | reply NLL 1.5771 | ends 0.71\n\ntemplate matches training format: True\n['README.md', 'chat_template.jinja', 'config.json', 'generation_config.json', 'model.safetensors', 'tokenizer.json', 'tokenizer_config.json']\n\nour template     {'stopRate': 0.8, 'leakRate': 0.0, 'sameTokenIds': 1.0, 'sec': 75.2}\n   first reply: The body was found in the ice in Charlotte (Rochester) early the next spring by Silas Hudson.\n\nChatML template  {'stopRate': 0.3, 'leakRate': 0.0, 'sameTokenIds': 1.0, 'sec': 142.2}\n   first reply: ****\nQ: The first step is to find out what the problem is and then to find out what to do about it .\n\nA: The first step is to find out what the problem is and then to find out what to do about it .\n****\nQ: The first step is to find out what the problem is and then to find out what to do about it .\n\n\n\n196 layers | largest relative error of the rank-16 rebuild 0.0309\nmerged     100 requests | 10163 tokens in 1.27 s = 8002 tokens/s | stop rate 0.86 | recorded on our A100\nsft-full   100 requests | 10291 tokens in 0.97 s = 10609 tokens/s | stop rate 0.88 | recorded on our A100\nmulti-lora 200 requests | 24592 tokens in 2.05 s = 11996 tokens/s | stop rate 0.79 | recorded on our A100\nSFT model vs base + rebuilt SFT adapter: identical greedy replies 90 of 100 | recorded\n"
+  }
+ ],
+ "wallClockSec": 2051,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-11",
+ "command": "python.exe record_t4.py C:/Users/rajsr/AppData/Local/Temp/claude/d07da7e0ca4095f1/7afc6e9a-c508-465b-92a8-899e22cb00d3/scratchpad/llt11/ship",
+ "notes": "Models were already in the Hugging Face cache from the exit-off run on the same VM, so step 2 and 4 downloads were warm. The install cell is a no-op here because setup had already installed the pins; setup.json has the cold install time."
+}

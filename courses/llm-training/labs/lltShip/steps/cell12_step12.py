@@ -1,4 +1,5 @@
-RUN_VLLM = False      # True builds a separate vLLM environment (it pins its own torch) and serves on this GPU; recorded on an A100
+RUN_VLLM = False      # True builds a separate vLLM environment (it pins its own torch) and serves on this GPU; recorded on an A100.
+                      # With FROM_OUR_CHECKPOINT = True and this False, step 12 prints our recorded vLLM numbers
 
 # 1. Take the SFT fine-tune apart again: its task vector has rank 16 per layer, so an SVD recovers a LoRA adapter
 from safetensors.torch import save_file
@@ -59,3 +60,10 @@ if RUN_VLLM:
     runs["vllm"] = {k: {kk: vv for kk, vv in v.items() if kk != "ids"} for k, v in res.items()}
     runs["vllm"]["identical"] = same
     model.to(DEV)
+elif FROM_OUR_CHECKPOINT:
+    runs["vllm"] = REC["vllm"]
+    for mode in ("merged", "sft-full", "multi-lora"):
+        r = runs["vllm"][mode]
+        print(mode.ljust(10), r["requests"], "requests |", r["tokens"], "tokens in", r["sec"], "s =", round(r["tokens"] / r["sec"]),
+              "tokens/s | stop rate", round(r["stopRate"], 2), "| recorded on our A100")
+    print("SFT model vs base + rebuilt SFT adapter: identical greedy replies", runs["vllm"]["identical"], "of", runs["vllm"]["merged"]["requests"], "| recorded")

@@ -1,10 +1,14 @@
+# The long steps have an exit. True (the default, built for a free T4): steps 5, 7, 9 and 12 use our recorded results from the Hub
+# instead of running again, and every later step still runs on them. False: you run every step yourself, as we did.
+FROM_OUR_CHECKPOINT = True
 import json, os, struct
 import torch
-from huggingface_hub import HfFileSystem
+from huggingface_hub import HfFileSystem, hf_hub_download
 
 torch.set_num_threads(4)
 HUB = "aimlcompanion/llm-training-lab"
 fs = HfFileSystem()
+REC = json.load(open(hf_hub_download(HUB, "lltShip/recorded.json")))     # our A100 results for the long steps, 5 KB
 
 def adapter_base(path):
     # The base model an adapter was trained on, from its adapter_config.json on the Hub

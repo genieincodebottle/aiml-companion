@@ -1,0 +1,279 @@
+{
+ "runId": "lltShip-T2-gcpT4-grid-vllm",
+ "module": "lltShip",
+ "tier": "T2",
+ "label": "ablation:optional_switches",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "gpusUsed": 1,
+  "vramGB": 15,
+  "cpu": "Google Cloud n1-highmem-4, 4 vCPU, 26 GB RAM",
+  "provider": "Google Cloud on-demand VM llt-c8, us-central1-b, set up like Kaggle's GPU T4 x2 (not Kaggle itself)"
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.11.0+cu130",
+  "transformers": "5.22.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "tokenizers": "0.23.3",
+  "huggingface_hub": "2.4.0",
+  "numpy": "2.5.4",
+  "safetensors": "0.8.0",
+  "mergekit": "0.1.5",
+  "gguf": "0.19.0",
+  "compressedTensors": "0.20.1 (in lc-env)",
+  "cuda": "13.0",
+  "llamaCpp": "b12182",
+  "llmcompressor": "0.15.0 (own venv, transformers 5.21.0)",
+  "vllm": "0.33.0 (own venv, torch 2.14.0)"
+ },
+ "notebookCommit": null,
+ "config": {
+  "runGrid": true,
+  "runVllm": true,
+  "fromOurCheckpoint": false,
+  "note": "steps 1-5 with RUN_GRID, then steps 1-4 and step 12 with RUN_VLLM, in two processes"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 0,
+   "peakGB": 4.23
+  }
+ ],
+ "evals": {
+  "grid": {
+   "cellSec": {
+    "1": {
+     "sec": 6.1,
+     "peakGB": 0.0
+    },
+    "2": {
+     "sec": 12.4,
+     "peakGB": 0.0
+    },
+    "3": {
+     "sec": 0.5,
+     "peakGB": 0.0
+    },
+    "4": {
+     "sec": 370.0,
+     "peakGB": 4.23
+    },
+    "5": {
+     "sec": 1739.9,
+     "peakGB": 4.23
+    }
+   },
+   "totalSec": 2129.0,
+   "best": "task arithmetic 1.0 / 0.5",
+   "merges": {
+    "average, lambda 0.5": {
+     "hiBpb": 0.5951924223177417,
+     "enBpb": 0.8047872450008302,
+     "replyNll": 1.273197493427203,
+     "kept": [
+      1.386,
+      0.572
+     ],
+     "mergeSec": 4.4,
+     "panelSec": 119.7
+    },
+    "task arithmetic 1.0": {
+     "hiBpb": 0.6036829230078748,
+     "enBpb": 0.8234854343561115,
+     "replyNll": 1.3184465284302789,
+     "kept": [
+      0.73,
+      -0.111
+     ],
+     "mergeSec": 4.9,
+     "panelSec": 121.0
+    },
+    "TIES density 0.2": {
+     "hiBpb": 0.596314262802586,
+     "enBpb": 0.8209437074048718,
+     "replyNll": 1.3011002400069949,
+     "kept": [
+      1.299,
+      0.151
+     ],
+     "mergeSec": 96.3,
+     "panelSec": 121.3
+    },
+    "task arithmetic 0.75": {
+     "hiBpb": 0.597270231117779,
+     "enBpb": 0.8128087138439811,
+     "replyNll": 1.288866423098804,
+     "kept": [
+      1.225,
+      0.335
+     ],
+     "mergeSec": 4.4,
+     "panelSec": 119.9
+    },
+    "task arithmetic 1.25": {
+     "hiBpb": 0.6133471797928407,
+     "enBpb": 0.8368193855999514,
+     "replyNll": 1.3596477121865291,
+     "kept": [
+      -0.017,
+      -0.734
+     ],
+     "mergeSec": 4.1,
+     "panelSec": 119.7
+    },
+    "task arithmetic 1.0 / 0.5": {
+     "hiBpb": 0.598574845903103,
+     "enBpb": 0.807307002306444,
+     "replyNll": 1.2639670816100186,
+     "kept": [
+      1.124,
+      0.711
+     ],
+     "mergeSec": 4.0,
+     "panelSec": 119.4
+    },
+    "task arithmetic 1.0 / 0.25": {
+     "hiBpb": 0.6044121183880166,
+     "enBpb": 0.8034103645107508,
+     "replyNll": 1.2496283120792382,
+     "kept": [
+      0.673,
+      0.928
+     ],
+     "mergeSec": 4.1,
+     "panelSec": 119.4
+    },
+    "TIES density 0.5": {
+     "hiBpb": 0.5970337993853353,
+     "enBpb": 0.818331500643026,
+     "replyNll": 1.2984107569016499,
+     "kept": [
+      1.243,
+      0.191
+     ],
+     "mergeSec": 94.6,
+     "panelSec": 119.8
+    },
+    "TIES density 1.0": {
+     "hiBpb": 0.5957699785198319,
+     "enBpb": 0.8169334517935174,
+     "replyNll": 1.2959685287385996,
+     "kept": [
+      1.341,
+      0.228
+     ],
+     "mergeSec": 14.7,
+     "panelSec": 119.8
+    },
+    "DARE p 0.5": {
+     "hiBpb": 0.6047683219869334,
+     "enBpb": 0.8255847037752069,
+     "replyNll": 1.3262119907054577,
+     "kept": [
+      0.646,
+      -0.229
+     ],
+     "mergeSec": 26.3,
+     "panelSec": 119.6
+    },
+    "DARE p 0.9": {
+     "hiBpb": 0.613874487668507,
+     "enBpb": 0.841079484999469,
+     "replyNll": 1.3689441000851674,
+     "kept": [
+      -0.058,
+      -0.874
+     ],
+     "mergeSec": 18.2,
+     "panelSec": 120.4
+    },
+    "DARE p 0.9 seed 1": {
+     "hiBpb": 0.6141369616187293,
+     "enBpb": 0.8415145801840502,
+     "replyNll": 1.3670154460417674,
+     "kept": [
+      -0.078,
+      -0.845
+     ],
+     "mergeSec": 18.8,
+     "panelSec": 119.3
+    }
+   },
+   "peakGiBNvidiaSmiPerGpu": [
+    8.87,
+    0.0
+   ]
+  },
+  "vllm": {
+   "cellSec": {
+    "cell01": {
+     "sec": 6.1,
+     "peakGB": 0.0
+    },
+    "cell02": {
+     "sec": 12.1,
+     "peakGB": 0.0
+    },
+    "cell03": {
+     "sec": 0.5,
+     "peakGB": 0.0
+    },
+    "cell04": {
+     "sec": 372.1,
+     "peakGB": 4.23
+    },
+    "cell12": {
+     "sec": 952.0,
+     "peakGB": 1.2
+    }
+   },
+   "totalSec": 1342.7,
+   "runs": {
+    "merged": {
+     "sec": 8.01,
+     "tokens": 9996,
+     "requests": 100,
+     "stopRate": 0.86
+    },
+    "sft-full": {
+     "sec": 8.28,
+     "tokens": 10649,
+     "requests": 100,
+     "stopRate": 0.86
+    },
+    "multi-lora": {
+     "sec": 33.27,
+     "tokens": 25041,
+     "requests": 200,
+     "stopRate": 0.78
+    },
+    "identical": 87
+   },
+   "peakGiBNvidiaSmiPerGpu": [
+    8.88,
+    0.0
+   ],
+   "gpuMemoryUtilization": 0.5
+  }
+ },
+ "samples": [
+  {
+   "stdout": "===== 1 07:34:20\nWarning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\nlltToolUse adapter was trained on Qwen/Qwen3.5-2B-Base\nlltDistillation adapter was trained on Qwen/Qwen3-0.6B-Base\nlltDPO/sft-s0 is a full model | Qwen3ForCausalLM | hidden 1024 | layers 28 | vocab 151936\nlltDomainAdaptation/cpt-r5-lr3e-5 is a full model | Qwen3ForCausalLM | hidden 1024 | layers 28 | vocab 151936\nToolUse LoRA A for q_proj [16, 2048] expects inputs of width 2048\nQwen3-0.6B-Base q_proj weight [2048, 1024] has inputs of width 1024\nloss A 0.00122 | permuted copy B 0.00122 | max output gap A vs B 5.960464477539062e-07\naverage of A and B 0.36096 | average of A and its fine-tune C 0.00082\n===== done 1 {'sec': 6.1, 'peakGB': 0.0}\n===== 2 07:34:26\n{'base': (310, 'torch.bfloat16'), 'sft': (310, 'torch.float16'), 'hindi': (310, 'torch.float16')}\nsft    | norm 6.53 = 0.451 % of the base norm | nonzero entries 72.3 % | share of the squared norm {'embeddings': 0.0, 'norms': 0.0, 'mlp': 0.611, 'attention': 0.389}\nhindi  | norm 10.65 = 0.736 % of the base norm | nonzero entries 97.3 % | share of the squared norm {'embeddings': 0.594, 'norms': 0.0, 'mlp': 0.248, 'attention': 0.158}\ncosine(sft, hindi) -0.0001 | entries both changed 70.9 % | of those, opposite signs 50.0 % | 12 s\nsft    model.layers.13.self_attn.q_proj.weight singular values 1, 16, 17 relative to the first: [1.0, 0.2158, 0.0035]\nhindi  model.layers.13.self_attn.q_proj.weight singular values 1, 16, 17 relative to the first: [1.0, 0.4286, 0.4267]\n===== done 2 {'sec': 12.4, 'peakGB': 0.0}\n===== 3 07:34:39\ntask arithmetic, lambda 1  [0.8, 0.2, -0.5, 0.05]\nlinear, equal weights      [0.4, 0.1, -0.25, 0.025]\ntrim to density 0.5        [0.5, -0.2, 0.0, 0.0] [0.0, 0.4, -0.6, 0.0]\nTIES, density 0.5          [0.5, 0.4, -0.6, 0.0]\nDARE p 0.9 keeps 10026 of 100000 | mean before 0.01 after 0.01003\nsft    | kept by trim 20.0 % | of those, lost the sign vote 9.2 % | share of its squared norm kept after the vote 0.61\nhindi  | kept by trim 20.0 % | of those, lost the sign vote 0.8 % | share of its squared norm kept after the vote 0.654\n===== done 3 {'sec': 0.5, 'peakGB': 0.0}\n===== 4 07:34:39\n200 Hindi texts | 200 English texts | 300 held-out replies | 100 prompts\nbase                   | Hindi bpb 0.6131 | English bpb 0.7992 | reply NLL 1.3111 | ends 0.66, 144 tokens\nsft                    | Hindi bpb 0.6216 | English bpb 0.8029 | reply NLL 1.2449 | ends 0.88, 104 tokens\nhindi                  | Hindi bpb 0.6002 | English bpb 0.8205 | reply NLL 1.3694 | ends 0.65, 139 tokens\nHindi bpb, hindi minus base [-0.0207, -0.0073] | reply NLL, sft minus base [-0.0768, -0.0567] | 354 s\n===== done 4 {'sec': 370.0, 'peakGB': 4.23}\n===== 5 07:40:49\naverage, lambda 0.5    | Hindi bpb 0.5952 | English bpb 0.8048 | reply NLL 1.2732 | ends 0.81, 109 tokens\n   kept (Hindi, replies) (1.386, 0.572) | merge 4.4 s on the CPU, panel 119.7 s\ntask arithmetic 1.0    | Hindi bpb 0.6037 | English bpb 0.8235 | reply NLL 1.3184 | ends 0.84, 98 tokens\n   kept (Hindi, replies) (0.73, -0.111) | merge 4.9 s on the CPU, panel 121.0 s\nTIES density 0.2       | Hindi bpb 0.5963 | English bpb 0.8209 | reply NLL 1.3011 | ends 0.81, 106 tokens\n   kept (Hindi, replies) (1.299, 0.151) | merge 96.3 s on the CPU, panel 121.3 s\ntask arithmetic 0.75   | Hindi bpb 0.5973 | English bpb 0.8128 | reply NLL 1.2889 | ends 0.85, 99 tokens\n   kept (Hindi, replies) (1.225, 0.335) | merge 4.4 s on the CPU, panel 119.9 s\ntask arithmetic 1.25   | Hindi bpb 0.6133 | English bpb 0.8368 | reply NLL 1.3596 | ends 0.84, 100 tokens\n   kept (Hindi, replies) (-0.017, -0.734) | merge 4.1 s on the CPU, panel 119.7 s\ntask arithmetic 1.0 / 0.5 | Hindi bpb 0.5986 | English bpb 0.8073 | reply NLL 1.2640 | ends 0.85, 101 tokens\n   kept (Hindi, replies) (1.124, 0.711) | merge 4.0 s on the CPU, panel 119.4 s\ntask arithmetic 1.0 / 0.25 | Hindi bpb 0.6044 | English bpb 0.8034 | reply NLL 1.2496 | ends 0.84, 100 tokens\n   kept (Hindi, replies) (0.673, 0.928) | merge 4.1 s on the CPU, panel 119.4 s\nTIES density 0.5       | Hindi bpb 0.5970 | English bpb 0.8183 | reply NLL 1.2984 | ends 0.84, 104 tokens\n   kept (Hindi, replies) (1.243, 0.191) | merge 94.6 s on the CPU, panel 119.8 s\nTIES density 1.0       | Hindi bpb 0.5958 | English bpb 0.8169 | reply NLL 1.2960 | ends 0.84, 101 tokens\n   kept (Hindi, replies) (1.341, 0.228) | merge 14.7 s on the CPU, panel 119.8 s\nDARE p 0.5             | Hindi bpb 0.6048 | English bpb 0.8256 | reply NLL 1.3262 | ends 0.91, 88 tokens\n   kept (Hindi, replies) (0.646, -0.229) | merge 26.3 s on the CPU, panel 119.6 s\nDARE p 0.9             | Hindi bpb 0.6139 | English bpb 0.8411 | reply NLL 1.3689 | ends 0.82, 105 tokens\n   kept (Hindi, replies) (-0.058, -0.874) | merge 18.2 s on the CPU, panel 120.4 s\nDARE p 0.9 seed 1      | Hindi bpb 0.6141 | English bpb 0.8415 | reply NLL 1.3670 | ends 0.80, 106 tokens\n   kept (Hindi, replies) (-0.078, -0.845) | merge 18.8 s on the CPU, panel 119.3 s\nship: task arithmetic 1.0 / 0.5 | Hindi bpb vs hindi model [-0.0041, 0.0019] | reply NLL vs sft model [0.0167, 0.0217] | English bpb vs base [0.0075, 0.0086]\n['chat_template.jinja', 'config.json', 'generation_config.json', 'model.safetensors', 'tokenizer.json', 'tokenizer_config.json']\n===== done 5 {'sec': 1739.9, 'peakGB': 4.23}\n===== 12 08:09:49\n196 layers | largest relative error of the rank-16 rebuild 0.0309\nTraceback (most recent call last):\n  File \"/home/rajsr/new/lltShip/run_extras_t4.py\", line 22, in <module>\n    exec(compile(src, \"cell%02d\" % k, \"exec\"), ns)\n  File \"cell12\", line 43, in <module>\nNameError: name 'side_env' is not defined\n"
+  },
+  {
+   "stdout": "===== cell01 08:12:16\nWarning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\nlltToolUse adapter was trained on Qwen/Qwen3.5-2B-Base\nlltDistillation adapter was trained on Qwen/Qwen3-0.6B-Base\nlltDPO/sft-s0 is a full model | Qwen3ForCausalLM | hidden 1024 | layers 28 | vocab 151936\nlltDomainAdaptation/cpt-r5-lr3e-5 is a full model | Qwen3ForCausalLM | hidden 1024 | layers 28 | vocab 151936\nToolUse LoRA A for q_proj [16, 2048] expects inputs of width 2048\nQwen3-0.6B-Base q_proj weight [2048, 1024] has inputs of width 1024\nloss A 0.00122 | permuted copy B 0.00122 | max output gap A vs B 5.960464477539062e-07\naverage of A and B 0.36096 | average of A and its fine-tune C 0.00082\n===== done cell01 {'sec': 6.1, 'peakGB': 0.0}\n===== cell02 08:12:22\n{'base': (310, 'torch.bfloat16'), 'sft': (310, 'torch.float16'), 'hindi': (310, 'torch.float16')}\nsft    | norm 6.53 = 0.451 % of the base norm | nonzero entries 72.3 % | share of the squared norm {'embeddings': 0.0, 'norms': 0.0, 'mlp': 0.611, 'attention': 0.389}\nhindi  | norm 10.65 = 0.736 % of the base norm | nonzero entries 97.3 % | share of the squared norm {'embeddings': 0.594, 'norms': 0.0, 'mlp': 0.248, 'attention': 0.158}\ncosine(sft, hindi) -0.0001 | entries both changed 70.9 % | of those, opposite signs 50.0 % | 12 s\nsft    model.layers.13.self_attn.q_proj.weight singular values 1, 16, 17 relative to the first: [1.0, 0.2158, 0.0035]\nhindi  model.layers.13.self_attn.q_proj.weight singular values 1, 16, 17 relative to the first: [1.0, 0.4286, 0.4267]\n===== done cell02 {'sec': 12.1, 'peakGB': 0.0}\n===== cell03 08:12:34\ntask arithmetic, lambda 1  [0.8, 0.2, -0.5, 0.05]\nlinear, equal weights      [0.4, 0.1, -0.25, 0.025]\ntrim to density 0.5        [0.5, -0.2, 0.0, 0.0] [0.0, 0.4, -0.6, 0.0]\nTIES, density 0.5          [0.5, 0.4, -0.6, 0.0]\nDARE p 0.9 keeps 10026 of 100000 | mean before 0.01 after 0.01003\nsft    | kept by trim 20.0 % | of those, lost the sign vote 9.2 % | share of its squared norm kept after the vote 0.61\nhindi  | kept by trim 20.0 % | of those, lost the sign vote 0.8 % | share of its squared norm kept after the vote 0.654\n===== done cell03 {'sec': 0.5, 'peakGB': 0.0}\n===== cell04 08:12:35\n200 Hindi texts | 200 English texts | 300 held-out replies | 100 prompts\nbase                   | Hindi bpb 0.6131 | English bpb 0.7992 | reply NLL 1.3111 | ends 0.66, 144 tokens\nsft                    | Hindi bpb 0.6216 | English bpb 0.8029 | reply NLL 1.2449 | ends 0.88, 104 tokens\nhindi                  | Hindi bpb 0.6002 | English bpb 0.8205 | reply NLL 1.3694 | ends 0.65, 139 tokens\nHindi bpb, hindi minus base [-0.0207, -0.0073] | reply NLL, sft minus base [-0.0768, -0.0567] | 357 s\n===== done cell04 {'sec': 372.1, 'peakGB': 4.23}\n===== cell12 08:18:47\n196 layers | largest relative error of the rank-16 rebuild 0.0309\nmerged     100 requests | 9996 tokens in 8.01 s = 1248 tokens/s | stop rate 0.86 | process 138.3 s\nsft-full   100 requests | 10649 tokens in 8.28 s = 1286 tokens/s | stop rate 0.86 | process 109.5 s\nmulti-lora 200 requests | 25041 tokens in 33.27 s = 753 tokens/s | stop rate 0.78 | process 209.4 s\nSFT model vs base + rebuilt SFT adapter: identical greedy replies 87 of 100\n===== done cell12 {'sec': 952.0, 'peakGB': 1.2}\n"
+  }
+ ],
+ "wallClockSec": 3471.7,
+ "wallClockNote": "T1 wall-clock measured while other jobs shared the CPU; the page takes times from measure_timing.py",
+ "costUSD": 0,
+ "priceCheckedOn": null,
+ "date": "2026-11-11",
+ "command": "python.exe record_t4.py C:/Users/rajsr/AppData/Local/Temp/claude/d07da7e0ca4095f1/7afc6e9a-c508-465b-92a8-899e22cb00d3/scratchpad/llt11/ship",
+ "notes": "RUN_GRID and RUN_VLLM measured separately with the exit off. Step 12 includes building vllm-env, about 8 min of its 952 s."
+}

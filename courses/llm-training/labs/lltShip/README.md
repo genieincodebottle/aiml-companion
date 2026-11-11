@@ -18,7 +18,15 @@ match mergekit 0.1.5 tensor for tensor. Then you compress the merge with GGUF k-
 | `record_gpu.py` | Turns `run_gpu.py` output into Run Library files in `runs/lltShip/` |
 | `measure_timing.py` | CPU timing for the page on an idle laptop |
 | `export_page_code.py` | Writes the page draft's code constants from `steps/` |
+| `recorded.json` | Our A100 results for the long steps (5 KB). The notebook downloads it from the Hub (`lltShip/recorded.json`) when `FROM_OUR_CHECKPOINT = True`; built by `make_recorded.py` from `runs/lltShip/`, pushed by `upload_recorded.py` |
+| `record_t4.py`, `run_extras_t4.py` | The 2026-11-11 T4 timing runs: the notebook with the exit on and off, and the two optional switches (`RUN_GRID`, `RUN_VLLM`) |
 | `tryit_data.py` | Builds `tryit_data.json` for the optional Try it widget (`TRYIT_SPEC.md`) |
 
 Our recorded GPU runs used a Google Cloud A100 40 GB. The learner path is a free T4 (Colab or Kaggle) in fp16, with
 merging and GGUF work on the CPU of the same session.
+
+`FROM_OUR_CHECKPOINT = True` (near the top of code cell 1, and the default) is the checkpoint exit for a free T4. Step 5 scores our
+shipped merge and reads the other eight merges from our grid, step 7 loads our Q4_K_M file from the Hub, and steps 9 and 12 print our
+QAT and vLLM runs. Every later step still runs. Set it to `False` to run every long step yourself. Timed on a Google Cloud T4 VM set up
+like Kaggle's GPU T4 x2 (4 vCPUs, 26 GB RAM): 34.0 min with the exit on, 75.5 min with it off (runs `lltShip-T2-gcpT4-notebook` and
+`lltShip-T2-gcpT4-notebook-nocheckpoint`).
