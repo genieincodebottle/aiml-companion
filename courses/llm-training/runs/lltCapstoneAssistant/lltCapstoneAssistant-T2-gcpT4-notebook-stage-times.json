@@ -1,0 +1,123 @@
+{
+ "runId": "lltCapstoneAssistant-T2-gcpT4-notebook-stage-times",
+ "module": "lltCapstoneAssistant",
+ "tier": "T2",
+ "date": "2026-11-11",
+ "machine": "Google Cloud n1-highmem-4 (4 vCPU, 26 GB RAM), 2x NVIDIA T4 15 GB (only GPU 0 used), Deep Learning image pytorch-2-9-cu129-ubuntu-2204-nvidia-580. Set up like Kaggle GPU T4 x2, not a Kaggle session.",
+ "env": {
+  "python": "3.12.16 (uv venv)",
+  "torch": "2.9.1+cu129",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "bitsandbytes": "0.50.2",
+  "lm_eval": "0.4.13",
+  "numpy": "2.5.4",
+  "cuda": "12.9"
+ },
+ "how": "notebooks/lltCapstoneAssistant_T2.ipynb run headless with jupyter nbconvert (default cell settings, GEN_BATCH 32/16/4/8). The git clone cell was replaced by a copy of the local lab folder; the pip cell by one uv install of the same pins (70 s). Stage 3a was run twice, see notes.",
+ "installSec": {
+  "venv": 2,
+  "torch": 43,
+  "notebookPins": 22,
+  "jupyter": 3,
+  "total": 70,
+  "note": "uv, not pip. The notebook clone and test_cpu cell took 19 s (05:38:13 to 05:38:32). Model and dataset downloads happen inside each stage."
+ },
+ "stageCellSec": {
+  "data": 203,
+  "sft": 6444,
+  "sample": 11313,
+  "label": 689,
+  "dpo": 1787,
+  "evalgen": 10545,
+  "scores": 23,
+  "refusal": 1107,
+  "handlabel-export": 2,
+  "card": 3
+ },
+ "stageRecordSec": {
+  "data": 176.5,
+  "sft": 6237.5,
+  "sample": 11303.1,
+  "label": 682.5,
+  "dpo": 1592.0,
+  "evalgen": 5901.9,
+  "scores": 14.7,
+  "refusal": 1083.7
+ },
+ "evalgenGenerationSec": 10503.1,
+ "judge": {
+  "calibrationSec": 2025.7,
+  "dpoVsOfficialSec": 7746.5,
+  "forwardOrderSec": 4498,
+  "reversedOrderSec": 3248.5,
+  "projectedThreeComparisonsSec": 25265,
+  "projectedHours": 7.02,
+  "note": "Not all three comparisons were run. The projection is calibration plus three times the measured dpo-vs-official pair. A first default run was stopped at about 2 h after calibration and the first forward-order group (75 min) finished."
+ },
+ "totalGpuHoursProjected": 15.9,
+ "totalGpuHoursMeasured": 11.6,
+ "peakMemory": {
+  "data (CPU)": {
+   "gpuMiB": 0,
+   "hostRamMiB": 15277
+  },
+  "sft": {
+   "gpuMiB": 4685,
+   "hostRamMiB": 7697,
+   "torchAllocatedGB": 4.23
+  },
+  "sample (first try, ran out of memory)": {
+   "gpuMiB": 14905,
+   "hostRamMiB": 2736
+  },
+  "sample (second try)": {
+   "gpuMiB": 14905,
+   "hostRamMiB": 2735
+  },
+  "label": {
+   "gpuMiB": 4299,
+   "hostRamMiB": 4386
+  },
+  "dpo": {
+   "gpuMiB": 4497,
+   "hostRamMiB": 4860,
+   "torchAllocatedGB": 4.0
+  },
+  "evalgen (base and sft sets)": {
+   "gpuMiB": 10061,
+   "hostRamMiB": 4526
+  },
+  "evalgen (dpo and official sets)": {
+   "gpuMiB": 10761,
+   "hostRamMiB": 7331
+  },
+  "judge": {
+   "gpuMiB": 14885,
+   "hostRamMiB": 5033
+  },
+  "refusal": {
+   "gpuMiB": 12435,
+   "hostRamMiB": 3160
+  }
+ },
+ "peakMemoryNote": "GPU: highest nvidia-smi memory.used on GPU 0 in each stage window, sampled every 10 s. A T4 shows 15,360 MiB; 14.6 GiB is usable.",
+ "notes": [
+  "Stage 3a at the notebook default GEN_BATCH=32 ran out of GPU memory after 82 min (07:29 to 08:51) on the longest prompts, which sort last. The job writes its output only at the end, so the 82 min was lost. capstone/gen.py now catches the out-of-memory error and splits that batch; the second run took 11,303 s and peaked at 14,905 MiB.",
+  "Stage 5a ran in two invocations. The first, during the failed first attempt, generated the base and sft sets (4,604 s) and then failed on the dpo set because DPO had not run. The second, after DPO, generated the dpo and official sets (5,899 s) and reused the earlier files.",
+  "The first sample attempt also made stages 3b and 4 fail in 2 s and 10 s because their input files did not exist; IPython shell cells do not stop the notebook on a failed command.",
+  "Stage 5c: calibration and the dpo-vs-official comparison were measured. 124 of 500 comparison judgments and 58 of 600 calibration judgments had no readable verdict."
+ ],
+ "attempts": {
+  "1": {
+   "start": "2026-11-11T05:38:06Z",
+   "sample": "failed, out of memory, 82 min"
+  },
+  "2": {
+   "start": "2026-11-11T10:14:39Z"
+  }
+ }
+}

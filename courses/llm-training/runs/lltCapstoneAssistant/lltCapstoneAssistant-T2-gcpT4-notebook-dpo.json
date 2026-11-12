@@ -1,0 +1,227 @@
+{
+ "runId": "lltCapstoneAssistant-T2-gcpT4-notebook-dpo",
+ "module": "lltCapstoneAssistant",
+ "tier": "T2",
+ "label": "gcpT4-notebook:dpo",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 14.6
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.9.1+cu129",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "bitsandbytes": "0.50.2",
+  "lm_eval": "0.4.13",
+  "numpy": "2.5.4",
+  "cuda": "12.9"
+ },
+ "notebookCommit": null,
+ "config": {
+  "lr": 2e-05,
+  "beta": 0.1,
+  "epochs": 1.0,
+  "batch": 2,
+  "accum": 16,
+  "max_length": 1024,
+  "lora_r": 32,
+  "lora_alpha": 64,
+  "loss": "sigmoid",
+  "reference": "SFT model, adapter disabled",
+  "quant": "nf4",
+  "dtype": "float16"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 2,
+   "loss": 0.6931,
+   "r_accuracies": 0.0,
+   "r_margins": 0.0,
+   "logp_chosen": -162.1215,
+   "logp_rejected": -134.1996,
+   "grad_norm": 4.2998
+  },
+  {
+   "step": 4,
+   "loss": 0.6815,
+   "r_accuracies": 0.7344,
+   "r_margins": 0.0239,
+   "logp_chosen": -175.7415,
+   "logp_rejected": -116.9834,
+   "grad_norm": 3.6689
+  },
+  {
+   "step": 6,
+   "loss": 0.6606,
+   "r_accuracies": 0.7344,
+   "r_margins": 0.0711,
+   "logp_chosen": -144.2718,
+   "logp_rejected": -96.5645,
+   "grad_norm": 3.3388
+  },
+  {
+   "step": 8,
+   "loss": 0.6436,
+   "r_accuracies": 0.6875,
+   "r_margins": 0.1118,
+   "logp_chosen": -148.5938,
+   "logp_rejected": -111.8232,
+   "grad_norm": 3.618
+  },
+  {
+   "step": 10,
+   "loss": 0.6432,
+   "r_accuracies": 0.6875,
+   "r_margins": 0.1233,
+   "logp_chosen": -145.5718,
+   "logp_rejected": -120.6809,
+   "grad_norm": 3.9769
+  },
+  {
+   "step": 12,
+   "loss": 0.6406,
+   "r_accuracies": 0.6094,
+   "r_margins": 0.1366,
+   "logp_chosen": -142.3165,
+   "logp_rejected": -126.1209,
+   "grad_norm": 3.5093
+  },
+  {
+   "step": 14,
+   "loss": 0.618,
+   "r_accuracies": 0.6406,
+   "r_margins": 0.2113,
+   "logp_chosen": -176.5191,
+   "logp_rejected": -146.34,
+   "grad_norm": 3.7952
+  },
+  {
+   "step": 16,
+   "loss": 0.6367,
+   "r_accuracies": 0.6406,
+   "r_margins": 0.1691,
+   "logp_chosen": -141.7107,
+   "logp_rejected": -115.6796,
+   "grad_norm": 3.2193
+  },
+  {
+   "step": 18,
+   "loss": 0.5822,
+   "r_accuracies": 0.7969,
+   "r_margins": 0.2664,
+   "logp_chosen": -191.982,
+   "logp_rejected": -153.574,
+   "grad_norm": 4.3474
+  },
+  {
+   "step": 20,
+   "loss": 0.6153,
+   "r_accuracies": 0.6406,
+   "r_margins": 0.2228,
+   "logp_chosen": -166.5554,
+   "logp_rejected": -138.5358,
+   "grad_norm": 3.4173
+  },
+  {
+   "step": 22,
+   "loss": 0.5626,
+   "r_accuracies": 0.7656,
+   "r_margins": 0.3655,
+   "logp_chosen": -200.7144,
+   "logp_rejected": -150.3255,
+   "grad_norm": 4.0004
+  },
+  {
+   "step": 24,
+   "loss": 0.5303,
+   "r_accuracies": 0.75,
+   "r_margins": 0.4663,
+   "logp_chosen": -196.6958,
+   "logp_rejected": -125.2063,
+   "grad_norm": 3.2828
+  },
+  {
+   "step": 26,
+   "loss": 0.5678,
+   "r_accuracies": 0.7656,
+   "r_margins": 0.3753,
+   "logp_chosen": -163.2819,
+   "logp_rejected": -114.3647,
+   "grad_norm": 3.6566
+  },
+  {
+   "step": 28,
+   "loss": 0.5833,
+   "r_accuracies": 0.7031,
+   "r_margins": 0.2957,
+   "logp_chosen": -185.5354,
+   "logp_rejected": -130.2233,
+   "grad_norm": 4.0026
+  },
+  {
+   "step": 30,
+   "loss": 0.5494,
+   "r_accuracies": 0.75,
+   "r_margins": 0.3902,
+   "logp_chosen": -177.2279,
+   "logp_rejected": -113.6008,
+   "grad_norm": 3.6343
+  },
+  {
+   "step": 32,
+   "loss": 0.5751,
+   "r_accuracies": 0.6719,
+   "r_margins": 0.3529,
+   "logp_chosen": -158.5705,
+   "logp_rejected": -123.4435,
+   "grad_norm": 3.7226
+  }
+ ],
+ "evals": {
+  "resumedFrom": null,
+  "peakMemGB": 4.0,
+  "trainableDtypes": [
+   "torch.float32"
+  ],
+  "n_train": 1055,
+  "n_heldout": 117,
+  "heldout": {
+   "before": {
+    "loss": 0.6931,
+    "r_accuracies": 0.0,
+    "r_margins": 0.0,
+    "r_chosen": 0.0,
+    "r_rejected": 0.0,
+    "logp_chosen": -178.7938,
+    "logp_rejected": -130.7436
+   },
+   "after": {
+    "loss": 0.6025,
+    "r_accuracies": 0.6441,
+    "r_margins": 0.2958,
+    "r_chosen": 0.4164,
+    "r_rejected": 0.1206,
+    "logp_chosen": -174.6295,
+    "logp_rejected": -129.5374
+   }
+  },
+  "steps": 33
+ },
+ "samples": [],
+ "wallClockSec": 1592.0,
+ "costUSD": null,
+ "price": null,
+ "priceCheckedOn": null,
+ "date": "2026-11-11",
+ "command": "python /home/rajsr/w/aiml-companion/courses/llm-training/labs/lltCapstoneAssistant/capstone/dpo.py --tier T2 --work /home/rajsr/w/work",
+ "machine": {
+  "vm": "Google Cloud n1-highmem-4 (4 vCPU, 26 GB RAM) with 2x NVIDIA T4 15 GB, Deep Learning image pytorch-2-9-cu129-ubuntu-2204-nvidia-580, 200 GB disk; the notebook sets CUDA_VISIBLE_DEVICES=0 so one T4 is used",
+  "note": "Set up like Kaggle's GPU T4 x2. It is a Google Cloud VM, not a Kaggle session."
+ }
+}

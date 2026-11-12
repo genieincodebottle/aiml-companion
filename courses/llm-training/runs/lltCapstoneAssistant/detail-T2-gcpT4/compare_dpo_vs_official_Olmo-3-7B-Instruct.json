@@ -1,0 +1,2055 @@
+{
+ "x": "dpo",
+ "y": "official",
+ "judge": "allenai/Olmo-3-7B-Instruct",
+ "n": 250,
+ "winRate": 0.456,
+ "ci": [
+  0.425,
+  0.489
+ ],
+ "lengthControlled": {
+  "lc": 0.44,
+  "ci": [
+   0.4035,
+   0.4758
+  ],
+  "lengthCoef": -0.1964,
+  "lengthScaleTokens": 176.9
+ },
+ "perCategory": {
+  "coding": {
+   "n": 84,
+   "winRate": 0.4643,
+   "ci": [
+    0.4107,
+    0.5179
+   ]
+  },
+  "creative_writing": {
+   "n": 83,
+   "winRate": 0.4699,
+   "ci": [
+    0.4096,
+    0.5272
+   ]
+  },
+  "math": {
+   "n": 83,
+   "winRate": 0.4337,
+   "ci": [
+    0.3765,
+    0.491
+   ]
+  }
+ },
+ "meanTokens": {
+  "dpo": 542.1,
+  "official": 643.4
+ },
+ "consistentShare": 0.196,
+ "unreadable": 124,
+ "perPrompt": [
+  {
+   "uid": "b7825d0fc00e4d83",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "6eed7267ac8f4dc7",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "d3131b514b904ab2",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "34a4959aaf394767",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "d4e6347e5ff74b99",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "62d77ecc66d04286",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    null
+   ]
+  },
+  {
+   "uid": "0ae2b03e911b4e2a",
+   "score": 0.75,
+   "verdicts": [
+    null,
+    "B"
+   ]
+  },
+  {
+   "uid": "0919c1c5c5c34f7d",
+   "score": 1.0,
+   "verdicts": [
+    "A",
+    "B"
+   ]
+  },
+  {
+   "uid": "87ee653b46214a79",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    "C"
+   ]
+  },
+  {
+   "uid": "307c559aa3a04ac1",
+   "score": 0.25,
+   "verdicts": [
+    "C",
+    "A"
+   ]
+  },
+  {
+   "uid": "80a090fc23f945bd",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "6d1489ed86854c17",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "0275cb6eae1649c1",
+   "score": 1.0,
+   "verdicts": [
+    "A",
+    "B"
+   ]
+  },
+  {
+   "uid": "03ac130e6ed44aaa",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    "C"
+   ]
+  },
+  {
+   "uid": "2da7e53308a547d6",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "b0a632d963754fb6",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "d63881609ade4307",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "1e4b3c85377449d8",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    "C"
+   ]
+  },
+  {
+   "uid": "ee93671c38a9484b",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    null
+   ]
+  },
+  {
+   "uid": "4db9cb5b14d1499e",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    "C"
+   ]
+  },
+  {
+   "uid": "d59970c7e9dd4d37",
+   "score": 1.0,
+   "verdicts": [
+    "A",
+    "B"
+   ]
+  },
+  {
+   "uid": "4bf132b69be3469b",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "3a2d034dc1974396",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "85d693e0fe404abc",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "20d4f503d1b245db",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "d85d2aaa41aa41df",
+   "score": 0.25,
+   "verdicts": [
+    "C",
+    "A"
+   ]
+  },
+  {
+   "uid": "46095d4e318f44e4",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "1142136acc7841e6",
+   "score": 0.25,
+   "verdicts": [
+    "B",
+    null
+   ]
+  },
+  {
+   "uid": "d7765737164a4164",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "92a2114542704569",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "3f42d344495c4f2c",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "589b58ab3a134d42",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "82301184f6b04742",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "5e2a85bac39943aa",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "5d2943f87d8f477b",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "8d06d08f63e64e56",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "2f1c0d2562684524",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "aa4b641079674b37",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "83f122e920704a5a",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "4ce1bde6c29f40b7",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "ade243e255894209",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "315bfe841c154bed",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "98eaff0f02f3414b",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "a50857f1bd604374",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "ed0f0468c4764e1b",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "6c9252c407ed44b5",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "5519d23dbceb45b2",
+   "score": 0.25,
+   "verdicts": [
+    "B",
+    null
+   ]
+  },
+  {
+   "uid": "c9b6aa94ff24454e",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "b3bb3ad53ed24605",
+   "score": 0.25,
+   "verdicts": [
+    "C",
+    "A"
+   ]
+  },
+  {
+   "uid": "c57522c6e2ed40f9",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    "C"
+   ]
+  },
+  {
+   "uid": "d15d693244994e87",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "dc0e42632a784676",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "44a692fe8481436b",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "236ecfda72434b55",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "0f93825f88454fb6",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "efe7a57ed35d476b",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "dfc9be7c176d46bb",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "6b4cac41845d4147",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "ba1dc602c375417f",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "67ce32127cf94a8a",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "e457fae4890745c8",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "bbbef3843faa4611",
+   "score": 0.5,
+   "verdicts": [
+    "B",
+    "B"
+   ]
+  },
+  {
+   "uid": "87ceeb1c5ac24218",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "2edbb5f36f5b42be",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "a0502a5076bc4a5f",
+   "score": 0.25,
+   "verdicts": [
+    "B",
+    "C"
+   ]
+  },
+  {
+   "uid": "2ff1429f22854efa",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    "C"
+   ]
+  },
+  {
+   "uid": "ac3ec9e5b66944ef",
+   "score": 0.75,
+   "verdicts": [
+    null,
+    "B"
+   ]
+  },
+  {
+   "uid": "b148d398640e465b",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "27e82a03176a4db2",
+   "score": 0.25,
+   "verdicts": [
+    "C",
+    "A"
+   ]
+  },
+  {
+   "uid": "703efcaa597a4042",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "28b81667160545a9",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "246e229a26a14ea7",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "c5068077dee74765",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "2ed31af46b9f433a",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "c1e3203a5a5049b4",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "e205dd25a86740a2",
+   "score": 0.75,
+   "verdicts": [
+    null,
+    "B"
+   ]
+  },
+  {
+   "uid": "3e3c1d43b4114bea",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "80aaebafab7a42d6",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "d0523044bf274675",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "ba83143680144f8c",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    "C"
+   ]
+  },
+  {
+   "uid": "63ce43d385e349f9",
+   "score": 0.25,
+   "verdicts": [
+    "B",
+    "C"
+   ]
+  },
+  {
+   "uid": "fd38796cc73e48fb",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "b616761f5e0a4339",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "f07bc8d6208141ef",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "1fbdc94466584a9b",
+   "score": 0.25,
+   "verdicts": [
+    "C",
+    "A"
+   ]
+  },
+  {
+   "uid": "63db9fc8fd994d11",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "fddba39bd3f945c8",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "3083367b551e4f91",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    "C"
+   ]
+  },
+  {
+   "uid": "a6938834dc914871",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "0b45f387e528463a",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "eef4ac59a2a64429",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "fea9e3aac96a4254",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "86bfe08fab7a4e55",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "d61f684ce2b24b5b",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "df8cba52a6ac4b99",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    "C"
+   ]
+  },
+  {
+   "uid": "11dee97e1b4f4ea3",
+   "score": 0.75,
+   "verdicts": [
+    null,
+    "B"
+   ]
+  },
+  {
+   "uid": "0f2f4361d6834881",
+   "score": 0.25,
+   "verdicts": [
+    "B",
+    null
+   ]
+  },
+  {
+   "uid": "c6ceed9ffc194278",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "ccd3c6db5d634930",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "c82d641da336480f",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "071391e7cc534f97",
+   "score": 1.0,
+   "verdicts": [
+    "A",
+    "B"
+   ]
+  },
+  {
+   "uid": "7c5c7e98107f4a14",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "f8f1280c553f4be3",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "a7e53142cfb04757",
+   "score": 1.0,
+   "verdicts": [
+    "A",
+    "B"
+   ]
+  },
+  {
+   "uid": "86e476fd58be4568",
+   "score": 1.0,
+   "verdicts": [
+    "A",
+    "B"
+   ]
+  },
+  {
+   "uid": "cf647d7814394495",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    "C"
+   ]
+  },
+  {
+   "uid": "6325cdbd18634391",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "199ee703dfb7418e",
+   "score": 0.25,
+   "verdicts": [
+    "C",
+    "A"
+   ]
+  },
+  {
+   "uid": "c1bdfce6fc8844bb",
+   "score": 1.0,
+   "verdicts": [
+    "A",
+    "B"
+   ]
+  },
+  {
+   "uid": "1b7592e9c8a346cf",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "2b950dafa89f4eaa",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "817d48d20c3e47ab",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "b0b89ff253434f8d",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "4ddafb8ebf8c4ef6",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "958d9749d925405a",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "42e85ca7662d4e74",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    "C"
+   ]
+  },
+  {
+   "uid": "d8fb3ce397484743",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "62d4303c62af4c02",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "9b24ed15fc49412b",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "e5e49adefcd44788",
+   "score": 0.25,
+   "verdicts": [
+    "B",
+    "C"
+   ]
+  },
+  {
+   "uid": "94357bddc26d4bd7",
+   "score": 0.25,
+   "verdicts": [
+    "C",
+    "A"
+   ]
+  },
+  {
+   "uid": "aec01986c04d4e67",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "91b5e2aceff54c23",
+   "score": 1.0,
+   "verdicts": [
+    "A",
+    "B"
+   ]
+  },
+  {
+   "uid": "9d877079fa644134",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    "C"
+   ]
+  },
+  {
+   "uid": "ce158de6cc9c46d3",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "7711e0c16401491d",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "9779eb96246648a2",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    "C"
+   ]
+  },
+  {
+   "uid": "98df0b6ea17e4822",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "eeef1262042a4202",
+   "score": 0.5,
+   "verdicts": [
+    "B",
+    "B"
+   ]
+  },
+  {
+   "uid": "34078053e5f54a3e",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "492a337be1a544c4",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "8ba2e5d0a0fc49d7",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "2ec88fa9f7074a3b",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    "C"
+   ]
+  },
+  {
+   "uid": "a0a6bb4b819d4a9d",
+   "score": 0.25,
+   "verdicts": [
+    "B",
+    "C"
+   ]
+  },
+  {
+   "uid": "685b9c50a867484b",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    "C"
+   ]
+  },
+  {
+   "uid": "fe98c7b5e7114fbd",
+   "score": 0.5,
+   "verdicts": [
+    "B",
+    "B"
+   ]
+  },
+  {
+   "uid": "6d0f1938277049e8",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "fa60d05c48324a97",
+   "score": 0.5,
+   "verdicts": [
+    "B",
+    "B"
+   ]
+  },
+  {
+   "uid": "14a72b2322da4c75",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "b61fea783ce34f26",
+   "score": 1.0,
+   "verdicts": [
+    "A",
+    "B"
+   ]
+  },
+  {
+   "uid": "91e91e0621e6493e",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "f2be32a17ae74c46",
+   "score": 1.0,
+   "verdicts": [
+    "A",
+    "B"
+   ]
+  },
+  {
+   "uid": "51b620f7c9864b4e",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "484474388f4e4061",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "a3e4edb54b164945",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    "C"
+   ]
+  },
+  {
+   "uid": "cf18371f1a904558",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "0bb6a899b9364d9d",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "6653abdd8da84831",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    "C"
+   ]
+  },
+  {
+   "uid": "e4633331d1254657",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "857915427cef455f",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "d0acf61ec58748c6",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "97c0474b0f9543c1",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    "C"
+   ]
+  },
+  {
+   "uid": "4810610d5c3341cb",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    "C"
+   ]
+  },
+  {
+   "uid": "72f30d4c8ac24306",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "9c88230095484f31",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "a817b29a2893490c",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "f86e8c99515846eb",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "af58d4c022d14327",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "ae7b33aa9f5b40fd",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "9774b98dfabb47c2",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "2251874a066b483e",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "0bf94d033b2f41ca",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "3f85a0b5438d41a1",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "9434458ae86049f9",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    "C"
+   ]
+  },
+  {
+   "uid": "401c906cc3b8491e",
+   "score": 0.25,
+   "verdicts": [
+    "C",
+    "A"
+   ]
+  },
+  {
+   "uid": "6b7896a92b0e492a",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "98cd87bd9b3448a7",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "e1834cfdd5cc4927",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    null
+   ]
+  },
+  {
+   "uid": "1da15e3784794f47",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    "C"
+   ]
+  },
+  {
+   "uid": "7ff8ab602e1444b0",
+   "score": 0.25,
+   "verdicts": [
+    "B",
+    "C"
+   ]
+  },
+  {
+   "uid": "2a3370b2ce424f3c",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "02272be8b3d7485d",
+   "score": 0.25,
+   "verdicts": [
+    "B",
+    null
+   ]
+  },
+  {
+   "uid": "522c6bf8ecc549e8",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "137d0e04fd884256",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "fbeb0b5badbd49c3",
+   "score": 0.5,
+   "verdicts": [
+    "B",
+    "B"
+   ]
+  },
+  {
+   "uid": "51bb88fc707f4226",
+   "score": 0.75,
+   "verdicts": [
+    null,
+    "B"
+   ]
+  },
+  {
+   "uid": "14f27b91bc5447bd",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "2887adfc2b4b45ad",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "d6cb49297e3d4c15",
+   "score": 1.0,
+   "verdicts": [
+    "A",
+    "B"
+   ]
+  },
+  {
+   "uid": "5b1813f617f74004",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    "C"
+   ]
+  },
+  {
+   "uid": "15df2da070ca483d",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    "C"
+   ]
+  },
+  {
+   "uid": "0c15180061754ab9",
+   "score": 0.25,
+   "verdicts": [
+    "C",
+    "A"
+   ]
+  },
+  {
+   "uid": "4467c7a151bd4e70",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "3b778c75f56f4cc0",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    "C"
+   ]
+  },
+  {
+   "uid": "c8f5fb0700cd4ff8",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "f4c2ca7c1ca24433",
+   "score": 0.25,
+   "verdicts": [
+    "B",
+    null
+   ]
+  },
+  {
+   "uid": "653eaeb91edc4ecb",
+   "score": 0.75,
+   "verdicts": [
+    "C",
+    "B"
+   ]
+  },
+  {
+   "uid": "8c557a373cfd458c",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    "C"
+   ]
+  },
+  {
+   "uid": "c7c0af9c4bc84145",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "2a3e58b22a3e4fdc",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "dd621a9a44934bb5",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    "C"
+   ]
+  },
+  {
+   "uid": "ab465d160b254c36",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "c6d517ebab53448b",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "9af1e70e08924e10",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "0a3895c14c5a4fd0",
+   "score": 1.0,
+   "verdicts": [
+    "A",
+    "B"
+   ]
+  },
+  {
+   "uid": "1700ef97cc8f4341",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    "C"
+   ]
+  },
+  {
+   "uid": "c2c9d8716d57447a",
+   "score": 0.25,
+   "verdicts": [
+    "B",
+    "C"
+   ]
+  },
+  {
+   "uid": "16e34f6c6d0247e0",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "5b20d305507542ae",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "8327abf0a52f4960",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "b3156714201c4272",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    "C"
+   ]
+  },
+  {
+   "uid": "fa19d2c0412c4ff1",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "fedac2e4c98546fc",
+   "score": 0.5,
+   "verdicts": [
+    "C",
+    "C"
+   ]
+  },
+  {
+   "uid": "77526a029cea4b35",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "ea1cb5ff52634fef",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "180de1801acd4b20",
+   "score": 0.25,
+   "verdicts": [
+    "B",
+    null
+   ]
+  },
+  {
+   "uid": "8cf57e1c1b034e3a",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "51077fc473944b86",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "40252da640c24206",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "73c92ed191ec4266",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "bbc563f34c924417",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "d2057189c5334683",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "a2ff3ae7435c40f8",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "35e8642789d74eaf",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "8bf487d6bf4e4933",
+   "score": 0.25,
+   "verdicts": [
+    "B",
+    null
+   ]
+  },
+  {
+   "uid": "15171b3c0aa34773",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "7354facf5df24429",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "59e196b42c8748c2",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "738da800cb304a49",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "2b3ff605a92c4752",
+   "score": 1.0,
+   "verdicts": [
+    "A",
+    "B"
+   ]
+  },
+  {
+   "uid": "295a67e807ab4b3d",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "972994b9fc544dc3",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "3695b051750940eb",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "0d5106637bbb41b6",
+   "score": 0.75,
+   "verdicts": [
+    null,
+    "B"
+   ]
+  },
+  {
+   "uid": "fa427f66b4d2496b",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "9fed366cc7104c0e",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "90f961edd5eb4732",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "b5f7ea52f1184864",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "4b836ce6194148b1",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "8ab68fda7bf04807",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "9998c85d29534288",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "188a394547ec4a6b",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "317ee8ce07e94570",
+   "score": 1.0,
+   "verdicts": [
+    "A",
+    "B"
+   ]
+  },
+  {
+   "uid": "2549c64e17274e70",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "90ae16857b154be0",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "e3610f8a81434e6f",
+   "score": 1.0,
+   "verdicts": [
+    "A",
+    "B"
+   ]
+  },
+  {
+   "uid": "5ff56233fb344cdd",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "79fb96a5bee24f82",
+   "score": 0.5,
+   "verdicts": [
+    null,
+    null
+   ]
+  },
+  {
+   "uid": "cc8aedd6a2bf493b",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "bdd19128a8fd4a99",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "ca93c6d58a3649cc",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "de0795d7badb493b",
+   "score": 0.75,
+   "verdicts": [
+    null,
+    "B"
+   ]
+  },
+  {
+   "uid": "96f8f0e769584446",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "aa07a571465345cd",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    "C"
+   ]
+  },
+  {
+   "uid": "af3210540b2c4ac2",
+   "score": 0.25,
+   "verdicts": [
+    null,
+    "A"
+   ]
+  },
+  {
+   "uid": "41cd1c96ac424f7e",
+   "score": 0.0,
+   "verdicts": [
+    "B",
+    "A"
+   ]
+  },
+  {
+   "uid": "2700a551d7854f1c",
+   "score": 0.5,
+   "verdicts": [
+    "A",
+    "A"
+   ]
+  },
+  {
+   "uid": "4cd76997d2214c72",
+   "score": 0.25,
+   "verdicts": [
+    "C",
+    "A"
+   ]
+  },
+  {
+   "uid": "6ddcf36062054cf5",
+   "score": 0.75,
+   "verdicts": [
+    "A",
+    null
+   ]
+  },
+  {
+   "uid": "22cbfedd4dae4d3d",
+   "score": 0.75,
+   "verdicts": [
+    null,
+    "B"
+   ]
+  }
+ ],
+ "sec": 7746.5
+}

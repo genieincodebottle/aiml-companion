@@ -1,0 +1,131 @@
+{
+ "runId": "lltCapstoneAssistant-T2-gcpT4-notebook-evalgen",
+ "module": "lltCapstoneAssistant",
+ "tier": "T2",
+ "label": "gcpT4-notebook:evalgen",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 14.6
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.9.1+cu129",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "bitsandbytes": "0.50.2",
+  "lm_eval": "0.4.13",
+  "numpy": "2.5.4",
+  "cuda": "12.9"
+ },
+ "notebookCommit": null,
+ "config": {},
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "sets": {
+   "base/ifeval": {
+    "n": 541,
+    "sec": 1651.8,
+    "loadSec": 0.0,
+    "finishedShare": 0.7893,
+    "meanTokens": 319.0
+   },
+   "sft/ifeval": {
+    "n": 541,
+    "sec": 1639.9,
+    "loadSec": 0.0,
+    "finishedShare": 0.8595,
+    "meanTokens": 277.1
+   },
+   "sft/arena": {
+    "n": 250,
+    "sec": 1223.3,
+    "loadSec": 0.0,
+    "finishedShare": 0.696,
+    "meanTokens": 510.6
+   },
+   "sft/xstest": {
+    "n": 450,
+    "sec": 89.1,
+    "loadSec": 0.0,
+    "finishedShare": 0.3822,
+    "meanTokens": 56.0
+   },
+   "dpo/ifeval": {
+    "n": 541,
+    "sec": 1629.1,
+    "loadSec": 0.0,
+    "finishedShare": 0.8835,
+    "meanTokens": 273.6
+   },
+   "dpo/arena": {
+    "n": 250,
+    "sec": 1229.7,
+    "loadSec": 0.0,
+    "finishedShare": 0.684,
+    "meanTokens": 542.1
+   },
+   "dpo/xstest": {
+    "n": 450,
+    "sec": 89.8,
+    "loadSec": 0.0,
+    "finishedShare": 0.2,
+    "meanTokens": 61.0
+   },
+   "official/ifeval": {
+    "n": 541,
+    "sec": 1625.5,
+    "loadSec": 0.0,
+    "finishedShare": 0.8909,
+    "meanTokens": 281.4
+   },
+   "official/arena": {
+    "n": 250,
+    "sec": 1230.7,
+    "loadSec": 0.0,
+    "finishedShare": 0.42,
+    "meanTokens": 643.4
+   },
+   "official/xstest": {
+    "n": 450,
+    "sec": 94.2,
+    "loadSec": 0.0,
+    "finishedShare": 0.0778,
+    "meanTokens": 63.1
+   }
+  },
+  "decoding": {
+   "ifeval": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_new": 768
+   },
+   "arena": {
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "max_new": 768
+   },
+   "xstest": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_new": 64
+   }
+  }
+ },
+ "samples": [],
+ "wallClockSec": 5901.9,
+ "costUSD": null,
+ "price": null,
+ "priceCheckedOn": null,
+ "date": "2026-11-11",
+ "command": "python /home/rajsr/w/aiml-companion/courses/llm-training/labs/lltCapstoneAssistant/capstone/evalgen.py --tier T2 --work /home/rajsr/w/work",
+ "machine": {
+  "vm": "Google Cloud n1-highmem-4 (4 vCPU, 26 GB RAM) with 2x NVIDIA T4 15 GB, Deep Learning image pytorch-2-9-cu129-ubuntu-2204-nvidia-580, 200 GB disk; the notebook sets CUDA_VISIBLE_DEVICES=0 so one T4 is used",
+  "note": "Set up like Kaggle's GPU T4 x2. It is a Google Cloud VM, not a Kaggle session."
+ },
+ "notes": "wallClockSec is the second invocation (dpo and official). Generation seconds for all ten sets, from the per-set job files, sum to 10,503 s: base ifeval 1,651.8; sft ifeval 1,639.9, arena 1,223.3, xstest 89.1; dpo ifeval 1,629.1, arena 1,229.7, xstest 89.8; official ifeval 1,625.5, arena 1,230.7, xstest 94.2."
+}

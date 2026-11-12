@@ -1,0 +1,54 @@
+{
+ "runId": "lltCapstoneAssistant-T2-gcpT4-notebook-label",
+ "module": "lltCapstoneAssistant",
+ "tier": "T2",
+ "label": "gcpT4-notebook:label",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 14.6
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.9.1+cu129",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "bitsandbytes": "0.50.2",
+  "lm_eval": "0.4.13",
+  "numpy": "2.5.4",
+  "cuda": "12.9"
+ },
+ "notebookCommit": null,
+ "config": {},
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "rm": "Skywork/Skywork-Reward-V2-Qwen3-1.7B",
+  "minGap": 1.0,
+  "n_scored": 6000,
+  "n_pairs": 1172,
+  "skipped": {
+   "no reply ended on its own": 138,
+   "gap below min": 190
+  },
+  "scoreLengthPearson": 0.4265,
+  "chosenLongerShare": 0.6237,
+  "meanLenChosen": 233.8,
+  "meanLenRejected": 177.5,
+  "meanGap": 5.167
+ },
+ "samples": [],
+ "wallClockSec": 682.5,
+ "costUSD": null,
+ "price": null,
+ "priceCheckedOn": null,
+ "date": "2026-11-11",
+ "command": "python /home/rajsr/w/aiml-companion/courses/llm-training/labs/lltCapstoneAssistant/capstone/label.py --tier T2 --work /home/rajsr/w/work",
+ "machine": {
+  "vm": "Google Cloud n1-highmem-4 (4 vCPU, 26 GB RAM) with 2x NVIDIA T4 15 GB, Deep Learning image pytorch-2-9-cu129-ubuntu-2204-nvidia-580, 200 GB disk; the notebook sets CUDA_VISIBLE_DEVICES=0 so one T4 is used",
+  "note": "Set up like Kaggle's GPU T4 x2. It is a Google Cloud VM, not a Kaggle session."
+ }
+}

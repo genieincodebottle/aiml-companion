@@ -76,13 +76,29 @@ def _hf(model_name, inputs, n, temperature, top_p, max_new, seed, chat_kwargs, d
     res = [None] * len(texts)
     bs = int(os.environ.get("GEN_BATCH", "16"))
     torch.manual_seed(seed)
-    for k in range(0, len(order), bs):
-        idx = order[k:k + bs]
-        enc = tok([texts[i] for i in idx], return_tensors="pt", padding=True, add_special_tokens=False).to(model.device)
-        with torch.no_grad():
-            out = model.generate(**enc, max_new_tokens=max_new, do_sample=temperature > 0,
-                                 temperature=temperature if temperature > 0 else None, top_p=top_p if temperature > 0 else None,
-                                 num_return_sequences=n, eos_token_id=sorted(stop), pad_token_id=tok.pad_token_id)
+    def run_batch(idx):
+        """Generate for the prompts in idx. The longest prompts come last (sorted by length) and a batch that fit
+        for the short ones can run out of GPU memory on a 15 GB T4: split that batch in two and go on."""
+        oom = False
+        try:
+            enc = tok([texts[i] for i in idx], return_tensors="pt", padding=True, add_special_tokens=False).to(model.device)
+            with torch.no_grad():
+                out = model.generate(**enc, max_new_tokens=max_new, do_sample=temperature > 0,
+                                     temperature=temperature if temperature > 0 else None, top_p=top_p if temperature > 0 else None,
+                                     num_return_sequences=n, eos_token_id=sorted(stop), pad_token_id=tok.pad_token_id)
+        except torch.OutOfMemoryError:
+            if len(idx) == 1:
+                raise
+            oom = True
+        if oom:                      # split outside the except block, so the failed batch's memory is released first
+            enc = out = None
+            gc.collect()
+            torch.cuda.empty_cache()
+            print("out of memory on a batch of", len(idx), "prompts: splitting it", flush=True)
+            half = len(idx) // 2
+            run_batch(idx[:half])
+            run_batch(idx[half:])
+            return
         gen = out[:, enc.input_ids.shape[1]:].tolist()
         for j, i in enumerate(idx):
             res[i] = []
@@ -90,6 +106,9 @@ def _hf(model_name, inputs, n, temperature, top_p, max_new, seed, chat_kwargs, d
                 cut = next((p for p, t in enumerate(s) if t in stop), None)
                 ids = s if cut is None else s[:cut]
                 res[i].append({"text": tok.decode(ids, skip_special_tokens=True), "tokens": len(ids), "finished": cut is not None})
+
+    for k in range(0, len(order), bs):
+        run_batch(order[k:k + bs])
         print("generated", min(k + bs, len(order)), "/", len(order), flush=True)
     del model
     gc.collect()

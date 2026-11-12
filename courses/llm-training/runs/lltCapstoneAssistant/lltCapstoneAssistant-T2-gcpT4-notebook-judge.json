@@ -1,0 +1,123 @@
+{
+ "runId": "lltCapstoneAssistant-T2-gcpT4-notebook-judge",
+ "module": "lltCapstoneAssistant",
+ "tier": "T2",
+ "label": "gcpT4-notebook:judge",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 2,
+  "vramGB": 14.6
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.9.1+cu129",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "bitsandbytes": "0.50.2",
+  "lm_eval": "0.4.13",
+  "numpy": "2.5.4",
+  "cuda": "12.9"
+ },
+ "notebookCommit": null,
+ "config": {},
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "calibration": {
+   "allenai/Olmo-3-7B-Instruct": {
+    "judge": "allenai/Olmo-3-7B-Instruct",
+    "n": 300,
+    "softAgreement": 0.5942,
+    "softCI": [
+     0.5583,
+     0.6317
+    ],
+    "strictAgreement": 0.2867,
+    "strictCI": [
+     0.2384,
+     0.3403
+    ],
+    "consistentShare": 0.3933,
+    "firstPositionShare": 0.4792,
+    "judgePrefersLongerShare": 0.7712,
+    "humanPrefersLongerShare": 0.55,
+    "unreadable": 58,
+    "sec": 2025.6999999999998
+   }
+  },
+  "comparisons": {
+   "allenai/Olmo-3-7B-Instruct|dpo vs official": {
+    "x": "dpo",
+    "y": "official",
+    "judge": "allenai/Olmo-3-7B-Instruct",
+    "n": 250,
+    "winRate": 0.456,
+    "ci": [
+     0.425,
+     0.489
+    ],
+    "lengthControlled": {
+     "lc": 0.44,
+     "ci": [
+      0.4035,
+      0.4758
+     ],
+     "lengthCoef": -0.1964,
+     "lengthScaleTokens": 176.9
+    },
+    "perCategory": {
+     "coding": {
+      "n": 84,
+      "winRate": 0.4643,
+      "ci": [
+       0.4107,
+       0.5179
+      ]
+     },
+     "creative_writing": {
+      "n": 83,
+      "winRate": 0.4699,
+      "ci": [
+       0.4096,
+       0.5272
+      ]
+     },
+     "math": {
+      "n": 83,
+      "winRate": 0.4337,
+      "ci": [
+       0.3765,
+       0.491
+      ]
+     }
+    },
+    "meanTokens": {
+     "dpo": 542.1,
+     "official": 643.4
+    },
+    "consistentShare": 0.196,
+    "unreadable": 124,
+    "sec": 7746.5
+   }
+  },
+  "prompt": {
+   "system": "You compare two assistant replies to the same user request. Decide which reply better does what the user asked: correct, complete, follows every explicit instruction, and is clear. Do not prefer a reply because it is longer. Do not let the order of the replies influence you. If they are equally good or equally bad, call it a tie. Reason briefly, then end with exactly one verdict: [[A]] if reply A is better, [[B]] if reply B is better, [[C]] for a tie.",
+   "user": "[User request]\n{p}\n\n[Reply A]\n{a}\n\n[Reply B]\n{b}"
+  }
+ },
+ "samples": [],
+ "wallClockSec": 3250.5,
+ "costUSD": null,
+ "price": null,
+ "priceCheckedOn": null,
+ "date": "2026-11-11",
+ "command": "python /home/rajsr/w/aiml-companion/courses/llm-training/labs/lltCapstoneAssistant/capstone/judge.py --tier T2 --work /home/rajsr/w/work --pairs dpo:official",
+ "machine": {
+  "vm": "Google Cloud n1-highmem-4 (4 vCPU, 26 GB RAM) with 2x NVIDIA T4 15 GB, Deep Learning image pytorch-2-9-cu129-ubuntu-2204-nvidia-580, 200 GB disk; the notebook sets CUDA_VISIBLE_DEVICES=0 so one T4 is used",
+  "note": "Set up like Kaggle's GPU T4 x2. It is a Google Cloud VM, not a Kaggle session."
+ },
+ "notes": "Calibration (600 judgments, 2,025.7 s) and one comparison, dpo vs official (500 judgments, 7,746.5 s, forward order 75 min and reversed 54 min). The default also runs sft vs official and dpo vs sft; those two were not run (projected, see stage-times). Run as: GEN_BATCH=4 python -m capstone.judge --tier T2 --pairs dpo:official. A first default run was stopped after calibration and the first forward-order group."
+}

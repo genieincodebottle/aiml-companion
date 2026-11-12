@@ -1,0 +1,27 @@
+{
+ "runId": "lltCapstoneAssistant-T2-gcpT4-notebook-card",
+ "module": "lltCapstoneAssistant",
+ "tier": "T2",
+ "label": "gcpT4-notebook:card",
+ "hardware": null,
+ "env": null,
+ "notebookCommit": null,
+ "config": {},
+ "seed": null,
+ "metrics": [],
+ "evals": {
+  "path": "/home/rajsr/w/work/dpo/merged/README.md",
+  "chars": 5588
+ },
+ "samples": [],
+ "wallClockSec": null,
+ "costUSD": null,
+ "price": null,
+ "priceCheckedOn": null,
+ "date": "",
+ "command": null,
+ "machine": {
+  "vm": "Google Cloud n1-highmem-4 (4 vCPU, 26 GB RAM) with 2x NVIDIA T4 15 GB, Deep Learning image pytorch-2-9-cu129-ubuntu-2204-nvidia-580, 200 GB disk; the notebook sets CUDA_VISIBLE_DEVICES=0 so one T4 is used",
+  "note": "Set up like Kaggle's GPU T4 x2. It is a Google Cloud VM, not a Kaggle session."
+ }
+}

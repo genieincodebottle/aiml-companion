@@ -1,0 +1,159 @@
+{
+ "runId": "lltCapstoneAssistant-T2-gcpT4-notebook-data",
+ "module": "lltCapstoneAssistant",
+ "tier": "T2",
+ "label": "gcpT4-notebook:data",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 14.6
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.9.1+cu129",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "bitsandbytes": "0.50.2",
+  "lm_eval": "0.4.13",
+  "numpy": "2.5.4",
+  "cuda": "12.9"
+ },
+ "notebookCommit": null,
+ "config": {},
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "card": {
+   "sft": {
+    "n": 8000,
+    "n_heldout": 300,
+    "tokens": 3417754,
+    "completion_tokens": 2540911,
+    "per_group": {
+     "chat": 2950,
+     "oasst": 320,
+     "precise_if": 1615,
+     "code": 959,
+     "safety": 558,
+     "flan": 397,
+     "math": 962,
+     "science": 239
+    },
+    "per_source": {
+     "Wildchat": 3071,
+     "Dolci Instruct Precise IF": 1660,
+     "FLAN": 415,
+     "OpenAssistant": 332,
+     "Tulu 3 Persona Algebra": 66,
+     "OpenMathInstruct 2": 366,
+     "Tulu 3 Persona MATH": 228,
+     "Tulu 3 Persona GSM": 336,
+     "Dolci Instruct Python Algorithms": 553,
+     "Tulu 3 Persona Python": 115,
+     "Evol CodeAlpaca": 328,
+     "WildGuardMix": 262,
+     "WildJailbreak": 268,
+     "CoCoNot": 51,
+     "Dolci Instruct OpenThoughts3+ Science": 249
+    },
+    "drops": {
+     "not single-turn": 2464,
+     "too long for max_length": 2547,
+     "not English": 572,
+     "overlaps an evaluation prompt": 575,
+     "names a model or lab in the reply": 37,
+     "duplicate prompt": 44,
+     "empty": 5
+    },
+    "dropsByGroup": {
+     "chat": {
+      "too long for max_length": 1101,
+      "not English": 245,
+      "overlaps an evaluation prompt": 4,
+      "names a model or lab in the reply": 37,
+      "duplicate prompt": 30,
+      "empty": 2
+     },
+     "precise_if": {
+      "overlaps an evaluation prompt": 568,
+      "too long for max_length": 269,
+      "not English": 230
+     },
+     "flan": {
+      "too long for max_length": 63,
+      "not English": 60,
+      "duplicate prompt": 3
+     },
+     "oasst": {
+      "not English": 34,
+      "too long for max_length": 5
+     },
+     "math": {
+      "too long for max_length": 911,
+      "overlaps an evaluation prompt": 1
+     },
+     "code": {
+      "too long for max_length": 32,
+      "not English": 1,
+      "overlaps an evaluation prompt": 2
+     },
+     "safety": {
+      "too long for max_length": 2,
+      "not English": 2,
+      "empty": 3
+     },
+     "science": {
+      "too long for max_length": 164,
+      "duplicate prompt": 11
+     }
+    },
+    "max_len": 1024,
+    "mean_completion_tokens": 317.6
+   },
+   "pref": {
+    "n": 1500,
+    "drops": {
+     "duplicate prompt": 64,
+     "prompt over 512 tokens": 95,
+     "not English": 80,
+     "also an SFT prompt": 1
+    },
+    "pool": 61135
+   },
+   "eval": {
+    "ifeval": 541,
+    "arena": 250,
+    "arena_per_category": {
+     "coding": 84,
+     "creative_writing": 83,
+     "math": 83
+    },
+    "xstest": 450,
+    "xstest_per_label": {
+     "safe": 250,
+     "unsafe": 200
+    },
+    "calib": 300,
+    "calib_human_A": 146
+   },
+   "decontamination": {
+    "method": "13-word overlap or exact normalised match against all IFEval, Arena-Hard v2.0 and XSTest prompts",
+    "eval_ngrams": 113016
+   }
+  }
+ },
+ "samples": [],
+ "wallClockSec": 176.5,
+ "costUSD": null,
+ "price": null,
+ "priceCheckedOn": null,
+ "date": "2026-11-11",
+ "command": "python /home/rajsr/w/aiml-companion/courses/llm-training/labs/lltCapstoneAssistant/capstone/data.py --tier T2 --work /home/rajsr/w/work",
+ "machine": {
+  "vm": "Google Cloud n1-highmem-4 (4 vCPU, 26 GB RAM) with 2x NVIDIA T4 15 GB, Deep Learning image pytorch-2-9-cu129-ubuntu-2204-nvidia-580, 200 GB disk; the notebook sets CUDA_VISIBLE_DEVICES=0 so one T4 is used",
+  "note": "Set up like Kaggle's GPU T4 x2. It is a Google Cloud VM, not a Kaggle session."
+ }
+}

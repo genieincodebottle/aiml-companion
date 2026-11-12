@@ -1,0 +1,72 @@
+{
+ "runId": "lltCapstoneAssistant-T2-gcpT4-notebook-sample",
+ "module": "lltCapstoneAssistant",
+ "tier": "T2",
+ "label": "gcpT4-notebook:sample",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 14.6
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.9.1+cu129",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "bitsandbytes": "0.50.2",
+  "lm_eval": "0.4.13",
+  "numpy": "2.5.4",
+  "cuda": "12.9"
+ },
+ "notebookCommit": null,
+ "config": {},
+ "seed": 0,
+ "metrics": [],
+ "evals": {
+  "genSec": 11301.6,
+  "job": {
+   "model": "/home/rajsr/w/work/sft/merged",
+   "backend": "hf",
+   "n": 4,
+   "temperature": 0.8,
+   "top_p": 0.95,
+   "max_new": 512,
+   "seed": 0,
+   "dtype": "float16",
+   "max_model_len": 2048
+  },
+  "n_prompts": 1500,
+  "n_replies": 6000,
+  "tokens": 1469580,
+  "finishedShare": 0.7658,
+  "meanTokens": 244.9
+ },
+ "samples": [
+  {
+   "prompt": "You have been given a text that is riddled with grammatical errors, incorrect punctuation, and improper capitalization. Your task is to meticulously edit the text to perfection, ensuring that each sentence adheres to the rules of grammar and usage. As an example of the types of errors that need to be corrected, please note that the sentence \"don't use example\" contains a glaring mistake that needs",
+   "reply": "Certainly! Please provide the text you'd like me to edit."
+  },
+  {
+   "prompt": "How to export import wordpress post",
+   "reply": "Exporting and importing WordPress posts is a common task for managing content between local and remote environments. Hereâ€™s how to do it:\n\n---\n\n## **1. Export WordPress Posts (Backup Posts and Pages)**\n\n### **Using the WordPress Admin Interface:**\n1. **Log in** to your WordPress dashboard.\n2. **Go to Tools** > **Export**.\n3. **Choose the types of content you want to export:**\n   - Posts\n   - Pages\n   - All of the above\n4. **Click Export**. The file will be downloaded in `.xml` format (if using standard export, otherwise use WP CLI).\n5. **Save the file** to your computer.\n\n### **Using WP CLI:**"
+  },
+  {
+   "prompt": "Is the decorator's tail long or short?",
+   "reply": "Let's think about this step by step:\n\n1. We need to identify the main subject of the question, which is a decorator.\n2. The question asks about the decorator's tail, which is a part of their body.\n3. In most cases, tails are not considered to be a part of a person's body.\n4. Therefore, it is more likely that the question is referring to the tail of a pet animal, such as a cat, which is a common decorator in many households.\n\nBased on this reasoning, the most likely answer to the question \"Is the decorator's tail long or short?\" is:\n\n- The decorator's tail is short."
+  }
+ ],
+ "wallClockSec": 11303.1,
+ "costUSD": null,
+ "price": null,
+ "priceCheckedOn": null,
+ "date": "2026-11-11",
+ "command": "python /home/rajsr/w/aiml-companion/courses/llm-training/labs/lltCapstoneAssistant/capstone/sample.py --tier T2 --work /home/rajsr/w/work",
+ "machine": {
+  "vm": "Google Cloud n1-highmem-4 (4 vCPU, 26 GB RAM) with 2x NVIDIA T4 15 GB, Deep Learning image pytorch-2-9-cu129-ubuntu-2204-nvidia-580, 200 GB disk; the notebook sets CUDA_VISIBLE_DEVICES=0 so one T4 is used",
+  "note": "Set up like Kaggle's GPU T4 x2. It is a Google Cloud VM, not a Kaggle session."
+ },
+ "notes": "Second attempt. The first attempt (GEN_BATCH=32) ran 82 min and then ran out of GPU memory on the longest prompts; capstone/gen.py now splits a batch that does not fit. The 11,303 s is the second run alone."
+}

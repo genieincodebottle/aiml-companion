@@ -34,7 +34,22 @@ Open `notebooks/lltCapstoneAssistant_T2.ipynb` with the Colab button, or upload 
 - Colab: the notebook mounts Google Drive and keeps the work there, so a new session finds it. Kaggle: use Save Version to keep `/kaggle/working`, then add that version's output as input to the next session and copy `work` back.
 - To skip SFT, run `python -m capstone.fetch --what sft` (our SFT adapter, merged into the base). Say so in your report.
 
-T2 stage times are PROJECTED (see the page), not measured: our T4 budget for the week was used up when this capstone was built. Replace them with your own.
+T2 stage times, measured on 2026-11-11 on a Google Cloud VM with one T4 in use (4 vCPUs, 26 GB of RAM, a second T4 idle), set up like Kaggle's GPU T4 x2, running the notebook's default settings. Run files: `../../runs/lltCapstoneAssistant/lltCapstoneAssistant-T2-gcpT4-notebook-*.json`.
+
+| Stage | Time | Peak GPU memory (GiB, nvidia-smi) |
+|---|---|---|
+| 1. Data (CPU, downloads included) | 3 min | none |
+| 2. SFT | 107 min | 4.6 |
+| 3a. Samples | 189 min | 14.6, all of the T4 |
+| 3b. Labels and pairs | 12 min | 4.2 |
+| 4. DPO | 30 min | 4.4 |
+| 5a. Evaluation replies, four models | 176 min | 10.5 |
+| 5b. Scores (CPU) | under 1 min | none |
+| 5c. Judge, calibration | 34 min | 14.6, all of the T4 |
+| 5c. Judge, one comparison (both orders) | 129 min | 14.6, all of the T4 |
+| 5e. Refusal judge | 18 min | 12.1 |
+
+The default judge stage runs three comparisons, so about 7 h in all; we measured calibration and one comparison and projected the rest. For one comparison add `--pairs dpo:official` (about 163 min with calibration). Stage 3a writes its output only when all 1,500 prompts are done, so a stop in the middle of it starts that stage again. A first run at `GEN_BATCH=32` ran out of GPU memory on the longest prompts after 82 min; `capstone/gen.py` now splits a batch that does not fit and carries on, and the peak fills the T4, so lower `GEN_BATCH` if you share the GPU.
 
 ## T3. One cloud GPU with 40 GB or more
 

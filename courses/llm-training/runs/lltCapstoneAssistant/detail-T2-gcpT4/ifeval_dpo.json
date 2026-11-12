@@ -1,0 +1,6543 @@
+{
+ "promptStrict": [
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  0.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0
+ ],
+ "rows": [
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false,
+    true
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    true,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    true,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true,
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true,
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": false,
+   "inst_level_strict_acc": [
+    false,
+    false
+   ],
+   "prompt_level_loose_acc": false,
+   "inst_level_loose_acc": [
+    false,
+    false
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  },
+  {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": [
+    true
+   ],
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": [
+    true
+   ]
+  }
+ ]
+}

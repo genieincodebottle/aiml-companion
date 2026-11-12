@@ -1,0 +1,272 @@
+{
+ "ifeval": {
+  "base": {
+   "n": 541,
+   "promptStrict": 0.3882,
+   "promptStrictCI": [
+    0.3475,
+    0.4307
+   ],
+   "promptLoose": 0.4122,
+   "instStrict": 0.4952
+  },
+  "sft": {
+   "n": 541,
+   "promptStrict": 0.4972,
+   "promptStrictCI": [
+    0.4566,
+    0.5397
+   ],
+   "promptLoose": 0.5305,
+   "instStrict": 0.5983
+  },
+  "dpo": {
+   "n": 541,
+   "promptStrict": 0.5102,
+   "promptStrictCI": [
+    0.4677,
+    0.5527
+   ],
+   "promptLoose": 0.5397,
+   "instStrict": 0.6163
+  },
+  "official": {
+   "n": 541,
+   "promptStrict": 0.6617,
+   "promptStrictCI": [
+    0.6229,
+    0.7024
+   ],
+   "promptLoose": 0.6987,
+   "instStrict": 0.741
+  }
+ },
+ "ifevalPaired": {
+  "sft - base": {
+   "diff": 0.1091,
+   "ci": [
+    0.0647,
+    0.1516
+   ]
+  },
+  "dpo - sft": {
+   "diff": 0.0129,
+   "ci": [
+    -0.0166,
+    0.0426
+   ]
+  },
+  "dpo - official": {
+   "diff": -0.1516,
+   "ci": [
+    -0.1959,
+    -0.1091
+   ]
+  },
+  "sft - official": {
+   "diff": -0.1645,
+   "ci": [
+    -0.207,
+    -0.1238
+   ]
+  }
+ },
+ "xstest": {
+  "sft": {
+   "safeRefusal": 0.1,
+   "safeCI": [
+    0.0687,
+    0.1435
+   ],
+   "unsafeRefusal": 0.81,
+   "unsafeCI": [
+    0.75,
+    0.8583
+   ],
+   "nSafe": 250,
+   "nUnsafe": 200
+  },
+  "dpo": {
+   "safeRefusal": 0.076,
+   "safeCI": [
+    0.0492,
+    0.1156
+   ],
+   "unsafeRefusal": 0.69,
+   "unsafeCI": [
+    0.6228,
+    0.75
+   ],
+   "nSafe": 250,
+   "nUnsafe": 200
+  },
+  "official": {
+   "safeRefusal": 0.048,
+   "safeCI": [
+    0.0277,
+    0.082
+   ],
+   "unsafeRefusal": 0.575,
+   "unsafeCI": [
+    0.5057,
+    0.6415
+   ],
+   "nSafe": 250,
+   "nUnsafe": 200
+  }
+ },
+ "ifevalPerInstruction": {
+  "base": {
+   "change_case": {
+    "n": 89,
+    "pass": 0.3708
+   },
+   "combination": {
+    "n": 65,
+    "pass": 0.2615
+   },
+   "detectable_content": {
+    "n": 53,
+    "pass": 0.6226
+   },
+   "detectable_format": {
+    "n": 157,
+    "pass": 0.707
+   },
+   "keywords": {
+    "n": 163,
+    "pass": 0.5092
+   },
+   "language": {
+    "n": 31,
+    "pass": 0.6774
+   },
+   "length_constraints": {
+    "n": 143,
+    "pass": 0.4336
+   },
+   "punctuation": {
+    "n": 66,
+    "pass": 0.303
+   },
+   "startend": {
+    "n": 67,
+    "pass": 0.4925
+   }
+  },
+  "sft": {
+   "change_case": {
+    "n": 89,
+    "pass": 0.5506
+   },
+   "combination": {
+    "n": 65,
+    "pass": 0.4769
+   },
+   "detectable_content": {
+    "n": 53,
+    "pass": 0.6981
+   },
+   "detectable_format": {
+    "n": 157,
+    "pass": 0.8153
+   },
+   "keywords": {
+    "n": 163,
+    "pass": 0.6319
+   },
+   "language": {
+    "n": 31,
+    "pass": 0.7097
+   },
+   "length_constraints": {
+    "n": 143,
+    "pass": 0.5594
+   },
+   "punctuation": {
+    "n": 66,
+    "pass": 0.2727
+   },
+   "startend": {
+    "n": 67,
+    "pass": 0.4627
+   }
+  },
+  "dpo": {
+   "change_case": {
+    "n": 89,
+    "pass": 0.5281
+   },
+   "combination": {
+    "n": 65,
+    "pass": 0.5231
+   },
+   "detectable_content": {
+    "n": 53,
+    "pass": 0.8491
+   },
+   "detectable_format": {
+    "n": 157,
+    "pass": 0.8089
+   },
+   "keywords": {
+    "n": 163,
+    "pass": 0.6319
+   },
+   "language": {
+    "n": 31,
+    "pass": 0.6129
+   },
+   "length_constraints": {
+    "n": 143,
+    "pass": 0.6014
+   },
+   "punctuation": {
+    "n": 66,
+    "pass": 0.2576
+   },
+   "startend": {
+    "n": 67,
+    "pass": 0.5373
+   }
+  },
+  "official": {
+   "change_case": {
+    "n": 89,
+    "pass": 0.7865
+   },
+   "combination": {
+    "n": 65,
+    "pass": 0.8154
+   },
+   "detectable_content": {
+    "n": 53,
+    "pass": 0.8491
+   },
+   "detectable_format": {
+    "n": 157,
+    "pass": 0.8981
+   },
+   "keywords": {
+    "n": 163,
+    "pass": 0.6564
+   },
+   "language": {
+    "n": 31,
+    "pass": 0.7097
+   },
+   "length_constraints": {
+    "n": 143,
+    "pass": 0.5944
+   },
+   "punctuation": {
+    "n": 66,
+    "pass": 0.6212
+   },
+   "startend": {
+    "n": 67,
+    "pass": 0.806
+   }
+  }
+ }
+}

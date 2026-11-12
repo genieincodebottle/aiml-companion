@@ -53,7 +53,8 @@ cells = [
     (CODE, "!python -m capstone.dpo $A"),
     (MD, "## Stage 5. Evaluation generations, IFEval and XSTest scores, then the judge\n\n"
          "The T2 judge is Olmo-3-7B-Instruct in 4-bit. Our run checked it against HelpSteer3 human labels; the page gives "
-         "its agreement next to the T3 judge's."),
+         "its agreement next to the T3 judge's. On a T4 the default judge cell runs three comparisons and takes about 7 hours "
+         "(calibration 34 min, then 129 min per comparison). Add `--pairs dpo:official` to run one comparison in about 163 minutes."),
     (CODE, "!GEN_BATCH=16 python -m capstone.evalgen $A\n!python -m capstone.scores $A\n!GEN_BATCH=4 python -m capstone.judge $A\n"
            "# a second refusal rule, checked against XSTest's human labels first\n!GEN_BATCH=8 python -m capstone.refusal $A"),
     (MD, "## Stage 5d. Label 40 of your own comparisons by hand\n\nExport, then open `handlabel/sheet.jsonl`, read each "

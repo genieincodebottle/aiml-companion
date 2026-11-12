@@ -1,0 +1,347 @@
+{
+ "runId": "lltCapstoneAssistant-T2-gcpT4-notebook-sft",
+ "module": "lltCapstoneAssistant",
+ "tier": "T2",
+ "label": "gcpT4-notebook:sft",
+ "hardware": {
+  "gpu": "Tesla T4",
+  "count": 1,
+  "vramGB": 14.6
+ },
+ "env": {
+  "python": "3.12.16",
+  "torch": "2.9.1+cu129",
+  "transformers": "5.22.1",
+  "trl": "1.17.1",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "datasets": "5.1.0",
+  "bitsandbytes": "0.50.2",
+  "lm_eval": "0.4.13",
+  "numpy": "2.5.4",
+  "cuda": "12.9"
+ },
+ "notebookCommit": null,
+ "config": {
+  "lr": 0.0002,
+  "epochs": 1.0,
+  "batch": 4,
+  "accum": 4,
+  "max_length": 1024,
+  "lora_r": 32,
+  "lora_alpha": 64,
+  "quant": "nf4",
+  "dtype": "float16",
+  "packing": "bfd",
+  "loss": "completion only"
+ },
+ "seed": 0,
+ "metrics": [
+  {
+   "step": 5,
+   "loss": 1.3862,
+   "lr": 0.00011428571428571428,
+   "gradNorm": 0.28711649775505066
+  },
+  {
+   "step": 10,
+   "loss": 1.5134,
+   "lr": 0.00019995210358660038,
+   "gradNorm": 0.38700300455093384
+  },
+  {
+   "step": 15,
+   "loss": 1.3002,
+   "lr": 0.00019941379571543596,
+   "gradNorm": 0.26547786593437195
+  },
+  {
+   "step": 20,
+   "loss": 1.3241,
+   "lr": 0.00019828054173684644,
+   "gradNorm": 0.26482316851615906
+  },
+  {
+   "step": 25,
+   "loss": 1.4211,
+   "lr": 0.0001965591236576794,
+   "gradNorm": 0.23006124794483185
+  },
+  {
+   "step": 30,
+   "loss": 1.0917,
+   "lr": 0.0001942598433779687,
+   "gradNorm": 0.25093722343444824
+  },
+  {
+   "step": 35,
+   "loss": 1.1112,
+   "lr": 0.0001913964610387738,
+   "gradNorm": 0.24811218678951263
+  },
+  {
+   "step": 40,
+   "loss": 1.2268,
+   "lr": 0.00018798611267402746,
+   "gradNorm": 0.2309543639421463
+  },
+  {
+   "step": 45,
+   "loss": 1.2268,
+   "lr": 0.00018404920765920896,
+   "gradNorm": 0.2354665994644165
+  },
+  {
+   "step": 50,
+   "loss": 1.2186,
+   "lr": 0.00017960930657056438,
+   "gradNorm": 0.22118116915225983
+  },
+  {
+   "step": 55,
+   "loss": 1.2712,
+   "lr": 0.0001746929801858317,
+   "gradNorm": 0.22687655687332153
+  },
+  {
+   "step": 60,
+   "loss": 1.3016,
+   "lr": 0.0001693296504702862,
+   "gradNorm": 0.23454438149929047
+  },
+  {
+   "step": 65,
+   "loss": 1.275,
+   "lr": 0.00016355141449973256,
+   "gradNorm": 0.23648245632648468
+  },
+  {
+   "step": 70,
+   "loss": 1.3743,
+   "lr": 0.0001573928523741832,
+   "gradNorm": 0.22641590237617493
+  },
+  {
+   "step": 75,
+   "loss": 1.1848,
+   "lr": 0.0001508908202717729,
+   "gradNorm": 0.2358333170413971
+  },
+  {
+   "step": 80,
+   "loss": 1.2925,
+   "lr": 0.00014408422988138584,
+   "gradNorm": 0.2124299556016922
+  },
+  {
+   "step": 85,
+   "loss": 1.1647,
+   "lr": 0.00013701381553399145,
+   "gradNorm": 0.21477216482162476
+  },
+  {
+   "step": 90,
+   "loss": 1.2315,
+   "lr": 0.00012972189042630044,
+   "gradNorm": 0.23053433001041412
+  },
+  {
+   "step": 95,
+   "loss": 1.2235,
+   "lr": 0.00012225209339563145,
+   "gradNorm": 0.21793967485427856
+  },
+  {
+   "step": 100,
+   "loss": 1.1783,
+   "lr": 0.00011464912776142494,
+   "gradNorm": 0.25377315282821655
+  },
+  {
+   "step": 105,
+   "loss": 1.182,
+   "lr": 0.00010695849379631813,
+   "gradNorm": 0.2083149254322052
+  },
+  {
+   "step": 110,
+   "loss": 1.3046,
+   "lr": 9.92262164278198e-05,
+   "gradNorm": 0.2463838905096054
+  },
+  {
+   "step": 115,
+   "loss": 1.2703,
+   "lr": 9.149856980016529e-05,
+   "gradNorm": 0.24245111644268036
+  },
+  {
+   "step": 120,
+   "loss": 1.2925,
+   "lr": 8.382180034472353e-05,
+   "gradNorm": 0.22653229534626007
+  },
+  {
+   "step": 125,
+   "loss": 1.2417,
+   "lr": 7.624185001625292e-05,
+   "gradNorm": 0.20736458897590637
+  },
+  {
+   "step": 130,
+   "loss": 1.213,
+   "lr": 6.880408135131022e-05,
+   "gradNorm": 0.24637626111507416
+  },
+  {
+   "step": 135,
+   "loss": 1.2089,
+   "lr": 6.155300599421306e-05,
+   "gradNorm": 0.2330026626586914
+  },
+  {
+   "step": 140,
+   "loss": 1.3046,
+   "lr": 5.453201831520245e-05,
+   "gradNorm": 0.23938004672527313
+  },
+  {
+   "step": 145,
+   "loss": 1.4058,
+   "lr": 4.7783135714980744e-05,
+   "gradNorm": 0.24747678637504578
+  },
+  {
+   "step": 150,
+   "loss": 1.2011,
+   "lr": 4.13467471697817e-05,
+   "gradNorm": 0.22521835565567017
+  },
+  {
+   "step": 155,
+   "loss": 1.1884,
+   "lr": 3.5261371521817244e-05,
+   "gradNorm": 0.20821401476860046
+  },
+  {
+   "step": 160,
+   "loss": 1.313,
+   "lr": 2.9563426961620367e-05,
+   "gradNorm": 0.2279868870973587
+  },
+  {
+   "step": 165,
+   "loss": 1.181,
+   "lr": 2.4287013081828257e-05,
+   "gradNorm": 0.1976090371608734
+  },
+  {
+   "step": 170,
+   "loss": 1.3522,
+   "lr": 1.946370680671341e-05,
+   "gradNorm": 0.22286657989025116
+  },
+  {
+   "step": 175,
+   "loss": 1.2824,
+   "lr": 1.5122373418731306e-05,
+   "gradNorm": 0.2410520762205124
+  },
+  {
+   "step": 180,
+   "loss": 1.1103,
+   "lr": 1.1288993813004467e-05,
+   "gradNorm": 0.22307045757770538
+  },
+  {
+   "step": 185,
+   "loss": 1.3772,
+   "lr": 7.986509013545673e-06,
+   "gradNorm": 0.23158246278762817
+  },
+  {
+   "step": 190,
+   "loss": 1.2759,
+   "lr": 5.2346828817197655e-06,
+   "gradNorm": 0.21852192282676697
+  },
+  {
+   "step": 195,
+   "loss": 1.2185,
+   "lr": 3.049983838570858e-06,
+   "gradNorm": 0.2156221866607666
+  },
+  {
+   "step": 200,
+   "loss": 1.2435,
+   "lr": 1.4454863088532388e-06,
+   "gradNorm": 0.23880214989185333
+  },
+  {
+   "step": 205,
+   "loss": 1.2004,
+   "lr": 4.307924765777682e-07,
+   "gradNorm": 0.2077637016773224
+  },
+  {
+   "step": 210,
+   "loss": 1.2441,
+   "lr": 1.1974820331517312e-08,
+   "gradNorm": 0.3541170060634613
+  }
+ ],
+ "evals": {
+  "dropGroup": null,
+  "resumedFrom": null,
+  "peakMemGB": 4.23,
+  "trainableParams": 34865152,
+  "trainableDtypes": [
+   "torch.float32"
+  ],
+  "n_train": 8000,
+  "n_heldout": 300,
+  "tokensPerEpoch": 3417754.0,
+  "heldoutLoss": {
+   "before": 1.3228,
+   "after": 1.1927
+  },
+  "steps": 210,
+  "evalLoss": [
+   {
+    "step": 50,
+    "loss": 1.2192
+   },
+   {
+    "step": 100,
+    "loss": 1.2023
+   },
+   {
+    "step": 150,
+    "loss": 1.1947
+   },
+   {
+    "step": 200,
+    "loss": 1.1927
+   },
+   {
+    "step": 210,
+    "loss": 1.1927
+   },
+   {
+    "step": 210,
+    "loss": 1.1927
+   }
+  ]
+ },
+ "samples": [],
+ "wallClockSec": 6237.5,
+ "costUSD": null,
+ "price": null,
+ "priceCheckedOn": null,
+ "date": "2026-11-11",
+ "command": "python /home/rajsr/w/aiml-companion/courses/llm-training/labs/lltCapstoneAssistant/capstone/sft.py --tier T2 --work /home/rajsr/w/work",
+ "machine": {
+  "vm": "Google Cloud n1-highmem-4 (4 vCPU, 26 GB RAM) with 2x NVIDIA T4 15 GB, Deep Learning image pytorch-2-9-cu129-ubuntu-2204-nvidia-580, 200 GB disk; the notebook sets CUDA_VISIBLE_DEVICES=0 so one T4 is used",
+  "note": "Set up like Kaggle's GPU T4 x2. It is a Google Cloud VM, not a Kaggle session."
+ }
+}
