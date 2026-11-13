@@ -88,8 +88,8 @@ one identical prompt (median of 3 calls, 2026-11-13):
 | `gemini-3.6-flash` | `gemini-3.6-flash` | 6.6s |
 | `gemini-flash-lite-latest` | `gemini-3.5-flash-lite` | 1.6s |
 
-`Multi-Agent-Debate.ipynb` makes about 140 calls, so on the default alias it
-takes around 25 minutes; most notebooks finish in a few. To trade some answer
+`Multi-Agent-Debate.ipynb` makes well over 100 calls, and on the default alias
+its main cell took 46 minutes in a measured run; most notebooks finish in a few. To trade some answer
 quality for speed, change the model string in the agent class to
 `gemini-flash-lite-latest`. If you need reproducible outputs, pin whatever
 `gemini-flash-latest` currently resolves to and accept the maintenance.
