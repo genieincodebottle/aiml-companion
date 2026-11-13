@@ -1,0 +1,45 @@
+{
+  "measured_at": "2026-11-13T12:22:40Z",
+  "judge_model": "gemini-3.5-flash-lite",
+  "n_questions": 10,
+  "configs": {
+    "naive": {
+      "name": "Naive RAG",
+      "chunk_size": 1000,
+      "chunk_overlap": 0,
+      "retriever_k": 3,
+      "rerank_top_n": 3,
+      "use_reranking": false,
+      "grounded_prompt": false
+    },
+    "optimized": {
+      "name": "Optimized RAG",
+      "chunk_size": 512,
+      "chunk_overlap": 50,
+      "retriever_k": 20,
+      "rerank_top_n": 5,
+      "use_reranking": true,
+      "grounded_prompt": true
+    }
+  },
+  "naive": {
+    "faithfulness": 0.9666666666666666,
+    "answer_relevancy": 0.9316288548623289,
+    "context_precision": 0.9999999999050001,
+    "context_recall": 1.0,
+    "_failed": 0,
+    "_avg_contexts": 3.0
+  },
+  "optimized": {
+    "faithfulness": 0.9466666666666667,
+    "answer_relevancy": 0.9340840661194282,
+    "context_precision": 0.97499999990625,
+    "context_recall": 1.0,
+    "_failed": 0,
+    "_avg_contexts": 5.0
+  },
+  "wall_clock_s": {
+    "naive": 215.0065233707428,
+    "optimized": 237.52045154571533
+  }
+}

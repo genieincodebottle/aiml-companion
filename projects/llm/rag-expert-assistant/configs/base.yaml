@@ -13,10 +13,15 @@ chunking:
     - ". "
     - " "
 
-# Embedding model
+# Embedding model. This block IS read at runtime (src/rag_pipeline.py ::
+# get_embeddings) and passed to the embedder as output_dimensionality.
+# gemini-embedding-001 returns 3072 dims by default, so 3072 matches the
+# shipped index. Changing it requires deleting chroma_db/ and re-indexing.
+# embedding and reranker are read at runtime; the other sections are reference
+# values (the code carries its own defaults).
 embedding:
   model: "models/gemini-embedding-001"
-  dimensions: 768
+  dimensions: 3072
 
 # Vector store
 vectorstore:
@@ -30,15 +35,19 @@ retrieval:
   top_k_rerank: 5
   search_type: "similarity"
 
-# Reranker (runs locally, no API key needed)
+# Reranker (runs locally, no API key needed). This block IS read at runtime
+# (src/rag_pipeline.py :: load_reranker_config -> build_retriever). Every published
+# score was measured with ms-marco-MultiBERT-L-12, FlashRank's default, so it is
+# pinned here; changing it changes every reranked score, so re-run eval and ab.
 reranker:
-  model: "ms-marco-MiniLM-L-12-v2"
+  model: "ms-marco-MultiBERT-L-12"
   provider: "flashrank"
 
 # LLM generation
+# No temperature: Google marks temperature/top_p/top_k as deprecated and ignored
+# for Gemini 3.5 models (future models reject them with HTTP 400).
 llm:
   model: "gemini-3.5-flash-lite"
-  temperature: 0
   max_tokens: 1024
 
 # Evaluation thresholds

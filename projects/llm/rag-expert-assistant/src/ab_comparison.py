@@ -108,9 +108,9 @@ def _pipeline_for(config: RAGConfig, docs: list, rebuild: bool = True):
     )
 
     system = SYSTEM_PROMPT if config.grounded_prompt else NAIVE_SYSTEM_PROMPT
+    # No temperature: deprecated and ignored for Gemini 3.5 models (see build_rag_chain).
     llm = ChatGoogleGenerativeAI(
         model="gemini-3.5-flash-lite",
-        temperature=0,
         google_api_key=os.getenv("GOOGLE_API_KEY"),
     )
     prompt = ChatPromptTemplate.from_messages([
@@ -134,16 +134,8 @@ def evaluate_rag(config: RAGConfig, test_questions: list, ground_truth: list,
     Every number this returns came out of a model. None are seeded, hardcoded,
     or drawn from a distribution.
     """
-    from datasets import Dataset
-    from ragas import evaluate as ragas_evaluate
-    from ragas.metrics import (
-        faithfulness, answer_relevancy, context_precision, context_recall,
-    )
-    from langchain_google_genai import (
-        ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings,
-    )
-
     from src.rag_pipeline import load_documents
+    from src.ragas_scoring import mean_scores, score_rows
 
     if docs is None:
         docs = load_documents()
@@ -158,32 +150,10 @@ def evaluate_rag(config: RAGConfig, test_questions: list, ground_truth: list,
         contexts.append([d.page_content for d in retrieved])
         answers.append(chain.invoke(question).text)
 
-    dataset = Dataset.from_dict({
-        "question": list(test_questions),
-        "answer": answers,
-        "contexts": contexts,
-        "ground_truth": list(ground_truth),
-    })
-
-    result = ragas_evaluate(
-        dataset=dataset,
-        metrics=[faithfulness, answer_relevancy,
-                 context_precision, context_recall],
-        llm=ChatGoogleGenerativeAI(model="gemini-3.5-flash-lite"),
-        embeddings=GoogleGenerativeAIEmbeddings(
-            model="models/gemini-embedding-001"),
-    )
-
-    df = result.to_pandas()
-    scores = {}
-    for metric in ("faithfulness", "answer_relevancy",
-                   "context_precision", "context_recall"):
-        # RAGAS emits NaN when a judge call fails. Dropping those beats
-        # silently scoring a failed judgement as zero.
-        if metric in df.columns:
-            scores[metric] = float(df[metric].dropna().mean())
-        else:
-            scores[metric] = float("nan")
+    # ragas 0.4 collections API (src/ragas_scoring.py). A failed judge call is
+    # NaN and dropped from the mean, never scored as zero, and it is counted.
+    rows = score_rows(list(test_questions), answers, contexts, list(ground_truth))
+    scores = mean_scores(rows)
 
     scores["_avg_contexts"] = sum(len(c) for c in contexts) / len(contexts)
     return scores

@@ -2,20 +2,28 @@
 # PRODUCTION RAG PIPELINE
 # LangChain 1.x | ChromaDB | Google Gemini | FlashRank Reranker
 # ============================================================
-# pip install langchain langchain-google-genai langchain-community
-# pip install chromadb flashrank
+# pip install -r requirements.txt
 # ============================================================
 
 import hashlib
 import os
+from pathlib import Path
+
+import yaml
 from dotenv import load_dotenv
-from langchain_community.document_loaders import DirectoryLoader, TextLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
-from langchain_community.vectorstores import Chroma
-from langchain_classic.retrievers import ContextualCompressionRetriever
+# No langchain-community and no langchain-classic: langchain-community is being sunset
+# (github.com/langchain-ai/langchain-community/issues/674) and langchain-classic holds
+# legacy components. Loading is plain pathlib below, Chroma comes from its partner package,
+# and two-stage retrieval lives in src/reranking.py.
+from langchain_chroma import Chroma
+from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
+from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+from src.reranking import FlashRankReranker, RerankingRetriever
+from src.security.sanitizer import detect_pii, filter_output_pii, sanitize_input
 
 load_dotenv()
 
@@ -31,13 +39,14 @@ def load_documents(data_dir: str = "data/sample_docs/") -> list:
     """
     raw_docs = []
     for pattern in ("**/*.txt", "**/*.md"):
-        loader = DirectoryLoader(
-            data_dir,
-            glob=pattern,
-            loader_cls=TextLoader,
-            show_progress=True,
-        )
-        raw_docs.extend(loader.load())
+        # Sorted, so every run indexes the same files in the same order. UTF-8 explicitly:
+        # the old TextLoader used the platform default, which is cp1252 on Windows.
+        for path in sorted(Path(data_dir).glob(pattern)):
+            if path.is_file():
+                raw_docs.append(Document(
+                    page_content=path.read_text(encoding="utf-8"),
+                    metadata={"source": str(path)},
+                ))
 
     if not raw_docs:
         raise FileNotFoundError(
@@ -64,6 +73,55 @@ def chunk_documents(docs: list, chunk_size: int = 512, chunk_overlap: int = 50) 
 
 
 # ---- Step 3: Create Embeddings + Vector Store ----
+CONFIG_PATH = Path(__file__).resolve().parent.parent / "configs" / "base.yaml"
+
+# Used only if configs/base.yaml is missing. Keep equal to the shipped config.
+DEFAULT_EMBEDDING_CONFIG = {"model": "models/gemini-embedding-001", "dimensions": 3072}
+
+
+def _load_config_block(name: str, defaults: dict, path: Path = CONFIG_PATH) -> dict:
+    """One block of configs/base.yaml laid over its defaults (defaults if the file is missing)."""
+    cfg = dict(defaults)
+    if path.exists():
+        with open(path, "r", encoding="utf-8") as f:
+            cfg.update((yaml.safe_load(f) or {}).get(name) or {})
+    return cfg
+
+
+def load_embedding_config(path: Path = CONFIG_PATH) -> dict:
+    """Read the `embedding:` block of configs/base.yaml (model + dimensions).
+
+    `dimensions` used to be documented as 768 while nothing read it, so the
+    index was silently built at the model's 3072-dim default. It is now read
+    here and passed to the embedder as `output_dimensionality`, so the config
+    value IS the index dimension. Changing it changes the vector size: delete
+    the persisted `chroma_db/` and re-index, or Chroma rejects the mismatch.
+    """
+    return _load_config_block("embedding", DEFAULT_EMBEDDING_CONFIG, path)
+
+
+# The reranker model is now explicit. The code used to pass only top_n, so FlashRank ran
+# its library default (ms-marco-MultiBERT-L-12) while the config and docs named
+# ms-marco-MiniLM-L-12-v2. Every published score was measured with MultiBERT, so that is
+# the pinned model; a library upgrade can no longer swap it underneath the results.
+DEFAULT_RERANKER_CONFIG = {"model": "ms-marco-MultiBERT-L-12", "provider": "flashrank"}
+
+
+def load_reranker_config(path: Path = CONFIG_PATH) -> dict:
+    """Read the `reranker:` block of configs/base.yaml (FlashRank model name)."""
+    return _load_config_block("reranker", DEFAULT_RERANKER_CONFIG, path)
+
+
+def get_embeddings() -> GoogleGenerativeAIEmbeddings:
+    """The embedder used for both indexing and querying (configs/base.yaml)."""
+    cfg = load_embedding_config()
+    return GoogleGenerativeAIEmbeddings(
+        model=cfg["model"],
+        output_dimensionality=int(cfg["dimensions"]),
+        google_api_key=os.getenv("GOOGLE_API_KEY"),
+    )
+
+
 def chunk_id(chunk) -> str:
     """A stable ID derived from the chunk's own content and source.
 
@@ -103,10 +161,7 @@ def build_vectorstore(chunks: list, persist_dir: str = "./chroma_db") -> Chroma:
     so re-indexing UPSERTS rather than appends. Re-running is now free and the
     collection size stays equal to the number of distinct chunks.
     """
-    embeddings = GoogleGenerativeAIEmbeddings(
-        model="models/gemini-embedding-001",
-        google_api_key=os.getenv("GOOGLE_API_KEY"),
-    )
+    embeddings = get_embeddings()
     ids = [chunk_id(c) for c in chunks]
     n_unique = len(set(ids))
     if n_unique != len(ids):
@@ -140,12 +195,8 @@ def build_retriever(vectorstore: Chroma, use_reranking: bool = True, top_k: int 
     )
 
     if use_reranking:
-        from langchain_community.document_compressors.flashrank_rerank import FlashrankRerank
-        reranker = FlashrankRerank(top_n=top_n)
-        return ContextualCompressionRetriever(
-            base_compressor=reranker,
-            base_retriever=base_retriever
-        )
+        reranker = FlashRankReranker(model=load_reranker_config()["model"], top_n=top_n)
+        return RerankingRetriever(base_retriever=base_retriever, reranker=reranker)
     else:
         base_retriever.search_kwargs["k"] = top_n
         return base_retriever
@@ -178,10 +229,15 @@ def format_docs_with_sources(docs: list) -> str:
 
 
 def build_rag_chain(retriever, model: str = "gemini-3.5-flash-lite"):
-    """Build the RAG chain with citations."""
+    """Build the RAG chain with citations.
+
+    No `temperature`: for Gemini 3.5 models Google marks temperature, top_p and top_k as
+    deprecated and IGNORED, and future models reject them with HTTP 400. Setting it to 0
+    never made answers deterministic here. Consistency comes from the rule-based system
+    prompt, which is what Google recommends instead.
+    """
     llm = ChatGoogleGenerativeAI(
         model=model,
-        temperature=0,
         google_api_key=os.getenv("GOOGLE_API_KEY"),
     )
     prompt = ChatPromptTemplate.from_messages([
@@ -199,13 +255,37 @@ def build_rag_chain(retriever, model: str = "gemini-3.5-flash-lite"):
 
 
 def query_pipeline(rag_chain, retriever, question: str) -> dict:
-    """Query the RAG pipeline and return response with sources."""
-    response = rag_chain.invoke(question)
-    docs = retriever.invoke(question)
+    """Query the RAG pipeline through all three security layers.
+
+    1. Input sanitisation: known injection phrases are replaced with [BLOCKED] BEFORE the
+       question reaches retrieval or the model. It reads only the question, so it cannot
+       catch an instruction that arrives inside a retrieved document (indirect injection);
+       the grounded system prompt is the layer for that.
+    2. PII detection on the question and on every retrieved chunk. Detection reports what
+       it found (types only, never the values) so a caller can log or refuse.
+    3. Output filtering: PII in the answer is replaced with typed markers such as
+       [EMAIL_REDACTED] before the answer is returned.
+
+    These functions used to exist and be tested but were never called on the query path,
+    while the docs said they ran on every query. They now do.
+    """
+    safe_question = sanitize_input(question)
+    response = rag_chain.invoke(safe_question)
+    docs = retriever.invoke(safe_question)
+
+    raw_answer = response.text
+    answer = filter_output_pii(raw_answer)
 
     return {
         "question": question,
-        "answer": response.text,
+        "sanitized_question": safe_question,
+        "input_blocked": safe_question != question,
+        "pii_detected": {
+            "question": sorted({kind for kind, _ in detect_pii(question)}),
+            "context": sorted({kind for doc in docs for kind, _ in detect_pii(doc.page_content)}),
+        },
+        "answer_redacted": answer != raw_answer,
+        "answer": answer,
         "sources": [
             {
                 "source": doc.metadata.get("source", "unknown"),

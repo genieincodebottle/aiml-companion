@@ -2,31 +2,23 @@
 # RAG EVALUATION WITH RAGAS
 # Measure retrieval + generation quality independently
 # ============================================================
-# pip install ragas langchain-google-genai datasets
+# Scoring uses the ragas 0.4 collections API (src/ragas_scoring.py). The legacy
+# `ragas.metrics` instances + `ragas.evaluate()` path is deprecated in 0.4 and
+# removed in ragas 1.0.
 # ============================================================
 
-import os
+import argparse
+import json
+import time
+from pathlib import Path
+
 from dotenv import load_dotenv
-from ragas import evaluate
-# NOTE: `ragas.metrics.collections` exposes submodules, not metric instances -
-# passing those to evaluate() raises TypeError. The instances live in
-# `ragas.metrics` (deprecated alias until ragas 1.0, but the only form
-# evaluate() accepts together with a custom llm/embeddings).
-from ragas.metrics import (
-    faithfulness,
-    answer_relevancy,
-    context_precision,
-    context_recall,
-)
-from datasets import Dataset
-from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
+
+from src.ragas_scoring import JUDGE_MODEL, METRICS, mean_scores, score_rows
 
 load_dotenv()
 
-# RAGAS defaults its judge LLM to OpenAI. This project is Gemini-only
-# (single GOOGLE_API_KEY), so pass the judge + embeddings explicitly.
-JUDGE_MODEL = "gemini-3.5-flash-lite"
-EMBEDDING_MODEL = "models/gemini-embedding-001"
+# The judge and embeddings are Gemini (single GOOGLE_API_KEY); see src/ragas_scoring.py.
 
 # ---- Evaluation Dataset ----
 # In production: build 50-100 examples from real user queries
@@ -75,37 +67,29 @@ EVAL_DATA = {
 
 
 def run_evaluation(eval_data: dict = None) -> dict:
-    """Run RAGAS evaluation on the provided dataset."""
+    """Score the dataset once with RAGAS. Returns {metric: mean, "_failed": n, "rows": [...]}."""
     if eval_data is None:
         eval_data = EVAL_DATA
 
-    dataset = Dataset.from_dict(eval_data)
-
-    results = evaluate(
-        dataset=dataset,
-        metrics=[
-            faithfulness,
-            answer_relevancy,
-            context_precision,
-            context_recall,
-        ],
-        llm=ChatGoogleGenerativeAI(model=JUDGE_MODEL),
-        embeddings=GoogleGenerativeAIEmbeddings(model=EMBEDDING_MODEL),
+    rows = score_rows(
+        eval_data["question"], eval_data["answer"],
+        eval_data["contexts"], eval_data["ground_truth"],
     )
+    means = mean_scores(rows)
 
-    # Display results (EvaluationResult has no .items(); read the DataFrame)
     print("=" * 60)
-    print("RAG EVALUATION RESULTS (RAGAS)")
+    print("RAG EVALUATION RESULTS (RAGAS, judge %s)" % JUDGE_MODEL)
     print("=" * 60)
-
-    df = results.to_pandas()
-    metric_names = ["faithfulness", "answer_relevancy",
-                    "context_precision", "context_recall"]
-    for metric in [m for m in metric_names if m in df.columns]:
-        score = float(df[metric].mean())
+    for metric in METRICS:
+        score = means[metric]
+        if score != score:  # NaN: every judge call for this metric failed
+            print(f"  {metric:<25} {'-' * 20} n/a    [JUDGE FAILED]")
+            continue
         status = "PASS" if score >= 0.85 else "NEEDS WORK" if score >= 0.70 else "FAILING"
         bar = "#" * int(score * 20) + "-" * (20 - int(score * 20))
         print(f"  {metric:<25} {bar} {score:.3f}  [{status}]")
+    if means["_failed"]:
+        print(f"\n  {means['_failed']} judge call(s) failed and were left out of the means.")
 
     print("\n" + "-" * 60)
     print("INTERPRETATION GUIDE:")
@@ -113,28 +97,51 @@ def run_evaluation(eval_data: dict = None) -> dict:
     print("  Faithfulness < 0.85  -> Tighten grounding in system prompt")
     print("  Answer Rel.  < 0.80  -> Add query expansion / clarification")
     print("  Context Prec < 0.70  -> Improve chunking or add reranking")
-    print("  Context Rec  < 0.70  -> Increase top-k, try hybrid search")
+    print("  Context Rec  < 0.70  -> Increase top-k, or add a second retriever")
 
-    # Per-question breakdown
     print("\n" + "=" * 60)
     print("PER-QUESTION ANALYSIS")
     print("=" * 60)
-
-    df = results.to_pandas()
-    for i, row in df.iterrows():
+    for i, row in enumerate(rows):
         print(f"\nQ{i+1}: {eval_data['question'][i][:50]}...")
-        print(f"  Faith: {row.get('faithfulness', 0):.2f}  "
-              f"Relevancy: {row.get('answer_relevancy', 0):.2f}  "
-              f"Precision: {row.get('context_precision', 0):.2f}  "
-              f"Recall: {row.get('context_recall', 0):.2f}")
-        for metric_name in ['faithfulness', 'answer_relevancy',
-                            'context_precision', 'context_recall']:
-            val = row.get(metric_name, 0)
-            if val < 0.80:
-                print(f"  WARNING: {metric_name} is low ({val:.2f}) - investigate!")
+        print("  " + "  ".join(f"{m}: {row[m]:.2f}" for m in METRICS))
+        for m in METRICS:
+            if row[m] == row[m] and row[m] < 0.80:
+                print(f"  WARNING: {m} is low ({row[m]:.2f}) - investigate!")
+        for err in row.get("_errors", []):
+            print(f"  JUDGE ERROR: {err}")
 
-    return results
+    return {**means, "rows": rows}
 
 
 if __name__ == "__main__":
-    run_evaluation()
+    ap = argparse.ArgumentParser(description="Score the fixed evaluation set with RAGAS.")
+    ap.add_argument("--runs", type=int, default=1,
+                    help="score the same data N times; an LLM judge varies between runs")
+    ap.add_argument("--out", default=None,
+                    help="write every run's means and per-question scores as JSON")
+    args = ap.parse_args()
+
+    runs = []
+    for n in range(1, args.runs + 1):
+        if args.runs > 1:
+            print("\n##### RUN %d of %d #####" % (n, args.runs))
+        runs.append(run_evaluation())
+
+    if args.runs > 1:
+        print("\n" + "=" * 60)
+        print("ACROSS %d RUNS (same data, same judge)" % args.runs)
+        print("=" * 60)
+        for m in METRICS:
+            vals = ["%.3f" % r[m] for r in runs]
+            print(f"  {m:<25} " + "  ".join(vals))
+
+    if args.out:
+        Path(args.out).parent.mkdir(parents=True, exist_ok=True)
+        Path(args.out).write_text(json.dumps({
+            "measured_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "judge_model": JUDGE_MODEL,
+            "n_questions": len(EVAL_DATA["question"]),
+            "runs": runs,
+        }, indent=2), encoding="utf-8")
+        print("\nWrote " + args.out)

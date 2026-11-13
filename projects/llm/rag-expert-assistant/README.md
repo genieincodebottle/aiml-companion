@@ -54,17 +54,25 @@ Documents (PDF/MD/TXT)
 
 ### RAGAS Evaluation Scores
 
-Measured over three runs of `python -m src.evaluate`, judged by
-`gemini-3.5-flash-lite`. RAGAS is an LLM-judged metric, so the spread across
+Measured on 2026-11-13 with `python run.py eval --runs 3 --out
+artifacts/results/eval_runs.json`, judged by `gemini-3.5-flash-lite` through
+the ragas 0.4 collections API (`src/ragas_scoring.py`). Every per-question
+score is in [`docs/results/2026-11-13/eval_runs.json`](docs/results/2026-11-13/eval_runs.json). RAGAS is an LLM-judged metric, so the spread across
 runs is part of the result and is reported here rather than hidden behind a
 single decimal.
 
 | Metric | Run 1 | Run 2 | Run 3 | Status |
 |--------|-------|-------|-------|--------|
-| Faithfulness | 0.938 | 0.938 | 0.938 | PASS |
-| Answer Relevancy | 0.827 | 0.825 | 0.824 | NEEDS WORK (< 0.85) |
-| Context Precision | 0.750 | 0.750 | 0.875 | UNSTABLE |
+| Faithfulness | 0.938 | 1.000 | 0.854 | UNSTABLE (one run below 0.85) |
+| Answer Relevancy | 0.905 | 0.901 | 0.903 | PASS |
+| Context Precision | 1.000 | 1.000 | 1.000 | PASS |
 | Context Recall | 1.000 | 1.000 | 1.000 | PASS |
+
+The variance sits in faithfulness. On identical input, one question scored
+1.00, 1.00, then 0.67, and another 0.75, 1.00, then 0.75. These scores replace
+an earlier table measured with the legacy ragas API (`ragas.metrics` +
+`evaluate()`, deprecated in 0.4 and removed in 1.0). The collections metrics
+score differently, so the two tables are not comparable number for number.
 
 The previously published table (0.920 / 0.875 / 0.850 / 0.810) does not
 reproduce. Context recall in particular was reported as the **weakest** metric
@@ -88,18 +96,25 @@ config won by ~0.23 every run, formatted exactly like a real table. It now
 builds both pipelines against the real corpus, runs the real questions, and
 scores the real answers with RAGAS.
 
-Measured over three runs, 10 questions per arm:
+Measured on 2026-11-13 over three runs (`python run.py ab --out ...`), 10
+questions per arm, judged by `gemini-3.5-flash-lite` through the ragas 0.4
+collections API, with zero failed judge calls. The raw files are in
+[`docs/results/2026-11-13/`](docs/results/2026-11-13/).
 
 | Metric | Naive | Optimized | Delta | Runs agreeing |
 |--------|-------|-----------|-------|---------------|
-| Faithfulness | 0.983 / 1.000 / 1.000 | 0.913 / 0.980 / 0.942 | **-0.020 to -0.070** | WORSE in 3/3 |
-| Answer Relevancy | 0.832 / 0.821 / 0.837 | 0.842 / 0.838 / 0.847 | +0.010 to +0.016 | BETTER in 3/3 |
-| Context Precision | 0.950 / 0.950 / 0.950 | 0.950 / 0.950 / 0.950 | **0.000** | SAME in 3/3 |
-| Context Recall | 0.967 / 0.967 / 0.967 | 1.000 / 1.000 / 1.000 | +0.033 | BETTER in 3/3 |
+| Faithfulness | 0.975 / 0.967 / 1.000 | 0.917 / 0.947 / 0.942 | **-0.058 / -0.020 / -0.058** | WORSE in 3/3 |
+| Answer Relevancy | 0.942 / 0.932 / 0.931 | 0.927 / 0.934 / 0.940 | -0.015 / +0.002 / +0.008 | no clear change |
+| Context Precision | 0.950 / 1.000 / 1.000 | 1.000 / 0.975 / 1.000 | +0.050 / -0.025 / 0.000 | no clear change |
+| Context Recall | 1.000 / 1.000 / 1.000 | 1.000 / 1.000 / 1.000 | 0.000 | SAME in 3/3 |
 
-Optimized wins 2 of 4 metrics, loses faithfulness, and is roughly **4x slower**
-(213 s vs 55 s per run). The old fabricated table claimed it won all four, with
-"+24% faithfulness" and "+17% context precision".
+Optimized loses faithfulness in every run and moves nothing else
+consistently. It is about **1.2x slower** (246 s against 204 s per arm, mean of
+three runs, judging included). The old fabricated table claimed it won all
+four, with "+24% faithfulness" and "+17% context precision". An earlier real
+run with the legacy ragas API also reported 2 wins of 4; the collections
+metrics do not reproduce those small wins, which is itself a reminder that
+deltas of a few hundredths are inside the judge's noise.
 
 **Why the optimizations do nothing here, and it is not because they are bad
 ideas.** The demo corpus is 4 documents totalling **3,396 characters** -- about
@@ -108,8 +123,9 @@ one page of text. That splits into **5 chunks** under the naive config and
 20 candidates from a store containing 9, so stage one returns *the entire
 corpus* and the reranker's job reduces to discarding 4 of 9 chunks. Two-stage
 retrieval cannot improve precision when the first stage already returns
-everything, which is exactly why context precision is identical to three
-decimal places in all three runs: both arms score the same candidate pool.
+everything, which is why context precision only wobbles by a few hundredths
+between runs (+0.050, -0.025, 0.000): that movement is the judge, not the
+retriever.
 
 Faithfulness drops because the optimized arm hands the model 5 chunks where the
 naive arm hands it 3. On a corpus this small the extra chunks are not missing
@@ -153,7 +169,7 @@ Start here. These 32 checks exercise the chunking, the id derivation, the
 injection defence and the PII filters without a single network call.
 
 ```bash
-python run.py test        # 32 tests
+python run.py test        # full test suite, no API key
 python run.py security    # injection + PII suite, prints its results
 ```
 
@@ -206,22 +222,24 @@ python -m src.security.sanitizer
 pytest tests/ src/security/test_security.py -v
 ```
 
-Note the test path. `pytest tests/` alone collects 17 tests; the other 15 are
-in `src/security/test_security.py`.
+Note the test path. `pytest tests/` alone skips the 15 security tests, which
+live in `src/security/test_security.py`. Every test runs without an API key.
 
 ## Project Structure
 
 ```
 rag-expert-assistant/
 ├── configs/
-│   └── base.yaml              # Pipeline configuration (chunk size, models, thresholds)
+│   └── base.yaml              # Pipeline configuration (embedding model + dimensions are read at runtime; other sections are reference values)
 ├── data/
 │   └── sample_docs/           # 4 sample documents for the RAG pipeline
 ├── notebooks/
 │   └── RAG_Expert_Assistant.ipynb  # Interactive walkthrough notebook
 ├── src/
-│   ├── rag_pipeline.py        # Full RAG: load -> chunk -> embed -> retrieve -> rerank -> generate
+│   ├── rag_pipeline.py        # Full RAG: load -> chunk -> embed -> retrieve -> rerank -> generate, security on the query path
+│   ├── reranking.py           # FlashRank reranker + two-stage retriever (langchain-core)
 │   ├── evaluate.py            # RAGAS evaluation (faithfulness, relevancy, precision, recall)
+│   ├── ragas_scoring.py       # Shared RAGAS scorer (ragas 0.4 collections API, async Gemini judge)
 │   ├── ab_comparison.py       # Naive vs Optimized RAG configuration comparison
 │   └── security/
 │       ├── sanitizer.py       # PII detection, prompt injection defense, output filtering
@@ -242,11 +260,11 @@ rag-expert-assistant/
 | Decision | Choice | Why |
 |----------|--------|-----|
 | Vector store | ChromaDB | Simple setup, persistent storage, good for prototyping |
-| Embeddings | gemini-embedding-001 | Free tier in Gemini API, 768 dims |
+| Embeddings | gemini-embedding-001 | Free tier in Gemini API, 3072 dims (set by `embedding.dimensions` in `configs/base.yaml`) |
 | Chunking | 512 chars, 50 overlap | Preserves context at sentence boundaries |
-| Reranking | FlashRank (local) | No API key needed, runs locally, fast |
+| Reranking | FlashRank `ms-marco-MultiBERT-L-12` (local) | No API key needed, runs locally; the model is pinned in `configs/base.yaml` because every published score was measured with it |
 | Evaluation | RAGAS framework | Industry standard, separates retrieval vs generation quality |
-| Security | Regex PII + pattern blocking | Fast, no external deps, catches 90%+ of common threats |
+| Security | Regex PII + pattern blocking, run on every query | Fast, no external deps. Catches the formats its patterns describe (4 PII types, 4 injection phrases) and nothing else; no detection rate is claimed because none was measured |
 | Generation | Gemini 3.5 Flash Lite | Fast, cost-effective Gemini model for grounded RAG responses |
 
 ## Experiment Log

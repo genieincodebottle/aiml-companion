@@ -15,11 +15,14 @@ script, and the check passes, the pipeline starts, and it dies somewhere deep
 inside an HTTP 400 about an invalid API key. `has_real_key` below rejects
 placeholders so the failure arrives at the top with an instruction attached.
 
-    python run.py test        # 32 tests, no API key needed
+    python run.py test        # full test suite, no API key needed
     python run.py security    # injection + PII suite, no API key needed
     python run.py pipeline    # index the corpus and answer one question
     python run.py eval        # RAGAS scores on the fixed eval set
     python run.py ab          # measured naive vs optimized comparison
+
+Flags after eval/ab go to the script: `python run.py eval --runs 3 --out
+artifacts/results/eval_runs.json`, `python run.py ab --limit 3`.
 """
 
 import argparse
@@ -77,7 +80,10 @@ def main() -> int:
         choices=["test", "security", "pipeline", "eval", "ab"],
         help="test/security need no API key; pipeline/eval/ab do",
     )
-    args = ap.parse_args()
+    # Anything after the command goes to the underlying script, e.g.
+    #   python run.py eval --runs 3 --out artifacts/results/eval_runs.json
+    #   python run.py ab --limit 3
+    args, extra = ap.parse_known_args()
 
     if args.command == "test":
         return _run(["-m", "pytest", "tests/", "src/security/test_security.py", "-v"])
@@ -90,12 +96,12 @@ def main() -> int:
     if args.command == "pipeline":
         return _run(["-m", "src.rag_pipeline"])
     if args.command == "eval":
-        return _run(["-m", "src.evaluate"])
+        return _run(["-m", "src.evaluate"] + extra)
     if args.command == "ab":
         print("This runs 10 questions through two full pipelines and scores "
               "both with RAGAS.\nIt makes a few hundred API calls and takes "
               "several minutes.\n")
-        return _run(["-m", "src.ab_comparison"])
+        return _run(["-m", "src.ab_comparison"] + extra)
 
     return 1
 

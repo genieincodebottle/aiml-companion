@@ -42,7 +42,7 @@ Documents (PDF/MD/TXT)
 
 ### 1. Ingest
 
-Documents are loaded from `data/sample_docs/` using LangChain's `DirectoryLoader`. The loader supports `.txt` and `.md` files. In production, this stage would also handle PDF, HTML, and other formats via appropriate loaders.
+Documents are loaded from `data/sample_docs/` with plain `pathlib` (`.txt` and `.md`, sorted, read as UTF-8) into LangChain `Document` objects. It no longer uses `DirectoryLoader`: that lived in `langchain-community`, which is being sunset. In production, this stage would also handle PDF, HTML, and other formats via appropriate loaders.
 
 - **Entry point**: `src/rag_pipeline.py :: load_documents()`
 - **Input**: Raw documents (TXT, MD, PDF)
@@ -61,10 +61,10 @@ Documents are split into overlapping chunks using `RecursiveCharacterTextSplitte
 
 ### 3. Embed
 
-Each chunk is embedded into a 768-dimensional vector using Google's `gemini-embedding-001` model. Embeddings are stored in ChromaDB for persistent vector search.
+Each chunk is embedded into a 3072-dimensional vector using Google's `gemini-embedding-001` model. Embeddings are stored in ChromaDB for persistent vector search.
 
 - **Entry point**: `src/rag_pipeline.py :: build_vectorstore()`
-- **Model**: `gemini-embedding-001` (768 dimensions)
+- **Model**: `gemini-embedding-001` (3072 dimensions, read from `embedding.dimensions` in `configs/base.yaml` and passed as `output_dimensionality`)
 - **Vector store**: ChromaDB with persistent storage
 - **Output**: Populated ChromaDB collection
 
@@ -79,10 +79,10 @@ Given a user query, the retriever performs dense similarity search against Chrom
 
 ### 5. Rerank
 
-FlashRank runs a cross-encoder model locally to re-score the top-20 candidates and select the top-5 most relevant chunks. Reranking captures semantic relevance that cosine similarity misses. The "+17% improvement in context precision" previously claimed here was never measured; it came from a random number generator in the A/B stub. Measured on this repo's 9-chunk demo corpus the gain is 0.000, because top-20 over 9 chunks retrieves everything and leaves the reranker nothing to rescue. Expect the technique to pay off on a corpus large enough for top-k to be a real filter, and measure it there before quoting a figure. No API key needed - the model runs entirely on your machine.
+FlashRank runs a cross-encoder model locally to re-score the top-20 candidates and select the top-5 most relevant chunks. Reranking captures semantic relevance that cosine similarity misses. The "+17% improvement in context precision" previously claimed here was never measured; it came from a random number generator in the A/B stub. Measured on this repo's 9-chunk demo corpus (three A/B runs, 2026-11-13, `docs/results/2026-11-13/`) there is no consistent gain: context precision moved by +0.050, -0.025 and 0.000, which is judge noise, because top-20 over 9 chunks retrieves everything and leaves the reranker nothing to rescue. Expect the technique to pay off on a corpus large enough for top-k to be a real filter, and measure it there before quoting a figure. No API key needed - the model runs entirely on your machine.
 
-- **Entry point**: `src/rag_pipeline.py :: build_retriever()` (with `use_reranking=True`)
-- **Model**: FlashRank (ms-marco-MiniLM-L-12-v2, runs locally)
+- **Entry point**: `src/rag_pipeline.py :: build_retriever()` (with `use_reranking=True`), using `src/reranking.py` (`FlashRankReranker` + `RerankingRetriever`, built on langchain-core and flashrank)
+- **Model**: FlashRank `ms-marco-MultiBERT-L-12`, runs locally. Read from the `reranker:` block of `configs/base.yaml` and passed explicitly; every published score was measured with it
 - **top_k_rerank**: 5 (from 20 candidates)
 - **Output**: Top-5 reranked documents
 
@@ -91,9 +91,9 @@ FlashRank runs a cross-encoder model locally to re-score the top-20 candidates a
 The LLM generates a grounded response using the reranked context. The system prompt enforces citation rules, confidence ratings, and context-only answering to minimize hallucination.
 
 - **Entry point**: `src/rag_pipeline.py :: build_rag_chain()`
-- **Model**: `gemini-3.5-flash-lite` (temperature=0)
+- **Model**: `gemini-3.5-flash-lite`, no `temperature` (Google marks temperature, top_p and top_k as deprecated and ignored for Gemini 3.5; the rule-based prompt provides consistency)
 - **Prompt strategy**: Grounded system prompt with `[Source N]` citation format
-- **Security**: Input sanitization before query, output PII filtering after generation
+- **Security**: `query_pipeline()` sanitises the question before retrieval and generation, reports PII in the question and retrieved context, and redacts PII in the answer
 - **Output**: Answer with citations and confidence rating
 
 ### 7. Evaluate
@@ -101,7 +101,8 @@ The LLM generates a grounded response using the reranked context. The system pro
 The RAGAS framework evaluates pipeline quality across four independent metrics, each isolating a different failure mode. An A/B comparison framework measures the impact of each optimization.
 
 - **Entry points**:
-  - `src/evaluate.py :: run_evaluation()` - RAGAS metrics
+  - `src/evaluate.py :: run_evaluation()` - RAGAS metrics (`--runs N --out file.json`)
+  - `src/ragas_scoring.py` - shared scorer on the ragas 0.4 collections API (`ascore()`), async Gemini judge, no deprecated sampling parameters
   - `src/ab_comparison.py :: run_ab_comparison()` - Naive vs Optimized
 - **Metrics**:
   - **Faithfulness**: Does the answer stick to the retrieved context?
@@ -112,11 +113,13 @@ The RAGAS framework evaluates pipeline quality across four independent metrics, 
 
 ## Security Layer
 
-The security module (`src/security/`) provides defense-in-depth across the pipeline:
+The security module (`src/security/`) provides defense-in-depth, and `src/rag_pipeline.py :: query_pipeline()` runs all three layers on every query (tests in `tests/test_rag.py` pin the order):
 
-1. **Input sanitization** (`sanitize_input`): Blocks known prompt injection patterns before they reach the LLM
-2. **PII detection** (`detect_pii`): Scans input and context for email, phone, SSN, and credit card patterns
-3. **Output filtering** (`filter_output_pii`): Redacts any PII that appears in LLM responses before returning to the user
+1. **Input sanitization** (`sanitize_input`): replaces known prompt injection phrases with `[BLOCKED]` before the question reaches retrieval or the LLM. It reads only the question, so an instruction planted inside a document (indirect injection) gets past it; the grounded system prompt is the layer for that
+2. **PII detection** (`detect_pii`): scans the question and every retrieved chunk for email, phone, SSN and credit card patterns, and reports the types found (`pii_detected`), never the values
+3. **Output filtering** (`filter_output_pii`): redacts PII in the answer with typed markers such as `[EMAIL_REDACTED]` before it is returned
+
+These are regex patterns: they catch the formats they describe and nothing else (no Aadhaar or IBAN pattern, for example). The suite in `src/security/test_security.py` tests those formats; no detection-rate figure is claimed.
 
 ## Project Layout
 
@@ -127,7 +130,9 @@ rag-expert-assistant/
 ├── notebooks/                   # Interactive Jupyter notebook walkthrough
 ├── src/
 │   ├── rag_pipeline.py          # Full RAG: load -> chunk -> embed -> retrieve -> rerank -> generate
+│   ├── reranking.py             # FlashRank reranker + two-stage retriever (langchain-core)
 │   ├── evaluate.py              # RAGAS evaluation (faithfulness, relevancy, precision, recall)
+│   ├── ragas_scoring.py         # Shared RAGAS scorer (collections API, async Gemini judge)
 │   ├── ab_comparison.py         # Naive vs Optimized RAG configuration comparison
 │   └── security/
 │       ├── sanitizer.py         # PII detection, prompt injection defense, output filtering
