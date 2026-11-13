@@ -31,9 +31,15 @@ export default function FleetBoard({ repos = [], readOnly = false, emptyHint }) 
   }
 
   return (
-    <Grid container spacing={2} alignItems="stretch">
+    <Grid
+      container
+      spacing={2}
+      sx={{
+        alignItems: 'stretch',
+      }}
+    >
       {repos.map((repo) => (
-        <Grid item xs={12} sm={6} lg={4} key={repo.repo_id}>
+        <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={repo.repo_id}>
           <RepoCard repo={repo} readOnly={readOnly} />
         </Grid>
       ))}

@@ -1,0 +1,4 @@
+[I] Parsing ONNX file: yolo.onnx
+[I] Building engine
+[I] Engine built in 47.8 s
+[I] &&&& PASSED TensorRT.trtexec

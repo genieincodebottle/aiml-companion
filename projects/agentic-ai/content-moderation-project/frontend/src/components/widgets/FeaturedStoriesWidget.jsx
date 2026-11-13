@@ -42,7 +42,9 @@ const FeaturedStoryCard = ({ story, onClick }) => {
       onClick={() => onClick && onClick(story.story_id)}
     >
       <CardContent>
-        <Typography variant="h6" fontWeight="bold" gutterBottom noWrap>
+        <Typography variant="h6" gutterBottom noWrap sx={{
+          fontWeight: "bold"
+        }}>
           {story.title}
         </Typography>
 
@@ -51,16 +53,25 @@ const FeaturedStoryCard = ({ story, onClick }) => {
             {story.username?.charAt(0).toUpperCase()}
           </Avatar>
           <Box>
-            <Typography variant="body2" fontWeight="medium">
+            <Typography variant="body2" sx={{
+              fontWeight: "medium"
+            }}>
               {story.username}
             </Typography>
-            <Typography variant="caption" color="text.secondary">
+            <Typography variant="caption" sx={{
+              color: "text.secondary"
+            }}>
               {formatDate(story.created_at)}
             </Typography>
           </Box>
         </Box>
 
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+        <Typography
+          variant="body2"
+          sx={{
+            color: "text.secondary",
+            mb: 1
+          }}>
           {truncateText(story.content_text)}
         </Typography>
       </CardContent>
@@ -97,17 +108,21 @@ const FeaturedStoriesWidget = ({ stories = [], onStoryClick }) => {
     <Box sx={{ mb: 4 }}>
       <Typography
         variant="h5"
-        fontWeight="bold"
         gutterBottom
-        sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}
-      >
+        sx={{
+          fontWeight: "bold",
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1,
+          mb: 3
+        }}>
         <TrendingIcon color="primary" />
         Featured Stories
       </Typography>
 
       <Grid container spacing={3}>
         {stories.map((story) => (
-          <Grid item xs={12} md={4} key={story.story_id}>
+          <Grid size={{ xs: 12, md: 4 }} key={story.story_id}>
             <FeaturedStoryCard story={story} onClick={onStoryClick} />
           </Grid>
         ))}

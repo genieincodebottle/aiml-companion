@@ -224,7 +224,7 @@ export default function ContentReview() {
 
       <Grid container spacing={3}>
         {/* Main Content Card */}
-        <Grid item xs={12} md={8}>
+        <Grid size={{ xs: 12, md: 8 }}>
           <Card>
             <CardContent>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 2 }}>
@@ -259,26 +259,32 @@ export default function ContentReview() {
 
               {/* Metadata */}
               <Grid container spacing={2} sx={{ mb: 3 }}>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Person fontSize="small" color="action" />
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" sx={{
+                      color: "text.secondary"
+                    }}>
                       Author: {content.username || content.author_id || content.user_id || 'Unknown'}
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <CalendarToday fontSize="small" color="action" />
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" sx={{
+                      color: "text.secondary"
+                    }}>
                       {new Date(content.created_at).toLocaleString()}
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Language fontSize="small" color="action" />
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" sx={{
+                      color: "text.secondary"
+                    }}>
                       Platform: {content.platform}
                     </Typography>
                   </Box>
@@ -305,7 +311,9 @@ export default function ContentReview() {
               {needsAction && (
                 <Box sx={{ mt: 3 }}>
                   <Divider sx={{ mb: 2 }} />
-                  <Typography variant="subtitle2" gutterBottom color="text.secondary">
+                  <Typography variant="subtitle2" gutterBottom sx={{
+                    color: "text.secondary"
+                  }}>
                     Manual Moderation Actions
                   </Typography>
                   <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
@@ -344,7 +352,7 @@ export default function ContentReview() {
         </Grid>
 
         {/* Analysis Sidebar */}
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           {/* Toxicity Score */}
           {content.analysis?.toxicity_score !== undefined && (
             <Card sx={{ mb: 2 }}>
@@ -356,7 +364,9 @@ export default function ContentReview() {
                   <Typography variant="h2" color={getToxicityColor(content.analysis.toxicity_score) + '.main'}>
                     {(content.analysis.toxicity_score * 100).toFixed(1)}%
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" sx={{
+                    color: "text.secondary"
+                  }}>
                     {getToxicityLabel(content.analysis.toxicity_score)}
                   </Typography>
                 </Box>
@@ -383,7 +393,9 @@ export default function ContentReview() {
                       <Warning fontSize="small" color="warning" sx={{ mr: 1 }} />
                       <ListItemText
                         primary={violation}
-                        primaryTypographyProps={{ variant: 'body2' }}
+                        slotProps={{
+                          primary: { variant: 'body2' }
+                        }}
                       />
                     </ListItem>
                   ))}
@@ -409,11 +421,18 @@ export default function ContentReview() {
                     {content.moderation_result.action === 'approve' ? 'Approved' : 'Removed'}
                   </Typography>
                 </Box>
-                <Typography variant="body2" color="text.secondary" paragraph>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "text.secondary",
+                    marginBottom: "16px"
+                  }}>
                   {content.moderation_result.reasoning}
                 </Typography>
                 <Divider sx={{ my: 2 }} />
-                <Typography variant="caption" color="text.secondary">
+                <Typography variant="caption" sx={{
+                  color: "text.secondary"
+                }}>
                   Confidence: {(content.moderation_result.confidence * 100).toFixed(1)}%
                 </Typography>
               </CardContent>
@@ -433,9 +452,10 @@ export default function ContentReview() {
                       <ListItemText
                         primary={agent}
                         secondary={`${decision.action} (${(decision.confidence * 100).toFixed(0)}%)`}
-                        primaryTypographyProps={{ variant: 'body2', fontWeight: 'medium' }}
-                        secondaryTypographyProps={{ variant: 'caption' }}
-                      />
+                        slotProps={{
+                          primary: { variant: 'body2', fontWeight: 'medium' },
+                          secondary: { variant: 'caption' }
+                        }} />
                     </ListItem>
                   ))}
                 </List>

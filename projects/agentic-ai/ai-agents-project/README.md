@@ -2,9 +2,9 @@
 
 > **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/module/aiAgents/agentsCapstone)**. Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
 
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![LangGraph](https://img.shields.io/badge/LangGraph-orchestration-green.svg)](https://langchain-ai.github.io/langgraph/)
-[![Tests](https://img.shields.io/badge/tests-197%20passing-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/tests-208%20passing-brightgreen.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 > 7-agent orchestrated research pipeline (8 graph nodes) with quality-gated routing, parallel fan-out, iterative refinement, and production guardrails
@@ -22,8 +22,8 @@ Research Topic (user input)
 +------------------------------------------+
 |  Guardrails Layer                         |
 |  PII Scrub | URL Validate | Budget Cap   |
-|  Prompt Injection Detection              |
-|  Rate Limiter (30 RPM Gemini limit)      |
+|  Prompt Injection Check (planner, input) |
+|  Rate Limiter (30 RPM, before each call) |
 +------------------------------------------+
     |
     v
@@ -92,7 +92,7 @@ Research Topic (user input)
 | `with_structured_output()` | Planner, Analyst, Reviewer | Pydantic-validated agent outputs |
 | YAML-driven config | `configs/base.yaml` | Config-driven agent registry |
 | SQLite research cache | `src/cache/` | Source dedup and query caching |
-| Rate limiting | `src/guardrails.py` | Respecting API rate limits (Gemini 30 RPM) |
+| Rate limiting | `src/guardrails.py` (`throttle()`) | Respecting API rate limits (Gemini 30 RPM), called before every LLM and search call |
 
 ## Results
 
@@ -176,7 +176,7 @@ python run.py demo
 | `python run.py demo` | Research one topic through all eight nodes, and show the route |
 | `python run.py research <topic>` | The same, on a topic you choose |
 | `python run.py trace` | Just the route and the numbers, no report |
-| `python run.py test` | The test suite, 197 tests, about a second |
+| `python run.py test` | The test suite, 208 tests, about a second |
 | `python run.py ui` | The Streamlit app |
 
 Add `-v` to any of them for the agents' own logs.
@@ -228,12 +228,12 @@ cp .env.example .env
 
 ## Testing Guide
 
-This project has **197 automated tests** across 11 test files covering unit tests, integration tests, end-to-end pipeline tests, and UI smoke tests.
+This project has **208 automated tests** across 12 test files covering unit tests, integration tests, end-to-end pipeline tests, and UI smoke tests.
 
 ### Quick Start: Run All Tests
 
 ```bash
-# Run all 197 tests (no API keys needed)
+# Run all 208 tests (no API keys needed)
 make test
 
 # Or directly with pytest
@@ -247,6 +247,7 @@ tests/test_e2e_pipeline.py             37 passed    - Full pipeline with mocked 
 tests/test_graph.py                     9 passed    - Graph wiring and routing
 tests/test_guardrail_enforcement.py    38 passed    - Guardrails actually block, not just detect
 tests/test_guardrails.py               14 passed    - PII, budget, rate limiting
+tests/test_guardrails_wired.py         11 passed    - Rate limiter + injection check run on the real pipeline
 tests/test_offline_mode.py             37 passed    - Offline stand-in, placeholder keys, silent success
 tests/test_quality_gate.py              8 passed    - Source quality scoring
 tests/test_state.py                     6 passed    - State schema validation
@@ -254,7 +255,7 @@ tests/test_token_accounting.py         12 passed    - Real token usage, not esti
 tests/test_tools.py                     5 passed    - Tool selector logic
 tests/test_ui_smoke.py                 26 passed    - Streamlit UI imports
 ---------------------------------------------------------------
-                                      197 passed
+                                      208 passed
 ```
 
 ### Test Categories Explained
@@ -272,7 +273,8 @@ pytest tests/test_guardrails.py tests/test_quality_gate.py tests/test_state.py t
 - PII detection catches emails, phones, SSNs
 - PII scrubbing replaces sensitive data with `[REDACTED]`
 - Budget enforcement blocks at 50K token limit
-- Rate limiter tracks API calls per window
+- Rate limiter is a sliding 60 s window: bursts up to `max_rpm` pass, the next call waits for the oldest to age out
+- Rate limiter and injection check are wired into the pipeline (`tests/test_guardrails_wired.py`)
 - Quality gate scores sources by domain trust + snippet quality
 - Default state schema has all 18+ required fields
 - Pydantic schemas validate planner, reviewer, and claim outputs
@@ -355,7 +357,7 @@ pytest tests/test_ui_smoke.py -v
 
 ### Testing Without API Keys
 
-All 197 tests run **without any API keys**. The e2e tests use `unittest.mock.patch` to mock LLM calls, so you can verify the full pipeline logic locally.
+All 208 tests run **without any API keys**. The e2e tests use `unittest.mock.patch` to mock LLM calls, so you can verify the full pipeline logic locally.
 
 ---
 
@@ -427,11 +429,12 @@ ai-agents-project/
 │   ├── models/
 │   │   └── state.py                # ResearchState TypedDict + Pydantic schemas
 │   ├── config.py                   # YAML config loader
-│   └── guardrails.py               # PII detection, budget cap, rate limiter, prompt injection detection
-├── tests/                          # 197 tests across 11 files
+│   └── guardrails.py               # PII detection, budget cap, sliding-window rate limiter (throttle), prompt injection check (screen_input)
+├── tests/                          # 208 tests across 12 files
 │   ├── test_e2e_pipeline.py        # Full pipeline e2e (37 tests, mocked LLM)
 │   ├── test_ui_smoke.py            # Streamlit UI imports (26 tests)
 │   ├── test_guardrails.py          # Guardrails unit tests (14 tests)
+│   ├── test_guardrails_wired.py    # Rate limiter + injection check on the real path (11 tests)
 │   ├── test_graph.py               # Graph routing tests (9 tests)
 │   ├── test_quality_gate.py        # Quality scoring tests (8 tests)
 │   ├── test_state.py               # State schema tests (6 tests)
@@ -471,7 +474,8 @@ ai-agents-project/
 | Research cache | SQLite with 24h TTL | Prevents duplicate API calls, tracks cache statistics |
 | LLM | Gemini (Google) | Free tier (1500 requests/day), structured output support |
 | Budget enforcement | Global 50K token cap | Prevents runaway costs; agents degrade gracefully at limit |
-| Rate limiting | 30 RPM limiter | Respects Gemini free tier limits |
+| Rate limiting | 30 RPM sliding-window limiter, applied before every LLM and search call | Respects Gemini free tier limits; configurable in `guardrails.rate_limit` |
+| Prompt injection | Regex check on the user query in the planner (`guardrails.prompt_injection`) | Blocks (or warns) before any prompt is built; retrieved snippets are not screened in the pipeline |
 | Evaluation | LLM-as-judge (Gemini) | Scalable, reproducible scoring on accuracy/completeness/citations |
 | PII handling | Regex detection + scrubbing | Fast, no external dependencies, catches common PII patterns |
 | Config | YAML-driven | Change model, thresholds, and agent behavior without code changes |
@@ -495,13 +499,13 @@ ai-agents-project/
 > Three layers: (1) Writer constrained to cite ONLY from `state.sources`, (2) Analyst extracts claims with explicit evidence links to source indices, (3) Synthesizer detects cross-source conflicts and ranks sources by reliability.
 
 **Q: How do you control costs in a multi-agent system?**
-> Four mechanisms: (1) Global 50K token budget tracked in shared state -- against *real* usage read from `response.usage_metadata`; every agent used to report a hardcoded constant (500/300/1200/800/1500), so the budget was enforced against a number that never changed, (2) Rate limiter caps at 30 requests/minute for Gemini free tier, (3) SQLite cache prevents duplicate searches (24h TTL), (4) Quality gate is pure Python (zero LLM cost). Worst case: 10 LLM calls per query at 2-second spacing.
+> Four mechanisms: (1) Global 50K token budget tracked in shared state -- against *real* usage read from `response.usage_metadata`; every agent used to report a hardcoded constant (500/300/1200/800/1500), so the budget was enforced against a number that never changed, (2) Sliding-window rate limiter caps at 30 requests/minute for Gemini free tier (a 10-call run fits inside the window, so it never waits), (3) SQLite cache prevents duplicate searches (24h TTL), (4) Quality gate is pure Python (zero LLM cost). Worst case: 10 LLM calls per query, all inside one 30-call window.
 
 **Q: What would you change for production deployment?**
 > (1) Swap SQLite cache for Redis for concurrent access, (2) Add human-in-the-loop for low-confidence claims, (3) Implement streaming output via LangGraph's `astream_events`, (4) Add LangSmith tracing for observability, (5) Route simple queries to single-agent -- measured at 5.3x the tokens for no quality difference this experiment can resolve.
 
 **Q: How are the tests structured?**
-> 197 tests in 4 categories: (1) Unit tests for individual components (guardrails, quality gate, state, tools, cache), (2) Graph wiring tests verify routing logic without running the pipeline, (3) E2E tests mock all LLM calls and run the full pipeline to verify orchestration, (4) UI smoke tests verify all Streamlit imports work. All tests run without API keys.
+> 208 tests in 5 categories: (1) Unit tests for individual components (guardrails, quality gate, state, tools, cache), (2) Graph wiring tests verify routing logic without running the pipeline, (3) E2E tests mock all LLM calls and run the full pipeline to verify orchestration, (4) UI smoke tests verify all Streamlit imports work, (5) wiring tests prove the rate limiter and injection check run on the real request path. All tests run without API keys.
 
 ## Architecture Deep-Dive
 
@@ -511,7 +515,7 @@ For a comprehensive 2400+ line walkthrough of the entire system, see [END_TO_END
 - State schema with all 18+ fields and reducer annotations
 - Database schema (SQLite cache tables)
 - Performance metrics, security, and configuration guide
-- Full testing architecture (all 197 tests explained)
+- Full testing architecture (all 208 tests explained)
 
 ## References
 

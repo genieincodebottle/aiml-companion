@@ -1,4 +1,6 @@
-# Neo4j 5 Community, with the settings this project needs and nothing else.
+# Neo4j Community (calendar-versioned 2026.10), with the settings this project needs and nothing else.
+# Moving an existing 5.x volume up? `docker compose down -v` and re-run `python run.py ingest`:
+# the graph is rebuilt from data/ in a few minutes, so nothing is lost.
 #
 #   docker compose up -d      start
 #   docker compose down       stop  (data survives, it is in the named volume)
@@ -8,7 +10,7 @@
 # Bolt (what the driver connects to): bolt://localhost:7687
 services:
   neo4j:
-    image: neo4j:5.26-community
+    image: neo4j:2026.10-community
     container_name: graphrag-neo4j
     ports:
       - "7474:7474"   # HTTP  -> Neo4j Browser

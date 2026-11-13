@@ -186,7 +186,9 @@ export default function Layout({ children }) {
             SafeGuard AI
           </Typography>
         </Box>
-        <Typography variant="caption" color="text.secondary">
+        <Typography variant="caption" sx={{
+          color: "text.secondary"
+        }}>
           Content Moderation Platform
         </Typography>
       </Toolbar>
@@ -253,10 +255,18 @@ export default function Layout({ children }) {
       {/* Role Info at bottom */}
       <Box sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, p: 2 }}>
         <Divider sx={{ mb: 2 }} />
-        <Typography variant="caption" color="text.secondary" display="block" gutterBottom>
+        <Typography
+          variant="caption"
+          gutterBottom
+          sx={{
+            color: "text.secondary",
+            display: "block"
+          }}>
           Access Level:
         </Typography>
-        <Typography variant="body2" fontWeight="bold">
+        <Typography variant="body2" sx={{
+          fontWeight: "bold"
+        }}>
           {currentRole.label}
         </Typography>
       </Box>
@@ -326,7 +336,9 @@ export default function Layout({ children }) {
               </ListItemIcon>
               <Box>
                 <Typography variant="body2">{user?.full_name || user?.username}</Typography>
-                <Typography variant="caption" color="text.secondary">
+                <Typography variant="caption" sx={{
+                  color: "text.secondary"
+                }}>
                   {currentRole.label}
                 </Typography>
               </Box>

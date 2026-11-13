@@ -2,8 +2,8 @@
 
 [![CI](https://github.com/genieincodebottle/aiml-companion/actions/workflows/migration-engineer-ci.yml/badge.svg)](https://github.com/genieincodebottle/aiml-companion/actions/workflows/migration-engineer-ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Node 18+](https://img.shields.io/badge/node-18%2B-brightgreen.svg)](https://nodejs.org/)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
+[![Node 22.12+](https://img.shields.io/badge/node-22.12%2B-brightgreen.svg)](https://nodejs.org/)
 
 An agent that applies one code migration across many repositories. For each repository
 it edits the code, runs the tests, fixes what breaks and prepares a pull request, then
@@ -34,7 +34,7 @@ Stub results measure the harness, not a model.
 
 ## Prerequisites
 
-- Docker Desktop, **or** Python 3.10+, Node.js 18+ and [uv](https://docs.astral.sh/uv/getting-started/installation/).
+- Docker Desktop, **or** Python 3.12+, Node.js 22.12+ and [uv](https://docs.astral.sh/uv/getting-started/installation/).
 - No API key for the demo. Live modes are optional (see below).
 
 **Windows notes.**

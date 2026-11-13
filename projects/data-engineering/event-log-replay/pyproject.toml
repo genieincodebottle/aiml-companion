@@ -6,13 +6,13 @@ build-backend = "setuptools.build_meta"
 name = "event-log-replay"
 version = "1.0.0"
 description = "At-least-once delivery, idempotent sinks and a rewind-and-diff replay proof"
-requires-python = ">=3.10"
-dependencies = ["duckdb>=1.0", "PyYAML>=6.0"]
+requires-python = ">=3.12"
+dependencies = ["duckdb>=2.0", "PyYAML>=6.0"]
 
 [project.optional-dependencies]
-dev = ["pytest>=7.4"]
-notebook = ["pandas>=2.0", "jupyter>=1.0", "matplotlib>=3.7", "nbformat>=5.9"]
-kafka = ["confluent-kafka>=2.3"]
+dev = ["pytest>=9.2"]
+notebook = ["pandas>=3.1", "jupyter>=1.1", "matplotlib>=3.11", "nbformat>=5.11"]
+kafka = ["confluent-kafka>=2.16"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

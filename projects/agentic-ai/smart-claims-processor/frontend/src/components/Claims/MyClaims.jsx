@@ -84,8 +84,15 @@ export default function MyClaims() {
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography variant="h5" fontWeight={700} color="#F1F5F9">My Claims</Typography>
-          <Typography variant="body2" color="#94A3B8">Track your insurance claims and their status</Typography>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 700,
+              color: "#F1F5F9"
+            }}>My Claims</Typography>
+          <Typography variant="body2" sx={{
+            color: "#94A3B8"
+          }}>Track your insurance claims and their status</Typography>
         </Box>
         <Button startIcon={<Refresh />} onClick={fetchClaims} sx={{ color: '#94A3B8' }}>Refresh</Button>
       </Box>
@@ -98,10 +105,17 @@ export default function MyClaims() {
           { label: 'Under Review', value: claims.filter((c) => ['pending', 'processing', 'escalated_human_review'].includes(c.status)).length, color: '#F59E0B' },
           { label: 'Denied', value: claims.filter((c) => ['denied', 'auto_rejected'].includes(c.status)).length, color: '#EF4444' },
         ].map((stat) => (
-          <Grid item xs={6} md={3} key={stat.label}>
+          <Grid size={{ xs: 6, md: 3 }} key={stat.label}>
             <Paper sx={{ p: 2, bgcolor: '#1E293B', borderRadius: 2, border: '1px solid #334155', textAlign: 'center' }}>
-              <Typography variant="h4" fontWeight={700} sx={{ color: stat.color }}>{stat.value}</Typography>
-              <Typography variant="caption" color="#94A3B8">{stat.label}</Typography>
+              <Typography
+                variant="h4"
+                sx={{
+                  fontWeight: 700,
+                  color: stat.color
+                }}>{stat.value}</Typography>
+              <Typography variant="caption" sx={{
+                color: "#94A3B8"
+              }}>{stat.label}</Typography>
             </Paper>
           </Grid>
         ))}
@@ -114,8 +128,15 @@ export default function MyClaims() {
       ) : claims.length === 0 ? (
         <Paper sx={{ p: 6, bgcolor: '#1E293B', borderRadius: 3, textAlign: 'center', border: '1px solid #334155' }}>
           <Receipt sx={{ fontSize: 64, color: '#334155', mb: 2 }} />
-          <Typography variant="h6" color="#94A3B8">No claims yet</Typography>
-          <Typography variant="body2" color="#64748B" sx={{ mb: 2 }}>Submit your first insurance claim to get started</Typography>
+          <Typography variant="h6" sx={{
+            color: "#94A3B8"
+          }}>No claims yet</Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              color: "#64748B",
+              mb: 2
+            }}>Submit your first insurance claim to get started</Typography>
           <Button variant="contained" href="/submit-claim" sx={{ borderRadius: 2, background: 'linear-gradient(135deg, #2563EB, #1D4ED8)' }}>
             Submit a Claim
           </Button>
@@ -189,7 +210,9 @@ export default function MyClaims() {
 
       {/* Claim Detail Dialog */}
       <Dialog open={!!selected && !appealDialog} onClose={() => setSelected(null)} maxWidth="md" fullWidth
-        PaperProps={{ sx: { bgcolor: '#1E293B', border: '1px solid #334155' } }}>
+        slotProps={{
+          paper: { sx: { bgcolor: '#1E293B', border: '1px solid #334155' } }
+        }}>
         {selected && (
           <>
             <DialogTitle sx={{ color: '#F1F5F9' }}>
@@ -203,49 +226,111 @@ export default function MyClaims() {
                 </Alert>
               )}
               <Grid container spacing={2}>
-                <Grid item xs={6}><Typography variant="caption" color="#64748B">Policy</Typography><Typography color="#F1F5F9">{selected.policy_number}</Typography></Grid>
-                <Grid item xs={6}><Typography variant="caption" color="#64748B">Type</Typography><Typography color="#F1F5F9">{selected.incident_type?.replace('_', ' ')}</Typography></Grid>
-                <Grid item xs={4}><Typography variant="caption" color="#64748B">Claimed Amount</Typography><Typography color="#F1F5F9" fontWeight={600}>{fmt(selected.estimated_amount)}</Typography></Grid>
-                <Grid item xs={4}>
-                  <Typography variant="caption" color="#64748B">Assessed Damage</Typography>
-                  <Typography color="#F59E0B" fontWeight={600}>
+                <Grid size={6}><Typography variant="caption" sx={{
+                  color: "#64748B"
+                }}>Policy</Typography><Typography sx={{
+                  color: "#F1F5F9"
+                }}>{selected.policy_number}</Typography></Grid>
+                <Grid size={6}><Typography variant="caption" sx={{
+                  color: "#64748B"
+                }}>Type</Typography><Typography sx={{
+                  color: "#F1F5F9"
+                }}>{selected.incident_type?.replace('_', ' ')}</Typography></Grid>
+                <Grid size={4}><Typography variant="caption" sx={{
+                  color: "#64748B"
+                }}>Claimed Amount</Typography><Typography
+                  sx={{
+                    color: "#F1F5F9",
+                    fontWeight: 600
+                  }}>{fmt(selected.estimated_amount)}</Typography></Grid>
+                <Grid size={4}>
+                  <Typography variant="caption" sx={{
+                    color: "#64748B"
+                  }}>Assessed Damage</Typography>
+                  <Typography
+                    sx={{
+                      color: "#F59E0B",
+                      fontWeight: 600
+                    }}>
                     {selected.agent_outputs?.damage_output?.assessed_damage_usd != null
                       ? fmt(selected.agent_outputs.damage_output.assessed_damage_usd)
                       : '-'}
                   </Typography>
                   {selected.agent_outputs?.damage_output?.assessed_damage_usd != null &&
                     selected.agent_outputs.damage_output.assessed_damage_usd < selected.estimated_amount && (
-                    <Typography variant="caption" color="#94A3B8" sx={{ fontSize: '0.7rem' }}>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: "#94A3B8",
+                        fontSize: '0.7rem'
+                      }}>
                       Assessor valued lower than your estimate
                     </Typography>
                   )}
                 </Grid>
-                <Grid item xs={4}><Typography variant="caption" color="#64748B">Settlement</Typography><Typography color="#10B981" fontWeight={600}>{selected.settlement_amount != null ? fmt(selected.settlement_amount) : 'Pending'}</Typography></Grid>
-                <Grid item xs={12}><Typography variant="caption" color="#64748B">Description</Typography><Typography color="#94A3B8">{selected.incident_description}</Typography></Grid>
+                <Grid size={4}><Typography variant="caption" sx={{
+                  color: "#64748B"
+                }}>Settlement</Typography><Typography
+                  sx={{
+                    color: "#10B981",
+                    fontWeight: 600
+                  }}>{selected.settlement_amount != null ? fmt(selected.settlement_amount) : 'Pending'}</Typography></Grid>
+                <Grid size={12}><Typography variant="caption" sx={{
+                  color: "#64748B"
+                }}>Description</Typography><Typography sx={{
+                  color: "#94A3B8"
+                }}>{selected.incident_description}</Typography></Grid>
                 {selected.fraud_score != null && (
-                  <Grid item xs={6}><Typography variant="caption" color="#64748B">Fraud Score</Typography><Typography color={selected.fraud_score > 0.5 ? '#EF4444' : '#10B981'}>{(selected.fraud_score * 100).toFixed(0)}%</Typography></Grid>
+                  <Grid size={6}><Typography variant="caption" sx={{
+                    color: "#64748B"
+                  }}>Fraud Score</Typography><Typography color={selected.fraud_score > 0.5 ? '#EF4444' : '#10B981'}>{(selected.fraud_score * 100).toFixed(0)}%</Typography></Grid>
                 )}
                 {selected.evaluation_score != null && (
-                  <Grid item xs={6}><Typography variant="caption" color="#64748B">Quality Score</Typography><Typography color="#3B82F6">{(selected.evaluation_score * 100).toFixed(0)}%</Typography></Grid>
+                  <Grid size={6}><Typography variant="caption" sx={{
+                    color: "#64748B"
+                  }}>Quality Score</Typography><Typography sx={{
+                    color: "#3B82F6"
+                  }}>{(selected.evaluation_score * 100).toFixed(0)}%</Typography></Grid>
                 )}
                 {selected.denial_reasons?.length > 0 && (
-                  <Grid item xs={12}>
-                    <Typography variant="caption" color="#64748B">Denial Reasons</Typography>
+                  <Grid size={12}>
+                    <Typography variant="caption" sx={{
+                      color: "#64748B"
+                    }}>Denial Reasons</Typography>
                     {selected.denial_reasons.map((r, i) => (
-                      <Typography key={i} color="#EF4444" sx={{ fontSize: '0.9rem' }}>• {r}</Typography>
+                      <Typography
+                        key={i}
+                        sx={{
+                          color: "#EF4444",
+                          fontSize: '0.9rem'
+                        }}>• {r}</Typography>
                     ))}
                   </Grid>
                 )}
                 {selected.communication_message && (
-                  <Grid item xs={12}>
-                    <Typography variant="caption" color="#64748B">Decision Notice</Typography>
-                    <Typography color="#94A3B8" sx={{ whiteSpace: 'pre-line', fontSize: '0.9rem' }}>{selected.communication_message}</Typography>
+                  <Grid size={12}>
+                    <Typography variant="caption" sx={{
+                      color: "#64748B"
+                    }}>Decision Notice</Typography>
+                    <Typography
+                      sx={{
+                        color: "#94A3B8",
+                        whiteSpace: 'pre-line',
+                        fontSize: '0.9rem'
+                      }}>{selected.communication_message}</Typography>
                   </Grid>
                 )}
                 {selected.appeal_instructions && canAppeal(selected) && (
-                  <Grid item xs={12}>
-                    <Typography variant="caption" color="#64748B">Appeal Instructions</Typography>
-                    <Typography color="#F59E0B" sx={{ whiteSpace: 'pre-line', fontSize: '0.9rem' }}>{selected.appeal_instructions}</Typography>
+                  <Grid size={12}>
+                    <Typography variant="caption" sx={{
+                      color: "#64748B"
+                    }}>Appeal Instructions</Typography>
+                    <Typography
+                      sx={{
+                        color: "#F59E0B",
+                        whiteSpace: 'pre-line',
+                        fontSize: '0.9rem'
+                      }}>{selected.appeal_instructions}</Typography>
                   </Grid>
                 )}
               </Grid>
@@ -262,7 +347,9 @@ export default function MyClaims() {
 
       {/* Appeal Dialog */}
       <Dialog open={appealDialog} onClose={() => { setAppealDialog(false); setAppealReason(''); }} maxWidth="sm" fullWidth
-        PaperProps={{ sx: { bgcolor: '#1E293B', border: '1px solid #334155' } }}>
+        slotProps={{
+          paper: { sx: { bgcolor: '#1E293B', border: '1px solid #334155' } }
+        }}>
         <DialogTitle sx={{ color: '#F1F5F9' }}>Appeal Claim Decision</DialogTitle>
         <DialogContent>
           {selected && (
@@ -270,7 +357,12 @@ export default function MyClaims() {
               Appealing: {selected.claim_id} - Current decision: {STATUS_LABELS[selected.status] || selected.status}
             </Alert>
           )}
-          <Typography variant="body2" color="#94A3B8" sx={{ mb: 2 }}>
+          <Typography
+            variant="body2"
+            sx={{
+              color: "#94A3B8",
+              mb: 2
+            }}>
             Explain why you believe this decision should be reconsidered. Appeals are reviewed by a reviewer.
           </Typography>
           <textarea
@@ -282,7 +374,13 @@ export default function MyClaims() {
               background: '#0F172A', color: '#F1F5F9', border: '1px solid #334155', resize: 'vertical',
             }}
           />
-          <Typography variant="caption" color="#64748B" sx={{ mt: 1, display: 'block' }}>
+          <Typography
+            variant="caption"
+            sx={{
+              color: "#64748B",
+              mt: 1,
+              display: 'block'
+            }}>
             {appealReason.length}/2000 characters
           </Typography>
         </DialogContent>

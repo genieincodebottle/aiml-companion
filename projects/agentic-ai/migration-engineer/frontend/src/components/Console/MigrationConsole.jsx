@@ -82,14 +82,16 @@ export default function MigrationConsole() {
         </Alert>
       </Collapse>
 
-      <Grid container spacing={2} alignItems="flex-start">
+      <Grid container spacing={2} sx={{
+        alignItems: "flex-start"
+      }}>
         {/* Left: launcher */}
-        <Grid item xs={12} md={4} lg={3.5}>
+        <Grid size={{ xs: 12, md: 4, lg: 3.5 }}>
           <JobLauncher />
         </Grid>
 
         {/* Right: active run */}
-        <Grid item xs={12} md={8} lg={8.5}>
+        <Grid size={{ xs: 12, md: 8, lg: 8.5 }}>
           <Stack spacing={2}>
             {jobStatus && <ActiveRunHeader />}
 
@@ -99,7 +101,12 @@ export default function MigrationConsole() {
 
             {pendingList.length > 0 && (
               <Box>
-                <Typography variant="subtitle2" color="warning.main" sx={{ mb: 1 }}>
+                <Typography
+                  variant="subtitle2"
+                  sx={{
+                    color: "warning.main",
+                    mb: 1
+                  }}>
                   {pendingList.length} {pendingList.length === 1 ? 'repository is' : 'repositories are'}{' '}
                   awaiting your approval
                 </Typography>
@@ -112,7 +119,12 @@ export default function MigrationConsole() {
             )}
 
             <Box>
-              <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+              <Typography
+                variant="subtitle2"
+                sx={{
+                  color: "text.secondary",
+                  mb: 1
+                }}>
                 Fleet board
               </Typography>
               <FleetBoard repos={repoList} />

@@ -28,19 +28,34 @@ export default function UserAppeals() {
 
   return (
     <Box>
-      <Typography variant="h5" fontWeight={700} color="#F1F5F9" gutterBottom>
+      <Typography
+        variant="h5"
+        gutterBottom
+        sx={{
+          fontWeight: 700,
+          color: "#F1F5F9"
+        }}>
         <HowToVote sx={{ mr: 1, verticalAlign: 'middle', color: '#F59E0B' }} />
         My Appeals
       </Typography>
-      <Typography variant="body2" color="#94A3B8" sx={{ mb: 3 }}>Track appeals you have submitted against claim decisions</Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          color: "#94A3B8",
+          mb: 3
+        }}>Track appeals you have submitted against claim decisions</Typography>
 
       {loading ? (
         <Box sx={{ textAlign: 'center', py: 6 }}><CircularProgress /></Box>
       ) : appeals.length === 0 ? (
         <Paper sx={{ p: 6, bgcolor: '#1E293B', borderRadius: 3, textAlign: 'center', border: '1px solid #334155' }}>
           <HowToVote sx={{ fontSize: 64, color: '#334155', mb: 2 }} />
-          <Typography variant="h6" color="#94A3B8">No appeals yet</Typography>
-          <Typography variant="body2" color="#64748B">You can appeal denied or partially approved claims from the My Claims page</Typography>
+          <Typography variant="h6" sx={{
+            color: "#94A3B8"
+          }}>No appeals yet</Typography>
+          <Typography variant="body2" sx={{
+            color: "#64748B"
+          }}>You can appeal denied or partially approved claims from the My Claims page</Typography>
         </Paper>
       ) : (
         <TableContainer component={Paper} sx={{ bgcolor: '#1E293B', borderRadius: 3, border: '1px solid #334155' }}>
@@ -74,22 +89,38 @@ export default function UserAppeals() {
       )}
 
       <Dialog open={!!selected} onClose={() => setSelected(null)} maxWidth="sm" fullWidth
-        PaperProps={{ sx: { bgcolor: '#1E293B', border: '1px solid #334155' } }}>
+        slotProps={{
+          paper: { sx: { bgcolor: '#1E293B', border: '1px solid #334155' } }
+        }}>
         <DialogTitle sx={{ color: '#F1F5F9' }}>Appeal Details</DialogTitle>
         <DialogContent>
           {selected && (
             <>
               <Chip label={selected.status} color={STATUS_COLORS[selected.status]} sx={{ mb: 2 }} />
-              <Typography variant="subtitle2" color="#94A3B8" gutterBottom>Claim: {selected.claim_id}</Typography>
-              <Typography variant="subtitle2" color="#94A3B8" sx={{ mt: 2 }} gutterBottom>Your Appeal Reason:</Typography>
+              <Typography variant="subtitle2" gutterBottom sx={{
+                color: "#94A3B8"
+              }}>Claim: {selected.claim_id}</Typography>
+              <Typography
+                variant="subtitle2"
+                gutterBottom
+                sx={{
+                  color: "#94A3B8",
+                  mt: 2
+                }}>Your Appeal Reason:</Typography>
               <Paper sx={{ p: 2, bgcolor: '#0F172A', borderRadius: 2, mb: 2 }}>
-                <Typography variant="body2" color="#F1F5F9">{selected.reason}</Typography>
+                <Typography variant="body2" sx={{
+                  color: "#F1F5F9"
+                }}>{selected.reason}</Typography>
               </Paper>
               {selected.review_notes && (
                 <>
-                  <Typography variant="subtitle2" color="#94A3B8" gutterBottom>Reviewer Notes:</Typography>
+                  <Typography variant="subtitle2" gutterBottom sx={{
+                    color: "#94A3B8"
+                  }}>Reviewer Notes:</Typography>
                   <Paper sx={{ p: 2, bgcolor: '#0F172A', borderRadius: 2 }}>
-                    <Typography variant="body2" color="#94A3B8">{selected.review_notes}</Typography>
+                    <Typography variant="body2" sx={{
+                      color: "#94A3B8"
+                    }}>{selected.review_notes}</Typography>
                   </Paper>
                 </>
               )}

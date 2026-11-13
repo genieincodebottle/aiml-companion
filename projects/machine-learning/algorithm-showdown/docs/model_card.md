@@ -3,24 +3,24 @@
 ## Model Details
 
 ### Overview
-- **Model name:** Breast Cancer Diagnostic Classifier (XGBoost, threshold-tuned)
-- **Model version:** 1.0
-- **Model type:** Gradient-boosted decision tree (XGBClassifier) wrapped in a scikit-learn Pipeline with StandardScaler preprocessing
-- **Framework:** scikit-learn 1.4+, XGBoost 2.0+
+- **Model name:** Breast Cancer Diagnostic Classifier (Logistic Regression, threshold-tuned)
+- **Model version:** 1.1
+- **Model type:** Logistic regression (`LogisticRegression`) wrapped in a scikit-learn Pipeline with StandardScaler preprocessing. It is the model `src/train.py` carries forward because it has the highest cross-validated AUC of the six candidates (0.9953).
+- **Framework:** scikit-learn 1.9+ (XGBoost 3.4+ is needed only for the comparison and the SHAP step)
 - **License:** MIT
 - **Contact:** Project maintainer via repository issues
 
 ### Training Algorithm
-XGBoost with the following hyperparameters:
-- `n_estimators`: 200
-- `learning_rate`: 0.1
-- `max_depth`: 4
-- `eval_metric`: logloss
+Logistic regression with the following hyperparameters:
+- `max_iter`: 1000
 - `random_state`: 42
+- default L2 penalty, `C=1.0`, on StandardScaler-scaled features
 
-The decision threshold was tuned from the default 0.5 to achieve ~95% recall on the malignant class, prioritizing sensitivity for cancer screening. The exact threshold is computed dynamically from the precision-recall curve and varies by library version (typically 0.1-0.5).
+The model is not hardcoded. `select_best()` in `src/train.py` picks it from the six-algorithm comparison by cross-validated ROC AUC; if the comparison changes, so does the selected model.
 
-> **Note on reproducibility:** Exact metric values depend on scikit-learn and XGBoost versions. The numbers below were produced with scikit-learn 1.4.0 and XGBoost 2.1.4. Your results may differ slightly, but the relative ranking and patterns should be consistent.
+The decision threshold was moved from the default 0.5 to the value that reaches ~95% recall on the malignant class **on a validation split**, prioritizing sensitivity for cancer screening. On the default seed (42) the tuned threshold on P(malignant) is **0.759**. That threshold gives validation recall 0.952 but **test recall 0.860** (37 of 43 malignant test cases caught, 6 missed), so the 95% target is **not** met on held-out data.
+
+> **Note on reproducibility:** Exact metric values depend on scikit-learn and XGBoost versions. The numbers below were re-measured with scikit-learn 1.9.1, XGBoost 3.4.1 and SHAP 0.54.1 (seed 42). Your results may differ slightly, but the relative ranking and patterns should be consistent.
 
 ## Intended Use
 
@@ -47,11 +47,12 @@ The decision threshold was tuned from the default 0.5 to achieve ~95% recall on 
 - StandardScaler normalization (zero mean, unit variance)
 - No feature selection or engineering applied
 - No missing values in the dataset
-- Stratified train/test split (80/20) preserving class proportions
+- Stratified three-way split (60/20/20) preserving class proportions, defined once in `make_splits()` and shared by `train.py` and `evaluate.py`: train 341, validation 114, test 114
 
 ## Evaluation Data
-- **Test set:** 20% stratified holdout (114 samples)
-- **Cross-validation:** StratifiedKFold with k=5, shuffle=True, random_state=42
+- **Test set:** 20% stratified holdout (114 samples: 43 malignant, 71 benign), used by neither model fitting nor threshold tuning
+- **Validation set:** 20% stratified (114 samples), used only to choose the threshold
+- **Cross-validation (algorithm comparison):** StratifiedKFold with k=5, shuffle=True, random_state=42, on all 569 samples
 
 ## Metrics
 
@@ -64,30 +65,33 @@ The decision threshold was tuned from the default 0.5 to achieve ~95% recall on 
 | KNN (k=5)           | 0.963    | 0.957     | 0.986  | 0.971 | 0.985 |
 | Decision Tree       | 0.928    | 0.932     | 0.958  | 0.944 | 0.907 |
 | Random Forest       | 0.954    | 0.962     | 0.966  | 0.964 | 0.990 |
-| XGBoost             | 0.961    | 0.968     | 0.972  | 0.969 | 0.994 |
+| XGBoost             | 0.963    | 0.963     | 0.980  | 0.971 | 0.994 |
 
-All algorithms achieve >92% accuracy. SVM and Logistic Regression typically lead on most metrics, with XGBoost competitive on AUC. Decision Tree is consistently the weakest.
+All algorithms achieve >92% accuracy. SVM takes accuracy, precision and F1; Logistic Regression takes recall and AUC. By accuracy XGBoost ties KNN for third of six (SVM 0.977, LR 0.974, KNN 0.963, XGBoost 0.963, RF 0.954, DT 0.928). Decision Tree is consistently the weakest.
 
-### Threshold-Tuned Performance (XGBoost)
+### Threshold-Tuned Performance (Logistic Regression)
 
-The threshold is computed dynamically from the precision-recall curve to achieve the target recall:
+The threshold is chosen on the validation split from the precision-recall curve (the point closest to the target recall) and then reported on the untouched test split (43 malignant cases):
 
-| Target Malignant Recall | Threshold (on P(malignant)) | Precision |
-|-------------------------|----------------------------|-----------|
-| 100%                    | ~0.00                      | ~0.37     |
-| 95%                     | ~0.18                      | ~0.85     |
-| 90%                     | ~0.28                      | ~0.90     |
-| 85%                     | ~0.97                      | ~1.00     |
+| Target malignant recall | Threshold (on P(malignant)) | Validation recall / precision | **Test recall** / precision | Missed on test |
+|---|---|---|---|---|
+| 100% | 0.000 | 1.000 / 0.368 | 1.000 / 0.381 | 0 of 43 |
+| 95% (shipped) | 0.759 | 0.952 / 1.000 | **0.860** / 1.000 | 6 of 43 |
+| 90% | 0.922 | 0.905 / 1.000 | 0.814 / 1.000 | 8 of 43 |
+| 85% | 0.971 | 0.857 / 1.000 | 0.767 / 1.000 | 10 of 43 |
+| 80% | 0.994 | 0.810 / 1.000 | 0.674 / 1.000 | 14 of 43 |
+
+For comparison, the untuned 0.5 threshold on the same test split catches 42 of 43 malignant cases (recall 0.977, precision 0.977, accuracy 0.991). The tuned 0.759 threshold has test accuracy 0.947 and test AUC 0.997 (AUC does not depend on the threshold). On 43 malignant cases one case is about 2.3 recall points, so these test-recall figures carry a spread of several points.
 
 ### Selection Rationale
-XGBoost was selected as the production model for its balance of high AUC (~0.994), strong recall (~0.97), and compatibility with SHAP TreeExplainer for interpretability. For cancer screening, the threshold is lowered to achieve ~95% malignant recall, accepting a modest decrease in precision.
+Logistic Regression was selected by `select_best()` because it has the highest cross-validated ROC AUC (0.9953, with SVM at 0.995 and XGBoost at 0.994 within noise) and the highest recall (0.992). AUC is the selection metric because no threshold has been chosen yet at that stage. For cancer screening, the threshold is then raised on P(malignant) to the value that reaches ~95% malignant recall on the validation split. That target is **not** reproduced on the test split (recall 0.860), which is the finding to carry forward: the screening threshold as shipped does not meet its stated recall.
 
 ## Explainability
 
 ### Method
-SHAP (SHapley Additive exPlanations) using TreeExplainer for the XGBoost model.
+SHAP (SHapley Additive exPlanations) using TreeExplainer. `src/explain.py` trains its **own XGBoost model** on a separate 80/20 split (test accuracy 0.9474) and explains that model. It does **not** explain the shipped logistic-regression pipeline, so these rankings describe how a gradient-boosted model uses the features on this dataset, not the selected model's coefficients.
 
-### Top 5 Global Features (by mean |SHAP value|)
+### Top 5 Global Features (by mean |SHAP value|, XGBoost)
 1. **worst perimeter** (1.29) - boundary length of the worst-case nucleus
 2. **area error** (0.89) - variability in nucleus area measurements
 3. **worst texture** (0.87) - texture of the worst-case nucleus
@@ -107,7 +111,7 @@ All top features are clinically meaningful morphological measurements. No ID-lik
 - No personally identifiable information (PII) is present.
 
 ### Clinical Risk
-- **False negatives** (missed malignant tumors) carry severe consequences. The threshold was tuned to minimize this risk at the expense of more false positives.
+- **False negatives** (missed malignant tumors) carry severe consequences. The threshold was tuned to minimize this risk, but held-out recall is 0.860 against the 0.95 target (6 of 43 malignant test cases missed), so the risk is reduced but not controlled to the stated level.
 - **False positives** result in unnecessary follow-up procedures (e.g., additional imaging, biopsies), causing patient anxiety and healthcare costs but are clinically preferable to missed diagnoses.
 
 ## Limitations
@@ -117,6 +121,8 @@ All top features are clinically meaningful morphological measurements. No ID-lik
 - **No temporal validation:** All data comes from a single source and time period. Model performance may degrade with distributional shift.
 - **Feature extraction assumed:** The model operates on pre-computed cell nucleus features, not raw medical images. A production system would need an upstream image processing pipeline.
 - **No calibration analysis:** Predicted probabilities have not been validated for calibration. Rank ordering (AUC) is reliable, but absolute probability values may be miscalibrated.
+- **Recall target not met on held-out data:** the validation-tuned threshold reaches 0.952 on validation but 0.860 on test. With about 43 malignant cases in a test split, the estimate moves by about 2.3 points per case, and no tuning method on this dataset size can pin it tighter.
+- **Explanations are for a different model:** the SHAP step explains a separately trained XGBoost, not the selected logistic regression.
 - **Version sensitivity:** Exact metrics vary by scikit-learn/XGBoost version. The ranking of algorithms and general patterns are stable, but absolute numbers should not be treated as fixed benchmarks.
 
 ## Recommendations

@@ -2,9 +2,9 @@
 
 > **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/module/dataEngineering/deStarSchemaProject)**. Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![dbt](https://img.shields.io/badge/dbt-1.10+-orange)
-![DuckDB](https://img.shields.io/badge/DuckDB-1.0+-yellow)
+![Python](https://img.shields.io/badge/Python-3.12+-blue)
+![dbt](https://img.shields.io/badge/dbt-1.12+-orange)
+![DuckDB](https://img.shields.io/badge/DuckDB-2.0+-yellow)
 ![Tests](https://img.shields.io/badge/tests-75%20passing-brightgreen)
 
 **Most of the work in a star schema is decisions, not SQL. A test is worth what it catches when the model breaks.**
@@ -249,7 +249,7 @@ source .venv/bin/activate      # Linux / macOS
 uv pip install -r requirements.txt
 ```
 
-Plain `pip install -r requirements.txt` works the same. Python 3.10 or newer. No cloud account and no API key are needed, and nothing makes a network call when you run it.
+Plain `pip install -r requirements.txt` works the same. Python 3.12 or newer. No cloud account and no API key are needed, and nothing makes a network call when you run it.
 
 ### Run the story end to end
 

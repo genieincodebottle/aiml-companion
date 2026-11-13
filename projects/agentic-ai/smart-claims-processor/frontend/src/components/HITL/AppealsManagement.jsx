@@ -55,11 +55,18 @@ export default function AppealsManagement() {
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography variant="h5" fontWeight={700} color="#F1F5F9">
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 700,
+              color: "#F1F5F9"
+            }}>
             <Gavel sx={{ mr: 1, verticalAlign: 'middle', color: '#9C27B0' }} />
             Appeals Review
           </Typography>
-          <Typography variant="body2" color="#94A3B8">Review claimant appeals against claim decisions</Typography>
+          <Typography variant="body2" sx={{
+            color: "#94A3B8"
+          }}>Review claimant appeals against claim decisions</Typography>
         </Box>
         <Button startIcon={<Refresh />} onClick={fetchAppeals} sx={{ color: '#94A3B8' }}>Refresh</Button>
       </Box>
@@ -72,10 +79,17 @@ export default function AppealsManagement() {
           { label: 'Upheld', value: stats.upheld, color: '#EF4444' },
           { label: 'Overturned', value: stats.overturned, color: '#10B981' },
         ].map((s) => (
-          <Grid item xs={6} md={3} key={s.label}>
+          <Grid size={{ xs: 6, md: 3 }} key={s.label}>
             <Paper sx={{ p: 2, bgcolor: '#1E293B', borderRadius: 2, border: '1px solid #334155', textAlign: 'center' }}>
-              <Typography variant="h4" fontWeight={700} sx={{ color: s.color }}>{s.value}</Typography>
-              <Typography variant="caption" color="#94A3B8">{s.label}</Typography>
+              <Typography
+                variant="h4"
+                sx={{
+                  fontWeight: 700,
+                  color: s.color
+                }}>{s.value}</Typography>
+              <Typography variant="caption" sx={{
+                color: "#94A3B8"
+              }}>{s.label}</Typography>
             </Paper>
           </Grid>
         ))}
@@ -134,7 +148,9 @@ export default function AppealsManagement() {
 
       {/* Review Dialog */}
       <Dialog open={!!selected} onClose={() => setSelected(null)} maxWidth="sm" fullWidth
-        PaperProps={{ sx: { bgcolor: '#1E293B', border: '1px solid #334155' } }}>
+        slotProps={{
+          paper: { sx: { bgcolor: '#1E293B', border: '1px solid #334155' } }
+        }}>
         <DialogTitle sx={{ color: '#F1F5F9' }}>
           {selected?.status === 'pending' ? 'Review Appeal' : 'Appeal Details'}
         </DialogTitle>
@@ -142,18 +158,34 @@ export default function AppealsManagement() {
           {selected && (
             <>
               <Alert severity="info" sx={{ mb: 2 }}>Claim: {selected.claim_id}</Alert>
-              <Typography variant="subtitle2" color="#94A3B8" gutterBottom>Appeal Reason:</Typography>
+              <Typography variant="subtitle2" gutterBottom sx={{
+                color: "#94A3B8"
+              }}>Appeal Reason:</Typography>
               <Paper sx={{ p: 2, mb: 2, bgcolor: '#0F172A', borderRadius: 2 }}>
-                <Typography variant="body2" color="#F1F5F9">{selected.reason}</Typography>
+                <Typography variant="body2" sx={{
+                  color: "#F1F5F9"
+                }}>{selected.reason}</Typography>
               </Paper>
 
               {selected.status === 'pending' ? (
                 <>
-                  <Typography variant="subtitle2" color="#F1F5F9" fontWeight={600} gutterBottom>Your Decision</Typography>
+                  <Typography
+                    variant="subtitle2"
+                    gutterBottom
+                    sx={{
+                      color: "#F1F5F9",
+                      fontWeight: 600
+                    }}>Your Decision</Typography>
                   <RadioGroup value={decision} onChange={(e) => setDecision(e.target.value)}>
-                    <FormControlLabel value="upheld" control={<Radio />} label={<Typography color="#F1F5F9">Uphold Original Decision</Typography>} />
-                    <FormControlLabel value="overturned" control={<Radio />} label={<Typography color="#F1F5F9">Overturn - Claimant is Right</Typography>} />
-                    <FormControlLabel value="partial" control={<Radio />} label={<Typography color="#F1F5F9">Partial - Modify Settlement</Typography>} />
+                    <FormControlLabel value="upheld" control={<Radio />} label={<Typography sx={{
+                      color: "#F1F5F9"
+                    }}>Uphold Original Decision</Typography>} />
+                    <FormControlLabel value="overturned" control={<Radio />} label={<Typography sx={{
+                      color: "#F1F5F9"
+                    }}>Overturn - Claimant is Right</Typography>} />
+                    <FormControlLabel value="partial" control={<Radio />} label={<Typography sx={{
+                      color: "#F1F5F9"
+                    }}>Partial - Modify Settlement</Typography>} />
                   </RadioGroup>
                   {decision === 'overturned' && (
                     <Alert severity="warning" sx={{ my: 1 }}>Overturning this decision will be recorded in the audit trail.</Alert>
@@ -165,11 +197,15 @@ export default function AppealsManagement() {
                 </>
               ) : (
                 <>
-                  <Typography variant="subtitle2" color="#94A3B8" gutterBottom>Review Decision:</Typography>
+                  <Typography variant="subtitle2" gutterBottom sx={{
+                    color: "#94A3B8"
+                  }}>Review Decision:</Typography>
                   <Chip label={selected.status} color={STATUS_COLORS[selected.status]} sx={{ mb: 1 }} />
                   {selected.review_notes && (
                     <Paper sx={{ p: 2, bgcolor: '#0F172A', borderRadius: 2 }}>
-                      <Typography variant="body2" color="#94A3B8">{selected.review_notes}</Typography>
+                      <Typography variant="body2" sx={{
+                        color: "#94A3B8"
+                      }}>{selected.review_notes}</Typography>
                     </Paper>
                   )}
                 </>

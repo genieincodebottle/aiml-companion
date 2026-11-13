@@ -31,7 +31,9 @@ const ModerationProcessWidget = () => {
   return (
     <Card elevation={2}>
       <CardContent>
-        <Typography variant="h5" component="h2" fontWeight="bold" gutterBottom>
+        <Typography variant="h5" component="h2" gutterBottom sx={{
+          fontWeight: "bold"
+        }}>
           How Moderation Works
         </Typography>
         <Divider sx={{ mb: 3 }} />

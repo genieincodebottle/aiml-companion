@@ -2,8 +2,8 @@
 
 > **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/module/dataEngineering/dataEngCapstone)**. Interactive learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![DuckDB](https://img.shields.io/badge/DuckDB-1.x-yellow)
+![Python](https://img.shields.io/badge/Python-3.12+-blue)
+![DuckDB](https://img.shields.io/badge/DuckDB-2.x-yellow)
 ![Parquet](https://img.shields.io/badge/Parquet-pyarrow-orange)
 ![Tests](https://img.shields.io/badge/tests-56%20passing-brightgreen)
 
@@ -362,7 +362,7 @@ source .venv/bin/activate      # Linux / macOS
 uv pip install -r requirements.txt
 ```
 
-Plain `pip install -r requirements.txt` works the same. Python 3.10 or newer. Nothing needs a cloud account or an API key.
+Plain `pip install -r requirements.txt` works the same. Python 3.12 or newer. Nothing needs a cloud account or an API key.
 
 ### Run the story end to end
 

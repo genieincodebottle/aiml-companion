@@ -212,15 +212,19 @@ const CommunityDashboard = () => {
     <Container maxWidth="xl" sx={{ py: 4 }}>
       <Grid container spacing={3}>
         {/* Main Content - Left Side */}
-        <Grid item xs={12} lg={8}>
+        <Grid size={{ xs: 12, lg: 8 }}>
           {/* Header Section */}
           <Box sx={{ mb: 4 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
               <Box>
-                <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
+                <Typography variant="h4" component="h1" gutterBottom sx={{
+                  fontWeight: "bold"
+                }}>
                   Community Stories
                 </Typography>
-                <Typography variant="body1" color="text.secondary">
+                <Typography variant="body1" sx={{
+                  color: "text.secondary"
+                }}>
                   Share your experiences and connect with the community
                 </Typography>
               </Box>
@@ -284,7 +288,9 @@ const CommunityDashboard = () => {
 
       {/* Stories Grid Section */}
       <Box>
-        <Typography variant="h5" fontWeight="bold" gutterBottom>
+        <Typography variant="h5" gutterBottom sx={{
+          fontWeight: "bold"
+        }}>
           {tabValue === 0 && 'All Stories'}
           {tabValue === 1 && 'Trending Stories'}
           {tabValue === 2 && 'New Stories'}
@@ -316,7 +322,7 @@ const CommunityDashboard = () => {
         </Grid>
 
         {/* Sidebar - Right Side */}
-        <Grid item xs={12} lg={4}>
+        <Grid size={{ xs: 12, lg: 4 }}>
           <Box sx={{ position: { lg: 'sticky' }, top: { lg: 100 } }}>
             {/* User Stats Widget */}
             <Box sx={{ mb: 3 }}>
@@ -350,8 +356,10 @@ const CommunityDashboard = () => {
             value={newStory.title}
             onChange={(e) => setNewStory({ ...newStory, title: e.target.value })}
             sx={{ mb: 3 }}
-            inputProps={{ maxLength: 200 }}
             helperText={`${newStory.title.length}/200 characters`}
+            slotProps={{
+              htmlInput: { maxLength: 200 }
+            }}
           />
           <TextField
             fullWidth
@@ -361,8 +369,10 @@ const CommunityDashboard = () => {
             placeholder="Share your experience, thoughts, or insights with the community..."
             value={newStory.content}
             onChange={(e) => setNewStory({ ...newStory, content: e.target.value })}
-            inputProps={{ maxLength: 5000 }}
             helperText={`${newStory.content.length}/5000 characters`}
+            slotProps={{
+              htmlInput: { maxLength: 5000 }
+            }}
           />
           <Alert severity="info" sx={{ mt: 2 }}>
             Your story will be reviewed by our AI moderation system. Stories that follow community guidelines will be published immediately.

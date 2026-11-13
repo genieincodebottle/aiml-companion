@@ -128,7 +128,9 @@ class LiveClient:
     def __init__(self) -> None:
         from google import genai  # imported lazily so replay mode needs no SDK
 
-        self._client = genai.Client(api_key=API_KEY)
+        # v1beta, pinned: google-genai 3.x defaults to the v1 API, which does not
+        # serve preview models, and the orchestrator runs on gemini-3.1-pro-preview.
+        self._client = genai.Client(api_key=API_KEY, http_options={"api_version": "v1beta"})
 
     async def complete(
         self, prompt: Prompt, *, model: str, facts: dict[str, Any], cache_on: bool

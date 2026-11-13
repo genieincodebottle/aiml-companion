@@ -124,7 +124,7 @@ class Settings:
     gemini_api_key: str = field(
         default_factory=lambda: os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY", "")
     )
-    gemini_model: str = field(default_factory=lambda: os.getenv("ME_GEMINI_MODEL", "gemini-2.5-flash"))
+    gemini_model: str = field(default_factory=lambda: os.getenv("ME_GEMINI_MODEL", "gemini-3.6-flash"))
     # Force the offline deterministic worker even when a key + SDK are present
     # (used by CI and the test suite so runs are reproducible and free).
     force_stub: bool = field(default_factory=lambda: _get_bool("ME_FORCE_STUB", False))

@@ -13,7 +13,7 @@ services:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
       - GEMINI_API_KEY=${GEMINI_API_KEY:-}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
-      - ME_GEMINI_MODEL=${ME_GEMINI_MODEL:-gemini-2.5-flash}
+      - ME_GEMINI_MODEL=${ME_GEMINI_MODEL:-gemini-3.6-flash}
       - GITHUB_TOKEN=${GITHUB_TOKEN:-}
       - ME_TARGET_REPOS=${ME_TARGET_REPOS:-}
       - ME_TARGET_RULE=${ME_TARGET_RULE:-modernize-datetime}

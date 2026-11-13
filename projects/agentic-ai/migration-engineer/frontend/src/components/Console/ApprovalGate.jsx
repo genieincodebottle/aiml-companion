@@ -73,7 +73,13 @@ export default function ApprovalGate({ repoId, payload }) {
               mb: 1.5,
             }}
           >
-            <Typography variant="caption" color="text.secondary" display="block">
+            <Typography
+              variant="caption"
+              sx={{
+                color: 'text.secondary',
+                display: 'block',
+              }}
+            >
               Agent summary
             </Typography>
             <Typography variant="body2">{payload.summary}</Typography>
@@ -82,7 +88,14 @@ export default function ApprovalGate({ repoId, payload }) {
 
         {files.length > 0 && (
           <Box sx={{ mb: 1.5 }}>
-            <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 0.5 }}>
+            <Typography
+              variant="caption"
+              sx={{
+                color: 'text.secondary',
+                display: 'block',
+                mb: 0.5,
+              }}
+            >
               Files changed ({files.length})
             </Typography>
             <Stack spacing={0.5}>
@@ -103,7 +116,14 @@ export default function ApprovalGate({ repoId, payload }) {
 
         {payload.diff && (
           <Box sx={{ mb: 1.5 }}>
-            <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 0.5 }}>
+            <Typography
+              variant="caption"
+              sx={{
+                color: 'text.secondary',
+                display: 'block',
+                mb: 0.5,
+              }}
+            >
               Proposed diff
             </Typography>
             <DiffView diff={payload.diff} />
@@ -148,7 +168,14 @@ export default function ApprovalGate({ repoId, payload }) {
         </Stack>
 
         <Collapse in={busy}>
-          <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
+          <Typography
+            variant="caption"
+            sx={{
+              color: 'text.secondary',
+              mt: 1,
+              display: 'block',
+            }}
+          >
             Submitting decision to the migration run...
           </Typography>
         </Collapse>

@@ -5,20 +5,24 @@ import { Search as SearchIcon, FilterList as FilterIcon } from '@mui/icons-mater
 const SearchBar = ({ value, onChange, onFilterClick, placeholder = 'Search...' }) => {
   return (
     <Paper elevation={1} sx={{ p: 2 }}>
-      <Stack direction="row" spacing={2} alignItems="center">
+      <Stack direction="row" spacing={2} sx={{
+        alignItems: "center"
+      }}>
         <TextField
           fullWidth
           placeholder={placeholder}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
           sx={{ flex: 1 }}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }
+          }}
         />
         {onFilterClick && (
           <IconButton onClick={onFilterClick}>

@@ -238,12 +238,14 @@ export default function Dashboard() {
             onChange={(e) => setSearchQuery(e.target.value)}
             size="small"
             sx={{ flexGrow: 1, maxWidth: 500 }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+              }
             }}
           />
           <Button variant="outlined" startIcon={<Refresh />} onClick={fetchData}>
@@ -253,47 +255,61 @@ export default function Dashboard() {
 
         {/* Metrics Cards */}
         <Grid container spacing={3} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card>
               <CardContent>
-                <Typography color="text.secondary" gutterBottom variant="body2">
+                <Typography gutterBottom variant="body2" sx={{
+                  color: "text.secondary"
+                }}>
                   Total Content
                 </Typography>
                 <Typography variant="h4">{metrics?.total_content || pendingContent.length}</Typography>
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card sx={{ borderLeft: 4, borderColor: 'warning.main' }}>
               <CardContent>
-                <Typography color="text.secondary" gutterBottom variant="body2">
+                <Typography gutterBottom variant="body2" sx={{
+                  color: "text.secondary"
+                }}>
                   Needs Review
                 </Typography>
-                <Typography variant="h4" color="warning.main">
+                <Typography variant="h4" sx={{
+                  color: "warning.main"
+                }}>
                   {needsReviewCount}
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card sx={{ borderLeft: 4, borderColor: 'success.main' }}>
               <CardContent>
-                <Typography color="text.secondary" gutterBottom variant="body2">
+                <Typography gutterBottom variant="body2" sx={{
+                  color: "text.secondary"
+                }}>
                   Approved
                 </Typography>
-                <Typography variant="h4" color="success.main">
+                <Typography variant="h4" sx={{
+                  color: "success.main"
+                }}>
                   {metrics?.approved_content || pendingContent.filter(c => c.status === 'approved').length}
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card sx={{ borderLeft: 4, borderColor: 'error.main' }}>
               <CardContent>
-                <Typography color="text.secondary" gutterBottom variant="body2">
+                <Typography gutterBottom variant="body2" sx={{
+                  color: "text.secondary"
+                }}>
                   Removed
                 </Typography>
-                <Typography variant="h4" color="error.main">
+                <Typography variant="h4" sx={{
+                  color: "error.main"
+                }}>
                   {metrics?.removed_content || pendingContent.filter(c => c.status === 'removed').length}
                 </Typography>
               </CardContent>
@@ -354,7 +370,11 @@ export default function Dashboard() {
               {filteredContent.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={8} align="center">
-                    <Typography color="text.secondary" sx={{ py: 3 }}>
+                    <Typography
+                      sx={{
+                        color: "text.secondary",
+                        py: 3
+                      }}>
                       No content found
                     </Typography>
                   </TableCell>
@@ -416,7 +436,9 @@ export default function Dashboard() {
                             </Typography>
                           </Box>
                         ) : (
-                          <Typography variant="caption" color="text.secondary">-</Typography>
+                          <Typography variant="caption" sx={{
+                            color: "text.secondary"
+                          }}>-</Typography>
                         )}
                       </TableCell>
                       <TableCell>

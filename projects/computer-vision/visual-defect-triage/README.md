@@ -2,8 +2,8 @@
 
 > **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/module/computerVision/cvVitCapstone)**. Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![NumPy](https://img.shields.io/badge/NumPy-1.26-orange)
+![Python](https://img.shields.io/badge/Python-3.12+-blue)
+![NumPy](https://img.shields.io/badge/NumPy-2.5-orange)
 ![Tests](https://img.shields.io/badge/tests-29%20passing-brightgreen)
 
 **Accuracy tells you how often the model is right. It tells you nothing about
@@ -89,7 +89,7 @@ source .venv/bin/activate      # Linux / macOS
 uv pip install -r requirements.txt
 ```
 
-Plain `pip install -r requirements.txt` works identically. Python 3.10+.
+Plain `pip install -r requirements.txt` works identically. Python 3.12+.
 
 **That install is small and CPU only.** Torch, timm and FAISS are deliberately
 not in it, because the demo runs on synthetic embeddings and never loads a

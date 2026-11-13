@@ -1,6 +1,6 @@
 -r requirements.txt
-pytest>=8.0.0
-pytest-cov>=5.0.0
-ruff>=0.4.0
-bedrock-agentcore>=1.4.0
-bedrock-agentcore-starter-toolkit>=0.1.0
+pytest>=9.2
+pytest-cov>=7.1
+ruff>=0.17
+bedrock-agentcore>=1.26
+bedrock-agentcore-starter-toolkit>=0.3

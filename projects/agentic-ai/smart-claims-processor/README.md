@@ -70,8 +70,8 @@ A production-style **multi-agent insurance claims system** built with **LangGrap
 
 ## Prerequisites
 
-- **Python 3.11+**
-- **Node.js 18+** (for the frontend)
+- **Python 3.12+**
+- **Node.js 22.12+** (for the frontend)
 - **[uv](https://docs.astral.sh/uv/)** - modern Python env + package manager. Install once:
   ```bash
   pip install uv                   # easiest if you already have Python

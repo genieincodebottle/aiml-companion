@@ -71,8 +71,18 @@ export default function Login() {
         {/* Header */}
         <Box sx={{ textAlign: 'center', mb: 3 }}>
           <AccountBalance sx={{ fontSize: 48, color: '#3B82F6', mb: 1 }} />
-          <Typography variant="h5" fontWeight={700} color="#F1F5F9">Smart Claims Processor</Typography>
-          <Typography variant="body2" color="#94A3B8" sx={{ mt: 0.5 }}>AI-Powered Insurance Claims Processing</Typography>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 700,
+              color: "#F1F5F9"
+            }}>Smart Claims Processor</Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              color: "#94A3B8",
+              mt: 0.5
+            }}>AI-Powered Insurance Claims Processing</Typography>
         </Box>
 
         {/* Tabs */}
@@ -88,29 +98,35 @@ export default function Login() {
             fullWidth label="Username" value={username}
             onChange={(e) => setUsername(e.target.value)}
             sx={fieldSx}
-            InputProps={{ startAdornment: <InputAdornment position="start"><Person sx={{ color: '#64748B' }} /></InputAdornment> }}
+            slotProps={{
+              input: { startAdornment: <InputAdornment position="start"><Person sx={{ color: '#64748B' }} /></InputAdornment> }
+            }}
           />
           {tab === 1 && (
             <TextField
               fullWidth label="Email" type="email" value={email}
               onChange={(e) => setEmail(e.target.value)}
               sx={fieldSx}
-              InputProps={{ startAdornment: <InputAdornment position="start"><Email sx={{ color: '#64748B' }} /></InputAdornment> }}
+              slotProps={{
+                input: { startAdornment: <InputAdornment position="start"><Email sx={{ color: '#64748B' }} /></InputAdornment> }
+              }}
             />
           )}
           <TextField
             fullWidth label="Password" type={showPassword ? 'text' : 'password'}
             value={password} onChange={(e) => setPassword(e.target.value)}
             sx={fieldSx}
-            InputProps={{
-              startAdornment: <InputAdornment position="start"><Lock sx={{ color: '#64748B' }} /></InputAdornment>,
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" sx={{ color: '#64748B' }}>
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
+            slotProps={{
+              input: {
+                startAdornment: <InputAdornment position="start"><Lock sx={{ color: '#64748B' }} /></InputAdornment>,
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" sx={{ color: '#64748B' }}>
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }
             }}
           />
           {tab === 1 && (
@@ -118,7 +134,9 @@ export default function Login() {
               fullWidth select label="Role" value={role}
               onChange={(e) => setRole(e.target.value)}
               sx={fieldSx}
-              SelectProps={{ native: true }}
+              slotProps={{
+                select: { native: true }
+              }}
             >
               <option value="user">Claimant (user)</option>
               <option value="reviewer">Reviewer (HITL approver)</option>

@@ -2,7 +2,7 @@
 
 > **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)**. Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![Python](https://img.shields.io/badge/Python-3.12+-blue)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3+-orange)
 ![Tests](https://img.shields.io/badge/tests-33%20passing-brightgreen)
 
@@ -154,7 +154,7 @@ source .venv/bin/activate      # Linux / macOS
 uv pip install -r requirements.txt
 ```
 
-Plain `pip install -r requirements.txt` works identically. Python 3.10+.
+Plain `pip install -r requirements.txt` works identically. Python 3.12+.
 
 ### The argument, in order
 

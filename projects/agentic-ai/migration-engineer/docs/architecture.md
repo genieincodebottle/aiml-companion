@@ -20,7 +20,7 @@ event stream - regardless of which worker executes:
 | Mode | When | Worker | The loop is run by |
 |------|------|--------|--------------------|
 | `live-sdk` | `ANTHROPIC_API_KEY` set + `claude-agent-sdk` installed | `SdkMigrator` | the real Claude Agent SDK |
-| `live-gemini` | `GEMINI_API_KEY` / `GOOGLE_API_KEY` set + `google-genai` installed | `GeminiMigrator` | a Gemini 2.5 function-calling loop |
+| `live-gemini` | `GEMINI_API_KEY` / `GOOGLE_API_KEY` set + `google-genai` installed | `GeminiMigrator` | a Gemini function-calling loop (default `gemini-3.6-flash`) |
 | `stub` | otherwise (and in CI/tests) | `StubMigrator` | a deterministic scripted loop |
 
 The stub is **not a mock**: it drives the identical tools, hooks, budget, review,

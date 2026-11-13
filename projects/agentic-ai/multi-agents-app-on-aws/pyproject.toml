@@ -4,33 +4,33 @@ version = "1.0.0"
 description = "Multi-agent AI system on AWS using Bedrock AgentCore"
 readme = "README.md"
 license = {text = "MIT"}
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 authors = [{name = "Rajesh Srivastava", email = "rajsrivastava2@gmail.com"}]
 keywords = ["ai-agents", "aws", "bedrock", "agentcore", "multi-agent"]
 
 dependencies = [
-    "boto3>=1.42.0",
-    "python-dotenv>=1.0.0",
+    "boto3>=1.44",
+    "python-dotenv>=1.2",
 ]
 
 [project.optional-dependencies]
 groq = [
-    "groq>=0.12.0",
+    "groq>=1.7",
 ]
 gemini = [
-    "google-genai>=1.0.0",
+    "google-genai>=3.3",
 ]
 dev = [
-    "pytest>=8.0.0",
-    "pytest-cov>=5.0.0",
-    "ruff>=0.4.0",
+    "pytest>=9.2",
+    "pytest-cov>=7.1",
+    "ruff>=0.17",
 ]
 deploy = [
-    "bedrock-agentcore>=1.4.0",
-    "bedrock-agentcore-starter-toolkit>=0.1.0",
+    "bedrock-agentcore>=1.26",
+    "bedrock-agentcore-starter-toolkit>=0.3",
 ]
 ui = [
-    "streamlit>=1.38.0",
+    "streamlit>=1.67",
 ]
 
 [tool.ruff]

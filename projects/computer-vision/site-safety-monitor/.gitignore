@@ -32,3 +32,5 @@ Thumbs.db
 .venv/
 venv/
 .env
+# The export-parity tests read these trtexec logs; the repo-root *.log rule must not drop them.
+!tests/fixtures/*.log

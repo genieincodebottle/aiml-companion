@@ -57,7 +57,12 @@ export default function Layout({ children }) {
             Migration Engineer
           </Typography>
         </Box>
-        <Typography variant="caption" color="text.secondary">
+        <Typography
+          variant="caption"
+          sx={{
+            color: 'text.secondary',
+          }}
+        >
           Autonomous fleet migration console
         </Typography>
       </Toolbar>
@@ -90,7 +95,14 @@ export default function Layout({ children }) {
 
       <Box sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, p: 2 }}>
         <Divider sx={{ mb: 2 }} />
-        <Typography variant="caption" color="text.secondary" display="block" gutterBottom>
+        <Typography
+          variant="caption"
+          gutterBottom
+          sx={{
+            color: 'text.secondary',
+            display: 'block',
+          }}
+        >
           Execution mode
         </Typography>
         <Chip
@@ -102,12 +114,24 @@ export default function Layout({ children }) {
           sx={{ mb: 1 }}
         />
         {health?.model && (
-          <Typography variant="caption" color="text.secondary" display="block">
+          <Typography
+            variant="caption"
+            sx={{
+              color: 'text.secondary',
+              display: 'block',
+            }}
+          >
             Model: {health.model}
           </Typography>
         )}
         {health?.detail && (
-          <Typography variant="caption" color="text.secondary" display="block">
+          <Typography
+            variant="caption"
+            sx={{
+              color: 'text.secondary',
+              display: 'block',
+            }}
+          >
             {health.detail}
           </Typography>
         )}

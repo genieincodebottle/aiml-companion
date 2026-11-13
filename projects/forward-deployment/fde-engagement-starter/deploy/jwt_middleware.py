@@ -60,7 +60,7 @@ try:
 except ImportError as exc:  # pragma: no cover
     raise ImportError(
         "pyjwt is required for deploy.jwt_middleware. "
-        "Install it with: pip install 'pyjwt>=2.9.0'"
+        "Install it with: pip install 'pyjwt>=2.15'"
     ) from exc
 
 

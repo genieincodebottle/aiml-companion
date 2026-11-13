@@ -140,47 +140,61 @@ export default function AppealsManagement() {
 
         {/* Stats Cards */}
         <Grid container spacing={3} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card>
               <CardContent>
-                <Typography color="text.secondary" gutterBottom variant="body2">
+                <Typography gutterBottom variant="body2" sx={{
+                  color: "text.secondary"
+                }}>
                   Total Appeals
                 </Typography>
                 <Typography variant="h4">{pendingAppeals.length}</Typography>
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card>
               <CardContent>
-                <Typography color="text.secondary" gutterBottom variant="body2">
+                <Typography gutterBottom variant="body2" sx={{
+                  color: "text.secondary"
+                }}>
                   Pending Review
                 </Typography>
-                <Typography variant="h4" color="warning.main">
+                <Typography variant="h4" sx={{
+                  color: "warning.main"
+                }}>
                   {pendingAppeals.filter((a) => a.status === 'pending').length}
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card>
               <CardContent>
-                <Typography color="text.secondary" gutterBottom variant="body2">
+                <Typography gutterBottom variant="body2" sx={{
+                  color: "text.secondary"
+                }}>
                   Upheld
                 </Typography>
-                <Typography variant="h4" color="success.main">
+                <Typography variant="h4" sx={{
+                  color: "success.main"
+                }}>
                   {pendingAppeals.filter((a) => a.status === 'upheld').length}
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card>
               <CardContent>
-                <Typography color="text.secondary" gutterBottom variant="body2">
+                <Typography gutterBottom variant="body2" sx={{
+                  color: "text.secondary"
+                }}>
                   Overturned
                 </Typography>
-                <Typography variant="h4" color="error.main">
+                <Typography variant="h4" sx={{
+                  color: "error.main"
+                }}>
                   {pendingAppeals.filter((a) => a.status === 'overturned').length}
                 </Typography>
               </CardContent>
@@ -238,7 +252,11 @@ export default function AppealsManagement() {
               {filteredAppeals.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={6} align="center">
-                    <Typography color="text.secondary" sx={{ py: 3 }}>
+                    <Typography
+                      sx={{
+                        color: "text.secondary",
+                        py: 3
+                      }}>
                       No appeals found
                     </Typography>
                   </TableCell>
@@ -307,11 +325,15 @@ export default function AppealsManagement() {
                 Original Content
               </Typography>
               <Paper sx={{ p: 2, bgcolor: 'grey.50', mb: 3 }}>
-                <Typography variant="body1" paragraph>
+                <Typography variant="body1" sx={{
+                  marginBottom: "16px"
+                }}>
                   {selectedAppeal.content?.content_text}
                 </Typography>
                 <Divider sx={{ my: 2 }} />
-                <Typography variant="caption" color="text.secondary">
+                <Typography variant="caption" sx={{
+                  color: "text.secondary"
+                }}>
                   AI Decision: {selectedAppeal.content?.moderation_result?.action} (
                   {(selectedAppeal.content?.moderation_result?.confidence * 100).toFixed(0)}%
                   confidence)

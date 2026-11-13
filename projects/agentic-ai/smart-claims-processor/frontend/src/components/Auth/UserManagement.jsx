@@ -58,8 +58,15 @@ export default function UserManagement() {
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography variant="h5" fontWeight={700} color="#F1F5F9">User Management</Typography>
-          <Typography variant="body2" color="#94A3B8">Create, view, and remove user accounts</Typography>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 700,
+              color: "#F1F5F9"
+            }}>User Management</Typography>
+          <Typography variant="body2" sx={{
+            color: "#94A3B8"
+          }}>Create, view, and remove user accounts</Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 1 }}>
           <Button startIcon={<PersonAdd />} variant="contained" onClick={() => setAddOpen(true)}
@@ -112,7 +119,9 @@ export default function UserManagement() {
 
       {/* Add User Dialog */}
       <Dialog open={addOpen} onClose={() => setAddOpen(false)} maxWidth="sm" fullWidth
-        PaperProps={{ sx: { bgcolor: '#0F172A', border: '1px solid #334155', borderRadius: 3 } }}>
+        slotProps={{
+          paper: { sx: { bgcolor: '#0F172A', border: '1px solid #334155', borderRadius: 3 } }
+        }}>
         <DialogTitle sx={{ color: '#F1F5F9' }}>Add User</DialogTitle>
         <DialogContent sx={{ pt: 2 }}>
           <TextField fullWidth label="Username" value={form.username} sx={{ mb: 2, mt: 1 }}

@@ -2,8 +2,8 @@
 
 > **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/module/aiAgents/dueDiligenceProject)**. Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
 
-![Python 3.11+](https://img.shields.io/badge/Python-3.11+-blue.svg)
-![LangGraph](https://img.shields.io/badge/LangGraph-0.2+-green.svg)
+![Python 3.12+](https://img.shields.io/badge/Python-3.12+-blue.svg)
+![LangGraph](https://img.shields.io/badge/LangGraph-1.2+-green.svg)
 ![Gemini](https://img.shields.io/badge/Gemini-3.6_Flash-orange.svg)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Status: Production](https://img.shields.io/badge/Status-Production-brightgreen.svg)
@@ -42,7 +42,7 @@ left `unverifiable` rather than quietly assumed. A demo where all six agents
 agree exercises the graph and shows you nothing.
 
 ```bash
-python run.py test        # 92 tests, about a second, no key needed
+python run.py test        # 116 tests, about a second, no key needed
 ```
 
 ### Then run it for real
@@ -109,8 +109,9 @@ streamlit run app.py
 | **Graceful Degradation** | Every agent has try/except fallback - pipeline never halts |
 | **Fact-Checking** | Independent verification pass challenges all claims |
 | **Contradiction Resolution** | Lead Analyst debates conflicting findings |
-| **Budget Guardrails** | Token ceiling, cost cap, loop detection, timeout enforcement |
-| **PII Detection** | Email, phone, SSN, credit card pattern matching + masking |
+| **Budget Guardrails** | Token ceiling, per-agent token ceiling, cost cap, loop and repeat-entry detection, pipeline and per-agent timeouts, retry cap. Each node is charged the real tokens and cost of its LLM calls (read from `usage_metadata`) |
+| **PII Detection** | Email, phone, SSN, credit card pattern matching. Detected PII is masked (`[EMAIL_REDACTED]` etc.) in every agent output before it enters pipeline state; URLs are left intact. Switch: `guardrails.pii_detection_enabled` |
+| **Confidence Threshold** | Findings below `guardrails.confidence_threshold` (default 0.6) are flagged `low_confidence`, listed in the warnings and marked "LOW CONFIDENCE, needs review" in the report. They are flagged, never dropped |
 | **Source Grounding** | Every claim must cite a URL - no unsourced assertions |
 | **Search Caching** | SQLite-backed with TTL and LRU eviction |
 | **Model Fallback** | Primary -> fallback model chain with exponential backoff |
@@ -145,6 +146,10 @@ due-diligence-agent/
 ├── tests/
 │   ├── test_config.py            # Config loading, env overrides, defaults
 │   ├── test_guardrails.py        # PII detection, budget, loops, disable
+│   ├── test_agent_limits.py      # Per-agent token cap, timeout, retries, fact-check flag, trace tokens, repeat entry
+│   ├── test_guardrails_wired.py  # Real usage charged, PII masked, low confidence flagged
+│   ├── test_offline_mode.py      # Offline provider fixtures
+│   ├── test_risk_aggregation.py  # Risk score aggregation
 │   ├── test_calculators.py       # Financial ratios, risk scores, sentiment
 │   ├── test_state.py             # State schema initialization
 │   ├── test_graph.py             # Graph routing, compilation, guarded nodes
@@ -225,7 +230,7 @@ print(result["final_report"])
 ## Run Tests
 
 ```bash
-# All tests (64 tests)
+# All tests (116 tests)
 python -m pytest tests/ -v
 
 # With coverage
@@ -283,7 +288,7 @@ Using Google Gemini 3.6 Flash free tier (30 RPM, 1500 RPD):
 | Search | Tavily (paid) / DuckDuckGo (free fallback) |
 | Caching | SQLite (search results + TTL + LRU) |
 | UI | Streamlit |
-| Testing | pytest (64 tests) |
+| Testing | pytest (116 tests) |
 | Deployment | Docker multi-stage build |
 | Config | YAML + environment variable overrides |
 
@@ -304,7 +309,7 @@ Four layers:
 1. **Source grounding**: Every agent prompt says "only state facts from search results, cite URLs"
 2. **Structured output**: Pydantic schemas force agents to provide `sources` and `confidence` fields
 3. **Fact Checker**: Independent agent re-searches key claims and flags contradictions
-4. **Guardrails**: Post-execution check flags outputs without source URLs
+4. **Guardrails**: Post-execution check flags outputs without source URLs and findings below the confidence threshold (marked for review in the report)
 
 **Q: What happens when an agent fails?**
 
@@ -317,14 +322,15 @@ The pipeline ALWAYS produces a report, even if some agents fail. Failed agents c
 
 **Q: How do you prevent the system from running up a huge API bill?**
 
-GuardrailManager enforces five budgets:
+GuardrailManager enforces six budgets:
 - Token ceiling (default: 100K tokens)
 - Cost ceiling (default: $0.50)
 - Agent call limit (default: 30 calls)
-- Per-agent timeout (default: 120s)
+- Per-agent token ceiling (default: 20,000): an agent that reaches it is refused its next LLM call and degrades with a warning
+- Per-agent timeout (default: 120s): a slow agent is skipped with a timeout warning and cancelled at its next LLM call
 - Pipeline timeout (default: 300s)
 
-Pre-execution checks block agents that would exceed any limit. The system degrades gracefully with partial results rather than burning through budget.
+Pre-execution checks block agents that would exceed any limit. After every node the guardrail is charged the tokens and cost that node actually spent (the LLM response's `usage_metadata`), so the token and cost ceilings fill as the run progresses. The system degrades gracefully with partial results rather than burning through budget.
 
 **Q: What would you improve for production?**
 

@@ -681,7 +681,7 @@ The general lesson from both: **when a benchmark number surprises you, the bench
 
 ### Prerequisites
 
-- **Python 3.10+** - check with `python --version`
+- **Python 3.12+** - check with `python --version`
 - **A graph database.** Either Docker (one command, below) or a free cloud instance. Both paths are spelled out.
 - **One Gemini API key** - the free tier is plenty: <https://aistudio.google.com/app/apikey>
 
@@ -771,7 +771,7 @@ Expected:
 ```
   [ok]   configs/base.yaml readable  model=gemini-3.5-flash
   [ok]   Google API key  GOOGLE_API_KEY set (AIzaSy...)
-  [ok]   Neo4j at bolt://localhost:7687  Neo4j Kernel 5.26.30
+  [ok]   Neo4j at bolt://localhost:7687  Neo4j Kernel 2026.10.2
   [ok]   LLM model 'gemini-3.5-flash'  generation ok
   [ok]   Embedding model 'gemini-embedding-001'  768 dimensions
   [FAIL] Knowledge graph populated

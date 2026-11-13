@@ -120,6 +120,12 @@ class MemoryStore:
                 self.quarantined_parts[(table, d)] = self.parts.pop((table, d))
 
     def register(self, conn):
+        # DuckDB 2.0 refuses register() while an earlier query's result is only
+        # partly read (a fetchone() on a SELECT). complete() finishes that result.
+        # DuckDB 1.x (still preinstalled on Colab and Kaggle) has no complete() and
+        # needs none, so call it only when it exists.
+        if hasattr(conn, "complete"):
+            conn.complete()
         for table in TABLES:
             selects = []
             for d in self.partitions(table):

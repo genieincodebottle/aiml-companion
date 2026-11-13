@@ -47,28 +47,52 @@ export default function Settings() {
 
   return (
     <Box>
-      <Typography variant="h5" fontWeight={700} color="#F1F5F9" gutterBottom>
+      <Typography
+        variant="h5"
+        gutterBottom
+        sx={{
+          fontWeight: 700,
+          color: "#F1F5F9"
+        }}>
         <SettingsIcon sx={{ mr: 1, verticalAlign: 'middle', color: '#94A3B8' }} />
         Account Settings
       </Typography>
 
       <Grid container spacing={3} sx={{ mt: 1 }}>
         {/* Profile */}
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 3, bgcolor: '#1E293B', borderRadius: 3, border: '1px solid #334155' }}>
-            <Typography variant="subtitle1" fontWeight={600} color="#F1F5F9" gutterBottom>Profile</Typography>
+            <Typography
+              variant="subtitle1"
+              gutterBottom
+              sx={{
+                fontWeight: 600,
+                color: "#F1F5F9"
+              }}>Profile</Typography>
             <Divider sx={{ borderColor: '#334155', mb: 2 }} />
             <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography variant="caption" color="#64748B">Username</Typography>
-                <Typography color="#F1F5F9" fontWeight={600}>{user?.username}</Typography>
+              <Grid size={12}>
+                <Typography variant="caption" sx={{
+                  color: "#64748B"
+                }}>Username</Typography>
+                <Typography
+                  sx={{
+                    color: "#F1F5F9",
+                    fontWeight: 600
+                  }}>{user?.username}</Typography>
               </Grid>
-              <Grid item xs={12}>
-                <Typography variant="caption" color="#64748B">Email</Typography>
-                <Typography color="#94A3B8">{user?.email || 'Not set'}</Typography>
+              <Grid size={12}>
+                <Typography variant="caption" sx={{
+                  color: "#64748B"
+                }}>Email</Typography>
+                <Typography sx={{
+                  color: "#94A3B8"
+                }}>{user?.email || 'Not set'}</Typography>
               </Grid>
-              <Grid item xs={12}>
-                <Typography variant="caption" color="#64748B">Role</Typography>
+              <Grid size={12}>
+                <Typography variant="caption" sx={{
+                  color: "#64748B"
+                }}>Role</Typography>
                 <Box sx={{ mt: 0.5 }}>
                   <Chip label={ROLE_LABELS[user?.role] || user?.role} sx={{ bgcolor: `${roleColor}20`, color: roleColor, fontWeight: 600, border: `1px solid ${roleColor}40` }} />
                 </Box>
@@ -78,9 +102,15 @@ export default function Settings() {
         </Grid>
 
         {/* Password */}
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 3, bgcolor: '#1E293B', borderRadius: 3, border: '1px solid #334155' }}>
-            <Typography variant="subtitle1" fontWeight={600} color="#F1F5F9" gutterBottom>Change Password</Typography>
+            <Typography
+              variant="subtitle1"
+              gutterBottom
+              sx={{
+                fontWeight: 600,
+                color: "#F1F5F9"
+              }}>Change Password</Typography>
             <Divider sx={{ borderColor: '#334155', mb: 2 }} />
             {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
             {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
@@ -97,9 +127,15 @@ export default function Settings() {
         </Grid>
 
         {/* Role Permissions Reference */}
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Paper sx={{ p: 3, bgcolor: '#1E293B', borderRadius: 3, border: '1px solid #334155' }}>
-            <Typography variant="subtitle1" fontWeight={600} color="#F1F5F9" gutterBottom>Role Permissions</Typography>
+            <Typography
+              variant="subtitle1"
+              gutterBottom
+              sx={{
+                fontWeight: 600,
+                color: "#F1F5F9"
+              }}>Role Permissions</Typography>
             <Divider sx={{ borderColor: '#334155', mb: 2 }} />
             <Grid container spacing={2}>
               {[
@@ -107,11 +143,17 @@ export default function Settings() {
                 { role: 'reviewer', label: 'Reviewer', perms: ['Claims dashboard (all claims)', 'HITL review queue (approve/deny)', 'Appeals review', 'Analytics dashboard'] },
                 { role: 'admin', label: 'Admin', perms: ['All reviewer permissions', 'User management', 'Switch LLM provider (Gemini/Groq)', 'Full system access'] },
               ].map((r) => (
-                <Grid item xs={12} md={4} key={r.role}>
+                <Grid size={{ xs: 12, md: 4 }} key={r.role}>
                   <Paper sx={{ p: 2, bgcolor: user?.role === r.role ? `${ROLE_COLORS[r.role]}10` : '#0F172A', borderRadius: 2, border: `1px solid ${user?.role === r.role ? ROLE_COLORS[r.role] : '#334155'}` }}>
                     <Chip label={r.label} size="small" sx={{ mb: 1, bgcolor: `${ROLE_COLORS[r.role]}20`, color: ROLE_COLORS[r.role], fontWeight: 600 }} />
                     {r.perms.map((p) => (
-                      <Typography key={p} variant="body2" color="#94A3B8" sx={{ fontSize: '0.8rem' }}>- {p}</Typography>
+                      <Typography
+                        key={p}
+                        variant="body2"
+                        sx={{
+                          color: "#94A3B8",
+                          fontSize: '0.8rem'
+                        }}>- {p}</Typography>
                     ))}
                   </Paper>
                 </Grid>

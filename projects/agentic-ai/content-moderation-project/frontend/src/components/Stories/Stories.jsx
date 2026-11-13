@@ -1,6 +1,6 @@
 import {
   Add,
-  ChatBubbleOutline,
+  ChatBubbleOutlineOutlined as ChatBubbleOutline,
   CheckCircle,
   HourglassEmpty,
   Refresh,
@@ -176,7 +176,9 @@ export default function Stories() {
           <Typography variant="h4" gutterBottom>
             Community Stories
           </Typography>
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="body1" sx={{
+            color: "text.secondary"
+          }}>
             Share your experiences and read stories from the community
           </Typography>
         </Box>
@@ -231,15 +233,22 @@ export default function Stories() {
 
       <Grid container spacing={3}>
         {/* Main Content - Stories */}
-        <Grid item xs={12} md={8}>
+        <Grid size={{ xs: 12, md: 8 }}>
           {/* Stories List */}
           {!loading && getDisplayedStories().length === 0 ? (
             <Card>
               <CardContent sx={{ textAlign: 'center', py: 4 }}>
-                <Typography variant="h6" color="text.secondary" gutterBottom>
+                <Typography variant="h6" gutterBottom sx={{
+                  color: "text.secondary"
+                }}>
                   {activeTab === 'mine' ? 'You haven\'t written any stories yet' : 'No stories yet'}
                 </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "text.secondary",
+                    mb: 2
+                  }}>
                   Be the first to share your story with the community!
                 </Typography>
                 <Button variant="contained" startIcon={<Add />} onClick={() => setStoryDialog(true)}>
@@ -254,7 +263,7 @@ export default function Stories() {
                 const isVisible = story.is_visible;
 
                 return (
-                  <Grid item xs={12} key={story.story_id}>
+                  <Grid size={12} key={story.story_id}>
                     <Card
                       sx={{
                         display: 'flex',
@@ -284,11 +293,21 @@ export default function Stories() {
                           )}
                         </Box>
 
-                        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            color: "text.secondary",
+                            mb: 2
+                          }}>
                           By {story.username} • {formatDate(story.created_at)}
                         </Typography>
 
-                        <Typography variant="body1" color="text.primary" sx={{ mb: 2 }}>
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            color: "text.primary",
+                            mb: 2
+                          }}>
                           {truncateText(story.content_text)}
                         </Typography>
 
@@ -314,26 +333,36 @@ export default function Stories() {
         </Grid>
 
         {/* Sidebar - Guidelines & Info */}
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Card sx={{ mb: 2 }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>
                 Community Guidelines
               </Typography>
               <Divider sx={{ mb: 2 }} />
-              <Typography variant="body2" paragraph>
+              <Typography variant="body2" sx={{
+                marginBottom: "16px"
+              }}>
                 <strong>Be Respectful:</strong> Treat others with kindness and respect.
               </Typography>
-              <Typography variant="body2" paragraph>
+              <Typography variant="body2" sx={{
+                marginBottom: "16px"
+              }}>
                 <strong>No Hate Speech:</strong> Discrimination based on race, gender, religion, etc. is not allowed.
               </Typography>
-              <Typography variant="body2" paragraph>
+              <Typography variant="body2" sx={{
+                marginBottom: "16px"
+              }}>
                 <strong>No Harassment:</strong> Bullying, threats, or targeted harassment will result in removal.
               </Typography>
-              <Typography variant="body2" paragraph>
+              <Typography variant="body2" sx={{
+                marginBottom: "16px"
+              }}>
                 <strong>Stay On Topic:</strong> Keep discussions relevant and constructive.
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" sx={{
+                color: "text.secondary"
+              }}>
                 Violations may result in content removal, warnings, or account suspension.
               </Typography>
             </CardContent>
@@ -378,35 +407,49 @@ export default function Stories() {
               </Typography>
               <Divider sx={{ mb: 2 }} />
               <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid size={6}>
                   <Typography variant="h4" color="primary">
                     {myStories.length}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" sx={{
+                    color: "text.secondary"
+                  }}>
                     Total Stories
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="h4" color="success.main">
+                <Grid size={6}>
+                  <Typography variant="h4" sx={{
+                    color: "success.main"
+                  }}>
                     {myStories.filter(s => s.is_visible || s.moderation_status === 'approved').length}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" sx={{
+                    color: "text.secondary"
+                  }}>
                     Published
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="h4" color="warning.main">
+                <Grid size={6}>
+                  <Typography variant="h4" sx={{
+                    color: "warning.main"
+                  }}>
                     {myStories.filter(s => ['pending', 'pending_human_review', 'flagged'].includes(s.moderation_status)).length}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" sx={{
+                    color: "text.secondary"
+                  }}>
                     Under Review
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="h4" color="info.main">
+                <Grid size={6}>
+                  <Typography variant="h4" sx={{
+                    color: "info.main"
+                  }}>
                     {myStories.reduce((acc, s) => acc + (s.view_count || 0), 0)}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" sx={{
+                    color: "text.secondary"
+                  }}>
                     Total Views
                   </Typography>
                 </Grid>

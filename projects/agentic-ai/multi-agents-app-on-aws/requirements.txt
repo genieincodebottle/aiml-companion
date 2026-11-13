@@ -1,5 +1,5 @@
 # Core (always needed)
-python-dotenv>=1.0.0
+python-dotenv>=1.2
 
 # LLM Provider packages - install the one you're using:
 # Groq (free tier, default in Quick Start)

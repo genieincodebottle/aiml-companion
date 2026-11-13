@@ -98,7 +98,13 @@ const StoryCard = ({ story, onClick, showStatus = false }) => {
     >
       <CardContent sx={{ flexGrow: 1 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 1 }}>
-          <Typography variant="h6" fontWeight="bold" sx={{ flex: 1, pr: 1 }}>
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: "bold",
+              flex: 1,
+              pr: 1
+            }}>
             {story.title}
           </Typography>
           {showStatus && story.moderation_status && (
@@ -115,16 +121,22 @@ const StoryCard = ({ story, onClick, showStatus = false }) => {
             {story.username?.charAt(0).toUpperCase()}
           </Avatar>
           <Box>
-            <Typography variant="body2" fontWeight="medium">
+            <Typography variant="body2" sx={{
+              fontWeight: "medium"
+            }}>
               {story.username}
             </Typography>
-            <Typography variant="caption" color="text.secondary">
+            <Typography variant="caption" sx={{
+              color: "text.secondary"
+            }}>
               {formatDate(story.created_at)}
             </Typography>
           </Box>
         </Box>
 
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" sx={{
+          color: "text.secondary"
+        }}>
           {truncateText(story.content_text)}
         </Typography>
       </CardContent>
@@ -157,7 +169,9 @@ const StoriesGrid = ({ stories = [], onStoryClick, showStatus = false, emptyMess
   if (stories.length === 0) {
     return (
       <Paper elevation={0} sx={{ p: 4, textAlign: 'center', bgcolor: 'grey.50' }}>
-        <Typography variant="h6" color="text.secondary">
+        <Typography variant="h6" sx={{
+          color: "text.secondary"
+        }}>
           {emptyMessage}
         </Typography>
       </Paper>
@@ -167,7 +181,7 @@ const StoriesGrid = ({ stories = [], onStoryClick, showStatus = false, emptyMess
   return (
     <Grid container spacing={3}>
       {stories.map((story) => (
-        <Grid item xs={12} sm={6} lg={4} key={story.story_id}>
+        <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={story.story_id}>
           <StoryCard story={story} onClick={onStoryClick} showStatus={showStatus} />
         </Grid>
       ))}

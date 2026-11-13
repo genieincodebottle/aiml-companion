@@ -2,21 +2,21 @@
 # Core. This is everything you need to run all four phases offline with the
 # `stub` provider - no API key, no network, no cost.
 # ---------------------------------------------------------------------------
-pydantic>=2.9.0,<3.0.0
+pydantic>=2.14,<3.0.0
 pyyaml>=6.0,<7.0
-python-dotenv>=1.0.0,<2.0.0
+python-dotenv>=1.2,<2.0.0
 
 # --- API (backend: all orchestration lives behind this) --------------------
-fastapi>=0.115.0,<1.0.0
-uvicorn[standard]>=0.32.0,<1.0.0
+fastapi>=0.162,<1.0.0
+uvicorn[standard]>=0.54,<1.0.0
 
 # --- UI (frontend: a thin HTTP client, no business logic) ------------------
-streamlit>=1.40.0,<2.0.0
-httpx>=0.27.0,<1.0.0
-pandas>=2.0.0,<3.0.0
+streamlit>=1.67,<2.0.0
+httpx>=0.28,<1.0.0
+pandas>=3.1
 
 # --- Tests -----------------------------------------------------------------
-pytest>=8.0.0,<9.0.0
+pytest>=9.2
 
 # ---------------------------------------------------------------------------
 # Providers. Install ONLY the one you intend to use.
@@ -33,4 +33,4 @@ pytest>=8.0.0,<9.0.0
 # `openai_compatible` also covers vLLM, Ollama, Together and LM Studio - point
 # `base_url` at them. That is the zero-cost path to running this on real models.
 # ---------------------------------------------------------------------------
-google-genai>=1.0.0,<2.0.0
+google-genai>=3.3

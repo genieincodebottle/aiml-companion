@@ -1,14 +1,14 @@
-duckdb>=1.0
+duckdb>=2.0
 PyYAML>=6.0
 
 # notebook
-pandas>=2.0
-jupyter>=1.0
-matplotlib>=3.7
-nbformat>=5.9
+pandas>=3.1
+jupyter>=1.1
+matplotlib>=3.11
+nbformat>=5.11
 
 # dev
-pytest>=7.4
+pytest>=9.2
 
 # optional real broker backend (Redpanda via docker compose). Not needed for the default install.
 # pip install -r requirements-kafka.txt

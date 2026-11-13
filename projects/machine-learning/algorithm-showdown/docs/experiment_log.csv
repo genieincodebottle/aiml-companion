@@ -1,8 +1,9 @@
 experiment,date,what_changed,accuracy,precision,recall,f1,auc,notes
-baseline_logreg,2026-02-01,Initial LogisticRegression baseline,0.965,0.968,0.978,0.973,0.993,Simple baseline - strong performance
-svm_rbf,2026-02-01,Added SVM with RBF kernel,0.968,0.971,0.980,0.976,0.994,Slightly better than LogReg
-knn_k5,2026-02-01,KNN with k=5,0.958,0.965,0.969,0.967,0.985,Lowest performer - sensitive to scaling
-decision_tree,2026-02-01,Decision Tree max_depth=5,0.940,0.951,0.955,0.953,0.960,Most interpretable but weakest
-random_forest,2026-02-02,Random Forest n=200,0.963,0.966,0.975,0.971,0.994,Comparable to LogReg with more variance
-xgboost,2026-02-02,XGBoost lr=0.1 depth=4,0.970,0.968,0.983,0.975,0.995,Best AUC - selected for threshold tuning
-xgboost_tuned,2026-02-02,Threshold tuned for 99% recall,0.956,0.942,0.990,0.965,0.995,Precision dropped but recall meets target
+baseline_logreg,2026-10-11,Initial LogisticRegression baseline,0.974,0.968,0.992,0.979,0.995,Strong baseline - best recall and AUC (5-fold CV)
+svm_rbf,2026-10-11,Added SVM with RBF kernel,0.977,0.976,0.989,0.982,0.995,Best accuracy precision and F1
+knn_k5,2026-10-11,KNN with k=5,0.963,0.957,0.986,0.971,0.985,Sensitive to scaling
+decision_tree,2026-10-11,Decision Tree max_depth=5,0.928,0.932,0.958,0.944,0.907,Most interpretable but weakest
+random_forest,2026-10-11,Random Forest n=200,0.954,0.962,0.966,0.964,0.990,Fifth of six on accuracy
+xgboost,2026-11-13,XGBoost lr=0.1 depth=4,0.963,0.963,0.980,0.971,0.994,Ties KNN for third on accuracy (XGBoost 3.4.1); SHAP step still explains an XGBoost
+logreg_selected,2026-10-11,Selected by AUC from the comparison table,0.974,0.968,0.992,0.979,0.995,select_best() picks the AUC winner instead of a hardcoded XGBoost
+threshold_3split,2026-10-11,Threshold 0.759 tuned on validation and reported on test (malignant class),0.947,1.000,0.860,0.925,0.997,Test recall 0.860 vs target 0.95 - 6 of 43 malignant missed

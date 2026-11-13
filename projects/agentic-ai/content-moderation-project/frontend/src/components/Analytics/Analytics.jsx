@@ -152,71 +152,89 @@ export default function Analytics() {
         {/* Key Metrics */}
         {metrics && (
           <Grid container spacing={3} sx={{ mb: 3 }}>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Card>
                 <CardContent>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                     <Speed color="primary" />
-                    <Typography color="text.secondary" variant="body2">
+                    <Typography variant="body2" sx={{
+                      color: "text.secondary"
+                    }}>
                       Overall Accuracy
                     </Typography>
                   </Box>
                   <Typography variant="h4" color={metrics.overall_accuracy >= 80 ? "success.main" : "warning.main"}>
                     {metrics.overall_accuracy ?? 0}%
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography variant="caption" sx={{
+                    color: "text.secondary"
+                  }}>
                     Based on {metrics.total_decisions ?? 0} decisions
                   </Typography>
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Card>
                 <CardContent>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                     <Psychology color="secondary" />
-                    <Typography color="text.secondary" variant="body2">
+                    <Typography variant="body2" sx={{
+                      color: "text.secondary"
+                    }}>
                       Total Decisions
                     </Typography>
                   </Box>
                   <Typography variant="h4">{metrics.total_decisions ?? 0}</Typography>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography variant="caption" sx={{
+                    color: "text.secondary"
+                  }}>
                     Across all agents
                   </Typography>
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Card>
                 <CardContent>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                     <TrendingDown color={metrics.appeal_rate <= 10 ? "success" : "warning"} />
-                    <Typography color="text.secondary" variant="body2">
+                    <Typography variant="body2" sx={{
+                      color: "text.secondary"
+                    }}>
                       Appeal Rate
                     </Typography>
                   </Box>
                   <Typography variant="h4" color={metrics.appeal_rate <= 10 ? "success.main" : "warning.main"}>
                     {metrics.appeal_rate ?? 0}%
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography variant="caption" sx={{
+                    color: "text.secondary"
+                  }}>
                     {metrics.overturned_appeals ?? 0} overturned
                   </Typography>
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Card>
                 <CardContent>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                     <TrendingUp color="info" />
-                    <Typography color="text.secondary" variant="body2">
+                    <Typography variant="body2" sx={{
+                      color: "text.secondary"
+                    }}>
                       Learning Sessions
                     </Typography>
                   </Box>
-                  <Typography variant="h4" color="info.main">
+                  <Typography variant="h4" sx={{
+                    color: "info.main"
+                  }}>
                     {metrics.learning_sessions ?? 0}
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography variant="caption" sx={{
+                    color: "text.secondary"
+                  }}>
                     Improvement cycles
                   </Typography>
                 </CardContent>
@@ -231,7 +249,12 @@ export default function Analytics() {
             <Typography variant="h6" gutterBottom>
               Learning Progress Over Time
             </Typography>
-            <Typography variant="body2" color="text.secondary" paragraph>
+            <Typography
+              variant="body2"
+              sx={{
+                color: "text.secondary",
+                marginBottom: "16px"
+              }}>
               Accuracy increases as agents learn from overturned appeals
             </Typography>
             <ResponsiveContainer width="100%" height={300}>
@@ -286,7 +309,9 @@ export default function Analytics() {
                   ) : (
                     <TableRow>
                       <TableCell colSpan={5} align="center">
-                        <Typography color="text.secondary">
+                        <Typography sx={{
+                          color: "text.secondary"
+                        }}>
                           No agent performance data available yet
                         </Typography>
                       </TableCell>
@@ -300,13 +325,18 @@ export default function Analytics() {
 
         {/* Memory System Stats */}
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Card>
               <CardContent>
                 <Typography variant="h6" gutterBottom>
                   Episodic Memory
                 </Typography>
-                <Typography variant="body2" color="text.secondary" paragraph>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "text.secondary",
+                    marginBottom: "16px"
+                  }}>
                   Specific moderation cases stored for similarity matching
                 </Typography>
                 <List dense>
@@ -332,13 +362,18 @@ export default function Analytics() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Card>
               <CardContent>
                 <Typography variant="h6" gutterBottom>
                   Semantic Memory
                 </Typography>
-                <Typography variant="body2" color="text.secondary" paragraph>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "text.secondary",
+                    marginBottom: "16px"
+                  }}>
                   Learned patterns and adjusted thresholds
                 </Typography>
                 <List dense>

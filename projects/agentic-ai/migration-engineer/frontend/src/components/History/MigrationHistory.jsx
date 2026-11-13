@@ -95,7 +95,9 @@ export default function MigrationHistory() {
               Refresh
             </Button>
           </Box>
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant="caption" sx={{
+            color: "text.secondary"
+          }}>
             Click a row to replay its fleet board and summary.
           </Typography>
         </CardContent>
@@ -227,7 +229,12 @@ export default function MigrationHistory() {
             <Stack spacing={2}>
               <JobSummaryBanner summary={projection.summary} />
               <Box>
-                <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+                <Typography
+                  variant="subtitle2"
+                  sx={{
+                    color: "text.secondary",
+                    mb: 1
+                  }}>
                   Fleet board (read-only replay)
                 </Typography>
                 <FleetBoard repos={repoList} readOnly emptyHint="This run recorded no repositories." />

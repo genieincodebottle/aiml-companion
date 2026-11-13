@@ -1,7 +1,7 @@
 # Muse Glimmer Lab
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
 [![GPU optional](https://img.shields.io/badge/GPU-optional-brightgreen.svg)](#what-runs-without-a-gpu)
 
 A runnable companion to the post

@@ -35,7 +35,12 @@ class GeminiProvider:
         self._types = types
         self._cfg = role_config
         self.model = role_config.model
-        self._client = genai.Client(api_key=role_config.api_key)
+        # v1beta, pinned: google-genai 3.x defaults to the v1 API, which serves
+        # neither the `-latest` aliases (the reflector's gemini-pro-latest) nor
+        # preview models.
+        self._client = genai.Client(
+            api_key=role_config.api_key, http_options={"api_version": "v1beta"}
+        )
 
     def complete(
         self,

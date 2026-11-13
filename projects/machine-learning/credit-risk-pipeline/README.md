@@ -185,7 +185,7 @@ source .venv/bin/activate      # Linux / macOS
 uv pip install -r requirements.txt
 ```
 
-Plain `pip install -r requirements.txt` works identically. Python 3.10+.
+Plain `pip install -r requirements.txt` works identically. Python 3.12+.
 
 ### The pipeline, in order
 
@@ -256,7 +256,6 @@ tells you to print what a threshold *does* rather than trusting its cost alone.
 | `SHAP analysis FAILED` in the log | a shap / numba version conflict | the report says NOT COMPUTED rather than going quiet; `pip install -U shap numba llvmlite` |
 | `[FAIL] No trained model` from `serve` | serving before training | `python run.py` once, then `python run.py serve` |
 | the threshold looks absurdly low | it is - see [section 3](#3-the-threshold-is-a-corner-and-the-pipeline-says-so) | expected, and warned about on every run |
-| `FutureWarning: observed=False` from `eda.py` | pandas 2.x groupby default | cosmetic, does not affect results |
 | numbers differ slightly from this README | sklearn version differences in the CV splits | AUC should land within about 0.005 of 0.78 |
 
 ## 10. Layout

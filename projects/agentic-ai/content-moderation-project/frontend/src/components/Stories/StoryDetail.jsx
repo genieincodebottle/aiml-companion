@@ -1,6 +1,6 @@
 import {
   ArrowBack,
-  ChatBubbleOutline,
+  ChatBubbleOutlineOutlined as ChatBubbleOutline,
   CheckCircle,
   HourglassEmpty,
   Person,
@@ -125,7 +125,13 @@ export default function StoryDetail() {
     return (
       <Container maxWidth="md" sx={{ py: 4 }}>
         <LinearProgress />
-        <Typography variant="body1" color="text.secondary" sx={{ mt: 2, textAlign: 'center' }}>
+        <Typography
+          variant="body1"
+          sx={{
+            color: "text.secondary",
+            mt: 2,
+            textAlign: 'center'
+          }}>
           Loading story...
         </Typography>
       </Container>
@@ -167,7 +173,9 @@ export default function StoryDetail() {
               <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
                 {story.username}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" sx={{
+                color: "text.secondary"
+              }}>
                 {formatDate(story.created_at)}
               </Typography>
             </Box>
@@ -237,7 +245,9 @@ export default function StoryDetail() {
                 sx={{ mb: 1 }}
               />
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography variant="caption" color="text.secondary">
+                <Typography variant="caption" sx={{
+                  color: "text.secondary"
+                }}>
                   Comments are moderated for community safety
                 </Typography>
                 <Button
@@ -258,7 +268,9 @@ export default function StoryDetail() {
       {comments.length === 0 ? (
         <Paper variant="outlined" sx={{ p: 4, textAlign: 'center' }}>
           <ChatBubbleOutline sx={{ fontSize: 48, color: 'text.secondary', mb: 1 }} />
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="body1" sx={{
+            color: "text.secondary"
+          }}>
             No comments yet. Be the first to share your thoughts!
           </Typography>
         </Paper>
@@ -276,7 +288,9 @@ export default function StoryDetail() {
                       <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
                         {comment.username}
                       </Typography>
-                      <Typography variant="caption" color="text.secondary">
+                      <Typography variant="caption" sx={{
+                        color: "text.secondary"
+                      }}>
                         {formatDate(comment.created_at)}
                       </Typography>
                     </Box>

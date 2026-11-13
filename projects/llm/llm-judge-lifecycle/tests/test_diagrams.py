@@ -141,7 +141,13 @@ def test_every_referenced_image_exists():
 
 
 def test_generated_diagrams_are_reachable_from_the_readme():
-    """An orphaned diagram is dead weight that still has to be maintained."""
-    readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    orphans = [p.name for p in SVGS if p.name not in readme]
+    """An orphaned diagram is dead weight that still has to be maintained.
+
+    Reachable means shown in the README or in docs/results.md, which the README
+    links as the home of every figure.
+    """
+    shown = "".join(
+        (ROOT / f).read_text(encoding="utf-8") for f in ("README.md", "docs/results.md")
+    )
+    orphans = [p.name for p in SVGS if p.name not in shown]
     assert not orphans, f"diagrams generated but never shown: {orphans}"

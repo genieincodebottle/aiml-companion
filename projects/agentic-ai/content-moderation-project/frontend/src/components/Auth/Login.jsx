@@ -151,10 +151,14 @@ export default function Login() {
               <Typography variant="h4" gutterBottom>
                 SafeGuard AI
               </Typography>
-              <Typography variant="h6" color="text.secondary" gutterBottom>
+              <Typography variant="h6" gutterBottom sx={{
+                color: "text.secondary"
+              }}>
                 Content Moderation Platform
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" sx={{
+                color: "text.secondary"
+              }}>
                 AI-Powered Multi-Agent System with Human-in-the-Loop
               </Typography>
             </Box>
@@ -224,8 +228,10 @@ export default function Login() {
                       required
                       autoFocus
                       size="small"
-                      inputProps={{ minLength: 3, maxLength: 50 }}
                       helperText="3-50 characters"
+                      slotProps={{
+                        htmlInput: { minLength: 3, maxLength: 50 }
+                      }}
                     />
                     <TextField
                       fullWidth
@@ -266,8 +272,10 @@ export default function Login() {
                       margin="normal"
                       required
                       size="small"
-                      inputProps={{ minLength: 6 }}
                       helperText="Minimum 6 characters"
+                      slotProps={{
+                        htmlInput: { minLength: 6 }
+                      }}
                     />
                     <TextField
                       fullWidth
@@ -298,18 +306,32 @@ export default function Login() {
 
             {/* System Flow */}
             <Box sx={{ bgcolor: 'grey.50', p: 3, borderRadius: 2 }}>
-              <Typography variant="subtitle1" fontWeight="bold" gutterBottom sx={{ mb: 2 }}>
+              <Typography
+                variant="subtitle1"
+                gutterBottom
+                sx={{
+                  fontWeight: "bold",
+                  mb: 2
+                }}>
                 Content Moderation Flow
               </Typography>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Chip label="1. User Submits" size="small" />
-                <Typography variant="caption" color="text.secondary">→</Typography>
+                <Typography variant="caption" sx={{
+                  color: "text.secondary"
+                }}>→</Typography>
                 <Chip label="2. AI Analysis" size="small" color="primary" />
-                <Typography variant="caption" color="text.secondary">→</Typography>
+                <Typography variant="caption" sx={{
+                  color: "text.secondary"
+                }}>→</Typography>
                 <Chip label="3. Human Review" size="small" color="warning" />
-                <Typography variant="caption" color="text.secondary">→</Typography>
+                <Typography variant="caption" sx={{
+                  color: "text.secondary"
+                }}>→</Typography>
                 <Chip label="4. Decision" size="small" color="success" />
-                <Typography variant="caption" color="text.secondary">→</Typography>
+                <Typography variant="caption" sx={{
+                  color: "text.secondary"
+                }}>→</Typography>
                 <Chip label="5. Appeal?" size="small" color="info" />
               </Box>
             </Box>

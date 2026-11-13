@@ -104,54 +104,79 @@ const UserSettings = () => {
     <Container maxWidth="md" sx={{ py: 4 }}>
       {/* Header */}
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
+        <Typography variant="h4" component="h1" gutterBottom sx={{
+          fontWeight: "bold"
+        }}>
           Account Settings
         </Typography>
-        <Typography variant="body1" color="text.secondary">
+        <Typography variant="body1" sx={{
+          color: "text.secondary"
+        }}>
           Manage your account preferences and security
         </Typography>
       </Box>
 
       <Grid container spacing={3}>
         {/* User Information Card */}
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Card elevation={2}>
             <CardContent>
-              <Typography variant="h6" fontWeight="bold" gutterBottom>
+              <Typography variant="h6" gutterBottom sx={{
+                fontWeight: "bold"
+              }}>
                 Profile Information
               </Typography>
               <Divider sx={{ mb: 3 }} />
 
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <Typography variant="body2" color="text.secondary">
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <Typography variant="body2" sx={{
+                    color: "text.secondary"
+                  }}>
                     Username
                   </Typography>
-                  <Typography variant="body1" fontWeight="medium">
+                  <Typography variant="body1" sx={{
+                    fontWeight: "medium"
+                  }}>
                     {user?.username}
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Typography variant="body2" color="text.secondary">
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <Typography variant="body2" sx={{
+                    color: "text.secondary"
+                  }}>
                     Full Name
                   </Typography>
-                  <Typography variant="body1" fontWeight="medium">
+                  <Typography variant="body1" sx={{
+                    fontWeight: "medium"
+                  }}>
                     {user?.full_name}
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Typography variant="body2" color="text.secondary">
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <Typography variant="body2" sx={{
+                    color: "text.secondary"
+                  }}>
                     Role
                   </Typography>
-                  <Typography variant="body1" fontWeight="medium" sx={{ textTransform: 'capitalize' }}>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      fontWeight: "medium",
+                      textTransform: 'capitalize'
+                    }}>
                     {user?.role?.replace('_', ' ')}
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Typography variant="body2" color="text.secondary">
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <Typography variant="body2" sx={{
+                    color: "text.secondary"
+                  }}>
                     Email
                   </Typography>
-                  <Typography variant="body1" fontWeight="medium">
+                  <Typography variant="body1" sx={{
+                    fontWeight: "medium"
+                  }}>
                     {user?.email || 'Not provided'}
                   </Typography>
                 </Grid>
@@ -161,16 +186,23 @@ const UserSettings = () => {
         </Grid>
 
         {/* Change Password Card */}
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Card elevation={2}>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                 <LockIcon color="primary" />
-                <Typography variant="h6" fontWeight="bold">
+                <Typography variant="h6" sx={{
+                  fontWeight: "bold"
+                }}>
                   Change Password
                 </Typography>
               </Box>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "text.secondary",
+                  mb: 3
+                }}>
                 Update your password to keep your account secure
               </Typography>
 
@@ -198,17 +230,19 @@ const UserSettings = () => {
                   onChange={handlePasswordChange}
                   required
                   margin="normal"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={() => handleTogglePassword('current')}
-                          edge="end"
-                        >
-                          {showPasswords.current ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
+                  slotProps={{
+                    input: {
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => handleTogglePassword('current')}
+                            edge="end"
+                          >
+                            {showPasswords.current ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }
                   }}
                 />
 
@@ -221,21 +255,23 @@ const UserSettings = () => {
                   onChange={handlePasswordChange}
                   required
                   margin="normal"
-                  inputProps={{ minLength: 6 }}
                   helperText="Minimum 6 characters"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={() => handleTogglePassword('new')}
-                          edge="end"
-                        >
-                          {showPasswords.new ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
+                  slotProps={{
+                    input: {
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => handleTogglePassword('new')}
+                            edge="end"
+                          >
+                            {showPasswords.new ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    },
+
+                    htmlInput: { minLength: 6 }
+                  }} />
 
                 <TextField
                   fullWidth
@@ -246,17 +282,19 @@ const UserSettings = () => {
                   onChange={handlePasswordChange}
                   required
                   margin="normal"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={() => handleTogglePassword('confirm')}
-                          edge="end"
-                        >
-                          {showPasswords.confirm ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
+                  slotProps={{
+                    input: {
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => handleTogglePassword('confirm')}
+                            edge="end"
+                          >
+                            {showPasswords.confirm ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }
                   }}
                 />
 
@@ -277,9 +315,11 @@ const UserSettings = () => {
         </Grid>
 
         {/* Security Tips */}
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Paper elevation={1} sx={{ p: 3, bgcolor: 'info.50', borderLeft: 4, borderColor: 'info.main' }}>
-            <Typography variant="subtitle2" fontWeight="bold" gutterBottom>
+            <Typography variant="subtitle2" gutterBottom sx={{
+              fontWeight: "bold"
+            }}>
               Password Security Tips
             </Typography>
             <Typography variant="body2" component="ul" sx={{ pl: 2, mb: 0 }}>

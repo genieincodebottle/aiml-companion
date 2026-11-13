@@ -22,9 +22,9 @@ from .diffing import compute_diff
 # Gemini function-calling schema types for our compact tool schema notation.
 _GENAI_TYPES = {"string": "STRING", "integer": "INTEGER", "number": "NUMBER", "boolean": "BOOLEAN"}
 
-# gemini-2.5-flash list price (USD / 1M tokens) so the cost ceiling meters real usage.
-_PRICE_IN_PER_1M = 0.30
-_PRICE_OUT_PER_1M = 2.50
+# gemini-3.6-flash list price (USD / 1M tokens) so the cost ceiling meters real usage.
+_PRICE_IN_PER_1M = 1.50
+_PRICE_OUT_PER_1M = 7.50
 
 _SYSTEM = (
     "You are an autonomous migration engineer. You modernize one repository by making "

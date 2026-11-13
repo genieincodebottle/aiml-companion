@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "An order-support multi-agent system in 8 stages and 5 agents, built to be broken on purpose. No agent framework."
 readme = "../README.md"
 license = { text = "MIT" }
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 authors = [{ name = "Rajesh Srivastava" }]
 keywords = [
     "multi-agent", "ai-agents", "observability", "distributed-tracing",
@@ -13,21 +13,21 @@ keywords = [
 ]
 
 dependencies = [
-    "fastapi>=0.115.0",
-    "uvicorn[standard]>=0.30.0",
-    "pydantic>=2.0.0",
-    "python-dotenv>=1.0.0",
+    "fastapi>=0.162",
+    "uvicorn[standard]>=0.54",
+    "pydantic>=2.14",
+    "python-dotenv>=1.2",
     # Live mode only. Replay mode never imports it, which is why the project
     # runs with no key and no account.
-    "google-genai>=1.0.0",
+    "google-genai>=3.3",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8.0.0",
-    "pytest-asyncio>=0.24.0",
-    "httpx>=0.27.0",
-    "ruff>=0.4.0",
+    "pytest>=9.2",
+    "pytest-asyncio>=1.5",
+    "httpx>=0.28",
+    "ruff>=0.17",
 ]
 
 [build-system]

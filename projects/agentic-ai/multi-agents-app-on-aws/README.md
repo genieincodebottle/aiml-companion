@@ -6,7 +6,7 @@
 
 **3 specialized AI agents + 1 orchestrator = Your AI research team**
 
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://python.org)
+[![Python 3.12+](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://python.org)
 [![AWS AgentCore](https://img.shields.io/badge/AWS-Bedrock%20AgentCore-orange.svg)](https://aws.amazon.com/bedrock/agentcore/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Agents: 4](https://img.shields.io/badge/Agents-4-purple.svg)](#architecture)
@@ -97,7 +97,7 @@ If not installed:
 - **Mac**: Run `xcode-select --install` in Terminal
 - **Linux**: `sudo apt update && sudo apt install git`
 
-**Python 3.10+** - Check if you have it:
+**Python 3.12+** - Check if you have it:
 ```bash
 python --version
 ```

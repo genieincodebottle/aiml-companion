@@ -6,13 +6,13 @@
 # timm is pinned exactly. It changes default preprocessing between releases,
 # and a resize switching from bilinear to bicubic moves accuracy by a fraction
 # of a point, which looks like noise and fails a slice.
-torch==2.4.1
-torchvision==0.19.1
-timm==1.0.9
-pillow==10.4.0
-faiss-cpu==1.8.0
+torch==2.15.0
+torchvision==0.29.2
+timm==1.0.31
+pillow==13.0.0
+faiss-cpu==1.16.0
 
 # Serving
-fastapi==0.115.0
-uvicorn==0.30.6
-python-multipart==0.0.9
+fastapi==0.162.5
+uvicorn==0.54.0
+python-multipart==0.0.33

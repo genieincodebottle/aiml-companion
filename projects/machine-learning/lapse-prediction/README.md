@@ -2,9 +2,9 @@
 
 > **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)**. Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![LightGBM](https://img.shields.io/badge/LightGBM-4.0-green)
-![XGBoost](https://img.shields.io/badge/XGBoost-2.0-red)
+![Python](https://img.shields.io/badge/Python-3.12+-blue)
+![LightGBM](https://img.shields.io/badge/LightGBM-4.7-green)
+![XGBoost](https://img.shields.io/badge/XGBoost-3.4-red)
 ![Tests](https://img.shields.io/badge/tests-59%20passing-brightgreen)
 
 Predicts, at the moment a policy is pulled up, **whether a renewal premium will
@@ -83,7 +83,7 @@ uv pip install -e .            # optional, gives you the `lapse` command
 ```
 
 Plain `pip install -r requirements.txt` works identically if you would rather
-not add a tool. Python 3.10 or newer either way.
+not add a tool. Python 3.12 or newer either way.
 
 ### Drive it
 

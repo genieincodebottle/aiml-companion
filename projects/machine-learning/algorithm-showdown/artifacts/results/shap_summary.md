@@ -1,22 +1,22 @@
 # SHAP Explainability Report
 
-> **Note:** These are sample outputs from running on the UCI Breast Cancer Wisconsin dataset. Your results may vary slightly due to random seed differences.
+> **Note:** Re-measured 2026-11-13 with `python -m src.explain` (shap 0.54.1, XGBoost 3.4.1, seed 42). This explains a **separately trained XGBoost** (80/20 split, test accuracy 0.9474), not the logistic-regression pipeline that `src/train.py` selects and saves. Your results may vary slightly across library versions.
 
-## Global Top 10 Features (mean |SHAP value|)
+## Global Top 10 Features (mean |SHAP value|, XGBoost)
 
 | Rank | Feature | Mean SHAP |
 |---|---|---|
-| 1 | worst concave points | 0.8234 |
-| 2 | worst perimeter | 0.6891 |
-| 3 | worst radius | 0.6745 |
-| 4 | mean concave points | 0.5123 |
-| 5 | worst area | 0.4567 |
-| 6 | mean perimeter | 0.3891 |
-| 7 | mean radius | 0.3456 |
-| 8 | worst texture | 0.2890 |
-| 9 | worst smoothness | 0.2345 |
-| 10 | mean texture | 0.1987 |
+| 1 | worst perimeter | 1.1892 |
+| 2 | worst texture | 0.8682 |
+| 3 | worst concave points | 0.8618 |
+| 4 | area error | 0.8603 |
+| 5 | worst radius | 0.7741 |
+| 6 | worst area | 0.5484 |
+| 7 | worst concavity | 0.5253 |
+| 8 | mean smoothness | 0.4815 |
+| 9 | mean concave points | 0.4681 |
+| 10 | worst smoothness | 0.3735 |
 
 ## Data Leakage Check
 
-No suspicious ID-like features detected. Top features (concave points, perimeter, radius) are clinically meaningful morphological measurements.
+No suspicious ID-like features detected. Top features (perimeter, area error, texture, concave points) are morphological measurements of cell nuclei.

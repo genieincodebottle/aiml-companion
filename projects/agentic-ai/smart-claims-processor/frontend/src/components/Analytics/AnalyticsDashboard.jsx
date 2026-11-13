@@ -65,11 +65,22 @@ export default function AnalyticsDashboard() {
 
   return (
     <Box>
-      <Typography variant="h5" fontWeight={700} color="#F1F5F9" gutterBottom>
+      <Typography
+        variant="h5"
+        gutterBottom
+        sx={{
+          fontWeight: 700,
+          color: "#F1F5F9"
+        }}>
         <Analytics sx={{ mr: 1, verticalAlign: 'middle', color: '#3B82F6' }} />
         Pipeline Analytics
       </Typography>
-      <Typography variant="body2" color="#94A3B8" sx={{ mb: 3 }}>Performance metrics and cost breakdown</Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          color: "#94A3B8",
+          mb: 3
+        }}>Performance metrics and cost breakdown</Typography>
 
       {/* Key Metrics */}
       <Grid container spacing={2} sx={{ mb: 4 }}>
@@ -81,13 +92,20 @@ export default function AnalyticsDashboard() {
           { label: 'Total Cost', value: fmt(m.total_cost_usd), icon: <AttachMoney />, color: '#EF4444' },
           { label: 'Avg Eval Score', value: `${(m.avg_eval_score * 100).toFixed(0)}%`, icon: <Gavel />, color: '#0EA5E9' },
         ].map((stat) => (
-          <Grid item xs={6} md={2} key={stat.label}>
+          <Grid size={{ xs: 6, md: 2 }} key={stat.label}>
             <Paper sx={{ p: 2, bgcolor: '#1E293B', borderRadius: 2, border: '1px solid #334155' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                 <Box sx={{ color: stat.color }}>{stat.icon}</Box>
-                <Typography variant="caption" color="#94A3B8">{stat.label}</Typography>
+                <Typography variant="caption" sx={{
+                  color: "#94A3B8"
+                }}>{stat.label}</Typography>
               </Box>
-              <Typography variant="h5" fontWeight={700} sx={{ color: stat.color }}>{stat.value}</Typography>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontWeight: 700,
+                  color: stat.color
+                }}>{stat.value}</Typography>
             </Paper>
           </Grid>
         ))}
@@ -95,9 +113,15 @@ export default function AnalyticsDashboard() {
 
       <Grid container spacing={3}>
         {/* Claims by Type - Bar Chart */}
-        <Grid item xs={12} md={7}>
+        <Grid size={{ xs: 12, md: 7 }}>
           <Paper sx={{ p: 3, bgcolor: '#1E293B', borderRadius: 3, border: '1px solid #334155' }}>
-            <Typography variant="subtitle1" fontWeight={600} color="#F1F5F9" gutterBottom>Claims by Type</Typography>
+            <Typography
+              variant="subtitle1"
+              gutterBottom
+              sx={{
+                fontWeight: 600,
+                color: "#F1F5F9"
+              }}>Claims by Type</Typography>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={m.claims_by_type || []}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
@@ -111,9 +135,15 @@ export default function AnalyticsDashboard() {
         </Grid>
 
         {/* Decisions - Pie Chart */}
-        <Grid item xs={12} md={5}>
+        <Grid size={{ xs: 12, md: 5 }}>
           <Paper sx={{ p: 3, bgcolor: '#1E293B', borderRadius: 3, border: '1px solid #334155' }}>
-            <Typography variant="subtitle1" fontWeight={600} color="#F1F5F9" gutterBottom>Decision Distribution</Typography>
+            <Typography
+              variant="subtitle1"
+              gutterBottom
+              sx={{
+                fontWeight: 600,
+                color: "#F1F5F9"
+              }}>Decision Distribution</Typography>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie data={m.decisions || []} dataKey="count" nameKey="decision" cx="50%" cy="50%" outerRadius={100} label={({ decision, percent }) => `${decision} ${(percent * 100).toFixed(0)}%`}>
@@ -126,9 +156,16 @@ export default function AnalyticsDashboard() {
         </Grid>
 
         {/* Pipeline Paths Table */}
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Paper sx={{ bgcolor: '#1E293B', borderRadius: 3, border: '1px solid #334155' }}>
-            <Typography variant="subtitle1" fontWeight={600} color="#F1F5F9" sx={{ p: 2, pb: 1 }}>Pipeline Path Performance</Typography>
+            <Typography
+              variant="subtitle1"
+              sx={{
+                fontWeight: 600,
+                color: "#F1F5F9",
+                p: 2,
+                pb: 1
+              }}>Pipeline Path Performance</Typography>
             <TableContainer>
               <Table>
                 <TableHead>
@@ -149,7 +186,9 @@ export default function AnalyticsDashboard() {
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                           <LinearProgress variant="determinate" value={(p.count / m.total_claims) * 100}
                             sx={{ width: 100, height: 8, borderRadius: 4, bgcolor: '#334155', '& .MuiLinearProgress-bar': { bgcolor: COLORS[i], borderRadius: 4 } }} />
-                          <Typography variant="caption" color="#94A3B8">{((p.count / m.total_claims) * 100).toFixed(0)}%</Typography>
+                          <Typography variant="caption" sx={{
+                            color: "#94A3B8"
+                          }}>{((p.count / m.total_claims) * 100).toFixed(0)}%</Typography>
                         </Box>
                       </TableCell>
                       <TableCell sx={{ color: '#10B981', fontWeight: 600 }}>{fmt(p.avg_cost)}</TableCell>

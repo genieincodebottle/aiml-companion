@@ -193,13 +193,28 @@ export default function SubmitClaim() {
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography variant="h5" fontWeight={700} color="#F1F5F9">Submit New Claim</Typography>
-          <Typography variant="body2" color="#94A3B8">
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 700,
+              color: "#F1F5F9"
+            }}>Submit New Claim</Typography>
+          <Typography variant="body2" sx={{
+            color: "#94A3B8"
+          }}>
             Select a policy (or quick-create one), then fill in your claim details.
           </Typography>
         </Box>
         {countryName && (
-          <Typography variant="caption" color="#64748B" sx={{ border: '1px solid #334155', borderRadius: 2, px: 1.5, py: 0.5 }}>
+          <Typography
+            variant="caption"
+            sx={{
+              color: "#64748B",
+              border: '1px solid #334155',
+              borderRadius: 2,
+              px: 1.5,
+              py: 0.5
+            }}>
             {countryName} ({currencySymbol})
           </Typography>
         )}
@@ -217,7 +232,12 @@ export default function SubmitClaim() {
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Policy sx={{ color: '#3B82F6' }} />
-            <Typography variant="subtitle1" fontWeight={700} color="#F1F5F9">
+            <Typography
+              variant="subtitle1"
+              sx={{
+                fontWeight: 700,
+                color: "#F1F5F9"
+              }}>
               Step 1: Select Your Insurance Policy
             </Typography>
           </Box>
@@ -239,8 +259,14 @@ export default function SubmitClaim() {
               {policies.map((p) => (
                 <MenuItem key={p.policy_number} value={p.policy_number}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '100%' }}>
-                    <Typography fontFamily="monospace" fontWeight={600}>{p.policy_number}</Typography>
-                    <Typography variant="body2" color="text.secondary">- {p.holder_name}</Typography>
+                    <Typography
+                      sx={{
+                        fontFamily: "monospace",
+                        fontWeight: 600
+                      }}>{p.policy_number}</Typography>
+                    <Typography variant="body2" sx={{
+                      color: "text.secondary"
+                    }}>- {p.holder_name}</Typography>
                     <Chip label={p.type} size="small" sx={{ ml: 'auto', height: 20, fontSize: '0.7rem' }} />
                     <Chip label={p.status} size="small" color={p.status === 'active' ? 'success' : 'error'}
                       sx={{ height: 20, fontSize: '0.7rem' }} />
@@ -274,8 +300,12 @@ export default function SubmitClaim() {
                       sx={{ borderColor: '#334155', color: '#F1F5F9', textTransform: 'none', borderRadius: 2,
                         '&:hover': { borderColor: '#3B82F6', bgcolor: '#3B82F620' } }}>
                       <Box sx={{ textAlign: 'left' }}>
-                        <Typography variant="body2" fontWeight={600}>{tmpl.label}</Typography>
-                        <Typography variant="caption" color="#64748B">
+                        <Typography variant="body2" sx={{
+                          fontWeight: 600
+                        }}>{tmpl.label}</Typography>
+                        <Typography variant="caption" sx={{
+                          color: "#64748B"
+                        }}>
                           Deductible: {tmpl.deductible?.toLocaleString()} | Coverage keys: {Object.keys(tmpl.coverage).join(', ')}
                         </Typography>
                       </Box>
@@ -287,46 +317,61 @@ export default function SubmitClaim() {
               {/* Editable quick-create form */}
               {quickForm && (
                 <Paper sx={{ p: 2, bgcolor: '#0F172A', borderRadius: 2, border: '1px solid #334155', mt: 1 }}>
-                  <Typography variant="subtitle2" color="#94A3B8" fontWeight={600} sx={{ mb: 2 }}>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      color: "#94A3B8",
+                      fontWeight: 600,
+                      mb: 2
+                    }}>
                     Customize & Create (defaults pre-filled for {countryName})
                   </Typography>
                   <Grid container spacing={2}>
-                    <Grid item xs={6} md={4}>
+                    <Grid size={{ xs: 6, md: 4 }}>
                       <TextField fullWidth label="Policy Number" value={quickForm.policy_number}
                         onChange={(e) => qf('policy_number', e.target.value)} size="small" />
                     </Grid>
-                    <Grid item xs={6} md={4}>
+                    <Grid size={{ xs: 6, md: 4 }}>
                       <TextField fullWidth label="Holder Name" value={quickForm.holder_name}
                         onChange={(e) => qf('holder_name', e.target.value)} size="small"
                         placeholder="Your name" />
                     </Grid>
-                    <Grid item xs={6} md={4}>
+                    <Grid size={{ xs: 6, md: 4 }}>
                       <TextField fullWidth select label="Type" value={quickForm.type} size="small"
                         onChange={(e) => qf('type', e.target.value)}>
                         <MenuItem value="auto">Auto</MenuItem>
                         <MenuItem value="homeowners">Homeowners</MenuItem>
                       </TextField>
                     </Grid>
-                    <Grid item xs={6} md={3}>
+                    <Grid size={{ xs: 6, md: 3 }}>
                       <TextField fullWidth label="Start Date" type="date" value={quickForm.start_date} size="small"
-                        InputLabelProps={{ shrink: true }} onChange={(e) => qf('start_date', e.target.value)} />
+                        onChange={(e) => qf('start_date', e.target.value)} slotProps={{
+                        inputLabel: { shrink: true }
+                      }} />
                     </Grid>
-                    <Grid item xs={6} md={3}>
+                    <Grid size={{ xs: 6, md: 3 }}>
                       <TextField fullWidth label="End Date" type="date" value={quickForm.end_date} size="small"
-                        InputLabelProps={{ shrink: true }} onChange={(e) => qf('end_date', e.target.value)} />
+                        onChange={(e) => qf('end_date', e.target.value)} slotProps={{
+                        inputLabel: { shrink: true }
+                      }} />
                     </Grid>
-                    <Grid item xs={6} md={3}>
+                    <Grid size={{ xs: 6, md: 3 }}>
                       <TextField fullWidth label="Deductible" type="number" value={quickForm.deductible} size="small"
                         onChange={(e) => qf('deductible', Number(e.target.value))} />
                     </Grid>
-                    <Grid item xs={6} md={3}>
+                    <Grid size={{ xs: 6, md: 3 }}>
                       <TextField fullWidth label="Premium/mo" type="number" value={quickForm.premium_monthly} size="small"
                         onChange={(e) => qf('premium_monthly', Number(e.target.value))} />
                     </Grid>
                   </Grid>
 
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
-                    <Typography variant="caption" color="#64748B" sx={{ flex: 1 }}>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: "#64748B",
+                        flex: 1
+                      }}>
                       Coverage: {Object.entries(quickForm.coverage || {}).map(([k, v]) => `${k}: ${v.toLocaleString()}`).join(' | ')}
                     </Typography>
                   </Box>
@@ -348,55 +393,84 @@ export default function SubmitClaim() {
 
       {/* ── Step 2: Claim Details ─────────────────────────────────────────── */}
       <Paper component="form" onSubmit={handleSubmit} sx={{ p: 3, bgcolor: '#1E293B', borderRadius: 3, border: '1px solid #334155' }}>
-        <Typography variant="subtitle1" fontWeight={700} color="#F1F5F9" sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Typography
+          variant="subtitle1"
+          sx={{
+            fontWeight: 700,
+            color: "#F1F5F9",
+            mb: 2,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1
+          }}>
           <Send sx={{ color: '#3B82F6', fontSize: 20 }} /> Step 2: Claim Details
         </Typography>
 
-        <Typography variant="subtitle2" color="#94A3B8" fontWeight={600} sx={{ mb: 2 }}>Incident</Typography>
+        <Typography
+          variant="subtitle2"
+          sx={{
+            color: "#94A3B8",
+            fontWeight: 600,
+            mb: 2
+          }}>Incident</Typography>
         <Grid container spacing={2} sx={{ mb: 3 }}>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField select fullWidth label="Incident Type" value={form.incident_type} onChange={handleChange('incident_type')}>
               {claimTypes.map((t) => <MenuItem key={t.value} value={t.value}>{t.label}</MenuItem>)}
             </TextField>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField fullWidth label="Incident Date" type="date" value={form.incident_date} onChange={handleChange('incident_date')} InputLabelProps={{ shrink: true }} />
+          <Grid size={{ xs: 12, md: 6 }}>
+            <TextField fullWidth label="Incident Date" type="date" value={form.incident_date} onChange={handleChange('incident_date')} slotProps={{
+              inputLabel: { shrink: true }
+            }} />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField fullWidth multiline rows={3} label="Incident Description *"
               value={form.incident_description} onChange={handleChange('incident_description')}
               placeholder={hints.description}
               helperText={`${form.incident_description.length}/500 characters (min 10)`}
-              inputProps={{ maxLength: 500 }}
+              slotProps={{
+                htmlInput: { maxLength: 500 }
+              }}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField fullWidth label="Location" value={form.incident_location} onChange={handleChange('incident_location')}
               placeholder={hints.location} />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField fullWidth label="Police/FIR Report #" value={form.police_report_number} onChange={handleChange('police_report_number')}
               placeholder={hints.policeReport} />
           </Grid>
         </Grid>
 
-        <Typography variant="subtitle2" color="#94A3B8" fontWeight={600} sx={{ mb: 2 }}>Damage Estimate</Typography>
+        <Typography
+          variant="subtitle2"
+          sx={{
+            color: "#94A3B8",
+            fontWeight: 600,
+            mb: 2
+          }}>Damage Estimate</Typography>
         <Grid container spacing={2} sx={{ mb: 3 }}>
-          <Grid item xs={12} md={3}>
+          <Grid size={{ xs: 12, md: 3 }}>
             <TextField fullWidth label={`Estimated Amount (${currencySymbol}) *`} type="number" value={form.estimated_amount} onChange={handleChange('estimated_amount')}
-              placeholder={hints.amount} inputProps={{ min: 0, step: 100 }} />
+              placeholder={hints.amount} slotProps={{
+              htmlInput: { min: 0, step: 100 }
+            }} />
           </Grid>
           {isAuto && (
             <>
-              <Grid item xs={12} md={3}>
+              <Grid size={{ xs: 12, md: 3 }}>
                 <TextField fullWidth label="Vehicle Year" type="number" value={form.vehicle_year} onChange={handleChange('vehicle_year')}
-                  placeholder={hints.vehicleYear} inputProps={{ min: 1990, max: 2026 }} />
+                  placeholder={hints.vehicleYear} slotProps={{
+                  htmlInput: { min: 1990, max: 2026 }
+                }} />
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid size={{ xs: 12, md: 3 }}>
                 <TextField fullWidth label="Vehicle Make" value={form.vehicle_make} onChange={handleChange('vehicle_make')}
                   placeholder={hints.vehicleMake} />
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid size={{ xs: 12, md: 3 }}>
                 <TextField fullWidth label="Vehicle Model" value={form.vehicle_model} onChange={handleChange('vehicle_model')}
                   placeholder={hints.vehicleModel} />
               </Grid>

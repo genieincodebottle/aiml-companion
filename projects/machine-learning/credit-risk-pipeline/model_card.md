@@ -3,7 +3,7 @@
 ## Model Details
 
 - **Model type**: Logistic Regression (primary) + Gradient Boosting Classifier (challenger)
-- **Framework**: scikit-learn 1.3+
+- **Framework**: scikit-learn 1.9+
 - **Training data**: German Credit Dataset (OpenML ID 31, 1000 samples)
 - **Task**: Binary classification (default vs. no default)
 - **Version**: 0.1.0

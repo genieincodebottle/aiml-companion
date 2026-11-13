@@ -1,0 +1,12 @@
+[I] Parsing ONNX file: yolo.onnx
+[W] onnx2trt_utils: unsupported node type ScatterND
+[W] onnx2trt: falling back to ScatterND on the default runtime
+[I] Building engine for subgraph 0
+[I] Engine built in 41.2 s
+[W] onnx2trt_utils: unsupported node type NonZero
+[W] onnx2trt: falling back to NonZero on the default runtime
+[I] Building engine for subgraph 1
+[I] Engine built in 12.9 s
+[I] Building engine for subgraph 2
+[I] Engine built in 8.4 s
+[I] &&&& PASSED TensorRT.trtexec

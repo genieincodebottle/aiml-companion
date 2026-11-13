@@ -98,8 +98,15 @@ export default function PolicyManagement() {
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography variant="h5" fontWeight={700} color="#F1F5F9">Policy Management</Typography>
-          <Typography variant="body2" color="#94A3B8">Seed and manage policies used by the claims pipeline</Typography>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 700,
+              color: "#F1F5F9"
+            }}>Policy Management</Typography>
+          <Typography variant="body2" sx={{
+            color: "#94A3B8"
+          }}>Seed and manage policies used by the claims pipeline</Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 1 }}>
           <Button startIcon={<Add />} variant="contained" onClick={openAdd}
@@ -117,7 +124,9 @@ export default function PolicyManagement() {
       ) : policies.length === 0 ? (
         <Paper sx={{ p: 4, textAlign: 'center', bgcolor: '#1E293B', border: '1px solid #334155', borderRadius: 3 }}>
           <Policy sx={{ fontSize: 48, color: '#334155', mb: 1 }} />
-          <Typography color="#94A3B8">No policies found. Add one or run <code>python scripts/seed_policies.py</code></Typography>
+          <Typography sx={{
+            color: "#94A3B8"
+          }}>No policies found. Add one or run <code>python scripts/seed_policies.py</code></Typography>
         </Paper>
       ) : (
         <TableContainer component={Paper} sx={{ bgcolor: '#1E293B', borderRadius: 3, border: '1px solid #334155' }}>
@@ -169,26 +178,28 @@ export default function PolicyManagement() {
 
       {/* Add / Edit Dialog */}
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} maxWidth="md" fullWidth
-        PaperProps={{ sx: { bgcolor: '#0F172A', border: '1px solid #334155', borderRadius: 3 } }}>
+        slotProps={{
+          paper: { sx: { bgcolor: '#0F172A', border: '1px solid #334155', borderRadius: 3 } }
+        }}>
         <DialogTitle sx={{ color: '#F1F5F9' }}>{editing ? 'Edit Policy' : 'Add Policy'}</DialogTitle>
         <DialogContent sx={{ pt: 2 }}>
           <Grid container spacing={2} sx={{ mt: 0.5 }}>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <TextField fullWidth label="Policy Number" value={form.policy_number}
                 disabled={editing} onChange={(e) => f('policy_number', e.target.value)} />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <TextField fullWidth label="Holder Name" value={form.holder_name}
                 onChange={(e) => f('holder_name', e.target.value)} />
             </Grid>
-            <Grid item xs={4}>
+            <Grid size={4}>
               <TextField fullWidth select label="Type" value={form.type}
                 onChange={(e) => f('type', e.target.value)}>
                 <MenuItem value="auto">Auto</MenuItem>
                 <MenuItem value="homeowners">Homeowners</MenuItem>
               </TextField>
             </Grid>
-            <Grid item xs={4}>
+            <Grid size={4}>
               <TextField fullWidth select label="Status" value={form.status}
                 onChange={(e) => f('status', e.target.value)}>
                 <MenuItem value="active">Active</MenuItem>
@@ -196,29 +207,33 @@ export default function PolicyManagement() {
                 <MenuItem value="cancelled">Cancelled</MenuItem>
               </TextField>
             </Grid>
-            <Grid item xs={4}>
+            <Grid size={4}>
               <TextField fullWidth label="Deductible" type="number" value={form.deductible}
                 onChange={(e) => f('deductible', e.target.value)} />
             </Grid>
-            <Grid item xs={4}>
+            <Grid size={4}>
               <TextField fullWidth label="Start Date" type="date" value={form.start_date}
-                InputLabelProps={{ shrink: true }} onChange={(e) => f('start_date', e.target.value)} />
+                onChange={(e) => f('start_date', e.target.value)} slotProps={{
+                inputLabel: { shrink: true }
+              }} />
             </Grid>
-            <Grid item xs={4}>
+            <Grid size={4}>
               <TextField fullWidth label="End Date" type="date" value={form.end_date}
-                InputLabelProps={{ shrink: true }} onChange={(e) => f('end_date', e.target.value)} />
+                onChange={(e) => f('end_date', e.target.value)} slotProps={{
+                inputLabel: { shrink: true }
+              }} />
             </Grid>
-            <Grid item xs={4}>
+            <Grid size={4}>
               <TextField fullWidth label="Monthly Premium" type="number" value={form.premium_monthly}
                 onChange={(e) => f('premium_monthly', e.target.value)} />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField fullWidth label="Coverage (JSON)" multiline rows={4} value={form.coverage}
                 placeholder='{"collision": 50000, "comprehensive": 50000, "liability": 100000}'
                 onChange={(e) => f('coverage', e.target.value)}
                 helperText="JSON object mapping coverage type to limit amount" />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField fullWidth label="Exclusions (comma-separated)" value={form.exclusions}
                 placeholder="racing, commercial_use, pre_existing_damage"
                 onChange={(e) => f('exclusions', e.target.value)} />

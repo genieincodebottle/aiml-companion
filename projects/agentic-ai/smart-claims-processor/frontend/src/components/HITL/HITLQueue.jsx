@@ -41,10 +41,19 @@ function AgentTraceCard({ agentKey, data }) {
       <Box sx={{ p: 1.5, display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}
         onClick={() => setOpen(!open)}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <Typography fontSize="1.1rem">{label.icon}</Typography>
+          <Typography sx={{
+            fontSize: "1.1rem"
+          }}>{label.icon}</Typography>
           <Box>
-            <Typography variant="body2" fontWeight={600} color="#F1F5F9">{label.name}</Typography>
-            {decision && <Typography variant="caption" color="#94A3B8">Decision: {decision}</Typography>}
+            <Typography
+              variant="body2"
+              sx={{
+                fontWeight: 600,
+                color: "#F1F5F9"
+              }}>{label.name}</Typography>
+            {decision && <Typography variant="caption" sx={{
+              color: "#94A3B8"
+            }}>Decision: {decision}</Typography>}
           </Box>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -60,13 +69,28 @@ function AgentTraceCard({ agentKey, data }) {
         <Box sx={{ px: 2, pb: 2, borderTop: '1px solid #334155' }}>
           {reasoning && (
             <Box sx={{ mt: 1 }}>
-              <Typography variant="caption" color="#64748B" fontWeight={600}>Reasoning</Typography>
-              <Typography variant="body2" color="#CBD5E1" sx={{ mt: 0.5 }}>{reasoning}</Typography>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: "#64748B",
+                  fontWeight: 600
+                }}>Reasoning</Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "#CBD5E1",
+                  mt: 0.5
+                }}>{reasoning}</Typography>
             </Box>
           )}
           {data?.validation_flags?.length > 0 && (
             <Box sx={{ mt: 1 }}>
-              <Typography variant="caption" color="#64748B" fontWeight={600}>Flags</Typography>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: "#64748B",
+                  fontWeight: 600
+                }}>Flags</Typography>
               {data.validation_flags.map((f, i) => (
                 <Chip key={i} label={f} size="small" sx={{ mr: 0.5, mt: 0.5, bgcolor: '#EF444420', color: '#EF4444', fontSize: '0.7rem' }} />
               ))}
@@ -74,7 +98,12 @@ function AgentTraceCard({ agentKey, data }) {
           )}
           {data?.primary_concerns?.length > 0 && (
             <Box sx={{ mt: 1 }}>
-              <Typography variant="caption" color="#64748B" fontWeight={600}>Concerns</Typography>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: "#64748B",
+                  fontWeight: 600
+                }}>Concerns</Typography>
               {data.primary_concerns.map((f, i) => (
                 <Chip key={i} label={f} size="small" sx={{ mr: 0.5, mt: 0.5, bgcolor: '#EF444420', color: '#EF4444', fontSize: '0.7rem' }} />
               ))}
@@ -82,9 +111,16 @@ function AgentTraceCard({ agentKey, data }) {
           )}
           {data?.denial_reasons?.length > 0 && (
             <Box sx={{ mt: 1 }}>
-              <Typography variant="caption" color="#64748B" fontWeight={600}>Denial Reasons</Typography>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: "#64748B",
+                  fontWeight: 600
+                }}>Denial Reasons</Typography>
               {data.denial_reasons.map((r, i) => (
-                <Typography key={i} variant="body2" color="#EF4444">• {r}</Typography>
+                <Typography key={i} variant="body2" sx={{
+                  color: "#EF4444"
+                }}>• {r}</Typography>
               ))}
             </Box>
           )}
@@ -179,11 +215,18 @@ export default function HITLQueue() {
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography variant="h5" fontWeight={700} color="#F1F5F9">
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 700,
+              color: "#F1F5F9"
+            }}>
             <Security sx={{ mr: 1, verticalAlign: 'middle', color: '#EF4444' }} />
             HITL (Human-In-The-Loop) Review Queue
           </Typography>
-          <Typography variant="body2" color="#94A3B8">Claims paused at HITL checkpoint for reviewer approval</Typography>
+          <Typography variant="body2" sx={{
+            color: "#94A3B8"
+          }}>Claims paused at HITL checkpoint for reviewer approval</Typography>
         </Box>
         <Button startIcon={<Refresh />} onClick={fetchQueue} sx={{ color: '#94A3B8' }}>Refresh</Button>
       </Box>
@@ -199,12 +242,20 @@ export default function HITLQueue() {
           { label: 'Resolved Today', value: stats.resolved_today || 0, color: '#10B981', icon: <CheckCircle /> },
           { label: 'AI Overrides', value: stats.human_overrides_today || 0, color: '#9C27B0', icon: <Gavel /> },
         ].map((s) => (
-          <Grid item xs={6} md={2.4} key={s.label}>
+          <Grid size={{ xs: 6, md: 2.4 }} key={s.label}>
             <Paper sx={{ p: 2, bgcolor: '#1E293B', borderRadius: 2, border: '1px solid #334155', display: 'flex', alignItems: 'center', gap: 1.5 }}>
               <Box sx={{ color: s.color }}>{s.icon}</Box>
               <Box>
-                <Typography variant="h5" fontWeight={700} sx={{ color: s.color, lineHeight: 1 }}>{s.value}</Typography>
-                <Typography variant="caption" color="#94A3B8">{s.label}</Typography>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontWeight: 700,
+                    color: s.color,
+                    lineHeight: 1
+                  }}>{s.value}</Typography>
+                <Typography variant="caption" sx={{
+                  color: "#94A3B8"
+                }}>{s.label}</Typography>
               </Box>
             </Paper>
           </Grid>
@@ -217,8 +268,12 @@ export default function HITLQueue() {
       ) : hitlQueue.length === 0 ? (
         <Paper sx={{ p: 6, bgcolor: '#1E293B', borderRadius: 3, textAlign: 'center', border: '1px solid #334155' }}>
           <CheckCircle sx={{ fontSize: 64, color: '#10B981', mb: 2 }} />
-          <Typography variant="h6" color="#94A3B8">Queue Empty</Typography>
-          <Typography variant="body2" color="#64748B">All claims have been reviewed. Process a high-value claim to populate this queue.</Typography>
+          <Typography variant="h6" sx={{
+            color: "#94A3B8"
+          }}>Queue Empty</Typography>
+          <Typography variant="body2" sx={{
+            color: "#64748B"
+          }}>All claims have been reviewed. Process a high-value claim to populate this queue.</Typography>
         </Paper>
       ) : (
         <TableContainer component={Paper} sx={{ bgcolor: '#1E293B', borderRadius: 3, border: '1px solid #334155' }}>
@@ -249,10 +304,18 @@ export default function HITLQueue() {
                   <TableCell>
                     <Stack spacing={0.5}>
                       {(ticket.triggers || []).slice(0, 2).map((t, i) => (
-                        <Typography key={i} variant="caption" color="#F59E0B" sx={{ display: 'block' }}>- {t}</Typography>
+                        <Typography
+                          key={i}
+                          variant="caption"
+                          sx={{
+                            color: "#F59E0B",
+                            display: 'block'
+                          }}>- {t}</Typography>
                       ))}
                       {(ticket.triggers?.length || 0) > 2 && (
-                        <Typography variant="caption" color="#64748B">+{ticket.triggers.length - 2} more</Typography>
+                        <Typography variant="caption" sx={{
+                          color: "#64748B"
+                        }}>+{ticket.triggers.length - 2} more</Typography>
                       )}
                     </Stack>
                   </TableCell>
@@ -272,7 +335,9 @@ export default function HITLQueue() {
 
       {/* Review Dialog */}
       <Dialog open={!!selectedTicket} onClose={() => setSelectedTicket(null)} maxWidth="md" fullWidth
-        PaperProps={{ sx: { bgcolor: '#1E293B', border: '1px solid #334155', maxHeight: '90vh' } }}>
+        slotProps={{
+          paper: { sx: { bgcolor: '#1E293B', border: '1px solid #334155', maxHeight: '90vh' } }
+        }}>
         <DialogTitle sx={{ color: '#F1F5F9', borderBottom: '1px solid #334155' }}>
           <Security sx={{ mr: 1, verticalAlign: 'middle', color: '#EF4444' }} />
           Review: {selectedTicket?.ticket_id}
@@ -285,7 +350,9 @@ export default function HITLQueue() {
 
           {/* Triggers */}
           <Alert severity="warning" sx={{ mb: 2 }}>
-            <Typography variant="subtitle2" fontWeight={600}>Review Triggers:</Typography>
+            <Typography variant="subtitle2" sx={{
+              fontWeight: 600
+            }}>Review Triggers:</Typography>
             {(selectedTicket?.triggers || []).map((t, i) => (
               <Typography key={i} variant="body2">- {t}</Typography>
             ))}
@@ -294,12 +361,41 @@ export default function HITLQueue() {
           {/* Claim Summary */}
           {claimData && (
             <Paper sx={{ p: 2, mb: 2, bgcolor: '#0F172A', borderRadius: 2, border: '1px solid #334155' }}>
-              <Typography variant="subtitle2" color="#94A3B8" fontWeight={600} gutterBottom>Claim Summary</Typography>
+              <Typography
+                variant="subtitle2"
+                gutterBottom
+                sx={{
+                  color: "#94A3B8",
+                  fontWeight: 600
+                }}>Claim Summary</Typography>
               <Grid container spacing={2}>
-                <Grid item xs={4}><Typography variant="caption" color="#64748B">Claim ID</Typography><Typography color="#F1F5F9" fontFamily="monospace" fontSize="0.85rem">{claimData.claim_id}</Typography></Grid>
-                <Grid item xs={4}><Typography variant="caption" color="#64748B">Type</Typography><Typography color="#F1F5F9">{claimData.incident_type?.replace('_', ' ')}</Typography></Grid>
-                <Grid item xs={4}><Typography variant="caption" color="#64748B">Claimed Amount</Typography><Typography color="#F1F5F9" fontWeight={600}>{fmt(claimData.estimated_amount)}</Typography></Grid>
-                <Grid item xs={12}><Typography variant="caption" color="#64748B">Description</Typography><Typography color="#94A3B8" fontSize="0.85rem">{claimData.incident_description}</Typography></Grid>
+                <Grid size={4}><Typography variant="caption" sx={{
+                  color: "#64748B"
+                }}>Claim ID</Typography><Typography
+                  sx={{
+                    color: "#F1F5F9",
+                    fontFamily: "monospace",
+                    fontSize: "0.85rem"
+                  }}>{claimData.claim_id}</Typography></Grid>
+                <Grid size={4}><Typography variant="caption" sx={{
+                  color: "#64748B"
+                }}>Type</Typography><Typography sx={{
+                  color: "#F1F5F9"
+                }}>{claimData.incident_type?.replace('_', ' ')}</Typography></Grid>
+                <Grid size={4}><Typography variant="caption" sx={{
+                  color: "#64748B"
+                }}>Claimed Amount</Typography><Typography
+                  sx={{
+                    color: "#F1F5F9",
+                    fontWeight: 600
+                  }}>{fmt(claimData.estimated_amount)}</Typography></Grid>
+                <Grid size={12}><Typography variant="caption" sx={{
+                  color: "#64748B"
+                }}>Description</Typography><Typography
+                  sx={{
+                    color: "#94A3B8",
+                    fontSize: "0.85rem"
+                  }}>{claimData.incident_description}</Typography></Grid>
               </Grid>
             </Paper>
           )}
@@ -307,7 +403,13 @@ export default function HITLQueue() {
           {/* Agent Traces */}
           {claimData?.agent_outputs && (
             <Box sx={{ mb: 2 }}>
-              <Typography variant="subtitle2" color="#94A3B8" fontWeight={600} gutterBottom>
+              <Typography
+                variant="subtitle2"
+                gutterBottom
+                sx={{
+                  color: "#94A3B8",
+                  fontWeight: 600
+                }}>
                 Agent Analysis (click to expand)
               </Typography>
               {Object.keys(AGENT_LABELS).map((key) =>
@@ -321,7 +423,13 @@ export default function HITLQueue() {
           <Divider sx={{ borderColor: '#334155', my: 2 }} />
 
           {/* Decision */}
-          <Typography variant="subtitle2" color="#F1F5F9" fontWeight={600} gutterBottom>Your Decision</Typography>
+          <Typography
+            variant="subtitle2"
+            gutterBottom
+            sx={{
+              color: "#F1F5F9",
+              fontWeight: 600
+            }}>Your Decision</Typography>
           <RadioGroup value={decision} onChange={(e) => setDecision(e.target.value)}>
             {DECISIONS.map((d) => (
               <Paper key={d.value} sx={{ p: 1.5, mb: 1, bgcolor: decision === d.value ? `${d.color}15` : '#0F172A', borderRadius: 2, border: `1px solid ${decision === d.value ? d.color : '#334155'}`, cursor: 'pointer' }}
@@ -331,8 +439,15 @@ export default function HITLQueue() {
                   control={<Radio sx={{ color: '#64748B', '&.Mui-checked': { color: d.color } }} />}
                   label={
                     <Box>
-                      <Typography variant="body2" fontWeight={600} color="#F1F5F9">{d.label}</Typography>
-                      <Typography variant="caption" color="#94A3B8">{d.desc}</Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          fontWeight: 600,
+                          color: "#F1F5F9"
+                        }}>{d.label}</Typography>
+                      <Typography variant="caption" sx={{
+                        color: "#94A3B8"
+                      }}>{d.desc}</Typography>
                     </Box>
                   }
                 />
@@ -343,14 +458,18 @@ export default function HITLQueue() {
           {/* Override checkbox */}
           <FormControlLabel
             control={<input type="checkbox" checked={overrideAI} onChange={(e) => setOverrideAI(e.target.checked)} style={{ marginRight: 8 }} />}
-            label={<Typography variant="body2" color="#F59E0B">Override AI recommendation (your decision differs from AI)</Typography>}
+            label={<Typography variant="body2" sx={{
+              color: "#F59E0B"
+            }}>Override AI recommendation (your decision differs from AI)</Typography>}
             sx={{ mt: 1, mb: 2 }}
           />
 
           {/* Notes */}
           <TextField fullWidth multiline rows={3} label="Review Notes *" value={notes} onChange={(e) => setNotes(e.target.value)}
             placeholder="Explain your reasoning..." helperText={`${notes.length}/1000 - Required for audit trail`}
-            inputProps={{ maxLength: 1000 }}
+            slotProps={{
+              htmlInput: { maxLength: 1000 }
+            }}
           />
 
           {/* Optional settlement override - only meaningful for an approval */}
@@ -360,7 +479,9 @@ export default function HITLQueue() {
               value={settlementOverride}
               onChange={(e) => setSettlementOverride(e.target.value)}
               helperText="Leave empty to use the AI-calculated settlement"
-              inputProps={{ min: 0, step: '0.01' }}
+              slotProps={{
+                htmlInput: { min: 0, step: '0.01' }
+              }}
             />
           )}
         </DialogContent>

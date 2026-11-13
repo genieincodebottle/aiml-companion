@@ -340,7 +340,7 @@
 
   <!-- Tech tags -->
   <rect x="94" y="1244" width="90" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
-  <text x="139" y="1262" class="tag" text-anchor="middle" fill="#475569">Python 3.11+</text>
+  <text x="139" y="1262" class="tag" text-anchor="middle" fill="#475569">Python 3.12+</text>
 
   <rect x="196" y="1244" width="86" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
   <text x="239" y="1262" class="tag" text-anchor="middle" fill="#475569">LangGraph</text>

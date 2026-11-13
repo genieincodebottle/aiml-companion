@@ -1,6 +1,6 @@
 # The Lifecycle of an LLM Judge
 
-![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
+![Python](https://img.shields.io/badge/python-3.12+-blue.svg)
 ![LLM](https://img.shields.io/badge/LLM-Gemini-7c3aed.svg)
 ![Tests](https://img.shields.io/badge/tests-192%20passing-brightgreen.svg)
 ![Offline](https://img.shields.io/badge/runs%20offline-no%20API%20key-informational.svg)

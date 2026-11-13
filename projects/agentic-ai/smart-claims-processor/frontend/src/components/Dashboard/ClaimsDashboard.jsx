@@ -114,8 +114,15 @@ export default function ClaimsDashboard() {
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography variant="h5" fontWeight={700} color="#F1F5F9">Claims Dashboard</Typography>
-          <Typography variant="body2" color="#94A3B8">Review and manage insurance claims</Typography>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 700,
+              color: "#F1F5F9"
+            }}>Claims Dashboard</Typography>
+          <Typography variant="body2" sx={{
+            color: "#94A3B8"
+          }}>Review and manage insurance claims</Typography>
         </Box>
         <Button startIcon={<Refresh />} onClick={fetchClaims} sx={{ color: '#94A3B8' }}>Refresh</Button>
       </Box>
@@ -129,10 +136,17 @@ export default function ClaimsDashboard() {
           { label: 'Approved', value: stats.approved, color: '#10B981' },
           { label: 'Denied', value: stats.denied, color: '#DC2626' },
         ].map((s) => (
-          <Grid item xs={6} md={2.4} key={s.label}>
+          <Grid size={{ xs: 6, md: 2.4 }} key={s.label}>
             <Paper sx={{ p: 2, bgcolor: '#1E293B', borderRadius: 2, border: '1px solid #334155', textAlign: 'center' }}>
-              <Typography variant="h4" fontWeight={700} sx={{ color: s.color }}>{s.value}</Typography>
-              <Typography variant="caption" color="#94A3B8">{s.label}</Typography>
+              <Typography
+                variant="h4"
+                sx={{
+                  fontWeight: 700,
+                  color: s.color
+                }}>{s.value}</Typography>
+              <Typography variant="caption" sx={{
+                color: "#94A3B8"
+              }}>{s.label}</Typography>
             </Paper>
           </Grid>
         ))}
@@ -142,11 +156,15 @@ export default function ClaimsDashboard() {
       <TextField
         fullWidth placeholder="Search claims by ID, description, type..." value={search}
         onChange={(e) => setSearch(e.target.value)} sx={{ mb: 2 }}
-        InputProps={{ startAdornment: <InputAdornment position="start"><Search sx={{ color: '#64748B' }} /></InputAdornment> }}
+        slotProps={{
+          input: { startAdornment: <InputAdornment position="start"><Search sx={{ color: '#64748B' }} /></InputAdornment> }
+        }}
       />
       <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ mb: 2, '& .MuiTab-root': { color: '#94A3B8', fontWeight: 600, minWidth: 100 }, '& .Mui-selected': { color: '#3B82F6' } }}>
         {TAB_LABELS.map((l, i) => (
-          <Tab key={l} label={<Stack direction="row" spacing={0.5} alignItems="center">
+          <Tab key={l} label={<Stack direction="row" spacing={0.5} sx={{
+            alignItems: "center"
+          }}>
             <span>{l}</span>
             {i > 0 && <Chip label={[0, stats.pending, stats.hitl, stats.approved, stats.denied][i]} size="small" sx={{ height: 20, fontSize: '0.7rem' }} />}
           </Stack>} />
@@ -185,7 +203,9 @@ export default function ClaimsDashboard() {
                             '& .MuiLinearProgress-bar': { bgcolor: claim.fraud_score > 0.65 ? '#EF4444' : claim.fraud_score > 0.35 ? '#F59E0B' : '#10B981' }
                           }}
                         />
-                        <Typography variant="caption" color="#94A3B8">{(claim.fraud_score * 100).toFixed(0)}%</Typography>
+                        <Typography variant="caption" sx={{
+                          color: "#94A3B8"
+                        }}>{(claim.fraud_score * 100).toFixed(0)}%</Typography>
                       </Box>
                     ) : '-'}
                   </TableCell>
@@ -352,11 +372,19 @@ function AgentTracePanel({ agentOutputs }) {
             >
               <Typography sx={{ fontSize: '1.2rem', lineHeight: 1 }}>{info.icon}</Typography>
               <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Typography variant="body2" fontWeight={700} color="#F1F5F9" noWrap>
+                <Typography
+                  variant="body2"
+                  noWrap
+                  sx={{
+                    fontWeight: 700,
+                    color: "#F1F5F9"
+                  }}>
                   {info.label}
                 </Typography>
                 {entry.decision && (
-                  <Typography variant="caption" color="#94A3B8">
+                  <Typography variant="caption" sx={{
+                    color: "#94A3B8"
+                  }}>
                     Decision: <span style={{ color: '#F1F5F9', fontWeight: 600 }}>{entry.decision}</span>
                   </Typography>
                 )}
@@ -379,7 +407,13 @@ function AgentTracePanel({ agentOutputs }) {
 
               {/* Duration */}
               {entry.duration_ms != null && (
-                <Typography variant="caption" color="#64748B" sx={{ minWidth: 50, textAlign: 'right' }}>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: "#64748B",
+                    minWidth: 50,
+                    textAlign: 'right'
+                  }}>
                   {entry.duration_ms > 1000 ? `${(entry.duration_ms / 1000).toFixed(1)}s` : `${entry.duration_ms}ms`}
                 </Typography>
               )}
@@ -399,8 +433,20 @@ function AgentTracePanel({ agentOutputs }) {
                 {/* Reasoning */}
                 {entry.reasoning && (
                   <Box sx={{ mt: 1.5 }}>
-                    <Typography variant="caption" color="#64748B" fontWeight={600}>Reasoning</Typography>
-                    <Typography variant="body2" color="#CBD5E1" sx={{ mt: 0.5, whiteSpace: 'pre-line', fontSize: '0.85rem' }}>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: "#64748B",
+                        fontWeight: 600
+                      }}>Reasoning</Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: "#CBD5E1",
+                        mt: 0.5,
+                        whiteSpace: 'pre-line',
+                        fontSize: '0.85rem'
+                      }}>
                       {entry.reasoning}
                     </Typography>
                   </Box>
@@ -409,7 +455,12 @@ function AgentTracePanel({ agentOutputs }) {
                 {/* Flags */}
                 {entry.flags?.length > 0 && (
                   <Box sx={{ mt: 1.5 }}>
-                    <Typography variant="caption" color="#64748B" fontWeight={600}>Flags</Typography>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: "#64748B",
+                        fontWeight: 600
+                      }}>Flags</Typography>
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 0.5 }}>
                       {entry.flags.map((flag, j) => (
                         <Chip key={j} label={flag} size="small"
@@ -422,12 +473,24 @@ function AgentTracePanel({ agentOutputs }) {
                 {/* Key Findings */}
                 {entry.findings && (
                   <Box sx={{ mt: 1.5 }}>
-                    <Typography variant="caption" color="#64748B" fontWeight={600}>Key Findings</Typography>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: "#64748B",
+                        fontWeight: 600
+                      }}>Key Findings</Typography>
                     <Box sx={{ mt: 0.5, display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '2px 12px' }}>
                       {Object.entries(entry.findings).map(([k, v]) => (
                         <React.Fragment key={k}>
-                          <Typography variant="caption" color="#64748B">{k.replace(/_/g, ' ')}</Typography>
-                          <Typography variant="caption" color="#F1F5F9" fontWeight={600}>
+                          <Typography variant="caption" sx={{
+                            color: "#64748B"
+                          }}>{k.replace(/_/g, ' ')}</Typography>
+                          <Typography
+                            variant="caption"
+                            sx={{
+                              color: "#F1F5F9",
+                              fontWeight: 600
+                            }}>
                             {typeof v === 'boolean' ? (v ? 'Yes' : 'No') :
                              typeof v === 'number' ? (Number.isInteger(v) ? v : v.toLocaleString(undefined, { maximumFractionDigits: 2 })) :
                              Array.isArray(v) ? (v.length ? v.join(', ') : 'None') :
@@ -457,10 +520,14 @@ function ClaimDetailDialog({ claim, loading, actionMsg, onClose, onProcess, onGo
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth
-      PaperProps={{ sx: { bgcolor: '#0F172A', border: '1px solid #334155', borderRadius: 3 } }}>
+      slotProps={{
+        paper: { sx: { bgcolor: '#0F172A', border: '1px solid #334155', borderRadius: 3 } }
+      }}>
       <DialogTitle sx={{ color: '#F1F5F9', borderBottom: '1px solid #1E293B', display: 'flex', justifyContent: 'space-between', alignItems: 'center', pb: 1.5 }}>
         <Box>
-          <Typography variant="h6" fontWeight={700}>Claim Details</Typography>
+          <Typography variant="h6" sx={{
+            fontWeight: 700
+          }}>Claim Details</Typography>
           {claim && !claim._loading && !claim._error && (
             <Typography variant="caption" sx={{ color: '#64748B', fontFamily: 'monospace' }}>{claim.claim_id}</Typography>
           )}
@@ -478,13 +545,17 @@ function ClaimDetailDialog({ claim, loading, actionMsg, onClose, onProcess, onGo
             {/* Next-step banner - always tells the reviewer what to do */}
             {step && (
               <Alert severity={step.severity} sx={{ mb: 2, bgcolor: '#1E293B', border: `1px solid ${step.severity === 'error' ? '#7F1D1D' : step.severity === 'warning' ? '#78350F' : '#1E3A5F'}`, '& .MuiAlert-message': { color: '#F1F5F9' } }}>
-                <Typography variant="subtitle2" fontWeight={700}>{step.title}</Typography>
+                <Typography variant="subtitle2" sx={{
+                  fontWeight: 700
+                }}>{step.title}</Typography>
                 <Typography variant="body2" sx={{ color: '#CBD5E1', mt: 0.5 }}>{step.body}</Typography>
               </Alert>
             )}
             {!step && ['completed', 'approved', 'approved_partial', 'denied', 'auto_rejected'].includes(claim.status) && (
               <Alert severity={['denied', 'auto_rejected'].includes(claim.status) ? 'error' : claim.status === 'approved_partial' ? 'warning' : 'success'} sx={{ mb: 2, bgcolor: '#1E293B', border: `1px solid ${['denied', 'auto_rejected'].includes(claim.status) ? '#7F1D1D' : '#064E3B'}`, '& .MuiAlert-message': { color: '#F1F5F9' } }}>
-                <Typography variant="subtitle2" fontWeight={700}>Claim complete</Typography>
+                <Typography variant="subtitle2" sx={{
+                  fontWeight: 700
+                }}>Claim complete</Typography>
                 <Typography variant="body2" sx={{ color: '#CBD5E1', mt: 0.5 }}>
                   Final decision: <strong>{(claim.final_decision || '').replace(/_/g, ' ')}</strong>. No further action needed.
                 </Typography>
@@ -547,7 +618,13 @@ function ClaimDetailDialog({ claim, loading, actionMsg, onClose, onProcess, onGo
             {claim.agent_outputs?._trace?.length > 0 && (
               <>
                 <SectionTitle>Agent Trace</SectionTitle>
-                <Typography variant="caption" color="#64748B" sx={{ mb: 1, display: 'block' }}>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: "#64748B",
+                    mb: 1,
+                    display: 'block'
+                  }}>
                   Click each agent to see its reasoning, confidence, findings, and flags.
                 </Typography>
                 <AgentTracePanel agentOutputs={claim.agent_outputs} />

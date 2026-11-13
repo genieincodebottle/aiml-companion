@@ -4,7 +4,7 @@ A modern React-based frontend for the AI-powered content moderation system with 
 
 ## Tech Stack
 
-- **React 18** - Modern UI library
+- **React 19** - Modern UI library
 - **Vite** - Fast build tool and dev server
 - **Material-UI (MUI)** - Component library
 - **React Router** - Client-side routing
@@ -69,7 +69,7 @@ frontend/
 
 ### Prerequisites
 
-- Node.js 18+ and npm
+- Node.js 22.12+ and npm
 - Backend server running on `http://localhost:8002`
 
 ### Installation

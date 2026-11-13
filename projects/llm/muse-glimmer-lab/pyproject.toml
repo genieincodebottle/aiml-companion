@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "A hands-on lab for Meta's Muse Glimmer 30B: channel-scoped output, ATEM tool calls, KV-cache maths, and a DFlash block-diffusion speculative-decoding simulator. Runs with no GPU."
 readme = "README.md"
 license = { text = "MIT" }
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 authors = [{ name = "Rajesh Srivastava" }]
 keywords = [
     "muse-glimmer", "meta", "agentic-ai", "speculative-decoding", "dflash",
@@ -15,13 +15,13 @@ keywords = [
 # nothing but the standard library, so a learner with no GPU and no patience
 # for a dependency tree can still run every experiment.
 dependencies = [
-    "httpx>=0.27.0",
+    "httpx>=0.28",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8.0.0",
-    "ruff>=0.4.0",
+    "pytest>=9.2",
+    "ruff>=0.17",
 ]
 
 [build-system]

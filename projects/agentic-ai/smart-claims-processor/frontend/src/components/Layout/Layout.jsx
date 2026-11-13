@@ -76,8 +76,16 @@ export default function Layout() {
       <Box sx={{ p: 2.5, display: 'flex', alignItems: 'center', gap: 1.5 }}>
         <AccountBalance sx={{ fontSize: 32, color: '#3B82F6' }} />
         <Box>
-          <Typography variant="subtitle1" fontWeight={700} color="#F1F5F9" lineHeight={1.2}>Smart Claims</Typography>
-          <Typography variant="caption" color="#64748B">Insurance AI</Typography>
+          <Typography
+            variant="subtitle1"
+            sx={{
+              fontWeight: 700,
+              color: "#F1F5F9",
+              lineHeight: 1.2
+            }}>Smart Claims</Typography>
+          <Typography variant="caption" sx={{
+            color: "#64748B"
+          }}>Insurance AI</Typography>
         </Box>
       </Box>
       <Divider sx={{ borderColor: '#1E293B' }} />
@@ -88,7 +96,13 @@ export default function Layout() {
           {user?.username?.[0]?.toUpperCase() || '?'}
         </Avatar>
         <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Typography variant="body2" fontWeight={600} color="#F1F5F9" noWrap>{user?.username}</Typography>
+          <Typography
+            variant="body2"
+            noWrap
+            sx={{
+              fontWeight: 600,
+              color: "#F1F5F9"
+            }}>{user?.username}</Typography>
           <Chip label={ROLE_LABELS[user?.role] || user?.role} size="small"
             sx={{ height: 20, fontSize: '0.7rem', fontWeight: 600, bgcolor: `${roleColor}20`, color: roleColor, border: `1px solid ${roleColor}40` }}
           />
@@ -138,7 +152,13 @@ export default function Layout() {
       <AppBar position="fixed" sx={{ display: { md: 'none' }, bgcolor: '#0F172A', borderBottom: '1px solid #1E293B' }}>
         <Toolbar>
           <IconButton onClick={() => setMobileOpen(!mobileOpen)} sx={{ color: '#F1F5F9' }}><MenuIcon /></IconButton>
-          <Typography variant="subtitle1" fontWeight={600} color="#F1F5F9" sx={{ ml: 1 }}>Smart Claims</Typography>
+          <Typography
+            variant="subtitle1"
+            sx={{
+              fontWeight: 600,
+              color: "#F1F5F9",
+              ml: 1
+            }}>Smart Claims</Typography>
         </Toolbar>
       </AppBar>
 

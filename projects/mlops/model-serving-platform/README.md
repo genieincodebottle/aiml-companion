@@ -2,8 +2,8 @@
 
 > **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)** - Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
 
-![Python](https://img.shields.io/badge/Python-3.11-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.115-green)
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.162-green)
 ![Docker](https://img.shields.io/badge/Docker-Ready-blue)
 ![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub_Actions-purple)
 ![License](https://img.shields.io/badge/License-MIT-green)

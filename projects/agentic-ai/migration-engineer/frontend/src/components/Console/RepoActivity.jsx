@@ -16,7 +16,12 @@ export default function RepoActivity({ activity = [], autoScroll = true, maxHeig
 
   if (activity.length === 0) {
     return (
-      <Typography variant="caption" color="text.secondary">
+      <Typography
+        variant="caption"
+        sx={{
+          color: 'text.secondary',
+        }}
+      >
         No activity yet.
       </Typography>
     );
@@ -68,7 +73,13 @@ export default function RepoActivity({ activity = [], autoScroll = true, maxHeig
               </Typography>
             </Box>
             {item.ts && (
-              <Typography variant="caption" color="text.secondary" sx={{ flexShrink: 0 }}>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: 'text.secondary',
+                  flexShrink: 0,
+                }}
+              >
                 {formatTime(item.ts)}
               </Typography>
             )}

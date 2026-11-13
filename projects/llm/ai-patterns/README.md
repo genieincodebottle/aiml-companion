@@ -41,7 +41,7 @@ See `ai-patterns.pdf` for a visual guide covering all patterns.
 ## Run Locally (Optional)
 
 ```bash
-pip install jupyter langchain-google-genai python-dotenv
+pip install jupyter google-genai chromadb
 jupyter notebook
 ```
 
@@ -76,24 +76,31 @@ reproduce exactly. For a teaching repo that has to keep *running*, it is a
 maintenance liability with a silent fuse: nothing warns you, and one day every
 notebook 404s at once. The alias trades exact reproducibility for staying alive.
 
-The alias is also about twice as fast, which matters more here than it sounds.
-These patterns are multi-call by construction - debate rounds, tree-search
-branches, verification chains - so a single notebook can make 50-80 sequential
-requests. Measured on one identical prompt:
+The trade has a second side: the alias moves to newer, larger models, and speed
+moves with it. These patterns are multi-call by construction - debate rounds,
+tree-search branches, verification chains - so a notebook makes 50-150
+sequential requests and per-call latency decides how long it runs. Measured on
+one identical prompt (median of 3 calls, 2026-11-13):
 
-| model | latency per call |
-|---|---|
-| `gemini-2.5-flash` | 8.1s |
-| `gemini-2.5-flash-lite` | 4.0s |
-| `gemini-flash-latest` | 3.8s |
+| model | resolves to | latency per call |
+|---|---|---|
+| `gemini-flash-latest` | `gemini-3.8-flash` | 10.1s |
+| `gemini-3.6-flash` | `gemini-3.6-flash` | 6.6s |
+| `gemini-flash-lite-latest` | `gemini-3.5-flash-lite` | 1.6s |
 
-At 60 calls that is the difference between an 8-minute notebook and a 4-minute
-one. If you need reproducible outputs, pin whatever `gemini-flash-latest`
-currently resolves to and accept the maintenance.
+`Multi-Agent-Debate.ipynb` makes about 140 calls, so on the default alias it
+takes around 25 minutes; most notebooks finish in a few. To trade some answer
+quality for speed, change the model string in the agent class to
+`gemini-flash-lite-latest`. If you need reproducible outputs, pin whatever
+`gemini-flash-latest` currently resolves to and accept the maintenance.
 
-They also import **`google.generativeai`**, which Google has deprecated in
-favour of the `google-genai` SDK (`from google import genai`). The old package
-still works today and every notebook here runs against it, but new work should
-start on the new SDK: the call shape changes from
-`genai.GenerativeModel(name).generate_content(...)` to
-`client.models.generate_content(model=name, contents=...)`.
+All notebooks use the **`google-genai`** SDK (`from google import genai`).
+They were moved off `google.generativeai`, which Google deprecated and no longer
+updates. The call shape is `client.models.generate_content(model=name, contents=...)`
+in place of the old `genai.GenerativeModel(name).generate_content(...)`, and
+`RAG.ipynb` embeds with `client.models.embed_content(...)`.
+
+The client is created with `http_options={"api_version": "v1beta"}`. From
+google-genai 3.0 the SDK talks to the stable `v1` API by default, and `v1` does
+not serve the `-latest` aliases or preview models: `gemini-flash-latest` returns
+`404 ... is not found for API version v1`. Pinning `v1beta` keeps the alias working.

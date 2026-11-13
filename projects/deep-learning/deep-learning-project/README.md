@@ -2,8 +2,8 @@
 
 > **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)** - Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
 
-![Python](https://img.shields.io/badge/Python-3.11-blue)
-![PyTorch](https://img.shields.io/badge/PyTorch-2.2-red)
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.15-red)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Status](https://img.shields.io/badge/Status-Portfolio_Ready-brightgreen)
 
@@ -20,7 +20,7 @@ CIFAR-10 (60K images, 10 classes)
 |                                        |
 |   Exp 1: Simple CNN (baseline ~60%)   |
 |   Exp 2: + Data Augmentation          |
-|   Exp 3: ResNet-18 architecture       |
+|   Exp 3: ResNet-style skip blocks     |
 |   Exp 4: CosineAnnealing LR          |
 |   Exp 5: Mixed Precision Training     |
 |   Exp 6: Full optimization (93%+)    |
@@ -176,7 +176,7 @@ deep-learning-project/
 
 ### "How does this scale to production?"
 
-"The model is 2.8M parameters and runs inference in <5ms on a GPU. For production: export to ONNX for faster inference, add a FastAPI wrapper, containerize with Docker, and add monitoring for prediction distribution drift. The experiment log format would integrate with MLflow for team collaboration."
+"The model is 1.92M parameters (1,923,914; 1.15M without the skip connections) and runs inference in <5ms on a GPU. For production: export to ONNX for faster inference, add a FastAPI wrapper, containerize with Docker, and add monitoring for prediction distribution drift. The experiment log format would integrate with MLflow for team collaboration."
 
 ### "Explain skip connections to a non-technical person."
 

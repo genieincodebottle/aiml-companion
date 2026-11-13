@@ -6,14 +6,14 @@ build-backend = "setuptools.build_meta"
 name = "incremental-warehouse"
 version = "1.0.0"
 description = "An incremental warehouse pipeline that survives late commits, deletes, reruns and bad input"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = [
-    "duckdb>=1.0", "pyarrow>=14.0", "PyYAML>=6.0", "Jinja2>=3.1",
+    "duckdb>=2.0", "pyarrow>=26.0", "PyYAML>=6.0", "Jinja2>=3.1",
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=7.4"]
-notebook = ["pandas>=2.0", "matplotlib>=3.7", "nbformat>=5.9", "nbconvert>=7.0", "ipykernel>=6.0", "pip"]
+dev = ["pytest>=9.2"]
+notebook = ["pandas>=3.1", "matplotlib>=3.11", "nbformat>=5.11", "nbconvert>=7.17", "ipykernel>=7.4", "pip"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

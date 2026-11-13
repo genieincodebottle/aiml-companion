@@ -71,7 +71,14 @@ export default function RepoCard({ repo, readOnly = false }) {
           <Chip size="small" color={color} icon={meta.icon} label={meta.label} />
         </Box>
 
-        <Stack direction="row" spacing={2} sx={{ mb: 1.5 }} flexWrap="wrap" useFlexGap>
+        <Stack
+          direction="row"
+          spacing={2}
+          useFlexGap
+          sx={{
+            flexWrap: "wrap",
+            mb: 1.5
+          }}>
           <Metric icon={<Autorenew sx={{ fontSize: 15 }} />} label="Steps" value={repo.steps} />
           <Metric icon={<Build sx={{ fontSize: 15 }} />} label="Tools" value={repo.tool_calls} />
           <Metric
@@ -82,7 +89,14 @@ export default function RepoCard({ repo, readOnly = false }) {
           <Metric icon={<Build sx={{ fontSize: 15 }} />} label="Cost" value={formatUsd(repo.cost_usd)} />
         </Stack>
 
-        <Stack direction="row" spacing={1} sx={{ mb: 1.5 }} flexWrap="wrap" useFlexGap>
+        <Stack
+          direction="row"
+          spacing={1}
+          useFlexGap
+          sx={{
+            flexWrap: "wrap",
+            mb: 1.5
+          }}>
           {testsChip}
           {repo.review_verdict && (
             <Chip
@@ -123,13 +137,24 @@ export default function RepoCard({ repo, readOnly = false }) {
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 0.5 }}>
               <Shield sx={{ fontSize: 16, color: 'warning.main' }} />
-              <Typography variant="caption" fontWeight={700} color="warning.main">
+              <Typography
+                variant="caption"
+                sx={{
+                  fontWeight: 700,
+                  color: "warning.main"
+                }}>
                 Guardrail blocked {repo.guardrail_blocks.length}{' '}
                 {repo.guardrail_blocks.length === 1 ? 'action' : 'actions'}
               </Typography>
             </Box>
             {repo.guardrail_blocks.map((g, i) => (
-              <Typography key={i} variant="caption" display="block" color="text.secondary">
+              <Typography
+                key={i}
+                variant="caption"
+                sx={{
+                  display: "block",
+                  color: "text.secondary"
+                }}>
                 {g.tool}
                 {g.target ? ` on ${g.target}` : ''}: {g.reason}
               </Typography>
@@ -138,13 +163,25 @@ export default function RepoCard({ repo, readOnly = false }) {
         )}
 
         {repo.escalation_reason && (
-          <Typography variant="caption" color="error.light" display="block" sx={{ mb: 1.5 }}>
+          <Typography
+            variant="caption"
+            sx={{
+              color: "error.light",
+              display: "block",
+              mb: 1.5
+            }}>
             Escalation: {repo.escalation_reason}
           </Typography>
         )}
 
         <Divider sx={{ mb: 1 }} />
-        <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 0.75 }}>
+        <Typography
+          variant="caption"
+          sx={{
+            color: "text.secondary",
+            display: "block",
+            mb: 0.75
+          }}>
           Activity
         </Typography>
         <RepoActivity activity={repo.activity} autoScroll={!readOnly} />

@@ -2,7 +2,7 @@
 
 > **Learn how to use this in the Forward Deployed Engineer path on [AI-ML Companion](https://aimlcompanion.ai/)** - the portfolio artifact and the 7-day embedded engagement simulation both run on this repo.
 
-![Python 3.11+](https://img.shields.io/badge/Python-3.11+-blue.svg)
+![Python 3.12+](https://img.shields.io/badge/Python-3.12+-blue.svg)
 ![Status: Starter](https://img.shields.io/badge/Status-Starter_Scaffold-orange.svg)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 

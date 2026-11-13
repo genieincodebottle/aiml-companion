@@ -2,9 +2,9 @@
 
 > **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)**. Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![statsmodels](https://img.shields.io/badge/statsmodels-0.14-orange)
-![SHAP](https://img.shields.io/badge/SHAP-0.44+-purple)
+![Python](https://img.shields.io/badge/Python-3.12+-blue)
+![statsmodels](https://img.shields.io/badge/statsmodels-0.15-orange)
+![SHAP](https://img.shields.io/badge/SHAP-0.54+-purple)
 ![Tests](https://img.shields.io/badge/tests-34%20passing-brightgreen)
 
 **Your untested assumptions are the weak part, not the linear model.**
@@ -158,7 +158,7 @@ uv pip install -r requirements.txt
 ```
 
 Plain `pip install -r requirements.txt` works identically if you would rather
-not add a tool. Python 3.10 or newer either way.
+not add a tool. Python 3.12 or newer either way.
 
 ### Run the argument end to end
 

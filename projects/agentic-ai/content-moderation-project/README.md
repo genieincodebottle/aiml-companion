@@ -249,7 +249,7 @@ npm run dev
 
 > **Checkpoint:** You should see:
 > ```
-> VITE v5.x.x ready
+> VITE v8.x.x ready
 >   Local: http://localhost:5173/
 > ```
 
@@ -371,7 +371,7 @@ Users can appeal moderation decisions. Reviewers see the original content, all a
 
 | Feature | Details |
 |---------|---------|
-| **React 18 + Vite** | Modern, fast frontend development |
+| **React 19 + Vite 8** | Modern, fast frontend development |
 | **Material-UI (MUI) v5** | Professional, responsive UI components |
 | **Community Dashboard** | Widget-based landing page (stories, stats, guidelines) |
 | **Moderation Dashboard** | Integrated HITL review queue with real-time statistics |
@@ -526,12 +526,12 @@ Full interactive API documentation available at http://localhost:8000/docs (Swag
 
 | Component | Technology | Purpose |
 |-----------|------------|---------|
-| Framework | React 18 + Vite | UI framework + build tool |
-| UI Library | Material-UI v5 | Component library |
+| Framework | React 19 + Vite 8 | UI framework + build tool |
+| UI Library | MUI v9 | Component library |
 | State | Zustand | Lightweight state management |
 | Charts | Recharts + MUI X-Charts | Data visualization |
 | HTTP | Axios | API communication with auth |
-| Routing | React Router v6 | Client-side routing |
+| Routing | React Router v7 | Client-side routing |
 
 ---
 
@@ -578,7 +578,7 @@ If valid, this returns a JSON list of available models.
 
 ### 8. Node.js version issues
 
-If `npm install` fails with syntax errors, check your Node version (`node --version`). This project requires Node 18+. Use [nvm](https://github.com/nvm-sh/nvm) to manage multiple Node versions.
+If `npm install` fails with syntax errors, check your Node version (`node --version`). This project requires Node 22.12+. Use [nvm](https://github.com/nvm-sh/nvm) to manage multiple Node versions.
 
 ### 9. Port already in use
 

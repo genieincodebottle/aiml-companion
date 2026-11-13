@@ -183,54 +183,72 @@ export default function HITLQueue() {
     <Container maxWidth="xl" sx={{ py: 4 }}>
       {/* Header */}
       <Box sx={{ mb: 4 }}>
-        <Typography variant="body1" color="text.secondary">
+        <Typography variant="body1" sx={{
+          color: "text.secondary"
+        }}>
           Content flagged by AI for human review. Priority is based on severity, confidence, and user impact.
         </Typography>
       </Box>
 
       {/* Stats Cards */}
       <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <Card>
             <CardContent sx={{ textAlign: 'center', py: 2 }}>
               <Typography variant="h4">{stats.total}</Typography>
-              <Typography variant="body2" color="text.secondary">Total Queue</Typography>
+              <Typography variant="body2" sx={{
+                color: "text.secondary"
+              }}>Total Queue</Typography>
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <Card sx={{ borderLeft: 4, borderColor: 'error.main' }}>
             <CardContent sx={{ textAlign: 'center', py: 2 }}>
-              <Typography variant="h4" color="error.main">{stats.critical}</Typography>
-              <Typography variant="body2" color="text.secondary">Critical</Typography>
+              <Typography variant="h4" sx={{
+                color: "error.main"
+              }}>{stats.critical}</Typography>
+              <Typography variant="body2" sx={{
+                color: "text.secondary"
+              }}>Critical</Typography>
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <Card sx={{ borderLeft: 4, borderColor: 'warning.main' }}>
             <CardContent sx={{ textAlign: 'center', py: 2 }}>
-              <Typography variant="h4" color="warning.main">{stats.high}</Typography>
-              <Typography variant="body2" color="text.secondary">High</Typography>
+              <Typography variant="h4" sx={{
+                color: "warning.main"
+              }}>{stats.high}</Typography>
+              <Typography variant="body2" sx={{
+                color: "text.secondary"
+              }}>High</Typography>
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <Card sx={{ borderLeft: 4, borderColor: 'info.main' }}>
             <CardContent sx={{ textAlign: 'center', py: 2 }}>
-              <Typography variant="h4" color="info.main">{stats.medium}</Typography>
-              <Typography variant="body2" color="text.secondary">Medium</Typography>
+              <Typography variant="h4" sx={{
+                color: "info.main"
+              }}>{stats.medium}</Typography>
+              <Typography variant="body2" sx={{
+                color: "text.secondary"
+              }}>Medium</Typography>
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <Card sx={{ borderLeft: 4, borderColor: 'grey.400' }}>
             <CardContent sx={{ textAlign: 'center', py: 2 }}>
               <Typography variant="h4">{stats.low}</Typography>
-              <Typography variant="body2" color="text.secondary">Low</Typography>
+              <Typography variant="body2" sx={{
+                color: "text.secondary"
+              }}>Low</Typography>
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <Card>
             <CardContent sx={{ textAlign: 'center', py: 2 }}>
               <Button
@@ -275,7 +293,9 @@ export default function HITLQueue() {
             <Typography variant="h6" gutterBottom>
               Queue is empty!
             </Typography>
-            <Typography color="text.secondary">
+            <Typography sx={{
+              color: "text.secondary"
+            }}>
               No content pending human review at this priority level.
             </Typography>
           </Box>
@@ -336,7 +356,12 @@ export default function HITLQueue() {
                           item.ai_recommendation === 'warn' ? 'warning' : 'default'
                         }
                       />
-                      <Typography variant="caption" display="block" color="text.secondary">
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          display: "block",
+                          color: "text.secondary"
+                        }}>
                         {((item.ai_confidence || 0) * 100).toFixed(0)}% conf
                       </Typography>
                     </TableCell>
@@ -363,7 +388,9 @@ export default function HITLQueue() {
                           <Typography variant="body2">
                             {item.user_info?.username || 'Unknown'}
                           </Typography>
-                          <Typography variant="caption" color="text.secondary">
+                          <Typography variant="caption" sx={{
+                            color: "text.secondary"
+                          }}>
                             Rep: {((item.user_info?.reputation || 0) * 100).toFixed(0)}%
                           </Typography>
                         </Box>
@@ -415,7 +442,7 @@ export default function HITLQueue() {
           {reviewDialog.item && (
             <Grid container spacing={2}>
               {/* Content Section */}
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography variant="subtitle2" gutterBottom>
                   Content to Review:
                 </Typography>
@@ -435,7 +462,7 @@ export default function HITLQueue() {
               </Grid>
 
               {/* AI Analysis */}
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <Card variant="outlined">
                   <CardContent>
                     <Typography variant="subtitle2" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -445,7 +472,9 @@ export default function HITLQueue() {
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Typography variant="body2">Toxicity Score:</Typography>
-                        <Typography variant="body2" fontWeight="bold">
+                        <Typography variant="body2" sx={{
+                          fontWeight: "bold"
+                        }}>
                           {((reviewDialog.item.ai_analysis?.toxicity_score || reviewDialog.item.toxicity_score || 0) * 100).toFixed(0)}%
                         </Typography>
                       </Box>
@@ -469,7 +498,9 @@ export default function HITLQueue() {
                     </Box>
                     {(reviewDialog.item.ai_analysis?.policy_violations || reviewDialog.item.violations || []).length > 0 && (
                       <Box sx={{ mt: 1 }}>
-                        <Typography variant="body2" color="text.secondary">Violations:</Typography>
+                        <Typography variant="body2" sx={{
+                          color: "text.secondary"
+                        }}>Violations:</Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 0.5 }}>
                           {(reviewDialog.item.ai_analysis?.policy_violations || reviewDialog.item.violations || []).map((v, i) => (
                             <Chip key={i} label={v} size="small" color="error" variant="outlined" />
@@ -482,7 +513,7 @@ export default function HITLQueue() {
               </Grid>
 
               {/* User Info */}
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <Card variant="outlined">
                   <CardContent>
                     <Typography variant="subtitle2" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -492,7 +523,9 @@ export default function HITLQueue() {
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Typography variant="body2">Username:</Typography>
-                        <Typography variant="body2" fontWeight="bold">
+                        <Typography variant="body2" sx={{
+                          fontWeight: "bold"
+                        }}>
                           {reviewDialog.item.user_profile?.username || reviewDialog.item.user_info?.username || 'Unknown'}
                         </Typography>
                       </Box>
@@ -522,7 +555,7 @@ export default function HITLQueue() {
               </Grid>
 
               {/* Trigger Reasons */}
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Alert severity="info" icon={<Flag />}>
                   <Typography variant="subtitle2">Why Human Review is Required:</Typography>
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 1 }}>
@@ -534,7 +567,7 @@ export default function HITLQueue() {
               </Grid>
 
               {/* Decision Section */}
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Divider sx={{ my: 1 }} />
                 <FormControl component="fieldset" fullWidth>
                   <FormLabel component="legend">Your Decision</FormLabel>
@@ -544,7 +577,7 @@ export default function HITLQueue() {
                   >
                     <Grid container spacing={1} sx={{ mt: 1 }}>
                       {decisionOptions.map((option) => (
-                        <Grid item xs={12} sm={6} md={4} key={option.value}>
+                        <Grid size={{ xs: 12, sm: 6, md: 4 }} key={option.value}>
                           <Paper
                             variant={reviewDecision === option.value ? 'elevation' : 'outlined'}
                             elevation={reviewDecision === option.value ? 3 : 0}
@@ -564,10 +597,14 @@ export default function HITLQueue() {
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                   {option.icon}
                                   <Box>
-                                    <Typography variant="body2" fontWeight="bold">
+                                    <Typography variant="body2" sx={{
+                                      fontWeight: "bold"
+                                    }}>
                                       {option.label}
                                     </Typography>
-                                    <Typography variant="caption" color="text.secondary">
+                                    <Typography variant="caption" sx={{
+                                      color: "text.secondary"
+                                    }}>
                                       {option.description}
                                     </Typography>
                                   </Box>
@@ -584,7 +621,7 @@ export default function HITLQueue() {
               </Grid>
 
               {/* Notes */}
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   fullWidth
                   multiline

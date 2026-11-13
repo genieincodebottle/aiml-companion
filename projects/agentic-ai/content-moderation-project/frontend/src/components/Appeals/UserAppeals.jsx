@@ -201,11 +201,15 @@ const UserAppeals = () => {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Header */}
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
+        <Typography variant="h4" component="h1" gutterBottom sx={{
+          fontWeight: "bold"
+        }}>
           <GavelIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
           My Appeals
         </Typography>
-        <Typography variant="body1" color="text.secondary">
+        <Typography variant="body1" sx={{
+          color: "text.secondary"
+        }}>
           Submit and track appeals for content moderation decisions
         </Typography>
       </Box>
@@ -226,10 +230,17 @@ const UserAppeals = () => {
       {myStories.length > 0 && (
         <Card sx={{ mb: 4 }}>
           <CardContent>
-            <Typography variant="h6" fontWeight="bold" gutterBottom>
+            <Typography variant="h6" gutterBottom sx={{
+              fontWeight: "bold"
+            }}>
               Content Available for Appeal
             </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+            <Typography
+              variant="body2"
+              sx={{
+                color: "text.secondary",
+                mb: 2
+              }}>
               You can appeal moderation decisions on the following content:
             </Typography>
             <Stack spacing={2}>
@@ -237,7 +248,9 @@ const UserAppeals = () => {
                 <Paper key={story.story_id} elevation={1} sx={{ p: 2 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                     <Box sx={{ flex: 1 }}>
-                      <Typography variant="subtitle1" fontWeight="bold">
+                      <Typography variant="subtitle1" sx={{
+                        fontWeight: "bold"
+                      }}>
                         {story.title}
                       </Typography>
                       <Box sx={{ mt: 1, mb: 1 }}>
@@ -247,7 +260,9 @@ const UserAppeals = () => {
                           color={getStatusColor(story.moderation_status)}
                         />
                       </Box>
-                      <Typography variant="caption" color="text.secondary">
+                      <Typography variant="caption" sx={{
+                        color: "text.secondary"
+                      }}>
                         Submitted: {formatDate(story.created_at)}
                       </Typography>
                     </Box>
@@ -271,17 +286,23 @@ const UserAppeals = () => {
 
       {/* Appeals History */}
       <Paper sx={{ p: 3 }}>
-        <Typography variant="h6" fontWeight="bold" gutterBottom>
+        <Typography variant="h6" gutterBottom sx={{
+          fontWeight: "bold"
+        }}>
           Appeals History
         </Typography>
 
         {appeals.length === 0 ? (
           <Box sx={{ textAlign: 'center', py: 4 }}>
             <GavelIcon sx={{ fontSize: 60, color: 'text.secondary', mb: 2 }} />
-            <Typography variant="h6" color="text.secondary">
+            <Typography variant="h6" sx={{
+              color: "text.secondary"
+            }}>
               No Appeals Yet
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" sx={{
+              color: "text.secondary"
+            }}>
               You haven't submitted any appeals
             </Typography>
           </Box>
@@ -301,7 +322,9 @@ const UserAppeals = () => {
                 {appeals.map((appeal) => (
                   <TableRow key={appeal.appeal_id} hover>
                     <TableCell>
-                      <Typography variant="body2" fontWeight="medium">
+                      <Typography variant="body2" sx={{
+                        fontWeight: "medium"
+                      }}>
                         {appeal.content_title || `Story #${appeal.content_id}`}
                       </Typography>
                     </TableCell>
@@ -343,7 +366,9 @@ const UserAppeals = () => {
       {/* Submit Appeal Dialog */}
       <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth>
         <DialogTitle>
-          <Typography variant="h6" fontWeight="bold">
+          <Typography variant="h6" sx={{
+            fontWeight: "bold"
+          }}>
             Submit Appeal
           </Typography>
         </DialogTitle>
@@ -372,8 +397,10 @@ const UserAppeals = () => {
                 placeholder="Please explain why you believe this moderation decision should be reviewed..."
                 value={appealReason}
                 onChange={(e) => setAppealReason(e.target.value)}
-                inputProps={{ maxLength: 2000 }}
                 helperText={`${appealReason.length}/2000 characters. Be specific and provide clear reasoning.`}
+                slotProps={{
+                  htmlInput: { maxLength: 2000 }
+                }}
               />
 
               <Alert severity="warning" sx={{ mt: 2 }}>
@@ -400,14 +427,18 @@ const UserAppeals = () => {
       {/* View Appeal Details Dialog */}
       <Dialog open={viewDialog} onClose={handleCloseViewDialog} maxWidth="md" fullWidth>
         <DialogTitle>
-          <Typography variant="h6" fontWeight="bold">
+          <Typography variant="h6" sx={{
+            fontWeight: "bold"
+          }}>
             Appeal Details
           </Typography>
         </DialogTitle>
         <DialogContent dividers>
           {selectedAppeal && (
             <Box>
-              <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+              <Typography variant="subtitle2" gutterBottom sx={{
+                color: "text.secondary"
+              }}>
                 Status
               </Typography>
               <Chip
@@ -419,7 +450,9 @@ const UserAppeals = () => {
 
               <Divider sx={{ my: 2 }} />
 
-              <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+              <Typography variant="subtitle2" gutterBottom sx={{
+                color: "text.secondary"
+              }}>
                 Your Appeal Reason
               </Typography>
               <Paper variant="outlined" sx={{ p: 2, mb: 3, bgcolor: 'grey.50' }}>
@@ -430,7 +463,9 @@ const UserAppeals = () => {
 
               {selectedAppeal.review_notes && (
                 <>
-                  <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                  <Typography variant="subtitle2" gutterBottom sx={{
+                    color: "text.secondary"
+                  }}>
                     Review Decision
                   </Typography>
                   <Paper variant="outlined" sx={{ p: 2, mb: 2, bgcolor: 'grey.50' }}>
@@ -443,7 +478,9 @@ const UserAppeals = () => {
 
               <Box sx={{ mt: 2, display: 'flex', gap: 2 }}>
                 <Box>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography variant="caption" sx={{
+                    color: "text.secondary"
+                  }}>
                     Submitted
                   </Typography>
                   <Typography variant="body2">
@@ -452,7 +489,9 @@ const UserAppeals = () => {
                 </Box>
                 {selectedAppeal.review_date && (
                   <Box>
-                    <Typography variant="caption" color="text.secondary">
+                    <Typography variant="caption" sx={{
+                      color: "text.secondary"
+                    }}>
                       Reviewed
                     </Typography>
                     <Typography variant="body2">

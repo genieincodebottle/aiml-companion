@@ -39,7 +39,14 @@ export default function JobSummaryBanner({ summary }) {
           )}
         </Box>
 
-        <Stack direction="row" spacing={3} flexWrap="wrap" useFlexGap sx={{ mb: 2 }}>
+        <Stack
+          direction="row"
+          spacing={3}
+          useFlexGap
+          sx={{
+            flexWrap: "wrap",
+            mb: 2
+          }}>
           <Stat
             icon={<TaskAlt sx={{ fontSize: 16 }} />}
             label="Merged"
@@ -61,12 +68,22 @@ export default function JobSummaryBanner({ summary }) {
 
         <Divider sx={{ mb: 1.5 }} />
 
-        <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 1 }}>
+        <Typography
+          variant="caption"
+          sx={{
+            color: "text.secondary",
+            display: "block",
+            mb: 1
+          }}>
           Outcome by status
         </Typography>
-        <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+        <Stack direction="row" spacing={1} useFlexGap sx={{
+          flexWrap: "wrap"
+        }}>
           {Object.keys(byStatus).length === 0 ? (
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" sx={{
+              color: "text.secondary"
+            }}>
               No repositories reported.
             </Typography>
           ) : (

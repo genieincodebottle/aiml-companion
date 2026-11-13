@@ -9,7 +9,7 @@ import {
   MergeType,
   Cancel,
   ReportProblem,
-  ErrorOutline,
+  ErrorOutlineOutlined as ErrorOutline,
   PlayArrow,
   Build,
   EditNote,

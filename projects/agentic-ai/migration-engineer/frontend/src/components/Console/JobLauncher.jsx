@@ -65,7 +65,9 @@ export default function JobLauncher() {
             label={streamConnected ? 'streaming' : running ? 'starting' : 'idle'}
           />
         </Box>
-        <Typography variant="caption" color="text.secondary">
+        <Typography variant="caption" sx={{
+          color: "text.secondary"
+        }}>
           Select a codemod job, then let the agent fleet migrate every repository in parallel.
         </Typography>
 
@@ -99,12 +101,16 @@ export default function JobLauncher() {
                 <MenuItem key={job.id} value={job.id}>
                   <Box>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Typography variant="body2" fontWeight={600}>
+                      <Typography variant="body2" sx={{
+                        fontWeight: 600
+                      }}>
                         {job.title}
                       </Typography>
                       <Chip size="small" variant="outlined" label={`${job.repo_count} repos`} />
                     </Box>
-                    <Typography variant="caption" color="text.secondary">
+                    <Typography variant="caption" sx={{
+                      color: "text.secondary"
+                    }}>
                       {job.rule_name}
                       {job.description ? ` - ${job.description}` : ''}
                     </Typography>
@@ -124,9 +130,17 @@ export default function JobLauncher() {
                 borderColor: 'divider',
               }}
             >
-              <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5 }}>
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{
+                  alignItems: "center",
+                  mb: 0.5
+                }}>
                 <Rule sx={{ fontSize: 16, color: 'primary.main' }} />
-                <Typography variant="body2" fontWeight={600}>
+                <Typography variant="body2" sx={{
+                  fontWeight: 600
+                }}>
                   {selected.rule_name}
                 </Typography>
                 <Chip
@@ -137,7 +151,12 @@ export default function JobLauncher() {
                 />
               </Stack>
               {selected.description && (
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "text.secondary",
+                    mb: 1
+                  }}>
                   {selected.description}
                 </Typography>
               )}
@@ -168,7 +187,9 @@ export default function JobLauncher() {
             label={
               <Box>
                 <Typography variant="body2">Auto-approve PRs</Typography>
-                <Typography variant="caption" color="text.secondary">
+                <Typography variant="caption" sx={{
+                  color: "text.secondary"
+                }}>
                   Skip the human gate and open PRs automatically
                 </Typography>
               </Box>

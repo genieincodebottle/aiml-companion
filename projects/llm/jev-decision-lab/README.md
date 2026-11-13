@@ -50,7 +50,7 @@ uv run python run.py primitives    # one Noul, one Choice and one Score, printed
 uv run python -m pytest -q         # 25 tests, no network
 ```
 
-No `uv`? `pip install -e .` and drop the `uv run` prefix. Python 3.10 or newer.
+No `uv`? `pip install -e .` and drop the `uv run` prefix. Python 3.12 or newer.
 
 ### Against the real model
 

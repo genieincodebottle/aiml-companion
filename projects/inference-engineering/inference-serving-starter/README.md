@@ -2,7 +2,7 @@
 
 > **Used in the Inference Engineering capstone on [AI-ML Companion](https://aimlcompanion.ai/): "Project: Serve, Benchmark and Cost an Open Model".**
 
-![Python 3.10+](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![Python 3.12+](https://img.shields.io/badge/Python-3.12+-blue.svg)
 ![Status: Starter](https://img.shields.io/badge/Status-Starter_Scaffold-orange.svg)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 

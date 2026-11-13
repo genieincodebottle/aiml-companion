@@ -181,10 +181,14 @@ const UserManagement = () => {
       {/* Header */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
         <Box>
-          <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
+          <Typography variant="h4" component="h1" gutterBottom sx={{
+            fontWeight: "bold"
+          }}>
             User Management
           </Typography>
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="body1" sx={{
+            color: "text.secondary"
+          }}>
             Manage user accounts and permissions
           </Typography>
         </Box>
@@ -230,7 +234,9 @@ const UserManagement = () => {
                 <TableRow key={user.user_id} hover>
                   <TableCell>{user.user_id}</TableCell>
                   <TableCell>
-                    <Typography variant="body2" fontWeight="medium">
+                    <Typography variant="body2" sx={{
+                      fontWeight: "medium"
+                    }}>
                       {user.username}
                     </Typography>
                   </TableCell>
@@ -283,7 +289,9 @@ const UserManagement = () => {
 
         {users.length === 0 && (
           <Box sx={{ textAlign: 'center', py: 4 }}>
-            <Typography variant="body1" color="text.secondary">
+            <Typography variant="body1" sx={{
+              color: "text.secondary"
+            }}>
               No users found
             </Typography>
           </Box>

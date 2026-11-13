@@ -2,9 +2,9 @@
 
 > **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)** - Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
 
-![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-1.5-orange)
-![XGBoost](https://img.shields.io/badge/XGBoost-2.0-red)
+![XGBoost](https://img.shields.io/badge/XGBoost-3.4-red)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Status](https://img.shields.io/badge/Status-Portfolio_Ready-brightgreen)
 
@@ -65,12 +65,14 @@ The part worth staying for is what happens when you measure that 95% honestly. I
 | KNN (k=5) | 0.963 | 0.957 | 0.986 | 0.971 | 0.985 |
 | Decision Tree | 0.928 | 0.932 | 0.958 | 0.944 | 0.907 |
 | Random Forest | 0.954 | 0.962 | 0.966 | 0.964 | 0.990 |
-| XGBoost | 0.961 | 0.968 | 0.972 | 0.969 | 0.994 |
+| XGBoost | 0.963 | 0.963 | 0.980 | 0.971 | 0.994 |
 
 **No algorithm wins every column, and the gaps are small.** SVM takes accuracy,
 precision and F1; logistic regression takes recall and AUC. Five of the six sit
-within 2 accuracy points of each other, and the boosted model -- the one you
-would reach for by reflex -- is fifth. On 569 clean, well-separated samples the
+within 2.3 accuracy points of each other, and the boosted model -- the one you
+would reach for by reflex -- only ties KNN for third of six on accuracy (SVM
+0.977, logistic regression 0.974, KNN and XGBoost 0.963, random forest 0.954,
+decision tree 0.928). On 569 clean, well-separated samples the
 algorithm is close to irrelevant, and a 30-year-old linear model is on the
 podium. Spend the effort on the decision rule instead, which is what the rest of
 this project does.
@@ -108,6 +110,12 @@ Threshold tuned on VALIDATION for 95% malignant recall: 0.759
   note: test recall missed the 95% target.
 ```
 
+The selected model on that run is logistic regression (highest CV AUC, 0.9953),
+the test split has 43 malignant cases, and 0.860 is 37 caught and **6 missed**.
+For comparison, the untuned 0.5 threshold on the same test split catches 42 of
+43 (recall 0.977, precision 1.000): the validation-tuned 0.759 threshold is
+*worse* on this split, and 114 validation rows are too few to tune it reliably.
+
 **The shipped screening threshold does not meet its stated recall.** That is the
 real state of this model, and the two-split design could not have told you --
 it would have printed 0.95 and looked finished.
@@ -117,7 +125,7 @@ it would have printed 0.95 and looked finished.
 Tuning on 5-fold out-of-fold predictions instead of a 20% holdout was tried and
 is *not* better here (test-recall sd 0.0316 vs 0.0344 over 30 seeds), so the
 simpler design stays. The remaining spread is not a tuning-method problem: with
-42 malignant cases in the test set, **one case is 2.4 recall points**. At this
+about 43 malignant cases in the test set, **one case is about 2.3 recall points**. At this
 dataset size a recall target cannot be pinned tighter than a few points by any
 method, and a screening programme that needs a guaranteed 95% needs more data,
 not a cleverer split.
@@ -156,7 +164,7 @@ algorithm-showdown/
 |   |-- __init__.py              # Package marker
 |   |-- train.py                 # 6-algorithm comparison pipeline
 |   |-- evaluate.py              # Confusion matrices, PR curves, threshold analysis
-|   +-- explain.py               # SHAP waterfall + global importance
+|   +-- explain.py               # SHAP waterfall + global importance (explains a separately trained XGBoost, not the selected model)
 |-- tests/
 |   |-- __init__.py
 |   +-- test_pipeline.py         # pytest: data loading, fit, predict, threshold
@@ -180,14 +188,16 @@ algorithm-showdown/
 
 ## Experiment Log
 
+Cross-validated numbers, re-measured 2026-11-13 (scikit-learn 1.9.1, XGBoost 3.4.1):
+
 | Experiment | What Changed | Accuracy | AUC | Notes |
 |---|---|---|---|---|
-| baseline_logreg | Initial LogReg baseline | 0.965 | 0.993 | Strong baseline |
-| svm_rbf | Added SVM RBF | 0.968 | 0.994 | Slightly better |
-| knn_k5 | KNN k=5 | 0.958 | 0.985 | Lowest performer |
-| decision_tree | DTree depth=5 | 0.940 | 0.960 | Most interpretable |
-| random_forest | RF n=200 | 0.963 | 0.994 | High variance |
-| xgboost | XGB lr=0.1 | 0.970 | 0.995 | Best AUC |
+| baseline_logreg | Initial LogReg baseline | 0.974 | 0.995 | Strong baseline, best AUC and recall |
+| svm_rbf | Added SVM RBF | 0.977 | 0.995 | Best accuracy, precision, F1 |
+| knn_k5 | KNN k=5 | 0.963 | 0.985 | Sensitive to scaling |
+| decision_tree | DTree depth=5 | 0.928 | 0.907 | Most interpretable, weakest |
+| random_forest | RF n=200 | 0.954 | 0.990 | Fifth of six on accuracy |
+| xgboost | XGB lr=0.1 | 0.963 | 0.994 | Ties KNN for third on accuracy |
 | logreg_selected | Selected by AUC from the table | 0.974 | 0.995 | Bake-off now drives selection |
 | threshold_2split | Threshold tuned on the reported set | -- | -- | **Withdrawn**: circular, sd 0.0005 |
 | threshold_3split | Tuned on validation, reported on test | -- | -- | Test recall **0.860**, target 0.95 NOT met |
@@ -196,7 +206,7 @@ algorithm-showdown/
 
 ### "Walk me through this project."
 
-"I built a cancer diagnostic classifier comparing 6 algorithms on clinical data. Two things I would lead with. First, the algorithm barely mattered -- five of six landed within two accuracy points and logistic regression won on AUC, so I stopped tuning models and started working on the decision rule. Second, and this is the part I actually learned from: the threshold that decides who gets called back is a parameter fitted to data, so I had been tuning it on the same rows I reported. That makes the headline circular -- across 30 seeds it reproduced the target with a standard deviation of 0.0005, because it was the target, not a measurement. Once I split validation off from test, held-out recall came out at 0.86 against a 0.95 target. The model is worse than I thought it was, and now I can see it."
+"I built a cancer diagnostic classifier comparing 6 algorithms on clinical data. Two things I would lead with. First, the algorithm barely mattered -- five of six landed within 2.3 accuracy points and logistic regression won on AUC, so I stopped tuning models and started working on the decision rule. Second, and this is the part I actually learned from: the threshold that decides who gets called back is a parameter fitted to data, so I had been tuning it on the same rows I reported. That makes the headline circular -- across 30 seeds it reproduced the target with a standard deviation of 0.0005, because it was the target, not a measurement. Once I split validation off from test, held-out recall came out at 0.86 against a 0.95 target. The model is worse than I thought it was, and now I can see it."
 
 ### "What was the hardest part?"
 
@@ -204,11 +214,11 @@ algorithm-showdown/
 
 ### "What would you do differently?"
 
-"Get more data, and for a specific reason rather than as a reflex. The test set holds 42 malignant cases, so one missed case moves recall by 2.4 points. I tried tuning the threshold on out-of-fold predictions instead of a holdout and it did not help (sd 0.0316 against 0.0344) -- the noise is coming from the size of the evaluation set, not from the tuning method, so no amount of methodology fixes it. Beyond that: a more imbalanced dataset, since 63/37 is far kinder than the 95/5 real screening data looks like; and calibration plots, because right now I can rank patients but I cannot honestly tell a clinician what a score of 0.7 means."
+"Get more data, and for a specific reason rather than as a reflex. The test set holds 43 malignant cases, so one missed case moves recall by about 2.3 points. I tried tuning the threshold on out-of-fold predictions instead of a holdout and it did not help (sd 0.0316 against 0.0344) -- the noise is coming from the size of the evaluation set, not from the tuning method, so no amount of methodology fixes it. Beyond that: a more imbalanced dataset, since 63/37 is far kinder than the 95/5 real screening data looks like; and calibration plots, because right now I can rank patients but I cannot honestly tell a clinician what a score of 0.7 means."
 
 ### "How does this scale to production?"
 
-"The sklearn Pipeline handles preprocessing and scaling consistently. For deployment, I'd wrap the threshold-tuned XGBoost in a FastAPI endpoint, add input validation with Pydantic, and containerize with Docker. The SHAP explainability component would be critical for any regulated healthcare deployment."
+"The sklearn Pipeline handles preprocessing and scaling consistently. For deployment, I'd wrap the threshold-tuned model (logistic regression, the AUC winner) in a FastAPI endpoint, add input validation with Pydantic, and containerize with Docker. The SHAP explainability component would be critical for any regulated healthcare deployment."
 
 ### "Explain the threshold tuning to a non-technical person."
 

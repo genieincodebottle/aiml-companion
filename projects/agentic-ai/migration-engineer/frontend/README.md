@@ -11,8 +11,8 @@ This package is the frontend only. It expects a backend on port 8000.
 
 ## Tech stack
 
-- React 18 + Vite 5
-- MUI v5 (`@mui/material`, `@mui/icons-material`, Emotion) - dark theme by default
+- React 19 + Vite 8
+- MUI v9 (`@mui/material`, `@mui/icons-material`, Emotion) - dark theme by default
 - zustand for state
 - axios for REST, native `EventSource` for the live SSE stream
 - recharts is available for charts (dependency parity with the platform)

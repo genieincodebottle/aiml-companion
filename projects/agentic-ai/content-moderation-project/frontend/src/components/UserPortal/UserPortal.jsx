@@ -166,14 +166,16 @@ export default function UserPortal() {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Header */}
       <Box sx={{ mb: 4 }}>
-        <Typography variant="body1" color="text.secondary">
+        <Typography variant="body1" sx={{
+          color: "text.secondary"
+        }}>
           Share your thoughts with the community. All content is reviewed by our AI moderation system to ensure a safe environment.
         </Typography>
       </Box>
 
       <Grid container spacing={3}>
         {/* Content Submission Form */}
-        <Grid item xs={12} md={8}>
+        <Grid size={{ xs: 12, md: 8 }}>
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -205,7 +207,7 @@ export default function UserPortal() {
                 />
 
                 <Grid container spacing={2} sx={{ mb: 2 }}>
-                  <Grid item xs={6}>
+                  <Grid size={6}>
                     <FormControl fullWidth size="small">
                       <InputLabel>Platform</InputLabel>
                       <Select
@@ -220,7 +222,7 @@ export default function UserPortal() {
                       </Select>
                     </FormControl>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid size={6}>
                     <FormControl fullWidth size="small">
                       <InputLabel>Content Type</InputLabel>
                       <Select
@@ -323,26 +325,36 @@ export default function UserPortal() {
         </Grid>
 
         {/* Sidebar - Guidelines & Stats */}
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Card sx={{ mb: 2 }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>
                 Community Guidelines
               </Typography>
               <Divider sx={{ mb: 2 }} />
-              <Typography variant="body2" paragraph>
+              <Typography variant="body2" sx={{
+                marginBottom: "16px"
+              }}>
                 <strong>Be Respectful:</strong> Treat others with kindness and respect.
               </Typography>
-              <Typography variant="body2" paragraph>
+              <Typography variant="body2" sx={{
+                marginBottom: "16px"
+              }}>
                 <strong>No Hate Speech:</strong> Discrimination based on race, gender, religion, etc. is not allowed.
               </Typography>
-              <Typography variant="body2" paragraph>
+              <Typography variant="body2" sx={{
+                marginBottom: "16px"
+              }}>
                 <strong>No Harassment:</strong> Bullying, threats, or targeted harassment will result in removal.
               </Typography>
-              <Typography variant="body2" paragraph>
+              <Typography variant="body2" sx={{
+                marginBottom: "16px"
+              }}>
                 <strong>Stay On Topic:</strong> Keep discussions relevant and constructive.
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" sx={{
+                color: "text.secondary"
+              }}>
                 Violations may result in content removal, warnings, or account suspension.
               </Typography>
             </CardContent>
@@ -386,45 +398,63 @@ export default function UserPortal() {
               </Typography>
               <Divider sx={{ mb: 2 }} />
               <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid size={6}>
                   <Typography variant="h4" color="primary">
                     {myContent.length}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" sx={{
+                    color: "text.secondary"
+                  }}>
                     Total Posts
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="h4" color="info.main">
+                <Grid size={6}>
+                  <Typography variant="h4" sx={{
+                    color: "info.main"
+                  }}>
                     {myContent.filter(c =>
                       ['flagged', 'pending_human_review', 'submitted', 'under_review', 'analyzing'].includes(c.status || c.current_status)
                     ).length}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" sx={{
+                    color: "text.secondary"
+                  }}>
                     Under Review
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="h4" color="success.main">
+                <Grid size={6}>
+                  <Typography variant="h4" sx={{
+                    color: "success.main"
+                  }}>
                     {myContent.filter(c => c.status === 'approved' || c.current_status === 'approved').length}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" sx={{
+                    color: "text.secondary"
+                  }}>
                     Approved
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="h4" color="warning.main">
+                <Grid size={6}>
+                  <Typography variant="h4" sx={{
+                    color: "warning.main"
+                  }}>
                     {myContent.filter(c => c.status === 'warned' || c.current_status === 'warned').length}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" sx={{
+                    color: "text.secondary"
+                  }}>
                     Warnings
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="h4" color="error.main">
+                <Grid size={6}>
+                  <Typography variant="h4" sx={{
+                    color: "error.main"
+                  }}>
                     {myContent.filter(c => c.status === 'removed' || c.current_status === 'removed').length}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" sx={{
+                    color: "text.secondary"
+                  }}>
                     Removed
                   </Typography>
                 </Grid>

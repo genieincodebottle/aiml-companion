@@ -2,8 +2,8 @@
 
 > **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/)**. Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges. Module link, [Project, Replay the Log](https://aimlcompanion.ai/module/dataEngineering/deReplayProject).
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![DuckDB](https://img.shields.io/badge/DuckDB-1.0+-yellow)
+![Python](https://img.shields.io/badge/Python-3.12+-blue)
+![DuckDB](https://img.shields.io/badge/DuckDB-2.0+-yellow)
 ![Kafka API](https://img.shields.io/badge/Kafka%20API-Redpanda%20optional-red)
 ![Tests](https://img.shields.io/badge/tests-60%20passing-brightgreen)
 
@@ -259,7 +259,7 @@ the table names.
 
 ## 10. Run it
 
-You need Python 3.10 or newer and about 200 MB for the install. No cloud account, no API
+You need Python 3.12 or newer and about 200 MB for the install. No cloud account, no API
 key and no network access at run time.
 
 **macOS or Linux**
