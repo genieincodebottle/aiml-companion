@@ -88,8 +88,11 @@ one identical prompt (median of 3 calls, 2026-11-13):
 | `gemini-3.6-flash` | `gemini-3.6-flash` | 6.6s |
 | `gemini-flash-lite-latest` | `gemini-3.5-flash-lite` | 1.6s |
 
-`Multi-Agent-Debate.ipynb` makes well over 100 calls, and on the default alias
-its main cell took 46 minutes in a measured run; most notebooks finish in a few. To trade some answer
+Two notebooks are long on the default alias. In measured runs the main cell of
+`Reasoning-via-Planning.ipynb` took 85 minutes and `Multi-Agent-Debate.ipynb`
+46 minutes, each well over 100 calls; the other notebooks finish in a few
+minutes. A free Colab session can disconnect on an 85-minute cell, so for those
+two the lite alias below is the practical choice. To trade some answer
 quality for speed, change the model string in the agent class to
 `gemini-flash-lite-latest`. If you need reproducible outputs, pin whatever
 `gemini-flash-latest` currently resolves to and accept the maintenance.
