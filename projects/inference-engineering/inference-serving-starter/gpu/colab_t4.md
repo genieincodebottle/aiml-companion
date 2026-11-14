@@ -14,7 +14,7 @@ Constraints you must design around:
 
 ```python
 # Cell 1: install (the pin matches gpu/install.sh)
-!pip install -q "vllm==0.31.0"
+!pip install -q "vllm==0.33.0"
 
 # Cell 2: start the server in the background
 import subprocess, time, httpx

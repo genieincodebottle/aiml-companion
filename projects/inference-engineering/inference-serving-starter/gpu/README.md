@@ -8,9 +8,18 @@ You do not need a GPU to finish the six gates. You need one to claim real number
 
 ## What was checked, and when
 
-The flags below were read from the vLLM docs on 2026-10-19. The pinned version is **v0.31.0**
-(released 2026-10-05; the newest release on 2026-10-19 was v0.32.0, tagged 2026-10-18). The older
-one is pinned so a fresh clone stays reproducible; re-check the flags if you bump it.
+The flags below were read from the vLLM docs on 2026-10-19. The pinned version is **v0.33.0**
+(released 2026-11-02). It is pinned so a fresh clone stays reproducible; re-check the flags if you
+bump it.
+
+On 2026-11-14 the pin was run on a T4 (16 GB) with `Qwen/Qwen2.5-1.5B-Instruct` and the T4 settings
+from `colab_t4.md`: `install.sh` (including `vllm download-kernels`), then `serve_bf16.sh` with
+`DTYPE=half`, `serve_ngram.sh`, `serve_fp8.sh` and `serve_awq.sh` (with
+`MODEL_AWQ=Qwen/Qwen2.5-1.5B-Instruct-AWQ`). Every server started, answered completions and chat,
+and exposed the metric names this lab reads, including the `vllm:spec_decode_*` counters under
+n-gram speculation. `bench_crosscheck.sh` completed. No throughput numbers from that run are quoted
+here: a T4 is not the machine your report is about.
+
 The scripts here are **not executed by this repository's tests** (there is no GPU in CI). Treat
 the first run as part of the exercise: if a flag is rejected, `vllm serve --help=all` shows what
 your version accepts.
@@ -47,7 +56,7 @@ report. This repo has no price table, on purpose.
 # 1. on the GPU machine
 export HF_TOKEN=...            # never commit it; no token is in this repo
 export MODEL=meta-llama/Llama-3.1-8B-Instruct
-bash gpu/install.sh            # pins vllm==0.31.0
+bash gpu/install.sh            # pins vllm==0.33.0
 bash gpu/serve_bf16.sh         # listens on :8000; wait for "Application startup complete"
 
 # 2. same machine (or point --base-url at it), in a second shell
