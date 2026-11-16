@@ -4,7 +4,14 @@
 cannot tell you what an L4 will really do. This folder runs the **same** harness (`bench/`,
 `analysis/`) against a real `vllm serve`, so the numbers in your report can be real.
 
-You do not need a GPU to finish the six gates. You need one to claim real numbers.
+Gate 6 needs one real run: a sweep from this folder saved in `results/` (for example
+`results/gpu_bf16.json`) and the report's "Measured on a real GPU" section. Two to three hours on
+the smallest machine below is enough.
+
+**Budget, stated up front:** a free Colab T4 costs nothing when one is available, but Colab does not
+guarantee GPU access. RunPod listed an L4 (24 GB) at $0.44 to $0.69 an hour on its pricing page on
+2026-11-16, so a 2 to 3 hour session is about $1 to $2. Prices change: check the provider's page the
+day you run. Stop the instance when you finish.
 
 ## What was checked, and when
 
@@ -31,7 +38,7 @@ your version accepts.
 | `vllm bench serve` flags: `--backend --base-url --endpoint --dataset-name --random-input-len --random-output-len --num-prompts --request-rate --max-concurrency --goodput --ignore-eos --save-result --result-dir --percentile-metrics --metric-percentiles` | https://docs.vllm.ai/en/latest/cli/bench/serve/ |
 | Install: `uv pip install vllm --torch-backend=auto`, then `vllm download-kernels`; compute capability 7.5 or higher (T4, L4, A10, H100 all qualify) | https://docs.vllm.ai/en/latest/getting_started/installation/gpu/ |
 | Metric names (`vllm:kv_cache_usage_perc`, `vllm:inter_token_latency_seconds`, `vllm:time_to_first_token_seconds`, prefix cache counters) | https://docs.vllm.ai/en/latest/design/metrics/ |
-| `--gpu-memory-utilization` default 0.92, plus `--max-num-seqs`, `--max-num-batched-tokens`, `--enable-prefix-caching` | https://docs.vllm.ai/en/latest/cli/serve/ |
+| `--gpu-memory-utilization` (0.92 in older releases; recent CUDA builds leave it unset, which means 1.0), plus `--max-num-seqs`, `--max-num-batched-tokens`, `--enable-prefix-caching` | https://docs.vllm.ai/en/latest/cli/serve/ |
 
 The docs for the older FP8 spelling `--quantization fp8` differ by version. If your version
 rejects `fp8_per_tensor`, run `vllm serve --help=all` and use the spelling it lists. Do not use a
@@ -48,7 +55,8 @@ the older separate speculative flags were removed.
 | Rented H100 (80 GB) | same | the speculation experiment at high concurrency |
 
 Prices: look at the provider's page the day you run, and write the URL and the date in your
-report. This repo has no price table, on purpose.
+report. The budget figure above is for planning only; this repo has no price table for the cost
+model, on purpose.
 
 ## The loop (same harness, real server)
 

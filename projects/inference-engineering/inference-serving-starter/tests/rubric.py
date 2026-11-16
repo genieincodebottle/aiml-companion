@@ -23,7 +23,7 @@ GATES = [
     ("5 Debug lab", "tests/test_debug_lab.py",
      "three incidents diagnosed from data -> debug_lab/diagnoses/*.md"),
     ("6 Report", "tests/test_report.py",
-     "one-page report with cost and fleet size -> report/REPORT.md, results/decision.json"),
+     "one-page report with cost, fleet size and a real-GPU run -> report/REPORT.md, results/decision.json, results/gpu_*.json"),
 ]
 
 GREEN, RED, DIM, BOLD, RESET = "\033[32m", "\033[31m", "\033[2m", "\033[1m", "\033[0m"
@@ -57,7 +57,7 @@ def main() -> int:
     done = sum(results)
     print(f"\n  {BOLD}{done}/{len(GATES)} gates green{RESET}\n")
     print(f"  {DIM}Stretch (not gated): k8s/RUNBOOK.md, an HPA that scales engine_sim on queue depth.{RESET}")
-    print(f"  {DIM}Real GPU path: gpu/README.md, where the numbers become real.{RESET}\n")
+    print(f"  {DIM}Real GPU path (required by gate 6): gpu/README.md, where the numbers become real.{RESET}\n")
     if done < len(GATES):
         nxt = [g[0] for g, ok in zip(GATES, results) if not ok][0]
         print(f"  {DIM}Next: {nxt}{RESET}\n")

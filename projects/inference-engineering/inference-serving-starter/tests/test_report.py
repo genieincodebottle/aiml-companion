@@ -1,8 +1,10 @@
 """GATE 6: the one-page report. Copy report/REPORT_TEMPLATE.md to report/REPORT.md and finish it.
 
 The test cannot judge whether your reasoning is good. It checks that the report is finished,
-that it quotes the numbers your own analysis produced (results/decision.json), and that the
-plot it shows exists. Read your draft against the "WEAK:" notes in the template.
+that it quotes the numbers your own analysis produced (results/decision.json), that the plot it
+shows exists, and that one sweep in results/ came from a real `vllm serve` (gpu/README.md), with
+the GPU, the vLLM version and the cross-check written up. Read your draft against the "WEAK:"
+notes in the template.
 """
 from __future__ import annotations
 
@@ -16,7 +18,23 @@ ROOT = Path(__file__).resolve().parent.parent
 REPORT = ROOT / "report" / "REPORT.md"
 DECISION = ROOT / "results" / "decision.json"
 SECTIONS = ["Setup", "Method", "Results", "Quantisation comparison", "Speculative decoding",
-            "Cost per million tokens", "Fleet-size recommendation", "Threats to validity"]
+            "Cost per million tokens", "Fleet-size recommendation", "Measured on a real GPU",
+            "Threats to validity"]
+GPU_NAMES = r"\b(T4|L4|L40S?|A10G?|A100|H100|H200|B200|B300|GB200|RTX\s?\w+|MI\d{3}X?)\b"
+
+
+def real_server_runs() -> list[Path]:
+    """Sweeps whose meta.engine is null: bench.cli found no /sim/info, so the server was real."""
+    runs = []
+    for p in sorted((ROOT / "results").glob("*.json")):
+        try:
+            d = json.loads(p.read_text(encoding="utf-8"))
+        except (ValueError, UnicodeDecodeError):
+            continue
+        meta = d.get("meta") if isinstance(d, dict) else None
+        if isinstance(meta, dict) and "engine" in meta and meta["engine"] is None and d.get("levels"):
+            runs.append(p)
+    return runs
 
 
 @pytest.fixture(scope="module")
@@ -36,7 +54,7 @@ def test_all_sections_present_and_length_is_one_page(text):
     for s in SECTIONS:
         assert re.search(rf"^##\s*\d*\.?\s*{re.escape(s)}", text, re.M | re.I), f"missing section: {s}"
     words = len(re.sub(r"<!--.*?-->|!\[.*?\]\(.*?\)", "", text, flags=re.S).split())
-    assert 350 <= words <= 1100, f"{words} words: a one-page report is 350 to 1100"
+    assert 350 <= words <= 1250, f"{words} words: a one-page report is 350 to 1250"
 
 
 def test_the_plot_exists(text):
@@ -57,6 +75,18 @@ def test_report_quotes_the_decision_numbers(text):
     assert re.search(rf"\b{d['replicas']}\s+replicas?\b", text, re.I), f"report must state {d['replicas']} replicas"
     assert str(d["operating_concurrency"]) in text
     assert d["price_source"].split(",")[0][:20] in text or "price" in text.lower()
+
+
+def test_report_has_a_real_gpu_run(text):
+    assert real_server_runs(), (
+        "no sweep from a real GPU in results/: follow gpu/README.md and save one with "
+        "python -m bench.cli sweep --base-url <your vllm serve> ... --out results/gpu_bf16.json")
+    section = re.split(r"^##\s*\d*\.?\s*Measured on a real GPU", text, flags=re.M | re.I)[-1]
+    section = re.split(r"^##\s", section, flags=re.M)[0]
+    assert re.search(GPU_NAMES, section), "name the GPU you measured on"
+    assert re.search(r"vllm\D{0,12}v?\d+\.\d+(\.\d+)?", section, re.I), "give the vLLM version you ran"
+    assert "bench serve" in section.lower(), "quote the vllm bench serve cross-check"
+    assert len(re.findall(r"^\s*\|", section, re.M)) >= 3, "add the sim-vs-real table (header, separator, rows)"
 
 
 def test_report_is_honest_about_the_simulator(text):

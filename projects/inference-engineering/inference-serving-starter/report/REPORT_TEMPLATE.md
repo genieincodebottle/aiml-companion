@@ -1,7 +1,7 @@
 <!--
 Copy this file to report/REPORT.md and replace every <<...>> marker. `make check` fails while
 any marker, "TODO" or template note is left. Keep the finished report to about one page of
-text plus the table and the plot (the test allows 350 to 1100 words).
+text plus the tables and the plot (the test allows 350 to 1250 words).
 
 The notes in italics marked "WEAK:" describe what a weak version of that section looks like.
 Delete them from your report. They are here so you can read your own draft against them.
@@ -67,9 +67,24 @@ One sentence on what you would do about a 2x spike (queue, shed, autoscale on wh
 
 *WEAK: "about 4 GPUs." With no peak, no in-flight arithmetic, and no headroom there is nothing to argue with and nothing to learn from.*
 
-## 8. Threats to validity
+## 8. Measured on a real GPU
 
-- <<engine_sim is a model with documented simplifications, not a GPU. Which of your numbers would you re-measure first on a real card?>>
+<<The GPU and provider, the vLLM version, the model, and the exact `vllm serve` command. Then a table for the bf16
+baseline: output tok/s and p99 TTFT at concurrency 1 and at your highest level, engine_sim in one column and the real
+run in the other. Then the cross-check: your harness and `vllm bench serve` at the same concurrency, both medians quoted,
+and whether they agree within about 10 percent. One sentence for each number that moved, saying why.>>
+
+| bf16 | engine_sim | <<GPU>>, vLLM <<version>> |
+|---|---|---|
+| tok/s at concurrency 1 | <<sim>> | <<measured>> |
+| tok/s at concurrency <<N>> | <<sim>> | <<measured>> |
+| p99 TTFT at concurrency <<N>> | <<sim>> | <<measured>> |
+
+*WEAK: real numbers pasted with no cross-check, or a table with no explanation. The point is which simulated numbers held, which moved, and why.*
+
+## 9. Threats to validity
+
+- <<engine_sim is a model with documented simplifications, not a GPU. Which of your numbers did the real run move most, and which would you re-measure next on a bigger card?>>
 - <<The dataset is synthetic lengths, not a real traffic log. How would a RAG or agent workload change the result?>>
 - <<Single seed, <<n>> requests per level. How wide is the noise? Say how you know.>>
 - <<Quality: nothing here measured accuracy after quantisation or the effect of speculation on output.>>

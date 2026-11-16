@@ -31,7 +31,10 @@ tests/        GIVEN  The rubric, as executable spec.
 (memory-bound decode, compute-bound prefill, finite KV cache, preemption, prefix caching), with
 simplifications listed in `engine_sim/core.py`. It reproduces the *shape* of real behaviour and
 the *signatures* in the metrics. It cannot tell you what an L4 will do. The GPU path in `gpu/` is
-where numbers become real. Your report must say which of its numbers are model output.
+where numbers become real, and one short run there is **required**: Gate 6 checks for a real-GPU
+sweep in `results/` and a "Measured on a real GPU" section in the report. Budget 2 to 3 hours: free
+on a Colab T4 when one is available, or about $1 to $2 on a rented L4 (see `gpu/README.md`). Your
+report must say which of its numbers are model output and which were measured.
 
 Hardware figures are vendor spec-sheet values with the source URL in `engine_sim/config.py`.
 Everything else (bandwidth efficiency, MFU, n-gram acceptance rate) is an **assumption**, labelled
@@ -60,7 +63,7 @@ python run.py serve          # in a second shell: engine_sim on :8100  (curl loc
 | 3 | Analysis | `analysis/tables.py`, `goodput.py`, `knee.py`, `cost.py`, `fleet.py` | pooled ITL percentiles, goodput under a TTFT+TPOT SLO, a knee, `$ per 1M tokens`, Little's-law fleet size |
 | 4 | Experiments | run `scripts/run_experiments.py` | quantisation and speculation sweeps are physically sensible, a knee plot exists |
 | 5 | Debug lab | three files in `debug_lab/diagnoses/` | each names the mechanism and cites real numbers from the scrapes |
-| 6 | Report | `report/REPORT.md`, `results/decision.json` | finished one-pager quoting your own cost and replica count |
+| 6 | Report | `report/REPORT.md`, `results/decision.json`, one real-GPU sweep in `results/` | finished one-pager quoting your own cost and replica count, with the real-GPU run set beside the model's numbers |
 
 Gate 4 asserts physics (for example "int4 beats bf16 at concurrency 1", "speculation wins at low
 concurrency and loses at high"). A red line there is information about **your** code.
@@ -74,17 +77,18 @@ concurrency and loses at high"). A red line there is information about **your** 
 | 3 | `analysis/`: percentile, pooled ITL, goodput, knee. Then `python scripts/run_experiments.py` and look at the tables | 3, 4 |
 | 4 | Read the quantisation and speculation results. For each surprise, find the mechanism in `core.py`. Write sections 4 and 5 of the report | 4 |
 | 5 | Debug lab: diagnose A, B, C from the scrapes. Plot the metrics over time before you guess | 5 |
-| 6 | Cost and fleet: `python -m analysis.decide`. Add your price and its source. GPU path if you have access (Colab T4 is free) | 6 |
+| 6 | Cost and fleet: `python -m analysis.decide`. Add your price and its source. Then the real-GPU session (2 to 3 hours, `gpu/README.md`): a bf16 sweep, the `vllm bench serve` cross-check, and section 8 of the report | 6 |
 | 7 | Finish the report against the "WEAK:" notes. Self-score the rubric below and spend the last two hours on your weakest row | 6 |
 
 ## Rubric (what a reviewer scores)
 
 | Criterion | Weight | What earns it |
 |---|---|---|
-| Benchmark method | 25 | open vs closed loop chosen on purpose, warm-up excluded, pooled ITL, harness cross-checked against server metrics |
+| Benchmark method | 20 | open vs closed loop chosen on purpose, warm-up excluded, pooled ITL, harness cross-checked against server metrics |
 | Analysis correctness | 20 | percentiles over the right population, goodput under an explicit SLO, a defensible knee |
-| Comparative experiments | 20 | quantisation and speculation explained by mechanism (weight bytes, KV room, ridge point), not just reported |
+| Comparative experiments | 15 | quantisation and speculation explained by mechanism (weight bytes, KV room, ridge point), not just reported |
 | Debugging from data | 15 | the right mechanism, numbers cited from scrapes, a fix and the metric that would confirm it |
+| Real-GPU evidence | 10 | one real `vllm serve` run through your harness: GPU, vLLM version and flags stated, cross-checked against `vllm bench serve`, and each moved number explained |
 | Cost and fleet decision | 10 | cost from throughput at the SLO-safe operating point, a sourced price, Little's law with headroom |
 | Honesty | 10 | model vs measurement separated, threats to validity that name a direction |
 

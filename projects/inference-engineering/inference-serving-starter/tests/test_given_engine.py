@@ -134,7 +134,12 @@ def test_incident_bundles_regenerate_byte_for_byte(tmp_path):
 def test_gpu_scripts_pin_a_version_and_use_current_flags():
     gpu = ROOT / "gpu"
     text = "\n".join(p.read_text(encoding="utf-8") for p in gpu.rglob("*") if p.is_file())
-    assert re.search(r"vllm==0\.31\.0|VLLM_VERSION=0\.31\.0", text), "pin a vLLM version"
+    # The pin lives in one place (gpu/install.sh); every other `vllm==` in gpu/ must match it,
+    # so a version bump edits install.sh and the docs, never this test.
+    pin = re.search(r"^VLLM_VERSION=(\d+\.\d+\.\d+)\s*$", (gpu / "install.sh").read_text(encoding="utf-8"), re.M)
+    assert pin, "gpu/install.sh must pin VLLM_VERSION=<major.minor.patch>"
+    others = set(re.findall(r"vllm==(\d+\.\d+\.\d+)", text))
+    assert others <= {pin.group(1)}, f"gpu/ pins {sorted(others)} but install.sh pins {pin.group(1)}"
     assert "--speculative-config" in text
     for removed in ("--speculative-model", "--num-speculative-tokens", "--use-v2-block-manager",
                     "--ngram-prompt-lookup-max"):
