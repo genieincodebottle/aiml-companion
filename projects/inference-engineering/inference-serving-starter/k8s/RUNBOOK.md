@@ -12,6 +12,10 @@ portfolio line.
 
 You need: Docker, [kind](https://kind.sigs.k8s.io/), kubectl, Helm.
 
+A second stretch lab, `k8s/gang_lab/`, reproduces a gang-scheduling deadlock on the same kind cluster
+with fake `nvidia.com/gpu` capacity. It is separate from the autoscaling lab below. Its README says which parts
+were checked offline and which were not run.
+
 ## 1. Cluster and image
 
 ```bash

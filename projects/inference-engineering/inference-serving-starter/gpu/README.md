@@ -9,9 +9,8 @@ Gate 6 needs one real run: a sweep from this folder saved in `results/` (for exa
 the smallest machine below is enough.
 
 **Budget, stated up front:** a free Colab T4 costs nothing when one is available, but Colab does not
-guarantee GPU access. RunPod listed an L4 (24 GB) at $0.44 to $0.69 an hour on its pricing page on
-2026-11-16, so a 2 to 3 hour session is about $1 to $2. Prices change: check the provider's page the
-day you run. Stop the instance when you finish.
+guarantee GPU access. A 2 to 3 hour session on a rented L4 (24 GB) is about $1 to $2 (check the
+provider's page the day you run; prices change). Stop the instance when you finish.
 
 ## What was checked, and when
 
@@ -26,6 +25,10 @@ from `colab_t4.md`: `install.sh` (including `vllm download-kernels`), then `serv
 and exposed the metric names this lab reads, including the `vllm:spec_decode_*` counters under
 n-gram speculation. `bench_crosscheck.sh` completed. No throughput numbers from that run are quoted
 here: a T4 is not the machine your report is about.
+
+`serve_tp2.sh` (tensor parallel across 2 GPUs) was added on 2026-11-16 and was **not run**: that session had no
+two-GPU machine. Its one new flag, `--tensor-parallel-size`, comes from
+https://docs.vllm.ai/en/latest/serving/parallelism_scaling/ (read 2026-11-16).
 
 The scripts here are **not executed by this repository's tests** (there is no GPU in CI). Treat
 the first run as part of the exercise: if a flag is rejected, `vllm serve --help=all` shows what
@@ -53,6 +56,18 @@ the older separate speculative flags were removed.
 | Rented L4 (24 GB) | `meta-llama/Llama-3.1-8B-Instruct` (gated: accept the licence, set `HF_TOKEN`) or `Qwen/Qwen3-8B` | the quantisation experiment (L4 has FP8 tensor cores) |
 | Rented A10 or A10G (24 GB) | same 8B models | bf16 and AWQ. No FP8 tensor cores |
 | Rented H100 (80 GB) | same | the speculation experiment at high concurrency |
+| Two GPUs in one machine (2 x L4, 2 x A10, 2 x H100) | same | the optional TP=2 comparison (`serve_tp2.sh`), see below |
+
+### Optional: tensor parallel across 2 GPUs
+
+An 8B model fits on one 24 GB card, so TP=2 is not needed for it. It is worth one extra sweep because
+the question "does a second GPU double my throughput?" has a measurable answer, and the answer depends on the
+link. Run `nvidia-smi topo -m` first: `NV#` means NVLink, `PHB`, `PIX` or `SYS` means PCIe. Then run
+`bash gpu/serve_bf16.sh` and sweep it, stop it, run `bash gpu/serve_tp2.sh` on the same model and sweep it
+again with the same levels. Report tokens per second per GPU for both, and say what the all-reduce did.
+The vLLM docs recommend tensor parallelism for a model too big for one GPU and pipeline parallelism for
+cards without NVLink such as the L40S, so expect a PCIe pair to scale poorly.
+Two GPUs double the hourly price: your cost per million tokens only improves if throughput more than doubles.
 
 Prices: look at the provider's page the day you run, and write the URL and the date in your
 report. The budget figure above is for planning only; this repo has no price table for the cost
@@ -104,5 +119,6 @@ result does not reproduce, you have found something worth writing up.
 |---|---|
 | `install.sh` | pinned install |
 | `serve_bf16.sh`, `serve_fp8.sh`, `serve_awq.sh`, `serve_ngram.sh` | the four configurations |
+| `serve_tp2.sh` | optional: the bf16 baseline across 2 GPUs (`--tensor-parallel-size 2`), not run when written |
 | `bench_crosscheck.sh` | `vllm bench serve` at one concurrency, to compare with your harness |
 | `colab_t4.md` | the free-GPU route |

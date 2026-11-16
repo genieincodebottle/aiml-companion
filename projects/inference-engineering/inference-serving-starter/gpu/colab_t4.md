@@ -33,7 +33,7 @@ for _ in range(180):
 !git clone --depth 1 https://github.com/<your-user>/aiml-companion.git
 %cd aiml-companion/projects/inference-engineering/inference-serving-starter
 !pip install -q httpx numpy pandas matplotlib
-!python -m bench.cli sweep --base-url http://127.0.0.1:8000 --name t4_bf16 --levels 1,2,4,8,16,32 --out results/t4_bf16.json
+!python -m bench.cli sweep --base-url http://127.0.0.1:8000 --name t4_fp16 --levels 1,2,4,8,16,32 --out results/t4_fp16.json
 ```
 
 For speculation, restart the server with

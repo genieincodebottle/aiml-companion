@@ -3,8 +3,9 @@
 The test cannot judge whether your reasoning is good. It checks that the report is finished,
 that it quotes the numbers your own analysis produced (results/decision.json), that the plot it
 shows exists, and that one sweep in results/ came from a real `vllm serve` (gpu/README.md), with
-the GPU, the vLLM version and the cross-check written up. Read your draft against the "WEAK:"
-notes in the template.
+the GPU, the vLLM version and the cross-check written up. It also checks that the report
+quotes the second SLO row, the self-host-versus-API break-even and the open-loop p99 TTFT.
+Read your draft against the "WEAK:" notes in the template.
 """
 from __future__ import annotations
 
@@ -75,6 +76,54 @@ def test_report_quotes_the_decision_numbers(text):
     assert re.search(rf"\b{d['replicas']}\s+replicas?\b", text, re.I), f"report must state {d['replicas']} replicas"
     assert str(d["operating_concurrency"]) in text
     assert d["price_source"].split(",")[0][:20] in text or "price" in text.lower()
+
+
+def _variants(v: float, extra: tuple = ()) -> set:
+    return {f"{v:.1f}", f"{v:.2f}", f"{v:.3f}", f"{v:.0f}", *extra}
+
+
+def test_report_has_a_second_slo_row(text):
+    if not DECISION.exists():
+        pytest.fail("results/decision.json missing: run python -m analysis.decide ...")
+    d = json.loads(DECISION.read_text(encoding="utf-8"))
+    second = d.get("second_slo")
+    assert second, "decision.json has no second_slo: re-run python -m analysis.decide with the current analysis/decide.py"
+    assert second["slo"] != d["slo"], "the second SLO must differ from the first"
+    assert str(second["operating_concurrency"]) in text
+    c2 = second["cost_per_million_output_tokens_usd"]
+    assert any(v in text for v in (f"{c2:.2f}", f"{c2:.3f}", f"{c2:.1f}", f"{c2:.4f}")), (
+        f"report must state the cost per million tokens under the second SLO (about ${c2:.3f})")
+    assert f"{second['slo']['ttft_s']:g}" in text, "name the second SLO's TTFT limit in the table"
+
+
+def test_report_compares_self_hosting_with_an_api(text):
+    if not DECISION.exists():
+        pytest.fail("results/decision.json missing: run python -m analysis.decide ...")
+    d = json.loads(DECISION.read_text(encoding="utf-8"))
+    api = d.get("api") or {}
+    assert api.get("source", "").strip() and api.get("input_usd_per_m", 0) >= 0 and api.get("output_usd_per_m", 0) >= 0, (
+        "decision.json needs the API prices and the page and date you read them from")
+    assert api.get("breakeven_utilisation") is not None, "API prices must be above zero"
+    u = api["breakeven_utilisation"]
+    low = text.lower()
+    assert "api" in low and re.search(r"break(s)?[- ]?even", low), "the cost section needs a self-host vs API line with the break-even utilisation"
+    assert any(v in text for v in _variants(u, (f"{u * 100:.0f}", f"{u * 100:.1f}"))), (
+        f"quote the break-even utilisation (about {u:.2f}, or {u * 100:.0f} percent)")
+    assert f"{d['mean_prompt_tokens']:.0f}" in text, "state the mean input tokens per request"
+
+
+def test_report_quotes_the_open_loop_result(text):
+    p = ROOT / "results" / "open_bf16.json"
+    if not p.exists():
+        pytest.fail("results/open_bf16.json is missing: run python scripts/run_experiments.py")
+    from analysis.results_io import load_results
+    from analysis.tables import percentile
+    from bench.records import drop_warmup
+    meta, levels = load_results(p)
+    recs = [r for r in drop_warmup(levels[0]["records"], warmup_requests=meta["warmup_requests"]) if r.ok]
+    p99 = percentile([r.ttft_s for r in recs], 99)
+    assert re.search(r"open[- ]loop", text, re.I), "the report must discuss the open-loop run"
+    assert any(v in text for v in _variants(p99)), f"quote the open-loop p99 TTFT (about {p99:.1f} s)"
 
 
 def test_report_has_a_real_gpu_run(text):

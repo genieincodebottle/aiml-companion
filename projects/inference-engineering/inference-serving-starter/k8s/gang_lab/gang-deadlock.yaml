@@ -1,0 +1,167 @@
+# Two "jobs" that each need 4 GPUs at the same moment (think tensor parallel 4: all four ranks must be
+# running before any of them can do work). Applied together they deadlock on a cluster that has only 6
+# fake GPUs, because the default scheduler places pods one at a time and knows nothing about gangs.
+#
+# The pods are created in the order a0 b0 a1 b1 a2 b2 a3 b3. The scheduler queue is first-in first-out
+# for pods of equal priority, so the 6 GPUs go to a0 b0 a1 b1 a2 b2: each job holds 3 of its 4 GPUs, a3 and
+# b3 stay Pending, and neither job can ever start its work. That order is EXPECTED from how the scheduler
+# works; read the README: this manifest was not run against a cluster while it was written.
+#
+# `sleep` stands in for a rank waiting at the rendezvous for its missing peers. The engine-sim image is
+# reused so nothing needs pulling; the lab does not use its HTTP server here.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gang-lab
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: a0
+  namespace: gang-lab
+  labels:
+    gang: job-a
+    rank: "0"
+spec:
+  restartPolicy: Never
+  containers:
+    - name: rank
+      image: engine-sim:dev
+      imagePullPolicy: Never
+      command: ["sleep", "3600"]
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: b0
+  namespace: gang-lab
+  labels:
+    gang: job-b
+    rank: "0"
+spec:
+  restartPolicy: Never
+  containers:
+    - name: rank
+      image: engine-sim:dev
+      imagePullPolicy: Never
+      command: ["sleep", "3600"]
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: a1
+  namespace: gang-lab
+  labels:
+    gang: job-a
+    rank: "1"
+spec:
+  restartPolicy: Never
+  containers:
+    - name: rank
+      image: engine-sim:dev
+      imagePullPolicy: Never
+      command: ["sleep", "3600"]
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: b1
+  namespace: gang-lab
+  labels:
+    gang: job-b
+    rank: "1"
+spec:
+  restartPolicy: Never
+  containers:
+    - name: rank
+      image: engine-sim:dev
+      imagePullPolicy: Never
+      command: ["sleep", "3600"]
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: a2
+  namespace: gang-lab
+  labels:
+    gang: job-a
+    rank: "2"
+spec:
+  restartPolicy: Never
+  containers:
+    - name: rank
+      image: engine-sim:dev
+      imagePullPolicy: Never
+      command: ["sleep", "3600"]
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: b2
+  namespace: gang-lab
+  labels:
+    gang: job-b
+    rank: "2"
+spec:
+  restartPolicy: Never
+  containers:
+    - name: rank
+      image: engine-sim:dev
+      imagePullPolicy: Never
+      command: ["sleep", "3600"]
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: a3
+  namespace: gang-lab
+  labels:
+    gang: job-a
+    rank: "3"
+spec:
+  restartPolicy: Never
+  containers:
+    - name: rank
+      image: engine-sim:dev
+      imagePullPolicy: Never
+      command: ["sleep", "3600"]
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: b3
+  namespace: gang-lab
+  labels:
+    gang: job-b
+    rank: "3"
+spec:
+  restartPolicy: Never
+  containers:
+    - name: rank
+      image: engine-sim:dev
+      imagePullPolicy: Never
+      command: ["sleep", "3600"]
+      resources:
+        limits:
+          nvidia.com/gpu: 1

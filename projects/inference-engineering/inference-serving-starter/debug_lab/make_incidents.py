@@ -1,7 +1,10 @@
-"""Regenerate the three recorded incident bundles. GIVEN. Deterministic.
+"""Regenerate the four recorded incident bundles. GIVEN. Deterministic.
 
     python debug_lab/make_incidents.py            # rewrite debug_lab/incidents/
     python debug_lab/make_incidents.py --out DIR  # write somewhere else (the test does this)
+
+Incidents A to C are the required Gate 5 set; D (a before/after regression with a config
+diff) is optional.
 
 Each bundle is what an on-call engineer would have after the page fires: Prometheus text
 scrapes every 30 s of engine time, plus the engine's own log lines. The faults are
@@ -92,6 +95,41 @@ def incident_c(out: Path) -> None:
     _write(out / "c_speculation_collapse" / "TICKET.md", TICKET_C)
 
 
+# ---------------------------------------------------------------------------------------
+SERVE_DIFF_D = """--- before/serve_args.txt
++++ after/serve_args.txt
+@@ vllm serve meta-llama/Llama-3.1-8B-Instruct @@
+   --dtype bfloat16
+-  --max-num-seqs 128
++  --max-num-seqs 16
+   --max-num-batched-tokens 2048
+-  --gpu-memory-utilization 0.92
++  --gpu-memory-utilization 0.90
+   --enable-prefix-caching
+   --port 8000
+"""
+
+
+def incident_d(out: Path) -> None:
+    """Customer: 'After the config cleanup on Tuesday, p99 TTFT is much worse. Traffic is the same.'
+    Fault: the cleanup lowered max_num_seqs from 128 to 16 (and the memory fraction from 0.92 to 0.90).
+    The same arrivals are replayed against both configs, so the only difference is the config."""
+    rng = random.Random(4404)
+    arr = poisson_arrivals([(0, DURATION_S, 1.5)], rng)
+    reqs = make_requests(arr, rng, prompt_median=400, prompt_sigma=0.5, out_median=250, out_sigma=0.4,
+                         prompt_range=(50, 1500), out_range=(40, 700))
+    before = EngineConfig(model="8b", gpu="a10", quant="bf16", seed=44, max_num_seqs=128,
+                          gpu_memory_utilization=0.92)
+    after = before.with_(max_num_seqs=16, gpu_memory_utilization=0.90)
+    base = out / "d_config_regression"
+    for label, cfg in (("before", before), ("after", after)):
+        res = simulate(cfg, reqs, DURATION_S, label=label)
+        _dump(base, res, label)
+        _write(base / f"logs_{label}.txt", "\n".join(res["logs"]) + "\n")
+    _write(base / "serve_args.diff", SERVE_DIFF_D)
+    _write(base / "TICKET.md", TICKET_D)
+
+
 TICKET_A = """# Ticket A: chat latency cliff
 
 Model: Llama-3.1-8B bf16 on one NVIDIA L4 (engine_sim). Traffic was light for two minutes,
@@ -123,18 +161,31 @@ Scrapes every 30 s of engine time in scrapes/, engine log lines in logs.txt.
 Write your diagnosis in debug_lab/diagnoses/c_speculation_collapse.md.
 """
 
+TICKET_D = """# Ticket D: p99 TTFT got worse after a config cleanup
+
+Llama-3.1-8B bf16 on one NVIDIA A10, chat traffic. A cleanup changed the serve flags (see
+serve_args.diff). The same traffic was replayed against the old and the new flags. After the
+change, p99 time to first token is much worse and users see slow first tokens. Nothing crashed
+and the error rate is zero. One engineer says the lower --gpu-memory-utilization caused it.
+
+Scrapes every 30 s of engine time in before/scrapes and after/scrapes, logs in logs_before.txt
+and logs_after.txt. Write your diagnosis in debug_lab/diagnoses/d_config_regression.md. This
+incident is optional (not part of the five gates), but the checker will mark it if you write it.
+"""
+
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=str(ROOT / "debug_lab" / "incidents"))
     a = ap.parse_args()
     out = Path(a.out)
-    for name in ("a_kv_saturation", "b_hot_prefix_imbalance", "c_speculation_collapse"):
+    for name in ("a_kv_saturation", "b_hot_prefix_imbalance", "c_speculation_collapse", "d_config_regression"):
         if (out / name).exists():
             shutil.rmtree(out / name)
     incident_a(out)
     incident_b(out)
     incident_c(out)
+    incident_d(out)
     print(f"wrote incident bundles to {out}")
     return 0
 

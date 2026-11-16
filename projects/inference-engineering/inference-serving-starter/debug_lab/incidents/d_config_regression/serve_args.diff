@@ -1,0 +1,11 @@
+--- before/serve_args.txt
++++ after/serve_args.txt
+@@ vllm serve meta-llama/Llama-3.1-8B-Instruct @@
+   --dtype bfloat16
+-  --max-num-seqs 128
++  --max-num-seqs 16
+   --max-num-batched-tokens 2048
+-  --gpu-memory-utilization 0.92
++  --gpu-memory-utilization 0.90
+   --enable-prefix-caching
+   --port 8000

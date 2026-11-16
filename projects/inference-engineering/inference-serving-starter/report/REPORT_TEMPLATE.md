@@ -19,7 +19,7 @@ TPOT limits and why those numbers), seed, date.>>
 
 ## 2. Method
 
-<<Closed-loop concurrency sweep for the throughput ceiling, open-loop Poisson for the latency claim (if you ran one).
+<<Closed-loop concurrency sweep for the throughput ceiling, and the open-loop Poisson run for the latency claim.
 Warm-up excluded: how many requests or seconds, and why. Requests per level. Percentiles are over which population
 (per request, or pooled gaps for ITL). How you checked your harness against the server's own metrics.>>
 
@@ -34,7 +34,9 @@ TTFT, p99 ITL. Then the knee plot.>>
 
 Knee at concurrency <<N>>. Highest concurrency meeting the SLO at 95 percent attainment: <<M>>.
 
-*WEAK: only mean latency, or only one concurrency level, or a plot with no units. The mean hides the tail and one level hides the knee.*
+**Open loop versus closed loop.** <<results/open_bf16.json offers Poisson arrivals at 2.6 requests a second to the same server, which tops out near <<X>> requests a second in your sweep. Quote the open-loop p99 TTFT, its SLO attainment, and the p99 TTFT of the first and the last quarter of requests. Set them beside the closed-loop p99 TTFT at your highest level, and say why a closed loop could not show the growing queue.>>
+
+*WEAK: only mean latency, or only one concurrency level, or a plot with no units. The mean hides the tail and one level hides the knee. For the open-loop paragraph: "the open loop was slower". Slower than what, by how much, and does the delay grow while the test runs?*
 
 ## 4. Quantisation comparison
 
@@ -57,7 +59,16 @@ acceptance rate you assumed or measured, because the whole result depends on it.
 <<Cost = GPU $/hour x GPUs / (tokens per second x 3600) x 1e6, using the output tok/s AT the SLO-safe operating
 concurrency, not the peak. GPU price: $<<price>>/hour from <<source and date>>. Result: $<<cost>> per million output tokens.>>
 
-*WEAK: a price copied from a blog post with no date, or throughput taken from the highest concurrency where the SLO was already broken.*
+<<Two SLOs, one sweep (python -m analysis.decide reads it under both). Say why the second limit exists and who would accept it.>>
+
+| SLO | TTFT / TPOT limit | Operating concurrency | Output tok/s | $ per 1M output tokens | Replicas |
+|---|---|---|---|---|---|
+| <<chat>> | <<2 s / 0.15 s>> | <<c1>> | <<t1>> | <<$1>> | <<r1>> |
+| <<second>> | <<10 s / 0.3 s>> | <<c2>> | <<t2>> | <<$2>> | <<r2>> |
+
+<<Input tokens and the API. The mean request has <<P>> input and <<O>> output tokens, so one request costs $<<req>> of GPU time at your operating point. Counting input and output tokens together that is $<<blend>> per million tokens, which prices an input token like an output token. The same request through a hosted API costs $<<api>> at $<<in>> and $<<out>> per million input and output tokens (<<API source and date>>). Self-hosting breaks even at <<u>> utilisation. Say whether your fleet reaches it, and what the comparison leaves out.>>
+
+*WEAK: a price copied from a blog post with no date, or throughput taken from the highest concurrency where the SLO was already broken. A second SLO row that equals the first. "Self-hosting is cheaper" with no break-even utilisation, or an API price with no date.*
 
 ## 7. Fleet-size recommendation
 
@@ -70,7 +81,7 @@ One sentence on what you would do about a 2x spike (queue, shed, autoscale on wh
 ## 8. Measured on a real GPU
 
 <<The GPU and provider, the vLLM version, the model, and the exact `vllm serve` command. Then a table for the bf16
-baseline: output tok/s and p99 TTFT at concurrency 1 and at your highest level, engine_sim in one column and the real
+baseline (fp16 on a T4, which has no bf16): output tok/s and p99 TTFT at concurrency 1 and at your highest level, engine_sim in one column and the real
 run in the other. Then the cross-check: your harness and `vllm bench serve` at the same concurrency, both medians quoted,
 and whether they agree within about 10 percent. One sentence for each number that moved, saying why.>>
 

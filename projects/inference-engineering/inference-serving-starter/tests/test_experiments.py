@@ -1,7 +1,7 @@
 """GATE 4: you ran the experiments and the results are physically sensible.
 
 Needs results/quant_bf16.json, quant_fp8.json, quant_int4.json, spec_off.json,
-spec_ngram.json (python scripts/run_experiments.py) and at least one results/knee_*.png
+spec_ngram.json, open_bf16.json (python scripts/run_experiments.py) and at least one results/knee_*.png
 (python -m analysis.summarize results/quant_bf16.json --plot results/knee_quant_bf16.png).
 Every assertion below is something the physics says must be true. A harness bug makes one of
 them fail, so a red line here is information about YOUR code.
@@ -12,10 +12,10 @@ from pathlib import Path
 
 import pytest
 
-from analysis.goodput import goodput
+from analysis.goodput import goodput, slo_attainment
 from analysis.knee import find_knee
 from analysis.results_io import load_results
-from analysis.tables import latency_table, throughput
+from analysis.tables import latency_table, percentile, throughput
 from bench.records import drop_warmup
 
 RESULTS = Path(__file__).resolve().parent.parent / "results"
@@ -92,6 +92,28 @@ def test_speculation_helps_when_memory_bound_and_hurts_when_compute_bound(data):
     hi = max(off)
     assert on[lo]["tok_s"] > 1.3 * off[lo]["tok_s"], f"at concurrency {lo} speculation should clearly win"
     assert on[hi]["tok_s"] < off[hi]["tok_s"], f"at concurrency {hi} speculation should lose"
+
+
+def test_open_loop_shows_the_collapse_a_closed_loop_hides(data):
+    """results/open_bf16.json offers 2.6 requests a second to a server that tops out near 2.0.
+    The queue grows for the whole run, so the late requests wait far longer than the early ones."""
+    p = RESULTS / "open_bf16.json"
+    if not p.exists():
+        pytest.fail("results/open_bf16.json is missing: run `python scripts/run_experiments.py --only open_bf16`")
+    meta, levels = load_results(p)
+    assert len(levels) == 1 and levels[0].get("qps") == pytest.approx(2.6), "the open-loop run must be one level at 2.6 qps"
+    recs = sorted(drop_warmup(levels[0]["records"], warmup_requests=meta["warmup_requests"]), key=lambda r: r.start_s)
+    assert len(recs) >= 100 and all(r.ok for r in recs), "too few requests, or some failed"
+    slo = meta["slo"]
+    assert slo_attainment(recs, slo["ttft_s"], slo["tpot_s"]) < 0.6, "an overloaded open loop misses the SLO for many requests"
+    q = len(recs) // 4
+    first = percentile([r.ttft_s for r in recs[:q]], 50)
+    last = percentile([r.ttft_s for r in recs[-q:]], 50)
+    assert last > 5 * first, f"the queue should grow: first-quarter median TTFT {first:.2f} s, last quarter {last:.2f} s"
+    open_p99 = percentile([r.ttft_s for r in recs], 99)
+    closed_p99 = data["quant_bf16"][16]["lat"]["ttft_s"][99]
+    assert open_p99 > 4 * closed_p99, (f"open-loop p99 TTFT {open_p99:.1f} s should be several times the closed-loop "
+                                       f"p99 {closed_p99:.1f} s at concurrency 16: the closed loop cannot show a queue")
 
 
 def test_there_is_a_knee_plot():

@@ -1,0 +1,32 @@
+{"id": "fact-01", "kind": "fact", "prompt": "Q: What is the capital of Australia?\nA:"}
+{"id": "fact-02", "kind": "fact", "prompt": "Q: Which planet in the solar system has the shortest day?\nA:"}
+{"id": "fact-03", "kind": "fact", "prompt": "Q: What does the acronym HTTP stand for?\nA:"}
+{"id": "fact-04", "kind": "fact", "prompt": "Q: Who wrote the novel Pride and Prejudice?\nA:"}
+{"id": "fact-05", "kind": "fact", "prompt": "Q: What is the chemical symbol for sodium?\nA:"}
+{"id": "fact-06", "kind": "fact", "prompt": "Q: In what year did the first Apollo Moon landing take place?\nA:"}
+{"id": "fact-07", "kind": "fact", "prompt": "Q: What is the largest ocean on Earth?\nA:"}
+{"id": "fact-08", "kind": "fact", "prompt": "Q: What does a load balancer do in a web service?\nA:"}
+{"id": "math-01", "kind": "math", "prompt": "Q: A train travels 180 km in 2.5 hours. What is its average speed in km/h? Show the steps.\nA:"}
+{"id": "math-02", "kind": "math", "prompt": "Q: What is 17 multiplied by 23? Show the steps.\nA:"}
+{"id": "math-03", "kind": "math", "prompt": "Q: A shop sells pens at 3 for 45 rupees. How much do 12 pens cost? Show the steps.\nA:"}
+{"id": "math-04", "kind": "math", "prompt": "Q: If a rectangle has a perimeter of 30 cm and a length of 9 cm, what is its width? Show the steps.\nA:"}
+{"id": "math-05", "kind": "math", "prompt": "Q: What is 15 percent of 240? Show the steps.\nA:"}
+{"id": "math-06", "kind": "math", "prompt": "Q: A server handles 40 requests a second and each takes 0.5 seconds. How many requests are in flight on average? Show the steps.\nA:"}
+{"id": "code-01", "kind": "code", "prompt": "Write a Python function is_palindrome(s) that returns True when the string s reads the same forwards and backwards, ignoring case. Only the code.\n"}
+{"id": "code-02", "kind": "code", "prompt": "Write a Python function that returns the n-th Fibonacci number using a loop. Only the code.\n"}
+{"id": "code-03", "kind": "code", "prompt": "Write a SQL query that returns the five customers with the highest total order value from tables customers(id, name) and orders(customer_id, amount). Only the query.\n"}
+{"id": "code-04", "kind": "code", "prompt": "Write a Python function that merges two sorted lists into one sorted list without using sort(). Only the code.\n"}
+{"id": "code-05", "kind": "code", "prompt": "Write a bash one-liner that counts the lines in every .txt file in the current directory. Only the command.\n"}
+{"id": "code-06", "kind": "code", "prompt": "Write a Python function percentile(values, p) that returns the p-th percentile of a list using linear interpolation. Only the code.\n"}
+{"id": "copy-01", "kind": "copy", "prompt": "Repeat the following sentence exactly, then repeat it once more.\nSentence: The quick brown fox jumps over the lazy dog near the quiet river bank.\n"}
+{"id": "copy-02", "kind": "copy", "prompt": "Copy this JSON, changing only the value of \"status\" to \"done\".\n{\"id\": 42, \"name\": \"build-report\", \"owner\": \"ops-team\", \"status\": \"pending\", \"retries\": 3}\n"}
+{"id": "copy-03", "kind": "copy", "prompt": "Here is a log excerpt.\n2026-10-19 02:00:10 INFO Running: 12 reqs, Waiting: 0 reqs, KV cache usage: 31.0%\n2026-10-19 02:00:20 INFO Running: 14 reqs, Waiting: 0 reqs, KV cache usage: 36.5%\nRewrite both lines as a markdown table with columns time, running, waiting, kv_usage.\n"}
+{"id": "copy-04", "kind": "copy", "prompt": "Summarise this paragraph in one sentence, reusing its key phrases.\nParagraph: Continuous batching lets a server add new requests to a running batch at every decoding step instead of waiting for the whole batch to finish. This keeps the GPU busy, because short requests leave the batch early and their slots are filled at once by queued requests.\n"}
+{"id": "copy-05", "kind": "copy", "prompt": "List the three items below in alphabetical order, one per line, with no other text.\nItems: kubernetes, docker, prometheus\n"}
+{"id": "copy-06", "kind": "copy", "prompt": "Extract every number from this sentence as a comma-separated list: The run used 8 clients, 120 requests and a 2 second limit, then 16 clients and 240 requests.\n"}
+{"id": "copy-07", "kind": "copy", "prompt": "Fix the typos in this sentence and return only the corrected sentence: The servr drops reqeusts when the queue gets to long.\n"}
+{"id": "copy-08", "kind": "copy", "prompt": "Translate to French, keeping the technical terms in English: The latency is high because the KV cache is full.\n"}
+{"id": "reason-01", "kind": "reason", "prompt": "Q: A service is slow only at peak. The queue length grows while GPU memory use is steady at 98 percent. Give two possible causes, one sentence each.\nA:"}
+{"id": "reason-02", "kind": "reason", "prompt": "Q: Why can a faster average latency still come with a worse p99? Answer in two sentences.\nA:"}
+{"id": "reason-03", "kind": "reason", "prompt": "Q: Name one reason to use an open-loop load test and one to use a closed-loop load test. One sentence each.\nA:"}
+{"id": "reason-04", "kind": "reason", "prompt": "Q: A team halves the weight precision of a model and sees faster decoding at batch size 1 but little change at batch size 256. Give one reason. One sentence.\nA:"}
