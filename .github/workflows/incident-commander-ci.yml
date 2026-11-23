@@ -1,0 +1,105 @@
+name: incident-commander CI
+
+# Scoped to this project so it does not run for unrelated changes in the monorepo.
+on:
+  push:
+    paths:
+      - "projects/agentic-ai/incident-commander/**"
+      - ".github/workflows/incident-commander-ci.yml"
+  pull_request:
+    paths:
+      - "projects/agentic-ai/incident-commander/**"
+      - ".github/workflows/incident-commander-ci.yml"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  backend:
+    name: Backend (lint + test)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/agentic-ai/incident-commander/backend
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10
+        with:
+          version: "0.13.9"
+      - name: Install dependencies (frozen)
+        run: uv sync --extra dev --frozen
+      - name: Lint (ruff)
+        run: uv run ruff check .
+      - name: Test (pytest, stubbed LLM - no API key needed)
+        run: uv run pytest -q
+
+      # The whole suite again on the LangGraph engine. Running only the parity
+      # file let the graph engine drift (cancel, iteration ceiling, double
+      # postmortem) while every check stayed green.
+      - name: Test on the LangGraph engine
+        run: IC_ENGINE=graph uv run pytest -q
+
+      # Runs the real evaluation harness with the deterministic stub, then diffs
+      # against the committed baseline. Catches regressions in the loop's control
+      # flow (and in the harness itself) on every push, for free.
+      - name: Evaluation (offline) + baseline regression check
+        run: uv run python -m evaluation.run_eval --stub --repeats 2 --check-baseline
+
+  frontend:
+    name: Frontend (lint + test + build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/agentic-ai/incident-commander/frontend
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: projects/agentic-ai/incident-commander/frontend/.nvmrc
+      - name: Install dependencies (exact, from package-lock.json)
+        run: npm ci
+      - name: Lint (eslint)
+        run: npm run lint
+      - name: Unit tests (vitest)
+        run: npm run test
+      - name: Build
+        run: npm run build
+
+  e2e:
+    name: End-to-end (real backend + console in a browser)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/agentic-ai/incident-commander/frontend
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10
+        with:
+          version: "0.13.9"
+      - name: Install backend dependencies (frozen)
+        working-directory: projects/agentic-ai/incident-commander/backend
+        run: uv sync --frozen
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: projects/agentic-ai/incident-commander/frontend/.nvmrc
+      - name: Install frontend dependencies
+        run: npm ci
+      - name: Install the browser
+        run: npx playwright install --with-deps chromium
+      # Starts its own backend (offline mode, no key) and console on dedicated
+      # ports, then drives trigger -> approve/reject/cancel -> postmortem -> history.
+      # Fails on any browser console error.
+      - name: Run end-to-end tests
+        run: npm run test:e2e
+      - name: Upload the report on failure
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: projects/agentic-ai/incident-commander/frontend/playwright-report
+          retention-days: 7

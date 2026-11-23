@@ -1,0 +1,37 @@
+# Pre-commit hooks for the Incident Commander project.
+#
+# Usage (from this folder, with this as your git repo root):
+#   pip install pre-commit  (or: uv tool install pre-commit)
+#   pre-commit install
+#
+# In the aiml-companion monorepo the .git root is one level up; to use these hooks
+# repo-wide, move this file to the repo root. The file filters below keep the hooks
+# scoped to this project's files either way.
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: detect-private-key
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.6
+    hooks:
+      - id: ruff
+        name: ruff (backend lint)
+        args: [--fix]
+        files: ^projects/agentic-ai/incident-commander/backend/.*\.py$
+
+  # mirrors-prettier is archived (stuck at 3.1); run the same Prettier version
+  # the frontend pins instead, so the hook and `npm run format` never disagree.
+  - repo: local
+    hooks:
+      - id: prettier
+        name: prettier (frontend format)
+        language: node
+        entry: prettier --write --ignore-unknown
+        additional_dependencies: ["prettier@3.10.1"]
+        files: ^projects/agentic-ai/incident-commander/frontend/src/.*\.(js|jsx|css)$

@@ -1,0 +1,67 @@
+[project]
+name = "incident-commander"
+version = "0.1.0"
+description = "Autonomous SRE / self-healing-ops multi-agent system with a human-supervised agent loop (FastAPI + Gemini)"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+authors = [{name = "Rajesh Srivastava", email = "rajsrivastava2@gmail.com"}]
+keywords = [
+    "ai-agents", "multi-agent", "sre", "agentic-loop", "gemini", "langgraph",
+    "incident-response", "guardrails", "llm-evaluation", "human-in-the-loop",
+]
+
+dependencies = [
+    "langgraph>=1.2.24",
+    "langchain-core>=1.7.7",
+    "langchain-google-genai>=4.4.3",
+    "pydantic>=2.14.4",
+    "fastapi>=0.162.5",
+    "uvicorn[standard]>=0.54.0",
+    "sse-starlette>=3.5.1",
+    "python-dotenv>=1.2.4",
+    "sqlalchemy[asyncio]>=2.0.58",
+    # Loaded by SQLAlchemy from the `postgresql+asyncpg://` URL, never imported directly.
+    "asyncpg>=0.32.0",
+    # Schema migrations for the optional Postgres; run automatically at startup.
+    "alembic>=1.20.1",
+    "pyjwt>=2.15.1",
+    "bcrypt>=5.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=9.2.0",
+    "pytest-asyncio>=1.5.0",
+    # Starlette's TestClient (used by tests/test_api.py) runs on httpx2 since 1.6;
+    # plain httpx still works but is deprecated there.
+    "httpx2>=2.14.0",
+    "ruff>=0.17.6",
+    # For the guided walkthrough in notebooks/. Dev-only: the app never imports it.
+    "jupyterlab>=4.6.6",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_default_fixture_loop_scope = "function"
+pythonpath = ["."]
+# Surface warnings rather than hiding them; a DeprecationWarning in an agent
+# framework is usually the first sign of a breaking upgrade.
+filterwarnings = ["default"]
+markers = [
+    # Asserts orchestration details specific to the explicit loop engine: its event
+    # vocabulary, LLM-Supervisor routing, and intermediate halt reasons. The graph
+    # engine reaches the same OUTCOMES - that contract is tests/test_graph_parity.py,
+    # which drives the graph directly - but gets there through conditional edges,
+    # so these particular assertions do not apply to it.
+    # Under IC_ENGINE=graph these are skipped automatically (see conftest.py), so
+    # the advertised `IC_ENGINE=graph pytest -q` runs green without extra flags.
+    "loop_engine: only meaningful for the explicit loop engine (IC_ENGINE=loop)",
+]

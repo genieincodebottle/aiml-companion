@@ -1,0 +1,81 @@
+# One-command run:  docker compose up --build
+# Then open http://localhost:8080  (nginx serves the UI and proxies /api to the backend).
+# No key needed: without GOOGLE_API_KEY the agents run in labelled offline mode.
+# For real Gemini reasoning, put GOOGLE_API_KEY in a .env file in this folder.
+#
+# Every port is published on 127.0.0.1 only. With login off, anyone who can reach
+# the backend can approve actions, so it is not exposed to your network.
+#
+# Postgres is included here and gives you persistent incidents plus login. It is
+# NOT required to run the project: with no IC_DATABASE_URL the backend keeps
+# incidents in memory and runbook memory in a JSON file, which is how `uv run
+# uvicorn` behaves by default. Keeping the zero-infrastructure path working is
+# deliberate - see backend/src/db/session.py.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-incident}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-incident}
+      - POSTGRES_DB=${POSTGRES_DB:-incident_commander}
+    ports:
+      # Exposed so you can run the backend locally against the containerised DB.
+      # 5434 on the host, not 5432. A native Postgres install commonly owns 5432,
+      # and a second major version owns 5433 - this machine had both. The symptom
+      # of that clash is a baffling "password authentication failed" from a server
+      # you never meant to reach. Override with POSTGRES_HOST_PORT if 5434 is taken.
+      - "127.0.0.1:${POSTGRES_HOST_PORT:-5434}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-incident} -d ${POSTGRES_DB:-incident_commander}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  backend:
+    build: ./backend
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      # The browser only ever talks to the frontend origin; the backend is reached
+      # server-side via the nginx proxy, so no browser CORS is needed in this setup.
+      - IC_CORS_ORIGINS=http://localhost:8080
+      - IC_DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-incident}:${POSTGRES_PASSWORD:-incident}@postgres:5432/${POSTGRES_DB:-incident_commander}
+      # Login is OFF by default even with a database, so `docker compose up` still
+      # drops you straight into the console. Set IC_AUTH_REQUIRED=true (and a real
+      # IC_JWT_SECRET) in .env to put the console behind a login.
+      - IC_AUTH_REQUIRED=${IC_AUTH_REQUIRED:-false}
+      - IC_JWT_SECRET=${IC_JWT_SECRET:-change-me-in-production}
+      # Empty password = a random one is generated and printed once in the
+      # backend log (`docker compose logs backend`).
+      - IC_SEED_ADMIN_USER=${IC_SEED_ADMIN_USER:-admin}
+      - IC_SEED_ADMIN_PASSWORD=${IC_SEED_ADMIN_PASSWORD:-}
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/api/health').status==200 else 1)"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "127.0.0.1:8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  pgdata:

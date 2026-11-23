@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 560" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6b7280"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="980" height="560" fill="#ffffff"/>
+  <text x="490" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#111827">AI Incident Commander - High-Level Architecture</text>
+
+  <!-- Operator -->
+  <rect x="40" y="66" width="240" height="46" rx="8" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+  <text x="160" y="94" text-anchor="middle" font-size="15" font-weight="600" fill="#9a3412">On-call Operator (human)</text>
+
+  <!-- React Console -->
+  <rect x="40" y="140" width="240" height="380" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="160" y="166" text-anchor="middle" font-size="15" font-weight="700" fill="#1d4ed8">React Console (Vite + MUI)</text>
+  <rect x="60" y="186" width="200" height="52" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="160" y="217" text-anchor="middle" font-size="13" fill="#1e3a8a">Fault Injector Panel</text>
+  <rect x="60" y="250" width="200" height="52" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="160" y="281" text-anchor="middle" font-size="13" fill="#1e3a8a">Loop Timeline (live)</text>
+  <rect x="60" y="314" width="200" height="52" rx="6" fill="#fff7ed" stroke="#ea580c"/>
+  <text x="160" y="345" text-anchor="middle" font-size="13" font-weight="600" fill="#9a3412">Approval Gate</text>
+  <rect x="60" y="378" width="200" height="52" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="160" y="409" text-anchor="middle" font-size="13" fill="#1e3a8a">Live Metrics (tokens / cost)</text>
+
+  <!-- FastAPI Backend -->
+  <rect x="360" y="140" width="250" height="380" rx="10" fill="#ecfeff" stroke="#0891b2" stroke-width="2"/>
+  <text x="485" y="166" text-anchor="middle" font-size="15" font-weight="700" fill="#0e7490">FastAPI Backend</text>
+  <rect x="380" y="186" width="210" height="130" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="485" y="208" text-anchor="middle" font-size="13" font-weight="600" fill="#155e75">REST</text>
+  <text x="485" y="232" text-anchor="middle" font-size="12" fill="#164e63">POST /api/incidents (trigger)</text>
+  <text x="485" y="254" text-anchor="middle" font-size="12" fill="#164e63">GET /api/scenarios</text>
+  <text x="485" y="276" text-anchor="middle" font-size="12" fill="#164e63">POST /api/incidents/{id}/approve</text>
+  <text x="485" y="300" text-anchor="middle" font-size="12" fill="#164e63">GET /api/incidents{,/id}</text>
+  <rect x="380" y="332" width="210" height="86" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="485" y="362" text-anchor="middle" font-size="13" font-weight="600" fill="#155e75">Server-Sent Events</text>
+  <text x="485" y="386" text-anchor="middle" font-size="12" fill="#164e63">GET /api/incidents/{id}/stream</text>
+
+  <!-- Loop Engine -->
+  <rect x="690" y="140" width="250" height="380" rx="10" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="815" y="166" text-anchor="middle" font-size="15" font-weight="700" fill="#4338ca">Incident Loop Engine (loop.py)</text>
+  <rect x="708" y="184" width="214" height="46" rx="6" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="815" y="212" text-anchor="middle" font-size="13" font-weight="600" fill="#3730a3">Orchestrator (bounded loop)</text>
+  <rect x="708" y="240" width="214" height="64" rx="6" fill="#f5f3ff" stroke="#7c3aed"/>
+  <text x="815" y="264" text-anchor="middle" font-size="12.5" font-weight="600" fill="#5b21b6">5 Agents</text>
+  <text x="815" y="285" text-anchor="middle" font-size="11" fill="#5b21b6">Triage / Diagnostician / Remediation</text>
+  <text x="815" y="299" text-anchor="middle" font-size="11" fill="#5b21b6">Verifier / Postmortem</text>
+  <rect x="708" y="314" width="103" height="76" rx="6" fill="#fef2f2" stroke="#dc2626"/>
+  <text x="759" y="338" text-anchor="middle" font-size="11.5" font-weight="600" fill="#991b1b">Guardrails</text>
+  <text x="759" y="356" text-anchor="middle" font-size="10" fill="#991b1b">risk + RBAC</text>
+  <text x="759" y="370" text-anchor="middle" font-size="10" fill="#991b1b">approval gate</text>
+  <text x="759" y="384" text-anchor="middle" font-size="10" fill="#991b1b">injection scan</text>
+  <rect x="819" y="314" width="103" height="76" rx="6" fill="#f1f5f9" stroke="#475569"/>
+  <text x="870" y="338" text-anchor="middle" font-size="11.5" font-weight="600" fill="#334155">Sandbox</text>
+  <text x="870" y="356" text-anchor="middle" font-size="10" fill="#334155">simulated stack</text>
+  <text x="870" y="370" text-anchor="middle" font-size="10" fill="#334155">telemetry +</text>
+  <text x="870" y="384" text-anchor="middle" font-size="10" fill="#334155">fault injector</text>
+  <rect x="708" y="400" width="214" height="46" rx="6" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="815" y="421" text-anchor="middle" font-size="12.5" font-weight="600" fill="#15803d">Google Gemini 2.5 Flash</text>
+  <text x="815" y="437" text-anchor="middle" font-size="10.5" fill="#15803d">structured output (Pydantic)</text>
+
+  <!-- Arrows: operator -> console -->
+  <line x1="160" y1="112" x2="160" y2="138" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- React <-> FastAPI -->
+  <line x1="282" y1="232" x2="358" y2="232" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="320" y="224" text-anchor="middle" font-size="11" fill="#374151">trigger / approve</text>
+  <line x1="358" y1="372" x2="282" y2="372" stroke="#6b7280" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="320" y="392" text-anchor="middle" font-size="11" fill="#374151">events (SSE)</text>
+
+  <!-- FastAPI <-> Engine -->
+  <line x1="612" y1="232" x2="688" y2="232" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="650" y="224" text-anchor="middle" font-size="11" fill="#374151">run loop</text>
+  <line x1="688" y1="372" x2="612" y2="372" stroke="#6b7280" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="650" y="392" text-anchor="middle" font-size="11" fill="#374151">emit events</text>
+
+  <!-- Legend -->
+  <line x1="40" y1="540" x2="70" y2="540" stroke="#6b7280" stroke-width="2"/>
+  <text x="76" y="544" font-size="11" fill="#374151">control / request flow</text>
+  <line x1="230" y1="540" x2="260" y2="540" stroke="#6b7280" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="266" y="544" font-size="11" fill="#374151">live event stream (SSE)</text>
+  <text x="940" y="544" text-anchor="end" font-size="11" fill="#6b7280">Gemini is required; every agent decision is made by the model (no deterministic fallback).</text>
+</svg>

@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 520" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6b7280"/>
+    </marker>
+    <marker id="ab" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="980" height="520" fill="#ffffff"/>
+  <text x="490" y="32" text-anchor="middle" font-size="22" font-weight="700" fill="#111827">The Agent Loop - Low-Level Control Flow</text>
+
+  <!-- Row 1: detect -> observe -> triage -> diagnose -> propose -->
+  <g>
+    <rect x="24" y="96" width="150" height="58" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+    <text x="99" y="121" text-anchor="middle" font-size="13" font-weight="600" fill="#334155">DETECT</text>
+    <text x="99" y="139" text-anchor="middle" font-size="10.5" fill="#475569">alert / fault injected</text>
+
+    <rect x="216" y="96" width="150" height="58" rx="8" fill="#ecfeff" stroke="#0891b2" stroke-width="2"/>
+    <text x="291" y="121" text-anchor="middle" font-size="13" font-weight="600" fill="#0e7490">OBSERVE</text>
+    <text x="291" y="139" text-anchor="middle" font-size="10" fill="#155e75">read-only + injection scan</text>
+
+    <rect x="408" y="96" width="150" height="58" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+    <text x="483" y="121" text-anchor="middle" font-size="13" font-weight="600" fill="#5b21b6">TRIAGE</text>
+    <text x="483" y="139" text-anchor="middle" font-size="10.5" fill="#6d28d9">first pass only</text>
+
+    <rect x="600" y="96" width="150" height="58" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+    <text x="675" y="121" text-anchor="middle" font-size="13" font-weight="600" fill="#5b21b6">DIAGNOSE</text>
+    <text x="675" y="139" text-anchor="middle" font-size="10.5" fill="#6d28d9">rank hypotheses</text>
+
+    <rect x="792" y="96" width="160" height="58" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+    <text x="872" y="121" text-anchor="middle" font-size="13" font-weight="600" fill="#5b21b6">PROPOSE</text>
+    <text x="872" y="139" text-anchor="middle" font-size="10.5" fill="#6d28d9">one least-invasive fix</text>
+  </g>
+
+  <!-- Row 1 arrows -->
+  <line x1="174" y1="125" x2="214" y2="125" stroke="#6b7280" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="366" y1="125" x2="406" y2="125" stroke="#6b7280" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="558" y1="125" x2="598" y2="125" stroke="#6b7280" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="750" y1="125" x2="790" y2="125" stroke="#6b7280" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- drop propose -> risk/gate -->
+  <line x1="872" y1="154" x2="872" y2="212" stroke="#6b7280" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- Row 2: risk -> human gate -> act -> verify  (flows leftward) -->
+  <g>
+    <rect x="792" y="214" width="160" height="58" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+    <text x="872" y="239" text-anchor="middle" font-size="13" font-weight="600" fill="#991b1b">RISK + RBAC</text>
+    <text x="872" y="257" text-anchor="middle" font-size="10" fill="#b91c1c">score; fail closed</text>
+
+    <rect x="560" y="214" width="180" height="58" rx="8" fill="#fff7ed" stroke="#ea580c" stroke-width="2.5"/>
+    <text x="650" y="239" text-anchor="middle" font-size="13" font-weight="700" fill="#9a3412">HUMAN GATE</text>
+    <text x="650" y="257" text-anchor="middle" font-size="10" fill="#9a3412">approve / reject (HITL)</text>
+
+    <rect x="372" y="214" width="150" height="58" rx="8" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+    <text x="447" y="239" text-anchor="middle" font-size="13" font-weight="600" fill="#3730a3">ACT</text>
+    <text x="447" y="257" text-anchor="middle" font-size="10" fill="#4338ca">only mutating call</text>
+
+    <rect x="180" y="214" width="150" height="58" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="2"/>
+    <text x="255" y="239" text-anchor="middle" font-size="13" font-weight="700" fill="#92400e">VERIFY</text>
+    <text x="255" y="257" text-anchor="middle" font-size="10" fill="#b45309">recovered? (decision)</text>
+  </g>
+
+  <!-- Row 2 arrows (leftward) -->
+  <line x1="792" y1="243" x2="742" y2="243" stroke="#6b7280" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="560" y1="243" x2="524" y2="243" stroke="#6b7280" stroke-width="2" marker-end="url(#a)"/>
+  <text x="542" y="207" text-anchor="middle" font-size="10" fill="#16a34a">approved</text>
+  <line x1="372" y1="243" x2="332" y2="243" stroke="#6b7280" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- loop-back: verify TOP -> observe BOTTOM, both ends approach vertically so the
+       arrowhead lands squarely on the OBSERVE box edge (no shallow/floating connection) -->
+  <path d="M255,214 C 255,184 291,184 291,156" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ab)"/>
+  <text x="168" y="199" text-anchor="middle" font-size="10" fill="#2563eb">loop: not recovered, budget remains</text>
+
+  <!-- verify -> terminal (two outcomes land at separate x on RESOLVE / ESCALATE) -->
+  <line x1="222" y1="272" x2="118" y2="336" stroke="#6b7280" stroke-width="2" marker-end="url(#a)"/>
+  <text x="120" y="318" text-anchor="middle" font-size="10" fill="#16a34a">recovered</text>
+  <line x1="268" y1="272" x2="255" y2="336" stroke="#6b7280" stroke-width="2" marker-end="url(#a)"/>
+  <text x="345" y="306" text-anchor="middle" font-size="10" fill="#b91c1c">out of options</text>
+
+  <!-- gate reject -> escalate: approach the RIGHT edge horizontally so the arrowhead
+       connects squarely to the box (and stays clear of the 'out of options' arrowhead on top) -->
+  <path d="M650,272 C 560,360 460,360 368,360" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ar)"/>
+  <text x="512" y="333" text-anchor="middle" font-size="10" fill="#dc2626">operator rejects</text>
+
+  <!-- Terminal row -->
+  <rect x="24" y="338" width="150" height="56" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="99" y="370" text-anchor="middle" font-size="13" font-weight="700" fill="#15803d">RESOLVE</text>
+  <rect x="216" y="338" width="150" height="56" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+  <text x="291" y="370" text-anchor="middle" font-size="13" font-weight="700" fill="#991b1b">ESCALATE</text>
+
+  <!-- Postmortem on its own row below, so nothing crosses a box -->
+  <rect x="150" y="438" width="240" height="56" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+  <text x="270" y="464" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">POSTMORTEM</text>
+  <text x="270" y="481" text-anchor="middle" font-size="10" fill="#475569">always written on terminal state</text>
+
+  <line x1="99" y1="394" x2="218" y2="436" stroke="#6b7280" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="291" y1="394" x2="322" y2="436" stroke="#6b7280" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- Halt conditions panel -->
+  <rect x="700" y="338" width="256" height="156" rx="8" fill="#fafafa" stroke="#9ca3af" stroke-dasharray="4 3"/>
+  <text x="716" y="362" font-size="12.5" font-weight="700" fill="#374151">Halt conditions (loop bounds)</text>
+  <text x="716" y="386" font-size="11" fill="#374151">1. recovery confirmed by Verifier</text>
+  <text x="716" y="406" font-size="11" fill="#374151">2. iteration ceiling (IC_MAX_ITERATIONS=6)</text>
+  <text x="716" y="426" font-size="11" fill="#374151">3. cost ceiling (IC_MAX_COST_USD=$0.50)</text>
+  <text x="716" y="446" font-size="11" fill="#374151">4. operator rejects a proposed action</text>
+  <text x="716" y="470" font-size="10" fill="#6b7280">High-risk actions always require a human,</text>
+  <text x="716" y="483" font-size="10" fill="#6b7280">even in auto-approve mode.</text>
+</svg>

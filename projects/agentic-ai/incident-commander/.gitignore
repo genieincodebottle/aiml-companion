@@ -1,0 +1,46 @@
+# ---- Secrets (never commit) ----
+.env
+.env.*
+!.env.example
+
+# ---- Python (backend) ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# ---- Node (frontend) ----
+node_modules/
+dist/
+dist-ssr/
+npm-debug.log*
+
+# ---- Logs / data / artifacts ----
+*.log
+data/*.db
+artifacts/
+# Runbook memory is runtime state the agent writes for itself. Committing it would
+# mean every clone starts with someone else's incident history and behaves
+# differently on the first run.
+backend/data/runbook_memory.json
+backend/data/*.tmp
+# Evaluation output. `evaluation/baseline.json` IS committed - it is the reference
+# a regression check compares against.
+backend/evaluation/results/
+/tmp/*.json
+
+# ---- Jupyter ----
+.ipynb_checkpoints/
+
+# ---- Editor / OS ----
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
