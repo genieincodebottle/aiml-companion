@@ -1,0 +1,67 @@
+[project]
+name = "mission-control"
+version = "0.1.0"
+description = "Mission Control - an enterprise agent control plane: AI gateway, durable agent runtime, policy engine, prompt/agent registries, an eval plane, and OTel-shaped observability, proven with a governed financial-crime investigation tenant."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+authors = [{name = "Rajesh Srivastava"}]
+keywords = [
+    "ai-agents",
+    "agentops",
+    "control-plane",
+    "ai-gateway",
+    "llmops",
+    "durable-execution",
+    "policy-engine",
+    "observability",
+    "llm-as-judge",
+    "multi-tenant",
+    "human-in-the-loop",
+    "mcp",
+]
+
+dependencies = [
+    "pydantic>=2.14.4",
+    "fastapi>=0.165.0",
+    "uvicorn[standard]>=0.54.0",
+    "sse-starlette>=3.7.1",
+    "python-dotenv>=1.2.4",
+    # Gemini is a core dependency: setting GOOGLE_API_KEY is the only step to go live.
+    "langchain-google-genai>=4.5.2",
+    "langchain-core>=1.8.4",
+]
+
+[project.optional-dependencies]
+# Real OpenTelemetry export (MC_OTEL_EXPORTER=console|otlp). Spans always go to JSONL.
+otel = [
+    "opentelemetry-api>=1.45.2",
+    "opentelemetry-sdk>=1.45.2",
+    "opentelemetry-exporter-otlp-proto-http>=1.45.2",
+]
+dev = [
+    "pytest>=9.2.0",
+    "pytest-asyncio>=1.5.0",
+    # Starlette's TestClient runs on httpx2; plain httpx is deprecated there.
+    "httpx2>=2.16.2",
+    "ruff>=0.17.6",
+    # For the guided walkthrough in notebooks/. Dev-only: the app never imports it.
+    "jupyterlab>=4.6.6",
+]
+
+[project.scripts]
+mission = "cli:main"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+filterwarnings = ["default"]

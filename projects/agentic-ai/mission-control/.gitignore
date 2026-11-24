@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.env
+backend/.work/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.coverage
+
+# Node / frontend
+node_modules/
+frontend/dist/
+test-results/
+playwright-report/
+*.tmp
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

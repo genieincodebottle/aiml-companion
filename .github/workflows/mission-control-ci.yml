@@ -1,0 +1,104 @@
+name: mission-control CI
+
+# Scoped to this project so it does not run for unrelated changes in the monorepo.
+on:
+  push:
+    paths:
+      - "projects/agentic-ai/mission-control/**"
+      - ".github/workflows/mission-control-ci.yml"
+  pull_request:
+    paths:
+      - "projects/agentic-ai/mission-control/**"
+      - ".github/workflows/mission-control-ci.yml"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  backend:
+    name: Backend (lint + test)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/agentic-ai/mission-control/backend
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10
+        with:
+          version: "0.13.9"
+      - name: Install dependencies (frozen)
+        run: uv sync --extra dev --frozen
+      - name: Lint (ruff)
+        run: uv run ruff check .
+      - name: Format check (ruff)
+        run: uv run ruff format --check .
+      - name: Test (pytest, offline - no API key needed)
+        run: uv run pytest -q
+      # The real OpenTelemetry export path, which needs the optional extra.
+      - name: Test with the otel extra installed
+        run: uv sync --extra dev --extra otel --frozen && uv run pytest -q tests/test_platform_claims.py
+
+      # The full evaluation offline. It checks the plumbing (every golden case reaches
+      # its disposition, the planted injection is caught); only a live run measures a
+      # prompt, and the gate never promotes from an offline run.
+      - name: Evaluation (offline)
+        run: MC_MODE=offline uv run python -m evaluation.run_eval
+
+  frontend:
+    name: Frontend (lint + test + build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/agentic-ai/mission-control/frontend
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: projects/agentic-ai/mission-control/frontend/.nvmrc
+      - name: Install dependencies (exact, from package-lock.json)
+        run: npm ci
+      - name: Lint (eslint)
+        run: npm run lint
+      - name: Unit tests (vitest)
+        run: npm run test
+      - name: Build
+        run: npm run build
+
+  e2e:
+    name: End-to-end (real backend + console in a browser)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/agentic-ai/mission-control/frontend
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10
+        with:
+          version: "0.13.9"
+      - name: Install backend dependencies (frozen)
+        working-directory: projects/agentic-ai/mission-control/backend
+        run: uv sync --frozen
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: projects/agentic-ai/mission-control/frontend/.nvmrc
+      - name: Install frontend dependencies
+        run: npm ci
+      - name: Install the browser
+        run: npx playwright install --with-deps chromium
+      # Starts its own backend (offline mode, no key) and console on dedicated
+      # ports, then drives open -> maker-checker -> approve/reject -> saga compensation -> history.
+      # Fails on any browser console error.
+      - name: Run end-to-end tests
+        run: npm run test:e2e
+      - name: Upload the report on failure
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: projects/agentic-ai/mission-control/frontend/playwright-report
+          retention-days: 7

@@ -1,0 +1,3 @@
+{
+  "fincrime.narrative": "You are drafting a Suspicious Activity Report narrative. Support each claim with a cited evidence item. Use your professional judgement about the overall risk to recommend 'file_sar', 'escalate' or 'close'."
+}

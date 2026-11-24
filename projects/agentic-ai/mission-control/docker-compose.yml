@@ -1,0 +1,45 @@
+# One-command run:  docker compose up --build
+# Then open http://localhost:8080 (nginx serves the console and proxies /api).
+#
+# No key needed: with no GOOGLE_API_KEY the backend runs in offline mode. To use
+# Gemini, copy .env.example to .env in this folder and set GOOGLE_API_KEY.
+# Cases, checkpoints and the prompt registry live in the `mc-data` volume, so a case
+# parked at the reviewer gate survives `docker compose restart`.
+
+services:
+  backend:
+    build: ./backend
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - MC_MODE=${MC_MODE:-auto}
+      - MC_OPERATORS=${MC_OPERATORS:-}
+      - MC_AUTO_APPROVE=${MC_AUTO_APPROVE:-0}
+      - MC_CORS_ORIGINS=http://localhost:8080
+    volumes:
+      - mc-data:/data
+    # Published on loopback only: the API decides regulatory filings, so it is not
+    # offered to the whole network by default.
+    ports:
+      - "127.0.0.1:8000:8000"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/api/health').status==200 else 1)"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "127.0.0.1:8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  mc-data:
