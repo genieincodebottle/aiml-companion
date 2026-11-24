@@ -76,8 +76,8 @@ def wilson_interval(successes: int, total: int, z: float = 1.96) -> tuple[float,
     return (max(0.0, center - margin), min(1.0, center + margin))
 
 
-#: The halt reasons that count as CHOOSING to escalate. An escalation caused by an
-#: outage, a crash or an exhausted ceiling ends in the same status, but the agent
+#: The halt reasons that count as CHOOSING to escalate. A model outage or an
+#: exhausted ceiling also ends as escalated (a crash ends as failed), but the agent
 #: did not decide anything: scoring it as a correct escalation would let a dead
 #: model score 100% on the negative scenarios.
 DELIBERATE_ESCALATIONS = frozenset(

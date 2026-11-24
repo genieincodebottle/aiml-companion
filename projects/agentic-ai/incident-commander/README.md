@@ -26,8 +26,10 @@ rule-based agent that reads the same telemetry. The console shows an "Offline mo
 banner so you always know which one you are watching.
 
 You need **either** [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-**or** Python 3.11+, [Node.js 22.12+](https://nodejs.org/) and
-[uv](https://docs.astral.sh/uv/getting-started/installation/).
+**or** [Python 3.11+](https://www.python.org/downloads/), [Node.js 22.12+](https://nodejs.org/) and
+[uv](https://docs.astral.sh/uv/getting-started/installation/), plus [git](https://git-scm.com/downloads).
+Check what you have with `python --version`, `node --version` and `uv --version`
+(or `docker --version`).
 
 ```bash
 git clone https://github.com/genieincodebottle/aiml-companion.git
@@ -40,7 +42,9 @@ cd aiml-companion/projects/agentic-ai/incident-commander
 docker compose up --build
 ```
 
-Open **http://localhost:8080**.
+Open **http://localhost:8080**. Compose uses ports 8080 (console), 8000 (API) and
+5434 (database). If one is taken, see
+[Ports are taken](docs/troubleshooting.md#docker) for the one-line override.
 
 ### Option B: two terminals
 
@@ -48,8 +52,11 @@ Open **http://localhost:8080**.
 # Terminal 1: backend on http://localhost:8000
 cd backend
 uv sync --extra dev
-uv run uvicorn main:app --reload --port 8000
+uv run uvicorn main:app --port 8000
 ```
+
+The first `uv sync` downloads the packages and takes a minute or two. Add `--reload`
+to the second command if you are editing the code.
 
 ```bash
 # Terminal 2: console on http://localhost:5173
@@ -58,7 +65,12 @@ npm install
 npm run dev
 ```
 
-Open **http://localhost:5173**.
+The first `npm install` can take several minutes with little output; that is normal.
+
+Open **http://localhost:5173**. To check the console is talking to this project,
+open http://localhost:8000/api/health: it should show `"role": "sre-bot"`. If a
+different app answers, another program owns the port: see
+[Port 8000 is already in use](docs/troubleshooting.md#the-backend).
 
 ### Your first incident
 
@@ -78,7 +90,7 @@ Get a free key at <https://aistudio.google.com/apikey>, then:
 ```bash
 cd backend
 cp .env.example .env      # Windows PowerShell: copy .env.example .env
-# edit .env and set GOOGLE_API_KEY=...
+# open .env, find the GOOGLE_API_KEY= line near the top, paste your key after the =
 ```
 
 Restart the backend. The banner disappears and every decision is made by Gemini.

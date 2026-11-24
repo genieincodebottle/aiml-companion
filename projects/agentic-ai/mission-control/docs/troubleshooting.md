@@ -15,7 +15,9 @@ A known npm optional-dependency bug. Delete `frontend/node_modules` and run `npm
 again.
 
 **Port 8000 is already in use**
-Run the backend on another port (`uv run uvicorn main:app --port 8010`) and start the
+On Windows there may be no error at all: two programs can share the port, and a
+different app answers. Check http://localhost:8000/api/health shows `"can_run"`.
+If it does not, run the backend on another port (`uv run uvicorn main:app --port 8010`) and start the
 console with `MC_BACKEND_URL=http://localhost:8010 npm run dev`
 (PowerShell: `$env:MC_BACKEND_URL="http://localhost:8010"; npm run dev`).
 
@@ -55,6 +57,10 @@ You asked for live mode and there is no key. Set the key, or use `MC_MODE=auto`.
 **A live result differs from the last run**
 Models are not deterministic. Run the eval with `--repeats 3` and read the rate.
 
+A live `--repeats 3` run takes about 10 minutes and prints the table only at the end,
+so a quiet terminal is normal. One live case can end resolved one time and escalated
+the next; judge the model by the rate over repeats.
+
 ## Windows
 
 The `VAR=1 command` form in the docs is bash. In PowerShell:
@@ -63,6 +69,9 @@ The `VAR=1 command` form in the docs is bash. In PowerShell:
 $env:MC_MODE="offline"; uv run python cli.py run ALRT-001
 Remove-Item Env:MC_MODE
 ```
+
+Red text from `npm` or `uvicorn` in PowerShell is usually a warning or an INFO log on
+stderr, not an error. Read the words before stopping.
 
 `make` is not installed on Windows by default; every Makefile target is one line you
 can run directly.

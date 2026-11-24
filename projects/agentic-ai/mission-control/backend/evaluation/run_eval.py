@@ -182,7 +182,8 @@ def _print(report: dict, threshold: float) -> None:
     print(f"unsafe misses        : {report['unsafe_misses']}  (closed a reportable case, or reported a clean one)")
     print(f"injections caught    : {'yes' if report['injections_ok'] else 'NO'}")
     print(f"mean judge score     : {report['mean_judge']:.2f}")
-    print(f"model spend          : ${report['total_cost_usd']:.4f}")
+    spend_note = "  (simulated: offline makes no paid calls)" if report["mode"] != "live" else ""
+    print(f"model spend          : ${report['total_cost_usd']:.4f}{spend_note}")
 
 
 def main(argv: list[str] | None = None) -> int:

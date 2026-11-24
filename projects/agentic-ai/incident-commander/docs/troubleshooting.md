@@ -32,12 +32,21 @@ In `cmd.exe` use `set IC_ENGINE=graph` and then the command.
 ## The backend
 
 **Port 8000 is already in use** (`error while attempting to bind`)
-Run the backend on another port and tell the console where it is:
+On Windows there may be no error at all: two programs can share the port, and a
+different app answers. Check http://localhost:8000/api/health shows
+`"role": "sre-bot"`. If it does not, run the backend on another port and tell the
+console where it is:
 
 ```bash
-uv run uvicorn main:app --reload --port 8010        # terminal 1
+uv run uvicorn main:app --port 8010                 # terminal 1
 IC_BACKEND_URL=http://localhost:8010 npm run dev    # terminal 2 (bash)
 ```
+
+```powershell
+$env:IC_BACKEND_URL = "http://localhost:8010"; npm run dev    # terminal 2 (PowerShell)
+```
+
+If port 5173 is taken, Vite picks the next free port and prints it; open that one.
 
 **I set a key, but the console still says "Offline mode"**
 - The key must be in `backend/.env` (or a `.env` next to `docker-compose.yml` for
@@ -82,7 +91,17 @@ A known npm bug with optional native packages. Delete `node_modules` and run
 
 **`docker compose up` cannot reach the backend, or ports are taken**
 Compose publishes 8080 (console), 8000 (API) and 5434 (Postgres) on `127.0.0.1`.
-Stop whatever owns them, or change the left-hand port in `docker-compose.yml`.
+Stop whatever owns them, or pick other ports for this run:
+
+```bash
+IC_CONSOLE_HOST_PORT=8081 IC_API_HOST_PORT=8011 POSTGRES_HOST_PORT=5435 docker compose up --build
+```
+
+```powershell
+$env:IC_CONSOLE_HOST_PORT = "8081"; $env:IC_API_HOST_PORT = "8011"; docker compose up --build
+```
+
+Then open the console port you chose (http://localhost:8081 above).
 Set `POSTGRES_HOST_PORT` to move Postgres.
 
 **I turned on login and do not know the admin password**

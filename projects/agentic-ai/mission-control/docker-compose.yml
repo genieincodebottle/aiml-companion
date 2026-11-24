@@ -15,13 +15,13 @@ services:
       - MC_MODE=${MC_MODE:-auto}
       - MC_OPERATORS=${MC_OPERATORS:-}
       - MC_AUTO_APPROVE=${MC_AUTO_APPROVE:-0}
-      - MC_CORS_ORIGINS=http://localhost:8080
+      - MC_CORS_ORIGINS=http://localhost:${MC_CONSOLE_HOST_PORT:-8080}
     volumes:
       - mc-data:/data
     # Published on loopback only: the API decides regulatory filings, so it is not
     # offered to the whole network by default.
     ports:
-      - "127.0.0.1:8000:8000"
+      - "127.0.0.1:${MC_API_HOST_PORT:-8000}:8000"
     healthcheck:
       test:
         - CMD
@@ -36,7 +36,7 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "127.0.0.1:8080:80"
+      - "127.0.0.1:${MC_CONSOLE_HOST_PORT:-8080}:80"
     depends_on:
       backend:
         condition: service_healthy

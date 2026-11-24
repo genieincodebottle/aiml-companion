@@ -54,7 +54,7 @@ services:
       - IC_SEED_ADMIN_USER=${IC_SEED_ADMIN_USER:-admin}
       - IC_SEED_ADMIN_PASSWORD=${IC_SEED_ADMIN_PASSWORD:-}
     ports:
-      - "127.0.0.1:8000:8000"
+      - "127.0.0.1:${IC_API_HOST_PORT:-8000}:8000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -72,7 +72,7 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "127.0.0.1:8080:80"
+      - "127.0.0.1:${IC_CONSOLE_HOST_PORT:-8080}:80"
     depends_on:
       backend:
         condition: service_healthy

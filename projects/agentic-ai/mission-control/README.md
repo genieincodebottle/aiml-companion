@@ -32,14 +32,16 @@ the case, signs off.
 
 ## Quick start
 
-You need [uv](https://docs.astral.sh/uv/getting-started/installation/) and
-[Node.js 22.12+](https://nodejs.org/). Two terminals:
+You need [Python 3.11+](https://www.python.org/downloads/),
+[uv](https://docs.astral.sh/uv/getting-started/installation/) and
+[Node.js 22.12+](https://nodejs.org/). Check with `python --version`, `uv --version`
+and `node --version`. Two terminals:
 
 ```bash
 # Terminal 1 - the platform API on http://localhost:8000
 cd backend
 uv sync --extra dev
-uv run uvicorn main:app --reload --port 8000
+uv run uvicorn main:app --port 8000
 
 # Terminal 2 - the console on http://localhost:5173
 cd frontend
@@ -47,16 +49,27 @@ npm ci
 npm run dev
 ```
 
+The first `uv sync` and `npm ci` download packages and take a few minutes with
+little output; that is normal. Add `--reload` to the uvicorn command if you are
+editing the code.
+
 Open http://localhost:5173. The banner says **Offline mode**: a deterministic
 stand-in answers every model call. Click **Investigate** on ALRT-001, then switch
 **Acting as** to `rex.reviewer` and approve.
 
-These commands are the same in Windows PowerShell.
+These commands are the same in Windows PowerShell. To check you reached this
+project, open http://localhost:8000/api/health: it should show `"can_run"`. If a
+different app answers, another program owns the port: see
+[Port 8000 is already in use](docs/troubleshooting.md#setup).
 
 <details>
 <summary>Other ways to run it</summary>
 
-**Docker (one command):** `docker compose up --build`, then open http://localhost:8080.
+**Docker (one command):** stop the two dev servers first, then
+`docker compose up --build` and open http://localhost:8080. Docker uses ports 8000
+and 8080. To use others: `MC_API_HOST_PORT=8011 MC_CONSOLE_HOST_PORT=8081 docker compose up --build`
+(PowerShell: `$env:MC_API_HOST_PORT="8011"; $env:MC_CONSOLE_HOST_PORT="8081"; docker compose up --build`),
+then open the console port you chose.
 
 **No browser:** from `backend/`:
 
@@ -74,9 +87,15 @@ takes each control apart one at a time, offline (`uv run jupyter lab` from `back
 
 ## Use Gemini
 
-Copy `backend/.env.example` to `backend/.env`, set `GOOGLE_API_KEY` (free at
-https://aistudio.google.com/apikey), and restart the backend. The banner disappears
-and the header shows the live model. A live case makes five model calls (triage, graph, screening, narrative, critic) on
+Get a key at https://aistudio.google.com/apikey, then from `backend/`:
+
+```bash
+cp .env.example .env      # Windows PowerShell or cmd: copy .env.example .env
+```
+
+Open `.env`, paste your key after `GOOGLE_API_KEY=`, save, then stop the backend
+(Ctrl+C) and start it again: the backend reads `.env` only at startup. The banner
+disappears and the header shows the live model. A live case makes five model calls (triage, graph, screening, narrative, critic) on
 `gemini-flash-latest` and `gemini-flash-lite-latest`.
 
 ## How it works

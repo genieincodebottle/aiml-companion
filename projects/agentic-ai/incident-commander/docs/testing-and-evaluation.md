@@ -17,6 +17,8 @@ npm run lint && npm test && npm run build
 ```
 
 (Windows PowerShell: `$env:IC_ENGINE = "graph"; uv run pytest -q`.)
+On the graph engine 4 tests are skipped on purpose: they check the explicit loop's
+orchestration, which the graph engine does not use.
 
 ### End-to-end, in a real browser
 
@@ -88,8 +90,8 @@ runs. Pass `--persist-memory` to use the real memory file instead.
 Two details that make the numbers honest:
 
 - **"Escalated" only counts as correct when the agent chose to escalate** (low
-  confidence, the Verifier, the Critic, a guardrail). An escalation caused by an
-  outage, a crash or an exhausted ceiling ends with the same status, but it is
+  confidence, the Verifier, the Critic, a guardrail). A model outage or an
+  exhausted ceiling also ends as escalated (a crash ends as failed), but it is
   scored as wrong. Otherwise a dead model would score 100% on the "must escalate"
   scenario.
 - **The judge is never told the outcome.** A judge that knows a run succeeded
