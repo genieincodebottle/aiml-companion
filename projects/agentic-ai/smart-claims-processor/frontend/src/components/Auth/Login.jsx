@@ -15,7 +15,6 @@ export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const [role, setRole] = useState('user');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -55,7 +54,7 @@ export default function Login() {
     setError('');
     setLoading(true);
     try {
-      const res = await authAPI.register({ username, password, email, role });
+      const res = await authAPI.register({ username, password, email });
       login(res.data.user, res.data.token);
       navigate(landingFor(res.data.user.role));
     } catch (err) {
@@ -129,19 +128,6 @@ export default function Login() {
               }
             }}
           />
-          {tab === 1 && (
-            <TextField
-              fullWidth select label="Role" value={role}
-              onChange={(e) => setRole(e.target.value)}
-              sx={fieldSx}
-              slotProps={{
-                select: { native: true }
-              }}
-            >
-              <option value="user">Claimant (user)</option>
-              <option value="reviewer">Reviewer (HITL approver)</option>
-            </TextField>
-          )}
           <Button
             fullWidth type="submit" variant="contained" size="large" disabled={loading || !username || !password}
             sx={{ py: 1.5, fontWeight: 600, fontSize: '1rem', borderRadius: 2, background: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)' }}

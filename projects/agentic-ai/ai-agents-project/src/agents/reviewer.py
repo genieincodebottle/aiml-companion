@@ -10,7 +10,7 @@ import logging
 from ..llm import get_llm
 from src.models.state import ResearchState, ReviewOutput
 from src.config import get_model_name, get_pipeline_config
-from src.guardrails import check_budget
+from src.guardrails import check_budget, limit_report
 from src.token_usage import structured_call
 
 logger = logging.getLogger(__name__)
@@ -20,7 +20,8 @@ def reviewer(state: ResearchState) -> dict:
     """Score the current draft and decide whether it passes or needs revision.
 
     Uses with_structured_output(ReviewOutput) for guaranteed schema.
-    Sets review.passed based on pipeline config's review_pass_score.
+    Sets review.passed in code: score >= review_pass_score (the model's own
+    `passed` flag is ignored), or the revision cap is reached.
 
     Returns {review, final_report (if passed), token_count, pipeline_trace}.
     """
@@ -33,7 +34,7 @@ def reviewer(state: ResearchState) -> dict:
         # Budget exceeded - accept current draft as-is
         return {
             "review": {"score": 0, "issues": [], "suggestions": [], "passed": True},
-            "final_report": state.get("current_draft", ""),
+            "final_report": limit_report(state.get("current_draft", ""))[0],
             "errors": ["Budget exceeded - accepting draft without review"],
             "pipeline_trace": [{"agent": "reviewer", "status": "skipped", "reason": "budget"}],
         }
@@ -74,12 +75,14 @@ def reviewer(state: ResearchState) -> dict:
             f"Report to review:\n{current_draft[:3000]}\n\n"
             f"Available claims:\n{claims_text}\n\n"
             f"List specific issues to fix and concrete improvement suggestions. "
-            f"Set passed=true if score >= {pass_score}."
+            f"A score of {pass_score} or more passes."
         )
 
         # Force-pass if max revisions reached (prevent infinite loops)
         force_pass = revision_count >= max_revisions
-        passed = result.passed or force_pass
+        # The pass is decided here, not by the model: `result.passed` is the
+        # model's own flag and can disagree with its score.
+        passed = result.score >= pass_score or force_pass
 
         review_data = {
             "score": result.score,
@@ -105,7 +108,10 @@ def reviewer(state: ResearchState) -> dict:
 
         # If passed, promote draft to final report
         if passed:
-            output["final_report"] = current_draft
+            report, truncated = limit_report(current_draft)
+            output["final_report"] = report
+            if truncated:
+                output["errors"] = ["Report truncated at content_filtering.max_report_chars"]
 
         return output
 
@@ -114,7 +120,7 @@ def reviewer(state: ResearchState) -> dict:
         # On error, accept the draft as-is
         return {
             "review": {"score": 0, "issues": [], "suggestions": [], "passed": True},
-            "final_report": state.get("current_draft", ""),
+            "final_report": limit_report(state.get("current_draft", ""))[0],
             "errors": [f"Reviewer error (accepting draft): {e}"],
             "token_count": 0,
             "pipeline_trace": [{

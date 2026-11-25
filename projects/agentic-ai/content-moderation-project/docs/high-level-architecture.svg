@@ -1,0 +1,205 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 750" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6b7280"/>
+    </marker>
+    <marker id="arrowSm" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1140" height="750" fill="#ffffff"/>
+  <text x="570" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#111827">Content Moderation Platform - High-Level Architecture</text>
+
+  <!-- People -->
+  <rect x="30" y="60" width="230" height="70" rx="8" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+  <text x="145" y="84" text-anchor="middle" font-size="15" font-weight="600" fill="#9a3412">People (6 roles)</text>
+  <text x="145" y="104" text-anchor="middle" font-size="11" fill="#9a3412">user, moderator, senior moderator,</text>
+  <text x="145" y="119" text-anchor="middle" font-size="11" fill="#9a3412">analyst, policy specialist, admin</text>
+
+  <!-- run.py terminal path -->
+  <rect x="680" y="60" width="430" height="70" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+  <text x="895" y="84" text-anchor="middle" font-size="14" font-weight="600" fill="#334155">run.py (terminal, no server, no key)</text>
+  <text x="895" y="104" text-anchor="middle" font-size="11" fill="#334155">demo, fast, keywords: graph built in-process with OfflineLLM</text>
+  <text x="895" y="119" text-anchor="middle" font-size="11" fill="#334155">test: pytest suite, no key, no network</text>
+
+  <!-- React console -->
+  <rect x="30" y="150" width="230" height="350" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="145" y="176" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1d4ed8">React Console (Vite + MUI)</text>
+  <rect x="48" y="190" width="194" height="40" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="145" y="207" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">Community + Stories</text>
+  <text x="145" y="222" text-anchor="middle" font-size="10" fill="#1e3a8a">post a story or a comment</text>
+  <rect x="48" y="239" width="194" height="40" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="145" y="256" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">Moderation dashboard</text>
+  <text x="145" y="271" text-anchor="middle" font-size="10" fill="#1e3a8a">Flagged / HITL tab</text>
+  <rect x="48" y="288" width="194" height="40" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="145" y="305" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">Content Review</text>
+  <text x="145" y="320" text-anchor="middle" font-size="10" fill="#1e3a8a">agent scores, human decision</text>
+  <rect x="48" y="337" width="194" height="40" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="145" y="354" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">Appeals</text>
+  <text x="145" y="369" text-anchor="middle" font-size="10" fill="#1e3a8a">filed by users, decided by policy</text>
+  <rect x="48" y="386" width="194" height="40" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="145" y="403" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">Analytics</text>
+  <text x="145" y="418" text-anchor="middle" font-size="10" fill="#1e3a8a">metrics, agent performance</text>
+  <rect x="48" y="435" width="194" height="40" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="145" y="452" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">User Management</text>
+  <text x="145" y="467" text-anchor="middle" font-size="10" fill="#1e3a8a">admin only</text>
+  <text x="145" y="492" text-anchor="middle" font-size="10.5" fill="#1d4ed8">localhost:5173</text>
+
+  <!-- FastAPI backend -->
+  <rect x="330" y="150" width="250" height="350" rx="10" fill="#ecfeff" stroke="#0891b2" stroke-width="2"/>
+  <text x="455" y="176" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0e7490">FastAPI backend (main.py)</text>
+  <rect x="346" y="190" width="218" height="74" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="455" y="207" text-anchor="middle" font-size="12" font-weight="600" fill="#155e75">Moderate</text>
+  <text x="455" y="224" text-anchor="middle" font-size="10.5" fill="#164e63">POST /api/stories/submit</text>
+  <text x="455" y="238" text-anchor="middle" font-size="10.5" fill="#164e63">POST /api/stories/{id}/comments</text>
+  <text x="455" y="252" text-anchor="middle" font-size="10.5" fill="#164e63">POST /api/content/submit</text>
+  <rect x="346" y="272" width="218" height="74" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="455" y="289" text-anchor="middle" font-size="12" font-weight="600" fill="#155e75">Human decisions (POST)</text>
+  <text x="455" y="306" text-anchor="middle" font-size="10.5" fill="#164e63">/api/content/{id}/manual-review</text>
+  <text x="455" y="320" text-anchor="middle" font-size="10.5" fill="#164e63">/api/hitl/review/{id} (resume)</text>
+  <text x="455" y="334" text-anchor="middle" font-size="10.5" fill="#164e63">/api/appeals/{id}/review</text>
+  <rect x="346" y="354" width="218" height="60" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="455" y="371" text-anchor="middle" font-size="12" font-weight="600" fill="#155e75">Read + admin</text>
+  <text x="455" y="388" text-anchor="middle" font-size="10.5" fill="#164e63">/api/hitl/queue, /api/analytics/*</text>
+  <text x="455" y="402" text-anchor="middle" font-size="10.5" fill="#164e63">/api/auth/* (login, users)</text>
+  <rect x="346" y="422" width="218" height="48" rx="6" fill="#fff7ed" stroke="#ea580c"/>
+  <text x="455" y="441" text-anchor="middle" font-size="12" font-weight="600" fill="#9a3412">hitl_pending_reviews</text>
+  <text x="455" y="458" text-anchor="middle" font-size="10.5" fill="#9a3412">paused states, held in memory</text>
+  <text x="455" y="489" text-anchor="middle" font-size="10.5" fill="#0e7490">localhost:8000, Swagger at /docs</text>
+
+  <!-- LangGraph engine -->
+  <rect x="680" y="150" width="430" height="350" rx="10" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="895" y="176" text-anchor="middle" font-size="13.5" font-weight="700" fill="#4338ca">LangGraph StateGraph (workflow.py)</text>
+
+  <rect x="694" y="188" width="200" height="24" rx="5" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="794" y="204" text-anchor="middle" font-size="10.5" fill="#3730a3">entry_router: pick the route</text>
+  <rect x="694" y="224" width="200" height="24" rx="5" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="794" y="240" text-anchor="middle" font-size="10.5" fill="#3730a3">content_analysis: topics, tone</text>
+  <rect x="694" y="260" width="200" height="24" rx="5" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="794" y="276" text-anchor="middle" font-size="10.5" fill="#3730a3">toxicity_detection: score 0 to 1</text>
+  <rect x="694" y="296" width="200" height="24" rx="5" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="794" y="312" text-anchor="middle" font-size="10.5" fill="#3730a3">policy_check: guideline match</text>
+  <rect x="694" y="332" width="200" height="24" rx="5" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="794" y="348" text-anchor="middle" font-size="10.5" fill="#3730a3">react_loop: weigh all signals</text>
+  <rect x="694" y="368" width="200" height="24" rx="5" fill="#fff7ed" stroke="#ea580c"/>
+  <text x="794" y="384" text-anchor="middle" font-size="10.5" fill="#9a3412">hitl_review: pause for a human</text>
+  <rect x="694" y="404" width="200" height="24" rx="5" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="794" y="420" text-anchor="middle" font-size="10.5" fill="#3730a3">reputation_scoring: user risk</text>
+  <rect x="694" y="440" width="200" height="24" rx="5" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="794" y="456" text-anchor="middle" font-size="10.5" fill="#3730a3">action_enforcement: act, store</text>
+
+  <line x1="794" y1="212" x2="794" y2="223" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowSm)"/>
+  <line x1="794" y1="248" x2="794" y2="259" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowSm)"/>
+  <line x1="794" y1="284" x2="794" y2="295" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowSm)"/>
+  <line x1="794" y1="320" x2="794" y2="331" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowSm)"/>
+  <line x1="794" y1="356" x2="794" y2="367" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowSm)"/>
+  <line x1="794" y1="392" x2="794" y2="403" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowSm)"/>
+  <line x1="794" y1="428" x2="794" y2="439" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowSm)"/>
+
+  <!-- side routes from entry_router -->
+  <path d="M894,200 H909" fill="none" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowSm)"/>
+  <path d="M900,200 V256 H909" fill="none" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowSm)"/>
+  <rect x="910" y="188" width="186" height="40" rx="5" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="1003" y="204" text-anchor="middle" font-size="11.5" font-weight="600" fill="#3730a3">fast_mode</text>
+  <text x="1003" y="220" text-anchor="middle" font-size="10" fill="#3730a3">short comment: one call, end</text>
+  <rect x="910" y="236" width="186" height="40" rx="5" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="1003" y="252" text-anchor="middle" font-size="11.5" font-weight="600" fill="#3730a3">appeal_review</text>
+  <text x="1003" y="268" text-anchor="middle" font-size="10" fill="#3730a3">then action_enforcement</text>
+
+  <rect x="910" y="286" width="186" height="86" rx="5" fill="#fef2f2" stroke="#dc2626"/>
+  <text x="1003" y="303" text-anchor="middle" font-size="11.5" font-weight="600" fill="#991b1b">Wrapper on every agent</text>
+  <text x="1003" y="320" text-anchor="middle" font-size="10" fill="#991b1b">GuardrailManager: loop, budget,</text>
+  <text x="1003" y="334" text-anchor="middle" font-size="10" fill="#991b1b">hallucination, consistency,</text>
+  <text x="1003" y="348" text-anchor="middle" font-size="10" fill="#991b1b">prompt injection checks</text>
+  <text x="1003" y="362" text-anchor="middle" font-size="10" fill="#991b1b">LearningTracker records</text>
+
+  <rect x="910" y="380" width="186" height="50" rx="5" fill="#f1f5f9" stroke="#475569"/>
+  <text x="1003" y="397" text-anchor="middle" font-size="11.5" font-weight="600" fill="#334155">Detectors (toxicity)</text>
+  <text x="1003" y="411" text-anchor="middle" font-size="10" fill="#334155">keyword_detectors (default)</text>
+  <text x="1003" y="424" text-anchor="middle" font-size="10" fill="#334155">ml_classifier if USE_ML_MODELS</text>
+
+  <rect x="910" y="438" width="186" height="40" rx="5" fill="#f1f5f9" stroke="#475569"/>
+  <text x="1003" y="454" text-anchor="middle" font-size="11.5" font-weight="600" fill="#334155">MemorySaver checkpointer</text>
+  <text x="1003" y="470" text-anchor="middle" font-size="10" fill="#334155">in memory, per content_id</text>
+
+  <text x="895" y="492" text-anchor="middle" font-size="10" fill="#4338ca">Any node can stop early: flagged, removed, or held for a human.</text>
+
+  <!-- People -> console, run.py -> graph -->
+  <line x1="145" y1="130" x2="145" y2="148" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="153" y="143" font-size="10.5" fill="#374151">log in, post, review</text>
+  <line x1="895" y1="130" x2="895" y2="148" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="903" y="143" font-size="10.5" fill="#374151">in-process</text>
+
+  <!-- console <-> API -->
+  <line x1="262" y1="232" x2="328" y2="232" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="295" y="224" text-anchor="middle" font-size="10" fill="#374151">REST</text>
+  <text x="295" y="248" text-anchor="middle" font-size="10" fill="#374151">+ token</text>
+  <line x1="328" y1="330" x2="262" y2="330" stroke="#6b7280" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="295" y="322" text-anchor="middle" font-size="10" fill="#374151">JSON</text>
+
+  <!-- API <-> graph -->
+  <line x1="582" y1="228" x2="678" y2="228" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="630" y="220" text-anchor="middle" font-size="10" fill="#374151">process_content</text>
+  <line x1="582" y1="300" x2="678" y2="300" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="630" y="292" text-anchor="middle" font-size="10" fill="#374151">resume_from_hitl</text>
+  <line x1="678" y1="384" x2="582" y2="384" stroke="#6b7280" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="630" y="364" text-anchor="middle" font-size="10" fill="#374151">final or</text>
+  <text x="630" y="376" text-anchor="middle" font-size="10" fill="#374151">paused state</text>
+
+  <!-- Observability -->
+  <rect x="30" y="550" width="230" height="150" rx="10" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+  <text x="145" y="574" text-anchor="middle" font-size="13.5" font-weight="700" fill="#334155">Observability</text>
+  <text x="145" y="598" text-anchor="middle" font-size="10.5" fill="#334155">ObservabilityManager</text>
+  <text x="145" y="616" text-anchor="middle" font-size="10.5" fill="#334155">structured logs + metrics</text>
+  <text x="145" y="634" text-anchor="middle" font-size="10.5" fill="#334155">OpenTelemetry console spans</text>
+  <text x="145" y="652" text-anchor="middle" font-size="10.5" fill="#334155">GET /api/observability/*</text>
+
+  <!-- SQLite -->
+  <rect x="330" y="550" width="250" height="150" rx="10" fill="#fefce8" stroke="#ca8a04" stroke-width="2"/>
+  <text x="455" y="574" text-anchor="middle" font-size="13.5" font-weight="700" fill="#854d0e">SQLite (backend/databases/)</text>
+  <rect x="346" y="586" width="218" height="50" rx="6" fill="#ffffff" stroke="#facc15"/>
+  <text x="455" y="603" text-anchor="middle" font-size="12" font-weight="600" fill="#854d0e">moderation_data.db</text>
+  <text x="455" y="617" text-anchor="middle" font-size="10" fill="#713f12">content, stories, comments, appeals,</text>
+  <text x="455" y="630" text-anchor="middle" font-size="10" fill="#713f12">agent runs, user profiles</text>
+  <rect x="346" y="644" width="218" height="46" rx="6" fill="#ffffff" stroke="#facc15"/>
+  <text x="455" y="661" text-anchor="middle" font-size="12" font-weight="600" fill="#854d0e">moderation_auth.db</text>
+  <text x="455" y="677" text-anchor="middle" font-size="10" fill="#713f12">accounts, sessions, audit log</text>
+
+  <!-- Model -->
+  <rect x="680" y="550" width="205" height="150" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="782" y="574" text-anchor="middle" font-size="13.5" font-weight="700" fill="#15803d">Model client</text>
+  <rect x="694" y="586" width="177" height="50" rx="6" fill="#ffffff" stroke="#86efac"/>
+  <text x="782" y="603" text-anchor="middle" font-size="12" font-weight="600" fill="#15803d">Google Gemini</text>
+  <text x="782" y="617" text-anchor="middle" font-size="10.5" fill="#166534">gemini-3.5-flash-lite</text>
+  <text x="782" y="630" text-anchor="middle" font-size="10" fill="#166534">when GOOGLE_API_KEY is set</text>
+  <rect x="694" y="644" width="177" height="46" rx="6" fill="#f1f5f9" stroke="#475569"/>
+  <text x="782" y="661" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">OfflineLLM</text>
+  <text x="782" y="677" text-anchor="middle" font-size="10" fill="#334155">rule engine, used with no key</text>
+
+  <!-- Chroma -->
+  <rect x="905" y="550" width="205" height="150" rx="10" fill="#fefce8" stroke="#ca8a04" stroke-width="2"/>
+  <text x="1007" y="574" text-anchor="middle" font-size="13.5" font-weight="700" fill="#854d0e">ChromaDB memory</text>
+  <text x="1007" y="596" text-anchor="middle" font-size="10.5" fill="#713f12">chroma_moderation_db/</text>
+  <text x="1007" y="614" text-anchor="middle" font-size="10.5" fill="#713f12">moderation_decisions</text>
+  <text x="1007" y="630" text-anchor="middle" font-size="10.5" fill="#713f12">flagged_patterns</text>
+  <text x="1007" y="646" text-anchor="middle" font-size="10.5" fill="#713f12">user_violations</text>
+  <text x="1007" y="668" text-anchor="middle" font-size="10" fill="#713f12">Chroma default embedding</text>
+
+  <!-- arrows to the bottom row -->
+  <path d="M380,500 V526 H145 V548" fill="none" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="262" y="520" text-anchor="middle" font-size="10.5" fill="#374151">logs, metrics</text>
+  <line x1="455" y1="500" x2="455" y2="548" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="463" y="530" font-size="10.5" fill="#374151">read / write</text>
+  <line x1="782" y1="500" x2="782" y2="548" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="790" y="530" font-size="10.5" fill="#374151">prompts, JSON replies</text>
+  <line x1="1007" y1="500" x2="1007" y2="548" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="1015" y="530" font-size="10.5" fill="#374151">read / write</text>
+
+  <!-- Legend -->
+  <line x1="30" y1="728" x2="60" y2="728" stroke="#6b7280" stroke-width="2"/>
+  <text x="66" y="732" font-size="11" fill="#374151">request / control flow</text>
+  <line x1="210" y1="728" x2="240" y2="728" stroke="#6b7280" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="246" y="732" font-size="11" fill="#374151">returned state</text>
+  <text x="1110" y="732" text-anchor="end" font-size="11" fill="#6b7280">notebooks/ holds a standalone rebuild in plain Python; it does not call this backend.</text>
+</svg>

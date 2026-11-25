@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 900" width="1180" height="900" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <title>Multi-Agent Research System - High-Level Architecture</title>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6b7280"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1180" height="900" fill="#ffffff"/>
+  <text x="590" y="34" font-size="21" text-anchor="middle" font-weight="700" fill="#111827">Multi-Agent Research System - High-Level Architecture</text>
+
+  <!-- User and entry points -->
+  <rect x="24" y="58" width="210" height="44" rx="6" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5"/>
+  <text x="129" y="84.75" font-size="13.5" text-anchor="middle" font-weight="600" fill="#9a3412">You (terminal or browser)</text>
+  <rect x="24" y="132" width="210" height="270" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="129" y="156" font-size="14.5" text-anchor="middle" font-weight="700" fill="#1d4ed8">Entry points</text>
+  <rect x="38" y="168" width="182" height="64" rx="6" fill="#ffffff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="129" y="189.5" font-size="13" text-anchor="middle" font-weight="600" fill="#1d4ed8">python run.py demo</text>
+  <text x="129" y="204.5" font-size="11" text-anchor="middle" fill="#1e3a8a">also: research, trace</text>
+  <text x="129" y="219.5" font-size="11" text-anchor="middle" fill="#1e3a8a">prints route + report</text>
+  <rect x="38" y="246" width="182" height="64" rx="6" fill="#ffffff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="129" y="267.5" font-size="13" text-anchor="middle" font-weight="600" fill="#1d4ed8">python -m src.agents</text>
+  <text x="129" y="282.5" font-size="11" text-anchor="middle" fill="#1e3a8a">(make run)</text>
+  <text x="129" y="297.5" font-size="11" text-anchor="middle" fill="#1e3a8a">prints the report</text>
+  <rect x="38" y="324" width="182" height="64" rx="6" fill="#ffffff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="129" y="345.5" font-size="13" text-anchor="middle" font-weight="600" fill="#1d4ed8">streamlit run app.py</text>
+  <text x="129" y="360.5" font-size="11" text-anchor="middle" fill="#1e3a8a">Research tab: live nodes</text>
+  <text x="129" y="375.5" font-size="11" text-anchor="middle" fill="#1e3a8a">Evaluation tab</text>
+  <polyline points="129,102 129,130" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <!-- Guardrails -->
+  <rect x="24" y="430" width="210" height="196" rx="10" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+  <text x="129" y="454" font-size="14.5" text-anchor="middle" font-weight="700" fill="#991b1b">Guardrails</text>
+  <text x="129" y="472" font-size="11" text-anchor="middle" fill="#991b1b">src/guardrails.py</text>
+  <rect x="36" y="484" width="186" height="128" rx="6" fill="#ffffff" stroke="#fca5a5" stroke-width="1.5"/>
+  <text x="129" y="515.75" font-size="12" text-anchor="middle" font-weight="600" fill="#991b1b">Called inside agents</text>
+  <text x="129" y="530.25" font-size="10.5" text-anchor="middle" fill="#991b1b">screen_input: query, in planner</text>
+  <text x="129" y="544.75" font-size="10.5" text-anchor="middle" fill="#991b1b">check_budget: 50,000 tokens</text>
+  <text x="129" y="559.25" font-size="10.5" text-anchor="middle" fill="#991b1b">throttle: 30 calls/min</text>
+  <text x="129" y="573.75" font-size="10.5" text-anchor="middle" fill="#991b1b">scrub_pii: every writer draft</text>
+  <text x="129" y="588.25" font-size="10.5" text-anchor="middle" fill="#991b1b">throttle is skipped offline</text>
+
+  <!-- LangGraph StateGraph -->
+  <rect x="268" y="132" width="540" height="600" rx="10" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="538" y="156" font-size="14.5" text-anchor="middle" font-weight="700" fill="#4338ca">LangGraph StateGraph (src/agents/graph.py)</text>
+  <rect x="300" y="168" width="230" height="44" rx="6" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <text x="415" y="187" font-size="13" text-anchor="middle" font-weight="600" fill="#4338ca">planner</text>
+  <text x="415" y="202" font-size="11" text-anchor="middle" fill="#3730a3">1-3 sub-topics (max 3), LLM</text>
+  <rect x="310" y="230" width="230" height="44" rx="6" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <rect x="305" y="234" width="230" height="44" rx="6" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <rect x="300" y="238" width="230" height="44" rx="6" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <text x="415" y="257" font-size="13" text-anchor="middle" font-weight="600" fill="#4338ca">researcher x N</text>
+  <text x="415" y="272" font-size="11" text-anchor="middle" fill="#3730a3">one per sub-topic, in parallel</text>
+  <rect x="300" y="308" width="230" height="44" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="415" y="327" font-size="13" text-anchor="middle" font-weight="600" fill="#334155">quality_gate</text>
+  <text x="415" y="342" font-size="11" text-anchor="middle" fill="#334155">pure Python, no LLM call</text>
+  <rect x="300" y="378" width="230" height="44" rx="6" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <text x="415" y="397" font-size="13" text-anchor="middle" font-weight="600" fill="#4338ca">analyst</text>
+  <text x="415" y="412" font-size="11" text-anchor="middle" fill="#3730a3">claims + conflicts, LLM</text>
+  <rect x="300" y="448" width="230" height="44" rx="6" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <text x="415" y="467" font-size="13" text-anchor="middle" font-weight="600" fill="#4338ca">synthesizer</text>
+  <text x="415" y="482" font-size="11" text-anchor="middle" fill="#3730a3">cross-check + rank, LLM</text>
+  <rect x="300" y="518" width="230" height="44" rx="6" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <text x="415" y="537" font-size="13" text-anchor="middle" font-weight="600" fill="#4338ca">writer</text>
+  <text x="415" y="552" font-size="11" text-anchor="middle" fill="#3730a3">report draft, LLM</text>
+  <rect x="300" y="588" width="230" height="44" rx="6" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <text x="415" y="607" font-size="13" text-anchor="middle" font-weight="600" fill="#4338ca">reviewer</text>
+  <text x="415" y="622" font-size="11" text-anchor="middle" fill="#3730a3">score 1-10, LLM</text>
+  <polyline points="355,212 355,228" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="363" y="225" font-size="10.5" fill="#374151">Send(), one per sub-topic</text>
+  <polyline points="355,282 355,306" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="363" y="299" font-size="10.5" fill="#374151">sources merged (operator.add)</text>
+  <polyline points="355,352 355,376" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="363" y="369" font-size="10.5" fill="#374151">score &gt;= 0.4</text>
+  <polyline points="355,422 355,446" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <polyline points="355,492 355,516" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <polyline points="355,562 355,586" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <rect x="300" y="658" width="230" height="44" rx="6" fill="#f1f5f9" stroke="#475569" stroke-width="1.5"/>
+  <text x="415" y="677" font-size="13" text-anchor="middle" font-weight="600" fill="#334155">END: final_report</text>
+  <text x="415" y="692" font-size="11" text-anchor="middle" fill="#334155">drafts, review, trace in state</text>
+  <polyline points="355,632 355,656" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="363" y="649" font-size="10.5" fill="#374151">passed, or 2nd draft</text>
+  <rect x="590" y="308" width="196" height="44" rx="6" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <text x="688" y="327" font-size="13" text-anchor="middle" font-weight="600" fill="#4338ca">retry_researcher</text>
+  <text x="688" y="342" font-size="11" text-anchor="middle" fill="#3730a3">once, broader query</text>
+  <polyline points="530,330 588,330" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="559" y="322" font-size="10.5" text-anchor="middle" fill="#374151">&lt; 0.4</text>
+  <polyline points="688,352 688,400 532,400" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="560" y="415" font-size="10.5" fill="#374151">then analyst, no re-check</text>
+  <rect x="578" y="168" width="212" height="62" rx="6" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <text x="684" y="188.75" font-size="12.5" text-anchor="middle" font-weight="600" fill="#4338ca">ResearchState</text>
+  <text x="684" y="203.25" font-size="10.5" text-anchor="middle" fill="#3730a3">src/models/state.py, shared by</text>
+  <text x="684" y="217.75" font-size="10.5" text-anchor="middle" fill="#3730a3">every node (19 fields)</text>
+  <polyline points="530,610 556,610 556,540 532,540" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="564" y="572" font-size="10.5" fill="#374151">reviewer fails: writer</text>
+  <text x="564" y="586" font-size="10.5" fill="#374151">revises once (max 2 drafts)</text>
+  <polyline points="234,190 298,190" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="266" y="182" font-size="10.5" text-anchor="middle" fill="#374151">invoke()</text>
+  <polyline points="234,528 298,528" fill="none" stroke="#6b7280" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="266" y="520" font-size="10.5" text-anchor="middle" fill="#374151">checks</text>
+
+  <!-- Search tools -->
+  <rect x="860" y="132" width="296" height="206" rx="10" fill="#ecfeff" stroke="#0891b2" stroke-width="2"/>
+  <text x="1008" y="156" font-size="14.5" text-anchor="middle" font-weight="700" fill="#0e7490">Search tools (src/tools/)</text>
+  <rect x="874" y="166" width="268" height="36" rx="6" fill="#ffffff" stroke="#67e8f9" stroke-width="1.5"/>
+  <text x="1008" y="188.25" font-size="12.5" text-anchor="middle" font-weight="600" fill="#0e7490">select_tools(): keyword rules</text>
+  <rect x="874" y="212" width="268" height="62" rx="6" fill="#ffffff" stroke="#67e8f9" stroke-width="1.5"/>
+  <text x="1008" y="232.5" font-size="13" text-anchor="middle" font-weight="600" fill="#0e7490">Tavily, for every sub-topic</text>
+  <text x="1008" y="247.5" font-size="11" text-anchor="middle" fill="#164e63">TavilySearch, needs TAVILY_API_KEY</text>
+  <text x="1008" y="262.5" font-size="11" text-anchor="middle" fill="#164e63">no key: offline_search stand-in</text>
+  <rect x="874" y="284" width="268" height="44" rx="6" fill="#ffffff" stroke="#67e8f9" stroke-width="1.5"/>
+  <text x="1008" y="303" font-size="13" text-anchor="middle" font-weight="600" fill="#0e7490">Wikipedia search API</text>
+  <text x="1008" y="318" font-size="11" text-anchor="middle" fill="#164e63">only for factual keywords</text>
+  <polyline points="542,258 858,258" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="700" y="250" font-size="10.5" text-anchor="middle" fill="#374151">search calls (throttled)</text>
+
+  <!-- Model -->
+  <rect x="860" y="358" width="296" height="210" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="1008" y="382" font-size="14.5" text-anchor="middle" font-weight="700" fill="#15803d">Model: get_llm() in src/llm.py</text>
+  <rect x="874" y="392" width="268" height="72" rx="6" fill="#ffffff" stroke="#86efac" stroke-width="1.5"/>
+  <text x="1008" y="417.5" font-size="13" text-anchor="middle" font-weight="600" fill="#15803d">Gemini gemini-3.6-flash</text>
+  <text x="1008" y="432.5" font-size="11" text-anchor="middle" fill="#166534">ChatGoogleGenerativeAI</text>
+  <text x="1008" y="447.5" font-size="11" text-anchor="middle" fill="#166534">used when GOOGLE_API_KEY is real</text>
+  <rect x="874" y="476" width="268" height="78" rx="6" fill="#ffffff" stroke="#86efac" stroke-width="1.5"/>
+  <text x="1008" y="504.5" font-size="13" text-anchor="middle" font-weight="600" fill="#15803d">OfflineLLM rule engine</text>
+  <text x="1008" y="519.5" font-size="11" text-anchor="middle" fill="#166534">no key, or RESEARCH_OFFLINE=1</text>
+  <text x="1008" y="534.5" font-size="11" text-anchor="middle" fill="#166534">fixed, schema-valid replies</text>
+  <polyline points="530,470 858,470" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="700" y="462" font-size="10.5" text-anchor="middle" fill="#374151">LLM calls (5 agents)</text>
+
+  <!-- Output -->
+  <rect x="860" y="590" width="296" height="142" rx="10" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+  <text x="1008" y="614" font-size="14.5" text-anchor="middle" font-weight="700" fill="#334155">Output</text>
+  <rect x="874" y="624" width="268" height="44" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="1008" y="643" font-size="13" text-anchor="middle" font-weight="600" fill="#334155">final_report (Markdown)</text>
+  <text x="1008" y="658" font-size="11" text-anchor="middle" fill="#334155">printed, or shown in the UI</text>
+  <rect x="874" y="676" width="268" height="44" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="1008" y="695" font-size="13" text-anchor="middle" font-weight="600" fill="#334155">pipeline_trace</text>
+  <text x="1008" y="710" font-size="11" text-anchor="middle" fill="#334155">agent, ms and tokens per step</text>
+  <polyline points="530,680 858,680" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="700" y="672" font-size="10.5" text-anchor="middle" fill="#374151">final state</text>
+
+  <!-- In the repo, not on the request path -->
+  <rect x="24" y="756" width="1132" height="108" rx="10" fill="#f9fafb" stroke="#9ca3af" stroke-width="2"/>
+  <text x="590" y="780" font-size="13.5" text-anchor="middle" font-weight="600" fill="#4b5563">In the repo, not on the request path</text>
+  <rect x="40" y="790" width="360" height="58" rx="6" fill="#ffffff" stroke="#d1d5db" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="220" y="816" font-size="13" text-anchor="middle" font-weight="600" fill="#4b5563">src/tools/scraper.py</text>
+  <text x="220" y="831" font-size="11" text-anchor="middle" fill="#4b5563">scrape_url(): no agent calls it</text>
+  <rect x="410" y="790" width="360" height="58" rx="6" fill="#ffffff" stroke="#d1d5db" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="590" y="816" font-size="13" text-anchor="middle" font-weight="600" fill="#4b5563">src/cache/research_cache.py</text>
+  <text x="590" y="831" font-size="11" text-anchor="middle" fill="#4b5563">SQLite cache: the UI shows its stats only</text>
+  <rect x="780" y="790" width="360" height="58" rx="6" fill="#ffffff" stroke="#d1d5db" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="960" y="816" font-size="13" text-anchor="middle" font-weight="600" fill="#4b5563">evaluation/run_eval.py</text>
+  <text x="960" y="831" font-size="11" text-anchor="middle" fill="#4b5563">google.genai direct: 1 call vs a 3-call chain</text>
+  <polyline points="24,884 54,884" fill="none" stroke="#6b7280" stroke-width="1.8"/>
+  <text x="60" y="888" font-size="11" fill="#374151">request flow</text>
+  <polyline points="170,884 200,884" fill="none" stroke="#6b7280" stroke-width="1.8" stroke-dasharray="5 4"/>
+  <text x="206" y="888" font-size="11" fill="#374151">guardrail checks</text>
+  <text x="1156" y="888" font-size="11" text-anchor="end" fill="#6b7280">No key: same graph, OfflineLLM + offline_search, no network for Tavily or Gemini.</text>
+</svg>

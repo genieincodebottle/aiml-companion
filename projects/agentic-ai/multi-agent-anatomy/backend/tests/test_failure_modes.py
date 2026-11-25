@@ -93,13 +93,18 @@ async def test_corrupt_passage_leaves_every_span_green_and_the_answer_wrong():
 
 
 @pytest.mark.asyncio
-async def test_cache_off_costs_more_than_cache_on():
+async def test_cache_off_sends_more_uncached_input_tokens():
     warm = await run_request(QUESTION, reset_cache=True)
     warm = await run_request(QUESTION)
     cold = await run_request(QUESTION, switches=FailureSwitches(disable_prompt_cache=True))
     assert warm["trace"]["summary"]["cached_tokens"] > 0
     assert cold["trace"]["summary"]["cached_tokens"] == 0
-    assert cold["trace"]["summary"]["total_cost_usd"] > warm["trace"]["summary"]["total_cost_usd"]
+    # The total does not change, only how much of the input is cached.
+    assert cold["trace"]["summary"]["total_tokens"] == warm["trace"]["summary"]["total_tokens"]
+    assert (
+        cold["trace"]["summary"]["uncached_input_tokens"]
+        > warm["trace"]["summary"]["uncached_input_tokens"]
+    )
 
 
 @pytest.mark.asyncio

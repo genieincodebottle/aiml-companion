@@ -119,9 +119,9 @@ def train_and_evaluate(df: pd.DataFrame, cfg: dict) -> dict:
         # Evaluation used to call `pipeline.predict_proba(X)` on the
         # deployment fit below -- a model that had seen all 1,000 rows scoring
         # those same 1,000 rows. For gradient boosting that is close to reading
-        # back the labels: it reported a total misclassification cost of 1
-        # against an honest 712, and the threshold it chose from those
-        # memorised scores (0.30, where the honest optimum is 0.05) cost 1,372
+        # back the labels: it reported a total misclassification cost of 6
+        # against an honest 662, and the threshold it chose from those
+        # memorised scores (0.31, where the honest optimum is 0.01) cost 1,189
         # in reality. An in-sample curve does not just flatter the score, it
         # moves the operating point to the wrong place and ships it.
         results[name]["oof_proba"] = cross_val_predict(

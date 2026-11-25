@@ -6,7 +6,7 @@ deliberately out of scope here, because it does not get clearer by being
 runnable.
 
 What is in scope, because it is visible in the trace:
-  - cost-aware rate limiting, not count-only
+  - token-aware rate limiting, not count-only
   - a canonical request id, so a retry is not a second fan-out
   - injection screening, honestly labelled as catching the obvious attempts
   - output redaction, so a customer email never leaves in a reply
@@ -33,13 +33,18 @@ _CARD_RE = re.compile(r"\b(?:\d[ -]*?){13,16}\b")
 
 @dataclass
 class RateLimiter:
-    """Two limiters, because limiting by count alone lets a handful of expensive
+    """Two limiters, because limiting by count alone lets a handful of token-heavy
     fan-outs through while blocking a flood of cheap ones."""
 
     max_requests_per_min: int = 30
-    max_usd_per_min: float = 0.50
+    # Default converted from this limiter's earlier per-minute spend limit using
+    # the average per-token rate across the seven recorded traces, rounded down
+    # to 240,000. A recorded request uses 3,300 to 3,700 tokens, so the request
+    # limit above (30, about 111,000 tokens) still trips first for ordinary
+    # traffic, and this one only catches a few very large fan-outs.
+    max_tokens_per_min: int = 240_000
     _requests: list[float] = field(default_factory=list)
-    _spend: list[tuple[float, float]] = field(default_factory=list)
+    _spend: list[tuple[float, int]] = field(default_factory=list)
 
     def _prune(self, now: float) -> None:
         self._requests = [t for t in self._requests if now - t < 60]
@@ -50,13 +55,13 @@ class RateLimiter:
         self._prune(now)
         if len(self._requests) >= self.max_requests_per_min:
             return False, "rate limit: requests per minute"
-        if sum(c for _, c in self._spend) >= self.max_usd_per_min:
-            return False, "rate limit: spend per minute"
+        if sum(c for _, c in self._spend) >= self.max_tokens_per_min:
+            return False, "rate limit: tokens per minute"
         self._requests.append(now)
         return True, ""
 
-    def record_spend(self, usd: float) -> None:
-        self._spend.append((time.monotonic(), usd))
+    def record_spend(self, tokens: int) -> None:
+        self._spend.append((time.monotonic(), tokens))
 
 
 RATE_LIMITER = RateLimiter()

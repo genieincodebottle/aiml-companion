@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 760" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6b7280"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1100" height="760" fill="#ffffff"/>
+  <text x="550" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#111827">Dream-RSI Explorer - High-Level Architecture</text>
+
+  <!-- ===== Column A: user, CLI, outputs ===== -->
+  <rect x="30" y="66" width="220" height="46" rx="8" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+  <text x="140" y="94" text-anchor="middle" font-size="15" font-weight="600" fill="#9a3412">You, in a terminal</text>
+
+  <rect x="30" y="140" width="220" height="190" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="140" y="166" text-anchor="middle" font-size="15" font-weight="700" fill="#1d4ed8">run.py (CLI)</text>
+  <rect x="45" y="182" width="190" height="60" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="140" y="206" text-anchor="middle" font-size="13" font-weight="600" fill="#1e3a8a">explore</text>
+  <text x="140" y="226" text-anchor="middle" font-size="11" fill="#1e3a8a">one real search, 24 calls max</text>
+  <rect x="45" y="254" width="190" height="62" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="140" y="276" text-anchor="middle" font-size="13" font-weight="600" fill="#1e3a8a">compare</text>
+  <text x="140" y="294" text-anchor="middle" font-size="11" fill="#1e3a8a">Dream-RSI vs fixed loop,</text>
+  <text x="140" y="309" text-anchor="middle" font-size="11" fill="#1e3a8a">then the fresh check</text>
+
+  <rect x="30" y="380" width="220" height="316" rx="10" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+  <text x="140" y="406" text-anchor="middle" font-size="15" font-weight="700" fill="#334155">Outputs</text>
+  <rect x="45" y="420" width="190" height="62" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="140" y="441" text-anchor="middle" font-size="12.5" font-weight="600" fill="#334155">Terminal</text>
+  <text x="140" y="458" text-anchor="middle" font-size="10.5" fill="#334155">round tables, fresh check,</text>
+  <text x="140" y="473" text-anchor="middle" font-size="10.5" fill="#334155">usage: calls and tokens</text>
+  <rect x="45" y="494" width="190" height="44" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="140" y="520" text-anchor="middle" font-size="10.5" fill="#334155">artifacts/explore_tree.json</text>
+  <rect x="45" y="550" width="190" height="58" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="140" y="574" text-anchor="middle" font-size="10.5" fill="#334155">artifacts/trees/</text>
+  <text x="140" y="591" text-anchor="middle" font-size="10.5" fill="#334155">&lt;arm&gt;/round_N.json</text>
+  <rect x="45" y="620" width="190" height="44" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="140" y="646" text-anchor="middle" font-size="10.5" fill="#334155">artifacts/compare.json</text>
+
+  <!-- ===== Column B: the loop ===== -->
+  <rect x="340" y="140" width="400" height="556" rx="10" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="540" y="166" text-anchor="middle" font-size="15" font-weight="700" fill="#4338ca">Dream-RSI loop (src/loop.py)</text>
+  <text x="540" y="184" text-anchor="middle" font-size="11" fill="#4338ca">the fixed baseline runs the same loop and skips step 3</text>
+
+  <rect x="360" y="196" width="360" height="62" rx="6" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="540" y="217" text-anchor="middle" font-size="13" font-weight="600" fill="#3730a3">1. Explore for real (explore.py)</text>
+  <text x="540" y="235" text-anchor="middle" font-size="11" fill="#3730a3">policy picks leaves, attempts run in parallel</text>
+  <text x="540" y="250" text-anchor="middle" font-size="11" fill="#3730a3">one attempt = one Gemini call = one tree node</text>
+
+  <rect x="360" y="288" width="170" height="62" rx="6" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="445" y="309" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3730a3">Policy (policy.py)</text>
+  <text x="445" y="326" text-anchor="middle" font-size="11" fill="#3730a3">PolicySpec + decide()</text>
+  <text x="445" y="341" text-anchor="middle" font-size="11" fill="#3730a3">clamped to BOUNDS</text>
+
+  <rect x="550" y="288" width="170" height="62" rx="6" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="635" y="309" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3730a3">Evaluator (task.py)</text>
+  <text x="635" y="326" text-anchor="middle" font-size="11" fill="#3730a3">fit_radii + evaluate</text>
+  <text x="635" y="341" text-anchor="middle" font-size="11" fill="#3730a3">score = sum of radii</text>
+
+  <rect x="360" y="378" width="360" height="48" rx="6" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="540" y="398" text-anchor="middle" font-size="13" font-weight="600" fill="#3730a3">Discovery tree (tree.py)</text>
+  <text x="540" y="415" text-anchor="middle" font-size="11" fill="#3730a3">one node per attempt, children kept in order</text>
+
+  <rect x="360" y="454" width="360" height="44" rx="6" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="540" y="473" text-anchor="middle" font-size="13" font-weight="600" fill="#3730a3">2. Replay pool</text>
+  <text x="540" y="489" text-anchor="middle" font-size="11" fill="#3730a3">every tree this arm has recorded</text>
+
+  <rect x="360" y="526" width="360" height="84" rx="6" fill="#f5f3ff" stroke="#7c3aed"/>
+  <text x="540" y="547" text-anchor="middle" font-size="13" font-weight="600" fill="#5b21b6">3. Dream (develop.py + replay.py)</text>
+  <text x="540" y="565" text-anchor="middle" font-size="11" fill="#5b21b6">the developer writes M policy versions</text>
+  <text x="540" y="581" text-anchor="middle" font-size="11" fill="#5b21b6">replay scores each one on the pool, no Gemini call</text>
+  <text x="540" y="597" text-anchor="middle" font-size="11" fill="#5b21b6">the best version is the next round's policy</text>
+
+  <rect x="360" y="636" width="360" height="44" rx="6" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="540" y="655" text-anchor="middle" font-size="13" font-weight="600" fill="#3730a3">Fresh check (loop.py)</text>
+  <text x="540" y="671" text-anchor="middle" font-size="11" fill="#3730a3">real searches on unseen seeds, both policies</text>
+
+  <!-- inner arrows -->
+  <line x1="445" y1="258" x2="445" y2="286" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="452" y="276" font-size="10" fill="#374151">decide()</text>
+  <line x1="635" y1="258" x2="635" y2="286" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="642" y="276" font-size="10" fill="#374151">evaluate()</text>
+  <line x1="540" y1="258" x2="540" y2="376" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="540" y1="426" x2="540" y2="452" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="548" y="443" font-size="10" fill="#374151">append</text>
+  <line x1="540" y1="498" x2="540" y2="524" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="548" y="515" font-size="10" fill="#374151">score versions</text>
+  <line x1="540" y1="610" x2="540" y2="634" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="548" y="626" font-size="10" fill="#374151">after the last round</text>
+  <path d="M360,568 H350 V227 H358" fill="none" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ===== Column C: agents and model ===== -->
+  <rect x="820" y="140" width="250" height="200" rx="10" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+  <text x="945" y="166" text-anchor="middle" font-size="15" font-weight="700" fill="#5b21b6">Gemini agents</text>
+  <rect x="835" y="180" width="220" height="66" rx="6" fill="#ffffff" stroke="#c4b5fd"/>
+  <text x="945" y="201" text-anchor="middle" font-size="12.5" font-weight="600" fill="#5b21b6">Discovery agent</text>
+  <text x="945" y="219" text-anchor="middle" font-size="11" fill="#5b21b6">GeminiAgent (agents.py)</text>
+  <text x="945" y="235" text-anchor="middle" font-size="11" fill="#5b21b6">proposes 26 circle centres</text>
+  <rect x="835" y="258" width="220" height="66" rx="6" fill="#ffffff" stroke="#c4b5fd"/>
+  <text x="945" y="279" text-anchor="middle" font-size="12.5" font-weight="600" fill="#5b21b6">Policy-development agent</text>
+  <text x="945" y="297" text-anchor="middle" font-size="11" fill="#5b21b6">GeminiDeveloper (develop.py)</text>
+  <text x="945" y="313" text-anchor="middle" font-size="11" fill="#5b21b6">writes the next policy spec</text>
+
+  <rect x="820" y="380" width="250" height="96" rx="8" fill="#ecfeff" stroke="#0891b2" stroke-width="2"/>
+  <text x="945" y="402" text-anchor="middle" font-size="13" font-weight="600" fill="#155e75">GeminiClient (gemini.py)</text>
+  <text x="945" y="421" text-anchor="middle" font-size="11" fill="#164e63">key from GEMINI_API_KEY or .env</text>
+  <text x="945" y="438" text-anchor="middle" font-size="11" fill="#164e63">JSON schema output, thinking off</text>
+  <text x="945" y="455" text-anchor="middle" font-size="11" fill="#164e63">retries 429/500/503, counts tokens</text>
+
+  <rect x="820" y="510" width="250" height="56" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="945" y="533" text-anchor="middle" font-size="13" font-weight="600" fill="#15803d">Google Gemini API</text>
+  <text x="945" y="552" text-anchor="middle" font-size="10.5" fill="#15803d">gemini-3.5-flash by default (--model)</text>
+
+  <rect x="820" y="600" width="250" height="64" rx="8" fill="#ffffff" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="945" y="622" text-anchor="middle" font-size="12" font-weight="600" fill="#374151">Tests only: FakeGeminiClient</text>
+  <text x="945" y="640" text-anchor="middle" font-size="10.5" fill="#374151">tests/fakes.py, no key, no network</text>
+  <text x="945" y="655" text-anchor="middle" font-size="10.5" fill="#374151">stands in for GeminiClient in pytest</text>
+
+  <!-- ===== Cross-column arrows ===== -->
+  <line x1="140" y1="112" x2="140" y2="138" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <line x1="252" y1="212" x2="358" y2="212" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="295" y="204" text-anchor="middle" font-size="10.5" fill="#374151">explore()</text>
+  <line x1="252" y1="300" x2="338" y2="300" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="295" y="292" text-anchor="middle" font-size="10.5" fill="#374151">run_arm()</text>
+  <text x="295" y="316" text-anchor="middle" font-size="10.5" fill="#374151">fresh_check()</text>
+
+  <line x1="358" y1="402" x2="252" y2="402" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="305" y="394" text-anchor="middle" font-size="10.5" fill="#374151">tree.save()</text>
+  <line x1="358" y1="658" x2="252" y2="658" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="305" y="650" text-anchor="middle" font-size="10.5" fill="#374151">results</text>
+
+  <line x1="722" y1="213" x2="833" y2="213" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="777" y="205" text-anchor="middle" font-size="10.5" fill="#374151">propose()</text>
+  <line x1="722" y1="550" x2="833" y2="306" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="748" y="522" font-size="10.5" fill="#374151">propose()</text>
+
+  <line x1="945" y1="340" x2="945" y2="378" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="953" y="364" font-size="10.5" fill="#374151">generate_json()</text>
+  <line x1="945" y1="476" x2="945" y2="508" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="953" y="496" font-size="10.5" fill="#374151">HTTPS</text>
+
+  <!-- Legend -->
+  <line x1="30" y1="735" x2="60" y2="735" stroke="#6b7280" stroke-width="2"/>
+  <text x="66" y="739" font-size="11" fill="#374151">call / data flow</text>
+  <line x1="190" y1="735" x2="220" y2="735" stroke="#7c3aed" stroke-width="2"/>
+  <text x="226" y="739" font-size="11" fill="#374151">next round uses the dreamt policy</text>
+  <rect x="440" y="727" width="30" height="16" rx="3" fill="#ffffff" stroke="#6b7280" stroke-dasharray="5 4"/>
+  <text x="476" y="739" font-size="11" fill="#374151">test-only component</text>
+  <text x="1070" y="739" text-anchor="end" font-size="11" fill="#6b7280">run.py always calls live Gemini. Only the tests run offline.</text>
+</svg>

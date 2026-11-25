@@ -1,527 +1,332 @@
 # Multi-Agent Research System
 
-> **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/module/aiAgents/agentsCapstone)**. Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
+[![No API key to start](https://img.shields.io/badge/demo-no%20API%20key-brightgreen.svg)](#run-it)
 
-[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![LangGraph](https://img.shields.io/badge/LangGraph-orchestration-green.svg)](https://langchain-ai.github.io/langgraph/)
-[![Tests](https://img.shields.io/badge/tests-208%20passing-brightgreen.svg)]()
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+A LangGraph pipeline that turns one research question into a cited report. A planner
+splits the question into up to three sub-topics, one researcher per sub-topic searches in
+parallel, a pure-Python quality gate scores the sources, and an analyst, synthesizer,
+writer and reviewer turn them into a report. **The graph can go backwards**: a weak set of
+sources gets one broader search, and a draft the reviewer rejects goes back to the writer.
 
-> 7-agent orchestrated research pipeline (8 graph nodes) with quality-gated routing, parallel fan-out, iterative refinement, and production guardrails
+It runs against Google Gemini and Tavily search when you have keys, and against a
+deterministic offline stand-in for both when you do not. Python, LangGraph, Streamlit.
 
-## Problem Statement
+> Build it step by step on [AI-ML Companion](https://aimlcompanion.ai/module/aiAgents/agentsCapstone):
+> guided walkthroughs, architecture decisions and hands-on challenges.
 
-Single LLM calls produce mediocre research reports: they hallucinate citations, miss key perspectives, and have no quality verification. This project builds a **production-grade multi-agent system** where 7 specialized agent functions collaborate across 8 graph nodes through shared state, quality-gated routing, and iterative refinement to produce verified, well-cited research reports.
-
-## Architecture
-
-```
-Research Topic (user input)
-    |
-    v
-+------------------------------------------+
-|  Guardrails Layer                         |
-|  PII Scrub | URL Validate | Budget Cap   |
-|  Prompt Injection Check (planner, input) |
-|  Rate Limiter (30 RPM, before each call) |
-+------------------------------------------+
-    |
-    v
-+-----------+
-|  Planner  |  Decompose query into 1-3 sub-topics
-+-----------+  with_structured_output(PlannerOutput)
-    |
-    | Send() fan-out (parallel)
-    v
-+-----------+  +-----------+  +-----------+
-| Researcher|  | Researcher|  | Researcher|  Multi-tool: Tavily + scraper + Wikipedia
-| (topic 1) |  | (topic 2) |  | (topic 3) |  operator.add merges sources
-+-----------+  +-----------+  +-----------+
-    |               |               |
-    +-------+-------+-------+-------+
-            |
-            v
-    +---------------+
-    | Quality Gate  |  Pure Python: domain trust + snippet scoring
-    +---------------+  No LLM call (saves budget)
-            |
-     +------+------+
-     |             |
-  score < 0.4   score >= 0.4
-     |             |
-     v             v
-+-----------+  +-----------+
-| Researcher|  |  Analyst  |  Extract claims + confidence + evidence
-| (retry)   |  +-----------+
-+-----------+       |
-                    v
-             +-----------+
-             |Synthesizer|  Cross-reference, detect conflicts, rank sources
-             +-----------+
-                    |
-                    v
-             +-----------+
-             |  Writer   |  Versioned drafts with citations
-             +-----------+
-                    |
-                    v
-             +-----------+
-             | Reviewer  |  Score 0-10, flag issues
-             +-----------+
-                    |
-             +------+------+
-             |             |
-          score < 7     score >= 7
-          & rev < 2        |
-             |             v
-             v          +-----+
-         +-----------+  | END |
-         |  Writer   |  +-----+
-         | (revision)|
-         +-----------+
-```
-
-## Key LangGraph Patterns Demonstrated
-
-| Pattern | Where | What It Teaches |
-|---------|-------|-----------------|
-| `Send()` parallel fan-out | Planner -> Researchers | Parallel agent execution with state merging |
-| `operator.add` reducer | `sources` field | Merging results from parallel nodes |
-| Conditional edge (pure Python) | Quality Gate | Routing without LLM calls |
-| Iterative refinement loop | Writer <-> Reviewer | Bounded loops with max revision guard |
-| `with_structured_output()` | Planner, Analyst, Reviewer | Pydantic-validated agent outputs |
-| YAML-driven config | `configs/base.yaml` | Config-driven agent registry |
-| SQLite research cache | `src/cache/` | Source dedup and query caching |
-| Rate limiting | `src/guardrails.py` (`throttle()`) | Respecting API rate limits (Gemini 30 RPM), called before every LLM and search call |
-
-## Results
-
-### Single-Agent vs Multi-Agent Comparison
-
-Measured 2026-09-02 with `python -m evaluation.run_eval`, model
-`gemini-3.6-flash`, the first **5** of the 10 test questions, one judge pass per
-report. Both arms answer the same questions, so the comparison is paired.
-
-| Metric | Single-Agent | Multi-Agent | Paired delta (SE) | Reads as |
-|--------|-------------|-------------|-------------------|----------|
-| Accuracy (0-3) | 3.00 (SD 0.00) | 2.60 (SD 0.55) | -0.40 +/- 0.24 | within noise |
-| Completeness (0-3) | 1.00 (SD 0.00) | 1.40 (SD 0.89) | +0.40 +/- 0.40 | within noise |
-| Citations (0-3) | 1.60 (SD 0.89) | 2.20 (SD 0.84) | +0.60 +/- 0.40 | within noise |
-| Avg tokens/report | 2,561 | 13,447 | **5.3x** | measured |
-| Avg latency | 19.2s | 67.9s | 3.5x | measured |
-| LLM calls | 1 | 3 | 3x | by construction |
-
-**Verdict: at n=5, this experiment cannot tell the two architectures apart on
-quality, and multi-agent costs 5.3x the tokens and 3.5x the wall clock.** Every
-quality delta is smaller than twice its own standard error. The honest reading
-is "no measured difference at a real cost", not "+18% accuracy" -- to claim a
-difference you would need more questions, repeated judge passes, or both.
-
-Cost in dollars is deliberately absent: set `PRICE_PER_1M_INPUT` and
-`PRICE_PER_1M_OUTPUT` in `evaluation/run_eval.py` with today's rates for your
-tier and it will be reported. Tokens are the measurement; dollars are a
-conversion.
-
-<details>
-<summary>What this table used to say, and why it is worth knowing</summary>
-
-It reported +18% / +33% / +43% and "Avg Cost/Report $0.0003 vs $0.0008 (2.8x)",
-with a verdict of "Multi-agent justified for synthesis tasks". Three problems:
-
-1. **The cost column could not have come from this code.** `PRICE_PER_TOKEN` was
-   `0`, so the script could only ever print `$0.0000` for both arms and
-   `Cost multiplier: 0.0x`.
-2. **The quality numbers had no n, no spread, and no date.** Five samples on a
-   four-point integer scale produce differences this size by chance routinely.
-3. **The harness was measuring truncation.** The per-call caps were 1000-2000
-   tokens, but `gemini-3.6-flash` spends ~940 tokens reasoning before it writes
-   anything, so reports were cut off mid-sentence and scored as incomplete. The
-   multi-agent arm suffered worst, because each truncated stage fed the next:
-   a run with the old caps scored it **0.00/3 on completeness**. That is a
-   measurement of a config value, not of an architecture.
-
-All three are fixed: prices are opt-in, the report carries n and standard
-errors, and a truncated response now raises instead of being quietly scored.
-</details>
+![High-level architecture](docs/high-level-architecture.svg)
 
 ---
 
-## Run it in five minutes
+## Run it
 
-No API keys, no Streamlit, one terminal. This runs the real eight-node graph
-against a deterministic stand-in for the model and for web search, so you can
-watch the orchestration before deciding whether to set up keys.
+No API key needed. Without one, the agents run in **offline mode**: a rule engine answers
+the prompts the agents send, in the shapes they parse, and a stand-in returns sources in
+place of web search. It is not a model, and the run says so on its first line.
+
+You need [Python 3.12+](https://www.python.org/downloads/) and
+[git](https://git-scm.com/downloads). Check with `python --version`.
 
 ```bash
 git clone https://github.com/genieincodebottle/aiml-companion.git
 cd aiml-companion/projects/agentic-ai/ai-agents-project
 
 python -m venv .venv
-# macOS/Linux:
-source .venv/bin/activate
-# Windows:
-.venv\Scripts\activate
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
 python run.py demo
 ```
 
-> **Checkpoint:** you should see the node-by-node route printed before the
-> report, with `researcher` appearing three times (the parallel fan-out) and
-> `writer` and `reviewer` appearing twice each (the reviewer rejected the first
-> draft and the graph went backwards).
+`run.py` needs no `make` and no install of the project itself. Its commands:
 
 | Command | What it does |
-|---------|--------------|
-| `python run.py demo` | Research one topic through all eight nodes, and show the route |
-| `python run.py research <topic>` | The same, on a topic you choose |
-| `python run.py trace` | Just the route and the numbers, no report |
-| `python run.py test` | The test suite, 208 tests, about a second |
-| `python run.py ui` | The Streamlit app |
+|---|---|
+| `python run.py demo` | Research one fixed topic through all eight nodes, print the route, then the report |
+| `python run.py research <topic>` | The same, on your topic; prints the report only |
+| `python run.py trace` | The route and the numbers, no report |
+| `python run.py test` | The test suite (`pytest tests/ -q`) |
+| `python run.py ui` | The Streamlit app (`streamlit run app.py`) |
+| `python run.py evaluate` | Single call against a 3-call chain; needs `GOOGLE_API_KEY` |
 
-Add `-v` to any of them for the agents' own logs.
+Add `-v` to any of them to see the agents' own logs.
 
-**What offline mode is.** A rule engine that answers the prompts these five
-agents send, in the shapes they parse. It is not a model and does not pretend to
-be one. The stand-in sources deliberately disagree with each other, so the
-analyst's conflict detection and the reviewer's revision loop both fire on your
-first run rather than sitting idle. Supply `GOOGLE_API_KEY` and `TAVILY_API_KEY`
-and the same graph runs for real.
+If you have `make` (Linux, macOS): `make test`, `make run` (`python -m src.agents`),
+`make ui`, `make evaluate`, `make all` (tests, then a run, then the evaluation).
+
+### Your first research run
+
+1. Run `python run.py demo`. The first line says **OFFLINE run** when no key is set.
+2. Read the route. On an offline run it is:
+
+   ```
+   planner -> researcher -> researcher -> researcher -> quality_gate -> analyst
+     -> synthesizer -> writer -> reviewer -> writer -> reviewer
+   ```
+
+   `researcher` appears three times: one per sub-topic, in parallel. `writer` and
+   `reviewer` appear twice: the reviewer scored the first draft 5 out of 10 and the graph
+   went back to the writer.
+3. Read the numbers under the route: 3 sub-topics, 15 sources, 5 claims, 1 cross-source
+   conflict, 2 drafts, reviewer score 8. The offline sources disagree on purpose (falling
+   unit costs, rising total spend), so the analyst always has a conflict to report.
+4. Try `python run.py research "open-source LLM inference servers"` or open the app
+   with `python run.py ui`: type a topic, click **Run Research**, and each node's output
+   appears as it finishes, then the trace table and the report.
+
+### Use real Gemini and Tavily (optional)
+
+Get a Gemini key at <https://aistudio.google.com/apikey> and a Tavily key at
+<https://app.tavily.com/home>, then:
+
+```bash
+cp .env.example .env      # Windows PowerShell: copy .env.example .env
+# open .env and replace the two placeholder values:
+#   GOOGLE_API_KEY=...
+#   TAVILY_API_KEY=...
+```
+
+Run the same commands. Each half switches on its own: a real `GOOGLE_API_KEY` turns on
+Gemini (`gemini-3.6-flash`, set in `configs/base.yaml`), a real `TAVILY_API_KEY` turns
+on web search. The placeholders in `.env.example` count as missing. `run.py` loads `.env`
+before it prints its offline banner, so the banner matches what runs. With only the Gemini
+key set, the model is real but search returns offline placeholder sources: the writer is
+told they are fabricated, and the report starts with a note saying so. Set both keys for
+real research.
+
+`RESEARCH_OFFLINE=1` forces offline mode even with keys; `RESEARCH_OFFLINE=0` forces the
+real model.
+
+`run.py` prints its OFFLINE line from the shell environment only, before `.env` is read.
+If your key is only in `.env`, the line still says OFFLINE but the graph loads `.env` and
+calls Gemini. Export the key in the shell to make the two agree.
 
 ---
 
-## Setup
+## How one research run works
 
-> **100% free to run.** This project uses Google Gemini (free tier) and Tavily Search (free tier). No credit card, no payment, no trial period. You just need two free API keys (takes 2 minutes to get both).
+The whole graph is wired in [`src/agents/graph.py`](src/agents/graph.py) (`build_graph()`).
 
-```bash
-# 1. Create virtual environment
-uv venv
-.venv\Scripts\activate  # Windows
-# source .venv/bin/activate  # Linux/macOS
+1. **Entry.** `run.py`, `python -m src.agents` ([`src/agents/__main__.py`](src/agents/__main__.py))
+   and the Streamlit app ([`app.py`](app.py)) build the graph and invoke it with
+   `{"query": ...}`. The app uses `app.stream()` to show each node as it finishes.
+2. **planner** ([`planner.py`](src/agents/planner.py)). `screen_input()` checks the query
+   against the prompt-injection patterns in [`src/guardrails.py`](src/guardrails.py). With
+   `action: block` (the default) a match ends the run: no sub-topics, no report, the reason
+   in `errors`. Otherwise one structured LLM call (`PlannerOutput`) returns 1 to 3
+   sub-topics (`pipeline.max_sub_topics: 3`). If that call fails, the whole query becomes
+   the only sub-topic.
+3. **researcher x N** ([`researcher.py`](src/agents/researcher.py)). `route_to_researchers()`
+   sends one `Send("researcher", ...)` per sub-topic, so they run in parallel.
+   `select_tools()` ([`tool_selector.py`](src/tools/tool_selector.py)) uses keyword rules:
+   Tavily always, plus Wikipedia when the sub-topic has a factual keyword such as
+   "what is" or "history of". `throttle()` runs before each search; offline mode makes no
+   network call, so the Wikipedia tool returns nothing there. Results are de-duplicated by
+   URL, then `check_all_guardrails()` scans every snippet for prompt injection
+   (`guardrails.prompt_injection`: `block` drops the source, `warn` logs it), and the rest
+   are merged into `sources` by an `operator.add` reducer. No LLM call, 0 tokens.
+4. **quality_gate** ([`quality_gate.py`](src/agents/quality_gate.py)). Pure Python: each
+   source scores `0.6 x domain trust + 0.4 x snippet quality`, and the gate averages the
+   top five. At 0.4 or above (`pipeline.quality_threshold`) the run goes to the analyst.
+   Below it, `retry_researcher` searches once more with
+   `"<query> comprehensive overview analysis"` and then goes to the analyst without a
+   second gate.
+5. **analyst** ([`analyst.py`](src/agents/analyst.py)). One structured call
+   (`AnalystOutput`) over the first 10 sources: claims, each with a source index,
+   confidence and evidence, plus cross-source conflicts.
+6. **synthesizer** ([`synthesizer.py`](src/agents/synthesizer.py)). One free-text call
+   that cross-references the claims and conflicts.
+7. **writer** ([`writer.py`](src/agents/writer.py)). One call that drafts the report from
+   the claims and synthesis, or revises the last draft against the reviewer's issues.
+   `guardrails.pii_detection.action` decides what happens to emails, phone numbers and
+   SSNs in each draft: `redact` (default) replaces them, `warn` logs them, `block` drops
+   the draft.
+8. **reviewer** ([`reviewer.py`](src/agents/reviewer.py)). One structured call
+   (`ReviewOutput`): a score from 1 to 10, issues, suggestions and a `passed` flag. The code
+   decides the pass itself: `score >= pipeline.review_pass_score` (7), whatever the model's
+   flag says. Passed sets `final_report` (cut at `max_report_chars`) and ends the run. Not passed sends the draft back to the writer.
+   The second draft is accepted whatever its score: `pipeline.max_revisions: 2` allows two
+   drafts in total, one revision.
+9. **Output.** The final state holds `final_report`, every draft, the review, the claims
+   and `pipeline_trace` (agent, milliseconds and tokens per step). The entry point prints
+   or renders it. `run.py demo`, `run.py research` and `python -m src.agents` exit with
+   code 1 when there is no report.
 
-# 2. Install dependencies
-uv pip install -r requirements.txt
+That is 5 LLM calls on a run with no revision and 7 with one. Every agent that calls the
+model gets it from `get_llm()` in [`src/llm.py`](src/llm.py), which returns Gemini or the
+offline stand-in. Before each LLM call, `check_budget()` stops an agent once the run has
+counted `budget.token_budget` tokens (50,000), and `throttle()` holds calls to 30 per minute (a sliding 60-second
+window, `guardrails.rate_limit.max_rpm`; skipped offline). Tokens come from each response's
+`usage_metadata` ([`src/token_usage.py`](src/token_usage.py)), not from estimates.
 
-# 3. Set up API keys (both FREE - no credit card needed)
-cp .env.example .env
-# Edit .env with your keys:
-#   GOOGLE_API_KEY=your_gemini_api_key    (free from https://aistudio.google.com/apikey)
-#   TAVILY_API_KEY=your_tavily_api_key    (free from https://app.tavily.com)
-```
+### LangGraph patterns in this code
 
-### API Keys Required (Both Free)
-
-| Key | Purpose | Free Tier | Get It Here |
-|-----|---------|-----------|-------------|
-| `GOOGLE_API_KEY` | Gemini LLM (all agent calls) | 30 RPM, 1500 RPD | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) |
-| `TAVILY_API_KEY` | Web search tool | 1000 searches/month | [app.tavily.com](https://app.tavily.com/home) |
-
-**How to get your keys (2 minutes):**
-1. **Gemini key**: Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey), sign in with your Google account, click "Create API key", copy it
-2. **Tavily key**: Go to [app.tavily.com](https://app.tavily.com/home), sign up with email or GitHub, your API key appears on the dashboard, copy it
-3. Paste both keys into your `.env` file (replace the placeholder values)
-
-> **No credit card required.** Both keys are completely free. The Gemini free tier allows 30 requests per minute and 1500 per day, which is more than enough for this project.
-
----
-
-## Testing Guide
-
-This project has **208 automated tests** across 12 test files covering unit tests, integration tests, end-to-end pipeline tests, and UI smoke tests.
-
-### Quick Start: Run All Tests
-
-```bash
-# Run all 208 tests (no API keys needed)
-make test
-
-# Or directly with pytest
-pytest tests/ -v
-```
-
-**Expected output:**
-```
-tests/test_cache.py                     5 passed    - SQLite cache operations
-tests/test_e2e_pipeline.py             37 passed    - Full pipeline with mocked LLM
-tests/test_graph.py                     9 passed    - Graph wiring and routing
-tests/test_guardrail_enforcement.py    38 passed    - Guardrails actually block, not just detect
-tests/test_guardrails.py               14 passed    - PII, budget, rate limiting
-tests/test_guardrails_wired.py         11 passed    - Rate limiter + injection check run on the real pipeline
-tests/test_offline_mode.py             37 passed    - Offline stand-in, placeholder keys, silent success
-tests/test_quality_gate.py              8 passed    - Source quality scoring
-tests/test_state.py                     6 passed    - State schema validation
-tests/test_token_accounting.py         12 passed    - Real token usage, not estimates
-tests/test_tools.py                     5 passed    - Tool selector logic
-tests/test_ui_smoke.py                 26 passed    - Streamlit UI imports
----------------------------------------------------------------
-                                      208 passed
-```
-
-### Test Categories Explained
-
-#### 1. Unit Tests (38 tests) - `test_guardrails.py`, `test_quality_gate.py`, `test_state.py`, `test_tools.py`, `test_cache.py`
-
-Test individual components in isolation. No LLM calls, no network.
-
-```bash
-# Run only unit tests
-pytest tests/test_guardrails.py tests/test_quality_gate.py tests/test_state.py tests/test_tools.py tests/test_cache.py -v
-```
-
-**What they verify:**
-- PII detection catches emails, phones, SSNs
-- PII scrubbing replaces sensitive data with `[REDACTED]`
-- Budget enforcement blocks at 50K token limit
-- Rate limiter is a sliding 60 s window: bursts up to `max_rpm` pass, the next call waits for the oldest to age out
-- Rate limiter and injection check are wired into the pipeline (`tests/test_guardrails_wired.py`)
-- Quality gate scores sources by domain trust + snippet quality
-- Default state schema has all 18+ required fields
-- Pydantic schemas validate planner, reviewer, and claim outputs
-- Tool selector routes queries to correct tools (Tavily, Wikipedia, scraper)
-- SQLite cache stores/retrieves sources with case-insensitive matching
-
-#### 2. Graph Wiring Tests (9 tests) - `test_graph.py`
-
-Test LangGraph routing logic without running the actual pipeline.
-
-```bash
-pytest tests/test_graph.py -v
-```
-
-**What they verify:**
-- Graph compiles successfully with all nodes
-- Quality gate routes to `analyst` when `quality_passed=True`
-- Quality gate routes to `retry_researcher` when `quality_passed=False`
-- Quality gate routes to `analyst` if already retried (prevents infinite loop)
-- Reviewer routes to `END` when score >= 7
-- Reviewer routes to `writer` when score < 7 and revision_count < 2
-- Reviewer routes to `END` when max revisions reached
-- `Send()` fan-out creates one researcher per sub-topic
-- YAML config loads correctly
-
-#### 3. End-to-End Pipeline Tests (37 tests) - `test_e2e_pipeline.py`
-
-Test the full pipeline flow with **mocked LLM responses**. These tests verify the complete orchestration without making real API calls.
-
-```bash
-pytest tests/test_e2e_pipeline.py -v
-```
-
-**What they verify:**
-
-| Test Class | Tests | What It Checks |
-|-----------|-------|----------------|
-| `TestFullPipelineMocked` | 2 | Full happy-path pipeline, agent execution order in trace |
-| `TestQualityGateRetryFlow` | 5 | Bad sources trigger retry, good sources pass, routing logic |
-| `TestReviewerRefinementLoop` | 4 | Score >= 7 ends pipeline, score < 7 loops, max revisions cap |
-| `TestParallelFanOut` | 4 | Send() creates per-subtopic researchers, passes token count |
-| `TestBudgetEnforcement` | 4 | Budget OK under limit, exceeded detection, custom budgets |
-| `TestPIIScrubbing` | 5 | Email/phone/SSN scrubbing, clean text unchanged |
-| `TestCacheIntegration` | 2 | Cache roundtrip, stats update after write |
-| `TestStateSchemaE2E` | 3 | Default state fields, types, graph compiles with schema |
-| `TestScoringHeuristics` | 6 | Domain trust scores, snippet quality assessment |
-| `TestRateLimiterE2E` | 2 | Call tracking, reset functionality |
-
-**Example: Full Pipeline Happy Path**
-
-The test mocks all LLM calls and verifies the pipeline flows through all agents:
-
-```python
-# Planner decomposes query -> 2 sub-topics
-# Researcher runs in parallel (via Send) for each sub-topic
-# Quality gate scores sources -> passes (score >= 0.4)
-# Analyst extracts claims with evidence
-# Synthesizer cross-references and ranks sources
-# Writer produces versioned draft
-# Reviewer scores draft -> passes (score >= 7)
-# Pipeline ends with final_report set
-```
-
-#### 4. UI Smoke Tests (26 tests) - `test_ui_smoke.py`
-
-Test that the Streamlit app can be imported and all modules are wired correctly. Does NOT launch a Streamlit server.
-
-```bash
-pytest tests/test_ui_smoke.py -v
-```
-
-**What they verify:**
-- All agent modules import without errors
-- All 4 tool modules import without errors
-- Cache module exports correct functions and returns valid stats
-- Config module loads YAML and returns expected keys
-- Guardrail module exports all functions (PII, budget, rate limiter)
-- Evaluation module imports test questions and scoring functions
-- Judge prompts contain required scoring criteria keywords
-
-### Testing Without API Keys
-
-All 208 tests run **without any API keys**. The e2e tests use `unittest.mock.patch` to mock LLM calls, so you can verify the full pipeline logic locally.
+| Pattern | Where | What it shows |
+|---|---|---|
+| `Send()` fan-out | planner to researchers | Parallel nodes from one list |
+| `operator.add` reducer | `sources`, `token_count`, `errors`, `pipeline_trace` | Merging writes from parallel nodes |
+| Conditional edge in plain Python | after `quality_gate` | Routing with no LLM call |
+| Bounded loop | writer and reviewer | A cycle with a hard stop |
+| `with_structured_output(..., include_raw=True)` | planner, analyst, reviewer | Pydantic output plus the real token count |
+| YAML config | [`configs/base.yaml`](configs/base.yaml) | Thresholds, model, guardrail switches |
 
 ---
 
-## Running the Pipeline (Interactive)
+## The one rule
 
-### Option 1: Streamlit UI (Recommended for Interactive Use)
+> **A run that did nothing must not look like a success.**
 
-```bash
-make ui
-# Or: streamlit run app.py
-```
+Every agent catches its own exceptions and returns a degraded state, so the graph always
+reaches the end. The code is built so that a broken run still shows up as broken:
 
-This launches a web interface where you can:
-- Enter a research topic
-- Watch the pipeline execute agent-by-agent with live status updates
-- See the graph topology (which agent is currently active)
-- View the pipeline trace (agent, duration, token usage per step)
-- Read the final structured research report
-- Monitor cache hits/misses and budget usage
-
-### Option 2: Command Line
-
-```bash
-make run
-# Or: python -m src.agents
-```
-
-Runs the pipeline directly and prints the final report to stdout. Uses the default query from the config.
-
-### Option 3: Run Evaluation
-
-```bash
-make evaluate
-# Or: python -m evaluation.run_eval
-```
-
-Runs 10 test questions through both single-agent and multi-agent pipelines. Produces a head-to-head comparison using LLM-as-judge scoring on accuracy, completeness, and citation quality.
-
-### Option 4: Run Everything
-
-```bash
-make all
-# Runs: tests -> pipeline -> evaluation
-```
+- **No report, non-zero exit.** `python -m src.agents`, `run.py demo` and `run.py research`
+  exit with code 1 when `final_report` is empty; `python -m src.agents` also prints the
+  first errors.
+- **Offline replies fail loudly.** The stand-in builds real Pydantic objects and raises
+  `OfflineFixtureError` on a prompt or schema it does not know, instead of returning
+  something that parses.
+- **Tokens are measured or zero.** A response without `usage_metadata` counts as 0 tokens
+  and logs that the budget is blind for that call. A plausible guess would hide it.
+- **Placeholder keys are not keys.** `has_real_key()` rejects the `.env.example` values,
+  so a copied but unedited `.env` runs offline instead of failing inside the client.
+- **Truncation is an error in the evaluation.** A response that hits its token cap
+  raises instead of being scored as an incomplete report.
 
 ---
 
-## Project Structure
+## Tests and evaluation
+
+### Tests
+
+233 tests, no API key, no network. Run `python run.py test` or `pytest tests/ -v`.
+
+| File | Tests | Checks |
+|---|---|---|
+| `test_wiring_gaps.py` | 25 | Config keys are read, snippet screening and code-enforced review pass, offline makes no network call, run.py banner |
+| `test_guardrail_enforcement.py` | 38 | SSRF and allowlist checks block, injection phrasings are caught |
+| `test_e2e_pipeline.py` | 37 | Full graph with a mocked LLM: order, retry route, review loop, fan-out, budget, PII |
+| `test_offline_mode.py` | 37 | Offline stand-in, placeholder keys, no silent success |
+| `test_ui_smoke.py` | 26 | Streamlit app modules import and wire up (no server) |
+| `test_guardrails.py` | 14 | PII, budget, rate limiter |
+| `test_token_accounting.py` | 12 | Real usage is counted, not constants |
+| `test_guardrails_wired.py` | 11 | Rate limiter and injection check run on the real request path |
+| `test_graph.py` | 9 | Graph compiles; quality and review routing |
+| `test_quality_gate.py` | 8 | Source scoring |
+| `test_state.py` | 6 | State schema and Pydantic models |
+| `test_cache.py` | 5 | SQLite cache read and write |
+| `test_tools.py` | 5 | Tool selection rules |
+
+### Single call against a 3-call chain
+
+`python -m evaluation.run_eval` (or `make evaluate`, or the app's **Evaluation** tab)
+answers test questions two ways and has Gemini judge each report on accuracy,
+completeness and citations (0 to 3). It needs `GOOGLE_API_KEY`.
+
+Read the arms carefully. Both call `google.genai` directly from
+[`evaluation/run_eval.py`](evaluation/run_eval.py). The single-agent arm is one prompt.
+The **multi-agent arm is a 3-call prompt chain** (research, analyse, write). It is **not**
+the eight-node graph above: no planner, no fan-out, no quality gate, no reviewer.
+
+Last recorded run: 2026-09-02, `gemini-3.6-flash`, the first 5 of the 10 questions, one
+judge pass per report, paired by question.
+
+| Metric | Single call | 3-call chain | Paired delta (SE) | Reads as |
+|---|---|---|---|---|
+| Accuracy (0-3) | 3.00 (SD 0.00) | 2.60 (SD 0.55) | -0.40 +/- 0.24 | within noise |
+| Completeness (0-3) | 1.00 (SD 0.00) | 1.40 (SD 0.89) | +0.40 +/- 0.40 | within noise |
+| Citations (0-3) | 1.60 (SD 0.89) | 2.20 (SD 0.84) | +0.60 +/- 0.40 | within noise |
+| Tokens per report | 2,561 | 13,447 | 5.3x | measured |
+| Latency | 19.2 s | 67.9 s | 3.5x | measured |
+| LLM calls | 1 | 3 | 3x | by design |
+
+At n=5 this run cannot tell the two apart on quality: every quality delta is smaller than
+twice its standard error. The chain used 5.3 times the tokens and 3.5 times the wall
+clock. To claim a difference you need more questions, repeated judge passes, or both.
+
+The table in `artifacts/results/evaluation_results.md` (+18% accuracy) is from an earlier
+version of the harness and is not reliable: per-call caps of 1000 to 2000 tokens cut
+reports off mid-sentence, because `gemini-3.6-flash` spends about 940 tokens reasoning
+before it writes, and its cost column could not have come from this code. Truncation now
+raises, and token counts are reported instead of money (set `PRICE_PER_1M_INPUT` and
+`PRICE_PER_1M_OUTPUT` in `run_eval.py` if you want a conversion).
+
+---
+
+## What this is, and what it is not
+
+A **reference implementation for learning** LangGraph orchestration: parallel fan-out,
+reducers, conditional routing, a bounded loop, structured output and per-call token
+accounting. It is not a production research service. Gaps found in the code:
+
+- **The scraper is never called.** `src/tools/scraper.py` (`scrape_url`) and its SSRF
+  guard (`validate_url`) work and are tested, but no agent uses them. Sources are search
+  snippets only. When it is called, it reads `url_validation.allowed_domains` and
+  `timeout_seconds` from the config.
+- **The SQLite cache is not on the request path.** `src/cache/research_cache.py` stores
+  and reads sources, but no agent calls it; the Streamlit sidebar only shows its stats.
+- **Offline token counts are estimates** (about four characters per token) so the budget
+  has something to measure.
+- **The budget is checked between calls.** An agent under the cap can still make one
+  call that goes over it.
+- **`warn_at_percent`, `graceful_degradation`, `model.fallback` and `pii_detection.patterns`
+  are not read.** The warning level in the app is a fixed 80 percent.
+- **The evaluation script** reports a currency column only if you set the prices in
+  `evaluation/run_eval.py`.
+
+---
+
+## Learn more
+
+| If you want to... | Read |
+|---|---|
+| Read the design in one page | [docs/architecture.md](docs/architecture.md) |
+| Read every module, flow and config key | [END_TO_END_ARCHITECTURE.md](END_TO_END_ARCHITECTURE.md) |
+| Step through each agent in a notebook (runs offline) | [notebooks/Multi_Agent_Research.ipynb](notebooks/Multi_Agent_Research.ipynb) |
+| See an example report | [artifacts/results/sample_report.md](artifacts/results/sample_report.md) |
+| Build it step by step, with challenges | [AI-ML Companion module](https://aimlcompanion.ai/module/aiAgents/agentsCapstone) |
+
+Interview questions this design raises, answered from the code:
+
+- **Why is the quality gate plain Python?** Scoring domain trust and snippet shape needs
+  no reasoning, so it spends no tokens and gives the same answer every time.
+- **How does parallel research merge?** Each `Send()` runs `researcher` with its own
+  sub-topic; `sources: Annotated[list, operator.add]` appends every branch's results.
+- **What stops the review loop?** `revision_count` counts drafts; the reviewer force-passes
+  once it reaches `max_revisions` (2), and the conditional edge ends the run.
+- **What stops runaway calls?** 50,000 counted tokens, 30 calls per minute, at most 3
+  sub-topics, one retry search, two drafts: 5 to 7 LLM calls per run.
+- **What would change for production?** Use the scraper or drop it, put the cache on the
+  request path (or remove it), screen retrieved text for injection, check the review
+  score in code, and route simple questions to one call, since the evaluation measured
+  no quality gain from a 3-call chain at 5.3 times the tokens.
+
+---
+
+## Project layout
 
 ```
-ai-agents-project/
-├── src/
-│   ├── agents/                     # 7 agent functions (8 graph nodes)
-│   │   ├── planner.py              # Query decomposition (structured output)
-│   │   ├── researcher.py           # Multi-tool research (Tavily + scrape + wiki)
-│   │   ├── quality_gate.py         # Pure Python source scoring (no LLM)
-│   │   ├── analyst.py              # Claim extraction with evidence linking
-│   │   ├── synthesizer.py          # Cross-source conflict detection
-│   │   ├── writer.py               # Versioned report generation
-│   │   ├── reviewer.py             # Draft review + scoring
-│   │   └── graph.py                # LangGraph StateGraph wiring
-│   ├── tools/                      # Research tools
-│   │   ├── search.py               # Tavily web search wrapper
-│   │   ├── scraper.py              # BeautifulSoup web scraper
-│   │   ├── wikipedia.py            # Wikipedia API search
-│   │   └── tool_selector.py        # Query-type -> tool routing
-│   ├── cache/
-│   │   └── research_cache.py       # SQLite source/query cache (24h TTL)
-│   ├── models/
-│   │   └── state.py                # ResearchState TypedDict + Pydantic schemas
-│   ├── config.py                   # YAML config loader
-│   └── guardrails.py               # PII detection, budget cap, sliding-window rate limiter (throttle), prompt injection check (screen_input)
-├── tests/                          # 208 tests across 12 files
-│   ├── test_e2e_pipeline.py        # Full pipeline e2e (37 tests, mocked LLM)
-│   ├── test_ui_smoke.py            # Streamlit UI imports (26 tests)
-│   ├── test_guardrails.py          # Guardrails unit tests (14 tests)
-│   ├── test_guardrails_wired.py    # Rate limiter + injection check on the real path (11 tests)
-│   ├── test_graph.py               # Graph routing tests (9 tests)
-│   ├── test_quality_gate.py        # Quality scoring tests (8 tests)
-│   ├── test_state.py               # State schema tests (6 tests)
-│   ├── test_cache.py               # Cache operation tests (5 tests)
-│   └── test_tools.py               # Tool selector tests (5 tests)
-├── evaluation/
-│   ├── run_eval.py                 # Single vs multi-agent comparison
-│   └── judge_prompt.py             # LLM-as-judge scoring prompts
-├── configs/
-│   └── base.yaml                   # Agent registry + pipeline config
-├── artifacts/results/
-│   ├── sample_report.md            # Example research report
-│   ├── evaluation_results.md       # Comparison table
-│   └── cost_analysis.md            # Token usage breakdown
-├── scripts/
-│   ├── initialize_cache.py         # Seed SQLite cache with sample queries
-│   ├── cleanup_data.py             # Reset cache and clear __pycache__
-│   ├── run_agents.sh               # Shell wrapper to run pipeline
-│   └── run_evaluation.sh           # Shell wrapper to run evaluation
-├── app.py                          # Streamlit UI (graph viz, trace, streaming)
-├── Makefile                        # Build targets: run, test, ui, evaluate, all
-├── requirements.txt                # Dependencies (12 packages)
-├── END_TO_END_ARCHITECTURE.md      # 2400+ line architecture deep-dive
-└── README.md
+run.py                   one-command entry: demo, research, trace, test, ui, evaluate
+app.py                   Streamlit app: Research tab (live nodes) and Evaluation tab
+src/agents/graph.py      THE graph: nodes, Send() fan-out, conditional edges
+src/agents/              planner, researcher, quality_gate, analyst, synthesizer, writer, reviewer
+src/agents/__main__.py   python -m src.agents (make run)
+src/llm.py               get_llm(): Gemini, or the offline rule engine
+src/tools/               Tavily search (+ offline stand-in), Wikipedia, tool selector, scraper
+src/guardrails.py        injection screen, budget, rate limiter, PII, URL checks
+src/token_usage.py       real token counts from usage_metadata
+src/cache/               SQLite research cache (not on the request path)
+src/models/state.py      ResearchState and the Pydantic output schemas
+configs/base.yaml        model, thresholds, guardrail switches
+evaluation/              single call vs 3-call chain, LLM judge prompts
+tests/                   233 tests, no key, no network
+notebooks/               walkthrough notebook, runs offline (Kaggle-ready)
+scripts/                 cache seed/cleanup, shell wrappers
+artifacts/results/       sample report and an older evaluation write-up
+docs/                    architecture notes and this diagram
 ```
 
-## Key Design Decisions
+## License
 
-| Decision | Choice | Why |
-|----------|--------|-----|
-| Orchestration | LangGraph StateGraph | Explicit state flow, debuggable edges, built-in persistence |
-| Agent count | 7 functions across 8 graph nodes (planner, researcher, quality_gate, analyst, synthesizer, writer, reviewer) - retry_researcher reuses the researcher function | Each handles a distinct failure mode. Quality gate and reviewer add routing intelligence |
-| Parallel execution | `Send()` fan-out | Sub-topics researched concurrently, results merged via `operator.add` |
-| Quality routing | Pure Python quality gate | No LLM call needed, routes by domain trust + snippet heuristics |
-| Iterative refinement | Writer <-> Reviewer loop (max 2 revisions) | Catches issues without infinite loops |
-| Search tools | Tavily + Wikipedia + scraper | Different tools for different query types (auto-selected) |
-| Research cache | SQLite with 24h TTL | Prevents duplicate API calls, tracks cache statistics |
-| LLM | Gemini (Google) | Free tier (1500 requests/day), structured output support |
-| Budget enforcement | Global 50K token cap | Prevents runaway costs; agents degrade gracefully at limit |
-| Rate limiting | 30 RPM sliding-window limiter, applied before every LLM and search call | Respects Gemini free tier limits; configurable in `guardrails.rate_limit` |
-| Prompt injection | Regex check on the user query in the planner (`guardrails.prompt_injection`) | Blocks (or warns) before any prompt is built; retrieved snippets are not screened in the pipeline |
-| Evaluation | LLM-as-judge (Gemini) | Scalable, reproducible scoring on accuracy/completeness/citations |
-| PII handling | Regex detection + scrubbing | Fast, no external dependencies, catches common PII patterns |
-| Config | YAML-driven | Change model, thresholds, and agent behavior without code changes |
-| UI | Streamlit | Rapid prototyping, built-in streaming, no frontend build step |
-
-## Interview Guide
-
-**Q: Why 7 agent functions (8 graph nodes) instead of 4?**
-> The original 4-agent chain had no quality control or iteration. Adding a quality gate (pure Python, no LLM cost) enables quality-based routing - bad sources get retried before analysis. The retry_researcher node reuses the same researcher function, so there are 7 unique agent functions across 8 graph nodes. The reviewer loop ensures the final report meets a minimum quality bar. The planner enables parallel research via Send() fan-out.
-
-**Q: How does parallel execution work in LangGraph?**
-> The planner decomposes the query into 1-3 sub-topics. The `route_to_researchers` function creates `Send("researcher", state_for_topic)` objects, one per sub-topic. LangGraph executes these in parallel. The `sources` field uses `Annotated[list, operator.add]` to automatically merge results from all parallel researchers.
-
-**Q: What's the quality gate and why is it pure Python?**
-> It scores sources using domain trust (arxiv.org scores 0.95, reddit.com scores 0.3) and snippet quality (length, presence of data patterns like numbers/percentages). No LLM call needed - saves budget for the agents that truly need reasoning. If score < 0.4, it routes to a retry researcher for more sources.
-
-**Q: How do you prevent the refinement loop from running forever?**
-> Two guards: (1) the reviewer must score < 7/10 to trigger a revision, and (2) `revision_count` is capped at 2. The conditional edge checks both conditions: `score < 7 AND revision_count < max_revisions`. After 2 revisions, the pipeline ends regardless of score.
-
-**Q: How do you prevent agents from hallucinating citations?**
-> Three layers: (1) Writer constrained to cite ONLY from `state.sources`, (2) Analyst extracts claims with explicit evidence links to source indices, (3) Synthesizer detects cross-source conflicts and ranks sources by reliability.
-
-**Q: How do you control costs in a multi-agent system?**
-> Four mechanisms: (1) Global 50K token budget tracked in shared state -- against *real* usage read from `response.usage_metadata`; every agent used to report a hardcoded constant (500/300/1200/800/1500), so the budget was enforced against a number that never changed, (2) Sliding-window rate limiter caps at 30 requests/minute for Gemini free tier (a 10-call run fits inside the window, so it never waits), (3) SQLite cache prevents duplicate searches (24h TTL), (4) Quality gate is pure Python (zero LLM cost). Worst case: 10 LLM calls per query, all inside one 30-call window.
-
-**Q: What would you change for production deployment?**
-> (1) Swap SQLite cache for Redis for concurrent access, (2) Add human-in-the-loop for low-confidence claims, (3) Implement streaming output via LangGraph's `astream_events`, (4) Add LangSmith tracing for observability, (5) Route simple queries to single-agent -- measured at 5.3x the tokens for no quality difference this experiment can resolve.
-
-**Q: How are the tests structured?**
-> 208 tests in 5 categories: (1) Unit tests for individual components (guardrails, quality gate, state, tools, cache), (2) Graph wiring tests verify routing logic without running the pipeline, (3) E2E tests mock all LLM calls and run the full pipeline to verify orchestration, (4) UI smoke tests verify all Streamlit imports work, (5) wiring tests prove the rate limiter and injection check run on the real request path. All tests run without API keys.
-
-## Architecture Deep-Dive
-
-For a comprehensive 2400+ line walkthrough of the entire system, see [END_TO_END_ARCHITECTURE.md](END_TO_END_ARCHITECTURE.md). It covers:
-- Complete request flow (happy path, quality gate retry, reviewer refinement)
-- Sequence diagrams for all 3 flow paths
-- State schema with all 18+ fields and reducer annotations
-- Database schema (SQLite cache tables)
-- Performance metrics, security, and configuration guide
-- Full testing architecture (all 208 tests explained)
-
-## References
-
-- [LangGraph Documentation](https://langchain-ai.github.io/langgraph/)
-- [LangGraph Send() API](https://langchain-ai.github.io/langgraph/concepts/low_level/#send)
-- [Tavily Search API](https://tavily.com/)
-- [Google Gemini API](https://ai.google.dev/)
-- [Streamlit Documentation](https://docs.streamlit.io/)
-- [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
+MIT. See [LICENSE](LICENSE).

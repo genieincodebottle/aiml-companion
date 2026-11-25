@@ -17,7 +17,12 @@ def wiki_search(query: str, max_results: int = 3) -> list[dict]:
 
     Returns list of {title, url, snippet, date, tool} dicts.
     No API key required - uses public REST API.
+
+    Offline mode makes no network calls, so it returns [] without a request.
     """
+    from ..llm import is_offline
+    if is_offline():
+        return []
     try:
         resp = requests.get(
             WIKI_SEARCH,

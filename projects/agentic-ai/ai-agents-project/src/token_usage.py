@@ -25,6 +25,8 @@
 
 import logging
 
+from src.guardrails import throttle
+
 logger = logging.getLogger(__name__)
 
 
@@ -60,6 +62,7 @@ def structured_call(structured_llm, prompt) -> tuple[object, int]:
     {"raw", "parsed", "parsing_error"} instead, so the same call yields both the
     validated output and its real token cost.
     """
+    throttle()
     result = structured_llm.invoke(prompt)
     if isinstance(result, dict):
         if result.get("parsing_error") and result.get("parsed") is None:

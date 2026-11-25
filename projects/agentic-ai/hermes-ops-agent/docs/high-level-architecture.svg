@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 800" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6b7280"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1100" height="800" fill="#ffffff"/>
+  <text x="550" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#111827">Hermes Ops Agent - High-Level Architecture</text>
+
+  <!-- You -->
+  <rect x="430" y="62" width="240" height="44" rx="8" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+  <text x="550" y="89" text-anchor="middle" font-size="15" font-weight="600" fill="#9a3412">You (operator)</text>
+
+  <!-- ===== Column A: Hermes Agent (external) ===== -->
+  <rect x="30" y="140" width="310" height="330" rx="10" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+  <text x="185" y="164" text-anchor="middle" font-size="15" font-weight="700" fill="#334155">Hermes Agent</text>
+  <text x="185" y="182" text-anchor="middle" font-size="11" fill="#334155">installed separately (NousResearch)</text>
+
+  <rect x="45" y="196" width="280" height="56" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="185" y="218" text-anchor="middle" font-size="13" font-weight="600" fill="#334155">hermes CLI / gateway</text>
+  <text x="185" y="237" text-anchor="middle" font-size="11" fill="#334155">sessions start here (source: cli, telegram)</text>
+
+  <rect x="45" y="266" width="280" height="72" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="185" y="288" text-anchor="middle" font-size="13" font-weight="600" fill="#334155">Agent loop + tools</text>
+  <text x="185" y="307" text-anchor="middle" font-size="11" fill="#334155">terminal, read_file, web_search,</text>
+  <text x="185" y="323" text-anchor="middle" font-size="11" fill="#334155">skill_view, skill_manage</text>
+
+  <rect x="45" y="352" width="135" height="104" rx="6" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="112" y="372" text-anchor="middle" font-size="12" font-weight="600" fill="#15803d">Model provider</text>
+  <text x="112" y="390" text-anchor="middle" font-size="10.5" fill="#15803d">Nous Portal</text>
+  <text x="112" y="405" text-anchor="middle" font-size="10.5" fill="#15803d">Gemini, OpenRouter</text>
+  <text x="112" y="420" text-anchor="middle" font-size="10.5" fill="#15803d">Anthropic, OpenAI</text>
+  <text x="112" y="435" text-anchor="middle" font-size="10.5" fill="#15803d">or a local model</text>
+
+  <rect x="190" y="352" width="135" height="104" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="257" y="372" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">Terminal backend</text>
+  <text x="257" y="390" text-anchor="middle" font-size="10.5" fill="#334155">docker in the</text>
+  <text x="257" y="405" text-anchor="middle" font-size="10.5" fill="#334155">hardened config,</text>
+  <text x="257" y="420" text-anchor="middle" font-size="10.5" fill="#334155">or local</text>
+  <text x="257" y="435" text-anchor="middle" font-size="10.5" fill="#334155">(no sandbox)</text>
+
+  <line x1="185" y1="252" x2="185" y2="264" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="112" y1="338" x2="112" y2="350" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="257" y1="338" x2="257" y2="350" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ===== Column B: ~/.hermes ===== -->
+  <rect x="410" y="140" width="290" height="290" rx="10" fill="#fffbeb" stroke="#b45309" stroke-width="2"/>
+  <text x="555" y="166" text-anchor="middle" font-size="15" font-weight="700" fill="#92400e">~/.hermes (HERMES_HOME)</text>
+
+  <rect x="425" y="196" width="260" height="56" rx="6" fill="#ffffff" stroke="#fcd34d"/>
+  <text x="555" y="218" text-anchor="middle" font-size="12.5" font-weight="600" fill="#92400e">config.yaml, .env (mode 600)</text>
+  <text x="555" y="237" text-anchor="middle" font-size="11" fill="#92400e">model, backend, write_approval, keys</text>
+
+  <rect x="425" y="266" width="260" height="72" rx="6" fill="#ffffff" stroke="#fcd34d"/>
+  <text x="555" y="288" text-anchor="middle" font-size="12.5" font-weight="600" fill="#92400e">state.db (SQLite)</text>
+  <text x="555" y="307" text-anchor="middle" font-size="11" fill="#92400e">sessions: tokens, tool_call_count</text>
+  <text x="555" y="323" text-anchor="middle" font-size="11" fill="#92400e">messages: role, tool_name, tool_calls</text>
+
+  <rect x="425" y="352" width="260" height="56" rx="6" fill="#ffffff" stroke="#fcd34d"/>
+  <text x="555" y="374" text-anchor="middle" font-size="12.5" font-weight="600" fill="#92400e">skills/</text>
+  <text x="555" y="393" text-anchor="middle" font-size="11" fill="#92400e">SKILL.md files the agent loads or writes</text>
+
+  <!-- A <-> B -->
+  <line x1="423" y1="224" x2="342" y2="224" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="381" y="216" text-anchor="middle" font-size="10.5" fill="#374151">reads</text>
+  <line x1="342" y1="302" x2="423" y2="302" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="381" y="294" text-anchor="middle" font-size="10.5" fill="#374151">records</text>
+  <line x1="342" y1="330" x2="423" y2="378" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="388" y="392" text-anchor="middle" font-size="10.5" fill="#374151">loads, writes</text>
+
+  <!-- ===== Column C: this project ===== -->
+  <rect x="760" y="140" width="310" height="412" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="915" y="166" text-anchor="middle" font-size="15" font-weight="700" fill="#1d4ed8">hermes-ops-agent (this project)</text>
+
+  <rect x="775" y="184" width="280" height="56" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="915" y="206" text-anchor="middle" font-size="13" font-weight="600" fill="#1e3a8a">main.py (CLI)</text>
+  <text x="915" y="225" text-anchor="middle" font-size="11" fill="#1e3a8a">sessions | compare | demo | probe</text>
+
+  <rect x="775" y="254" width="280" height="56" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="915" y="276" text-anchor="middle" font-size="13" font-weight="600" fill="#1e3a8a">src/state_db.py</text>
+  <text x="915" y="295" text-anchor="middle" font-size="11" fill="#1e3a8a">read-only reader (mode=ro)</text>
+
+  <rect x="775" y="324" width="280" height="56" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="915" y="346" text-anchor="middle" font-size="13" font-weight="600" fill="#1e3a8a">src/metrics.py</text>
+  <text x="915" y="365" text-anchor="middle" font-size="11" fill="#1e3a8a">deltas, warnings, verdict</text>
+
+  <rect x="775" y="394" width="135" height="56" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="842" y="416" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">src/report.py</text>
+  <text x="842" y="435" text-anchor="middle" font-size="10.5" fill="#1e3a8a">text or JSON</text>
+
+  <rect x="920" y="394" width="135" height="56" rx="6" fill="#fef2f2" stroke="#dc2626"/>
+  <text x="987" y="416" text-anchor="middle" font-size="12" font-weight="600" fill="#991b1b">src/injection.py</text>
+  <text x="987" y="435" text-anchor="middle" font-size="10.5" fill="#991b1b">payloads, canary scan</text>
+
+  <rect x="775" y="464" width="280" height="72" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="915" y="486" text-anchor="middle" font-size="13" font-weight="600" fill="#1e3a8a">src/fixture.py (demo data)</text>
+  <text x="915" y="505" text-anchor="middle" font-size="11" fill="#1e3a8a">fixtures/state.fixture.sql</text>
+  <text x="915" y="521" text-anchor="middle" font-size="11" fill="#1e3a8a">builds fixtures/state.fixture.db</text>
+
+  <line x1="915" y1="240" x2="915" y2="252" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="915" y1="310" x2="915" y2="322" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="842" y1="380" x2="842" y2="392" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M1055,282 H1063 V422 H1057" fill="none" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M775,500 H767 V294 H773" fill="none" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- B -> C -->
+  <line x1="687" y1="292" x2="773" y2="272" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="728" y="272" text-anchor="middle" font-size="10.5" fill="#374151">read-only</text>
+
+  <!-- You -> A, You -> C -->
+  <path d="M430,84 H185 V138" fill="none" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="300" y="76" text-anchor="middle" font-size="10.5" fill="#374151">run a task</text>
+  <path d="M670,84 H915 V138" fill="none" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="792" y="76" text-anchor="middle" font-size="10.5" fill="#374151">measure, probe</text>
+
+  <!-- ===== Bottom left: ops files ===== -->
+  <rect x="30" y="590" width="640" height="150" rx="10" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+  <text x="350" y="614" text-anchor="middle" font-size="15" font-weight="700" fill="#334155">Ops files in this repo (you copy or run them)</text>
+
+  <rect x="45" y="630" width="145" height="92" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="117" y="652" text-anchor="middle" font-size="11.5" font-weight="600" fill="#334155">configs/config.yaml</text>
+  <text x="117" y="671" text-anchor="middle" font-size="10.5" fill="#334155">hardened config</text>
+  <text x="117" y="687" text-anchor="middle" font-size="10.5" fill="#334155">copy to ~/.hermes</text>
+
+  <rect x="200" y="630" width="145" height="92" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="272" y="652" text-anchor="middle" font-size="11.5" font-weight="600" fill="#334155">skills/</text>
+  <text x="272" y="671" text-anchor="middle" font-size="10.5" fill="#334155">2 SKILL.md files</text>
+  <text x="272" y="687" text-anchor="middle" font-size="10" fill="#334155">copy to ~/.hermes/skills</text>
+
+  <rect x="355" y="630" width="145" height="92" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="427" y="652" text-anchor="middle" font-size="11.5" font-weight="600" fill="#334155">deploy/</text>
+  <text x="427" y="671" text-anchor="middle" font-size="10.5" fill="#334155">systemd unit,</text>
+  <text x="427" y="687" text-anchor="middle" font-size="10.5" fill="#334155">docker-compose.yml</text>
+  <text x="427" y="703" text-anchor="middle" font-size="10.5" fill="#334155">run hermes gateway</text>
+
+  <rect x="510" y="630" width="145" height="92" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="582" y="652" text-anchor="middle" font-size="11.5" font-weight="600" fill="#334155">verify-allowlist.sh</text>
+  <text x="582" y="671" text-anchor="middle" font-size="10.5" fill="#334155">checks the allowlist</text>
+  <text x="582" y="687" text-anchor="middle" font-size="10.5" fill="#334155">and .env mode 600,</text>
+  <text x="582" y="703" text-anchor="middle" font-size="10.5" fill="#334155">then a manual test</text>
+
+  <line x1="520" y1="588" x2="520" y2="432" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="528" y="515" font-size="10.5" fill="#374151">copy, check</text>
+  <line x1="185" y1="588" x2="185" y2="472" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="193" y="535" font-size="10.5" fill="#374151">runs hermes gateway</text>
+
+  <!-- ===== Bottom right: outputs ===== -->
+  <rect x="700" y="590" width="370" height="150" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="885" y="614" text-anchor="middle" font-size="15" font-weight="700" fill="#15803d">Outputs</text>
+
+  <rect x="712" y="630" width="110" height="92" rx="6" fill="#ffffff" stroke="#86efac"/>
+  <text x="767" y="652" text-anchor="middle" font-size="12" font-weight="600" fill="#15803d">Report</text>
+  <text x="767" y="671" text-anchor="middle" font-size="10" fill="#15803d">warnings first,</text>
+  <text x="767" y="687" text-anchor="middle" font-size="10" fill="#15803d">metric table,</text>
+  <text x="767" y="703" text-anchor="middle" font-size="10" fill="#15803d">VERDICT line</text>
+
+  <rect x="832" y="630" width="110" height="92" rx="6" fill="#ffffff" stroke="#86efac"/>
+  <text x="887" y="652" text-anchor="middle" font-size="11" font-weight="600" fill="#15803d">JSON, exit code</text>
+  <text x="887" y="671" text-anchor="middle" font-size="10" fill="#15803d">--json / --out file</text>
+  <text x="887" y="687" text-anchor="middle" font-size="10" fill="#15803d">exit 0 only if</text>
+  <text x="887" y="703" text-anchor="middle" font-size="10" fill="#15803d">tool_calls fell</text>
+
+  <rect x="952" y="630" width="110" height="92" rx="6" fill="#ffffff" stroke="#86efac"/>
+  <text x="1007" y="652" text-anchor="middle" font-size="12" font-weight="600" fill="#15803d">./probe/</text>
+  <text x="1007" y="671" text-anchor="middle" font-size="10" fill="#15803d">3 payload files</text>
+  <text x="1007" y="687" text-anchor="middle" font-size="10" fill="#15803d">for Hermes to read</text>
+
+  <line x1="915" y1="554" x2="915" y2="588" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="923" y="575" font-size="10.5" fill="#374151">prints, writes</text>
+
+  <!-- Legend -->
+  <rect x="30" y="760" width="24" height="14" rx="3" fill="#f1f5f9" stroke="#475569"/>
+  <text x="60" y="772" font-size="11" fill="#374151">Hermes Agent (not in this repo)</text>
+  <rect x="250" y="760" width="24" height="14" rx="3" fill="#fffbeb" stroke="#b45309"/>
+  <text x="280" y="772" font-size="11" fill="#374151">files Hermes owns</text>
+  <rect x="400" y="760" width="24" height="14" rx="3" fill="#eff6ff" stroke="#2563eb"/>
+  <text x="430" y="772" font-size="11" fill="#374151">this project's code</text>
+  <text x="1070" y="772" text-anchor="end" font-size="11" fill="#6b7280">demo and tests read the fixture: no Hermes, no API key.</text>
+</svg>

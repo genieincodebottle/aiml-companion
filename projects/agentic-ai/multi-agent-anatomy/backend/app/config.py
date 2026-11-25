@@ -1,12 +1,12 @@
-"""Single source of truth for model names, per-token prices and budgets.
+"""Single source of truth for model names and budgets.
 
-Everything in this file goes stale. Model ids get renamed, prices get cut, and
-context windows grow. That is exactly why it all lives in one file instead of
+Everything in this file goes stale. Model ids get renamed and context windows
+grow. That is exactly why it all lives in one file instead of
 being sprinkled through the agents: when the vendor changes something, you edit
 here and nowhere else.
 
-Prices are USD per 1 million tokens. Update them against the provider's pricing
-page before you quote any number from this project.
+Usage is counted in tokens only: input, cached input and output. There is no
+price table, so nothing here can go stale on a pricing change.
 """
 
 from __future__ import annotations
@@ -28,34 +28,7 @@ try:
 except ImportError:  # replay mode does not need python-dotenv
     pass
 
-PRICES_LAST_CHECKED = "2026-08-04"
-
-
-@dataclass(frozen=True)
-class ModelPrice:
-    """Per-1M-token prices for one model.
-
-    cached_input is the price of an input token that hit the provider's prompt
-    cache. It is the whole reason stage 3 and stage 6 are affordable: the
-    orchestrator sends its long stable prefix twice per request.
-    """
-
-    name: str
-    input_per_m: float
-    cached_input_per_m: float
-    output_per_m: float
-
-    def cost(self, input_tokens: int, cached_tokens: int, output_tokens: int) -> float:
-        """Cost in USD. cached_tokens is a subset of input_tokens, not an extra."""
-        fresh = max(input_tokens - cached_tokens, 0)
-        return (
-            fresh * self.input_per_m
-            + cached_tokens * self.cached_input_per_m
-            + output_tokens * self.output_per_m
-        ) / 1_000_000
-
-
-# The orchestrator is the only place a top-tier model earns its price. It plans
+# The orchestrator is the only place a top-tier model earns its place. It plans
 # once and merges once, and both calls decide what the user actually reads.
 #
 # Verified against models.list() on 2026-08-04. There is no gemini-3.6-pro; the
@@ -68,34 +41,12 @@ ORCHESTRATOR_MODEL = os.getenv("ORCHESTRATOR_MODEL", "gemini-3.1-pro-preview")
 WORKER_MODEL = os.getenv("WORKER_MODEL", "gemini-3.6-flash")
 
 # Stage 2 classification decides whether a request needs the full fan-out at
-# all. It has to cost close to nothing or it defeats its own purpose.
+# all. It has to use close to no tokens or it defeats its own purpose.
 CLASSIFIER_MODEL = os.getenv("CLASSIFIER_MODEL", "gemini-3.5-flash-lite")
 
 # If the top-tier id above has been renamed by the provider, fall back to this
 # rather than failing the request. The trace records that it happened.
 FALLBACK_MODEL = WORKER_MODEL
-
-# Verified against https://ai.google.dev/gemini-api/docs/pricing on the date in
-# PRICES_LAST_CHECKED above. Standard tier, not batch.
-#
-# Gemini 3.1 Pro is tiered on prompt size: the rates below are the
-# "prompts <= 200k tokens" ones. Above 200k it is 4.00 / 0.40 / 18.00. This
-# project's whole token budget is 60k, so it never crosses that line, but a
-# system that let context grow unbounded would double its input price without
-# any code change. That is worth knowing before you let a supervisor accumulate
-# worker output.
-PRICES: dict[str, ModelPrice] = {
-    "gemini-3.1-pro-preview": ModelPrice("gemini-3.1-pro-preview", 2.00, 0.20, 12.00),
-    "gemini-3.6-flash": ModelPrice("gemini-3.6-flash", 1.50, 0.15, 7.50),
-    "gemini-3.5-flash-lite": ModelPrice("gemini-3.5-flash-lite", 0.30, 0.03, 2.50),
-}
-
-
-def price_for(model: str) -> ModelPrice:
-    """Never raise on an unknown model. An unpriced call shows as zero cost in
-    the trace, which is visibly wrong, and that is better than a 500."""
-    return PRICES.get(model, ModelPrice(model, 0.0, 0.0, 0.0))
-
 
 @dataclass(frozen=True)
 class Budgets:
@@ -178,7 +129,7 @@ def mode_reason() -> str:
 
     A reader who sees "live mode" and did not knowingly turn it on deserves to
     be told which environment variable caused it and how to switch back, rather
-    than having to read the source to find out why their questions cost money.
+    than having to read the source to find out how many tokens their questions use.
     """
     key_name = "GOOGLE_API_KEY" if os.getenv("GOOGLE_API_KEY") else "GEMINI_API_KEY"
     if REPLAY_ONLY:
@@ -189,7 +140,7 @@ def mode_reason() -> str:
     if not API_KEY:
         return (
             "No GOOGLE_API_KEY or GEMINI_API_KEY was found, so everything runs "
-            "from recorded traces. Nothing is called and nothing is billed."
+            "from recorded traces. Nothing is called and no tokens are used."
         )
     return (
         f"{key_name} was found in your .env, so questions you run call the real "
@@ -200,8 +151,8 @@ def mode_reason() -> str:
 
 @dataclass
 class CacheSettings:
-    """Prompt caching is a toggle in this project so the cost panel can show
-    the same request costed both ways. In production it is not a toggle."""
+    """Prompt caching is a toggle in this project so the tokens page can show
+    the same request counted both ways. In production it is not a toggle."""
 
     enabled: bool = True
     # Providers only cache a prefix once it is long enough to be worth it. The

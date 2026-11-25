@@ -2,12 +2,22 @@
 
 ## Classification: Match Winner Prediction
 
+- **Model (best forward-CV accuracy, training seasons)**: Random Forest
 - **Accuracy**: 0.4507
 - **F1 Score (weighted)**: 0.4268
 - **Majority-class baseline**: 0.4789
 - **Lift over baseline**: -0.0282 -- the model does NOT beat the baseline
+- **Test matches**: 142 (one standard error of the accuracy is about 0.042)
 
-> Evaluated on an **out-of-time** split: trained on earlier seasons, tested on the most recent two. A random split reads ~0.515 on this data because it lets the model train on 2025 to predict 2024, which is not a thing deployment can do.
+> Evaluated on an **out-of-time** split: trained on earlier seasons, tested on the most recent two. A random split reads higher (the Random Forest scores ~0.53 on a random 25% holdout) because it lets the model train on 2025 to predict 2024, which is not a thing deployment can do.
+
+### All classifiers on the same holdout
+
+| Model | Test accuracy | F1 (weighted) | Forward CV accuracy (train seasons) |
+|-------|---------------|---------------|-----------------------------------|
+| Random Forest | 0.4507 | 0.4268 | 0.5290 |
+| XGBoost | 0.4859 | 0.4836 | 0.5172 |
+| 4-model ensemble | 0.5000 | 0.4737 | n/a |
 
 ### Confusion Matrix
 
@@ -26,6 +36,8 @@ Actual Team1     52     16
 | Team 1 Wins | 0.381 | 0.235 | 0.291 |
 
 ## Top Feature Importances
+
+Source model: Random Forest
 
 | Rank | Feature | Importance |
 |------|---------|------------|

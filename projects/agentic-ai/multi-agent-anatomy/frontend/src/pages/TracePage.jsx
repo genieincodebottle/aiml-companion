@@ -23,7 +23,7 @@ export default function TracePage({ result, go }) {
     <div className="page">
       <h1>Trace</h1>
       <p className="lede">
-        Every step the system took, in order, with what it cost. This is the product. The reply is
+        Every step the system took, in order, with the tokens it used. This is the product. The reply is
         at the bottom.
       </p>
 
@@ -54,7 +54,7 @@ export default function TracePage({ result, go }) {
           Back to scenarios
         </button>
         <button className="primary" onClick={() => go('cost')}>
-          See what this cost
+          See the tokens
         </button>
       </div>
     </div>

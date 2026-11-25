@@ -19,7 +19,7 @@ Flow:
 
 import os
 import logging
-from typing import Literal, Dict, Any
+from typing import Literal, Dict, Any, Optional
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
 
@@ -212,7 +212,7 @@ def should_continue_from_reputation(state: ContentState) -> Literal["action_enfo
         return "action_enforcement"
 
 
-def create_moderation_workflow(db: ModerationDatabase, use_checkpointer: bool = True, enable_guardrails: bool = True, enable_learning: bool = True, enable_fast_mode: bool = True) -> StateGraph:
+def create_moderation_workflow(db: ModerationDatabase, use_checkpointer: bool = True, enable_guardrails: bool = True, enable_learning: bool = True, enable_fast_mode: bool = True, learning_tracker: Optional[LearningTracker] = None) -> StateGraph:
     """
     Create the LangGraph StateGraph for content moderation.
 
@@ -239,6 +239,9 @@ def create_moderation_workflow(db: ModerationDatabase, use_checkpointer: bool = 
         enable_guardrails: If True, enable safety guardrails (loop limits, hallucination detection)
         enable_learning: If True, enable learning from decisions (episodic & semantic memory)
         enable_fast_mode: If True, enable fast mode for eligible content (short comments)
+        learning_tracker: Optional shared LearningTracker. The API passes its own so that
+            appeal outcomes recorded there reach the same memory the agents write to.
+            When omitted and enable_learning is True, the workflow creates its own.
 
     Returns:
         Compiled StateGraph
@@ -247,8 +250,9 @@ def create_moderation_workflow(db: ModerationDatabase, use_checkpointer: bool = 
     logger.info("=" * 40)
 
     # Initialize learning tracker
-    learning_tracker = None
-    if enable_learning:
+    if not enable_learning:
+        learning_tracker = None
+    elif learning_tracker is None:
         try:
             learning_tracker = LearningTracker()
         except Exception as learn_error:

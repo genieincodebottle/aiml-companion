@@ -75,12 +75,16 @@ def _enum_value(value) -> str:
     return value.value if hasattr(value, "value") else str(value or "unknown")
 
 
-def run_batch_evaluation(claims_dir: str = "data/sample_claims", country: str | None = None) -> dict:
+def run_batch_evaluation(claims_dir: str = "data/sample_claims", country: str | None = None,
+                         summary_only: bool = False) -> dict:
     """Run all claims and collect evaluation metrics.
 
     process_claim() returns {"paused": bool, "state": {...}}. A paused claim
     is waiting for a human reviewer: it has no final decision yet and is
     reported as `paused_for_review`, not as a pass or a failure.
+
+    summary_only prints the aggregate summary and leaves out the per-claim list.
+    The returned dict is the same either way.
     """
     claims_path = Path(claims_dir)
     claim_files = sorted(claims_path.glob("*.json"))
@@ -169,8 +173,9 @@ def run_batch_evaluation(claims_dir: str = "data/sample_claims", country: str | 
     print("=" * 50)
     for key, value in summary.items():
         print(f"  {key}: {value}")
-    print("\nPer-claim results:")
-    for r in results:
+    if not summary_only:
+        print("\nPer-claim results:")
+    for r in ([] if summary_only else results):
         if "error" in r:
             status = "ERROR"
         elif r.get("paused"):
@@ -187,8 +192,9 @@ def run_batch_evaluation(claims_dir: str = "data/sample_claims", country: str | 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--claims-dir", default="data/sample_claims")
-    parser.add_argument("--summary-only", action="store_true")
+    parser.add_argument("--summary-only", action="store_true",
+                        help="Print only the aggregate summary, not the per-claim lines")
     parser.add_argument("--country", choices=["us", "india"], default=None,
                         help="Force one country profile (default: from the file name)")
     args = parser.parse_args()
-    run_batch_evaluation(args.claims_dir, country=args.country)
+    run_batch_evaluation(args.claims_dir, country=args.country, summary_only=args.summary_only)

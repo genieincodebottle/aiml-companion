@@ -12,7 +12,7 @@ replayed answer changes to the wrong refund window, exactly as the live model's
 would. A mock that returned a canned reply would show a green trace and a
 *correct* answer, which would teach the opposite of the point.
 
-Token accounting is shared by both clients so the cost panel reads the same in
+Token accounting is shared by both clients so the tokens page reads the same in
 either mode.
 """
 
@@ -23,7 +23,7 @@ import re
 from dataclasses import dataclass
 from typing import Any
 
-from .config import API_KEY, CACHE, FALLBACK_MODEL, live_mode_available, price_for
+from .config import API_KEY, CACHE, FALLBACK_MODEL, live_mode_available
 from .prompts import Prompt
 
 
@@ -37,7 +37,7 @@ class Usage:
 
 
 def estimate_tokens(text: str) -> int:
-    """Roughly 4 characters per token. Good enough for a cost panel, and it is
+    """Roughly 4 characters per token. Good enough for a token count, and it is
     the same estimator on both sides so the two modes stay comparable."""
     return max(1, len(text) // 4)
 
@@ -47,7 +47,7 @@ class _PrefixCache:
     the trace move for a reason you can point at.
 
     A provider caches a prefix once it has seen it and once it is long enough.
-    The first call in a process pays full price, every later call with the same
+    The first call in a process pays for the full prefix as uncached input, every later call with the same
     prefix reports most of it as cached. Each agent has its own prefix, so they
     warm independently.
     """
@@ -121,7 +121,7 @@ class ReplayClient:
 
 class LiveClient:
     """One provider, called directly. No agent framework in between, because a
-    framework would hide both the bill and the failure mode."""
+    framework would hide both the token use and the failure mode."""
 
     name = "live"
 
@@ -356,7 +356,6 @@ __all__ = [
     "Usage",
     "estimate_tokens",
     "get_client",
-    "price_for",
     "PREFIX_CACHE",
     "ReplayClient",
     "LiveClient",

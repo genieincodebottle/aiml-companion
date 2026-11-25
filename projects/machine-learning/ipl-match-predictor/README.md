@@ -4,7 +4,7 @@
 
 End-to-end ML pipeline that predicts IPL match outcomes using 18 seasons of historical data (2008-2025). Combines Elo rating system, statistical hypothesis testing, and a 4-model weighted ensemble (Random Forest, XGBoost, Gradient Boosting, Logistic Regression) validated with 10,000-match Monte Carlo simulation.
 
-**What this project demonstrates:** The complete ML lifecycle - from raw data to production-ready predictions - using 1,169 matches and 260,920 ball-by-ball records.
+**What this project demonstrates:** The complete ML lifecycle - from raw data to production-ready predictions - using 1,169 matches (1,161 with a decided winner) and 260,920 ball-by-ball records (the ball-by-ball file covers 2008-2024 only).
 
 ## Architecture
 
@@ -34,19 +34,38 @@ matches.csv + deliveries.csv
 ## Key Results
 
 > **Read the first three rows together.** Accuracy on a near-balanced binary
-> problem means nothing on its own, and this model does not beat "always pick
-> the same team". That is the honest result, and the sections below explain
+> problem means nothing on its own, and no model here reliably beats "always
+> pick the same team". That is the honest result, and the sections below explain
 > how it was arrived at rather than explaining it away.
+
+Every number below is measured on the shipped `data/raw/matches.csv`
+(2008-2025, 1,169 matches, 1,161 decided, 8 no-result) by `python main.py
+--stage evaluate`, with the training seasons 2008-2023 (1,019 matches) and the
+test seasons 2024-25 (142 matches).
 
 | Metric | Value | Method |
 |--------|-------|--------|
-| Match winner accuracy | **0.451** | 4-model ensemble, **out-of-time** split (last 2 seasons) |
-| Majority-class baseline | **0.479** | Always predict the same team |
-| Lift over baseline | **-0.028** | The model **loses** to the trivial baseline |
+| Match winner accuracy | **0.500** | Calibrated, recency-weighted 4-model ensemble (RF + XGB + GB + LR), **out-of-time** split, test = 2024-25 |
+| Majority-class baseline | **0.479** | Always predict team 1 (the more common training outcome) |
+| Lift over baseline | **+0.021** | About 0.5 standard errors: within sampling noise, not evidence of skill |
+| Single models, same test seasons | RF 0.451, XGB 0.486, Neural Net 0.500 (opt-in, `--neural-net`) | All within one standard error (about 0.042 for 142 matches) of the baseline |
+| Model-selection CV (training seasons 2008-2023 only) | RF 0.5290, XGB 0.5172, GB 0.5089, LR 0.5373, Neural Net 0.5089 | 5 forward-in-time folds (expanding window), see "How the cross-validation is done" below. `main.py` picks among RF / XGB (/ Neural Net with `--neural-net`), so the pick is the Random Forest |
+| Run-margin regression | CV MAE 23.39, R2 -0.467 | Gradient Boosting, same 5 forward folds on the 463 runs-wins of 2008-2023; predicting the mean margin gives MAE 20.35. On the 68 runs-wins of 2024-25: MAE 21.99, R2 -0.186, mean-margin baseline 20.81 |
 | Monte Carlo validation | 10,000 sims | Gaussian noise (std=0.05) stability check |
-| Toss advantage | Not significant | Binomial test (two-sided), p=0.61 |
-| Top predictive feature | Elo rating difference | Feature importance ranking |
+| Toss advantage | Not significant | Two-sided binomial test: toss winner won 598 of 1,161 (51.5%), p=0.318 |
+| Top predictive features | Elo features | `elo_team2`, `elo_team1`, `elo_diff`, `elo_expected` are ranks 1-4 in the Random Forest importances |
 | Engineered features | 20+ | Elo, momentum, H2H, home, toss, venue chase bias, interactions |
+| Probability calibration | CalibratedClassifierCV | Sigmoid method, cv=3 |
+| Training weighting | Season recency | Exponential decay (0.5 to 1.0) |
+
+`main.py` reports the single classifier with the best forward-CV accuracy on the
+training seasons as "the CV pick": the Random Forest (CV 0.5290), which scores
+0.4507 on the 2024-25 test seasons. `torch` is optional (commented out in
+`requirements.txt`) and the Neural Net is opt-in with `python main.py
+--neural-net`, so the default result does not depend on what is installed. With
+`--neural-net` the pick is still the Random Forest (Neural Net CV 0.5089, test
+0.5000). All of these are inside the noise of the 0.479 baseline, which is why
+the headline row above is the ensemble, not the CV pick.
 
 ### Why the split is by season, not at random
 
@@ -56,24 +75,62 @@ trains on 2025 to predict 2024 -- something deployment never gets to do -- and
 between seasons the squads, the rules and the team strengths all move, so
 interpolating across them is an easier problem than the real one.
 
-| evaluation | accuracy | majority baseline |
+Test accuracy by holdout window (train = every season before the window):
+
+| holdout | test matches | majority baseline | Random Forest | XGBoost | 4-model ensemble |
+|---|---|---|---|---|---|
+| 2025 only | 71 | 0.4648 | 0.4789 | 0.4789 | 0.4648 |
+| **2024-25 (what `main.py` uses)** | 142 | **0.4789** | 0.4507 | 0.4859 | **0.5000** |
+| 2023-25 | 215 | 0.5023 | 0.4744 | 0.5070 | 0.4558 |
+| random 25% split (not used) | 291 | -- | 0.5258 | -- | 0.5120 |
+
+With one standard error of 0.04 to 0.06 on windows this small, no model in any
+window is distinguishable from "always predict the same team". The ensemble is
+level with the baseline on 2025 alone, 2.1 points above it on 2024-25 and 4.7
+points below it on 2023-25, which is what noise around zero looks like. The
+random split flatters the Random Forest by about 7 points (0.5258 against 0.4507
+on 2024-25) and the ensemble by about 1 point (0.5120 against 0.5000), so the gap
+between the two evaluations is itself noisy. The point is not the size of the gap; it is that a random split answers a
+question deployment never asks, and no baseline was printed next to it, which is
+how 0.53 comes to sound like skill.
+
+This also independently corroborates the 48.6% (34 of 70) this project
+measures on the 2026 season below. Two different honest evaluations agree that
+pre-match features do not predict IPL results, and that agreement is worth
+more than either number alone.
+
+> **Data vintages.** The shipped `matches.csv` is the 2008-2025 export (1,169
+> rows). Earlier write-ups, the Kaggle notebook text and the blog diagrams used
+> the 2008-2024 file (1,095 matches, 1,090 decided), where the toss test gave
+> p=0.6066 (554 of 1,090, 50.8%). On the shipped 2008-2025 data it is p=0.3184.
+> `deliveries.csv` still covers only the 1,095 matches of 2008-2024.
+
+### How the cross-validation is done
+
+Model selection uses **only the training seasons (2008-2023, 1,019 matches)** and
+**forward-in-time folds**: `forward_cv(5)` in `src/models.py` is scikit-learn's
+`TimeSeriesSplit(n_splits=5)`, an expanding window over the date-sorted rows.
+`cross_validate_model()` runs it with `cross_val_score(pipeline, X_train, y_train,
+cv=forward_cv(5))`, and `main.py` asserts the rows are date-sorted. The test
+seasons (2024-25) are never seen by selection.
+
+| fold | train rows (seasons) | validate rows (seasons) |
 |---|---|---|
-| random split (what this used to report) | 0.5150 | -- |
-| holdout 2025 (71 matches) | **0.4507** | 0.5352 |
-| holdout 2024-25 (142 matches) | 0.5000 | 0.5211 |
-| holdout 2023-25 (215 matches) | 0.5070 | 0.5023 |
+| 1 | 174 (2008-2010) | 169 (2010-2013) |
+| 2 | 343 (2008-2013) | 169 (2013-2015) |
+| 3 | 512 (2008-2015) | 169 (2015-2018) |
+| 4 | 681 (2008-2018) | 169 (2018-2021) |
+| 5 | 850 (2008-2021) | 169 (2021-2023) |
 
-Under an honest temporal split the ensemble **does not beat the majority-class
-baseline in any recent season**. The random split was not wildly optimistic --
-about 6 points -- but it was pointed at the wrong question, and no baseline was
-printed next to it, which is how 0.53 comes to sound like skill.
+Folds are cut by row count, so a boundary can fall inside a season. The regressor
+uses the same 5 forward folds on the 463 runs-wins of 2008-2023. Test accuracy
+comes from a separate fit on all of 2008-2023, scored once on 2024-25.
 
-This also independently corroborates the 48.6% this project measures on the
-2026 season below. Two different honest evaluations agree that pre-match
-features do not predict IPL results, and that agreement is worth more than
-either number alone.
-| Probability calibration | CalibratedClassifierCV | Sigmoid method, cv=3 |
-| Training weighting | Season recency | Exponential decay (0.5 to 1.0) |
+Earlier versions ran `cross_val_score(cv=5)` (unshuffled `StratifiedKFold`) on all
+1,161 matches, which trained on later seasons to predict earlier ones and let the
+CV pick see the test seasons. Those numbers (RF 0.5125, XGB 0.4798, GB 0.5091,
+LR 0.5168, regression MAE 21.80 / R2 -0.198) are retired; forward CV is lower
+for the regressor and different by a few points for each classifier.
 
 ## Quick Start
 
@@ -120,6 +177,7 @@ python main.py --stage features     # Feature engineering
 python main.py --stage hypothesis   # Statistical hypothesis tests
 python main.py --stage train        # Model training + cross-validation
 python main.py --stage evaluate     # Evaluation + report generation
+python main.py --neural-net         # Also compare the optional PyTorch Neural Net (needs torch)
 python main.py --verbose            # Debug-level logging
 ```
 
@@ -145,6 +203,10 @@ print(f"{result['winner']} wins with {result['confidence']}% confidence")
 # Monte Carlo validation:  result['monte_carlo']
 # Feature vector used:     result['features']
 ```
+
+`run_prediction()` trains the ensemble on **every decided match** in the dataset
+(no held-out split): the match being predicted is in the future, so there is
+nothing later to test on. The out-of-time evaluation lives in `main.py`.
 
 ## Reproduce IPL 2026 Predictions
 
@@ -178,7 +240,7 @@ Both cover all 7 pipeline stages (load → clean → Elo → features → train 
 ```bash
 make install    # Install dependencies
 make run        # Full pipeline via CLI
-make test       # Run 59 unit tests
+make test       # Run 77 unit tests
 make notebook   # Execute Jupyter notebook end-to-end
 make clean      # Remove generated artifacts
 make help       # Show all targets
@@ -209,7 +271,7 @@ ipl-match-predictor/
 │   ├── test_data_loader.py                # Data loading/cleaning (19 tests)
 │   ├── test_features.py                   # Elo + feature engineering (20 tests)
 │   ├── test_hypothesis.py                 # Statistical tests (9 tests)
-│   └── test_models.py                     # ML model pipelines (11 tests)
+│   └── test_models.py                     # ML model pipelines, split, baseline, report (29 tests)
 ├── artifacts/
 │   ├── results/key_findings.md            # Pre-documented key findings
 │   └── figures/                           # Exported chart PNGs
@@ -227,8 +289,8 @@ ipl-match-predictor/
 
 | File | Records | Description |
 |------|---------|-------------|
-| `matches.csv` | 1,169 | Match-level data: teams, toss, result, venue, player of match (2008-2025) |
-| `deliveries.csv` | 260,920 | Ball-by-ball: batsman, bowler, runs, extras, wickets (2008-2024) |
+| `matches.csv` | 1,169 | Match-level data: teams, toss, result, venue, player of match (2008-2025); 1,161 have a decided winner |
+| `deliveries.csv` | 260,920 | Ball-by-ball: batsman, bowler, runs, extras, wickets (2008-2024, 1,095 matches; none for 2025) |
 
 Source: [Kaggle IPL Complete Dataset](https://www.kaggle.com/datasets/patrickb1912/ipl-complete-dataset-20082020) + [IPL 2025 Dataset](https://www.kaggle.com/datasets/maratheabhishek/ipl-dataset-2008-to-2025)
 
@@ -273,13 +335,13 @@ Source: [Kaggle IPL Complete Dataset](https://www.kaggle.com/datasets/patrickb19
 | Weighting | Season recency | Exponential decay: `0.5 + 0.5 * exp(-days/1500)` | - |
 | Validation | Monte Carlo Simulation | 10,000 matches, Gaussian noise (std=0.05) | - |
 
-All 4 classifiers use sklearn Pipelines with StandardScaler preprocessing and 5-fold stratified cross-validation. Each model is optionally wrapped with `CalibratedClassifierCV` for well-calibrated probability estimates. Training uses season recency weighting so recent matches have more influence. Predictions are combined via weighted average, then validated with Monte Carlo simulation. The `predict_match()` function in `src/models.py` constructs feature vectors for unseen future matches.
+All 4 classifiers use sklearn Pipelines with StandardScaler preprocessing and are compared with 5-fold forward-in-time cross-validation on the training seasons only (see "How the cross-validation is done"). Each model is optionally wrapped with `CalibratedClassifierCV` for well-calibrated probability estimates. Training uses season recency weighting so recent matches have more influence. Predictions are combined via weighted average, then validated with Monte Carlo simulation. The `predict_match()` function in `src/models.py` constructs feature vectors for unseen future matches.
 
 ### Hypothesis Testing
 
 | Test | Method | Result |
 |------|--------|--------|
-| Toss advantage | Two-sided binomial (H0: p=0.5) | p=0.61, NOT significant |
+| Toss advantage | Two-sided binomial (H0: p=0.5) | 598 of 1,161 (51.5%), p=0.318, NOT significant |
 | Home advantage | One-sided binomial | Venue-dependent |
 | Decision impact (bat vs field) | Chi-squared contingency | Analyzed per era |
 
@@ -343,7 +405,7 @@ feature_flags:
 ## Testing
 
 ```bash
-# Run all 59 tests
+# Run all 77 tests
 pytest tests/ -v
 
 # Run specific test file
@@ -357,15 +419,15 @@ pytest tests/ --cov=src --cov-report=term-missing
 
 ### Toss Has No Significant Advantage
 
-Binomial test (two-sided) on 1,160+ decided matches: the toss winner's match win rate (~50.8%) does not deviate meaningfully from 50%. p-value = 0.61 (alpha = 0.05). This is one of the most commonly asked IPL trivia questions, and the data provides a definitive answer.
+Binomial test (two-sided) on the 1,161 decided matches of 2008-2025: the toss winner won 598 of them (51.5%), which does not deviate meaningfully from 50%. p-value = 0.318 (alpha = 0.05). On the older 2008-2024 file (1,090 decided matches) the same test gives 50.8% and p = 0.607. This is one of the most commonly asked IPL trivia questions, and the data provides a definitive answer.
 
 ### Elo Ratings Are the Strongest Predictor
 
-The Elo rating difference between teams consistently ranks as the top feature in importance analysis. This confirms that historical team strength (captured via incremental rating updates) provides more signal than raw team identity or venue.
+The Elo features (`elo_team2`, `elo_team1`, `elo_diff`, `elo_expected`) take the top four Random Forest importances, although the importances are spread thinly (0.064 to 0.089 across the top ten), so this is a ranking, not a strong signal. It is consistent with historical team strength (captured via incremental rating updates) carrying more of what little signal there is than raw team identity or venue.
 
 ### Run Margin Prediction Needs Richer Features
 
-The regression model achieves MAE ~20 runs with R2 near zero using pre-match aggregate features. Cricket run margins depend on in-match factors (weather, pitch conditions, individual player form) that richer data sources could capture. The near-zero R2 with current features is consistent with published sports prediction literature.
+The regression model achieves a forward-CV MAE of 23.4 runs with R2 of -0.47 (463 training-season matches won by runs); simply predicting the mean margin gives MAE 20.35, so the model is worse than the baseline. On the 68 runs-wins of 2024-25 it scores MAE 21.99 and R2 -0.19 against a 20.81 baseline. Cricket run margins depend on in-match factors (weather, pitch conditions, individual player form) that richer data sources could capture. The negative R2 with current features is consistent with published sports prediction literature.
 
 ---
 

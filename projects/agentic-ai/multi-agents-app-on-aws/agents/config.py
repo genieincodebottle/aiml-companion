@@ -75,9 +75,13 @@ def get_bedrock_client():
 
 @lru_cache(maxsize=1)
 def get_bedrock_agent_client():
-    """Return a Bedrock Agent Runtime client (for AgentCore invocations)."""
+    """Return a Bedrock AgentCore data-plane client (for invoke_agent_runtime).
+
+    The service is "bedrock-agentcore". "bedrock-agent-runtime" is the Bedrock
+    Agents/Knowledge Bases API and has no invoke_agent_runtime operation.
+    """
     import boto3
-    return boto3.client("bedrock-agent-runtime", region_name=AWS_REGION)
+    return boto3.client("bedrock-agentcore", region_name=AWS_REGION)
 
 
 # ---------------------------------------------------------------------------

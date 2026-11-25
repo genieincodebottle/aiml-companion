@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/)
 [![Node 22.12+](https://img.shields.io/badge/node-22.12%2B-brightgreen.svg)](https://nodejs.org/)
-[![No API key to start](https://img.shields.io/badge/demo-no%20API%20key-brightgreen.svg)](#run-it-in-five-minutes)
+[![No API key to start](https://img.shields.io/badge/demo-no%20API%20key-brightgreen.svg)](#run-it)
 
 A multi-agent system that **diagnoses and fixes production incidents**, with a human
 approving every risky step. Seven specialist agents work inside one bounded loop:
@@ -19,7 +19,7 @@ can break things safely. React console, FastAPI backend, Google Gemini.
 
 ---
 
-## Run it in five minutes
+## Run it
 
 No API key needed. Without one, the agents run in **offline mode**: a deterministic,
 rule-based agent that reads the same telemetry. The console shows an "Offline mode"
@@ -95,7 +95,7 @@ cp .env.example .env      # Windows PowerShell: copy .env.example .env
 
 Restart the backend. The banner disappears and every decision is made by Gemini.
 For Docker, put the same line in a `.env` file next to `docker-compose.yml`.
-A live incident costs about one to three cents; the hard ceiling is $0.50.
+Each incident runs under a usage ceiling set by `IC_MAX_COST_USD` in `backend/.env`; the loop stops with a recorded reason when it is reached.
 
 Something not working? See **[docs/troubleshooting.md](docs/troubleshooting.md)**.
 
@@ -133,7 +133,7 @@ The whole loop is one readable class: start at `IncidentRun.run_loop()` in
 Telemetry is text an attacker can influence, and it flows into every prompt. So
 nothing a model writes can widen its own permissions. In code, not in prompts:
 
-- **Ceilings:** iterations, cost, wall-clock time, approval timeout, operator cancel.
+- **Ceilings:** iterations, usage, wall-clock time, approval timeout, operator cancel.
 - **Risk:** set by the guardrail layer. The model's own risk rating is overwritten.
 - **Permissions:** an allowlist per agent role, plus per-action preconditions
   ("no failover without a healthy alternate").

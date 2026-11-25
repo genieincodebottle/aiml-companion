@@ -17,7 +17,7 @@ they match the diagram in the README. If you renumber here, renumber there.
 
 No agent framework. The fan-out below is asyncio.gather over three functions,
 the delegation is an argument, and the loop is a for loop. That is the whole
-argument of the project: a framework would hide both the bill and the failure
+argument of the project: a framework would hide both the token use and the failure
 mode, and the failure modes are what this is for.
 """
 
@@ -34,7 +34,7 @@ from .agents.workers import order_agent, policy_agent, shipping_agent, writer_ag
 from .budget import RequestBudget
 from .config import BUDGETS, CLASSIFIER_MODEL, DEFAULT_TENANT
 from .failures import FailureSwitches
-from .llm import PREFIX_CACHE, estimate_tokens, get_client, price_for
+from .llm import PREFIX_CACHE, estimate_tokens, get_client
 from .tools import db
 from .tools.saga import build_return_booking_saga
 from .trace import Trace
@@ -53,7 +53,7 @@ async def run_request(
     db.init_db()
     switches = switches or FailureSwitches()
     if reset_cache:
-        # Lets the cost panel show a cold-cache request on demand.
+        # Lets the tokens page show a cold-cache request on demand.
         PREFIX_CACHE.reset()
 
     client = get_client()
@@ -107,7 +107,7 @@ async def run_request(
         prompt_key="classifier", model=CLASSIFIER_MODEL,
     )
     route = _classify(question)
-    # The classifier is a real billed call, so it is costed like one. It is also
+    # The classifier is a real model call, so its tokens are counted like one. It is also
     # tiny, which is the point: it decides whether the expensive fan-out runs.
     s2.input_tokens = estimate_tokens(question) + 120
     s2.output_tokens = 2
@@ -216,7 +216,7 @@ async def run_request(
     s8.finish("ok")
     root.finish("ok")
 
-    guardrails.RATE_LIMITER.record_spend(trace.total_cost_usd)
+    guardrails.RATE_LIMITER.record_spend(trace.total_tokens)
     return _respond(trace, reply, draft.get("gaps", []), merged=merged, plan=plan)
 
 
@@ -252,10 +252,10 @@ _TOPICS = {
 def _classify(question: str) -> str:
     """Stage 2, as a rule rather than a model call.
 
-    A rule is the right implementation here: it costs nothing, it is
+    A rule is the right implementation here: it uses no tokens, it is
     deterministic, and the point of stage 2 is only to decide whether the
     expensive fan-out is justified. Swapping it for the cheap model in
-    CLASSIFIER_PROMPT changes the cost line and nothing else.
+    CLASSIFIER_PROMPT changes the token line and nothing else.
     """
     q = question.strip().lower()
     if len(q) < 16 and any(g in q for g in ("hi", "hello", "hey", "thanks")):
@@ -288,24 +288,20 @@ def _respond(
     }
 
 
-def cost_breakdown(trace_dict: dict[str, Any]) -> dict[str, Any]:
-    """Per-model rollup for the cost panel, from a finished trace."""
+def tokens_breakdown(trace_dict: dict[str, Any]) -> dict[str, Any]:
+    """Per-model token rollup for the tokens page, from a finished trace."""
     by_model: dict[str, dict[str, Any]] = {}
     for s in trace_dict["spans"]:
         if not s["model"]:
             continue
         m = by_model.setdefault(
-            s["model"],
-            {"calls": 0, "input": 0, "cached": 0, "output": 0, "usd": 0.0,
-             "price": price_for(s["model"]).__dict__},
+            s["model"], {"calls": 0, "input": 0, "cached": 0, "output": 0, "total": 0}
         )
         m["calls"] += 1
         m["input"] += s["input_tokens"]
         m["cached"] += s["cached_tokens"]
         m["output"] += s["output_tokens"]
-        m["usd"] += s["cost_usd"]
-    for m in by_model.values():
-        m["usd"] = round(m["usd"], 6)
+        m["total"] += s["input_tokens"] + s["output_tokens"]
     return by_model
 
 

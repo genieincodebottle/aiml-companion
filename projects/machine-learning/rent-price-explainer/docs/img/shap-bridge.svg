@@ -26,7 +26,7 @@
   <rect x="36" y="112" width="388" height="34" fill="#ffffff" stroke="#cbd5e1" rx="5"/>
   <text class="m" x="48" y="134">SHAP_i(x)  ==  coef_i * (x_i - mean(x_i))</text>
   <text class="t n" x="36" y="166">Exact, not approximate. explain/shap_report.py computes both sides</text>
-  <text class="t n" x="36" y="182">by hand and asserts they agree to 1e-6 in the test suite.</text>
+  <text class="t n" x="36" y="182">by hand, and the test suite asserts they agree to 1e-5.</text>
 
   <rect class="dark" x="500" y="78" width="420" height="120"/>
   <text class="t h" x="516" y="100">WHERE YOU CANNOT: THE GBM</text>

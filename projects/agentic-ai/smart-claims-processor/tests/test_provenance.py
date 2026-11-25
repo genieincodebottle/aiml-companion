@@ -234,3 +234,21 @@ def test_a_decision_logged_without_versions_still_writes_an_entry(audit_dir):
 
     entry = json.loads(next(audit_dir.glob("audit_*.ndjson")).read_text(encoding="utf-8").strip().splitlines()[-1])
     assert entry["versions"] == {}
+
+
+def test_fraud_crew_prompts_are_fingerprinted():
+    """CrewAI bypasses the LangChain callback, so the crew records its own prompts."""
+    from types import SimpleNamespace
+
+    from src.agents.fraud_crew import _record_crew_prompts
+
+    crew = SimpleNamespace(
+        agents=[SimpleNamespace(role="r", goal="g", backstory="b")],
+        tasks=[SimpleNamespace(description="d", expected_output="e")],
+    )
+    start_node()
+    _record_crew_prompts(crew)
+    sha, _ = collect_node()
+    assert sha
+    start_node()
+    assert collect_node()[0] is None

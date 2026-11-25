@@ -47,6 +47,29 @@ class TestOrchestrator:
         assert len(plan) == 3
         assert plan[0]["agent"] == "research"
 
+    @patch("agents.orchestrator.call_llm")
+    def test_create_plan_skips_steps_without_agent(self, mock_llm):
+        """A step with no 'agent' (or no 'task') is skipped, not a KeyError."""
+        mock_llm.return_value = json.dumps({"plan": [
+            {"task": "no agent here"},
+            {"agent": "research", "task": "search", "needs_previous": False},
+            {"agent": "writer"},
+            "not an object",
+        ]})
+
+        plan = create_plan("test query")
+
+        assert plan == [{"agent": "research", "task": "search", "needs_previous": False}]
+
+    @patch("agents.orchestrator.call_llm")
+    def test_create_plan_falls_back_when_no_step_is_valid(self, mock_llm):
+        """If every step is bad, use the default three-step plan."""
+        mock_llm.return_value = json.dumps({"plan": [{"task": "x"}, {}]})
+
+        plan = create_plan("test query")
+
+        assert [s["agent"] for s in plan] == ["research", "analyst", "writer"]
+
     @patch("agents.orchestrator.call_agent")
     @patch("agents.orchestrator.create_plan")
     def test_run_executes_all_steps(self, mock_plan, mock_agent):

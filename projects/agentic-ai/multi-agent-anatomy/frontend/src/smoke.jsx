@@ -12,7 +12,7 @@ import { renderToString } from 'react-dom/server'
 import Overview from './pages/Overview.jsx'
 import Scenarios from './pages/Scenarios.jsx'
 import TracePage from './pages/TracePage.jsx'
-import CostPage from './pages/CostPage.jsx'
+import TokensPage from './pages/CostPage.jsx'
 import BreakIt from './pages/BreakIt.jsx'
 
 const dir = '../backend/replay/'
@@ -22,7 +22,6 @@ const go = () => {}
 let failed = 0
 
 const config = {
-  prices_last_checked: '2026-08-04',
   mode: 'replay',
   failure_catalog: [
     { key: 'kill_shipping_agent', label: 'Kill it', stage: 4, type: 'bool', teaches: 't', watch: 'w' },
@@ -48,10 +47,10 @@ function check(name, el, expect) {
 check('overview', <Overview go={go} mode="replay" />, (h) => h.includes('Start the tour'))
 check('scenarios (empty)', <Scenarios replays={[]} onPick={go} activeId={null} />)
 check('trace (no result)', <TracePage result={null} go={go} />, (h) => h.includes('Nothing loaded yet'))
-check('cost (no result)', <CostPage result={null} config={config} go={go} />)
+check('tokens (no result)', <TokensPage result={null} go={go} />, (h) => h.includes('token breakdown'))
 check('break it', <BreakIt catalog={config.failure_catalog} failures={{}} setFailures={go} question="q" setQuestion={go} onRun={go} busy={false} mode="replay" />, (h) => h.includes('Run it and show me the trace'))
 
-// Every recorded trace through the trace and cost pages.
+// Every recorded trace through the trace and tokens pages.
 const replays = files.map((f) => {
   const d = load(f)
   return { id: d.id, title: d.title, teaches: d.teaches, failures: d.failures, question: d.question }
@@ -74,7 +73,14 @@ for (const f of files) {
     console.log(`     ${green ? 'ok  ' : 'FAIL'} green-and-wrong banner present`)
     if (!green) failed++
   }
-  check(`cost:  ${result.id}`, <CostPage result={result} config={config} go={go} />, (h) => h.includes('this question'))
+  check(`tokens: ${result.id}`, <TokensPage result={result} go={go} />, (h) => h.includes('tokens this question') && h.includes('Tokens by stage'))
+  const s = result.trace.summary
+  const sums = s.input_tokens + s.output_tokens === s.total_tokens && s.cached_tokens + s.uncached_input_tokens === s.input_tokens
+  console.log(`     ${sums ? 'ok  ' : 'FAIL'} token totals add up`)
+  if (!sums) failed++
+  const noMoney = !JSON.stringify(result).match(/cost_usd|total_cost|"price"/)
+  console.log(`     ${noMoney ? 'ok  ' : 'FAIL'} no dollar fields in the recorded trace`)
+  if (!noMoney) failed++
 }
 
 console.log(failed === 0 ? '\nall checks passed' : `\n${failed} CHECK(S) FAILED`)

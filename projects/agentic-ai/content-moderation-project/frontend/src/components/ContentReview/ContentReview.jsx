@@ -39,10 +39,12 @@ import {
 } from '@mui/icons-material';
 import { contentAPI } from '../../services/api';
 import api from '../../services/api';
+import { useAuthStore } from '../../store/authStore';
 
 export default function ContentReview() {
   const { contentId } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuthStore();
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [moderating, setModerating] = useState(false);
@@ -99,11 +101,24 @@ export default function ContentReview() {
 
     setReviewLoading(true);
     try {
-      await api.post(`/api/content/${contentId}/manual-review`, {
+      const payload = {
         decision: reviewDialog.action,
-        reviewer_name: 'Content Reviewer',
+        reviewer_name: user?.full_name || user?.username || 'Content Reviewer',
         notes: reviewNotes || `Manual ${reviewDialog.action} from review page`,
-      });
+      };
+      if (content?.status === 'pending_human_review') {
+        // A paused item: this call resumes the graph with the human decision.
+        // The paused state lives in backend memory, so after a backend restart
+        // the item is gone (404) and we record the decision directly instead.
+        try {
+          await api.post(`/api/hitl/review/${contentId}`, payload);
+        } catch (hitlErr) {
+          if (hitlErr.response?.status !== 404) throw hitlErr;
+          await api.post(`/api/content/${contentId}/manual-review`, payload);
+        }
+      } else {
+        await api.post(`/api/content/${contentId}/manual-review`, payload);
+      }
 
       setSuccess(`Content ${reviewDialog.action}d successfully`);
       handleCloseReview();

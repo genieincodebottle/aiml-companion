@@ -1,156 +1,236 @@
 # Architecture: Multi-Agent Research System
 
-This document describes the system architecture of the Multi-Agent Research pipeline,
-including the 4-agent flow, shared state design, and guardrails layer.
+This document describes the system architecture of the Multi-Agent Research pipeline:
+the eight-node graph, the shared state, and the guardrails. The diagram is
+[high-level-architecture.svg](high-level-architecture.svg); the full module-by-module
+reference is [END_TO_END_ARCHITECTURE.md](../END_TO_END_ARCHITECTURE.md).
 
 ## Overview
 
-The system uses **LangGraph StateGraph** to orchestrate four specialized agents in a
-sequential pipeline. Each agent handles a distinct phase of the research process,
-communicating through a shared typed state dictionary. A guardrails layer wraps the
-pipeline to enforce PII scrubbing, URL validation, and token budget constraints.
+The system uses a **LangGraph StateGraph** (`src/agents/graph.py`) with seven agent
+functions on eight nodes (`retry_researcher` reuses the researcher function). Agents
+communicate only through a shared typed state dictionary. Two edges are conditional, so
+the graph can go backwards: a weak source set gets one more search, and a rejected draft
+goes back to the writer.
 
 ## Pipeline Flow
 
-The agents execute in a fixed sequential order. Each agent reads from and writes to
-the shared `ResearchState`, enabling downstream agents to build on upstream outputs.
-
 ```
-                         User Query
-                             |
-                             v
-            +-------------------------------+
-            |       Guardrails Layer        |
-            |  PII Scrub | URL Validate     |
-            |  Budget Enforcement (50K cap) |
-            +-------------------------------+
-                             |
-                             v
-  +-------------+    +-------------+    +-------------+    +--------------+
-  |             |    |             |    |             |    |              |
-  | Researcher  |--->|  Analyst    |--->|   Writer    |--->| Fact-Checker |
-  |             |    |             |    |             |    |              |
-  +------+------+    +------+------+    +------+------+    +------+-------+
-         |                  |                  |                  |
-         |  sources[]       |  key_claims[]    |  draft           |  final_report
-         |  (web search     |  (structured     |  (formatted      |  (verified &
-         |   results)       |   claims with    |   report from    |   revised with
-         |                  |   confidence)    |   claims only)   |   [NEEDS CITATION]
-         |                  |                  |                  |   markers)
-         +------------------+------------------+------------------+
-                                    |
-                                    v
-                          Shared ResearchState
+                             User query
+                                 |
+                                 v
+                    planner (screen_input, 1 LLM call)
+                                 |
+                  Send() one per sub-topic (1 to 3)
+                 /               |               \
+          researcher        researcher        researcher      search only, no LLM
+                 \               |               /
+                  sources merged by operator.add
+                                 |
+                                 v
+                quality_gate (pure Python, threshold 0.4)
+                    |                          |
+              score >= 0.4               score < 0.4 (once)
+                    |                          v
+                    |                   retry_researcher
+                    |                          |
+                    v                          v
+                         analyst (1 LLM call)
+                                 |
+                                 v
+                       synthesizer (1 LLM call)
+                                 |
+                                 v
+                 +------> writer (1 LLM call, PII scrubbed)
+                 |               |
+                 |               v
+                 |       reviewer (1 LLM call)
+                 |               |
+                 +-- not passed, first draft
+                                 |
+                       passed, or second draft
+                                 v
+                           END: final_report
 ```
 
 ## Agent Responsibilities
 
-### 1. Researcher
+### 1. Planner (`src/agents/planner.py`)
 
-- **Input:** `query` (user's research question)
-- **Output:** `sources[]` (list of {title, url, snippet, date})
-- **Tool:** Tavily Search API (returns structured JSON, no HTML parsing needed)
-- **Budget check:** Skips execution if token budget is exhausted
-- **Error handling:** Returns empty sources list with error logged to `state.errors`
+- **Input:** `query`
+- **Output:** `sub_topics` (1 to 3, capped by `pipeline.max_sub_topics`), `research_plan`
+- **Guardrails:** `screen_input()` on the query first; with `action: block` a match ends
+  the run with the reason in `errors`. Then `check_budget()`.
+- **Error handling:** if the LLM call fails, the whole query becomes the only sub-topic.
 
-### 2. Analyst
+### 2. Researcher (`src/agents/researcher.py`)
 
-- **Input:** `sources[]` from Researcher
-- **Output:** `key_claims[]` (list of {claim, source_idx, confidence})
-- **Task:** Prompts the LLM to extract 5-8 key claims, each tied to a source index
-  and rated by confidence (high/medium/low)
-- **Budget check:** Skips execution if token budget is exhausted
-- **Error handling:** Returns empty claims list with error logged
+- **Input:** one sub-topic, dispatched by `Send()`; the instances run in parallel
+- **Output:** `sources[]` (title, url, snippet, date, tool), merged by `operator.add`
+- **Tools:** `select_tools()` keyword rules: Tavily for every sub-topic, Wikipedia as well
+  when the sub-topic contains a factual keyword ("what is", "history of", ...).
+  Without a real `TAVILY_API_KEY`, `web_search()` returns the offline stand-in sources,
+  and the writer labels them as placeholders in the prompt and in the report. In offline
+  mode `wiki_search()` returns nothing, so there are no network calls.
+- **Guardrail:** every fetched snippet goes through `screen_sources()` (prompt injection)
+  before the merge.
+- **No LLM call.** It reports 0 tokens. `throttle()` runs before each search.
 
-### 3. Writer
+### 3. Quality Gate (`src/agents/quality_gate.py`)
 
-- **Input:** `key_claims[]` from Analyst, `sources[]` from Researcher
-- **Output:** `draft` (structured report with sections: Introduction, Key Findings,
-  Analysis, Sources)
-- **Constraint:** The writer is prompted to use ONLY the provided claims and sources.
-  This prevents hallucinated citations.
-- **Budget check:** Skips execution if token budget is exhausted
+- Pure Python. Each source scores `0.6 x domain trust + 0.4 x snippet quality`; the gate
+  averages the top five and passes at `pipeline.quality_threshold` (0.4).
+- Below the threshold the run goes to `retry_researcher` once, which searches
+  `"<query> comprehensive overview analysis"` and then goes straight to the analyst.
 
-### 4. Fact-Checker
+### 4. Analyst (`src/agents/analyst.py`)
 
-- **Input:** `draft` from Writer, `sources[]` from Researcher
-- **Output:** `final_report`, `fact_check[]` (verification metadata)
-- **Process:**
-  1. Verifies each claim in the draft against source snippets
-  2. Flags unsupported claims with `[NEEDS CITATION]` markers
-  3. Scrubs PII from the final output (emails, phone numbers, SSNs)
-  4. Validates source URLs via HEAD requests
-- **Budget check:** Returns draft as-is if budget is exhausted
+- **Input:** the first 10 sources
+- **Output:** `key_claims[]` (claim, source index, confidence, evidence) and `conflicts`
+- One structured call (`AnalystOutput`).
+
+### 5. Synthesizer (`src/agents/synthesizer.py`)
+
+- **Input:** claims and conflicts
+- **Output:** `synthesis` (free text: cross-references and source reliability)
+
+### 6. Writer (`src/agents/writer.py`)
+
+- **First call:** drafts the report from the claims and the synthesis.
+- **Later call:** revises the last draft against the reviewer's issues.
+- `guardrails.pii_detection.action` is applied to every draft: `redact` replaces emails,
+  phone numbers and SSNs with `[REDACTED_TYPE]`, `warn` logs them, `block` drops the draft. Each draft is kept
+  in `drafts` with a version number; `revision_count` holds that version number.
+
+### 7. Reviewer (`src/agents/reviewer.py`)
+
+- One structured call (`ReviewOutput`): score 1 to 10, issues, suggestions, `passed`.
+- `passed` sets `final_report`. When `revision_count` reaches `pipeline.max_revisions`
+  (2), the draft is force-passed, so a run writes at most two drafts (one revision).
+- The pass is decided in code: `score >= pipeline.review_pass_score` (7). The model's own
+  `passed` flag is ignored. `max_revisions` counts drafts, not revisions: 2 means a first
+  draft and one revision, and the second draft is accepted whatever its score.
+- `final_report` is cut at `guardrails.content_filtering.max_report_chars`.
 
 ## Shared State Design
 
-All agents read from and write to a single `ResearchState` TypedDict:
+All agents read from and write to one `ResearchState` TypedDict (`src/models/state.py`,
+19 fields). The ones that matter most:
 
 ```python
 class ResearchState(TypedDict):
-    query: str              # User's research question
-    sources: list[dict]     # Retrieved sources (from Researcher)
-    key_claims: list[dict]  # Extracted claims (from Analyst)
-    draft: str              # Written report (from Writer)
-    fact_check: list[dict]  # Verification results (from Fact-Checker)
-    final_report: str       # Polished output (from Fact-Checker)
-    token_count: int        # Cumulative token tracking (all agents)
-    errors: list[str]       # Error log (all agents)
+    query: str
+    sub_topics: list[str]
+    sources: Annotated[list[dict], operator.add]          # parallel researchers append
+    search_queries_used: Annotated[list[str], operator.add]
+    quality_score: float
+    quality_passed: bool
+    key_claims: list[dict]
+    conflicts: list[dict]
+    synthesis: str
+    drafts: list[dict]
+    current_draft: str
+    review: dict
+    revision_count: int
+    token_count: Annotated[int, operator.add]             # every agent adds its real usage
+    errors: Annotated[list[str], operator.add]
+    final_report: str
+    pipeline_trace: Annotated[list[dict], operator.add]
 ```
 
 Key design decisions for shared state:
 
-- **Cumulative token tracking:** Each agent adds its token usage to `token_count`,
-  enabling global budget enforcement without per-agent limits.
-- **Append-only error log:** Agents append to `errors` rather than overwriting,
-  preserving the full error history across the pipeline.
-- **Graceful degradation:** When the budget is exceeded, agents skip their LLM call
-  and pass through existing state, producing the best report possible.
+- **Reducers for parallel writes:** fields written by the parallel researchers use
+  `operator.add`, so each branch's results are appended, not overwritten.
+- **Real token counts:** `src/token_usage.py` reads `usage_metadata` from each response.
+  A response without it counts as 0 and logs a warning; there are no per-agent constants.
+- **Append-only error log:** agents append to `errors` rather than overwriting.
+- **Graceful degradation:** when the budget is spent, an agent skips its LLM call and
+  passes the state on; the reviewer accepts the current draft as the report.
 
 ## Guardrails Layer
 
-The guardrails module (`src/guardrails.py`) provides three safety mechanisms:
+The guardrails module (`src/guardrails.py`) provides these safety mechanisms:
 
 ### PII Detection and Scrubbing
 
 - Compiled regex patterns for email, phone, and SSN
 - `detect_pii(text)` returns matched PII by type
 - `scrub_pii(text)` replaces PII with `[REDACTED_TYPE]` tokens
-- Applied by the Fact-Checker before producing the final report
+- The writer calls `apply_pii_policy()` on every draft (`pii_detection.action`: redact,
+  warn or block)
 
 ### URL Validation
 
-- HEAD request with 5-second timeout to verify source URLs are reachable
-- Returns `True` if status code < 400
-- Applied by the Fact-Checker to audit source quality
+- `validate_url()` rejects non-HTTP(S) schemes and internal, loopback and link-local
+  addresses (an SSRF guard), optionally enforces a domain allowlist, then sends a HEAD
+  request with a timeout. The scraper passes `url_validation.allowed_domains` and
+  `timeout_seconds` from the config
+- Used only by `src/tools/scraper.py`, and no agent calls the scraper, so it is not on
+  the request path
 
 ### Token Budget Enforcement
 
-- Global 50,000-token hard cap stored in `TOKEN_BUDGET`
+- Per-run hard cap from `budget.token_budget` (default 50,000), read by `get_token_budget()`
 - `check_budget(current_tokens)` returns `False` when budget is exceeded
 - Every agent checks budget before making LLM calls
-- Prevents runaway API costs in production
+- The check runs between calls, so one call can take a run past the cap
+
+### Prompt Injection Check
+
+- `screen_input(text)` applies the `guardrails.prompt_injection` policy in `configs/base.yaml`
+- The planner calls it on the user query before building any prompt
+- `action: block` ends the run with an error in `errors`; `action: warn` logs and continues
+- The researcher passes every fetched snippet through `screen_sources()`, which calls
+  `check_all_guardrails()` and applies the same policy: `block` drops the flagged source,
+  `warn` logs it
+
+### Rate Limiting
+
+- `RateLimiter` is a sliding 60-second window (`guardrails.rate_limit.max_rpm`, default 30)
+- `throttle()` waits on it before every LLM call and every search-tool call
+- Skipped in offline mode and when `guardrails.rate_limit.enabled` is false
+
+## Model and Offline Mode
+
+`get_llm()` in `src/llm.py` is the only place that creates a model client. With a real
+`GOOGLE_API_KEY` (or `GEMINI_API_KEY`) it returns `ChatGoogleGenerativeAI` for the model
+in `configs/base.yaml` (`gemini-3.6-flash`). Without one, or with `RESEARCH_OFFLINE=1`,
+it returns `OfflineLLM`, a rule engine that answers the five agents' prompts with
+schema-valid replies and raises on any prompt it does not recognise.
 
 ## Graph Construction
 
-The LangGraph `StateGraph` is built in `src/agents.py`:
-
+```python
+graph.set_entry_point("planner")
+graph.add_conditional_edges("planner", route_to_researchers, ["researcher"])   # Send() fan-out
+graph.add_edge("researcher", "quality_gate")
+graph.add_conditional_edges("quality_gate", route_after_quality,
+                            {"analyst": "analyst", "retry_researcher": "retry_researcher"})
+graph.add_edge("retry_researcher", "analyst")
+graph.add_edge("analyst", "synthesizer")
+graph.add_edge("synthesizer", "writer")
+graph.add_edge("writer", "reviewer")
+graph.add_conditional_edges("reviewer", route_after_review, {"writer": "writer", END: END})
 ```
-Entry Point --> researcher --> analyst --> writer --> fact_checker --> END
-```
 
-All edges are deterministic (no conditional branching in the current design).
-This keeps the pipeline debuggable and predictable. Conditional edges (e.g., skipping
-fact-checking for low-stakes queries) can be added as future optimizations.
+A run makes 5 LLM calls with no revision and 7 with one.
+
+## Not on the Request Path
+
+- `src/tools/scraper.py` (`scrape_url`): implemented and tested, never called by an agent.
+- `src/cache/research_cache.py`: an SQLite source and query cache; no agent reads or
+  writes it, and the Streamlit sidebar only shows its stats.
 
 ## Evaluation Architecture
 
 The evaluation framework (`evaluation/`) is kept as a separate top-level module
 because it operates independently of the main pipeline:
 
-- **`run_eval.py`:** Runs single-agent vs multi-agent comparison across a test set
-  of 10 research questions. Uses LLM-as-judge scoring on accuracy, completeness,
-  and citation quality (0-3 scale).
+- **`run_eval.py`:** Runs a single-call baseline against a 3-call prompt chain
+  (research, analyse, write) across a test set of 10 research questions (5 by default).
+  The chain is not the eight-node graph. Uses LLM-as-judge scoring on accuracy,
+  completeness, and citation quality (0-3 scale).
 - **`judge_prompt.py`:** The scoring prompts used by the LLM judge. `run_eval.py`
   imports `COMBINED_PROMPT` from here. It used to inline its own copy, so the two
   drifted and editing the rubric in this file changed nothing about the scores.

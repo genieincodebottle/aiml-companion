@@ -52,19 +52,19 @@ agents:
 # --- Pipeline Parameters ---
 pipeline:
   max_sub_topics: 3            # Planner generates at most this many sub-topics
-  max_revisions: 2             # Writer can revise at most this many times
+  max_revisions: 2             # Max DRAFTS, not revisions: 2 = first draft + one revision (the second draft is accepted whatever its score)
   quality_threshold: 0.4       # Quality Gate: sources must score above this to proceed
-  review_pass_score: 7         # Reviewer: reports scoring >= this pass without revision
+  review_pass_score: 7         # Reviewer: pass = score >= this, checked in code (not the model's own flag)
 
 # --- Model Configuration ---
 model:
   name: "gemini-3.6-flash"
   provider: "google"
-  fallback: "gemini-3.6-flash"   # Use same model as fallback for cost control
+  fallback: "gemini-3.6-flash"   # Not read by the code; the model is always `name`
 
 # --- Token Budget ---
 budget:
-  token_budget: 50000        # Hard cap across entire pipeline run
+  token_budget: 50000        # Per-run token cap, read by guardrails.get_token_budget() (default 50000)
   warn_at_percent: 80        # Log warning when 80% of budget is consumed
   graceful_degradation: true # Produce best available output when budget is hit
 
@@ -83,23 +83,27 @@ guardrails:
       - "email"
       - "phone"
       - "ssn"
-    action: "redact"         # Options: redact, warn, block
+    action: "redact"         # Read by the writer. redact: replace PII. warn: log it, keep the text. block: drop the draft
 
   url_validation:
     enabled: true
     timeout_seconds: 5
-    allowed_domains:          # Leave empty to allow all domains
+    allowed_domains:          # Read by the scraper (no agent calls it). Leave empty to allow all public hosts
       - "wikipedia.org"
       - "arxiv.org"
       - "github.com"
       - "tavily.com"
 
   prompt_injection:
-    enabled: true
-    action: "block"          # Options: block, warn
+    enabled: true            # Screens the user query in the planner, and every fetched snippet in the researcher
+    action: "block"          # block: end the run (query) or drop the source (snippet). warn: log and continue
+
+  rate_limit:
+    enabled: true            # Sliding window, applied before every LLM and search call
+    max_rpm: 30              # Gemini free tier. Skipped in offline mode (no provider calls)
 
   content_filtering:
-    max_report_chars: 10000  # Truncate final report if it exceeds this length
+    max_report_chars: 10000  # Read by the reviewer: final_report is cut at this length
 
 # --- Evaluation ---
 evaluation:

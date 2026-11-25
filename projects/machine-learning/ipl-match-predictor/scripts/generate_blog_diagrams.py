@@ -92,22 +92,25 @@ def diagram_ensemble():
 # Diagram 2 – Feature Importance (real data from evaluation_report.md)
 # ─────────────────────────────────────────────────────────────────────────────
 def diagram_feature_importance():
+    # Top 10 Random Forest importances from artifacts/results/evaluation_report.md
+    # (`python main.py --stage evaluate`; train = 2008-2023 of the shipped
+    # 2008-2025 data, 1,019 matches). Re-copy these if the pipeline changes.
     features = [
+        "Elo Rating (team 2)",
+        "Elo Rating (team 1)",
         "Elo Difference",
-        "RR Elo Rating",
-        "RCB Elo Rating",
         "Elo Win Probability",
-        "Elo × Momentum (RCB)",
-        "Elo × Momentum (RR)",
-        "Head-to-Head Record",
-        "Momentum Difference",
-        "RR Recent Form",
-        "Home Advantage",
+        "Elo × Momentum (team 2)",
+        "Elo × Momentum (team 1)",
+        "Venue Chase Bias",
+        "Head-to-Head Win Rate",
+        "Elo × Home (team 1)",
+        "Head-to-Head Matches",
     ]
-    importances = [0.1143, 0.1126, 0.1125, 0.1022, 0.1017,
-                   0.0962, 0.0808, 0.0376, 0.0335, 0.0300]
+    importances = [0.0891, 0.0869, 0.0869, 0.0840, 0.0716,
+                   0.0702, 0.0677, 0.0671, 0.0665, 0.0637]
     colors = [INDIGO, INDIGO, INDIGO, INDIGO, INDIGO_L,
-              INDIGO_L, GREEN, GREEN, GREEN, AMBER]
+              INDIGO_L, AMBER, GREEN, AMBER, GREEN]
 
     fig, ax = plt.subplots(figsize=(9, 6))
     fig.patch.set_facecolor(BG)
@@ -126,11 +129,11 @@ def diagram_feature_importance():
 
     ax.set_xlabel("Feature Importance Score", color=MUTED, fontsize=10)
     ax.set_title("What Actually Drives Predictions\n"
-                 "Feature importances from trained Random Forest (1,095 matches, 2008–2024)",
+                 "Feature importances from a Random Forest (1,019 training matches, 2008–2023)",
                  color=TEXT, fontsize=12, fontweight="bold", pad=14)
     ax.xaxis.grid(True, color=BORDER, linewidth=0.6)
     ax.set_axisbelow(True)
-    ax.set_xlim(0, 0.145)
+    ax.set_xlim(0, 0.105)
 
     legend = [
         mpatches.Patch(color=INDIGO,   label="Elo-based features"),
@@ -148,7 +151,7 @@ def diagram_feature_importance():
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Diagram 3 – Toss Hypothesis Test (real p-value = 0.61)
+# Diagram 3 – Toss Hypothesis Test (real p-value = 0.318, 2008-2025 data)
 # ─────────────────────────────────────────────────────────────────────────────
 def diagram_toss_hypothesis():
     fig, ax = plt.subplots(figsize=(9, 5))
@@ -166,8 +169,8 @@ def diagram_toss_hypothesis():
     ax2.barh(0, 0.95, left=0.05, color="#1e3a5f", height=0.5, zorder=3)
 
     # p-value marker
-    ax2.axvline(0.61, color=GREEN, linewidth=2.5, zorder=4)
-    ax2.text(0.61, 0.42, "p = 0.61  (our result)", color=GREEN,
+    ax2.axvline(0.318, color=GREEN, linewidth=2.5, zorder=4)
+    ax2.text(0.318, 0.42, "p = 0.318  (our result)", color=GREEN,
              fontsize=10, fontweight="bold", ha="center", va="bottom")
     ax2.text(0.025, -0.42, "Significant\n(p < 0.05)", color=RED,
              fontsize=8, ha="center", va="top")
@@ -185,11 +188,12 @@ def diagram_toss_hypothesis():
     ax.text(0.5, 0.97, "Does Winning the Toss Actually Help?",
             transform=ax.transAxes, ha="center", va="top",
             color=TEXT, fontsize=13, fontweight="bold")
-    ax.text(0.5, 0.88, "Binomial hypothesis test  |  H₀: toss winner wins 50% of matches  |  1,095 IPL matches (2008–2024)",
+    ax.text(0.5, 0.88, "Binomial hypothesis test  |  H₀: toss winner wins 50% of matches  |  1,161 decided IPL matches (2008–2025)",
             transform=ax.transAxes, ha="center", va="top",
             color=MUTED, fontsize=9)
-    ax.text(0.5, 0.13,
-            "Verdict: p = 0.61  >>  threshold of 0.05  →  Toss has no statistically significant effect on match outcome.",
+    ax.text(0.5, 0.0,
+            "Verdict: p = 0.318  >  threshold of 0.05  →  no statistically significant toss effect\n"
+            "(toss winner won 598 of 1,161 decided matches, 51.5%)",
             transform=ax.transAxes, ha="center", va="bottom",
             color=GREEN, fontsize=9.5,
             bbox=dict(facecolor=CARD, edgecolor=BORDER, boxstyle="round,pad=0.5"))
@@ -208,8 +212,8 @@ def diagram_accuracy_context():
     fig.patch.set_facecolor(BG)
 
     data = [
-        ("Random\nGuess",   50.0, RED,    "Coin flip baseline.\nNo features used."),
-        ("This Model\n(Ensemble)", 53.1, INDIGO, "Calibrated 4-model ensemble.\n1,095 matches training data."),
+        ("Majority\nBaseline", 47.9, RED, "Always predict team 1.\nNo features used."),
+        ("This Model\n(Ensemble)", 50.0, INDIGO, "Calibrated 4-model ensemble.\nTrained 2008-23, tested on 142\nmatches from 2024-25."),
         ("T20\nVariance",   None, AMBER,  "1 over can flip any match.\nHigh noise domain."),
     ]
 
@@ -240,8 +244,9 @@ def diagram_accuracy_context():
                 color=MUTED, fontsize=8.5, transform=ax.transAxes, linespacing=1.5)
 
     fig.suptitle(
-        "53.1% Accuracy - Why That's Honest, Not Disappointing\n"
-        "+3.1% above random across 1,095 matches = real signal in a high-variance sport",
+        "50.0% Accuracy - The Honest Result\n"
+        "+2.1 points over the majority baseline across 142 held-out matches "
+        "(one standard error = 4.2 points): no detectable signal",
         color=TEXT, fontsize=12, fontweight="bold", y=1.02
     )
 

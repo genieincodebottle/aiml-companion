@@ -18,15 +18,13 @@ from .config import (
     BUDGETS,
     CLASSIFIER_MODEL,
     ORCHESTRATOR_MODEL,
-    PRICES,
-    PRICES_LAST_CHECKED,
     PROMPT_VERSIONS,
     WORKER_MODEL,
     live_mode_available,
     mode_reason,
 )
 from .failures import CATALOG, FailureSwitches
-from .pipeline import cost_breakdown, run_request
+from .pipeline import run_request, tokens_breakdown
 from .tools import db
 
 app = FastAPI(title="Multi-Agent Anatomy", version="0.1.0")
@@ -72,8 +70,6 @@ def config() -> dict[str, Any]:
             "worker": WORKER_MODEL,
             "classifier": CLASSIFIER_MODEL,
         },
-        "prices_usd_per_1m": {k: v.__dict__ for k, v in PRICES.items()},
-        "prices_last_checked": PRICES_LAST_CHECKED,
         "budgets": BUDGETS.__dict__,
         "prompt_versions": PROMPT_VERSIONS,
         "failure_catalog": CATALOG,
@@ -91,7 +87,7 @@ async def ask(req: AskRequest) -> dict[str, Any]:
         switches=FailureSwitches.from_dict(req.failures),
         reset_cache=req.reset_cache,
     )
-    result["cost_by_model"] = cost_breakdown(result["trace"])
+    result["tokens_by_model"] = tokens_breakdown(result["trace"])
     return result
 
 

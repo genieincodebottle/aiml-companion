@@ -6,7 +6,7 @@ able to do is watch the pipeline run. `python run.py demo` needs no API key and
 no network.
 
     python run.py demo                  six agents, offline, no key needed
-    python run.py analyse --company X   the real thing, needs GOOGLE_API_KEY
+    python run.py analyse --company X   the real thing, needs GOOGLE_API_KEY (shell or .env)
     python run.py ui                    the Streamlit app
     python run.py test                  the test suite
 """
@@ -21,6 +21,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
+
+# Load .env before any command checks the environment. `analyse` used to read
+# only the shell variables, so a key that lived in .env was reported missing.
+try:
+    from dotenv import load_dotenv
+    load_dotenv(ROOT / ".env")
+except ImportError:
+    pass  # python-dotenv not installed: rely on shell environment variables
 
 
 def _main_py(argv):
@@ -40,8 +48,11 @@ def cmd_demo(rest):
 
 
 def cmd_analyse(rest):
-    if not (os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")):
-        print("No GOOGLE_API_KEY found. Get a free one at "
+    from main import _has_real_key  # same placeholder-aware test main.py uses
+
+    offline = os.getenv("LLM_PROVIDER", "").strip().lower() == "offline"
+    if not offline and not (_has_real_key("GOOGLE_API_KEY") or _has_real_key("GEMINI_API_KEY")):
+        print("No usable GOOGLE_API_KEY found (shell or .env). Get a free one at "
               "https://aistudio.google.com/apikey, or run `python run.py demo` "
               "which needs no key at all.", file=sys.stderr)
         raise SystemExit(2)

@@ -1,113 +1,237 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="980" height="720" viewBox="0 0 980 720" font-family="'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="880" viewBox="0 0 1200 880" font-family="Segoe UI, Helvetica, Arial, sans-serif">
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L8,3 L0,6 Z" fill="#64748b"/>
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6b7280"/>
     </marker>
-    <style>
-      .band{fill:#f8fafc;stroke:#e2e8f0;stroke-width:1;rx:12}
-      .lbl{fill:#64748b;font-size:12px;font-weight:600;letter-spacing:.5px}
-      .box{stroke-width:1.5;rx:10}
-      .t{font-size:13px;fill:#0f172a}
-      .tb{font-size:13px;fill:#0f172a;font-weight:700}
-      .ts{font-size:11px;fill:#475569}
-      .edge{stroke:#64748b;stroke-width:1.6;fill:none}
-      .tw{fill:#ffffff;font-size:13px;font-weight:700}
-    </style>
   </defs>
 
-  <rect x="0" y="0" width="980" height="720" fill="#ffffff"/>
-  <text x="28" y="34" font-size="20" font-weight="700" fill="#0f172a">Autonomous Migration Engineer - High-Level Architecture</text>
-  <text x="28" y="54" font-size="13" fill="#64748b">Digital employee that migrates a fleet of repositories on the Claude Agent SDK harness, supervised by a human.</text>
+  <rect x="0" y="0" width="1200" height="880" fill="#ffffff"/>
+  <text x="600" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#111827">Autonomous Migration Engineer - High-Level Architecture</text>
+  <text x="600" y="56" text-anchor="middle" font-size="13" fill="#6b7280">One migration rule, many repositories. A worker edits each repo, three checks catch a cheat, and a person approves each pull request.</text>
 
-  <!-- Clients -->
-  <rect class="band" x="28" y="74" width="924" height="66" rx="12"/>
-  <text class="lbl" x="40" y="94">CLIENTS</text>
-  <rect class="box" x="360" y="100" width="120" height="30" fill="#e0edff" stroke="#4f9eff"/>
-  <text class="tb" x="420" y="120" text-anchor="middle">React Console</text>
-  <rect class="box" x="500" y="100" width="120" height="30" fill="#e0edff" stroke="#4f9eff"/>
-  <text class="tb" x="560" y="120" text-anchor="middle">CLI</text>
-  <text class="ts" x="636" y="120">REST + SSE (live events)</text>
+  <!-- Engineer (human) -->
+  <rect x="30" y="74" width="250" height="44" rx="8" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+  <text x="155" y="101" text-anchor="middle" font-size="15" font-weight="600" fill="#9a3412">Engineer (human)</text>
 
-  <line class="edge" x1="490" y1="140" x2="490" y2="166" marker-end="url(#arrow)"/>
+  <!-- Model providers -->
+  <rect x="700" y="68" width="470" height="76" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="716" y="87" font-size="12.5" font-weight="700" fill="#15803d">Model providers (live modes only)</text>
+  <rect x="716" y="96" width="142" height="40" rx="6" fill="#ffffff" stroke="#86efac"/>
+  <text x="787" y="112" text-anchor="middle" font-size="11.5" font-weight="600" fill="#166534">Anthropic Claude</text>
+  <text x="787" y="128" text-anchor="middle" font-size="10" fill="#166534">ME_MODEL, via the SDK</text>
+  <rect x="868" y="96" width="142" height="40" rx="6" fill="#ffffff" stroke="#86efac"/>
+  <text x="939" y="112" text-anchor="middle" font-size="11.5" font-weight="600" fill="#166534">Google Gemini</text>
+  <text x="939" y="128" text-anchor="middle" font-size="10" fill="#166534">ME_GEMINI_MODEL</text>
+  <rect x="1020" y="96" width="142" height="40" rx="6" fill="#ffffff" stroke="#86efac" stroke-dasharray="4 3"/>
+  <text x="1091" y="112" text-anchor="middle" font-size="11.5" font-weight="600" fill="#166534">No model (stub)</text>
+  <text x="1091" y="128" text-anchor="middle" font-size="10" fill="#166534">scripted edit steps</text>
 
-  <!-- API -->
-  <rect class="box" x="330" y="166" width="320" height="40" fill="#ede9fe" stroke="#8b5cf6"/>
-  <text class="tb" x="490" y="191" text-anchor="middle">FastAPI  (main.py)  -  /api/runs + SSE stream</text>
+  <!-- Entry points -->
+  <rect x="30" y="164" width="250" height="476" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="155" y="186" text-anchor="middle" font-size="15" font-weight="700" fill="#1d4ed8">Entry points</text>
 
-  <!-- Orchestration band -->
-  <rect class="band" x="28" y="224" width="924" height="150" rx="12"/>
-  <text class="lbl" x="40" y="244">ORCHESTRATION  -  control plane</text>
+  <rect x="46" y="200" width="218" height="156" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="155" y="222" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1e3a8a">React console (Vite + MUI)</text>
+  <text x="58" y="246" font-size="10.5" fill="#1e3a8a">JobLauncher: pick a job, run it</text>
+  <text x="58" y="264" font-size="10.5" fill="#1e3a8a">FleetBoard: one card per repo</text>
+  <text x="58" y="282" font-size="10.5" fill="#1e3a8a">RepoActivity: live event log</text>
+  <text x="58" y="300" font-size="10.5" fill="#1e3a8a">ApprovalGate + DiffView:</text>
+  <text x="58" y="318" font-size="10.5" fill="#1e3a8a">approve or reject each PR</text>
+  <text x="58" y="336" font-size="10.5" fill="#1e3a8a">MigrationHistory: past runs</text>
 
-  <rect class="box" x="70" y="256" width="360" height="52" fill="#dcfce7" stroke="#22c55e"/>
-  <text class="tb" x="250" y="278" text-anchor="middle">MigrationManager  (live, streaming)</text>
-  <text class="ts" x="250" y="296" text-anchor="middle">fan-out - SSE - human PR gate - budget roll-up</text>
+  <rect x="46" y="374" width="218" height="104" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="155" y="396" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1e3a8a">CLI (cli.py)</text>
+  <text x="58" y="418" font-size="10.5" fill="#1e3a8a">list: jobs and execution mode</text>
+  <text x="58" y="436" font-size="10.5" fill="#1e3a8a">run: LangGraph batch</text>
+  <text x="58" y="454" font-size="10.5" fill="#1e3a8a">stream: live engine, auto-approve</text>
 
-  <rect class="box" x="550" y="256" width="360" height="52" fill="#fef9c3" stroke="#eab308"/>
-  <text class="tb" x="730" y="278" text-anchor="middle">LangGraph StateGraph  (batch / eval)</text>
-  <text class="ts" x="730" y="296" text-anchor="middle">plan -&gt; migrate -&gt; review -&gt; gate -&gt; aggregate</text>
+  <rect x="46" y="496" width="218" height="126" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="155" y="518" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1e3a8a">Evaluation</text>
+  <text x="58" y="540" font-size="10.5" fill="#1e3a8a">evaluation/run_eval.py</text>
+  <text x="58" y="558" font-size="10.5" fill="#1e3a8a">golden expectations + scorers</text>
+  <text x="58" y="576" font-size="10.5" fill="#1e3a8a">runs the datetime-fleet job</text>
+  <text x="58" y="594" font-size="10.5" fill="#1e3a8a">exit 1 on any regression (CI)</text>
 
-  <rect class="box" x="330" y="326" width="320" height="34" fill="#f1f5f9" stroke="#94a3b8"/>
-  <text class="tb" x="490" y="348" text-anchor="middle">migrate_repo_core()  -  shared per-repo pipeline</text>
-  <line class="edge" x1="250" y1="308" x2="440" y2="326" marker-end="url(#arrow)"/>
-  <line class="edge" x1="730" y1="308" x2="540" y2="326" marker-end="url(#arrow)"/>
+  <!-- FastAPI backend -->
+  <rect x="350" y="164" width="280" height="176" rx="10" fill="#ecfeff" stroke="#0891b2" stroke-width="2"/>
+  <text x="490" y="186" text-anchor="middle" font-size="15" font-weight="700" fill="#0e7490">FastAPI backend (main.py)</text>
+  <rect x="366" y="198" width="248" height="128" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="378" y="220" font-size="11" fill="#164e63">GET /api/health (execution mode)</text>
+  <text x="378" y="241" font-size="11" fill="#164e63">GET /api/jobs</text>
+  <text x="378" y="262" font-size="11" fill="#164e63">POST /api/runs (start a job)</text>
+  <text x="378" y="283" font-size="11" fill="#164e63">POST /api/runs/{id}/approve</text>
+  <text x="378" y="304" font-size="11" fill="#164e63">GET /api/runs/{id}/stream (SSE)</text>
 
-  <!-- Fan-out to repos -->
-  <line class="edge" x1="490" y1="360" x2="490" y2="392" marker-end="url(#arrow)"/>
-  <text class="ts" x="500" y="382">bounded-concurrency fan-out across the fleet</text>
+  <!-- Orchestration -->
+  <rect x="350" y="364" width="280" height="276" rx="10" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="366" y="386" font-size="15" font-weight="700" fill="#4338ca">Orchestration</text>
+  <rect x="366" y="400" width="248" height="100" rx="6" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="490" y="422" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3730a3">MigrationManager (engine.py)</text>
+  <text x="378" y="444" font-size="10.5" fill="#3730a3">live runs, up to ME_FAN_OUT=3 repos</text>
+  <text x="378" y="462" font-size="10.5" fill="#3730a3">at once; holds the human PR gate</text>
+  <text x="378" y="480" font-size="10.5" fill="#3730a3">and streams every event</text>
+  <rect x="366" y="520" width="248" height="100" rx="6" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="490" y="542" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3730a3">LangGraph StateGraph (graph.py)</text>
+  <text x="378" y="564" font-size="10.5" fill="#3730a3">plan -&gt; migrate -&gt; review -&gt;</text>
+  <text x="378" y="582" font-size="10.5" fill="#3730a3">gate -&gt; aggregate</text>
+  <text x="378" y="600" font-size="10.5" fill="#3730a3">batch and eval runs; opens no PR</text>
 
-  <rect class="band" x="28" y="400" width="924" height="300" rx="12"/>
-  <text class="lbl" x="40" y="420">DIGITAL EMPLOYEES  -  one Claude Agent SDK worker per repo (isolated worktree)</text>
+  <!-- Per repository -->
+  <rect x="700" y="164" width="470" height="476" rx="10" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+  <text x="716" y="186" font-size="15" font-weight="700" fill="#334155">Per repository</text>
+  <text x="1154" y="186" text-anchor="end" font-size="10.5" fill="#475569">steps 1-2: migrate_repo_core() in pipeline.py</text>
+  <rect x="708" y="194" width="454" height="342" rx="8" fill="none" stroke="#94a3b8" stroke-dasharray="5 4"/>
 
-  <!-- worker cards -->
-  <g>
-    <rect class="box" x="48" y="432" width="210" height="80" fill="#eff6ff" stroke="#4f9eff"/>
-    <text class="tb" x="153" y="454" text-anchor="middle">billing-service</text>
-    <text class="ts" x="153" y="472" text-anchor="middle">Claude Agent SDK worker</text>
-    <text class="ts" x="153" y="490" text-anchor="middle">observe -&gt; act -&gt; verify loop</text>
-    <text class="ts" x="153" y="504" text-anchor="middle">(SDK owns the loop)</text>
-  </g>
-  <g>
-    <rect class="box" x="272" y="432" width="210" height="80" fill="#eff6ff" stroke="#4f9eff"/>
-    <text class="tb" x="377" y="454" text-anchor="middle">auth-service</text>
-    <text class="ts" x="377" y="472" text-anchor="middle">Claude Agent SDK worker</text>
-    <text class="ts" x="377" y="490" text-anchor="middle">edit -&gt; run tests -&gt; iterate</text>
-  </g>
-  <g>
-    <rect class="box" x="496" y="432" width="210" height="80" fill="#eff6ff" stroke="#4f9eff"/>
-    <text class="tb" x="601" y="454" text-anchor="middle">analytics-service</text>
-    <text class="ts" x="601" y="472" text-anchor="middle">Claude Agent SDK worker</text>
-    <text class="ts" x="601" y="490" text-anchor="middle">multi-file migration</text>
-  </g>
-  <g>
-    <rect class="box" x="720" y="432" width="210" height="80" fill="#eff6ff" stroke="#4f9eff"/>
-    <text class="tb" x="825" y="454" text-anchor="middle">notifications-service</text>
-    <text class="ts" x="825" y="472" text-anchor="middle">Claude Agent SDK worker</text>
-    <text class="ts" x="825" y="490" text-anchor="middle">stub stand-in when no key</text>
-  </g>
+  <rect x="716" y="202" width="438" height="48" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="728" y="222" font-size="12" font-weight="600" fill="#1f2937">1. Check out a real git worktree (vcs/)</text>
+  <text x="728" y="240" font-size="10.5" fill="#374151">Local or GitHub provider clones the repo onto branch migration/&lt;rule&gt;/&lt;id&gt;</text>
 
-  <!-- shared services -->
-  <text class="lbl" x="40" y="540">every tool call routes through one choke point (ToolInvoker): hooks + budget + trace + events</text>
-  <rect class="box" x="48" y="552" width="200" height="44" fill="#f0fdfa" stroke="#14b8a6"/>
-  <text class="tb" x="148" y="572" text-anchor="middle">In-process MCP tools</text>
-  <text class="ts" x="148" y="588" text-anchor="middle">repo - tests - rules(RAG) - memory</text>
+  <text x="716" y="268" font-size="12" font-weight="600" fill="#1f2937">2. Worker loop (harness/worker.py picks the first available)</text>
+  <rect x="716" y="276" width="142" height="56" rx="6" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="787" y="294" text-anchor="middle" font-size="11.5" font-weight="600" fill="#3730a3">SdkMigrator</text>
+  <text x="787" y="310" text-anchor="middle" font-size="10" fill="#3730a3">Claude Agent SDK loop</text>
+  <text x="787" y="324" text-anchor="middle" font-size="10" fill="#3730a3">if ANTHROPIC_API_KEY</text>
+  <rect x="864" y="276" width="142" height="56" rx="6" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="935" y="294" text-anchor="middle" font-size="11.5" font-weight="600" fill="#3730a3">GeminiMigrator</text>
+  <text x="935" y="310" text-anchor="middle" font-size="10" fill="#3730a3">function-calling loop</text>
+  <text x="935" y="324" text-anchor="middle" font-size="10" fill="#3730a3">if GEMINI_API_KEY</text>
+  <rect x="1012" y="276" width="142" height="56" rx="6" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="1083" y="294" text-anchor="middle" font-size="11.5" font-weight="600" fill="#3730a3">StubMigrator</text>
+  <text x="1083" y="310" text-anchor="middle" font-size="10" fill="#3730a3">scripted, same tools</text>
+  <text x="1083" y="324" text-anchor="middle" font-size="10" fill="#3730a3">otherwise (CI, tests)</text>
 
-  <rect class="box" x="262" y="552" width="200" height="44" fill="#fef2f2" stroke="#ef4444"/>
-  <text class="tb" x="362" y="572" text-anchor="middle">Guardrail hooks</text>
-  <text class="ts" x="362" y="588" text-anchor="middle">PreToolUse: no tests, no traversal</text>
+  <rect x="716" y="348" width="438" height="78" rx="6" fill="#fef2f2" stroke="#dc2626"/>
+  <text x="728" y="366" font-size="12" font-weight="600" fill="#991b1b">ToolInvoker (tools/registry.py): one choke point</text>
+  <rect x="724" y="374" width="101" height="44" rx="5" fill="#ffffff" stroke="#fca5a5"/>
+  <text x="774.5" y="391" text-anchor="middle" font-size="10.5" font-weight="600" fill="#991b1b">Hook (hooks.py)</text>
+  <text x="774.5" y="407" text-anchor="middle" font-size="10" fill="#991b1b">blocks, redacts</text>
+  <rect x="833" y="374" width="101" height="44" rx="5" fill="#ffffff" stroke="#fca5a5"/>
+  <text x="883.5" y="391" text-anchor="middle" font-size="10.5" font-weight="600" fill="#991b1b">Budget</text>
+  <text x="883.5" y="407" text-anchor="middle" font-size="10" fill="#991b1b">steps, calls, cost</text>
+  <rect x="942" y="374" width="101" height="44" rx="5" fill="#ffffff" stroke="#fca5a5"/>
+  <text x="992.5" y="391" text-anchor="middle" font-size="10.5" font-weight="600" fill="#991b1b">Trace span</text>
+  <text x="992.5" y="407" text-anchor="middle" font-size="10" fill="#991b1b">observability.py</text>
+  <rect x="1051" y="374" width="101" height="44" rx="5" fill="#ffffff" stroke="#fca5a5"/>
+  <text x="1101.5" y="391" text-anchor="middle" font-size="10.5" font-weight="600" fill="#991b1b">Event</text>
+  <text x="1101.5" y="407" text-anchor="middle" font-size="10" fill="#991b1b">to SSE + history</text>
 
-  <rect class="box" x="476" y="552" width="200" height="44" fill="#fdf4ff" stroke="#d946ef"/>
-  <text class="tb" x="576" y="572" text-anchor="middle">Reviewer agent</text>
-  <text class="ts" x="576" y="588" text-anchor="middle">tamper gate + second opinion</text>
+  <rect x="716" y="436" width="438" height="92" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="728" y="453" font-size="12" font-weight="600" fill="#1f2937">Tools (tools/): the only way the worker touches the repo</text>
+  <text x="728" y="470" font-size="10.5" fill="#374151">search_migration_rules: rulebook guidance, keyword match</text>
+  <text x="728" y="486" font-size="10.5" fill="#374151">list_files, read_file, grep, write_file: inside the worktree</text>
+  <text x="728" y="502" font-size="10.5" fill="#374151">run_tests: the repo's own tests, in a subprocess</text>
+  <text x="728" y="518" font-size="10.5" fill="#374151">record_memory, recall_memory: notes shared across the job</text>
 
-  <rect class="box" x="690" y="552" width="240" height="44" fill="#fff7ed" stroke="#f97316"/>
-  <text class="tb" x="810" y="572" text-anchor="middle">Human PR gate  -&gt;  Open PR</text>
-  <text class="ts" x="810" y="588" text-anchor="middle">approve / reject per repo</text>
+  <rect x="716" y="556" width="130" height="66" rx="6" fill="#fef2f2" stroke="#dc2626"/>
+  <text x="781" y="576" text-anchor="middle" font-size="11.5" font-weight="600" fill="#991b1b">3. Reviewer</text>
+  <text x="781" y="593" text-anchor="middle" font-size="10" fill="#991b1b">asks git what changed</text>
+  <text x="781" y="608" text-anchor="middle" font-size="10" fill="#991b1b">reject = escalated</text>
+  <rect x="870" y="556" width="130" height="66" rx="6" fill="#fff7ed" stroke="#ea580c"/>
+  <text x="935" y="576" text-anchor="middle" font-size="11.5" font-weight="600" fill="#9a3412">4. Human PR gate</text>
+  <text x="935" y="593" text-anchor="middle" font-size="10" fill="#9a3412">approve or reject</text>
+  <text x="935" y="608" text-anchor="middle" font-size="10" fill="#9a3412">(live engine only)</text>
+  <rect x="1024" y="556" width="130" height="66" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="1089" y="576" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1f2937">5. Publish</text>
+  <text x="1089" y="593" text-anchor="middle" font-size="10" fill="#374151">commit, push branch,</text>
+  <text x="1089" y="608" text-anchor="middle" font-size="10" fill="#374151">open the PR</text>
 
-  <!-- cross-cutting -->
-  <rect class="box" x="48" y="620" width="430" height="40" fill="#f8fafc" stroke="#94a3b8"/>
-  <text class="tb" x="263" y="644" text-anchor="middle">Observability  -  OTel-shaped trace span per tool call</text>
-  <rect class="box" x="500" y="620" width="430" height="40" fill="#f8fafc" stroke="#94a3b8"/>
-  <text class="tb" x="715" y="644" text-anchor="middle">Evaluation  -  golden tasks + scorers = CI promotion gate</text>
+  <!-- Scorecard -->
+  <rect x="30" y="664" width="250" height="162" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="155" y="686" text-anchor="middle" font-size="14" font-weight="700" fill="#1d4ed8">Scorecard (stdout)</text>
+  <rect x="46" y="698" width="218" height="112" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="58" y="720" font-size="10.5" font-weight="600" fill="#1e3a8a">clean_migration_rate (headline):</text>
+  <text x="58" y="738" font-size="10.5" fill="#1e3a8a">tests pass AND tests untouched</text>
+  <text x="58" y="756" font-size="10.5" fill="#1e3a8a">no_tamper_rate, pr_open_rate</text>
+  <text x="58" y="774" font-size="10.5" fill="#1e3a8a">hacked_pass_rate above 0 fails</text>
+  <text x="58" y="792" font-size="10.5" fill="#1e3a8a">the gate</text>
 
-  <text x="28" y="694" font-size="12" fill="#94a3b8">The SDK owns the per-repo loop; everything else - tools, guardrails, review, fan-out, evals - is the production engineering around it.</text>
+  <!-- Where pull requests go -->
+  <rect x="350" y="664" width="330" height="162" rx="10" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+  <text x="515" y="686" text-anchor="middle" font-size="14" font-weight="700" fill="#334155">Where the repos live</text>
+  <rect x="366" y="698" width="298" height="56" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="378" y="716" font-size="11.5" font-weight="600" fill="#1f2937">Local bare remote (default, no network)</text>
+  <text x="378" y="732" font-size="10.5" fill="#374151">seeded from fixtures/repos; the "PR" is the</text>
+  <text x="378" y="746" font-size="10.5" fill="#374151">pushed branch plus a local:// link</text>
+  <rect x="366" y="762" width="298" height="56" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="378" y="780" font-size="11.5" font-weight="600" fill="#1f2937">GitHub (your repos)</text>
+  <text x="378" y="796" font-size="10.5" fill="#374151">GITHUB_TOKEN + ME_TARGET_REPOS: real clone,</text>
+  <text x="378" y="810" font-size="10.5" fill="#374151">push and pull request; nothing is merged</text>
+
+  <!-- Data dir -->
+  <rect x="700" y="664" width="470" height="162" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="2"/>
+  <text x="716" y="686" font-size="14" font-weight="700" fill="#b45309">Data dir (backend/.work or ME_DATA_DIR)</text>
+  <rect x="716" y="698" width="215" height="44" rx="6" fill="#ffffff" stroke="#fcd34d"/>
+  <text x="823.5" y="716" text-anchor="middle" font-size="11" font-weight="600" fill="#92400e">remotes/</text>
+  <text x="823.5" y="732" text-anchor="middle" font-size="10" fill="#92400e">bare git remotes for the demo</text>
+  <rect x="939" y="698" width="215" height="44" rx="6" fill="#ffffff" stroke="#fcd34d"/>
+  <text x="1046.5" y="716" text-anchor="middle" font-size="11" font-weight="600" fill="#92400e">worktrees/&lt;job&gt;/&lt;repo&gt;</text>
+  <text x="1046.5" y="732" text-anchor="middle" font-size="10" fill="#92400e">one clone per repo per job</text>
+  <rect x="716" y="750" width="215" height="44" rx="6" fill="#ffffff" stroke="#fcd34d"/>
+  <text x="823.5" y="768" text-anchor="middle" font-size="11" font-weight="600" fill="#92400e">memory/&lt;job&gt;.json</text>
+  <text x="823.5" y="784" text-anchor="middle" font-size="10" fill="#92400e">notes from record_memory</text>
+  <rect x="939" y="750" width="215" height="44" rx="6" fill="#ffffff" stroke="#fcd34d"/>
+  <text x="1046.5" y="768" text-anchor="middle" font-size="11" font-weight="600" fill="#92400e">traces/&lt;job&gt;.jsonl</text>
+  <text x="1046.5" y="784" text-anchor="middle" font-size="10" fill="#92400e">one span per tool call</text>
+  <text x="716" y="814" font-size="10.5" fill="#92400e">Runs and their events are kept in memory only: a restart loses them.</text>
+
+  <!-- Arrows: human -> entry points -->
+  <line x1="155" y1="118" x2="155" y2="162" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Console <-> FastAPI -->
+  <line x1="266" y1="240" x2="362" y2="240" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="315" y="232" text-anchor="middle" font-size="11" fill="#374151">REST</text>
+  <line x1="364" y1="300" x2="268" y2="300" stroke="#6b7280" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="315" y="318" text-anchor="middle" font-size="11" fill="#374151">SSE</text>
+
+  <!-- FastAPI <-> MigrationManager -->
+  <line x1="580" y1="328" x2="580" y2="396" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="586" y="356" font-size="10.5" fill="#374151">start, approve</text>
+  <line x1="520" y1="398" x2="520" y2="330" stroke="#6b7280" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="514" y="356" text-anchor="end" font-size="10.5" fill="#374151">events</text>
+
+  <!-- CLI and Evaluation -> orchestration -->
+  <line x1="266" y1="430" x2="362" y2="430" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="315" y="422" text-anchor="middle" font-size="11" fill="#374151">stream</text>
+  <line x1="266" y1="462" x2="362" y2="546" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="322" y="494" text-anchor="middle" font-size="11" fill="#374151">run</text>
+  <line x1="266" y1="590" x2="362" y2="590" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="315" y="582" text-anchor="middle" font-size="11" fill="#374151">run_batch</text>
+
+  <!-- Orchestration -> per-repo core -->
+  <line x1="616" y1="450" x2="706" y2="450" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="661" y="430" text-anchor="middle" font-size="10.5" fill="#374151">each repo,</text>
+  <text x="661" y="443" text-anchor="middle" font-size="10.5" fill="#374151">3 at once</text>
+  <line x1="616" y1="530" x2="706" y2="530" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="661" y="510" text-anchor="middle" font-size="10.5" fill="#374151">each repo,</text>
+  <text x="661" y="523" text-anchor="middle" font-size="10.5" fill="#374151">in order</text>
+
+  <!-- Inside the per-repo column -->
+  <line x1="935" y1="332" x2="935" y2="346" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="941" y="343" font-size="10" fill="#374151">every tool call</text>
+  <line x1="935" y1="426" x2="935" y2="434" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="781" y1="536" x2="781" y2="554" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="846" y1="589" x2="868" y2="589" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="1000" y1="589" x2="1022" y2="589" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Workers -> model providers (right margin) -->
+  <path d="M1154,304 L1186,304 L1186,116 L1172,116" fill="none" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="1194" y="210" text-anchor="middle" font-size="10.5" fill="#374151" transform="rotate(-90 1194 210)">model calls</text>
+
+  <!-- Tools -> data dir (right margin) -->
+  <path d="M1154,482 L1186,482 L1186,700 L1172,700" fill="none" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="1194" y="592" text-anchor="middle" font-size="10.5" fill="#374151" transform="rotate(-90 1194 592)">files</text>
+
+  <!-- Publish -> where the repos live -->
+  <path d="M1089,622 L1089,650 L515,650 L515,662" fill="none" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="509" y="660" text-anchor="end" font-size="10.5" fill="#374151">clone (1), push (5)</text>
+
+  <!-- Evaluation -> scorecard -->
+  <line x1="155" y1="622" x2="155" y2="662" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Legend -->
+  <line x1="30" y1="856" x2="60" y2="856" stroke="#6b7280" stroke-width="2"/>
+  <text x="66" y="860" font-size="11" fill="#374151">request / control flow</text>
+  <line x1="220" y1="856" x2="250" y2="856" stroke="#6b7280" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="256" y="860" font-size="11" fill="#374151">live event stream (SSE)</text>
+  <text x="1170" y="860" text-anchor="end" font-size="11" fill="#6b7280">With no key the stub runs every box except the model call. ME_FORCE_STUB=1 forces it.</text>
 </svg>

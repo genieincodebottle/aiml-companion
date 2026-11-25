@@ -9,7 +9,7 @@ you one command that runs the whole moderation graph in about a second:
 
 Commands
 --------
-    demo        Moderate five posts through the full six-agent pipeline.
+    demo        Moderate six posts through the full six-agent pipeline.
     fast        The same posts through the single-pass fast path, for contrast.
     keywords    Show what the keyword layer alone thinks, and where it is wrong.
     test        Run the test suite.
@@ -38,7 +38,7 @@ os.chdir(BACKEND)
 
 
 # --------------------------------------------------------------------------
-# The five posts. These are chosen to take DIFFERENT routes through the graph.
+# The six posts. These are chosen to take DIFFERENT routes through the graph.
 # A demo where every input ends the same way teaches nothing about routing.
 # --------------------------------------------------------------------------
 SAMPLES = [
@@ -278,7 +278,7 @@ def main() -> int:
     parser.add_argument("-v", "--verbose", action="store_true", help="show agent logs")
     subs = parser.add_subparsers(dest="command")
     for name, fn, help_text in (
-        ("demo", cmd_demo, "moderate five posts through the six-agent pipeline"),
+        ("demo", cmd_demo, "moderate six posts through the six-agent pipeline"),
         ("fast", cmd_fast, "the same posts through the single-pass fast path"),
         ("keywords", cmd_keywords, "what the keyword layer alone sees"),
         ("test", cmd_test, "run the test suite"),

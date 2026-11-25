@@ -33,6 +33,8 @@ from src.database.moderation_db import ModerationDatabase
 from src.database.auth_db import AuthDatabase
 from src.memory.memory import ModerationMemoryManager
 from src.agents.workflow import create_moderation_workflow, process_content, resume_from_hitl
+from src.agents.agents import ContentModerationAgents
+from src.memory.learning_tracker import LearningTracker
 from src.core.models import (
     ContentState,
     ContentStatus,
@@ -56,6 +58,8 @@ logger = logging.getLogger(__name__)
 db: ModerationDatabase = None
 auth_db: AuthDatabase = None
 workflow = None
+learning_tracker: LearningTracker = None
+_appeal_agents: ContentModerationAgents = None
 ml_status: Dict[str, Any] = {}
 obs_manager: ObservabilityManager = None
 
@@ -69,7 +73,7 @@ hitl_pending_reviews: Dict[str, ContentState] = {}
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Lifespan context manager for startup and shutdown."""
-    global db, auth_db, workflow, ml_status, obs_manager
+    global db, auth_db, workflow, learning_tracker, ml_status, obs_manager
 
     # Startup
     logger.info("\n" + "=" * 40)
@@ -98,7 +102,10 @@ async def lifespan(app: FastAPI):
         content_types = os.getenv("FAST_MODE_CONTENT_TYPES", "story_comment")
         logger.info(f"   Fast Mode Max Length: {max_length} chars")
         logger.info(f"   Fast Mode Content Types: {content_types}")
-    workflow = create_moderation_workflow(db, enable_fast_mode=fast_mode_enabled)
+    # One tracker shared by the graph (which records decisions) and the appeal
+    # endpoints (which record outcomes), so an overturn reaches the same memory.
+    learning_tracker = LearningTracker()
+    workflow = create_moderation_workflow(db, enable_fast_mode=fast_mode_enabled, learning_tracker=learning_tracker)
 
     # Preload ML models if enabled
     logger.info("\n" + "=" * 40)
@@ -647,6 +654,76 @@ async def ml_reload_endpoint():
     return result
 
 
+def _persist_workflow_result(content_id: str, user_id: str, final_state: ContentState) -> bool:
+    """Write a finished (or paused) workflow run to the database.
+
+    Shared by /api/content/submit and /api/content/{id}/moderate so both store
+    the same things: status, agent decisions, violations, reputation, user
+    actions, and the paused state when a human has to decide.
+    Returns True when the run stopped for a human (HITL).
+    """
+    # Update database with results
+    db.update_content_status(
+        content_id=content_id,
+        status=final_state.get("status"),
+        moderation_action=final_state.get("moderation_action"),
+        action_reason=final_state.get("action_reason"),
+        toxicity_score=final_state.get("toxicity_score")
+    )
+
+    # Save agent decisions
+    for decision in final_state.get("agent_decisions", []):
+        db.save_agent_decision(content_id, decision)
+
+    # Save policy violations
+    if final_state.get("policy_violations"):
+        db.save_policy_violations(
+            content_id=content_id,
+            violations=final_state.get("policy_violations", []),
+            severity=final_state.get("violation_severity") or "none",
+            agent_name="Policy Violation Agent"
+        )
+
+    # Update user reputation
+    if final_state.get("user_reputation_score"):
+        db.update_user_reputation(
+            user_id=user_id,
+            new_score=final_state.get("user_reputation_score"),
+            new_tier=final_state.get("user_reputation_tier", "new_user")
+        )
+
+    # Record user actions if needed
+    if final_state.get("user_suspended"):
+        action_type = "ban" if final_state.get("moderation_action") == "user_banned" else "suspension"
+        db.record_user_action(
+            user_id=user_id,
+            action_type=action_type,
+            reason=final_state.get("action_reason", "Policy violation"),
+            content_id=content_id,
+            duration_days=final_state.get("suspension_duration_days")
+        )
+    elif final_state.get("moderation_action") == "warned":
+        db.record_user_action(
+            user_id=user_id,
+            action_type="warning",
+            reason=final_state.get("action_reason", "Policy violation"),
+            content_id=content_id
+        )
+
+    # Increment violations if content was removed
+    if final_state.get("content_removed"):
+        db.increment_user_violations(user_id)
+
+    # Check if HITL was triggered - store state for later resume
+    hitl_required = final_state.get("hitl_required", False)
+    if hitl_required and final_state.get("status") == ContentStatus.PENDING_HUMAN_REVIEW.value:
+        # Store in pending reviews for later resume
+        hitl_pending_reviews[content_id] = final_state
+    return hitl_required
+
+
+
+
 @app.post("/api/content/submit", response_model=ContentResponse)
 async def submit_content(submission: ContentSubmission, background_tasks: BackgroundTasks):
     """
@@ -755,63 +832,7 @@ async def submit_content(submission: ContentSubmission, background_tasks: Backgr
             traceback.print_exc()
             raise workflow_error
 
-        # Update database with results
-        db.update_content_status(
-            content_id=content_id,
-            status=final_state.get("status"),
-            moderation_action=final_state.get("moderation_action"),
-            action_reason=final_state.get("action_reason"),
-            toxicity_score=final_state.get("toxicity_score")
-        )
-
-        # Save agent decisions
-        for decision in final_state.get("agent_decisions", []):
-            db.save_agent_decision(content_id, decision)
-
-        # Save policy violations
-        if final_state.get("policy_violations"):
-            db.save_policy_violations(
-                content_id=content_id,
-                violations=final_state.get("policy_violations", []),
-                severity=final_state.get("violation_severity") or "none",
-                agent_name="Policy Violation Agent"
-            )
-
-        # Update user reputation
-        if final_state.get("user_reputation_score"):
-            db.update_user_reputation(
-                user_id=user_id,
-                new_score=final_state.get("user_reputation_score"),
-                new_tier=final_state.get("user_reputation_tier", "new_user")
-            )
-
-        # Record user actions if needed
-        if final_state.get("user_suspended"):
-            action_type = "ban" if final_state.get("moderation_action") == "user_banned" else "suspension"
-            db.record_user_action(
-                user_id=user_id,
-                action_type=action_type,
-                reason=final_state.get("action_reason", "Policy violation"),
-                content_id=content_id,
-                duration_days=final_state.get("suspension_duration_days")
-            )
-        elif final_state.get("moderation_action") == "warned":
-            db.record_user_action(
-                user_id=user_id,
-                action_type="warning",
-                reason=final_state.get("action_reason", "Policy violation"),
-                content_id=content_id
-            )
-
-        # Increment violations if content was removed
-        if final_state.get("content_removed"):
-            db.increment_user_violations(user_id)
-
-        # Check if HITL was triggered - store state for later resume
-        hitl_required = final_state.get("hitl_required", False)
-        if hitl_required and final_state.get("status") == ContentStatus.PENDING_HUMAN_REVIEW.value:
-            # Store in pending reviews for later resume
-            hitl_pending_reviews[content_id] = final_state
+        hitl_required = _persist_workflow_result(content_id, user_id, final_state)
 
         processing_time = (datetime.now() - start_time).total_seconds()
 
@@ -844,6 +865,95 @@ async def submit_content(submission: ContentSubmission, background_tasks: Backgr
         logger.error(f"   Full Traceback:")
         traceback.print_exc()
         logger.error("=" * 40 + "\n")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+def _profile_from_row(row: Optional[Dict[str, Any]], user_id: str, username: str) -> UserProfile:
+    """Build a UserProfile from a user_profiles row, or a new-user default."""
+    if not row:
+        return UserProfile(
+            user_id=user_id, username=username, account_age_days=0, total_posts=0,
+            total_violations=0, previous_warnings=0, previous_suspensions=0,
+            reputation_score=0.5, reputation_tier="new_user", verified=False, follower_count=0
+        )
+    return UserProfile(
+        user_id=row["user_id"],
+        username=row["username"],
+        account_age_days=row["account_age_days"],
+        total_posts=row["total_posts"],
+        total_violations=row["total_violations"],
+        previous_warnings=row["previous_warnings"],
+        previous_suspensions=row["previous_suspensions"],
+        reputation_score=row["reputation_score"],
+        reputation_tier=row["reputation_tier"],
+        verified=bool(row["verified"]),
+        follower_count=row["follower_count"]
+    )
+
+
+@app.post("/api/content/{content_id}/moderate", dependencies=[Depends(get_moderator)])
+async def moderate_existing_content(content_id: str):
+    """Run the moderation graph on content that is already stored.
+
+    This is what the "Run AI Moderation" button in Content Review calls. It only
+    accepts content that has not been moderated yet (status submitted or
+    pending), so a decided item cannot be silently overwritten.
+    """
+    content = db.get_content_by_id(content_id)
+    if not content:
+        raise HTTPException(status_code=404, detail="Content not found")
+
+    current_status = content.get("current_status")
+    if current_status not in ("submitted", "pending"):
+        raise HTTPException(
+            status_code=409,
+            detail=f"Content is already {current_status}; AI moderation only runs on submitted or pending content"
+        )
+
+    try:
+        start_time = datetime.now()
+        user_id = content["user_id"]
+        user_profile = _profile_from_row(
+            db.get_user_profile(user_id), user_id, content.get("username") or user_id
+        )
+        content_type = content.get("content_type") or "story_comment"
+        platform = content.get("platform") or "web"
+        language = content.get("language") or "en"
+
+        initial_state: ContentState = build_initial_state(
+            content["content_text"],
+            user_profile=user_profile,
+            content_type=content_type,
+            platform=platform,
+            language=language,
+            content_id=content_id,
+            metadata=ContentMetadata(
+                content_id=content_id,
+                content_type=content_type,
+                platform=platform,
+                created_at=datetime.now().isoformat(),
+                language=language,
+            ),
+        )
+
+        final_state = process_content(workflow, initial_state)
+        hitl_required = _persist_workflow_result(content_id, user_id, final_state)
+
+        return {
+            "content_id": content_id,
+            "status": final_state.get("status"),
+            "moderation_action": final_state.get("moderation_action"),
+            "action_reason": final_state.get("action_reason"),
+            "toxicity_score": final_state.get("toxicity_score") or 0.0,
+            "hitl_required": hitl_required,
+            "hitl_priority": final_state.get("hitl_priority"),
+            "agent_decisions_count": len(final_state.get("agent_decisions", [])),
+            "processing_time": (datetime.now() - start_time).total_seconds(),
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error moderating content {content_id}: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -1062,7 +1172,7 @@ async def submit_appeal(appeal: AppealSubmission):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/api/content/review")
+@app.post("/api/content/review", dependencies=[Depends(get_moderator)])
 async def manual_review(review: ManualReviewRequest):
     """Submit a manual review decision."""
     try:
@@ -1128,7 +1238,7 @@ async def manual_review(review: ManualReviewRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/api/content/{content_id}/manual-review")
+@app.post("/api/content/{content_id}/manual-review", dependencies=[Depends(get_moderator)])
 async def manual_review_by_id(content_id: str, review: dict):
     """Submit a manual review decision for specific content."""
     try:
@@ -1248,6 +1358,65 @@ async def manual_review_by_id(content_id: str, review: dict):
 # Appeals API Endpoints
 # ═══════════════════════════════════════════════════════════════════════════════
 
+# Maps the Appeal Review Agent's decision onto the words a reviewer sees.
+_APPEAL_ADVICE = {"approve": "overturn", "warn": "partial", "remove": "uphold"}
+
+# Stored decision words -> the decision words agents record in learning memory.
+_DECISION_WORD = {
+    "removed": "remove", "remove": "remove", "approved": "approve", "approve": "approve",
+    "warned": "warn", "warn": "warn", "flagged": "flag",
+}
+
+
+def _run_appeal_review_advice(original_content: Dict[str, Any], appeal: "AppealSubmission",
+                              original_decision: str) -> Optional[Dict[str, Any]]:
+    """Run the Appeal Review Agent on a console appeal and store its opinion.
+
+    The agent is advisory here: it does not change the content status. A person
+    still decides (POST /api/appeals/{id}/review). Its decision is saved to
+    agent_executions, so it shows in the content's agent decisions. Returns None
+    if the agent could not run; the appeal is stored either way.
+    """
+    global _appeal_agents
+    try:
+        if _appeal_agents is None:
+            _appeal_agents = ContentModerationAgents()
+
+        profile = _profile_from_row(
+            db.get_user_profile(appeal.user_id), appeal.user_id,
+            original_content.get("username") or appeal.user_id
+        )
+        state: ContentState = build_initial_state(
+            original_content["content_text"],
+            user_profile=profile,
+            content_type=original_content.get("content_type") or "story_comment",
+            content_id=appeal.content_id,
+            is_appeal=True,
+            appeal_reason=appeal.appeal_reason,
+            original_decision=original_decision,
+        )
+        state["toxicity_score"] = original_content.get("toxicity_score") or 0.0
+        state["policy_violations"] = [
+            v.get("violation_type") for v in db.get_policy_violations(appeal.content_id)
+        ]
+
+        result = _appeal_agents.appeal_review_agent(state)
+        decisions = result.get("agent_decisions", [])
+        if not decisions or decisions[-1].agent_name != "Appeal Review Agent":
+            return None
+        decision = decisions[-1]
+        db.save_agent_decision(appeal.content_id, decision)
+        return {
+            "recommendation": _APPEAL_ADVICE.get(decision.decision.value, decision.decision.value),
+            "confidence": decision.confidence,
+            "reasoning": decision.reasoning,
+        }
+    except Exception as e:
+        logger.error(f"Appeal review agent failed for {appeal.content_id}: {e}")
+        return None
+
+
+
 @app.post("/api/appeals/submit")
 async def submit_appeal_new(appeal: AppealSubmission):
     """Submit an appeal for a moderation decision."""
@@ -1280,11 +1449,15 @@ async def submit_appeal_new(appeal: AppealSubmission):
                 "pending"
             ))
 
+        # The agent gives a recommendation; the appeal stays pending for a person.
+        ai_review = _run_appeal_review_advice(original_content, appeal, original_decision)
+
         return {
             "success": True,
             "appeal_id": appeal_id,
             "content_id": appeal.content_id,
             "status": "pending",
+            "ai_review": ai_review,
             "message": "Appeal submitted successfully"
         }
 
@@ -1438,7 +1611,7 @@ async def get_user_appeals(user_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/api/appeals/{appeal_id}/review")
+@app.post("/api/appeals/{appeal_id}/review", dependencies=[Depends(require_role(["policy_specialist", "admin"]))])
 async def review_appeal(appeal_id: str, review_data: dict):
     """Review and decide on an appeal."""
     try:
@@ -1562,6 +1735,25 @@ async def review_appeal(appeal_id: str, review_data: dict):
                     })
                     logger.info(f"Story created for content_id {content_id} after appeal overturn")
 
+        # Feed the human outcome back to the learning memory (record_appeal).
+        learning_recorded = False
+        try:
+            appealed = db.get_content_by_id(content_id) or {}
+            learning_tracker.record_appeal(
+                content_id=content_id,
+                agent_name="ReAct Decision Loop",
+                original_decision=_DECISION_WORD.get(original_decision, original_decision),
+                appeal_outcome=final_status,
+                content_text=appealed.get("content_text", ""),
+                toxicity_score=appealed.get("toxicity_score") or 0.0,
+                policy_violations=[
+                    v.get("violation_type") for v in db.get_policy_violations(content_id)
+                ],
+            )
+            learning_recorded = True
+        except Exception as learn_err:
+            logger.error(f"Could not record appeal outcome for learning: {learn_err}")
+
         return {
             "success": True,
             "appeal_id": appeal_id,
@@ -1569,6 +1761,7 @@ async def review_appeal(appeal_id: str, review_data: dict):
             "reviewer": reviewer,
             "content_id": content_id,
             "new_content_status": new_content_status,
+            "learning_recorded": learning_recorded,
             "message": f"Appeal {final_status} successfully"
         }
 
@@ -1820,7 +2013,7 @@ async def get_hitl_review_details(content_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/api/hitl/review/{content_id}")
+@app.post("/api/hitl/review/{content_id}", dependencies=[Depends(get_moderator)])
 async def submit_hitl_review(content_id: str, review: HITLReviewRequest):
     """
     Submit a human decision for pending HITL review.
@@ -1949,7 +2142,7 @@ async def submit_hitl_review(content_id: str, review: HITLReviewRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.delete("/api/hitl/queue/{content_id}")
+@app.delete("/api/hitl/queue/{content_id}", dependencies=[Depends(get_moderator)])
 async def remove_from_hitl_queue(content_id: str, reason: str = "manually_removed"):
     """
     Remove content from HITL queue without processing.
@@ -2373,7 +2566,7 @@ async def get_user_history(user_id: str, limit: int = 50):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/api/users/{user_id}/status")
+@app.post("/api/users/{user_id}/status", dependencies=[Depends(get_moderator)])
 async def update_user_status(user_id: str, status: dict):
     """
     Update a user's status (e.g., suspend, ban, restore).

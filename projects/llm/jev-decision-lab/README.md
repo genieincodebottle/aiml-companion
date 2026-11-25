@@ -47,7 +47,7 @@ uv run python run.py compare       # one holistic question against five narrow o
 uv run python run.py calibration   # what the confidence numbers are actually worth
 uv run python run.py threshold     # the band you can automate, and what it covers
 uv run python run.py primitives    # one Noul, one Choice and one Score, printed raw
-uv run python -m pytest -q         # 25 tests, no network
+uv run python -m pytest -q         # 26 tests, no network
 ```
 
 No `uv`? `pip install -e .` and drop the `uv run` prefix. Python 3.12 or newer.

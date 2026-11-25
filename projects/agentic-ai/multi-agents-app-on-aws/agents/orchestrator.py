@@ -12,6 +12,7 @@ Deployed mode: calls agents via AgentCore A2A protocol (when ARNs are set).
 
 import json
 import time
+import uuid
 import argparse
 import logging
 
@@ -99,13 +100,18 @@ def _call_agent_remote(agent_name: str, input_data: dict) -> dict:
 
     client = get_bedrock_agent_client()
 
+    # invoke_agent_runtime needs a bytes payload and a runtimeSessionId of at
+    # least 33 characters (a uuid4 string is 36); the reply is the streaming
+    # body under the "response" key.
     response = client.invoke_agent_runtime(
         agentRuntimeArn=arn,
-        runtimeSessionId=f"session-{int(time.time())}",
-        payload=input_data,
+        runtimeSessionId=str(uuid.uuid4()),
+        contentType="application/json",
+        accept="application/json",
+        payload=json.dumps(input_data).encode("utf-8"),
     )
 
-    return json.loads(response["body"].read().decode("utf-8"))
+    return json.loads(response["response"].read().decode("utf-8"))
 
 
 def call_agent(agent_name: str, input_data: dict) -> dict:
@@ -135,14 +141,42 @@ def create_plan(user_query: str) -> list[dict]:
             cleaned = cleaned.split("\n", 1)[1]  # Remove first line
             cleaned = cleaned.rsplit("```", 1)[0]  # Remove last ```
         plan_data = json.loads(cleaned)
-        return plan_data.get("plan", [])
+        raw_plan = plan_data.get("plan", []) if isinstance(plan_data, dict) else []
     except json.JSONDecodeError:
-        logger.warning("Failed to parse LLM plan - using default research->analyze->write flow")
-        return [
-            {"agent": "research", "task": user_query, "needs_previous": False},
-            {"agent": "analyst", "task": f"Analyze the research findings about: {user_query}", "needs_previous": True},
-            {"agent": "writer", "task": f"Write a comprehensive report about: {user_query}", "needs_previous": True},
-        ]
+        raw_plan = None
+
+    plan = _validate_plan(raw_plan) if raw_plan is not None else []
+    if plan:
+        return plan
+
+    logger.warning("No usable plan from the LLM - using default research->analyze->write flow")
+    return [
+        {"agent": "research", "task": user_query, "needs_previous": False},
+        {"agent": "analyst", "task": f"Analyze the research findings about: {user_query}", "needs_previous": True},
+        {"agent": "writer", "task": f"Write a comprehensive report about: {user_query}", "needs_previous": True},
+    ]
+
+
+def _validate_plan(raw_plan) -> list[dict]:
+    """Keep only plan steps that name an agent and a task.
+
+    A step that is not an object, or lacks a non-empty "agent" or "task" string,
+    is skipped with a warning instead of crashing the run.
+    """
+    if not isinstance(raw_plan, list):
+        logger.warning("Plan is not a list - ignoring it")
+        return []
+    valid = []
+    for i, step in enumerate(raw_plan):
+        if (
+            not isinstance(step, dict)
+            or not isinstance(step.get("agent"), str) or not step["agent"].strip()
+            or not isinstance(step.get("task"), str) or not step["task"].strip()
+        ):
+            logger.warning("Skipping plan step %d: needs a non-empty 'agent' and 'task' (got %r)", i + 1, step)
+            continue
+        valid.append(step)
+    return valid
 
 
 def run(query: str) -> dict:

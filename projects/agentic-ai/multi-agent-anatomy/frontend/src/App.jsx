@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Overview from './pages/Overview.jsx'
 import Scenarios from './pages/Scenarios.jsx'
 import TracePage from './pages/TracePage.jsx'
-import CostPage from './pages/CostPage.jsx'
+import TokensPage from './pages/CostPage.jsx'
 import BreakIt from './pages/BreakIt.jsx'
 
 // Five pages, in the order somebody should meet them. No router dependency: the
@@ -12,7 +12,7 @@ const PAGES = [
   { id: 'overview', num: 1, label: 'Start here' },
   { id: 'scenarios', num: 2, label: 'Pick a failure' },
   { id: 'trace', num: 3, label: 'Read the trace' },
-  { id: 'cost', num: 4, label: 'Cost' },
+  { id: 'cost', num: 4, label: 'Tokens' },
   { id: 'break', num: 5, label: 'Break it yourself' },
 ]
 
@@ -133,7 +133,7 @@ export default function App() {
           <Scenarios replays={replays} onPick={loadReplay} activeId={activeId} />
         )}
         {page === 'trace' && <TracePage result={result} go={go} />}
-        {page === 'cost' && <CostPage result={result} config={config} go={go} />}
+        {page === 'cost' && <TokensPage result={result} go={go} />}
         {page === 'break' && config && (
           <BreakIt
             catalog={config.failure_catalog}

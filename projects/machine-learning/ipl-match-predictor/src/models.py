@@ -40,7 +40,7 @@ from sklearn.metrics import (
     mean_squared_error,
     r2_score,
 )
-from sklearn.model_selection import cross_val_score, train_test_split
+from sklearn.model_selection import TimeSeriesSplit, cross_val_score, train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
@@ -209,18 +209,24 @@ def split_data_by_season(
     seasons, so interpolating across them is an easier problem than the real
     one.
 
-    The gap is not subtle here, and neither is what it reveals:
+    Measured on the shipped 2008-2025 data (1,161 decided matches), calibrated
+    recency-weighted 4-model ensemble and Random Forest, train = every season
+    before the holdout:
 
-        random split                      0.5150
-        holdout 2025 (71 matches)         0.4507   majority baseline 0.5352
-        holdout 2024-25 (142 matches)     0.5000   majority baseline 0.5211
-        holdout 2023-25 (215 matches)     0.5070   majority baseline 0.5023
+        holdout                        n    baseline   RF      ensemble
+        2025                           71   0.4648     0.4789  0.4648
+        2024-25                        142  0.4789     0.4507  0.5000
+        2023-25                        215  0.5023     0.4744  0.4558
+        random 25% split (not used)    291  --         0.5258  0.5120
 
-    Under an honest temporal split the ensemble does not beat "always predict
-    the same team" in any recent season. That is the real state of IPL match
-    prediction from pre-match features, and it agrees with the 48.6% this
-    project measures on 2026. Report the baseline next to the accuracy or 0.53
-    reads like skill.
+    "baseline" is ``majority_class_baseline``: always predict the outcome that
+    was more common in the training seasons (team 1 wins). Under an honest
+    temporal split the ensemble is level with, above and below "always predict
+    the same team" in the three windows, and one standard error on 142 matches
+    is about 0.042, so none of these gaps is distinguishable from noise. That is
+    the real state of IPL match prediction from pre-match features, and it
+    agrees with the 48.6% this project measures on 2026. Report the baseline
+    next to the accuracy or 0.53 reads like skill.
 
     Parameters
     ----------
@@ -258,7 +264,8 @@ def majority_class_baseline(y_train, y_test) -> float:
     """Accuracy of always predicting the most common training-set class.
 
     The number every reported accuracy has to be read against. On this data it
-    sits near 0.52-0.54, so an ensemble scoring 0.53 has demonstrated nothing.
+    sits near 0.46-0.50 on the recent test windows, so a model scoring 0.50
+    has demonstrated nothing.
     Quoting accuracy without it is how a coin flip gets described as a model.
     """
     y_train, y_test = np.asarray(y_train), np.asarray(y_test)
@@ -623,7 +630,8 @@ def build_ensemble(
         ``{'rf': 0.30, 'xgb': 0.35, 'gb': 0.20, 'lr': 0.15}``.
     sample_weight : np.ndarray, optional
         Per-sample weights (e.g. recency weights). Applied during
-        training to weight recent matches more heavily.
+        training to weight recent matches more heavily. Reaches the base
+        estimators in both the calibrated and the uncalibrated path.
     calibrate : bool
         Whether to wrap models in CalibratedClassifierCV for better
         probability calibration. Default True.
@@ -647,17 +655,26 @@ def build_ensemble(
     models: Dict[str, Any] = {}
     for name, pipeline in base_models.items():
         logger.info("Training %s...", name)
-        if sample_weight is not None:
-            pipeline.fit(X_train, y_train, classifier__sample_weight=sample_weight)
-        else:
-            pipeline.fit(X_train, y_train)
+        # Pipeline steps take the step-prefixed name.
+        fit_params = (
+            {"classifier__sample_weight": sample_weight}
+            if sample_weight is not None else {}
+        )
 
         if calibrate:
+            # CalibratedClassifierCV refits clones of the pipeline on each CV
+            # fold, so fitting ``pipeline`` first would be thrown away and the
+            # weights must go into the calibrator's own fit. A plain
+            # ``sample_weight=`` is NOT routed into a Pipeline (scikit-learn
+            # warns that it only reaches the calibration step), but the
+            # prefixed fit param is forwarded, and split per fold, to the
+            # base estimator.
             calibrated = CalibratedClassifierCV(pipeline, cv=3, method="sigmoid")
-            calibrated.fit(X_train, y_train)
+            calibrated.fit(X_train, y_train, **fit_params)
             models[name] = calibrated
             logger.info("Calibrated %s with CalibratedClassifierCV", name)
         else:
+            pipeline.fit(X_train, y_train, **fit_params)
             models[name] = pipeline
 
     models["weights"] = weights
@@ -1088,8 +1105,15 @@ if _HAS_TORCH:
             dataset = torch.utils.data.TensorDataset(
                 torch.from_numpy(X_arr), torch.from_numpy(y_arr)
             )
+            # BatchNorm cannot train on a batch of one row. When the training
+            # set size leaves a single-row remainder (e.g. 929 rows, batch 32),
+            # drop that last partial batch; otherwise that cross-validation
+            # fold raises and the whole CV mean comes back NaN.
             loader = torch.utils.data.DataLoader(
-                dataset, batch_size=self.batch_size, shuffle=True
+                dataset,
+                batch_size=self.batch_size,
+                shuffle=True,
+                drop_last=len(dataset) % self.batch_size == 1,
             )
 
             self.model_.train()
@@ -1262,14 +1286,32 @@ def evaluate_model(
     return metrics
 
 
+def forward_cv(n_splits: int = 5) -> TimeSeriesSplit:
+    """Forward-in-time CV splitter for model selection.
+
+    ``TimeSeriesSplit`` is an expanding window: fold k trains on the first
+    k blocks of rows and tests on block k+1, so a fold never trains on a row
+    that comes after its test rows. It only means "forward in time" if the
+    rows are sorted by date, which ``main.py`` guarantees (and asserts).
+
+    Use this on the TRAINING seasons only. Pointing it, or any CV, at the
+    whole frame lets model selection see the held-out seasons.
+    """
+    return TimeSeriesSplit(n_splits=n_splits)
+
+
 def cross_validate_model(
     pipeline: Pipeline,
     X: pd.DataFrame,
     y: pd.Series,
-    cv: int = 5,
+    cv: "int | Any" = 5,
     scoring: str = "accuracy",
 ) -> Dict[str, float]:
-    """Run k-fold cross-validation and return summary statistics.
+    """Run cross-validation and return summary statistics.
+
+    With an integer ``cv`` scikit-learn uses unshuffled ``StratifiedKFold``
+    (classifiers) or ``KFold`` (regressors): the folds train on later rows to
+    predict earlier ones. For time-ordered data pass ``forward_cv()`` instead.
 
     Parameters
     ----------
@@ -1279,8 +1321,8 @@ def cross_validate_model(
         Full feature matrix.
     y : pd.Series
         Full target vector.
-    cv : int
-        Number of cross-validation folds.
+    cv : int or scikit-learn splitter
+        Number of folds, or a splitter such as ``forward_cv()``.
     scoring : str
         Scoring metric (e.g. ``'accuracy'``, ``'neg_mean_squared_error'``).
 
@@ -1296,8 +1338,8 @@ def cross_validate_model(
         "scores": scores.tolist(),
     }
     logger.info(
-        "Cross-validation (%d folds, %s) - mean: %.4f +/- %.4f",
-        cv,
+        "Cross-validation (%s folds, %s) - mean: %.4f +/- %.4f",
+        cv if isinstance(cv, int) else len(scores),
         scoring,
         result["mean"],
         result["std"],

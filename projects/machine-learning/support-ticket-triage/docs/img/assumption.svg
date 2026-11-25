@@ -32,17 +32,17 @@
   <text class="t h" x="36" y="174" fill="#b91c1c">WHAT THE INBOX ACTUALLY SHOWS</text>
   <text class="t s" x="36" y="192">the planted clusters, measured (lift, 1.00 = assumption holds)</text>
   <rect class="item" x="36" y="200" width="418" height="20"/>
-  <text class="t n" x="46" y="215">login_access   otp + 2fa</text>
-  <text class="t b" x="360" y="215" fill="#b91c1c">2.70</text>
+  <text class="t n" x="46" y="215">login_access   password + reset</text>
+  <text class="t b" x="360" y="215" fill="#b91c1c">1.66</text>
   <rect class="item" x="36" y="224" width="418" height="20"/>
   <text class="t n" x="46" y="239">billing        card + charged</text>
-  <text class="t b" x="360" y="239" fill="#b91c1c">1.98</text>
+  <text class="t b" x="360" y="239" fill="#b91c1c">2.01</text>
   <rect class="item" x="36" y="248" width="418" height="20"/>
-  <text class="t n" x="46" y="263">bug_crash      error + exception</text>
-  <text class="t b" x="360" y="263" fill="#b91c1c">1.95</text>
+  <text class="t n" x="46" y="263">bug_crash      crash + exception</text>
+  <text class="t b" x="360" y="263" fill="#b91c1c">1.82</text>
   <rect class="item" x="36" y="272" width="418" height="20"/>
   <text class="t n" x="46" y="287">shipping       delivery + tracking</text>
-  <text class="t b" x="360" y="287" fill="#b91c1c">1.72</text>
+  <text class="t b" x="360" y="287" fill="#b91c1c">1.71</text>
   <text class="t s" x="36" y="308">Those pairs co-occur nearly twice as often as the model can represent.</text>
   <text class="t s" x="36" y="322">The assumption is not approximately true here. It is plainly false.</text>
 

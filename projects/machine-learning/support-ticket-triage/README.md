@@ -34,7 +34,7 @@ side by the other and you get a **lift**: 1.00 means the assumption holds.
 
 This inbox is generated with six redundancy families wired in deliberately, so
 the violation is known in advance and known by how much. The planted pairs come
-back at lift 1.66 to 2.70. The assumption is not approximately true here, it is
+back at lift 1.65 to 2.12. The assumption is not approximately true here, it is
 plainly false.
 
 Then the same measurement is run **blind**, sweeping every token pair with no

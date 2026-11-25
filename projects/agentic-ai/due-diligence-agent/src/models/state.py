@@ -19,6 +19,7 @@ class AgentFinding(TypedDict, total=False):
     detail: str                     # Full explanation
     severity: str                   # critical | high | medium | low | info
     confidence: float               # 0.0 to 1.0
+    low_confidence: bool            # True if below guardrails.confidence_threshold
     sources: list[str]              # URLs or document references
     verified: bool                  # True if fact-checker confirmed
     verification_notes: str         # Fact-checker's notes

@@ -25,26 +25,21 @@ logger = logging.getLogger(__name__)
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
-# Test companies with expected characteristics
+# Test companies. `is_public` and `description` are labels for the reader; the
+# metrics below score the run itself, not a per-company answer key.
 EVAL_COMPANIES = [
     {
         "name": "Tesla",
-        "expected_industry": "automotive",
-        "expected_risks": ["regulatory", "reputational", "operational"],
         "is_public": True,
         "description": "Well-known public company with extensive financial data",
     },
     {
         "name": "Stripe",
-        "expected_industry": "fintech",
-        "expected_risks": ["regulatory", "competitive"],
         "is_public": False,
         "description": "Large private company - tests handling of limited financial data",
     },
     {
         "name": "Anthropic",
-        "expected_industry": "artificial intelligence",
-        "expected_risks": ["regulatory", "competitive", "technology"],
         "is_public": False,
         "description": "AI company - tests coverage of emerging industry risks",
     },

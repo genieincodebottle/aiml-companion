@@ -36,6 +36,7 @@ import {
   AutoStories,
   ManageAccounts,
   Settings as SettingsIcon,
+  RateReview,
 } from '@mui/icons-material';
 import { useAuthStore } from '../../store/authStore';
 import { useModerationStore } from '../../store/moderationStore';
@@ -80,7 +81,7 @@ const roleConfig = {
 export default function Layout({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout, isModerator, isSeniorModerator, canReviewAppeals, canViewAnalytics } = useAuthStore();
+  const { user, logout, isModerator, isSeniorModerator, canReviewAppeals, canReviewHITL, canViewAnalytics } = useAuthStore();
   const { pendingContent, pendingAppeals } = useModerationStore();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -132,6 +133,15 @@ export default function Layout({ children }) {
         path: '/dashboard',
         badge: pendingContent.length,
         divider: true,
+      });
+    }
+
+    // HITL queue - paused items waiting for a human decision
+    if (canReviewHITL()) {
+      items.push({
+        text: 'Review Queue',
+        icon: <RateReview />,
+        path: '/hitl',
       });
     }
 

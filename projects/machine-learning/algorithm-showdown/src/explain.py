@@ -1,8 +1,13 @@
 """
 SHAP Explanation for Clinical Decision.
 
-Generate per-prediction SHAP explanations for the best model.
+Generate per-prediction SHAP explanations for a gradient-boosted model.
 Includes global feature importance and data leakage detection.
+
+NOTE: this trains its own XGBoost on an 80/20 split because TreeExplainer needs
+a tree model. It does NOT explain the pipeline train.py selects and saves (on
+the default seed that is logistic regression), so these rankings describe an
+XGBoost, not the shipped model.
 
 Usage:
     python explain.py

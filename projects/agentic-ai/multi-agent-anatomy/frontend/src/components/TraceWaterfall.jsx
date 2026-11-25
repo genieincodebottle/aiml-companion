@@ -36,7 +36,7 @@ function describe(span) {
     const who = n.split(':')[1].replace('-agent', '')
     return [`${who[0].toUpperCase()}${who.slice(1)} agent`, 'One delegation, with its own timeout and its own share of the budget.']
   }
-  if (n.startsWith('model:')) return ['Call to the language model', 'This is the row that costs money. Tokens and price are on the right.']
+  if (n.startsWith('model:')) return ['Call to the language model', 'This is the row that uses tokens. The counts are on the right.']
   if (n.startsWith('tool:')) return [`Database lookup (${n.split(':')[1]})`, 'A real query against the seeded database.']
   if (n.startsWith('retrieval:')) return ['Searching the policy documents', 'Scoped to this tenant inside the query, never filtered afterwards.']
   if (n.startsWith('saga:')) return ['Multi-step change with undos', 'Three systems, three compensating actions.']
@@ -101,7 +101,7 @@ function Row({ span, depth, total, onPick, picked }) {
         <div className="cell num">{span.input_tokens || ''}</div>
         <div className="cell num cached">{span.cached_tokens || ''}</div>
         <div className="cell num">{span.output_tokens || ''}</div>
-        <div className="cell num">{span.cost_usd ? `$${span.cost_usd.toFixed(5)}` : ''}</div>
+        <div className="cell num">{span.total_tokens || ''}</div>
         <div className="cell num budget">
           {span.deadline_remaining_s != null ? `${span.deadline_remaining_s}s` : ''}
           {span.tokens_remaining != null ? ` / ${span.tokens_remaining.toLocaleString()}t` : ''}
@@ -190,7 +190,7 @@ export default function TraceWaterfall({ result }) {
         <span><b>{summary.model_calls}</b> model calls</span>
         <span><b>{summary.tool_calls}</b> tool calls</span>
         <span><b>{summary.total_tokens.toLocaleString()}</b> tokens, <b>{summary.cached_tokens.toLocaleString()}</b> from cache</span>
-        <span className="totalcost">total <b>${summary.total_cost_usd.toFixed(5)}</b></span>
+        <span className="totalcost">uncached input <b>{summary.uncached_input_tokens.toLocaleString()}</b></span>
         <span className={`mode ${summary.mode}`} title={summary.mode === 'replay' ? 'recorded, no API key used' : 'called the real model'}>
           {summary.mode === 'replay' ? 'recorded' : 'live'}
         </span>
@@ -210,9 +210,9 @@ export default function TraceWaterfall({ result }) {
           <div className="cell bar">when it ran, and for how long</div>
           <div className="cell model" title="which model was called">model</div>
           <div className="cell num" title="input tokens sent to the model">tokens in</div>
-          <div className="cell num cached" title="input tokens that were served from the prompt cache, billed cheaper">cached</div>
+          <div className="cell num cached" title="input tokens that were served from the prompt cache">cached</div>
           <div className="cell num" title="tokens the model generated">out</div>
-          <div className="cell num" title="cost of this single step">cost</div>
+          <div className="cell num" title="input plus output tokens of this single step">total</div>
           <div className="cell num budget" title="time and tokens the whole request had left when this step started">budget left</div>
         </div>
 

@@ -17,6 +17,7 @@ import StoryDetail from './components/Stories/StoryDetail';
 import CommunityDashboard from './components/CommunityDashboard/CommunityDashboard';
 import UserManagement from './components/Admin/UserManagement';
 import UserSettings from './components/Settings/UserSettings';
+import HITLQueue from './components/HITLQueue/HITLQueue';
 
 // Theme
 const theme = createTheme({
@@ -197,6 +198,16 @@ function App() {
             element={
               <ProtectedRoute requiredRoles={['moderator', 'senior_moderator', 'content_analyst', 'policy_specialist', 'admin']}>
                 <ContentReview />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* HITL Queue - paused items a human decision resumes (senior moderators and above) */}
+          <Route
+            path="/hitl"
+            element={
+              <ProtectedRoute requiredRoles={['senior_moderator', 'policy_specialist', 'admin']}>
+                <HITLQueue />
               </ProtectedRoute>
             }
           />

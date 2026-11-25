@@ -11,7 +11,7 @@ from ..llm import get_llm
 from src.models.state import ResearchState
 from src.config import get_model_name
 from src.token_usage import token_count
-from src.guardrails import check_budget
+from src.guardrails import check_budget, throttle
 
 logger = logging.getLogger(__name__)
 
@@ -67,6 +67,7 @@ def synthesizer(state: ResearchState) -> dict:
             for i, s in enumerate(sources[:10])
         )
 
+        throttle()
         response = llm.invoke(
             f"You are a research synthesizer. Given these claims and sources, "
             f"write a unified synthesis that:\n"

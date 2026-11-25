@@ -90,3 +90,53 @@ async def test_five_agents_and_six_model_calls_on_the_happy_path():
     }
     # Stage 2 classify, stage 3 plan, three lookups, writer, stage 6 merge.
     assert result["trace"]["summary"]["model_calls"] == 7
+
+
+@pytest.mark.asyncio
+async def test_trace_counts_tokens_and_carries_no_dollar_fields():
+    from app.pipeline import tokens_breakdown
+
+    result = await run_request(QUESTION)
+    s = result["trace"]["summary"]
+    assert "total_cost_usd" not in s
+    assert s["total_tokens"] == s["input_tokens"] + s["output_tokens"]
+    assert s["uncached_input_tokens"] == s["input_tokens"] - s["cached_tokens"]
+    for span in result["trace"]["spans"]:
+        assert "cost_usd" not in span
+        assert span["total_tokens"] == span["input_tokens"] + span["output_tokens"]
+    by_model = tokens_breakdown(result["trace"])
+    assert sum(m["total"] for m in by_model.values()) == s["total_tokens"]
+    assert sum(m["calls"] for m in by_model.values()) == s["model_calls"]
+
+
+def test_token_rate_limit_trips_on_tokens_not_only_on_count():
+    from app.guardrails import RateLimiter
+
+    limiter = RateLimiter(max_requests_per_min=100, max_tokens_per_min=1_000)
+    assert limiter.check()[0]
+    limiter.record_spend(1_000)
+    ok, why = limiter.check()
+    assert not ok
+    assert why == "rate limit: tokens per minute"
+
+
+def test_no_price_table_is_left_in_config():
+    import app.config as config
+
+    for gone in ("PRICES", "ModelPrice", "price_for", "PRICES_LAST_CHECKED"):
+        assert not hasattr(config, gone)
+
+
+def test_recorded_traces_have_token_fields_and_no_dollar_fields():
+    import json
+    from pathlib import Path
+
+    files = sorted((Path(__file__).resolve().parents[1] / "replay").glob("*.json"))
+    assert files
+    for f in files:
+        data = json.loads(f.read_text(encoding="utf-8"))
+        assert "cost_by_model" not in data and "tokens_by_model" in data, f.name
+        s = data["trace"]["summary"]
+        assert "total_cost_usd" not in s, f.name
+        assert s["total_tokens"] == s["input_tokens"] + s["output_tokens"], f.name
+        assert all("cost_usd" not in sp for sp in data["trace"]["spans"]), f.name

@@ -10,7 +10,7 @@ import logging
 from src.tools.search import web_search
 from src.tools.wikipedia import wiki_search
 from src.tools.tool_selector import select_tools
-from src.guardrails import check_budget
+from src.guardrails import check_budget, screen_sources, throttle
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +45,7 @@ def researcher(state: dict) -> dict:
 
         # Run selected tools
         for tool_name in tools:
+            throttle()
             if tool_name == "tavily":
                 results = web_search(query, max_results=5)
                 all_sources.extend(results)
@@ -61,6 +62,11 @@ def researcher(state: dict) -> dict:
                 seen_urls.add(url)
                 unique_sources.append(s)
 
+        # Retrieved snippets are the dangerous prompt-injection channel: the user
+        # never sees the page they came from. Scan them before they are merged.
+        unique_sources, guard_errors = screen_sources(
+            unique_sources, state.get("token_count", 0))
+
         duration = int((time.time() - start) * 1000)
         logger.info(
             f"Researcher: '{query[:50]}' - {len(unique_sources)} sources "
@@ -70,6 +76,7 @@ def researcher(state: dict) -> dict:
         return {
             "sources": unique_sources,
             "search_queries_used": queries_used,
+            "errors": guard_errors,
             # The researcher calls search APIs, not the LLM -- it spends no
             # tokens. It used to claim 300, which inflated every run and ate
             # budget that the LLM agents actually needed.

@@ -25,6 +25,10 @@ data/*.db-shm
 data/*.db-wal
 data/*.db-journal
 data/audit_logs/
+src/data/*.db
+src/data/*.db-shm
+src/data/*.db-wal
+src/data/*.db-journal
 
 # Frontend
 node_modules/

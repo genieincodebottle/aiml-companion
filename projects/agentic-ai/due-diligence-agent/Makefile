@@ -34,7 +34,7 @@ evaluate: ## Run evaluation framework
 clean: ## Remove generated files and caches
 	rm -rf __pycache__ .pytest_cache htmlcov .coverage
 	rm -rf src/__pycache__ src/agents/__pycache__ src/tools/__pycache__
-	rm -rf src/models/__pycache__ src/guardrails/__pycache__ src/memory/__pycache__
+	rm -rf src/models/__pycache__ src/guardrails/__pycache__
 	rm -rf tests/__pycache__ evaluation/__pycache__
 	rm -rf data/cache.db logs/
 	find . -name "*.pyc" -delete 2>/dev/null || true

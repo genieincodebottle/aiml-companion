@@ -13,6 +13,8 @@ project:
   random_state: 42
 
 data:
+  # src/train.py make_splits(): 60% train / 20% validation / 20% test
+  validation_size: 0.2
   test_size: 0.2
   stratify: true
 
@@ -76,7 +78,7 @@ algorithms:
 threshold_tuning:
   target_recall: 0.95
   target_class: "malignant"  # Optimize recall for malignant class (0), not benign
-  base_model: "xgboost"
+  base_model: "selected_by_cv_auc"  # src/train.py select_best(); logistic_regression on the default seed
   analysis_thresholds:
     - 0.95
     - 0.90

@@ -265,20 +265,42 @@ def _build(schema: Type[BaseModel], data: dict) -> BaseModel:
         ) from e
 
 
+class _OfflineMessage:
+    """A response carrying `usage_metadata`, like a real chat message.
+
+    The count is an estimate (about four characters per token) that moves with
+    the prompt and the answer, so the token and cost budgets fill during an
+    offline run the way they do in a live one instead of sitting at zero.
+    """
+
+    def __init__(self, prompt: str, output: str):
+        self.content = output
+        self.usage_metadata = {
+            "input_tokens": max(1, len(prompt) // 4),
+            "output_tokens": max(1, len(output) // 4),
+        }
+
+
 class _OfflineStructured:
     """What `.with_structured_output(schema)` returns."""
 
-    def __init__(self, schema: Type[BaseModel]):
+    def __init__(self, schema: Type[BaseModel], include_raw: bool = False):
         self.schema = schema
+        self.include_raw = include_raw
 
-    def invoke(self, prompt: Any, *_a, **_kw) -> BaseModel:
+    def invoke(self, prompt: Any, *_a, **_kw):
         company = _company_from(prompt)
         fx = _fixtures(company, _seed(company)).get(self.schema.__name__)
         if fx is None:
             logger.info("no offline fixture for %s, returning an empty instance",
                         self.schema.__name__)
-            return self.schema.model_construct()
-        return _build(self.schema, fx)
+            parsed = self.schema.model_construct()
+        else:
+            parsed = _build(self.schema, fx)
+        if not self.include_raw:
+            return parsed
+        return {"raw": _OfflineMessage(str(prompt), parsed.model_dump_json()),
+                "parsed": parsed, "parsing_error": None}
 
     __call__ = invoke
 
@@ -292,8 +314,8 @@ class OfflineChatModel:
         self.temperature = temperature
         self.max_tokens = max_tokens
 
-    def with_structured_output(self, schema: Type[BaseModel], **_kw):
-        return _OfflineStructured(schema)
+    def with_structured_output(self, schema: Type[BaseModel], include_raw: bool = False, **_kw):
+        return _OfflineStructured(schema, include_raw)
 
     def invoke(self, prompt: Any, *_a, **_kw):
         class _Msg:

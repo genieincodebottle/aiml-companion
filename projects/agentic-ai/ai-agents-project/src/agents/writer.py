@@ -11,9 +11,20 @@ from ..llm import get_llm
 from src.models.state import ResearchState
 from src.config import get_model_name
 from src.token_usage import token_count
-from src.guardrails import check_budget, scrub_pii
+from src.guardrails import (
+    OFFLINE_SOURCE_TOOL, apply_pii_policy, check_budget, throttle,
+)
 
 logger = logging.getLogger(__name__)
+
+PLACEHOLDER_NOTICE = (
+    "> NOTE: Some sources in this report are offline placeholders, not real "
+    "web results. Treat the content as a demonstration, not as findings."
+)
+
+
+def _uses_placeholder_sources(state: dict) -> bool:
+    return any(s.get("tool") == OFFLINE_SOURCE_TOOL for s in state.get("sources", []))
 
 
 def writer(state: ResearchState) -> dict:
@@ -47,14 +58,22 @@ def writer(state: ResearchState) -> dict:
             # Revision: use previous draft + reviewer feedback
             prompt = _build_revision_prompt(state)
 
+        throttle()
         response = llm.invoke(prompt)
         # NOT response_metadata["token_usage"] -- that is the OpenAI shape and is
         # absent on Gemini responses, so the old code silently took its 1500-token
         # fallback on every call. See src/token_usage.py.
         tokens = token_count(response)
 
-        # Scrub PII from the draft
-        draft_text, pii_found = scrub_pii(response.text)
+        # Apply guardrails.pii_detection.action (redact, warn or block)
+        draft_text, pii_found, blocked = apply_pii_policy(response.text)
+        if blocked:
+            raise ValueError(f"draft blocked: PII found {pii_found}")
+
+        # Placeholder sources are fabricated. Say so in the report itself, in
+        # code, rather than trusting the model to mention it.
+        if _uses_placeholder_sources(state) and PLACEHOLDER_NOTICE not in draft_text:
+            draft_text = f"{PLACEHOLDER_NOTICE}\n\n{draft_text}"
 
         # Track version
         version = revision_count + 1
@@ -110,13 +129,22 @@ def _build_initial_prompt(state: dict) -> str:
     )
     sources_text = "\n".join(
         f"[{i+1}] {s.get('title', 'Untitled')} - {s.get('url', '')}"
+        + (" (PLACEHOLDER: fabricated test source, not real)"
+           if s.get("tool") == OFFLINE_SOURCE_TOOL else "")
         for i, s in enumerate(state.get("sources", [])[:10])
+    )
+    placeholder_rule = (
+        "Some sources are marked PLACEHOLDER. They are fabricated test data. Do "
+        "not present them as real findings, and say in the report that they are "
+        "placeholders.\n\n"
+        if _uses_placeholder_sources(state) else ""
     )
     synthesis = state.get("synthesis", "")
 
     return (
         f"You are a technical writer. Write a structured research report.\n\n"
         f"Use ONLY these verified claims and sources. Do NOT invent citations.\n\n"
+        f"{placeholder_rule}"
         f"Synthesis:\n{synthesis[:2000]}\n\n"
         f"Claims:\n{claims_text}\n\n"
         f"Sources:\n{sources_text}\n\n"

@@ -1,8 +1,13 @@
-# An always-on Hermes gateway.
+# An always-on Hermes gateway. THIS IS A TEMPLATE, NOT RUNNABLE AS WRITTEN.
+# MISSING STEP: python:3.11-slim does not contain Hermes, so `hermes gateway`
+# fails with "executable not found". Build or pick an image that has Hermes
+# installed (the README, step 1, shows the install script for a host install),
+# set `image:` to it, and make sure `hermes` is on the PATH of the user below.
 # Each block below maps to one of the eight documented security layers.
 
 services:
   hermes-gateway:
+    # TODO: replace with an image that has Hermes installed (see the note above).
     image: python:3.11-slim
     container_name: hermes-gateway
     restart: unless-stopped

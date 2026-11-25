@@ -52,9 +52,7 @@ def _default_config() -> dict:
             "max_parallel_agents": 4,
             "max_retries_per_agent": 2,
             "max_debate_rounds": 2,
-            "max_fact_check_depth": 2,
             "timeout_per_agent_seconds": 120,
-            "enable_self_correction": True,
             "enable_debate": True,
         },
         "budget": {

@@ -454,7 +454,8 @@ def _build_markdown_report(state: DueDiligenceState, summary: ExecutiveSummary) 
                 conf = f.get("confidence", 0)
                 verified = "Verified" if f.get("verified") else "Unverified"
                 sections.append(f"")
-                sections.append(f"*Confidence: {conf:.0%} | {verified} | Severity: {sev}*")
+                review = " | LOW CONFIDENCE, needs review" if f.get("low_confidence") else ""
+                sections.append(f"*Confidence: {conf:.0%} | {verified} | Severity: {sev}{review}*")
                 sections.append(f"")
 
     # Fact-check section

@@ -9,7 +9,7 @@ import logging
 from ..llm import get_llm
 from src.models.state import ResearchState, PlannerOutput
 from src.config import get_model_name, get_pipeline_config
-from src.guardrails import check_budget
+from src.guardrails import check_budget, screen_input
 from src.token_usage import structured_call
 
 logger = logging.getLogger(__name__)
@@ -22,6 +22,18 @@ def planner(state: ResearchState) -> dict:
     Returns {sub_topics, research_plan, token_count, pipeline_trace}.
     """
     start = time.time()
+
+    # Screen the user's query before it reaches any prompt. A blocked query
+    # ends the run: empty sub_topics means route_to_researchers dispatches
+    # nothing and the graph stops, with the reason in `errors`.
+    allowed, matches = screen_input(state["query"])
+    if not allowed:
+        return {
+            "errors": [f"Query blocked: possible prompt injection {matches}"],
+            "sub_topics": [],
+            "research_plan": "",
+            "pipeline_trace": [{"agent": "planner", "status": "blocked", "reason": "prompt_injection"}],
+        }
 
     if not check_budget(state.get("token_count", 0)):
         return {

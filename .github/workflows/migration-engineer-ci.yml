@@ -1,0 +1,59 @@
+name: migration-engineer CI
+
+# Scoped to this project so it does not run for unrelated changes in the monorepo.
+on:
+  push:
+    paths:
+      - "projects/agentic-ai/migration-engineer/**"
+      - ".github/workflows/migration-engineer-ci.yml"
+  pull_request:
+    paths:
+      - "projects/agentic-ai/migration-engineer/**"
+      - ".github/workflows/migration-engineer-ci.yml"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  backend:
+    name: Backend (lint + test + eval gate)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/agentic-ai/migration-engineer/backend
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.5.5"
+      - name: Install dependencies
+        run: uv sync --extra dev
+      - name: Lint (ruff)
+        run: uv run ruff check .
+      - name: Test (pytest, deterministic stub worker - no API key needed)
+        run: uv run pytest -q
+      - name: Evaluation gate (golden migrations must pass)
+        run: uv run python -m evaluation.run_eval
+
+  frontend:
+    name: Frontend (lint + test + build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/agentic-ai/migration-engineer/frontend
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: projects/agentic-ai/migration-engineer/frontend/.nvmrc
+      - name: Install dependencies
+        run: npm install
+      - name: Lint (eslint)
+        run: npm run lint
+      - name: Unit tests (vitest)
+        run: npm run test
+      - name: Build
+        run: npm run build

@@ -220,10 +220,14 @@ ai-agents-project/
 │   ├── __init__.py
 │   ├── run_eval.py                      # Single vs multi-agent comparison framework
 │   └── judge_prompt.py                  # LLM-as-judge scoring prompts
-├── tests/                               # 110 tests across 8 files
+├── tests/                               # 233 tests across 13 files
 │   ├── test_e2e_pipeline.py             # Full pipeline (37 tests, mocked LLM)
 │   ├── test_ui_smoke.py                 # Streamlit UI imports (26 tests)
 │   ├── test_guardrails.py               # Guardrails unit tests (14 tests)
+│   ├── test_guardrails_wired.py         # Rate limiter + injection check on the real path (11 tests)
+│   ├── test_guardrail_enforcement.py    # SSRF, allowlist, injection phrasing (38 tests)
+│   ├── test_offline_mode.py             # Offline stand-in (37 tests)
+│   ├── test_token_accounting.py         # Real token usage (12 tests)
 │   ├── test_graph.py                    # Graph routing tests (9 tests)
 │   ├── test_quality_gate.py             # Quality scoring tests (8 tests)
 │   ├── test_state.py                    # State schema tests (6 tests)
@@ -332,7 +336,7 @@ return graph.compile()
 
 #### `src/agents/researcher.py` - Multi-Tool Parallel Research
 
-**Purpose:** Searches for sources using multiple tools (Tavily, Wikipedia, scraper).
+**Purpose:** Searches for sources using Tavily, plus Wikipedia for factual sub-topics.
 Runs in parallel via LangGraph Send(), one instance per sub-topic.
 
 **Key Components:**
@@ -348,7 +352,7 @@ Runs in parallel via LangGraph Send(), one instance per sub-topic.
 4. Return unique sources (merged into shared state via `operator.add`)
 
 **Important:** This function does NOT make an LLM call. It only calls external search
-APIs (Tavily, Wikipedia). Token estimate: ~300 per call (for state bookkeeping).
+APIs (Tavily, Wikipedia). It reports 0 tokens: it spends none.
 
 **Parallel Execution:**
 When the planner produces N sub-topics, N instances of this function run in parallel.
@@ -521,11 +525,11 @@ Controls the refinement loop: passed=True routes to END, False routes back to wr
 ```python
 # Force-pass if max revisions reached (prevent infinite loops)
 force_pass = revision_count >= max_revisions
-passed = result.passed or force_pass
+passed = result.score >= pass_score or force_pass   # the model's own flag is ignored
 
 # If passed, promote draft to final report
 if passed:
-    output["final_report"] = current_draft
+    output["final_report"], _ = limit_report(current_draft)   # max_report_chars
 ```
 
 **Error Handling:**
@@ -580,7 +584,8 @@ so the TAVILY_API_KEY is only needed at runtime, not import time.
 #### `src/tools/scraper.py` - Web Scraper
 
 **Purpose:** Extracts text content from web pages using BeautifulSoup. Validates URLs
-before fetching and strips navigation/script elements.
+before fetching and strips navigation/script elements. **No agent calls it**: the
+researcher uses search snippets only, so this module is not on the request path.
 
 **Key Components:**
 
@@ -624,8 +629,10 @@ supplement for factual/definitional queries.
 
 #### `src/cache/research_cache.py` - SQLite Source & Query Cache
 
-**Purpose:** Caches research results in SQLite to avoid duplicate API calls. Uses
-exact query matching (SHA-256 hash), NOT vector similarity.
+**Purpose:** Caches research results in SQLite. Uses exact query matching (SHA-256
+hash), NOT vector similarity. **Not on the request path**: no agent calls
+`get_cached_sources()` or `cache_sources()`; the Streamlit sidebar only reads
+`get_cache_stats()`.
 
 **Key Components:**
 
@@ -705,9 +712,11 @@ token budget enforcement, and API rate limiting.
 | `is_allowed_domain(url, allowlist=None)` | Function | Hostname-suffix match against ALLOWED_DOMAINS |
 | `check_budget(current, budget=50000)` | Function | Returns True if under budget |
 | `detect_injection(text)` | Function | Scans text for prompt injection patterns, returns (is_safe, matches) |
-| `RateLimiter(max_rpm=30)` | Class | Fixed-spacing limiter (not a token bucket -- it never allows a burst) |
-| `rate_limiter` | Global | Singleton RateLimiter instance (30 RPM) |
-| `check_all_guardrails(state)` | Function | Budget, PII across state, injection in the query AND in retrieved snippets, rate; returns {budget_ok, pii_clean, pii_types, injection_safe, rate_ok, token_count, rate_limiter_calls, issues} |
+| `screen_input(text)` | Function | Applies the `guardrails.prompt_injection` policy (block / warn / disabled); called by the planner on the user query. Returns (allowed, matches) |
+| `RateLimiter(max_rpm=30)` | Class | Sliding 60 s window: up to `max_rpm` calls pass immediately, the next waits for the oldest to age out |
+| `rate_limiter` | Global | Singleton RateLimiter, `max_rpm` read from `guardrails.rate_limit.max_rpm` |
+| `throttle()` | Function | Waits on `rate_limiter`; called before every LLM call (`structured_call`, synthesizer, writer) and every search-tool call (researcher). No-op when disabled in config or in offline mode |
+| `check_all_guardrails(state)` | Function | Budget, PII across state, injection in the query AND in retrieved snippets, rate; the researcher calls it (through `screen_sources`) on every batch of snippets; returns {budget_ok, pii_clean, pii_types, injection_safe, flagged_sources, rate_ok, token_count, rate_limiter_calls, issues} |
 
 **PII Patterns (compiled regex):**
 
@@ -721,12 +730,12 @@ token budget enforcement, and API rate limiting.
 ```python
 class RateLimiter:
     def __init__(self, max_rpm=30):
-        self.min_interval = 60.0 / max_rpm  # 2 seconds between calls
-        self._last_call = 0.0
+        self._calls = deque()               # timestamps inside the last 60 s
         self._lock = threading.Lock()       # Thread-safe
 
     def wait_if_needed(self) -> float:
-        # Blocks until safe to call, returns seconds waited
+        # If max_rpm calls are already in the window, sleep until the oldest
+        # ages out; then record this call. Returns seconds waited
 ```
 
 ---
@@ -790,8 +799,9 @@ All agent LLM calls use the same model via LangChain's `ChatGoogleGenerativeAI`.
 - Happy path: 5 calls (planner + analyst + synthesizer + writer + reviewer)
 - With quality retry: 5 calls (retry researcher does not call LLM)
 - With 1 revision: 7 calls (+ writer + reviewer)
-- With 2 revisions: 9 calls (+ 2x writer + 2x reviewer)
-- Worst case: 9 calls at 6-second spacing = ~54 seconds of rate-limited execution
+- Worst case: 7 calls. `max_revisions: 2` allows two drafts in total, because the
+  reviewer force-passes once `revision_count` (the draft version) reaches it. All 7
+  fit inside one 30-call window, so the rate limiter adds no wait
 
 ### Tool: Tavily Search API
 
@@ -816,6 +826,8 @@ All agent LLM calls use the same model via LangChain's `ChatGoogleGenerativeAI`.
 | User-Agent | "ResearchBot/1.0" |
 
 ### Tool: BeautifulSoup Scraper
+
+Implemented and tested, but no agent calls it.
 
 | Setting | Value |
 |---------|-------|
@@ -1023,14 +1035,16 @@ app = build_graph()
 
 ### Step 2: Guardrails Pre-Check
 
-Before the first agent runs, the planner checks budget:
+Before the first agent runs, the planner screens the user query for prompt
+injection and checks the budget:
 ```python
-check_budget(state.get("token_count", 0))  # check_budget(0) -> True
+allowed, matches = screen_input(state["query"])   # block -> run ends with an error
+check_budget(state.get("token_count", 0))         # check_budget(0) -> True
 ```
 
-The rate limiter is checked before each LLM call:
+The rate limiter is waited on before each LLM and search call:
 ```python
-rate_limiter.wait_if_needed()  # First call, no wait needed
+throttle()  # 30 RPM sliding window; the first calls never wait
 ```
 
 ---
@@ -1727,7 +1741,7 @@ available in the state.
 Additionally, the reviewer itself has a `force_pass` safety net:
 ```python
 force_pass = revision_count >= max_revisions
-passed = result.passed or force_pass  # True even if LLM says False
+passed = result.score >= pass_score or force_pass  # True even if the score is low
 ```
 
 This ensures `final_report` is always populated when the pipeline exits.
@@ -1949,14 +1963,14 @@ CREATE TABLE IF NOT EXISTS source_index (
 |--------|-------|-------|
 | Full pipeline (happy path) | 15-20s | 5 LLM calls + 2 search API calls |
 | Full pipeline (1 revision) | 20-25s | 7 LLM calls |
-| Full pipeline (quality retry + 2 revisions) | 25-35s | 9 LLM calls (worst case) |
+| Full pipeline (quality retry + 1 revision) | 20-25s | 7 LLM calls (worst case) |
 | Per-agent LLM call | 2-4s | Gemini 3.6 Flash average |
 | Quality Gate (no LLM) | <100ms | Pure Python heuristics |
 | Cache hit (SQLite) | <10ms | Local file I/O |
 | Tavily search | 1-3s | Network dependent |
 | Wikipedia search | 0.5-1.5s | Public API |
 | Web scrape | 1-5s | URL validation + page fetch |
-| Rate limiter wait | 0-2s | 30 RPM = 2s minimum interval |
+| Rate limiter wait | 0s typical | Sliding window; only waits once 30 calls land inside 60 s |
 
 ### Parallel Execution Speedup
 
@@ -1972,35 +1986,30 @@ makes independent API calls (Tavily + Wikipedia), and their results merge via
 
 ### Token Usage
 
-| Agent | Tokens/Call | Calls (happy) | Calls (worst) |
-|-------|-------------|---------------|----------------|
-| Planner | ~500 | 1 | 1 |
-| Researcher | ~300 | 2-3 | 2-3 |
-| Quality Gate | 0 | 1 | 1 |
-| Retry Researcher | ~300 | 0 | 1 |
-| Analyst | ~1,200 | 1 | 1 |
-| Synthesizer | ~800 | 1 | 1 |
-| Writer | ~1,500 | 1 | 3 (1 + 2 revisions) |
-| Reviewer | ~800 | 1 | 3 (1 + 2 re-reviews) |
-| **Total** | - | **5,400** | **9,200** |
+Tokens are read from each response's `usage_metadata` (`src/token_usage.py`), so they
+vary by query and model. There are no per-agent constants any more: the old table here
+listed the hard-coded values (planner 500, researcher 300, analyst 1,200, synthesizer
+800, writer 1,500) that the agents used to report instead of real usage.
 
-### Cost Per Query
+| Agent | LLM calls (happy path) | LLM calls (worst case) |
+|-------|------------------------|------------------------|
+| Planner | 1 | 1 |
+| Researcher / Retry Researcher | 0 (search only, 0 tokens) | 0 |
+| Quality Gate | 0 | 0 |
+| Analyst | 1 | 1 |
+| Synthesizer | 1 | 1 |
+| Writer | 1 | 2 (first draft + 1 revision) |
+| Reviewer | 1 | 2 |
+| **Total** | **5** | **7** |
 
-| Configuration | Tokens | Cost | Notes |
-|---------------|--------|------|-------|
-| Happy path | ~5,400 | $0.00 | Gemini free tier |
-| 1 revision | ~7,700 | $0.00 | Gemini free tier |
-| 2 revisions | ~9,200 | $0.00 | Gemini free tier |
-| Single-agent baseline | ~1,850 | $0.00 | 1 LLM call |
-
-**Note:** All costs are $0.00 because Gemini 3.6 Flash provides a free tier.
-At paid pricing, the cost would be approximately $0.001 per query.
+For measured numbers, see the evaluation in the README (2,561 tokens per report for one
+call, 13,447 for the 3-call chain) and the per-step `tokens` in `pipeline_trace`.
 
 ### Test Suite Performance
 
 | Metric | Value |
 |--------|-------|
-| Total tests | 110 |
+| Total tests | 208 |
 | All passing | Yes |
 | API keys required | No (all mocked) |
 | Execution time | ~3 seconds |
@@ -2055,10 +2064,11 @@ if not check_budget(state.get("token_count", 0)):
 
 | Parameter | Value | Purpose |
 |-----------|-------|---------|
-| Max RPM | 10 | Gemini free tier limit |
-| Min interval | 6.0 seconds | `60 / 10 = 6s` between calls |
-| Thread safety | `threading.Lock()` | Safe for parallel execution |
-| Global instance | `rate_limiter = RateLimiter(max_rpm=10)` | Shared across all agents |
+| Max RPM | 30 (`guardrails.rate_limit.max_rpm`) | Gemini free tier limit |
+| Algorithm | Sliding 60 s window | Bursts up to 30 calls pass; the 31st waits for the oldest to age out |
+| Thread safety | `threading.Lock()` | Parallel researchers queue behind one another |
+| Global instance | `rate_limiter = RateLimiter(max_rpm=<config>)` | Shared across all agents via `throttle()` |
+| Offline mode | Skipped | The stand-in makes no provider calls |
 
 ### URL Validation
 
@@ -2178,7 +2188,7 @@ agents:
 ```yaml
 pipeline:
   max_sub_topics: 3        # Max sub-topics from planner
-  max_revisions: 2         # Max writer-reviewer loop iterations
+  max_revisions: 2         # Max drafts (2 = first draft + one revision)
   quality_threshold: 0.4   # Quality gate pass/fail threshold
   review_pass_score: 7     # Reviewer score needed to pass
 ```
@@ -2186,7 +2196,7 @@ pipeline:
 | Key | Effect | Change Impact |
 |-----|--------|---------------|
 | `max_sub_topics` | Number of parallel researchers | Higher = more sources but more API calls (1-3 range) |
-| `max_revisions` | Writer-reviewer loop bound | Higher = better reports but more time/tokens (0-5 range) |
+| `max_revisions` | Writer-reviewer loop bound, counted in drafts | 0 or 1 = no revision, 2 = one revision, N = N-1 revisions |
 | `quality_threshold` | Quality gate pass/fail | Lower = more lenient (0.0-1.0, default 0.4) |
 | `review_pass_score` | Reviewer pass/fail | Lower = more lenient (1-10, default 7) |
 
@@ -2203,7 +2213,7 @@ pipeline:
 # Quality mode (maximize report quality):
 pipeline:
   max_sub_topics: 3        # Maximum parallel research
-  max_revisions: 2         # Up to 2 revisions
+  max_revisions: 3         # Up to 2 revisions (3 drafts)
   quality_threshold: 0.6   # Strict quality gate
   review_pass_score: 8     # High bar for passing
 ```
@@ -2219,7 +2229,7 @@ budget:
 
 | Key | Effect | Change Impact |
 |-----|--------|---------------|
-| `token_budget` | Total token ceiling | Higher = more expensive but allows more complex research |
+| `token_budget` | Total token ceiling, read by `get_token_budget()` | Higher allows more complex research and more tokens per run |
 | `warn_at_percent` | Warning threshold | Triggers logging when X% of budget consumed |
 | `graceful_degradation` | Behavior at budget limit | If true, agents skip LLM calls and pass through state |
 
@@ -2256,6 +2266,14 @@ guardrails:
       - "arxiv.org"
       - "github.com"
       - "tavily.com"
+
+  prompt_injection:
+    enabled: true              # Screens the user query in the planner
+    action: "block"            # block: end the run with an error. warn: log and continue
+
+  rate_limit:
+    enabled: true              # Sliding window before every LLM and search call
+    max_rpm: 30                # Skipped in offline mode
 
   content_filtering:
     max_report_chars: 10000    # Truncate final report if too long
@@ -2339,13 +2357,18 @@ Route simple factual lookups to single-agent to save 2.8x cost.
 |-----------|-------|----------|-----------|-------------|
 | `test_e2e_pipeline.py` | 37 | E2E | No | Full pipeline with mocked LLM calls |
 | `test_ui_smoke.py` | 26 | Smoke | No | Streamlit imports and module wiring |
+| `test_guardrail_enforcement.py` | 38 | Unit | No | SSRF, allowlist, injection phrasing |
+| `test_offline_mode.py` | 37 | Unit | No | Offline stand-in, placeholder keys |
 | `test_guardrails.py` | 14 | Unit | No | PII, budget, rate limiter |
+| `test_token_accounting.py` | 12 | Unit | No | Real token usage |
+| `test_guardrails_wired.py` | 11 | Integration | No | Rate limiter + injection check run on the real pipeline |
+| `test_wiring_gaps.py` | 25 | Integration | No | Config keys read, snippet screening, code-enforced pass, offline no-network, run.py banner |
 | `test_graph.py` | 9 | Unit | No | Graph routing logic |
 | `test_quality_gate.py` | 8 | Unit | No | Source scoring heuristics |
 | `test_state.py` | 6 | Unit | No | State schema and Pydantic models |
 | `test_cache.py` | 5 | Unit | No | SQLite cache operations |
 | `test_tools.py` | 5 | Unit | No | Tool selector keyword routing |
-| **Total** | **110** | - | **No** | All tests run without API keys |
+| **Total** | **233** | - | **No** | All tests run without API keys |
 
 ### E2E Test Classes
 
@@ -2401,7 +2424,7 @@ conditional edges, loop bounds) without making any real API calls.
 | Safety guardrails | 4 (PII scrub, URL validate, token budget, rate limit) |
 | Database tables | 2 (query_cache, source_index) |
 | Config parameters | 20+ (YAML-driven, runtime changeable) |
-| Test coverage | 110 tests, 0 API keys required |
+| Test coverage | 233 tests, 0 API keys required |
 | Test categories | 4 (unit, graph, e2e, smoke) |
 
 ### Pipeline Decision Points
@@ -2476,7 +2499,8 @@ Streamlit UI / CLI Output
    pass through existing state. The pipeline produces the best report possible with
    the tokens it has.
 
-5. **Bounded loops** - The writer-reviewer loop has a hard cap (`max_revisions=2`).
+5. **Bounded loops** - The writer-reviewer loop has a hard cap (`max_revisions=2`,
+   two drafts).
    The quality gate retry only fires once (`len(queries_used) > len(sub_topics)` check).
 
 6. **Pure Python where possible** - The quality gate makes no LLM call. The researcher
@@ -2500,4 +2524,4 @@ Streamlit UI / CLI Output
 
 ---
 
-*Document generated for the Multi-Agent Research System. 110 tests passing.*
+*Document generated for the Multi-Agent Research System. 233 tests passing.*

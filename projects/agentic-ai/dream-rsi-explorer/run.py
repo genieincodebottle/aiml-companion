@@ -178,7 +178,7 @@ def main(argv: list[str] | None = None) -> int:
 
         client = GeminiClient()
     except ModuleNotFoundError:
-        print("google-genai is not installed. Run: pip install -r requirements.txt", file=sys.stderr)
+        print("google-genai is not installed. Run: uv sync (from this folder)", file=sys.stderr)
         return 2
     except RuntimeError as exc:
         print(f"{exc}\n\nGet a free key at https://aistudio.google.com/apikey", file=sys.stderr)

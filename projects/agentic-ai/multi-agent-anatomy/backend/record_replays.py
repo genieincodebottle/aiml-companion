@@ -20,12 +20,12 @@ from pathlib import Path
 
 # Force replay mode before app.config is imported, so a developer who happens to
 # have a key in .env does not silently record live traces: they would be
-# nondeterministic, they would cost money, and they would defeat the purpose of
+# nondeterministic, they would need a live model, and they would defeat the purpose of
 # a recorded set that anybody can reproduce.
 os.environ["REPLAY_ONLY"] = "true"
 
 from app.failures import FailureSwitches
-from app.pipeline import cost_breakdown, run_request
+from app.pipeline import run_request, tokens_breakdown
 from app.tools.db import init_db
 
 OUT = Path(__file__).resolve().parent / "replay"
@@ -67,7 +67,7 @@ SCENARIOS = [
     {
         "id": "06-cache-off",
         "title": "6. Prompt caching off",
-        "teaches": "The same request with every stable prefix re-billed at full input price. Compare the total against scenario 1.",
+        "teaches": "The same request with every stable prefix re-sent as uncached input tokens on every call. Compare the total against scenario 1.",
         "failures": {"disable_prompt_cache": True},
     },
     {
@@ -84,9 +84,9 @@ async def main() -> None:
     for sc in SCENARIOS:
         # Two runs per scenario, and the second one is what gets recorded.
         #
-        # The first run pays full price for every stable prefix, because a cache
+        # The first run sends every stable prefix as uncached input, because a cache
         # is empty until something fills it. Production requests almost never
-        # look like that, so recording the cold run would overstate the bill of
+        # look like that, so recording the cold run would overstate the token use of
         # every scenario and flatten the difference the caching toggle is there
         # to show. The reset makes the pair reproducible.
         # Reseed between scenarios. The saga scenario writes to the orders
@@ -96,7 +96,7 @@ async def main() -> None:
         switches = FailureSwitches.from_dict(sc["failures"])
         await run_request(sc.get("question", QUESTION), switches=switches, reset_cache=True)
         result = await run_request(sc.get("question", QUESTION), switches=switches)
-        result["cost_by_model"] = cost_breakdown(result["trace"])
+        result["tokens_by_model"] = tokens_breakdown(result["trace"])
         payload = {
             "id": sc["id"],
             "title": sc["title"],
@@ -108,7 +108,7 @@ async def main() -> None:
         (OUT / f"{sc['id']}.json").write_text(
             json.dumps(payload, indent=2), encoding="utf-8"
         )
-        print(f"recorded {sc['id']}  cost=${result['trace']['summary']['total_cost_usd']:.5f}")
+        print(f"recorded {sc['id']}  tokens={result['trace']['summary']['total_tokens']}")
 
 
 if __name__ == "__main__":

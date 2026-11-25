@@ -22,11 +22,13 @@ load_dotenv()
 
 from src.agents import build_graph
 from src.models.state import default_state
-from src.guardrails import TOKEN_BUDGET
+from src.guardrails import get_token_budget
+
+TOKEN_BUDGET = get_token_budget()  # budget.token_budget in configs/base.yaml
 from src.cache.research_cache import get_cache_stats
 from evaluation.run_eval import (
     TEST_QUESTIONS, single_agent_research, multi_agent_research,
-    evaluate_report, PRICE_PER_TOKEN,
+    evaluate_report,
 )
 
 # === Page Config ===
@@ -64,7 +66,7 @@ def render_sidebar():
 
         st.subheader("Model")
         st.caption(f"{model_name} ({provider})")
-        st.caption("Free tier - $0.00 per query")
+        st.caption("Usage is measured in tokens; see Token Budget below")
 
         st.divider()
 
@@ -395,7 +397,7 @@ def display_final_report(result):
 # === Evaluation Tab ===
 def render_evaluation_tab():
     st.header("Evaluation: Single-Agent vs Multi-Agent")
-    st.caption("Compare a single LLM call against the 8-agent pipeline on research questions")
+    st.caption("Compare a single LLM call against a 3-call chain (researcher, analyst, writer) on research questions")
 
     col1, col2 = st.columns([1, 3])
     with col1:
@@ -432,8 +434,7 @@ def run_evaluation(num_questions):
                 **single_scores,
                 "tokens": single["tokens"],
                 "latency": single["latency"],
-                "cost": single["cost"],
-            })
+                            })
             s.update(
                 label=f"Q{i+1} Single-agent: Done (acc={single_scores.get('accuracy', '?')})",
                 state="complete",
@@ -447,8 +448,7 @@ def run_evaluation(num_questions):
                 **multi_scores,
                 "tokens": multi["tokens"],
                 "latency": multi["latency"],
-                "cost": multi["cost"],
-            })
+                            })
             s.update(
                 label=f"Q{i+1} Multi-agent: Done (acc={multi_scores.get('accuracy', '?')})",
                 state="complete",
@@ -476,7 +476,7 @@ def display_eval_results(results):
         st.metric("Citations", f"{df_s['citations'].mean():.1f} / 3")
 
     with col2:
-        st.markdown("**Multi-Agent (8 agents)**")
+        st.markdown("**Multi-Agent (3-call chain)**")
         d_acc = df_m["accuracy"].mean() - df_s["accuracy"].mean()
         d_comp = df_m["completeness"].mean() - df_s["completeness"].mean()
         d_cit = df_m["citations"].mean() - df_s["citations"].mean()
@@ -511,7 +511,7 @@ def display_eval_results(results):
     else:
         st.info(
             "**Verdict: Consider optimizing single-agent first** - "
-            "marginal improvement doesn't justify the added complexity and cost"
+            "marginal improvement doesn't justify the added complexity and tokens"
         )
 
     # Per-question detail
@@ -538,7 +538,7 @@ def main():
     st.caption(
         "8-agent pipeline: Planner \u2192 Researcher (parallel) \u2192 Quality Gate \u2192 "
         "Analyst \u2192 Synthesizer \u2192 Writer \u2192 Reviewer | "
-        "Powered by Gemini 3.6 Flash (free tier) + Tavily Search + Wikipedia"
+        "Powered by Gemini 3.6 Flash + Tavily Search + Wikipedia"
     )
 
     render_sidebar()

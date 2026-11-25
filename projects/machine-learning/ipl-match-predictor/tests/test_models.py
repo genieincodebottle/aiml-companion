@@ -250,7 +250,8 @@ def test_season_split_never_trains_on_the_future():
 
     This project predicts matches that have not been played. A random split
     trains on 2025 to predict 2024, which deployment cannot do, and it flatters
-    the model: 0.5150 random against 0.4507 on an honest 2025 holdout.
+    the model: the Random Forest reads 0.5258 on a random 25% split against
+    0.4507 on the honest 2024-25 holdout.
     """
     import numpy as np
     import pandas as pd
@@ -312,3 +313,132 @@ def test_report_flags_a_model_that_loses_to_the_baseline():
     })
     assert "Majority-class baseline" in report
     assert "does NOT beat the baseline" in report
+
+
+def test_neural_net_trains_when_last_batch_has_one_row():
+    """929 rows with batch 32 leaves a 1-row remainder, which BatchNorm
+    rejects. That used to make a CV fold fail and the whole CV mean NaN."""
+    import numpy as np
+    import pytest
+    pytest.importorskip("torch")
+    from src.models import build_neural_classifier
+
+    rng = np.random.default_rng(0)
+    X = rng.normal(size=(65, 5))      # 65 % 32 == 1
+    y = (X[:, 0] > 0).astype(int)
+    clf = build_neural_classifier(epochs=2)
+    clf.fit(X, y)
+    assert clf.predict(X).shape == (65,)
+
+
+def test_report_does_not_call_a_noisy_lift_a_win():
+    from src.evaluate import generate_report
+
+    report = generate_report({
+        "classification": {"accuracy": 0.5000, "f1": 0.4998,
+                           "baseline_accuracy": 0.4789,
+                           "confusion_matrix": [[35, 39], [32, 36]]},
+    })
+    assert "within sampling noise" in report
+    assert "BEATS" not in report
+
+
+def test_model_selection_cv_never_sees_the_test_seasons(monkeypatch):
+    """Selection CV must use only the training seasons, forward in time.
+
+    It used to run cross_val_score(cv=5) on all decided matches, so the CV
+    pick was chosen on folds that contained the 2024-25 test seasons and that
+    trained on later seasons to predict earlier ones.
+    """
+    import pandas as pd
+    from sklearn.model_selection import TimeSeriesSplit
+    import main as pipeline
+
+    matches, deliveries = pipeline.stage_load()
+    matches, _ = pipeline.stage_clean(matches, deliveries)
+    matches = pipeline.stage_features(matches)
+
+    seen = []
+    real_cv = pipeline.cross_validate_model
+
+    def spy(model, X, y, cv=5, scoring="accuracy"):
+        seen.append((X.index, cv))
+        return real_cv(model, X, y, cv=cv, scoring=scoring)
+
+    monkeypatch.setattr(pipeline, "cross_validate_model", spy)
+    # The ensemble is scored on the test seasons and is not part of selection.
+    monkeypatch.setattr(pipeline, "build_ensemble", lambda *a, **k: None)
+    monkeypatch.setattr(pipeline, "ensemble_predict_proba",
+                        lambda models, X: np.full(len(X), 0.5))
+
+    out = pipeline.stage_train(matches)
+
+    years = pd.to_datetime(matches["date"]).dt.year
+    first_test_year = int(years.max()) - 1
+    assert seen, "no cross-validation ran"
+    for index, cv in seen:
+        assert years.loc[index].max() < first_test_year
+        assert isinstance(cv, TimeSeriesSplit)
+        dates = pd.to_datetime(matches.loc[index, "date"]).to_numpy()
+        assert (dates[:-1] <= dates[1:]).all()          # date-sorted rows
+        for train_idx, val_idx in cv.split(index):
+            assert train_idx.max() < val_idx.min()      # forward in time
+    assert len(out["X_test"]) > 0
+    assert years.loc[out["X_test"].index].min() == first_test_year
+
+
+def test_forward_cv_trains_only_on_the_past():
+    import numpy as np
+    from src.models import forward_cv
+
+    X = np.arange(120).reshape(-1, 1)
+    folds = list(forward_cv(5).split(X))
+    assert len(folds) == 5
+    for train_idx, val_idx in folds:
+        assert train_idx.max() < val_idx.min()
+
+
+def test_recency_weights_reach_the_calibrated_base_estimators(monkeypatch):
+    """build_ensemble(calibrate=True) must pass sample_weight to every base fit.
+
+    CalibratedClassifierCV refits clones of the pipeline per CV fold, so
+    weights given only to a pre-fit pipeline never reach the models that
+    predict. Spy on the fits that actually happen.
+    """
+    import numpy as np
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.pipeline import Pipeline
+    from sklearn.preprocessing import StandardScaler
+    import src.models as models_mod
+
+    calls = []
+
+    class Spy(LogisticRegression):
+        def fit(self, X, y, sample_weight=None):
+            calls.append(None if sample_weight is None else np.asarray(sample_weight))
+            return super().fit(X, y, sample_weight=sample_weight)
+
+    def spy_pipeline(*a, **k):
+        return Pipeline([("scaler", StandardScaler()), ("classifier", Spy())])
+
+    for name in ("build_classifier", "build_xgb_classifier",
+                 "build_gb_classifier", "build_lr_classifier"):
+        monkeypatch.setattr(models_mod, name, spy_pipeline)
+
+    rng = np.random.default_rng(0)
+    X = rng.normal(size=(90, 4))
+    y = (X[:, 0] + rng.normal(size=90) > 0).astype(int)
+    w = np.linspace(0.5, 1.0, 90)
+
+    models_mod.build_ensemble(X, y, sample_weight=w, calibrate=True)
+    assert calls and all(c is not None for c in calls)
+    for c in calls:
+        assert c.min() >= 0.5 and c.max() <= 1.0 and len(set(c.round(6))) > 1
+
+    calls.clear()
+    models_mod.build_ensemble(X, y, sample_weight=w, calibrate=False)
+    assert len(calls) == 4 and all(c is not None for c in calls)
+
+    calls.clear()
+    models_mod.build_ensemble(X, y, calibrate=True)
+    assert calls and all(c is None for c in calls)

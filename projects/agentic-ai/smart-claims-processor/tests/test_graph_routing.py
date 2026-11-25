@@ -95,3 +95,18 @@ def test_a_claim_a_human_already_reviewed_is_not_paused_twice_for_value():
 def test_signoff_reason_names_the_threshold():
     state = _eval_state(15_000, settlement_output=object())
     assert any("needs human sign-off" in r for r in graph._routing_reasons("hitl_checkpoint", state))
+
+
+def _fast_state(amount, policy):
+    return {"claim": {"estimated_amount": amount, "policy_number": policy},
+            "intake_output": SimpleNamespace(is_valid=True, confidence=0.95)}
+
+
+@pytest.mark.parametrize("amount, prior, expected", [
+    (450, 0, "settlement_calculator"),   # small and clean history: fast mode
+    (450, 1, "fraud_crew"),              # small but a prior claim: full pipeline
+    (500, 0, "fraud_crew"),              # not under max_amount
+])
+def test_fast_mode_needs_a_small_amount_and_a_clean_history(monkeypatch, amount, prior, expected):
+    monkeypatch.setattr(graph, "get_claim_history_count", lambda p: prior)
+    assert graph.route_after_intake(_fast_state(amount, "POL-X")) == expected

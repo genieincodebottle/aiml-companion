@@ -1,0 +1,228 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 830" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6b7280"/>
+    </marker>
+    <marker id="arrowSm" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1180" height="830" fill="#ffffff"/>
+  <text x="590" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#111827">Smart Claims Processor - High-Level Architecture</text>
+
+  <!-- People -->
+  <rect x="30" y="60" width="240" height="70" rx="8" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+  <text x="150" y="84" text-anchor="middle" font-size="15" font-weight="600" fill="#9a3412">People (3 roles)</text>
+  <text x="150" y="104" text-anchor="middle" font-size="11" fill="#9a3412">claimant (user) files claims,</text>
+  <text x="150" y="119" text-anchor="middle" font-size="11" fill="#9a3412">reviewer decides, admin configures</text>
+
+  <!-- Terminal path -->
+  <rect x="700" y="60" width="450" height="70" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+  <text x="925" y="84" text-anchor="middle" font-size="14" font-weight="600" fill="#334155">evaluation/run_eval.py (terminal)</text>
+  <text x="925" y="104" text-anchor="middle" font-size="11" fill="#334155">runs every file in data/sample_claims through process_claim()</text>
+  <text x="925" y="119" text-anchor="middle" font-size="11" fill="#334155">and prints decisions and evaluator scores (needs a key)</text>
+
+  <!-- React frontend -->
+  <rect x="30" y="150" width="240" height="410" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="150" y="176" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1d4ed8">React Frontend (Vite + MUI)</text>
+  <rect x="48" y="192" width="204" height="42" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="150" y="209" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">Submit Claim, My Claims</text>
+  <text x="150" y="225" text-anchor="middle" font-size="10" fill="#1e3a8a">claimant files and tracks</text>
+  <rect x="48" y="243" width="204" height="42" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="150" y="260" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">My Appeals</text>
+  <text x="150" y="276" text-anchor="middle" font-size="10" fill="#1e3a8a">claimant contests a decision</text>
+  <rect x="48" y="294" width="204" height="42" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="150" y="311" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">Claims Dashboard</text>
+  <text x="150" y="327" text-anchor="middle" font-size="10" fill="#1e3a8a">Agent Trace for every claim</text>
+  <rect x="48" y="345" width="204" height="42" rx="6" fill="#fff7ed" stroke="#ea580c"/>
+  <text x="150" y="362" text-anchor="middle" font-size="12" font-weight="600" fill="#9a3412">HITL Queue</text>
+  <text x="150" y="378" text-anchor="middle" font-size="10" fill="#9a3412">approve or deny, with notes</text>
+  <rect x="48" y="396" width="204" height="42" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="150" y="413" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">Appeals Review</text>
+  <text x="150" y="429" text-anchor="middle" font-size="10" fill="#1e3a8a">reviewer decides appeals</text>
+  <rect x="48" y="447" width="204" height="42" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="150" y="464" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">Analytics</text>
+  <text x="150" y="480" text-anchor="middle" font-size="10" fill="#1e3a8a">approval, HITL, fraud trends</text>
+  <rect x="48" y="498" width="204" height="42" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="150" y="515" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">Settings, Users, Policies</text>
+  <text x="150" y="531" text-anchor="middle" font-size="10" fill="#1e3a8a">admin: provider, country</text>
+
+  <!-- FastAPI backend -->
+  <rect x="340" y="150" width="260" height="410" rx="10" fill="#ecfeff" stroke="#0891b2" stroke-width="2"/>
+  <text x="470" y="176" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0e7490">FastAPI backend (api/)</text>
+  <text x="470" y="194" text-anchor="middle" font-size="10.5" fill="#0e7490">JWT + bcrypt, role guards</text>
+  <rect x="356" y="206" width="228" height="60" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="470" y="223" text-anchor="middle" font-size="12" font-weight="600" fill="#155e75">/api/claims</text>
+  <text x="470" y="240" text-anchor="middle" font-size="10.5" fill="#164e63">POST /submit starts a thread</text>
+  <text x="470" y="255" text-anchor="middle" font-size="10.5" fill="#164e63">GET /{claim_id} with agent trace</text>
+  <rect x="356" y="274" width="228" height="60" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="470" y="291" text-anchor="middle" font-size="12" font-weight="600" fill="#155e75">/api/hitl</text>
+  <text x="470" y="308" text-anchor="middle" font-size="10.5" fill="#164e63">GET /queue, GET /stats</text>
+  <text x="470" y="323" text-anchor="middle" font-size="10.5" fill="#164e63">POST /decide/{ticket_id}</text>
+  <rect x="356" y="342" width="228" height="46" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="470" y="359" text-anchor="middle" font-size="12" font-weight="600" fill="#155e75">/api/appeals, /api/analytics</text>
+  <text x="470" y="376" text-anchor="middle" font-size="10.5" fill="#164e63">/api/policies, /api/auth</text>
+  <rect x="356" y="396" width="228" height="60" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="470" y="413" text-anchor="middle" font-size="12" font-weight="600" fill="#155e75">/api/settings (admin)</text>
+  <text x="470" y="430" text-anchor="middle" font-size="10.5" fill="#164e63">llm: groq or gemini</text>
+  <text x="470" y="445" text-anchor="middle" font-size="10.5" fill="#164e63">country: us or india</text>
+  <rect x="356" y="464" width="228" height="60" rx="6" fill="#fff7ed" stroke="#ea580c"/>
+  <text x="470" y="481" text-anchor="middle" font-size="12" font-weight="600" fill="#9a3412">Background thread</text>
+  <text x="470" y="498" text-anchor="middle" font-size="10.5" fill="#9a3412">process_claim(), resume_claim()</text>
+  <text x="470" y="513" text-anchor="middle" font-size="10.5" fill="#9a3412">from src/agents/graph.py</text>
+  <text x="470" y="545" text-anchor="middle" font-size="10.5" fill="#0e7490">localhost:8000, Swagger at /docs</text>
+
+  <!-- LangGraph engine -->
+  <rect x="700" y="150" width="450" height="410" rx="10" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="925" y="176" text-anchor="middle" font-size="13.5" font-weight="700" fill="#4338ca">LangGraph StateGraph (src/agents/graph.py)</text>
+
+  <rect x="714" y="188" width="212" height="26" rx="5" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="820" y="205" text-anchor="middle" font-size="10.5" fill="#3730a3">intake_agent: validate, mask PII</text>
+  <rect x="714" y="226" width="212" height="58" rx="5" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="820" y="243" text-anchor="middle" font-size="11" font-weight="600" fill="#3730a3">fraud_crew (CrewAI, sequential)</text>
+  <text x="820" y="259" text-anchor="middle" font-size="10" fill="#3730a3">Pattern Analyst, Anomaly Detector,</text>
+  <text x="820" y="274" text-anchor="middle" font-size="10" fill="#3730a3">Consistency Validator; score in code</text>
+  <rect x="714" y="296" width="212" height="26" rx="5" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="820" y="313" text-anchor="middle" font-size="10.5" fill="#3730a3">damage_assessor: depreciation</text>
+  <rect x="714" y="334" width="212" height="26" rx="5" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="820" y="351" text-anchor="middle" font-size="10.5" fill="#3730a3">policy_checker: coverage</text>
+  <rect x="714" y="372" width="212" height="40" rx="5" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="820" y="388" text-anchor="middle" font-size="10.5" fill="#3730a3">settlement_calculator: payout</text>
+  <text x="820" y="403" text-anchor="middle" font-size="10" fill="#3730a3">may look up past claims (tool loop)</text>
+  <rect x="714" y="424" width="212" height="26" rx="5" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="820" y="441" text-anchor="middle" font-size="10.5" fill="#3730a3">evaluator: LLM-as-judge (sampled)</text>
+  <rect x="714" y="462" width="212" height="26" rx="5" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="820" y="479" text-anchor="middle" font-size="10.5" fill="#3730a3">communication_agent: the letter</text>
+
+  <line x1="820" y1="214" x2="820" y2="225" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowSm)"/>
+  <line x1="820" y1="284" x2="820" y2="295" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowSm)"/>
+  <line x1="820" y1="322" x2="820" y2="333" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowSm)"/>
+  <line x1="820" y1="360" x2="820" y2="371" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowSm)"/>
+  <line x1="820" y1="412" x2="820" y2="423" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowSm)"/>
+  <line x1="820" y1="450" x2="820" y2="461" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowSm)"/>
+
+  <text x="820" y="508" text-anchor="middle" font-size="10" fill="#4338ca">Fast mode: intake to settlement.</text>
+  <text x="820" y="522" text-anchor="middle" font-size="10" fill="#4338ca">Invalid claim: intake to the letter.</text>
+
+  <rect x="942" y="188" width="194" height="88" rx="5" fill="#fff7ed" stroke="#ea580c"/>
+  <text x="1039" y="205" text-anchor="middle" font-size="11.5" font-weight="600" fill="#9a3412">HITL pause: interrupt()</text>
+  <text x="1039" y="221" text-anchor="middle" font-size="10" fill="#9a3412">hitl_checkpoint: fraud score,</text>
+  <text x="1039" y="235" text-anchor="middle" font-size="10" fill="#9a3412">quality gate, high value, halt</text>
+  <text x="1039" y="252" text-anchor="middle" font-size="10" fill="#9a3412">hitl_after_&lt;agent&gt;: one per</text>
+  <text x="1039" y="266" text-anchor="middle" font-size="10" fill="#9a3412">confidence gate (5 gates)</text>
+
+  <rect x="942" y="284" width="194" height="40" rx="5" fill="#fef2f2" stroke="#dc2626"/>
+  <text x="1039" y="300" text-anchor="middle" font-size="11.5" font-weight="600" fill="#991b1b">auto_reject</text>
+  <text x="1039" y="316" text-anchor="middle" font-size="10" fill="#991b1b">evidence of fraud, not suspicion</text>
+
+  <rect x="942" y="332" width="194" height="70" rx="5" fill="#fef2f2" stroke="#dc2626"/>
+  <text x="1039" y="349" text-anchor="middle" font-size="11.5" font-weight="600" fill="#991b1b">guard_node on every agent</text>
+  <text x="1039" y="365" text-anchor="middle" font-size="10" fill="#991b1b">caps: agent calls, tokens,</text>
+  <text x="1039" y="379" text-anchor="middle" font-size="10" fill="#991b1b">max_cost_usd, active time</text>
+  <text x="1039" y="393" text-anchor="middle" font-size="10" fill="#991b1b">a breach sends it to a human</text>
+
+  <rect x="942" y="410" width="194" height="56" rx="5" fill="#f1f5f9" stroke="#475569"/>
+  <text x="1039" y="427" text-anchor="middle" font-size="11.5" font-weight="600" fill="#334155">pii_masker + audit_log</text>
+  <text x="1039" y="443" text-anchor="middle" font-size="10" fill="#334155">masked claim in every prompt</text>
+  <text x="1039" y="457" text-anchor="middle" font-size="10" fill="#334155">hash-chained audit entries</text>
+
+  <rect x="942" y="474" width="194" height="56" rx="5" fill="#f1f5f9" stroke="#475569"/>
+  <text x="1039" y="491" text-anchor="middle" font-size="11.5" font-weight="600" fill="#334155">Tools (src/tools/)</text>
+  <text x="1039" y="507" text-anchor="middle" font-size="10" fill="#334155">policy_lookup, damage_calculator,</text>
+  <text x="1039" y="521" text-anchor="middle" font-size="10" fill="#334155">fraud_patterns, memory_tools</text>
+
+  <!-- People -> frontend, terminal -> graph -->
+  <line x1="150" y1="130" x2="150" y2="148" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="158" y="143" font-size="10.5" fill="#374151">log in, submit, review</text>
+  <line x1="925" y1="130" x2="925" y2="148" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="933" y="143" font-size="10.5" fill="#374151">in-process</text>
+
+  <!-- frontend <-> API -->
+  <line x1="272" y1="240" x2="338" y2="240" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="305" y="232" text-anchor="middle" font-size="10" fill="#374151">REST</text>
+  <text x="305" y="256" text-anchor="middle" font-size="10" fill="#374151">+ JWT</text>
+  <line x1="338" y1="330" x2="272" y2="330" stroke="#6b7280" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="305" y="322" text-anchor="middle" font-size="10" fill="#374151">JSON</text>
+
+  <!-- API <-> graph -->
+  <line x1="602" y1="250" x2="698" y2="250" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="650" y="242" text-anchor="middle" font-size="10" fill="#374151">process_claim</text>
+  <line x1="602" y1="320" x2="698" y2="320" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="650" y="312" text-anchor="middle" font-size="10" fill="#374151">Command(resume)</text>
+  <line x1="698" y1="404" x2="602" y2="404" stroke="#6b7280" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="650" y="384" text-anchor="middle" font-size="10" fill="#374151">paused or</text>
+  <text x="650" y="396" text-anchor="middle" font-size="10" fill="#374151">final state</text>
+
+  <!-- Config -->
+  <rect x="30" y="610" width="240" height="170" rx="10" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+  <text x="150" y="634" text-anchor="middle" font-size="13.5" font-weight="700" fill="#334155">Config (src/config.py)</text>
+  <text x="150" y="656" text-anchor="middle" font-size="10.5" fill="#334155">.env: LLM_PROVIDER, COUNTRY, keys</text>
+  <text x="150" y="676" text-anchor="middle" font-size="10.5" fill="#334155">configs/base.yaml: models,</text>
+  <text x="150" y="692" text-anchor="middle" font-size="10.5" fill="#334155">thresholds, gates, caps</text>
+  <text x="150" y="712" text-anchor="middle" font-size="10.5" fill="#334155">configs/countries/us.yaml, india.yaml:</text>
+  <text x="150" y="728" text-anchor="middle" font-size="10.5" fill="#334155">PII fields, currency, depreciation,</text>
+  <text x="150" y="744" text-anchor="middle" font-size="10.5" fill="#334155">HITL amount</text>
+  <text x="150" y="766" text-anchor="middle" font-size="10" fill="#334155">read by the API and every agent</text>
+
+  <!-- SQLite -->
+  <rect x="290" y="610" width="330" height="170" rx="10" fill="#fefce8" stroke="#ca8a04" stroke-width="2"/>
+  <text x="455" y="634" text-anchor="middle" font-size="13.5" font-weight="700" fill="#854d0e">SQLite files</text>
+  <rect x="304" y="646" width="148" height="58" rx="6" fill="#ffffff" stroke="#facc15"/>
+  <text x="378" y="664" text-anchor="middle" font-size="11.5" font-weight="600" fill="#854d0e">data/api.db</text>
+  <text x="378" y="680" text-anchor="middle" font-size="10" fill="#713f12">User, Claim, Appeal</text>
+  <text x="378" y="694" text-anchor="middle" font-size="10" fill="#713f12">(SQLModel)</text>
+  <rect x="458" y="646" width="148" height="58" rx="6" fill="#ffffff" stroke="#facc15"/>
+  <text x="532" y="664" text-anchor="middle" font-size="11.5" font-weight="600" fill="#854d0e">data/hitl_queue.db</text>
+  <text x="532" y="680" text-anchor="middle" font-size="10" fill="#713f12">review tickets,</text>
+  <text x="532" y="694" text-anchor="middle" font-size="10" fill="#713f12">priority, SLA</text>
+  <rect x="304" y="712" width="148" height="58" rx="6" fill="#ffffff" stroke="#facc15"/>
+  <text x="378" y="730" text-anchor="middle" font-size="11.5" font-weight="600" fill="#854d0e">data/policies.db</text>
+  <text x="378" y="746" text-anchor="middle" font-size="10" fill="#713f12">test policies from</text>
+  <text x="378" y="760" text-anchor="middle" font-size="10" fill="#713f12">seed_policies.py</text>
+  <rect x="458" y="712" width="148" height="58" rx="6" fill="#ffffff" stroke="#facc15"/>
+  <text x="532" y="730" text-anchor="middle" font-size="11" font-weight="600" fill="#854d0e">claims_checkpoints.db</text>
+  <text x="532" y="746" text-anchor="middle" font-size="10" fill="#713f12">in src/data/, SqliteSaver</text>
+  <text x="532" y="760" text-anchor="middle" font-size="10" fill="#713f12">graph state per claim</text>
+
+  <!-- LLM providers -->
+  <rect x="640" y="610" width="250" height="170" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="765" y="634" text-anchor="middle" font-size="13.5" font-weight="700" fill="#15803d">LLM provider (src/llm.py)</text>
+  <rect x="656" y="646" width="218" height="58" rx="6" fill="#ffffff" stroke="#86efac"/>
+  <text x="765" y="664" text-anchor="middle" font-size="12" font-weight="600" fill="#15803d">Groq (default)</text>
+  <text x="765" y="680" text-anchor="middle" font-size="10.5" fill="#166534">llama-3.3-70b-versatile</text>
+  <text x="765" y="694" text-anchor="middle" font-size="10" fill="#166534">fallback llama-3.1-8b-instant</text>
+  <rect x="656" y="712" width="218" height="58" rx="6" fill="#ffffff" stroke="#86efac"/>
+  <text x="765" y="730" text-anchor="middle" font-size="12" font-weight="600" fill="#15803d">Google Gemini</text>
+  <text x="765" y="746" text-anchor="middle" font-size="10.5" fill="#166534">gemini-3.6-flash</text>
+  <text x="765" y="760" text-anchor="middle" font-size="10" fill="#166534">fallback gemini-3.5-flash-lite</text>
+
+  <!-- Memory + audit -->
+  <rect x="910" y="610" width="240" height="170" rx="10" fill="#fefce8" stroke="#ca8a04" stroke-width="2"/>
+  <text x="1030" y="634" text-anchor="middle" font-size="13.5" font-weight="700" fill="#854d0e">Memory + audit files</text>
+  <rect x="924" y="646" width="212" height="76" rx="6" fill="#ffffff" stroke="#facc15"/>
+  <text x="1030" y="663" text-anchor="middle" font-size="11.5" font-weight="600" fill="#854d0e">data/memory/chroma (ChromaDB)</text>
+  <text x="1030" y="679" text-anchor="middle" font-size="10" fill="#713f12">claims_long_term, claims_episodic,</text>
+  <text x="1030" y="693" text-anchor="middle" font-size="10" fill="#713f12">fraud_patterns</text>
+  <text x="1030" y="711" text-anchor="middle" font-size="10" fill="#713f12">all-MiniLM-L6-v2 embeddings</text>
+  <rect x="924" y="730" width="212" height="40" rx="6" fill="#ffffff" stroke="#facc15"/>
+  <text x="1030" y="746" text-anchor="middle" font-size="11.5" font-weight="600" fill="#854d0e">data/audit_logs/</text>
+  <text x="1030" y="761" text-anchor="middle" font-size="10" fill="#713f12">daily NDJSON, hash chain</text>
+
+  <!-- arrows to the bottom row -->
+  <line x1="420" y1="560" x2="420" y2="608" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="428" y="588" font-size="10.5" fill="#374151">claims, users, appeals</text>
+  <path d="M720,560 V584 H585 V608" fill="none" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="652" y="579" text-anchor="middle" font-size="10" fill="#374151">tickets, checkpoints</text>
+  <line x1="780" y1="560" x2="780" y2="608" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="788" y="588" font-size="10.5" fill="#374151">prompts, tool calls</text>
+  <line x1="1030" y1="560" x2="1030" y2="608" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="1038" y="588" font-size="10.5" fill="#374151">recall, store, log</text>
+
+  <!-- Legend -->
+  <line x1="30" y1="808" x2="60" y2="808" stroke="#6b7280" stroke-width="2"/>
+  <text x="66" y="812" font-size="11" fill="#374151">request / control flow</text>
+  <line x1="210" y1="808" x2="240" y2="808" stroke="#6b7280" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="246" y="812" font-size="11" fill="#374151">returned state</text>
+  <text x="1150" y="812" text-anchor="end" font-size="11" fill="#6b7280">No offline mode: processing a claim needs a Groq or Gemini key. The test suite mocks the LLM.</text>
+</svg>

@@ -40,12 +40,17 @@ from src.eda import (
 )
 from src.features import compute_elo_ratings, engineer_features
 from src.hypothesis import run_toss_advantage_test, run_home_advantage_test
+from sklearn.metrics import accuracy_score, f1_score
+
 from src.models import (
     build_classifier,
+    build_ensemble,
+    ensemble_predict_proba,
     build_regressor,
     build_xgb_classifier,
     build_neural_classifier,
     cross_validate_model,
+    forward_cv,
     evaluate_model,
     get_feature_importances,
     prepare_features,
@@ -158,12 +163,21 @@ def stage_hypothesis(matches: pd.DataFrame) -> dict:
 
 def stage_train(
     matches: pd.DataFrame,
+    use_neural_net: bool = False,
 ) -> dict:
     """Stage 6: Model training with cross-validation.
 
-    Trains up to 3 classifiers (Random Forest, XGBoost, Neural Net)
-    and 1 regressor (Gradient Boosting). Returns a dict with all
-    trained models and data splits.
+    Trains Random Forest and XGBoost, optionally a Neural Net, plus the
+    calibrated 4-model ensemble and one regressor (Gradient Boosting).
+    Returns a dict with all trained models and data splits.
+
+    Model selection (the "CV pick") uses ONLY the training seasons, with
+    forward-in-time folds (``forward_cv()``, an expanding window on the
+    date-sorted rows). The test seasons are never seen by selection.
+
+    ``use_neural_net`` is off by default so the result does not depend on
+    whether the optional ``torch`` package happens to be installed. Turn it
+    on with ``python main.py --neural-net`` (needs torch).
     """
     logger.info("Training models...")
 
@@ -195,6 +209,21 @@ def stage_train(
         logger.warning("Falling back to a random split: %s", e)
         X_train, X_test, y_train, y_test = split_data(X_encoded, y_clf)
         baseline = majority_class_baseline(y_train, y_test)
+        seasons = None
+
+    # Selection CV runs on the training rows only. Forward-in-time folds need
+    # date order; the random-split fallback has none, so it keeps plain 5-fold.
+    if seasons is not None:
+        train_seasons = seasons.iloc[: len(y_train)].to_numpy()
+        assert (np.diff(train_seasons) >= 0).all(), "training rows must be date-sorted"
+        cv_splitter = forward_cv(5)
+        for i, (tr, te) in enumerate(cv_splitter.split(X_train), 1):
+            logger.info(
+                "CV fold %d: train %d rows (%d-%d), validate %d rows (%d-%d)",
+                i, len(tr), train_seasons[tr].min(), train_seasons[tr].max(),
+                len(te), train_seasons[te].min(), train_seasons[te].max())
+    else:
+        cv_splitter = 5
 
     classifiers = {}
     cv_results = {}
@@ -202,7 +231,7 @@ def stage_train(
     # 1. Random Forest
     clf_rf = build_classifier()
     clf_rf.fit(X_train, y_train)
-    cv_rf = cross_validate_model(clf_rf, X_encoded, y_clf, cv=5, scoring="accuracy")
+    cv_rf = cross_validate_model(clf_rf, X_train, y_train, cv=cv_splitter, scoring="accuracy")
     classifiers["Random Forest"] = clf_rf
     cv_results["Random Forest"] = cv_rf
     logger.info("RF Classifier CV accuracy: %.4f (+/- %.4f)", cv_rf["mean"], cv_rf["std"])
@@ -211,35 +240,52 @@ def stage_train(
     if _HAS_XGBOOST:
         clf_xgb = build_xgb_classifier()
         clf_xgb.fit(X_train, y_train)
-        cv_xgb = cross_validate_model(clf_xgb, X_encoded, y_clf, cv=5, scoring="accuracy")
+        cv_xgb = cross_validate_model(clf_xgb, X_train, y_train, cv=cv_splitter, scoring="accuracy")
         classifiers["XGBoost"] = clf_xgb
         cv_results["XGBoost"] = cv_xgb
         logger.info("XGBoost CV accuracy: %.4f (+/- %.4f)", cv_xgb["mean"], cv_xgb["std"])
     else:
         logger.warning("xgboost not installed - skipping XGBoost classifier")
 
-    # 3. Neural Network
-    if _HAS_TORCH:
+    # 3. Neural Network (opt-in: torch is an optional dependency)
+    if use_neural_net and _HAS_TORCH:
         clf_nn = build_neural_classifier()
         clf_nn.fit(X_train, y_train)
-        cv_nn = cross_validate_model(clf_nn, X_encoded, y_clf, cv=5, scoring="accuracy")
+        cv_nn = cross_validate_model(clf_nn, X_train, y_train, cv=cv_splitter, scoring="accuracy")
         classifiers["Neural Net"] = clf_nn
         cv_results["Neural Net"] = cv_nn
         logger.info("Neural Net CV accuracy: %.4f (+/- %.4f)", cv_nn["mean"], cv_nn["std"])
-    else:
+    elif use_neural_net:
         logger.warning("torch not installed - skipping Neural Net classifier")
+
+    # 4. The calibrated 4-model weighted ensemble (RF + XGB + GB + LR) that
+    # src/predict.py and scripts/predict_all_2026.py actually use. It is
+    # scored on the same holdout but is not part of the CV pick above.
+    ensemble_metrics = None
+    if _HAS_XGBOOST:
+        # Same recency weighting src/predict.py trains the deployed ensemble with.
+        ens_sw = valid.loc[X_train.index, "recency_weight"].to_numpy()
+        ens = build_ensemble(X_train, y_train, sample_weight=ens_sw, calibrate=True)
+        ens_pred = (ensemble_predict_proba(ens, X_test) >= 0.5).astype(int)
+        ensemble_metrics = {
+            "accuracy": float(accuracy_score(y_test, ens_pred)),
+            "f1": float(f1_score(y_test, ens_pred, average="weighted")),
+        }
+        logger.info("4-model ensemble test accuracy: %.4f", ensemble_metrics["accuracy"])
 
     # Regression: predict run margin
     reg = None
     runs_mask = valid["result"] == "runs"
     if runs_mask.sum() > 50:
-        X_reg = X_encoded.loc[runs_mask.reindex(X_encoded.index, fill_value=False)]
+        # Training seasons only, same forward-in-time folds as the classifiers.
+        X_reg = X_train.loc[runs_mask.reindex(X_train.index, fill_value=False)]
         y_reg = valid.loc[X_reg.index, "result_margin"]
 
         reg = build_regressor()
         reg.fit(X_reg, y_reg)
+        reg_cv = forward_cv(5) if seasons is not None else 5
         cv_reg = cross_validate_model(
-            reg, X_reg, y_reg, cv=5, scoring="neg_mean_absolute_error"
+            reg, X_reg, y_reg, cv=reg_cv, scoring="neg_mean_absolute_error"
         )
         logger.info("GBR Regressor CV MAE: %.4f", -cv_reg["mean"])
     else:
@@ -248,7 +294,7 @@ def stage_train(
     # Print comparison table
     logger.info("")
     logger.info("=" * 50)
-    logger.info("  MODEL COMPARISON (5-Fold CV Accuracy)")
+    logger.info("  MODEL COMPARISON (forward CV, training seasons)")
     logger.info("=" * 50)
     for name, cv in sorted(cv_results.items(), key=lambda x: -x[1]["mean"]):
         logger.info("  %-15s  %.4f (+/- %.4f)", name, cv["mean"], cv["std"])
@@ -264,6 +310,7 @@ def stage_train(
         "best_name": best_name,
         "best_clf": classifiers[best_name],
         "reg": reg,
+        "ensemble_metrics": ensemble_metrics,
         "X_test": X_test,
         "y_test": y_test,
         "X_encoded": X_encoded,
@@ -300,11 +347,17 @@ def stage_evaluate(train_output: dict) -> dict:
             metrics["f1"],
         )
 
+    if train_output.get("ensemble_metrics"):
+        all_metrics["4-model ensemble"] = train_output["ensemble_metrics"]
+        logger.info("4-model ensemble test accuracy: %.4f",
+                    train_output["ensemble_metrics"]["accuracy"])
+
     # Feature importances from tree-based models
     best_name = train_output["best_name"]
     best_clf = train_output["best_clf"]
 
     fi = None
+    fi_source = best_name
     try:
         fi = get_feature_importances(best_clf, feature_names, top_n=15)
     except AttributeError:
@@ -314,6 +367,7 @@ def stage_evaluate(train_output: dict) -> dict:
             fi = get_feature_importances(
                 classifiers["Random Forest"], feature_names, top_n=15
             )
+            fi_source = "Random Forest (the best model has none)"
             logger.info("Feature importances from Random Forest (best model has none)")
 
     results = {
@@ -331,6 +385,7 @@ def stage_evaluate(train_output: dict) -> dict:
 
     if fi is not None:
         results["feature_importances"] = fi
+        results["feature_importances_source"] = fi_source
 
     if reg is not None:
         results["regression"] = {
@@ -350,7 +405,7 @@ def stage_evaluate(train_output: dict) -> dict:
 # ---------------------------------------------------------------------------
 # Main pipeline orchestrator
 # ---------------------------------------------------------------------------
-def run_pipeline(stage: str | None = None) -> None:
+def run_pipeline(stage: str | None = None, use_neural_net: bool = False) -> None:
     """Execute the full ML pipeline or a specific stage.
 
     Parameters
@@ -378,7 +433,9 @@ def run_pipeline(stage: str | None = None) -> None:
         if stage == "eda":
             return
 
-    if stage is None or stage == "features":
+    # The train stage needs the engineered features too (Elo, momentum, H2H),
+    # otherwise it silently trains on team/venue one-hots alone.
+    if stage in (None, "features", "train"):
         matches = stage_features(matches)
         if stage == "features":
             return
@@ -389,7 +446,7 @@ def run_pipeline(stage: str | None = None) -> None:
             return
 
     if stage is None or stage == "train":
-        train_output = stage_train(matches)
+        train_output = stage_train(matches, use_neural_net=use_neural_net)
         if stage == "train":
             return
 
@@ -397,7 +454,7 @@ def run_pipeline(stage: str | None = None) -> None:
         if stage == "evaluate":
             # Need to train first
             matches = stage_features(matches)
-            train_output = stage_train(matches)
+            train_output = stage_train(matches, use_neural_net=use_neural_net)
         stage_evaluate(train_output)
 
     elapsed = time.time() - t0
@@ -430,6 +487,13 @@ Examples:
         help="Run a specific pipeline stage (default: run all)",
     )
     parser.add_argument(
+        "--neural-net",
+        action="store_true",
+        help="Also train/compare the PyTorch Neural Net (needs the optional "
+             "torch package). Off by default so results do not depend on "
+             "what happens to be installed.",
+    )
+    parser.add_argument(
         "--verbose",
         action="store_true",
         help="Enable debug-level logging",
@@ -441,7 +505,7 @@ Examples:
         logging.getLogger().setLevel(logging.DEBUG)
 
     try:
-        run_pipeline(stage=args.stage)
+        run_pipeline(stage=args.stage, use_neural_net=args.neural_net)
     except KeyboardInterrupt:
         logger.info("Pipeline interrupted by user.")
         sys.exit(130)

@@ -8,7 +8,6 @@ Key features:
 - Parallel execution of 4 specialist agents via Send()
 - Fact-checking second pass
 - Contradiction debate via Lead Analyst
-- Self-correction loop (fact_checker -> re-research if enabled)
 - Guardrail checks at every node
 - Graceful degradation if any agent fails
 
@@ -21,8 +20,12 @@ Usage:
 
 from __future__ import annotations
 
+import contextvars
+import hashlib
+import json
 import logging
 import time
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeout
 from typing import Any
 
 from langgraph.graph import StateGraph, END
@@ -37,7 +40,7 @@ from src.agents.competitive_intel import competitive_intel
 from src.agents.risk_assessor import risk_assessor
 from src.agents.fact_checker import fact_checker
 from src.guardrails.manager import GuardrailManager
-from src.llm import token_tracker
+from src.llm import token_tracker, usage_scope
 
 logger = logging.getLogger(__name__)
 
@@ -46,12 +49,40 @@ logger = logging.getLogger(__name__)
 # Guardrail-Wrapped Agent Nodes
 # ---------------------------------------------------------------------------
 
+class AgentTimeout(Exception):
+    """An agent ran longer than pipeline.timeout_per_agent_seconds."""
+
+
+def _fingerprint(state: dict) -> str:
+    """Stable hash of the state an agent is about to receive (repeat-entry detection)."""
+    return hashlib.sha1(json.dumps(state, sort_keys=True, default=str).encode()).hexdigest()
+
+
+def _run_with_timeout(agent_fn, state, timeout: float | None, usage: dict):
+    """Run the agent, giving up after `timeout` seconds.
+
+    Python cannot kill a thread, so on timeout the node moves on and the abandoned
+    thread is told to stop at its next LLM call via usage["cancelled"].
+    """
+    if not timeout:
+        return agent_fn(state)
+    pool = ThreadPoolExecutor(max_workers=1)
+    future = pool.submit(contextvars.copy_context().run, agent_fn, state)
+    try:
+        return future.result(timeout=timeout)
+    except FutureTimeout:
+        usage["cancelled"] = True
+        raise AgentTimeout(f"timed out after {timeout}s")
+    finally:
+        pool.shutdown(wait=False)
+
+
 def _create_guarded_node(agent_fn, agent_name: str, guardrail_mgr: GuardrailManager):
     """Wrap an agent function with pre/post guardrail checks."""
 
     def guarded_node(state: DueDiligenceState) -> dict:
         # Pre-check
-        pre = guardrail_mgr.pre_check(agent_name)
+        pre = guardrail_mgr.pre_check(agent_name, _fingerprint(state))
         if not pre["passed"]:
             logger.warning("[Guard] Blocked %s: %s", agent_name, pre["reason"])
             return {
@@ -69,24 +100,70 @@ def _create_guarded_node(agent_fn, agent_name: str, guardrail_mgr: GuardrailMana
                 }],
             }
 
-        # Execute agent
-        result = agent_fn(state)
+        # Execute agent. usage_scope() collects the tokens and cost of exactly
+        # the LLM calls this node makes, even with four nodes running in parallel.
+        timeout = get_pipeline_config().get("timeout_per_agent_seconds")
+        with usage_scope(max_tokens=guardrail_mgr.agent_token_limit()) as usage:
+            try:
+                result = _run_with_timeout(agent_fn, state, timeout, usage)
+            except AgentTimeout as e:
+                logger.warning("[Guard] %s %s", agent_name, e)
+                guardrail_mgr.post_check(agent_name, "", usage["total_tokens"], usage["cost_usd"])
+                return {
+                    "errors": [f"[{agent_name}] {e}"],
+                    "warnings": [f"{agent_name} timed out after {timeout}s and was skipped"],
+                    "pipeline_trace": [{
+                        "agent": agent_name,
+                        "action": "timeout",
+                        "summary": f"Timed out after {timeout}s",
+                        "duration_seconds": float(timeout),
+                        "tokens_used": usage["total_tokens"],
+                        "cost_usd": round(usage["cost_usd"], 6),
+                        "error": str(e),
+                        "retry_count": 0,
+                    }],
+                }
 
-        # Post-check
+        # The agents build their own trace entries and cannot see the usage scope,
+        # so stamp the real figures on the node's first entry.
+        traces = result.get("pipeline_trace") or []
+        if traces and usage["total_tokens"]:
+            traces[0]["tokens_used"] = usage["total_tokens"]
+            traces[0]["cost_usd"] = round(usage["cost_usd"], 6)
+
+        # Post-check: charge the real usage to the budgets, then mask PII and
+        # flag low-confidence findings before the result enters pipeline state.
         post = guardrail_mgr.post_check(
             agent_name,
             str(result),
-            tokens_used=0,
-            cost_usd=0.0,
+            tokens_used=usage["total_tokens"],
+            cost_usd=usage["cost_usd"],
         )
-        if post.get("warnings"):
-            existing_warnings = result.get("warnings", [])
-            result["warnings"] = existing_warnings + post["warnings"]
+        result, _ = guardrail_mgr.mask_result(result)
+        warnings = post.get("warnings", []) + guardrail_mgr.apply_confidence_threshold(agent_name, result)
+        if warnings:
+            result["warnings"] = result.get("warnings", []) + warnings
 
         return result
 
     guarded_node.__name__ = f"guarded_{agent_name}"
     return guarded_node
+
+
+def _fact_check_disabled(state: DueDiligenceState) -> dict:
+    """Stand-in for the fact checker when guardrails.hallucination_check_enabled is false."""
+    msg = "Fact-checking disabled (guardrails.hallucination_check_enabled is false) - all findings are UNVERIFIED"
+    return {
+        "fact_check_results": [],
+        "flagged_claims": [],
+        "contradictions": [],
+        "warnings": [msg],
+        "pipeline_trace": [{
+            "agent": "fact_checker", "action": "fact_verification", "summary": msg,
+            "duration_seconds": 0.0, "tokens_used": 0, "cost_usd": 0.0,
+            "error": None, "retry_count": 0,
+        }],
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -141,7 +218,8 @@ def build_graph(guardrail_mgr: GuardrailManager | None = None) -> Any:
     guarded_news = _create_guarded_node(news_sentiment, "news_sentiment", guardrail_mgr)
     guarded_competitive = _create_guarded_node(competitive_intel, "competitive_intel", guardrail_mgr)
     guarded_risk = _create_guarded_node(risk_assessor, "risk_assessor", guardrail_mgr)
-    guarded_fact_check = _create_guarded_node(fact_checker, "fact_checker", guardrail_mgr)
+    fact_check_fn = fact_checker if guardrail_mgr.config.get("hallucination_check_enabled", True) else _fact_check_disabled
+    guarded_fact_check = _create_guarded_node(fact_check_fn, "fact_checker", guardrail_mgr)
     guarded_debate = _create_guarded_node(resolve_contradictions, "lead_analyst_debate", guardrail_mgr)
     guarded_synthesis = _create_guarded_node(synthesize_report, "lead_analyst_synthesis", guardrail_mgr)
 

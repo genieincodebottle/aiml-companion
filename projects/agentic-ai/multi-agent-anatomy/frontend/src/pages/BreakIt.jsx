@@ -62,8 +62,8 @@ export default function BreakIt({ catalog, failures, setFailures, question, setQ
         <p className="cardsub">
           {activeCount === 0 ? 'Nothing broken. This will be a clean run.' : `${activeCount} failure${activeCount > 1 ? 's' : ''} switched on.`}
           {mode === 'live'
-            ? ' Live mode: this calls a real model and costs about $0.008.'
-            : ' Recorded mode: no API key, nothing billed.'}
+            ? ' Live mode: this makes real model calls.'
+            : ' Recorded mode: no API key, nothing is called.'}
         </p>
         <button className="primary big" onClick={onRun} disabled={busy}>
           {busy ? 'Running, this takes a few seconds' : 'Run it and show me the trace'}

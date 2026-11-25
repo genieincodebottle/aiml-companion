@@ -27,9 +27,16 @@ import subprocess
 import sys
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 os.chdir(ROOT)
+
+# Load .env BEFORE anything reads the environment. The banner below used to
+# read the shell variables only, so a key that lives in .env printed
+# "OFFLINE run" and then the run used the real model.
+load_dotenv(ROOT / ".env")
 
 
 def _banner(text: str) -> None:
@@ -39,9 +46,16 @@ def _banner(text: str) -> None:
 
 
 def _offline_notice() -> None:
-    if not (os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")):
-        print("No GOOGLE_API_KEY found, so this is an OFFLINE run.")
+    # Same test the agents use (src/llm.py), so the banner cannot disagree with
+    # what actually runs: placeholder keys and RESEARCH_OFFLINE are honoured.
+    from src.llm import has_real_key, is_offline
+
+    if is_offline():
+        print("This is an OFFLINE run (no usable GOOGLE_API_KEY, or RESEARCH_OFFLINE is set).")
         print("Replies come from a deterministic rule engine, not a model.\n")
+    elif not has_real_key("TAVILY_API_KEY"):
+        print("Real model, but no usable TAVILY_API_KEY: search returns placeholder")
+        print("sources. The report is labelled as such. Do not read it as research.\n")
 
 
 def _run_graph(query: str, verbose: bool):

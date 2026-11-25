@@ -70,7 +70,7 @@ frontend/
 ### Prerequisites
 
 - Node.js 22.12+ and npm
-- Backend server running on `http://localhost:8002`
+- Backend server running on `http://localhost:8000`
 
 ### Installation
 
@@ -138,6 +138,16 @@ Or use the quick login buttons on the login page.
 3. Click "Run AI Moderation" if pending
 4. View toxicity score and policy violations
 5. See final AI decision with reasoning
+6. Approve, warn or remove. If the item is paused for a human (`pending_human_review`),
+   this calls `POST /api/hitl/review/:id`, which resumes the graph. Other items call
+   `POST /api/content/:id/manual-review`, which records the decision directly.
+
+### 3b. Review Queue (`/hitl`)
+
+Senior moderators, policy specialists and admins see **Review Queue** in the menu. It
+lists the items the graph has paused, by priority, and each decision calls
+`POST /api/hitl/review/:id`. The paused state is kept in backend memory, so the queue
+is empty after a backend restart.
 
 ### 4. Appeals Management
 
@@ -188,7 +198,9 @@ Or use the quick login buttons on the login page.
 - `GET /api/content/pending` - Get pending content
 - `GET /api/content/:id` - Get content details
 - `POST /api/content/submit` - Submit new content
-- `POST /api/content/:id/moderate` - Trigger AI moderation
+- `POST /api/content/:id/moderate` - Run the graph on stored content (submitted or pending only)
+- `POST /api/content/:id/manual-review` - Record a decision without resuming the graph
+- `GET /api/hitl/queue`, `POST /api/hitl/review/:id` - The Review Queue and graph resume
 
 **Appeals:**
 - `GET /api/appeals/all` - Get all appeals
@@ -204,14 +216,14 @@ Or use the quick login buttons on the login page.
 
 Backend URL can be configured in `.env`:
 ```env
-VITE_API_URL=http://localhost:8002
+VITE_API_URL=http://localhost:8000
 ```
 
 Or via Vite proxy in `vite.config.js`:
 ```js
 server: {
   proxy: {
-    '/api': 'http://localhost:8002'
+    '/api': 'http://localhost:8000'
   }
 }
 ```
@@ -331,7 +343,7 @@ server: { port: 3001 }
 ```
 
 ### API Connection Failed
-- Ensure backend is running on `http://localhost:8002`
+- Ensure backend is running on `http://localhost:8000`
 - Check `.env` for correct `VITE_API_URL`
 - Verify CORS is enabled on backend
 

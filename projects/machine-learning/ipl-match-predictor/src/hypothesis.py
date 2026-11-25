@@ -62,7 +62,7 @@ def run_toss_advantage_test(
     --------
     >>> result = run_toss_advantage_test(matches_df)
     >>> result["conclusion"]
-    'Toss has NO significant advantage (p=0.6066, fail to reject H0)'
+    'Toss has NO significant advantage (p=0.3184, fail to reject H0). Win rate: 51.5%'
     """
     # Filter valid matches (exclude no-results and unknowns)
     valid = matches_df.dropna(subset=["toss_winner", "winner"])

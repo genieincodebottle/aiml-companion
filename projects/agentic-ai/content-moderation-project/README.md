@@ -1,767 +1,352 @@
 # Content Moderation & Community Safety Platform
 
-> **Learn how to build this project step-by-step on [AI-ML Companion](https://aimlcompanion.ai/module/aiAgents/contentModerationProject)**. Interactive ML learning platform with guided walkthroughs, architecture decisions, and hands-on challenges.
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
+[![Node 22.12+](https://img.shields.io/badge/node-22.12%2B-brightgreen.svg)](https://nodejs.org/)
+[![No API key to start](https://img.shields.io/badge/demo-no%20API%20key-brightgreen.svg)](#run-it)
 
-AI-powered multi-agent content moderation system with React frontend, FastAPI backend, and LangGraph orchestration.
+A multi-agent system that **moderates posts and comments, and holds the hard cases
+for a human**. A LangGraph graph sends each post through specialist agents: content
+analysis, toxicity, policy, a ReAct step that weighs all their signals, user
+reputation, and enforcement. Short comments can take a one-call fast path instead.
+Low-confidence or high-impact cases stop for a moderator, and users can appeal.
 
-![Python](https://img.shields.io/badge/python-3.12+-blue.svg)
-![LangGraph](https://img.shields.io/badge/framework-LangGraph-orange.svg)
-![Gemini](https://img.shields.io/badge/LLM-Google%20Gemini-green.svg)
-![FastAPI](https://img.shields.io/badge/backend-FastAPI-009688.svg)
-![React](https://img.shields.io/badge/frontend-React-61dafb.svg)
-![MUI](https://img.shields.io/badge/UI-Material--UI-007fff.svg)
+It runs against a small community site you start locally: stories, comments, and six
+user roles. React console, FastAPI backend, Google Gemini, and an offline rule engine
+when no key is set.
 
-![End-to-End Architecture](images/end-to-end-architecture-content-moderation.png)
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Run it in five minutes](#run-it-in-five-minutes)
-- [Quick Start (full stack)](#quick-start-full-stack)
-- [Architecture](#architecture)
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [API Endpoints](#api-endpoints)
-- [Technology Stack](#technology-stack)
-- [Troubleshooting](#troubleshooting)
-- [Database Cleanup](#database-cleanup)
-- [Architecture Deep Dive](#architecture-deep-dive)
+![High-level architecture](docs/high-level-architecture.svg)
 
 ---
 
-## Overview
+## Run it
 
-An enterprise-grade content moderation system that automates content safety using a multi-agent AI architecture powered by Google Gemini (free-tier) and LangGraph.
+No API key, no Node and no database setup for this first path. It runs the real
+moderation graph against **OfflineLLM**, a deterministic rule engine that answers the
+prompts the agents send. It is not a model and the output says so.
 
-**What it does:**
-
-- Processes user-generated content through **6 specialized AI agents** using a ReAct (Reason-Act) decision loop
-- Routes short content through a **Fast Mode** single-pass path (1-2 seconds vs 6-12 seconds for full pipeline)
-- Escalates edge cases to human reviewers via a **priority-based HITL queue**
-- Learns from outcomes using **3-tier memory** (ChromaDB vector store + episodic + semantic)
-- Prevents failures with **5 production guardrails** (loop detection, budget tracking, hallucination detection, consistency checking, prompt injection detection)
-
-**Estimated time to complete: 10-12 hours**
-
-**6 user roles:** User, Moderator, Senior Moderator, Content Analyst, Policy Specialist, Admin
-
----
-
-## Run it in five minutes
-
-No API key, no Node, no database setup, one terminal. This runs the real
-six-agent graph against a deterministic stand-in for the model, so you can watch
-the orchestration before you decide whether to set the rest up.
+You need [Python 3.12+](https://www.python.org/downloads/) and
+[git](https://git-scm.com/downloads). Node.js 22.12+ is only needed for the full stack.
 
 ```bash
 git clone https://github.com/genieincodebottle/aiml-companion.git
 cd aiml-companion/projects/agentic-ai/content-moderation-project
 
-cd backend && pip install uv && uv venv
-# macOS/Linux:
-source .venv/bin/activate
-# Windows:
-.venv\Scripts\activate
+cd backend
+pip install uv
+uv venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
 uv pip install -r requirements.txt
 cd ..
 
 python run.py demo
 ```
 
-> **Checkpoint:** six posts are moderated and a results table appears. One post
-> is handled by a single agent, another by six, and two identical sentences get
-> different outcomes because the accounts behind them differ.
-
-Four commands, all offline:
+Six posts are moderated and a results table appears. One post is handled by a single
+agent, others by four, five or six, and the last two posts are the same sentence with
+different outcomes, because the accounts behind them differ.
 
 | Command | What it does |
-|---------|--------------|
-| `python run.py demo` | Six posts through the full six-agent pipeline |
-| `python run.py fast` | The same posts through the single-pass fast path |
-| `python run.py keywords` | What the keyword layer alone sees, and where it is wrong |
-| `python run.py test` | The test suite, 40 tests, about six seconds |
+|---|---|
+| `python run.py demo` | Six posts through the full graph, fast path off |
+| `python run.py fast` | The same posts through the single-call fast path |
+| `python run.py keywords` | What the keyword layer alone scores, and where it is wrong |
+| `python run.py test` | The test suite (54 tests, no key, no network) |
+| `python run.py serve` | Starts the API on port 8000 |
 
-Add `-v` to any of them to see the agents' own logs.
+Add `-v` to any of them to see the agents' own logs. SQLite and Chroma files are
+created under `backend/databases/` on first run. None are committed to the repo.
 
-> **On databases:** none are shipped in the repo. The SQLite and Chroma stores
-> are local state, and they are created automatically on first run, so the
-> commands above need no setup. The full-stack path below has one extra step to
-> seed the demo accounts.
+**Prefer a notebook?** [`notebooks/content_moderation_standalone.ipynb`](notebooks/content_moderation_standalone.ipynb)
+rebuilds the same ideas in standard-library Python with nothing to install:
+[Open in Colab](https://colab.research.google.com/github/genieincodebottle/aiml-companion/blob/main/projects/agentic-ai/content-moderation-project/notebooks/content_moderation_standalone.ipynb)
+or [open on Kaggle](https://www.kaggle.com/code/genieincodebottle/content-moderation-multi-agent).
 
-**Prefer a notebook?** The same ideas, rebuilt from scratch in standard library
-Python with nothing to install:
+### Full stack: two terminals
 
-- [Open in Colab](https://colab.research.google.com/github/genieincodebottle/aiml-companion/blob/main/projects/agentic-ai/content-moderation-project/notebooks/content_moderation_standalone.ipynb)
-- [Open on Kaggle](https://www.kaggle.com/code/genieincodebottle/content-moderation-multi-agent)
-
-**What the offline mode is.** It is a rule engine that answers the ten prompts
-the agents send, in the shapes they parse. It is not a model and does not
-pretend to be one. Toxicity numbers come from this project's own keyword
-detector, so they are the same numbers the real pipeline computes; what a real
-model adds on top is context. Everything in `run.py serve` and the full stack
-below uses Gemini properly once you supply a key.
-
----
-
-## Quick Start (full stack)
-
-The React UI, the API, the database and real Gemini analysis. This is the
-version to run if you want to click through moderation queues and appeals.
-
-### Prerequisites
-
-Before starting, verify you have these installed:
+The React console, the API and the databases. This also works without a key: the
+agents fall back to OfflineLLM.
 
 ```bash
-python --version    # Must be 3.12+
-node --version      # Must be 18+
-git --version       # Any recent version
-```
-
-You also need a **Google Gemini API Key** (free): [Get one here](https://aistudio.google.com/app/apikey)
-
-> Only for this full-stack path. The five-minute path above needs no key.
-
----
-
-### Backend Setup (Terminal 1)
-
-**Step 1: Clone the repository**
-
-```bash
-git clone https://github.com/genieincodebottle/aiml-companion.git
-cd aiml-companion/projects/agentic-ai/content-moderation-project
-```
-
-> **Checkpoint:** You should see `backend/`, `frontend/`, `images/`, and `README.md` in the folder.
-
-**Step 2: Install uv and create virtual environment**
-
-[uv](https://github.com/astral-sh/uv) is a fast Python package manager (10-100x faster than pip). Install it first, then create a virtual environment:
-
-```bash
+# Terminal 1: backend on http://localhost:8000 (venv from above still active)
 cd backend
-pip install uv
-uv venv
-```
-
-Now activate the virtual environment:
-
-```bash
-# macOS/Linux:
-source .venv/bin/activate
-
-# Windows:
-.venv\Scripts\activate
-```
-
-> **Checkpoint:** Your terminal prompt should show a `(.venv)` prefix.
-
-> **Fallback:** If uv is not available, use `python -m venv .venv` instead of `uv venv`.
-
-**Step 3: Install Python dependencies**
-
-```bash
-uv pip install -r requirements.txt
-```
-
-Installs FastAPI, LangGraph, LangChain, ChromaDB, and all dependencies in seconds (vs 2-5 minutes with pip).
-
-> **Checkpoint:** Run `python -c "import fastapi; import langgraph; print('OK')"` and it should print `OK`.
-
-> **Fallback:** If not using uv, run `pip install -r requirements.txt` instead.
-
-> **Note:** `torch` and `transformers` are deliberately NOT in this file. They
-> are only imported when `USE_ML_MODELS=true`, which is off by default, and
-> torch is the largest dependency in the project. If you want the local
-> HateBERT/DistilBERT classifier, run `uv pip install -r requirements-ml.txt`
-> and set `USE_ML_MODELS=true`.
-
-
-**Step 4: Configure environment variables**
-
-```bash
-cp .env.example .env
-```
-
-Open `.env` and replace `your_google_gemini_api_key_here` with your actual Gemini API key.
-
-Your `.env` file should look like:
-
-```env
-# Required
-GOOGLE_API_KEY=your_actual_key_here
-
-# Fast Mode
-ENABLE_FAST_MODE=true
-FAST_MODE_MAX_LENGTH=200
-FAST_MODE_CONTENT_TYPES=story_comment
-
-# ML Models (set to true for hybrid ML+LLM detection, downloads ~500MB)
-USE_ML_MODELS=false
-ML_PRIMARY_MODEL=distilbert_toxic
-ML_USE_ENSEMBLE=false
-ML_PRELOAD_MODELS=true
-ML_DEVICE=auto
-```
-
-> **Checkpoint:** Run `cat .env` (macOS/Linux) or `type .env` (Windows) and verify your API key is present.
-
-**Step 5: Initialize database and demo users**
-
-The databases are not committed to the repo, so this step creates them. It is
-required before you can log in.
-
-```bash
-python scripts/initialize_users.py
-```
-
-> **Checkpoint:** You should see output listing 11 created users across 6 roles (user, moderator, senior_moderator, content_analyst, policy_specialist, admin).
-
-**Step 6: Start the backend server**
-
-```bash
+cp .env.example .env                 # Windows: copy .env.example .env
+python scripts/initialize_users.py   # creates the 11 demo accounts below
 python main.py
 ```
 
-> **Checkpoint:** You should see:
-> ```
-> Starting Content Moderation API Server
-> Server will be available at: http://localhost:8000
-> ```
-> Open http://localhost:8000/docs in your browser to verify the Swagger UI loads.
-
----
-
-### Frontend Setup (Terminal 2)
-
-Open a **new terminal** (or split your terminal in VS Code):
-
-![Split Terminal](images/split-terminal.png)
-
-**Step 7: Install Node dependencies and start**
+`python main.py` starts uvicorn on port 8000 with auto-reload. Open
+http://localhost:8000/docs to check the API is up.
 
 ```bash
-cd aiml-companion/projects/agentic-ai/content-moderation-project/frontend
+# Terminal 2: console on http://localhost:5173
+cd frontend
 npm install
 npm run dev
 ```
 
-> **Checkpoint:** You should see:
-> ```
-> VITE v8.x.x ready
->   Local: http://localhost:5173/
-> ```
+Open **http://localhost:5173** and log in with one of these accounts:
+
+| Username | Password | Role | What you can do |
+|---|---|---|---|
+| `raj`, `priya`, `amit` | `test@123` | User | Post stories and comments, file appeals |
+| `moderator1`, `moderator2` | `mod@123` | Moderator | Moderation dashboard, content review |
+| `senior_mod`, `hitl_reviewer` | `senior@123`, `hitl@123` | Senior Moderator | Flagged and held items, escalations |
+| `analyst` | `analyst@123` | Content Analyst | Analytics |
+| `policy_expert`, `appeals_handler` | `policy@123`, `appeals@123` | Policy Specialist | Appeals review |
+| `admin` | `admin@123` | Admin | Everything, plus user management |
+
+The registration form creates new accounts with the `user` role. These are demo
+credentials, defined in [`backend/scripts/initialize_users.py`](backend/scripts/initialize_users.py).
+
+### Your first moderation
+
+1. Log in as `raj` / `test@123`. On **Community**, click **Share Your Story**, write a
+   friendly story and click **Publish Story**. It is approved and appears in the feed.
+2. Publish a second story with an insult in it, for example *"You are all worthless
+   idiots and I hope every one of you gets hurt."* In offline mode it is flagged by
+   the first agent and kept out of the public feed. You can still see it in your own
+   stories, under review.
+3. Log out and log in as `senior_mod` / `senior@123`. Open **Moderation** and the
+   **Flagged / HITL** tab. Open the item to see each agent's score and reasoning.
+4. Click **Approve**, **Warn** or **Remove** and confirm in the dialog. The decision
+   is saved and the story's status changes for the author. If the item was paused for a
+   human, this resumes the graph (`POST /api/hitl/review/{id}`). Senior moderators and
+   above also have a **Review Queue** page in the menu that lists every paused item.
+5. Comment on a story with a short line. Comments of 200 characters or less take the
+   fast path: one model call instead of the full graph.
+
+### Use real Gemini (optional)
+
+Get a free key at <https://aistudio.google.com/app/apikey>, then open `backend/.env`
+and paste it after `GOOGLE_API_KEY=`. Restart the backend. The agents now call
+`gemini-3.5-flash-lite` (set as `MODEL_NAME` in `backend/src/agents/agents.py`).
+
+| Variable (`backend/.env`) | Default | What it does |
+|---|---|---|
+| `GOOGLE_API_KEY` | empty | Gemini key. Empty means offline mode. |
+| `MODERATION_OFFLINE` | `false` | `true` forces offline mode even with a key |
+| `ENABLE_FAST_MODE` | `true` | Single-call path for short comments |
+| `FAST_MODE_MAX_LENGTH` | `200` | Longest text, in characters, that takes the fast path |
+| `FAST_MODE_CONTENT_TYPES` | `story_comment` | Content types allowed on the fast path |
+| `USE_ML_MODELS` | `false` | Adds the HateBERT/DistilBERT classifier to toxicity scoring |
+| `ML_PRIMARY_MODEL`, `ML_USE_ENSEMBLE`, `ML_PRELOAD_MODELS`, `ML_DEVICE` | see `.env.example` | Classifier options |
+
+The classifier needs `uv pip install -r requirements-ml.txt` first (torch and
+transformers are not in the default requirements), and it downloads about 500 MB of
+model files on first use.
+
+**Turn fast mode on with care.** The fast path never loads user reputation and never
+checks a HITL trigger, so it cannot suspend a repeat offender or hold a high-profile
+account for review. Compare `python run.py demo` with `python run.py fast` to see it.
 
 ---
 
-### Access the Application
+## How one post runs
 
-1. Open http://localhost:5173 in your browser
-2. You should see a login screen
-3. Log in with any demo account below
+A story submitted from the console, traced through the boxes in the diagram:
 
-### Demo Accounts
+1. **Console.** `CommunityDashboard.jsx` sends `POST /api/stories/submit` through the
+   axios client in `frontend/src/services/api.js`.
+2. **API.** `submit_story` in `backend/main.py` loads or creates the user profile,
+   builds the initial `ContentState`, records the submission in `moderation_data.db`,
+   and calls `process_content()` from `backend/src/agents/workflow.py`.
+3. **Route.** `entry_router` picks the start: `appeal_review` for an appeal, `fast_mode`
+   for a short comment, `content_analysis` for everything else.
+4. **Analyse.** `content_analysis` extracts topics and checks Chroma for similar past
+   content. If it flags the post, the graph stops here and the post goes to the
+   moderators.
+5. **Score.** `toxicity_detection` computes a toxicity score in code
+   (`keyword_detectors.py`, plus `ml_classifier.py` when enabled). The model then
+   reads the post for context such as quotation, satire or education, and decides
+   approve, flag or remove.
+6. **Check policy.** `policy_check` maps the post against the community guideline
+   categories in `backend/src/core/models.py`.
+7. **Weigh.** `react_loop` combines the three decisions with fixed weights (policy
+   0.40, toxicity 0.35, content 0.25) and checks the HITL triggers.
+8. **Hold for a human, if needed.** `hitl_review` sets `pending_human_review` with a
+   priority. The API keeps the paused state in `hitl_pending_reviews`. A moderator's
+   decision in the console (`POST /api/hitl/review/{id}`) resumes the graph from there
+   with `resume_from_hitl`.
+9. **Reputation and action.** `reputation_scoring` reads the user's history from
+   Chroma and decides the user-level step (warn, suspend, ban).
+   `action_enforcement` writes the outcome and stores the decision in Chroma for
+   future similar-case lookups.
+10. **Back to the API.** `submit_story` saves the status, creates the story record
+    (visible only if approved) and returns the result to the console.
 
-| Username | Password | Role | What You Can Do |
-|----------|----------|------|----------------|
-| `raj` | `test@123` | User | Submit stories, comment, file appeals |
-| `priya` | `test@123` | User | Submit stories, comment, file appeals |
-| `amit` | `test@123` | User | Submit stories, comment, file appeals |
-| `moderator1` | `mod@123` | Moderator | Content review, moderation dashboard |
-| `moderator2` | `mod@123` | Moderator | Content review, moderation dashboard |
-| `senior_mod` | `senior@123` | Senior Moderator | HITL queue review, escalations, suspensions |
-| `hitl_reviewer` | `hitl@123` | Senior Moderator | HITL queue review, escalations, suspensions |
-| `analyst` | `analyst@123` | Content Analyst | Analytics, patterns, trends, reports |
-| `policy_expert` | `policy@123` | Policy Specialist | Appeals review, policy violations |
-| `appeals_handler` | `appeals@123` | Policy Specialist | Appeals review, policy violations |
-| `admin` | `admin@123` | Admin | Full system access, user management |
+Every agent node runs inside a wrapper in `workflow.py` that checks the guardrails
+before the agent and records the decision for learning after it.
 
-You can also register new accounts through the registration form (created with "user" role by default).
+### What sends a post to a human
 
----
+`_evaluate_hitl_triggers` in `backend/src/agents/agents.py` checks seven triggers. Each
+adds a weight, and the total sets the priority (`HITL_CONFIG` in
+`backend/src/core/models.py`).
 
-## Architecture
+| Trigger | Fires when | Weight |
+|---|---|---|
+| `high_severity` | the policy violation is high or critical | 80 |
+| `first_offense_severe` | a first-time user posts toxicity above 0.7 or a severe violation | 70 |
+| `high_profile_user` | the account is verified or has 10,000+ followers | 60 |
+| `sensitive_content` | the post touches a sensitive topic | 50 |
+| `potential_false_positive` | the signals suggest the flag may be wrong | 45 |
+| `conflicting_decisions` | the three agents agree weakly | 40 |
+| `low_confidence` | average agent confidence is below 0.70 | 30 |
 
-The system uses a LangGraph StateGraph to orchestrate 6 specialized agents in a sequential pipeline:
-
-```
-Content Submitted
-       |
-       v
-[Fast Mode Check] --short content (<200 chars)--> [Single Gemini Call] --> Decision (1-2s)
-       |
-       long/complex content
-       v
-[Content Analysis Agent] --> topics, sentiment, categories
-       v
-[Toxicity Detection Agent] --> score 0-1 (ML models or keyword fallback + Gemini)
-       v
-[Policy Violation Agent] --> maps against 13 community guideline categories
-       v
-[ReAct Decision Synthesis] --> Think-Act-Observe loop aggregating all signals
-       v
-[HITL Checkpoint] --low confidence/high severity--> [Human Review Queue]
-       v                                                     |
-[User Reputation Agent] <--human decision resumes------------+
-       v
-[Action Enforcement Agent] --> approve / warn / remove / suspend / ban
-       v
-[Memory Update] --> ChromaDB stores decision for future reference
-```
-
-![Architecture Diagram](images/architecture.png)
-
-### Why 6 Agents Instead of 1?
-
-- A single agent with a 2000-word prompt loses accuracy on edge cases (context dilution)
-- Each specialist agent has a focused ~200-word prompt with clear input/output schema
-- Failure isolation: if the policy agent fails, toxicity detection still works
-- Pydantic structured output (`with_structured_output()`) ensures type-safe responses
-
-### HITL Priority Queue
-
-Not all flagged content is equal. The system routes to human reviewers based on priority:
-
-| Priority | Score | Examples | Target SLA |
-|----------|-------|---------|------------|
-| Critical | >= 80 | Legal concerns, targeted threats | < 5 min |
-| High | 60-79 | Severe first offenses, sensitive topics | < 15 min |
-| Medium | 40-59 | Conflicting agent signals, low confidence | < 1 hour |
-| Low | < 40 | Standard confirmations, borderline spam | Batch |
-
-**8 HITL trigger reasons:** LOW_CONFIDENCE, CONFLICTING_DECISIONS, HIGH_SEVERITY, HIGH_PROFILE_USER, SENSITIVE_CONTENT, FIRST_OFFENSE_SEVERE, POTENTIAL_FALSE_POSITIVE, EDGE_CASE
-
-![HITL Flow](images/hitl.png)
-
-### Appeal Workflow
-
-Users can appeal moderation decisions. Reviewers see the original content, all agent scores, 5 similar past decisions, and user reputation. Three outcomes:
-
-- **UPHOLD** - Original decision stands
-- **OVERTURN** - Decision reversed, model learns from the correction
-- **PARTIAL** - Modified severity (e.g., removal downgraded to warning)
-
-![Appeal Workflow](images/appeal-workflow-seq-diagram.png)
+Priority is **critical** at 100 or more, **high** at 75, **medium** at 50, and **low**
+below that.
 
 ---
 
-## Features
+## The one rule
 
-<details>
-<summary><strong>Backend AI System</strong></summary>
+> **Code scores the toxicity. The model judges the context.**
 
-| Feature | Details |
-|---------|---------|
-| **6 Specialized AI Agents** | Single-responsibility design with Pydantic structured output |
-| **Fast Mode** | Single-pass for short comments, 1-2s vs 6-12s (83% cost saving) |
-| **ReAct Decision Loop** | Think-Act-Observe pattern for synthesizing agent decisions |
-| **HITL with Priority Queue** | Configurable interrupt points (Critical/High/Medium/Low) |
-| **Hybrid Toxicity Detection** | HateBERT/DistilBERT ML + keyword fallback + Gemini LLM |
-| **3-Tier Memory** | ChromaDB vector store + episodic + semantic |
-| **5 Production Guardrails** | Loop detection, budget tracking, hallucination detection, consistency, prompt injection |
-| **Appeal Workflow** | UPHOLD / OVERTURN / PARTIAL outcomes with memory feedback |
-| **Dual SQLite Databases** | moderation_data.db (content/decisions) + moderation_auth.db (users/sessions) |
-| **Observability** | OpenTelemetry tracing for agent execution monitoring |
-
-</details>
-
-<details>
-<summary><strong>Frontend Web Application</strong></summary>
-
-| Feature | Details |
-|---------|---------|
-| **React 19 + Vite 8** | Modern, fast frontend development |
-| **Material-UI (MUI) v5** | Professional, responsive UI components |
-| **Community Dashboard** | Widget-based landing page (stories, stats, guidelines) |
-| **Moderation Dashboard** | Integrated HITL review queue with real-time statistics |
-| **Content Review** | Detailed AI analysis, toxicity scores, one-click actions |
-| **Analytics** | Charts and trends with Recharts + MUI X-Charts |
-| **Appeals Management** | Submit and review appeals |
-| **6 Role-Based Interfaces** | Different dashboards per user role |
-| **Zustand State Management** | Lightweight global state |
-| **Axios API Client** | With JWT auth interceptors |
-
-</details>
-
-<details>
-<summary><strong>Guardrails System</strong></summary>
-
-- **Loop Detection** - Prevents infinite reasoning loops (max 10 iterations)
-- **Hallucination Detection** - Identifies contradictions and unsupported claims in AI decisions
-- **Cost Budget Tracking** - Monitors and limits API costs (configurable budget)
-- **Consistency Checking** - Ensures agent decisions don't contradict each other
-- **Confidence Adjustment** - Automatically reduces confidence when hallucinations detected
-
-</details>
-
-<details>
-<summary><strong>Learning System</strong></summary>
-
-- **Episodic Memory** - Stores individual moderation decisions for learning
-- **Semantic Memory** - Learns generalized patterns from outcomes
-- **Success Rate Tracking** - Monitors decision quality per agent
-- **Pattern Recognition** - Identifies which actions work best in specific contexts
-- **Adaptive Thresholds** - Learns optimal toxicity/policy thresholds over time
-
-</details>
+Every toxicity number is computed before a model is consulted, by the keyword
+detector or the optional classifier. The model's job is the part a word list cannot
+do: telling an insult from a history lesson that quotes one. That split is also why
+the offline mode is honest. OfflineLLM calls the same keyword detectors, so the
+scores you see offline are the scores the real pipeline computes. Run
+`python run.py keywords` to see where the word list alone goes wrong.
 
 ---
 
-## Project Structure
+## The six demo posts
 
-```
-content-moderation-project/
-+-- backend/
-|   +-- main.py                          # FastAPI entry point
-|   +-- requirements.txt                 # Python dependencies
-|   +-- .env.example                     # Environment variable template
-|   +-- databases/                       # SQLite + ChromaDB storage (auto-created)
-|   +-- scripts/
-|   |   +-- initialize_users.py          # Create 11 demo accounts
-|   |   +-- cleanup_data.py              # Reset all data
-|   +-- src/
-|       +-- agents/
-|       |   +-- agents.py                # 6 agent implementations
-|       |   +-- reasoning.py             # ReAct, Plan-Execute, Reflexion patterns
-|       |   +-- tool_manager.py          # Agent tool registry
-|       |   +-- workflow.py              # LangGraph StateGraph orchestration
-|       +-- core/
-|       |   +-- models.py                # ContentState, AgentDecision, enums
-|       |   +-- llm_schemas.py           # Pydantic schemas for LLM responses
-|       +-- database/
-|       |   +-- auth_db.py               # User auth, sessions, audit log
-|       |   +-- moderation_db.py         # Content submissions, decisions
-|       +-- memory/
-|       |   +-- memory.py                # ChromaDB memory manager
-|       |   +-- agent_episodic_memory.py # Individual decision storage
-|       |   +-- agent_semantic_memory.py # Pattern learning
-|       |   +-- learning_tracker.py      # Success rate tracking
-|       +-- ml/
-|       |   +-- ml_classifier.py         # HateBERT, DistilBERT classifiers
-|       |   +-- keyword_detectors.py     # Keyword-based fallback
-|       |   +-- guardrails.py            # 5 production guardrails
-|       +-- utils/
-|           +-- evaluation.py            # Decision evaluation
-|           +-- observability.py         # OpenTelemetry tracing
-|           +-- tools.py                 # Sentiment, toxicity helpers
-|
-+-- frontend/
-|   +-- package.json                     # Node dependencies
-|   +-- vite.config.js                   # Vite config with API proxy
-|   +-- index.html
-|   +-- src/
-|       +-- App.jsx                      # Main app with role-based routing
-|       +-- main.jsx
-|       +-- components/
-|       |   +-- Admin/                   # User management (admin only)
-|       |   +-- Analytics/               # Charts, trends, reports
-|       |   +-- Appeals/                 # Submit + review appeals
-|       |   +-- Auth/                    # Login + registration
-|       |   +-- CommunityDashboard/      # Main landing page
-|       |   +-- ContentReview/           # Detailed AI analysis view
-|       |   +-- Dashboard/               # Moderator dashboard
-|       |   +-- HITLQueue/               # Human review queue
-|       |   +-- Layout/                  # App layout wrapper
-|       |   +-- Settings/                # User settings
-|       |   +-- Stories/                 # Story feed + detail view
-|       |   +-- UserPortal/              # User-facing portal
-|       |   +-- widgets/                 # Reusable UI components
-|       +-- hooks/                       # Custom React hooks
-|       +-- services/api.js              # Axios client with JWT interceptors
-|       +-- store/                       # Zustand state stores
-|
-+-- images/                              # Architecture + sequence diagrams
-+-- END_TO_END_ARCHITECTURE.md           # Detailed architecture walkthrough
-+-- README.md
-```
+`python run.py demo` runs these through the graph with OfflineLLM. Results from the
+current code:
+
+| Post | What it tests | Outcome | Agents |
+|---|---|---|---|
+| A thank-you note | the plain path | approved | 5 |
+| "Hello everyone, I am grateful..." | the old substring bug ("hell" in "Hello") | approved, score 0.00 | 5 |
+| An insult with a threat | early exit | flagged by `content_analysis`, sent to moderators | 1 |
+| A documentary about a massacre | toxic words, innocent use | approved, keyword score 0.30 | 5 |
+| A mild insult from a repeat offender | reputation | removed, account suspended | 6 |
+| The same insult from a verified 50k-follower account | HITL trigger | held for a human | 4 |
+
+The last two rows are the point of the demo: the same sentence gets different
+outcomes because the account behind it differs. `python run.py fast` runs the same
+posts through the fast path, where both are approved, because that path never sees
+the account.
+
+**Tests.** `python run.py test` runs 54 tests with no key and no network
+(`backend/tests/test_offline_mode.py`, `backend/tests/test_react_loop.py`,
+`backend/tests/test_console_wiring.py`). The last one drives the API the console calls,
+against temporary databases.
+`backend/tests/test_e2e.py` is a separate script that drives a running server on
+port 8000. Pytest skips it.
 
 ---
 
-## API Endpoints
+## What this is, and what it is not
 
-### Content and Moderation
+A **reference implementation for learning**. It shows a routed multi-agent graph,
+human review, appeals and memory in one working app. It is not a production
+moderation system. Gaps found in the code:
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/content/submit` | Submit content for moderation (triggers full pipeline) |
-| GET | `/api/stories` | Fetch approved stories |
-| POST | `/api/stories/{id}/comments` | Submit comment (triggers Fast Mode if eligible) |
-
-### HITL and Review
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/hitl/queue` | Fetch pending reviews sorted by priority |
-| GET | `/api/hitl/review/{id}` | Get full review packet (AI reasoning + user stats) |
-| POST | `/api/hitl/review/{id}` | Submit human decision (resumes paused workflow) |
-
-### Analytics and Users
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/analytics/trends` | Moderation statistics over time |
-| GET | `/api/auth/users` | User management (Admin only) |
-
-Full interactive API documentation available at http://localhost:8000/docs (Swagger UI) when the backend is running.
-
----
-
-## Technology Stack
-
-### Backend
-
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| AI Framework | LangChain + LangGraph | Multi-agent orchestration |
-| LLM | Google Gemini (free tier) | AI reasoning + embeddings |
-| ML Models | HateBERT, DistilBERT (optional) | ML-based toxicity detection |
-| Web Framework | FastAPI | REST API |
-| Database | SQLite (dual) | Persistent storage |
-| Vector Store | ChromaDB | Memory and pattern learning |
-| Auth | JWT + HTTPBearer | Secure API access |
-| Observability | OpenTelemetry | Tracing and monitoring |
-
-### Frontend
-
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| Framework | React 19 + Vite 8 | UI framework + build tool |
-| UI Library | MUI v9 | Component library |
-| State | Zustand | Lightweight state management |
-| Charts | Recharts + MUI X-Charts | Data visualization |
-| HTTP | Axios | API communication with auth |
-| Routing | React Router v7 | Client-side routing |
+- **Paused state lives in memory.** `hitl_pending_reviews` and the `MemorySaver`
+  checkpointer are lost when the backend restarts. A paused item then returns 404 from
+  the resume endpoint, and the console records the moderator's decision directly instead.
+- **Some `HITL_CONFIG` keys are not read.** `agent_agreement_threshold`,
+  `veteran_user_threshold_days`, `auto_approve_conditions` and every checkpoint except
+  `post_react` appear in `/api/hitl/config` but no code uses them. The triggers and
+  priority levels in the table above are the ones that run.
+- **Most endpoints do not check the login token.** The decision endpoints do: manual
+  review, graph resume, run-moderation, user status and the HITL queue delete need a
+  moderator session, and reviewing an appeal needs a policy specialist or admin. Content
+  submission, reading, and the other endpoints are open, and role limits on the
+  moderation pages are enforced in the React router. CORS allows every origin. This is a
+  demo: put real authentication and a fixed origin list in front of it before any use
+  beyond a laptop.
+- **An appeal gets a recommendation, not a decision.** `POST /api/appeals/submit` runs
+  the Appeal Review Agent and stores its opinion with the content's agent decisions,
+  but the appeal stays pending until a person decides in `/api/appeals/{id}/review`.
+  That human outcome is passed to `LearningTracker.record_appeal`.
+- **"Learning" is recorded, not applied.** `LearningTracker` keeps per-agent memory in
+  the process, so it is lost on restart. Appeal outcomes are recorded there, and no
+  agent reads them back when it decides.
+- **Guardrails warn, they do not stop.** A failed check is recorded in the state and
+  lowers confidence, and the agent still runs. This is deliberate, and the course module
+  on guardrails teaches it. The budget guard counts a fixed estimate per agent call, not
+  real token usage.
+- **Model output is parsed, not enforced.** Agents ask for JSON and parse it with
+  `parse_llm_response`. A reply that does not parse falls back to a default decision.
 
 ---
 
 ## Troubleshooting
 
-### 1. "ModuleNotFoundError" when running main.py
+| Symptom | Fix |
+|---|---|
+| `ModuleNotFoundError` when starting the backend | Run from `backend/` with the venv active, then `uv pip install -r requirements.txt` again |
+| Console shows "Network Error" | Start the backend first. The console talks to port 8000 by default, and `frontend/.env.example` sets the same. |
+| "Database is locked" | Close any SQLite viewer that has a file in `backend/databases/` open |
+| Chroma errors on startup | Delete `backend/databases/chroma_moderation_db/` and restart. It is recreated. |
+| A flagged story is missing from the feed | By design. Only approved stories are public. |
+| "Invalid API Key" from Gemini | Check `GOOGLE_API_KEY` in `backend/.env`, or leave it empty for offline mode |
+| `npm install` fails with syntax errors | Check `node --version`. Vite 8 needs Node 22.12+ (or 20.19+). |
+| Port 8000 or 5173 is taken | macOS/Linux: `lsof -i :8000`, then `kill <PID>`. Windows: `netstat -ano \| findstr :8000`, then `taskkill /PID <PID> /F`. |
+| `.venv\Scripts\activate` is blocked on Windows | In PowerShell: `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser` |
 
-Make sure you are in the `backend/` directory and your virtual environment is activated (you should see `(.venv)` in your prompt). Run `pip install -r requirements.txt` again.
-
-### 2. Frontend shows "Network Error" or CORS errors
-
-Ensure the backend is running on port 8000. The frontend proxies `/api` requests to `http://localhost:8000` via `vite.config.js`. If the backend is not running, all API calls will fail.
-
-### 3. ML models not loading
-
-Set `USE_ML_MODELS=true` in `.env` and install PyTorch: `pip install torch transformers`. The first run downloads ~500MB of model files (HateBERT/DistilBERT). Restart the backend after changing `.env` settings.
-
-### 4. "Database is locked" error
-
-SQLite is file-based. Ensure you don't have the database file open in a DB viewer (like DB Browser for SQLite) while the server is running.
-
-### 5. ChromaDB errors on startup
-
-Delete the ChromaDB directory and restart. The system recreates it automatically:
-
-```bash
-rm -rf databases/chroma_moderation_db
-python main.py
-```
-
-### 6. Flagged stories not appearing in the feed
-
-By design. Flagged stories don't show in the public feed. Users see them in "My Stories" (under review). Moderators see them in the Moderation Dashboard.
-
-### 7. "Invalid API Key" from Gemini
-
-Verify your `GOOGLE_API_KEY` in `.env` is correct. Quick test:
-
-```bash
-curl -s "https://generativelanguage.googleapis.com/v1/models?key=YOUR_KEY_HERE"
-```
-
-If valid, this returns a JSON list of available models.
-
-### 8. Node.js version issues
-
-If `npm install` fails with syntax errors, check your Node version (`node --version`). This project requires Node 22.12+. Use [nvm](https://github.com/nvm-sh/nvm) to manage multiple Node versions.
-
-### 9. Port already in use
-
-If port 8000 or 5173 is already in use:
-
-```bash
-# Find what is using the port (macOS/Linux)
-lsof -i :8000
-
-# Kill the process
-kill -9 <PID>
-```
-
-On Windows, use `netstat -ano | findstr :8000` and `taskkill /PID <PID> /F`.
-
-### 10. Virtual environment issues on Windows
-
-If `source .venv/bin/activate` fails on Windows, use:
-
-```bash
-.venv\Scripts\activate
-```
-
-If you see "execution of scripts is disabled", run PowerShell as Admin and execute:
-
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
-
----
-
-## Database Cleanup
-
-To reset all data and start fresh:
+### Reset the data
 
 ```bash
 cd backend
-python scripts/cleanup_data.py
+python scripts/cleanup_data.py        # asks you to type DELETE ALL
+python scripts/initialize_users.py    # recreate the demo accounts
 ```
 
-The script will prompt for confirmation (type `DELETE ALL` to proceed). It removes:
-
-- All content (stories, comments, moderation decisions, appeals)
-- All user accounts and sessions
-- ChromaDB vector store (historical patterns)
-
-After cleanup, reinitialize demo users and restart:
-
-```bash
-python scripts/initialize_users.py
-python main.py
-```
-
-### Partial Cleanup
-
-**Clean only content (keep users):**
-
-```sql
--- Connect to databases/moderation_data.db
-DELETE FROM content_submissions;
-DELETE FROM stories;
-DELETE FROM story_comments;
-DELETE FROM agent_executions;
-DELETE FROM appeals;
-```
-
-**Clean only ChromaDB (keep SQLite data):**
-
-```bash
-rm -rf databases/chroma_moderation_db
-```
-
-**Clean only sessions (keep users and content):**
-
-```sql
--- Connect to databases/moderation_auth.db
-DELETE FROM user_sessions;
-```
+`cleanup_data.py` removes all content, decisions, appeals, accounts, sessions and the
+Chroma store. To clear only the Chroma store, delete
+`backend/databases/chroma_moderation_db/`.
 
 ---
 
-## Architecture Deep Dive
+## Learn more
 
-For a detailed end-to-end architecture walkthrough, including sequence diagrams for:
+| If you want to... | Read |
+|---|---|
+| Build this project step by step | [Content Moderation System on AI-ML Companion](https://aimlcompanion.ai/module/aiAgents/contentModerationProject) |
+| See sequence diagrams for stories, comments, appeals and HITL | [END_TO_END_ARCHITECTURE.md](END_TO_END_ARCHITECTURE.md) |
+| Know what each database file holds | [backend/databases/README.md](backend/databases/README.md) |
+| Read about the console code | [frontend/README.md](frontend/README.md) |
+| Step through the ideas with no install | [notebooks/](notebooks/) |
+| Work on this code with Claude Code | [CLAUDE.md](CLAUDE.md) and [.claude/](.claude/), explained in [How to Run Claude Code Cheaply on a Big Codebase](https://aimlcompanion.ai/blog/run-claude-code-cheaply-big-codebase-2026) |
 
-- Content submission flow
-- Comment moderation flow
-- Appeal workflow
-- HITL review process
-
-See [END_TO_END_ARCHITECTURE.md](END_TO_END_ARCHITECTURE.md).
-
----
-
-## Key Learning Outcomes
-
-This project demonstrates:
-
-- **Multi-Agent Architecture** - 6 specialized agents with LangGraph StateGraph orchestration
-- **Hybrid Intelligence** - Combining ML models (HateBERT) with LLM reasoning (Gemini)
-- **Human-in-the-Loop** - Priority-based escalation with workflow pause/resume
-- **Production Guardrails** - Loop detection, budget caps, hallucination checking, consistency verification
-- **Memory Systems** - ChromaDB vector store for context-aware, learning-from-outcomes moderation
-- **Full-Stack Development** - React + FastAPI + SQLite + role-based access control
-- **State Management** - LangGraph checkpointing for async workflow pause/resume
-- **API Design** - RESTful endpoints with JWT authentication and Swagger documentation
+The concepts behind it each have a module on AI-ML Companion:
+[LangGraph Agents](https://aimlcompanion.ai/module/aiAgents/langgraphAgents),
+[Agent Safety & Guardrails](https://aimlcompanion.ai/module/aiAgents/agentGuardrails),
+[Agent Memory Systems](https://aimlcompanion.ai/module/aiAgents/agentMemory),
+[Multi-Agent Design Patterns](https://aimlcompanion.ai/module/aiAgents/multiAgentPatterns),
+[Full-Stack GenAI Application](https://aimlcompanion.ai/module/aiAgents/agentFullStack) and
+[Structured Outputs](https://aimlcompanion.ai/module/aiAgents/structuredOutputs).
 
 ---
 
-## Claude Code Setup (Reference)
-
-This project doubles as a reference for running Claude Code cheaply on a real codebase. The setup lives in [`.claude/`](.claude/) and [`CLAUDE.md`](CLAUDE.md), and you can copy both into your own repo.
-
-The idea is to stop paying top-model prices for work a cheaper model can do. Tier the models by job, wrap generation in a scout-then-verify pipeline, put the recipes behind one command, and write the guardrails down once.
+## Project layout
 
 ```
-.claude/
-+-- settings.json          # shared permissions + hooks (commit this)
-+-- settings.local.json    # personal overrides (gitignored, not in this repo)
-+-- agents/
-|   +-- Explore.md         # cheap search, pinned to a small model
-|   +-- author.md          # hard generation, pinned to the top model
-|   +-- reviewer.md        # mid-model verifier
-+-- skills/
-|   +-- preship/
-|       +-- SKILL.md       # one command: review the diff before shipping
-+-- workflows/
-|   +-- author.mjs         # scout, generate, verify, wired once
-+-- hooks/
-|   +-- block-protected-paths.py  # PreToolUse: blocks writes to .env and databases
-|   +-- format-changed.py         # PostToolUse: formats every edited file
-+-- docs/
-|   +-- TESTING.md         # loaded on demand, keeps CLAUDE.md small
-+-- memory/
-|   +-- INDEX.md           # one line per fact, loaded each session
-|   +-- *.md               # one durable fact per file
-CLAUDE.md                  # hard rules, loaded every session
+run.py                     offline demo, fast path, keyword view, tests, serve
+backend/
+  main.py                  FastAPI app: REST endpoints, startup, in-memory HITL store
+  src/agents/workflow.py   the LangGraph StateGraph: nodes, routing, wrapper
+  src/agents/agents.py     the agent functions and the HITL trigger rules
+  src/agents/llm_offline.py  OfflineLLM, the no-key rule engine
+  src/core/                ContentState, enums, thresholds, Pydantic reply schemas
+  src/database/            SQLite access: moderation data, auth
+  src/memory/              ChromaDB memory manager, LearningTracker
+  src/ml/                  keyword detectors, optional classifier, guardrails
+  src/utils/               toxicity helpers, observability, evaluation
+  scripts/                 initialize_users.py, cleanup_data.py
+  tests/                   offline tests, plus test_e2e.py for a live server
+frontend/                  React 19 + Vite + MUI console
+notebooks/                 standalone notebook, standard library only
+docs/                      high-level architecture diagram
+images/                    diagrams used by END_TO_END_ARCHITECTURE.md
 ```
 
-| File | Does |
-|------|------|
-| `.claude/agents/*.md` | Sets who runs the work and on which model. Cheap for search and verify, the top model only for generation. |
-| `.claude/workflows/author.mjs` | Scout on a cheap model, author on the top model, verify on mid models in parallel. Only the middle stage is expensive. |
-| `.claude/skills/preship/SKILL.md` | One command that reviews the current diff before shipping. |
-| `.claude/settings.json` | Enforced permissions. `deny` rules are blocked by the harness, `allow` rules cut permission prompts on safe read-only commands. |
-| `.claude/hooks/*.py` | Run on tool events. One blocks writes to secrets and local state, one formats every edited file. |
-| `CLAUDE.md` | The rules the tool must not break, loaded every session. Points to `.claude/docs/` for anything that would bloat it. |
-| `.claude/memory/*` | Durable facts so you can clear context between tasks and lose nothing. |
+## License
 
-### Two layers of safety
-
-`CLAUDE.md` is prose the model reads and follows. `.claude/settings.json` and the hooks are enforced by the harness, so the dangerous operations are blocked even if the prose is skipped. Production setups use both.
-
-### How a change ships
-
-1. Plan first for anything non-trivial (plan mode explores read-only until you approve).
-2. Author on the pinned top-model agent, or run the `author` workflow.
-3. Verify it actually runs. Drive the feature, do not trust a green test alone.
-4. Review the diff with `/code-review`, and `/security-review` for anything security-sensitive.
-5. Run `/preship`, then commit.
-
-### Config notes
-
-- `.claude/settings.local.json` is personal and gitignored. Put machine-specific overrides there, not in the shared `settings.json`.
-- MCP servers (databases, docs, browsers) go in a `.mcp.json` at the project root, committed. This project ships none by default.
-- Custom commands can live in `.claude/commands/*.md`. Skills (`.claude/skills/<name>/SKILL.md`) do the same and add supporting files plus auto-invocation, so prefer skills.
-
-Full walkthrough in the blog post [How to Run Claude Code Cheaply on a Big Codebase](https://aimlcompanion.ai/blog/run-claude-code-cheaply-big-codebase-2026).
-
----
-
-## Related modules
-
-The concepts this project uses, each with its own walkthrough on AI-ML Companion:
-
-| Module | Topic |
-|--------|-------|
-| [`langgraphAgents`](https://aimlcompanion.ai/module/aiAgents/langgraphAgents) | LangGraph Agents |
-| [`agentGuardrails`](https://aimlcompanion.ai/module/aiAgents/agentGuardrails) | Agent Safety & Guardrails |
-| [`agentMemory`](https://aimlcompanion.ai/module/aiAgents/agentMemory) | Agent Memory Systems |
-| [`multiAgentPatterns`](https://aimlcompanion.ai/module/aiAgents/multiAgentPatterns) | Multi-Agent Design Patterns |
-| [`agentFullStack`](https://aimlcompanion.ai/module/aiAgents/agentFullStack) | Full-Stack GenAI Application |
-| [`structuredOutputs`](https://aimlcompanion.ai/module/aiAgents/structuredOutputs) | Structured Outputs |
-
-The project itself is written up in full at
-[Content Moderation System](https://aimlcompanion.ai/module/aiAgents/contentModerationProject).
+MIT. See [`LICENSE`](LICENSE).

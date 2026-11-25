@@ -30,7 +30,7 @@ CACHE_BOUNDARY = "\n<<<CACHE BOUNDARY: everything below varies per request>>>\n"
 @dataclass
 class Prompt:
     """A prompt split at the cache boundary so token accounting can tell the
-    cacheable part from the part that is billed fresh every time."""
+    cacheable part from the part that is sent as fresh input every time."""
 
     agent_id: str
     version: str
@@ -154,7 +154,7 @@ You are merging, not rewriting. If two branches disagree, say so in
 
 def _tenant_band(tenant_id: str, tenant_name: str) -> str:
     """BAND 3: tenant context. Stable across every request from this tenant, so
-    it belongs above the boundary. Putting it below would cost a full-price
+    it belongs above the boundary. Putting it below would send a fully uncached
     prefix on every request for no reason."""
     return (
         f"\nTenant: {tenant_id} ({tenant_name}).\n"

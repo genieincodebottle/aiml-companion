@@ -15,7 +15,65 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-echo -e "${YELLOW}WARNING: This will delete all deployed agents and associated resources.${NC}"
+# ---------------------------------------------------------------------------
+# Usage: bash scripts/cleanup.sh [--dry-run]
+#   --dry-run   list what would be deleted, delete nothing
+#
+# Runtime names: `agentcore configure -e <file>.py` (see deploy.sh) names each
+# runtime after the entrypoint file, so the names are the four below. AgentCore
+# runtime names match [a-zA-Z][a-zA-Z0-9_]{0,47}, i.e. NO hyphens, so a name
+# filter such as "multi-agents" can never match. Override the list with e.g.
+#   AGENT_RUNTIME_NAMES="research_agent analyst_agent" bash scripts/cleanup.sh
+# if you passed --name to `agentcore configure`.
+# ---------------------------------------------------------------------------
+
+DRY_RUN=0
+if [[ "${1:-}" == "--dry-run" ]]; then
+    DRY_RUN=1
+fi
+
+RUNTIME_NAMES="${AGENT_RUNTIME_NAMES:-research_agent analyst_agent writer_agent orchestrator}"
+
+# ---------------------------------------------------------------------------
+# Find AgentCore runtimes (control-plane API: bedrock-agentcore-control)
+# ---------------------------------------------------------------------------
+
+echo "Looking for AgentCore runtimes: ${RUNTIME_NAMES}"
+
+# Output is "<agentRuntimeName>	<agentRuntimeId>" per runtime (auto-paginated).
+# A failure here (no credentials, no permission, old AWS CLI) must stop the
+# script, not be reported as "nothing to delete".
+ALL_RUNTIMES=$(aws bedrock-agentcore-control list-agent-runtimes     --query "agentRuntimes[].[agentRuntimeName,agentRuntimeId]"     --output text)
+
+TARGETS=""
+while IFS=$'	' read -r name id; do
+    [ -z "$name" ] && continue
+    for wanted in $RUNTIME_NAMES; do
+        if [ "$name" == "$wanted" ]; then
+            TARGETS+="${name}"$'	'"${id}"$'
+'
+        fi
+    done
+done <<< "$ALL_RUNTIMES"
+
+if [ -z "$TARGETS" ]; then
+    echo -e "  ${GREEN}[OK]${NC} No matching AgentCore runtimes found to delete"
+else
+    echo "Runtimes that will be deleted:"
+    while IFS=$'	' read -r name id; do
+        [ -z "$name" ] && continue
+        echo "  - $name ($id)"
+    done <<< "$TARGETS"
+fi
+
+if [ "$DRY_RUN" -eq 1 ]; then
+    echo ""
+    echo "Dry run: nothing deleted."
+    exit 0
+fi
+
+echo ""
+echo -e "${YELLOW}WARNING: This will delete the runtimes listed above and any Terraform-managed resources.${NC}"
 read -p "Are you sure? (y/N): " confirm
 
 if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
@@ -24,23 +82,23 @@ if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
 fi
 
 # ---------------------------------------------------------------------------
-# Delete AgentCore agents
+# Delete AgentCore runtimes
 # ---------------------------------------------------------------------------
 
-echo ""
-echo "Deleting AgentCore agents..."
-
-# List and delete all agents with our project prefix
-AGENTS=$(aws bedrock-agent-runtime list-agent-runtimes --query "agentRuntimes[?contains(name, 'multi-agents')].[name,arn]" --output text 2>/dev/null || echo "")
-
-if [ -z "$AGENTS" ]; then
-    echo -e "  ${GREEN}[OK]${NC} No AgentCore agents found to delete"
-else
-    while IFS=$'\t' read -r name arn; do
-        echo "  Deleting: $name"
-        aws bedrock-agent-runtime delete-agent-runtime --agent-runtime-arn "$arn" 2>/dev/null || true
-        echo -e "  ${GREEN}[OK]${NC} Deleted $name"
-    done <<< "$AGENTS"
+FAILED=0
+if [ -n "$TARGETS" ]; then
+    echo ""
+    echo "Deleting AgentCore runtimes..."
+    while IFS=$'	' read -r name id; do
+        [ -z "$name" ] && continue
+        echo "  Deleting: $name ($id)"
+        if aws bedrock-agentcore-control delete-agent-runtime --agent-runtime-id "$id" > /dev/null; then
+            echo -e "  ${GREEN}[OK]${NC} Deleted $name"
+        else
+            echo -e "  ${RED}[FAIL]${NC} Could not delete $name"
+            FAILED=1
+        fi
+    done <<< "$TARGETS"
 fi
 
 # ---------------------------------------------------------------------------
@@ -62,6 +120,11 @@ fi
 
 echo ""
 echo "========================================="
+if [ "$FAILED" -ne 0 ]; then
+    echo -e "  ${RED}Cleanup finished with errors (see above)${NC}"
+    echo "========================================="
+    exit 1
+fi
 echo -e "  ${GREEN}Cleanup complete!${NC}"
 echo "========================================="
 echo ""

@@ -27,7 +27,7 @@ export default function Overview({ go, mode, modeReason }) {
           <div className="modenote-title">
             {mode === 'live' ? 'Live mode' : 'Recorded mode'}
             <span className="modenote-cost">
-              {mode === 'live' ? 'about $0.008 per question you run' : 'free, nothing is called'}
+              {mode === 'live' ? 'each question makes real model calls' : 'no API key, nothing is called'}
             </span>
           </div>
           {/* Say which variable put us here and how to change it. A mode a
@@ -73,8 +73,8 @@ export default function Overview({ go, mode, modeReason }) {
         <StageFlow />
         <div className="agentcount">
           <b>Five agents.</b> Three lookups, one writer, and the orchestrator, which is an agent
-          itself rather than a scheduler. Only the orchestrator uses the expensive model, and only
-          twice per question, which is what keeps the bill sane.
+          itself rather than a scheduler. Only the orchestrator uses the larger model, and only
+          twice per question, which is what keeps token usage down.
         </div>
       </section>
 

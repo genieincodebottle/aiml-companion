@@ -59,3 +59,20 @@ def test_completed_and_paused_claims_are_reported_from_the_state(tmp_path, monke
     assert by_id["C-1"]["eval_score"] == 0.91
     assert by_id["C-2"]["decision"] == "paused_for_review"
     assert out["summary"]["paused_for_review"] == 1
+
+
+def test_summary_only_hides_the_per_claim_lines(tmp_path, monkeypatch, capsys):
+    (tmp_path / "a.json").write_text(json.dumps({
+        "claim_id": "C-1", "policy_number": "P", "incident_type": "auto_collision",
+        "incident_date": "2026-01-01", "incident_description": "x", "estimated_amount": 100,
+    }), encoding="utf-8")
+    monkeypatch.setattr(run_eval, "process_claim", lambda claim: {
+        "paused": False, "state": {"final_decision": ClaimDecision.APPROVED, "pipeline_trace": []}})
+    out = run_eval.run_batch_evaluation(str(tmp_path), summary_only=True)
+    printed = capsys.readouterr().out
+    assert "BATCH EVALUATION SUMMARY" in printed
+    assert "Per-claim results" not in printed and "[UNJUDGED]" not in printed
+    assert len(out["results"]) == 1
+
+    run_eval.run_batch_evaluation(str(tmp_path))
+    assert "Per-claim results" in capsys.readouterr().out

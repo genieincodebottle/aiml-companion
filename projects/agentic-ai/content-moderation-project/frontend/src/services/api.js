@@ -114,10 +114,6 @@ export const contentAPI = {
     return response.data;
   },
 
-  getContentStatus: async (contentId) => {
-    const response = await api.get(`/api/content/${contentId}/status`);
-    return response.data;
-  },
 };
 
 // Appeals API

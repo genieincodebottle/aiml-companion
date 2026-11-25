@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 900" width="1180" height="900" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <title>Multi-Agent Due Diligence Analyst - High-Level Architecture</title>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6b7280"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1180" height="900" fill="#ffffff"/>
+  <text x="590" y="34" font-size="21" text-anchor="middle" font-weight="700" fill="#111827">Multi-Agent Due Diligence Analyst - High-Level Architecture</text>
+
+  <!-- User and entry points -->
+  <rect x="24" y="58" width="230" height="44" rx="6" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5"/>
+  <text x="139" y="84.75" font-size="13.5" text-anchor="middle" font-weight="600" fill="#9a3412">You (terminal or browser)</text>
+  <rect x="24" y="132" width="230" height="270" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="139" y="156" font-size="14.5" text-anchor="middle" font-weight="700" fill="#1d4ed8">Entry points</text>
+  <rect x="38" y="168" width="202" height="64" rx="6" fill="#ffffff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="139" y="189.5" font-size="13" text-anchor="middle" font-weight="600" fill="#1d4ed8">python run.py demo</text>
+  <text x="139" y="204.5" font-size="11" text-anchor="middle" fill="#1e3a8a">offline: no key, no network</text>
+  <text x="139" y="219.5" font-size="11" text-anchor="middle" fill="#1e3a8a">company: Northwind Robotics</text>
+  <rect x="38" y="246" width="202" height="64" rx="6" fill="#ffffff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="139" y="267.5" font-size="13" text-anchor="middle" font-weight="600" fill="#1d4ed8">python main.py --company X</text>
+  <text x="139" y="282.5" font-size="11" text-anchor="middle" fill="#1e3a8a">or python -m src.agents X</text>
+  <text x="139" y="297.5" font-size="11" text-anchor="middle" fill="#1e3a8a">prints summary + report</text>
+  <rect x="38" y="324" width="202" height="64" rx="6" fill="#ffffff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="139" y="345.5" font-size="13" text-anchor="middle" font-weight="600" fill="#1d4ed8">streamlit run app.py</text>
+  <text x="139" y="360.5" font-size="11" text-anchor="middle" fill="#1e3a8a">form, tabs, report download</text>
+  <text x="139" y="375.5" font-size="11" text-anchor="middle" fill="#1e3a8a">(the Docker image runs this)</text>
+  <polyline points="139,102 139,130" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <!-- Guardrails -->
+  <rect x="24" y="424" width="230" height="308" rx="10" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+  <text x="139" y="448" font-size="14.5" text-anchor="middle" font-weight="700" fill="#991b1b">Guardrails</text>
+  <text x="139" y="466" font-size="11" text-anchor="middle" fill="#991b1b">src/guardrails/manager.py</text>
+  <rect x="36" y="478" width="206" height="112" rx="6" fill="#ffffff" stroke="#fca5a5" stroke-width="1.5"/>
+  <text x="139" y="509" font-size="12" text-anchor="middle" font-weight="600" fill="#991b1b">Before each node</text>
+  <text x="139" y="523.5" font-size="10.5" text-anchor="middle" fill="#991b1b">30 node calls per run</text>
+  <text x="139" y="538" font-size="10.5" text-anchor="middle" fill="#991b1b">100,000 tokens per run</text>
+  <text x="139" y="552.5" font-size="10.5" text-anchor="middle" fill="#991b1b">cost ceiling (max_cost_usd)</text>
+  <text x="139" y="567" font-size="10.5" text-anchor="middle" fill="#991b1b">300 s per run, loop + repeat</text>
+  <rect x="36" y="600" width="206" height="118" rx="6" fill="#ffffff" stroke="#fca5a5" stroke-width="1.5"/>
+  <text x="139" y="634" font-size="12" text-anchor="middle" font-weight="600" fill="#991b1b">During and after</text>
+  <text x="139" y="648.5" font-size="10.5" text-anchor="middle" fill="#991b1b">per agent: 120 s, 20,000 tokens</text>
+  <text x="139" y="663" font-size="10.5" text-anchor="middle" fill="#991b1b">charge real token usage</text>
+  <text x="139" y="677.5" font-size="10.5" text-anchor="middle" fill="#991b1b">mask PII in the result</text>
+  <text x="139" y="692" font-size="10.5" text-anchor="middle" fill="#991b1b">warn: no source, conf. &lt; 0.6</text>
+
+  <!-- LangGraph StateGraph -->
+  <rect x="290" y="132" width="520" height="600" rx="10" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="550" y="156" font-size="14.5" text-anchor="middle" font-weight="700" fill="#4338ca">LangGraph StateGraph (src/agents/graph.py)</text>
+  <text x="550" y="174" font-size="11" text-anchor="middle" font-style="italic" fill="#4338ca">every node is wrapped by _create_guarded_node()</text>
+  <rect x="395" y="188" width="310" height="48" rx="6" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <text x="550" y="209" font-size="13" text-anchor="middle" font-weight="600" fill="#4338ca">plan_research</text>
+  <text x="550" y="224" font-size="11" text-anchor="middle" fill="#3730a3">lead analyst: a focus per specialist, LLM</text>
+  <polyline points="550,236 550,262" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="558" y="253" font-size="10.5" fill="#374151">Send() to all four, in parallel</text>
+  <rect x="302" y="258" width="496" height="132" rx="8" fill="none" stroke="#a5b4fc" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <rect x="310" y="264" width="235" height="54" rx="6" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <text x="427.5" y="288" font-size="13" text-anchor="middle" font-weight="600" fill="#4338ca">financial_analyst</text>
+  <text x="427.5" y="303" font-size="11" text-anchor="middle" fill="#3730a3">3 web searches, 1 LLM call</text>
+  <rect x="555" y="264" width="235" height="54" rx="6" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <text x="672.5" y="288" font-size="13" text-anchor="middle" font-weight="600" fill="#4338ca">news_sentiment</text>
+  <text x="672.5" y="303" font-size="11" text-anchor="middle" fill="#3730a3">searches, sentiment score, LLM</text>
+  <rect x="310" y="328" width="235" height="54" rx="6" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <text x="427.5" y="352" font-size="13" text-anchor="middle" font-weight="600" fill="#4338ca">competitive_intel</text>
+  <text x="427.5" y="367" font-size="11" text-anchor="middle" fill="#3730a3">searches, 1 LLM call</text>
+  <rect x="555" y="328" width="235" height="54" rx="6" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <text x="672.5" y="352" font-size="13" text-anchor="middle" font-weight="600" fill="#4338ca">risk_assessor</text>
+  <text x="672.5" y="367" font-size="11" text-anchor="middle" fill="#3730a3">searches, risk score, LLM</text>
+  <polyline points="550,390 550,418" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="558" y="409" font-size="10.5" fill="#374151">findings merged (operator.add)</text>
+  <rect x="395" y="420" width="310" height="48" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="550" y="441" font-size="13" text-anchor="middle" font-weight="600" fill="#334155">fact_checker</text>
+  <text x="550" y="456" font-size="11" text-anchor="middle" fill="#334155">re-searches up to 10 claims, LLM</text>
+  <polyline points="660,468 660,512" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="668" y="494" font-size="10.5" fill="#374151">unresolved contradictions</text>
+  <rect x="555" y="514" width="235" height="54" rx="6" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <text x="672.5" y="538" font-size="13" text-anchor="middle" font-weight="600" fill="#4338ca">resolve_contradictions</text>
+  <text x="672.5" y="553" font-size="11" text-anchor="middle" fill="#3730a3">lead analyst, up to 2, LLM</text>
+  <polyline points="440,468 440,610" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="448" y="540" font-size="10.5" fill="#374151">none, or debate off</text>
+  <polyline points="660,568 660,610" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <rect x="395" y="612" width="310" height="48" rx="6" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <text x="550" y="633" font-size="13" text-anchor="middle" font-weight="600" fill="#4338ca">synthesize_report</text>
+  <text x="550" y="648" font-size="11" text-anchor="middle" fill="#3730a3">lead analyst summary (LLM) + report</text>
+  <polyline points="550,660 550,680" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <rect x="395" y="682" width="310" height="40" rx="6" fill="#f1f5f9" stroke="#475569" stroke-width="1.5"/>
+  <text x="550" y="706.25" font-size="12.5" text-anchor="middle" font-weight="600" fill="#334155">END: final state</text>
+  <polyline points="254,212 393,212" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="343" y="204" font-size="10.5" text-anchor="middle" fill="#374151">run_pipeline()</text>
+  <polyline points="254,560 300,560 300,400" fill="none" stroke="#6b7280" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="268" y="552" font-size="10.5" text-anchor="middle" fill="#374151">wraps</text>
+
+  <!-- Tools -->
+  <rect x="850" y="132" width="306" height="262" rx="10" fill="#ecfeff" stroke="#0891b2" stroke-width="2"/>
+  <text x="1003" y="156" font-size="14.5" text-anchor="middle" font-weight="700" fill="#0e7490">Tools (src/tools/)</text>
+  <rect x="864" y="166" width="278" height="44" rx="6" fill="#ffffff" stroke="#67e8f9" stroke-width="1.5"/>
+  <text x="1003" y="185" font-size="13" text-anchor="middle" font-weight="600" fill="#0e7490">WebSearchTool: offline first</text>
+  <text x="1003" y="200" font-size="11" text-anchor="middle" fill="#164e63">LLM_PROVIDER=offline: OfflineSearch</text>
+  <rect x="864" y="218" width="278" height="44" rx="6" fill="#ffffff" stroke="#67e8f9" stroke-width="1.5"/>
+  <text x="1003" y="237" font-size="13" text-anchor="middle" font-weight="600" fill="#0e7490">SQLite cache: data/cache.db</text>
+  <text x="1003" y="252" font-size="11" text-anchor="middle" fill="#164e63">checked first, 24 h TTL, 1,000 entries</text>
+  <rect x="864" y="270" width="278" height="56" rx="6" fill="#ffffff" stroke="#67e8f9" stroke-width="1.5"/>
+  <text x="1003" y="287.5" font-size="13" text-anchor="middle" font-weight="600" fill="#0e7490">Tavily (if TAVILY_API_KEY)</text>
+  <text x="1003" y="302.5" font-size="11" text-anchor="middle" fill="#164e63">then DuckDuckGo (ddgs), no key</text>
+  <text x="1003" y="317.5" font-size="11" text-anchor="middle" fill="#164e63">results are cached</text>
+  <rect x="864" y="334" width="278" height="50" rx="6" fill="#ffffff" stroke="#67e8f9" stroke-width="1.5"/>
+  <text x="1003" y="356" font-size="13" text-anchor="middle" font-weight="600" fill="#0e7490">calculators.py</text>
+  <text x="1003" y="371" font-size="11" text-anchor="middle" fill="#164e63">sentiment score (news), risk score (risk)</text>
+  <polyline points="810,300 848,300" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="829" y="292" font-size="10" text-anchor="middle" fill="#374151">search</text>
+
+  <!-- Model -->
+  <rect x="850" y="414" width="306" height="196" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="1003" y="438" font-size="14.5" text-anchor="middle" font-weight="700" fill="#15803d">Model: get_llm() in src/llm.py</text>
+  <rect x="864" y="448" width="278" height="56" rx="6" fill="#ffffff" stroke="#86efac" stroke-width="1.5"/>
+  <text x="1003" y="465.5" font-size="13" text-anchor="middle" font-weight="600" fill="#15803d">Google Gemini (default)</text>
+  <text x="1003" y="480.5" font-size="11" text-anchor="middle" fill="#166534">gemini-3.6-flash, GOOGLE_API_KEY</text>
+  <text x="1003" y="495.5" font-size="11" text-anchor="middle" fill="#166534">retries with backoff, usage tracked</text>
+  <rect x="864" y="512" width="278" height="40" rx="6" fill="#ffffff" stroke="#86efac" stroke-width="1.5"/>
+  <text x="1003" y="528.5" font-size="12" text-anchor="middle" font-weight="600" fill="#15803d">OpenAI or Ollama</text>
+  <text x="1003" y="543.5" font-size="11" text-anchor="middle" fill="#166534">set by LLM_PROVIDER / model.provider</text>
+  <rect x="864" y="560" width="278" height="40" rx="6" fill="#ffffff" stroke="#86efac" stroke-width="1.5"/>
+  <text x="1003" y="576.5" font-size="12" text-anchor="middle" font-weight="600" fill="#15803d">Offline fixtures (llm_offline.py)</text>
+  <text x="1003" y="591.5" font-size="11" text-anchor="middle" fill="#166534">no key, a planted contradiction</text>
+  <polyline points="810,480 848,480" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="829" y="472" font-size="10.5" text-anchor="middle" fill="#374151">LLM</text>
+
+  <!-- Output -->
+  <rect x="850" y="630" width="306" height="102" rx="10" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+  <text x="1003" y="654" font-size="14.5" text-anchor="middle" font-weight="700" fill="#334155">Output</text>
+  <rect x="864" y="662" width="278" height="56" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="1003" y="679.5" font-size="13" text-anchor="middle" font-weight="600" fill="#334155">final_report (Markdown)</text>
+  <text x="1003" y="694.5" font-size="11" text-anchor="middle" fill="#334155">stdout, --output file, UI download</text>
+  <text x="1003" y="709.5" font-size="11" text-anchor="middle" fill="#334155">risk rating, confidence, trace</text>
+  <polyline points="705,702 848,702" fill="none" stroke="#6b7280" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="776" y="694" font-size="10.5" text-anchor="middle" fill="#374151">final state</text>
+
+  <!-- Around the pipeline -->
+  <rect x="24" y="756" width="1132" height="108" rx="10" fill="#f9fafb" stroke="#9ca3af" stroke-width="2"/>
+  <text x="590" y="780" font-size="13.5" text-anchor="middle" font-weight="600" fill="#4b5563">Around the pipeline</text>
+  <rect x="40" y="790" width="360" height="58" rx="6" fill="#ffffff" stroke="#d1d5db" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="220" y="816" font-size="13" text-anchor="middle" font-weight="600" fill="#4b5563">evaluation/run_eval.py</text>
+  <text x="220" y="831" font-size="11" text-anchor="middle" fill="#4b5563">3 companies, depth quick, rule-based scores</text>
+  <rect x="410" y="790" width="360" height="58" rx="6" fill="#ffffff" stroke="#d1d5db" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="590" y="816" font-size="13" text-anchor="middle" font-weight="600" fill="#4b5563">docker/ (Dockerfile + compose)</text>
+  <text x="590" y="831" font-size="11" text-anchor="middle" fill="#4b5563">Streamlit on port 8501, reads ../.env</text>
+  <rect x="780" y="790" width="360" height="58" rx="6" fill="#ffffff" stroke="#d1d5db" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="960" y="816" font-size="13" text-anchor="middle" font-weight="600" fill="#4b5563">evaluation/judge_prompt.py</text>
+  <text x="960" y="831" font-size="11" text-anchor="middle" fill="#4b5563">LLM-judge prompts, not called by run_eval.py</text>
+  <polyline points="24,884 54,884" fill="none" stroke="#6b7280" stroke-width="1.8"/>
+  <text x="60" y="888" font-size="11" fill="#374151">request flow</text>
+  <polyline points="170,884 200,884" fill="none" stroke="#6b7280" stroke-width="1.8" stroke-dasharray="5 4"/>
+  <text x="206" y="888" font-size="11" fill="#374151">guardrail wrapper</text>
+  <text x="1156" y="888" font-size="11" text-anchor="end" fill="#6b7280">One pass, no re-research loop: 7 to 9 LLM calls per run before retries.</text>
+</svg>

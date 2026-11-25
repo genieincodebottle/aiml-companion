@@ -5,7 +5,7 @@ mode in the post, and each one is meant to be turned on while you watch the
 trace, not read about.
 
 The fourth one is the important one. `corrupt_passage` produces a request in
-which every span is green, the citation is real, the latency is good, the cost
+which every span is green, the citation is real, the latency is good, the token use
 is normal, and the answer is wrong. There is no status code for wrong.
 """
 
@@ -36,7 +36,7 @@ class FailureSwitches:
     # real. The span is green. The number in the answer is wrong.
     corrupt_passage: bool = False
 
-    # Prompt caching off, so the cost panel can show the same request both ways.
+    # Prompt caching off, so the tokens page can show the same request both ways.
     disable_prompt_cache: bool = False
 
     # Attempt a cross-tenant retrieval, to demonstrate that scoping is inside
@@ -112,8 +112,8 @@ CATALOG: list[dict[str, Any]] = [
         "label": "Turn prompt caching off",
         "stage": 0,
         "type": "bool",
-        "teaches": "The stable prefix of every agent is re-billed at full input price on every call.",
-        "watch": "Cached tokens fall to zero across all spans and the running total rises.",
+        "teaches": "The stable prefix of every agent is re-sent as uncached input tokens on every call.",
+        "watch": "Cached tokens fall to zero across all spans and the uncached input token count rises.",
     },
     {
         "key": "attempt_cross_tenant",

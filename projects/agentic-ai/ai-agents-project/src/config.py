@@ -68,6 +68,12 @@ def get_pipeline_config() -> dict:
     })
 
 
+def get_guardrails_config() -> dict:
+    """Get guardrails config (prompt_injection policy, rate_limit, ...)."""
+    cfg = load_config()
+    return cfg.get("guardrails", {}) or {}
+
+
 def get_budget_config() -> dict:
     """Get token budget configuration."""
     cfg = load_config()

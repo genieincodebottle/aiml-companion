@@ -35,9 +35,11 @@
       "request_id": "7ad568a8cd072099",
       "tenant_id": "tenant-northwind",
       "mode": "replay",
-      "total_cost_usd": 0.007125,
       "total_tokens": 3715,
+      "input_tokens": 3196,
       "cached_tokens": 1854,
+      "uncached_input_tokens": 1342,
+      "output_tokens": 519,
       "model_calls": 7,
       "tool_calls": 3,
       "spans_green": 22,
@@ -57,7 +59,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 2.7,
         "deadline_remaining_s": 60.0,
@@ -72,7 +73,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 0.0
+        "started_offset_ms": 0.0,
+        "total_tokens": 0
       },
       {
         "span_id": "11cea1bccabb",
@@ -86,7 +88,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": 60.0,
@@ -104,7 +105,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 0.0
+        "started_offset_ms": 0.0,
+        "total_tokens": 0
       },
       {
         "span_id": "d75298a03db7",
@@ -118,7 +120,6 @@
         "input_tokens": 133,
         "cached_tokens": 0,
         "output_tokens": 2,
-        "cost_usd": 4.5e-05,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": 60.0,
@@ -130,7 +131,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 0.0
+        "started_offset_ms": 0.0,
+        "total_tokens": 135
       },
       {
         "span_id": "dfbda3c3f62d",
@@ -144,7 +146,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": 60.0,
@@ -168,7 +169,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 0.1
+        "started_offset_ms": 0.1,
+        "total_tokens": 0
       },
       {
         "span_id": "c217bb1c69a1",
@@ -182,7 +184,6 @@
         "input_tokens": 473,
         "cached_tokens": 394,
         "output_tokens": 77,
-        "cost_usd": 0.001161,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": null,
@@ -193,7 +194,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 0.1
+        "started_offset_ms": 0.1,
+        "total_tokens": 550
       },
       {
         "span_id": "cfd369c96f52",
@@ -207,7 +209,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 2.4,
         "deadline_remaining_s": 60.0,
@@ -224,7 +225,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 0.1
+        "started_offset_ms": 0.1,
+        "total_tokens": 0
       },
       {
         "span_id": "de6799b9813a",
@@ -238,7 +240,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 1.1,
         "deadline_remaining_s": 20.0,
@@ -247,7 +248,8 @@
         "detail": {},
         "error": null,
         "warnings": [],
-        "started_offset_ms": 0.2
+        "started_offset_ms": 0.2,
+        "total_tokens": 0
       },
       {
         "span_id": "37f582676623",
@@ -261,7 +263,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 1.0,
         "deadline_remaining_s": 20.0,
@@ -282,7 +283,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 0.2
+        "started_offset_ms": 0.2,
+        "total_tokens": 0
       },
       {
         "span_id": "b80ef92df549",
@@ -296,7 +298,6 @@
         "input_tokens": 326,
         "cached_tokens": 232,
         "output_tokens": 57,
-        "cost_usd": 0.000603,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": 20.0,
@@ -307,7 +308,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 1.3
+        "started_offset_ms": 1.3,
+        "total_tokens": 383
       },
       {
         "span_id": "0f5734235f45",
@@ -321,7 +323,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.9,
         "deadline_remaining_s": 20.0,
@@ -330,7 +331,8 @@
         "detail": {},
         "error": null,
         "warnings": [],
-        "started_offset_ms": 1.3
+        "started_offset_ms": 1.3,
+        "total_tokens": 0
       },
       {
         "span_id": "8fc12e62c46f",
@@ -344,7 +346,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.9,
         "deadline_remaining_s": 20.0,
@@ -364,7 +365,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 1.3
+        "started_offset_ms": 1.3,
+        "total_tokens": 0
       },
       {
         "span_id": "5480e2a24d7f",
@@ -378,7 +380,6 @@
         "input_tokens": 323,
         "cached_tokens": 234,
         "output_tokens": 56,
-        "cost_usd": 0.000589,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": 20.0,
@@ -389,7 +390,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 2.2
+        "started_offset_ms": 2.2,
+        "total_tokens": 379
       },
       {
         "span_id": "84fb240598e9",
@@ -403,7 +405,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.2,
         "deadline_remaining_s": 25.0,
@@ -412,7 +413,8 @@
         "detail": {},
         "error": null,
         "warnings": [],
-        "started_offset_ms": 2.3
+        "started_offset_ms": 2.3,
+        "total_tokens": 0
       },
       {
         "span_id": "a821aea22113",
@@ -426,7 +428,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.1,
         "deadline_remaining_s": 25.0,
@@ -470,7 +471,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 2.3
+        "started_offset_ms": 2.3,
+        "total_tokens": 0
       },
       {
         "span_id": "4e3599286d70",
@@ -484,7 +486,6 @@
         "input_tokens": 683,
         "cached_tokens": 364,
         "output_tokens": 116,
-        "cost_usd": 0.001403,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": 25.0,
@@ -495,7 +496,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 2.4
+        "started_offset_ms": 2.4,
+        "total_tokens": 799
       },
       {
         "span_id": "5e66fb4d949f",
@@ -509,7 +511,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.1,
         "deadline_remaining_s": 60.0,
@@ -520,7 +521,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 2.5
+        "started_offset_ms": 2.5,
+        "total_tokens": 0
       },
       {
         "span_id": "e27d16d87ff7",
@@ -534,7 +536,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.1,
         "deadline_remaining_s": 25.0,
@@ -543,7 +544,8 @@
         "detail": {},
         "error": null,
         "warnings": [],
-        "started_offset_ms": 2.5
+        "started_offset_ms": 2.5,
+        "total_tokens": 0
       },
       {
         "span_id": "e19223d1e320",
@@ -557,7 +559,6 @@
         "input_tokens": 509,
         "cached_tokens": 236,
         "output_tokens": 98,
-        "cost_usd": 0.00118,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": 25.0,
@@ -568,7 +569,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 2.6
+        "started_offset_ms": 2.6,
+        "total_tokens": 607
       },
       {
         "span_id": "87b5512a22c4",
@@ -582,7 +584,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": 60.0,
@@ -598,7 +599,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 2.6
+        "started_offset_ms": 2.6,
+        "total_tokens": 0
       },
       {
         "span_id": "0ed1866a3f0e",
@@ -612,7 +614,6 @@
         "input_tokens": 749,
         "cached_tokens": 394,
         "output_tokens": 113,
-        "cost_usd": 0.002145,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": null,
@@ -623,7 +624,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 2.6
+        "started_offset_ms": 2.6,
+        "total_tokens": 862
       },
       {
         "span_id": "064ed1e75472",
@@ -637,7 +639,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": 60.0,
@@ -649,7 +650,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 2.6
+        "started_offset_ms": 2.6,
+        "total_tokens": 0
       },
       {
         "span_id": "5e3bce8b1d03",
@@ -663,7 +665,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": null,
@@ -674,51 +675,34 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 2.7
+        "started_offset_ms": 2.7,
+        "total_tokens": 0
       }
     ]
   },
   "semantic_warnings": [],
   "all_spans_green": true,
-  "cost_by_model": {
+  "tokens_by_model": {
     "gemini-3.5-flash-lite": {
       "calls": 1,
       "input": 133,
       "cached": 0,
       "output": 2,
-      "usd": 4.5e-05,
-      "price": {
-        "name": "gemini-3.5-flash-lite",
-        "input_per_m": 0.3,
-        "cached_input_per_m": 0.03,
-        "output_per_m": 2.5
-      }
+      "total": 135
     },
     "gemini-3.1-pro-preview": {
       "calls": 2,
       "input": 1222,
       "cached": 788,
       "output": 190,
-      "usd": 0.003306,
-      "price": {
-        "name": "gemini-3.1-pro-preview",
-        "input_per_m": 2.0,
-        "cached_input_per_m": 0.2,
-        "output_per_m": 12.0
-      }
+      "total": 1412
     },
     "gemini-3.6-flash": {
       "calls": 4,
       "input": 1841,
       "cached": 1066,
       "output": 327,
-      "usd": 0.003775,
-      "price": {
-        "name": "gemini-3.6-flash",
-        "input_per_m": 1.5,
-        "cached_input_per_m": 0.15,
-        "output_per_m": 7.5
-      }
+      "total": 2168
     }
   }
 }

@@ -82,7 +82,7 @@ def full_evaluation(df: pd.DataFrame, results: dict, cfg: dict) -> dict:
     #
     # This line used to read `pipeline.predict_proba(X)`, scoring the
     # deployment fit on its own training rows. See models.train_and_evaluate
-    # for what that cost: a reported total cost of 1 against a real 712.
+    # for what that cost: a reported total cost of 6 against a real 662.
     y_proba = results[best_name].get("oof_proba")
     if y_proba is None:
         raise KeyError(

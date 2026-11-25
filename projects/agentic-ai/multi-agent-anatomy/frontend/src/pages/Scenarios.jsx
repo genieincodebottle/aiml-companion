@@ -21,7 +21,7 @@ export default function Scenarios({ replays, onPick, activeId }) {
       <h1>Pick something to break</h1>
       <p className="lede">
         Seven recorded runs of the same system. Each one is the same customer question with one
-        thing deliberately broken. They are recordings, so they open instantly and cost nothing.
+        thing deliberately broken. They are recordings, so they open instantly and call no model.
       </p>
 
       <div className="cardgrid">

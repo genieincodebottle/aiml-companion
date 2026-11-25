@@ -139,28 +139,6 @@ resource "aws_iam_role_policy_attachment" "deployer_agentcore" {
 }
 
 # ---------------------------------------------------------------------------
-# Secrets Manager (for API keys)
-# ---------------------------------------------------------------------------
-
-resource "aws_secretsmanager_secret" "tavily_api_key" {
-  count = var.tavily_api_key != "" ? 1 : 0
-
-  name        = "${var.project_name}/${var.environment}/tavily-api-key"
-  description = "Tavily API key for web search tool"
-
-  tags = {
-    Name = "${var.project_name}-tavily-key"
-  }
-}
-
-resource "aws_secretsmanager_secret_version" "tavily_api_key" {
-  count = var.tavily_api_key != "" ? 1 : 0
-
-  secret_id     = aws_secretsmanager_secret.tavily_api_key[0].id
-  secret_string = var.tavily_api_key
-}
-
-# ---------------------------------------------------------------------------
 # CloudWatch Log Group (for agent logs)
 # ---------------------------------------------------------------------------
 

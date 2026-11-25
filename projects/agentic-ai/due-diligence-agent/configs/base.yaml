@@ -56,17 +56,15 @@ agents:
 # --- Pipeline Settings ---
 pipeline:
   max_parallel_agents: 4                # Number of agents to run concurrently
-  max_retries_per_agent: 2              # Retry count before using fallback
+  max_retries_per_agent: 2              # LLM retries per call (attempts = 1 + this, capped by model.max_retries)
   max_debate_rounds: 2                  # Lead analyst contradiction resolution rounds
-  max_fact_check_depth: 2               # How many verification passes
-  timeout_per_agent_seconds: 120        # Per-agent wall-clock timeout
-  enable_self_correction: true          # Enable fact-checker -> re-research loop
+  timeout_per_agent_seconds: 120        # Per-agent wall-clock timeout (agent skipped with a warning; 0 = off)
   enable_debate: true                   # Enable Lead Analyst contradiction resolution
 
 # --- Token Budget ---
 budget:
   max_total_tokens: 100000              # Hard ceiling for entire pipeline
-  max_tokens_per_agent: 20000           # Per-agent token ceiling
+  max_tokens_per_agent: 20000           # Per-agent token ceiling (next LLM call refused once reached)
   warning_threshold_pct: 80             # Warn at 80% budget usage
   cost_per_1k_input_tokens: 0.0001     # For cost tracking (Gemini Flash pricing)
   cost_per_1k_output_tokens: 0.0004
@@ -96,7 +94,7 @@ guardrails:
   max_reasoning_iterations: 10          # Prevent infinite reasoning loops
   max_agent_calls: 30                   # Total agent invocations across pipeline
   max_execution_time_seconds: 300       # 5-minute wall-clock limit
-  hallucination_check_enabled: true
+  hallucination_check_enabled: true     # false skips the Fact Checker node (findings stay UNVERIFIED)
   confidence_threshold: 0.6             # Minimum confidence for a finding
   pii_detection_enabled: true           # Mask PII in outputs
   source_grounding_required: true       # Every claim must cite a source
@@ -109,8 +107,6 @@ evaluation:
     - "source_diversity"                # Number of unique sources cited
     - "factual_consistency"             # Cross-agent agreement score
     - "actionability"                   # Practical recommendation quality
-  judge_model: "gemini-3.6-flash"
-  num_eval_runs: 3
 
 # --- Output ---
 output:

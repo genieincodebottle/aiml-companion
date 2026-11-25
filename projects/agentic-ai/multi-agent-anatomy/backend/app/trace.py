@@ -1,4 +1,4 @@
-"""Spans, costs and the running total.
+"""Spans, token counts and the running total.
 
 The trace is the product of this project, not a debugging aid bolted on at the
 end. Every span carries the agent id and the prompt version that produced it,
@@ -16,7 +16,6 @@ import uuid
 from dataclasses import dataclass, field
 from typing import Any, Literal
 
-from .config import price_for
 
 SpanStatus = Literal["running", "ok", "error", "timeout", "killed", "skipped"]
 
@@ -64,12 +63,9 @@ class Span:
         return (end - self.started_at) * 1000.0
 
     @property
-    def cost_usd(self) -> float:
-        if not self.model:
-            return 0.0
-        return price_for(self.model).cost(
-            self.input_tokens, self.cached_tokens, self.output_tokens
-        )
+    def total_tokens(self) -> int:
+        """Input plus output. cached_tokens is a subset of input, not an extra."""
+        return self.input_tokens + self.output_tokens
 
     def finish(self, status: SpanStatus = "ok", error: str | None = None) -> "Span":
         self.ended_at = _now()
@@ -90,7 +86,7 @@ class Span:
             "input_tokens": self.input_tokens,
             "cached_tokens": self.cached_tokens,
             "output_tokens": self.output_tokens,
-            "cost_usd": round(self.cost_usd, 6),
+            "total_tokens": self.total_tokens,
             "status": self.status,
             "duration_ms": round(self.duration_ms, 1),
             "deadline_remaining_s": (
@@ -142,12 +138,20 @@ class Trace:
         return span
 
     @property
-    def total_cost_usd(self) -> float:
-        return sum(s.cost_usd for s in self.spans)
+    def input_tokens(self) -> int:
+        return sum(s.input_tokens for s in self.spans)
+
+    @property
+    def output_tokens(self) -> int:
+        return sum(s.output_tokens for s in self.spans)
 
     @property
     def total_tokens(self) -> int:
-        return sum(s.input_tokens + s.output_tokens for s in self.spans)
+        return sum(s.total_tokens for s in self.spans)
+
+    @property
+    def uncached_input_tokens(self) -> int:
+        return max(self.input_tokens - self.cached_tokens, 0)
 
     @property
     def cached_tokens(self) -> int:
@@ -166,9 +170,11 @@ class Trace:
             "request_id": self.request_id,
             "tenant_id": self.tenant_id,
             "mode": self.mode,
-            "total_cost_usd": round(self.total_cost_usd, 6),
             "total_tokens": self.total_tokens,
+            "input_tokens": self.input_tokens,
             "cached_tokens": self.cached_tokens,
+            "uncached_input_tokens": self.uncached_input_tokens,
+            "output_tokens": self.output_tokens,
             "model_calls": self.model_calls,
             "tool_calls": self.tool_calls,
             "spans_green": sum(1 for s in self.spans if s.status == "ok"),

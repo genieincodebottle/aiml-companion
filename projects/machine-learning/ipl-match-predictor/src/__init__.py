@@ -2,8 +2,8 @@
 IPL Dataset Analysis - Source Package
 =====================================
 
-Reusable modules for IPL cricket data analysis covering 17 seasons
-(2008-2024). Provides data loading, exploratory analysis helpers,
+Reusable modules for IPL cricket data analysis covering 18 seasons
+(2008-2025). Provides data loading, exploratory analysis helpers,
 and machine-learning pipeline utilities.
 
 Modules

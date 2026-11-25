@@ -37,9 +37,11 @@
       "request_id": "c762f814bb610b7b",
       "tenant_id": "tenant-northwind",
       "mode": "replay",
-      "total_cost_usd": 0.007159,
       "total_tokens": 3725,
+      "input_tokens": 3204,
       "cached_tokens": 1854,
+      "uncached_input_tokens": 1350,
+      "output_tokens": 521,
       "model_calls": 7,
       "tool_calls": 3,
       "spans_green": 26,
@@ -59,7 +61,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 30.7,
         "deadline_remaining_s": 60.0,
@@ -76,7 +77,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 0.0
+        "started_offset_ms": 0.0,
+        "total_tokens": 0
       },
       {
         "span_id": "600a311daa43",
@@ -90,7 +92,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": 60.0,
@@ -108,7 +109,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 0.0
+        "started_offset_ms": 0.0,
+        "total_tokens": 0
       },
       {
         "span_id": "8990a10b5538",
@@ -122,7 +124,6 @@
         "input_tokens": 136,
         "cached_tokens": 0,
         "output_tokens": 2,
-        "cost_usd": 4.6e-05,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": 60.0,
@@ -134,7 +135,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 0.1
+        "started_offset_ms": 0.1,
+        "total_tokens": 138
       },
       {
         "span_id": "221be45c798e",
@@ -148,7 +150,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.1,
         "deadline_remaining_s": 60.0,
@@ -172,7 +173,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 0.1
+        "started_offset_ms": 0.1,
+        "total_tokens": 0
       },
       {
         "span_id": "391aa8265c4e",
@@ -186,7 +188,6 @@
         "input_tokens": 475,
         "cached_tokens": 394,
         "output_tokens": 79,
-        "cost_usd": 0.001189,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": null,
@@ -197,7 +198,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 0.1
+        "started_offset_ms": 0.1,
+        "total_tokens": 554
       },
       {
         "span_id": "407fcabd26a2",
@@ -211,7 +213,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 30.2,
         "deadline_remaining_s": 60.0,
@@ -228,7 +229,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 0.1
+        "started_offset_ms": 0.1,
+        "total_tokens": 0
       },
       {
         "span_id": "479a3572855d",
@@ -242,7 +244,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 1.2,
         "deadline_remaining_s": 20.0,
@@ -251,7 +252,8 @@
         "detail": {},
         "error": null,
         "warnings": [],
-        "started_offset_ms": 0.2
+        "started_offset_ms": 0.2,
+        "total_tokens": 0
       },
       {
         "span_id": "643fb010a27b",
@@ -265,7 +267,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 1.1,
         "deadline_remaining_s": 20.0,
@@ -286,7 +287,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 0.3
+        "started_offset_ms": 0.3,
+        "total_tokens": 0
       },
       {
         "span_id": "cc90f7db7341",
@@ -300,7 +302,6 @@
         "input_tokens": 326,
         "cached_tokens": 232,
         "output_tokens": 57,
-        "cost_usd": 0.000603,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": 20.0,
@@ -311,7 +312,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 1.4
+        "started_offset_ms": 1.4,
+        "total_tokens": 383
       },
       {
         "span_id": "eee21ce98773",
@@ -325,7 +327,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 1.1,
         "deadline_remaining_s": 20.0,
@@ -334,7 +335,8 @@
         "detail": {},
         "error": null,
         "warnings": [],
-        "started_offset_ms": 1.5
+        "started_offset_ms": 1.5,
+        "total_tokens": 0
       },
       {
         "span_id": "77550b4f56f5",
@@ -348,7 +350,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 1.0,
         "deadline_remaining_s": 20.0,
@@ -368,7 +369,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 1.5
+        "started_offset_ms": 1.5,
+        "total_tokens": 0
       },
       {
         "span_id": "bdd73d1b4c36",
@@ -382,7 +384,6 @@
         "input_tokens": 323,
         "cached_tokens": 234,
         "output_tokens": 56,
-        "cost_usd": 0.000589,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": 20.0,
@@ -393,7 +394,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 2.5
+        "started_offset_ms": 2.5,
+        "total_tokens": 379
       },
       {
         "span_id": "2f1e8ecf73b0",
@@ -407,7 +409,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.2,
         "deadline_remaining_s": 25.0,
@@ -416,7 +417,8 @@
         "detail": {},
         "error": null,
         "warnings": [],
-        "started_offset_ms": 2.6
+        "started_offset_ms": 2.6,
+        "total_tokens": 0
       },
       {
         "span_id": "b8242bed6e9c",
@@ -430,7 +432,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.1,
         "deadline_remaining_s": 25.0,
@@ -474,7 +475,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 2.6
+        "started_offset_ms": 2.6,
+        "total_tokens": 0
       },
       {
         "span_id": "e53f0adc2667",
@@ -488,7 +490,6 @@
         "input_tokens": 686,
         "cached_tokens": 364,
         "output_tokens": 116,
-        "cost_usd": 0.001408,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": 25.0,
@@ -499,7 +500,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 2.8
+        "started_offset_ms": 2.8,
+        "total_tokens": 802
       },
       {
         "span_id": "90bf8b6414b0",
@@ -513,7 +515,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "error",
         "duration_ms": 27.5,
         "deadline_remaining_s": null,
@@ -531,7 +532,8 @@
         },
         "error": "step 3 failed, compensators ran in reverse",
         "warnings": [],
-        "started_offset_ms": 2.9
+        "started_offset_ms": 2.9,
+        "total_tokens": 0
       },
       {
         "span_id": "12d0acbfb239",
@@ -545,7 +547,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": null,
@@ -561,7 +562,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 30.3
+        "started_offset_ms": 30.3,
+        "total_tokens": 0
       },
       {
         "span_id": "319024a51276",
@@ -575,7 +577,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": null,
@@ -591,7 +592,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 30.3
+        "started_offset_ms": 30.3,
+        "total_tokens": 0
       },
       {
         "span_id": "e91ed87e47a3",
@@ -605,7 +607,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "error",
         "duration_ms": 0.0,
         "deadline_remaining_s": null,
@@ -621,7 +622,8 @@
         },
         "error": "order_service_unavailable",
         "warnings": [],
-        "started_offset_ms": 30.3
+        "started_offset_ms": 30.3,
+        "total_tokens": 0
       },
       {
         "span_id": "057dd5ff56d4",
@@ -635,7 +637,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": null,
@@ -651,7 +652,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 30.3
+        "started_offset_ms": 30.3,
+        "total_tokens": 0
       },
       {
         "span_id": "06bdcf2fa68c",
@@ -665,7 +667,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": null,
@@ -680,7 +681,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 30.3
+        "started_offset_ms": 30.3,
+        "total_tokens": 0
       },
       {
         "span_id": "b1a4691ca028",
@@ -694,7 +696,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.2,
         "deadline_remaining_s": 59.97,
@@ -705,7 +706,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 30.3
+        "started_offset_ms": 30.3,
+        "total_tokens": 0
       },
       {
         "span_id": "2b9a7d6ed8fa",
@@ -719,7 +721,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.2,
         "deadline_remaining_s": 25.0,
@@ -728,7 +729,8 @@
         "detail": {},
         "error": null,
         "warnings": [],
-        "started_offset_ms": 30.4
+        "started_offset_ms": 30.4,
+        "total_tokens": 0
       },
       {
         "span_id": "b23c7851ab1c",
@@ -742,7 +744,6 @@
         "input_tokens": 509,
         "cached_tokens": 236,
         "output_tokens": 98,
-        "cost_usd": 0.00118,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": 25.0,
@@ -753,7 +754,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 30.5
+        "started_offset_ms": 30.5,
+        "total_tokens": 607
       },
       {
         "span_id": "5a91feb18fd7",
@@ -767,7 +769,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.1,
         "deadline_remaining_s": 59.97,
@@ -783,7 +784,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 30.5
+        "started_offset_ms": 30.5,
+        "total_tokens": 0
       },
       {
         "span_id": "e5bc8ff95956",
@@ -797,7 +799,6 @@
         "input_tokens": 749,
         "cached_tokens": 394,
         "output_tokens": 113,
-        "cost_usd": 0.002145,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": null,
@@ -808,7 +809,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 30.6
+        "started_offset_ms": 30.6,
+        "total_tokens": 862
       },
       {
         "span_id": "859fde228a20",
@@ -822,7 +824,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.1,
         "deadline_remaining_s": 59.97,
@@ -834,7 +835,8 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 30.6
+        "started_offset_ms": 30.6,
+        "total_tokens": 0
       },
       {
         "span_id": "ebd5bd6530a9",
@@ -848,7 +850,6 @@
         "input_tokens": 0,
         "cached_tokens": 0,
         "output_tokens": 0,
-        "cost_usd": 0.0,
         "status": "ok",
         "duration_ms": 0.0,
         "deadline_remaining_s": null,
@@ -859,51 +860,34 @@
         },
         "error": null,
         "warnings": [],
-        "started_offset_ms": 30.7
+        "started_offset_ms": 30.7,
+        "total_tokens": 0
       }
     ]
   },
   "semantic_warnings": [],
   "all_spans_green": false,
-  "cost_by_model": {
+  "tokens_by_model": {
     "gemini-3.5-flash-lite": {
       "calls": 1,
       "input": 136,
       "cached": 0,
       "output": 2,
-      "usd": 4.6e-05,
-      "price": {
-        "name": "gemini-3.5-flash-lite",
-        "input_per_m": 0.3,
-        "cached_input_per_m": 0.03,
-        "output_per_m": 2.5
-      }
+      "total": 138
     },
     "gemini-3.1-pro-preview": {
       "calls": 2,
       "input": 1224,
       "cached": 788,
       "output": 192,
-      "usd": 0.003334,
-      "price": {
-        "name": "gemini-3.1-pro-preview",
-        "input_per_m": 2.0,
-        "cached_input_per_m": 0.2,
-        "output_per_m": 12.0
-      }
+      "total": 1416
     },
     "gemini-3.6-flash": {
       "calls": 4,
       "input": 1844,
       "cached": 1066,
       "output": 327,
-      "usd": 0.00378,
-      "price": {
-        "name": "gemini-3.6-flash",
-        "input_per_m": 1.5,
-        "cached_input_per_m": 0.15,
-        "output_per_m": 7.5
-      }
+      "total": 2171
     }
   }
 }

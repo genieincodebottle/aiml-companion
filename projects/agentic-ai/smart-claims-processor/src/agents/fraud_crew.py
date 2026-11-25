@@ -330,6 +330,7 @@ def run_fraud_crew(state: ClaimsState) -> dict:
 
     try:
         crew, context = _build_fraud_crew(masked_claim, policy)
+        _record_crew_prompts(crew)
         crew_result = crew.kickoff()
         _record_crew_usage(crew_result)
 
@@ -402,6 +403,19 @@ def run_fraud_crew(state: ClaimsState) -> dict:
         "pipeline_trace": [trace_entry],
         "agent_call_count": state.get("agent_call_count", 0) + 3,  # 3 crew agents
     }
+
+
+def _record_crew_prompts(crew: Crew) -> None:
+    """Fingerprint the crew's prompts for provenance. CrewAI calls the provider
+    through its own client, so the LangChain callback never sees them."""
+    try:
+        from src.provenance import record_prompt
+        for agent in crew.agents:
+            record_prompt(f"{agent.role}\n{agent.goal}\n{agent.backstory}")
+        for task in crew.tasks:
+            record_prompt(f"{task.description}\n{task.expected_output}")
+    except Exception:
+        logger.debug("Crew prompt fingerprint skipped", exc_info=True)
 
 
 def _record_crew_usage(crew_result: Any) -> None:

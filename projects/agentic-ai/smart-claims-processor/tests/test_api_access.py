@@ -67,10 +67,16 @@ def test_self_registration_cannot_create_an_admin(client):
     assert r.status_code == 403
 
 
-def test_self_registration_as_reviewer_still_works_for_the_demo(client):
+def test_self_registration_cannot_create_a_reviewer(client):
     r = client.post("/api/auth/register", json={
         "username": "rita", "email": "r@example.com", "password": "pw12345", "role": "reviewer"})
-    assert r.status_code == 200 and r.json()["user"]["role"] == "reviewer"
+    assert r.status_code == 403
+
+
+def test_self_registration_creates_a_claimant(client):
+    r = client.post("/api/auth/register", json={
+        "username": "carl", "email": "c@example.com", "password": "pw12345"})
+    assert r.status_code == 200 and r.json()["user"]["role"] == "user"
 
 
 def _pending_ticket(ticket_id="HITL-T1", created=None, deadline=None):

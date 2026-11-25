@@ -1588,10 +1588,13 @@ class ContentModerationAgents:
         state["status"] = new_status.value
         state["hitl_resolution_timestamp"] = datetime.now().isoformat()
 
+        # The state factory sets this key to None, so .get(key, 1.0) would not
+        # apply the default and the guardrails would compare None > 0.9.
+        override = state.get("hitl_human_confidence_override")
         decision = AgentDecision(
             agent_name="HITL Human Review",
             decision=decision_type,
-            confidence=state.get("hitl_human_confidence_override", 1.0),
+            confidence=1.0 if override is None else override,
             reasoning=f"Human reviewer decision: {human_decision}. Notes: {human_notes}",
             flags=["human_reviewed"],
             recommendations=[f"Proceed with {human_decision} action"],

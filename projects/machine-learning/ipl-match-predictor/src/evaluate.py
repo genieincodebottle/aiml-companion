@@ -47,6 +47,9 @@ def generate_report(results: Dict[str, Any]) -> str:
     if clf:
         acc = clf.get("accuracy", 0)
         baseline = clf.get("baseline_accuracy")
+        best_model = results.get("best_model")
+        if best_model:
+            lines.append(f"- **Model (best forward-CV accuracy, training seasons)**: {best_model}")
         lines.extend([
             f"- **Accuracy**: {acc:.4f}",
             f"- **F1 Score (weighted)**: {clf.get('f1', 0):.4f}",
@@ -58,20 +61,56 @@ def generate_report(results: Dict[str, Any]) -> str:
             # two numbers next to each other is the difference between a
             # result and a coin flip wearing one.
             lift = acc - baseline
-            verdict = ("BEATS the baseline" if lift > 0.01 else
-                       "does NOT beat the baseline")
+            # A holdout this small cannot resolve a lift of a few points:
+            # one standard error of an accuracy near 0.5 is
+            # sqrt(0.25 / n), about 0.042 for n = 142. Only call it a win
+            # when the lift clears two standard errors.
+            cm_ = clf.get("confusion_matrix")
+            n_test = int(np.sum(cm_)) if cm_ is not None else 0
+            se = float(np.sqrt(0.25 / n_test)) if n_test else None
+            if se is not None and lift > 2 * se:
+                verdict = "BEATS the baseline"
+            elif lift > 0:
+                verdict = "is ahead of the baseline, but within sampling noise"
+            else:
+                verdict = "does NOT beat the baseline"
             lines.extend([
                 f"- **Majority-class baseline**: {baseline:.4f}",
                 f"- **Lift over baseline**: {lift:+.4f} -- the model {verdict}",
             ])
+            if se is not None:
+                lines.append(
+                    f"- **Test matches**: {n_test} "
+                    f"(one standard error of the accuracy is about {se:.3f})"
+                )
         lines.extend([
             "",
             "> Evaluated on an **out-of-time** split: trained on earlier "
             "seasons, tested on the most recent two. A random split reads "
-            "~0.515 on this data because it lets the model train on 2025 to "
-            "predict 2024, which is not a thing deployment can do.",
+            "higher (the Random Forest scores ~0.53 on a random 25% holdout) "
+            "because it lets the model train on 2025 to predict 2024, which "
+            "is not a thing deployment can do.",
             "",
         ])
+
+        # Every classifier on the same holdout, so the reader can see that the
+        # CV-picked one is not special.
+        allc = results.get("all_classifiers")
+        if allc:
+            cv = results.get("cv_results", {})
+            lines.extend([
+                "### All classifiers on the same holdout",
+                "",
+                "| Model | Test accuracy | F1 (weighted) | Forward CV accuracy (train seasons) |",
+                "|-------|---------------|---------------|-----------------------------------|",
+            ])
+            for name, m in allc.items():
+                cv_mean = cv.get(name, {}).get("mean")
+                cv_txt = f"{cv_mean:.4f}" if cv_mean == cv_mean and cv_mean is not None else "n/a"
+                lines.append(
+                    f"| {name} | {m['accuracy']:.4f} | {m['f1']:.4f} | {cv_txt} |"
+                )
+            lines.append("")
 
         # Confusion matrix
         cm = clf.get("confusion_matrix")
@@ -113,6 +152,8 @@ def generate_report(results: Dict[str, Any]) -> str:
     if fi is not None and len(fi) > 0:
         lines.extend([
             "## Top Feature Importances",
+            "",
+            f"Source model: {results.get('feature_importances_source', 'best classifier')}",
             "",
             "| Rank | Feature | Importance |",
             "|------|---------|------------|",

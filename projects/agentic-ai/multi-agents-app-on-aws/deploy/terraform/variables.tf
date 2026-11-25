@@ -21,10 +21,3 @@ variable "bedrock_model_id" {
   type        = string
   default     = "us.anthropic.claude-sonnet-4-6"
 }
-
-variable "tavily_api_key" {
-  description = "Tavily API key for web search (optional, leave empty for mock search)"
-  type        = string
-  default     = ""
-  sensitive   = true
-}

@@ -26,7 +26,8 @@ PATH C - Auto-Reject (confirmed fraud: composite score >= auto_reject_threshold,
 PATH D - Intake Failure (invalid claim):
   intake -> [invalid] -> communication (denial)
 
-PATH E - Fast Mode (amount < pipeline.fast_mode.max_amount):
+PATH E - Fast Mode (amount < pipeline.fast_mode.max_amount and prior claims
+         on the policy <= pipeline.fast_mode.max_prior_claims):
   intake -> settlement -> evaluator -> communication
 
 Confidence gates: any agent whose confidence is below its
@@ -78,6 +79,7 @@ from src.hitl.checkpoint import check_hitl_required, format_hitl_brief
 from src.hitl.queue import enqueue_claim
 from src.models.schemas import ClaimDecision, FraudRiskLevel
 from src.models.state import ClaimsState, initial_state, ClaimInput
+from src.tools.policy_lookup import get_claim_history_count
 from src.utils import currency_symbol
 
 logger = logging.getLogger(__name__)
@@ -360,6 +362,8 @@ def route_after_intake(state: ClaimsState) -> Literal[
     if (
         fast_mode.get("enabled", False)
         and float(state["claim"].get("estimated_amount", 0)) < fast_mode.get("max_amount", 500)
+        and get_claim_history_count(state["claim"].get("policy_number", ""))
+        <= int(fast_mode.get("max_prior_claims", 0))
     ):
         logger.info("Fast mode: routing directly to settlement")
         return "settlement_calculator"

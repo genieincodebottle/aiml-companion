@@ -5,7 +5,7 @@
 import logging
 import requests
 from bs4 import BeautifulSoup
-from src.guardrails import validate_url
+from src.guardrails import configured_allowlist, configured_url_timeout, validate_url
 
 logger = logging.getLogger(__name__)
 
@@ -16,8 +16,9 @@ def scrape_url(url: str, max_chars: int = 3000) -> dict:
     Validates URL first, then extracts title + text.
     Returns {title, snippet, url, tool} or empty dict on failure.
     """
-    if not validate_url(url):
-        logger.warning(f"URL not reachable: {url}")
+    # allowed_domains and timeout_seconds come from guardrails.url_validation.
+    if not validate_url(url, timeout=configured_url_timeout(), allowlist=configured_allowlist()):
+        logger.warning(f"URL rejected or not reachable: {url}")
         return {}
     try:
         resp = requests.get(

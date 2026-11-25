@@ -8,7 +8,10 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from src.config import load_config, reset_config, get_agent_config, get_pipeline_config, get_budget_config
+from src.config import (
+    _default_config, load_config, reset_config, get_agent_config, get_pipeline_config,
+    get_budget_config,
+)
 
 
 @pytest.fixture(autouse=True)
@@ -68,7 +71,14 @@ class TestPipelineConfig:
         cfg = get_pipeline_config()
         assert "max_parallel_agents" in cfg
         assert "max_retries_per_agent" in cfg
-        assert "enable_self_correction" in cfg
+        assert "enable_debate" in cfg
+
+    def test_unused_keys_are_gone(self):
+        """These were documented and read by nothing, so a reader could set them
+        and see no change. A key that does nothing must not be in the config."""
+        for cfg in (get_pipeline_config(), _default_config()["pipeline"]):
+            assert "enable_self_correction" not in cfg
+            assert "max_fact_check_depth" not in cfg
 
 
 class TestBudgetConfig:

@@ -1,0 +1,205 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1010" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6b7280"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1100" height="1010" fill="#ffffff"/>
+  <text x="550" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#111827">Multi-Agent Anatomy - High-Level Architecture</text>
+  <text x="550" y="56" text-anchor="middle" font-size="12.5" fill="#4b5563">One order-support request: 8 stages, 5 agents. Runs with no API key; a Gemini key switches the model layer to live.</text>
+
+  <!-- Learner -->
+  <rect x="30" y="96" width="140" height="56" rx="8" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+  <text x="100" y="120" text-anchor="middle" font-size="14" font-weight="600" fill="#9a3412">Learner</text>
+  <text x="100" y="138" text-anchor="middle" font-size="11" fill="#9a3412">(browser)</text>
+  <line x1="170" y1="124" x2="198" y2="124" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- React UI -->
+  <rect x="200" y="72" width="870" height="98" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="216" y="92" font-size="13" font-weight="700" fill="#1d4ed8">React UI (Vite, :5173, proxies /api to :8000)</text>
+  <rect x="216" y="104" width="158" height="54" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="295" y="126" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">1. Start here</text>
+  <text x="295" y="144" text-anchor="middle" font-size="11" fill="#1e3a8a">replay or live mode</text>
+  <rect x="384" y="104" width="158" height="54" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="463" y="126" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">2. Pick a failure</text>
+  <text x="463" y="144" text-anchor="middle" font-size="11" fill="#1e3a8a">7 recorded traces</text>
+  <rect x="552" y="104" width="158" height="54" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="631" y="126" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">3. Read the trace</text>
+  <text x="631" y="144" text-anchor="middle" font-size="11" fill="#1e3a8a">span waterfall</text>
+  <rect x="720" y="104" width="158" height="54" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="799" y="126" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">4. Cost</text>
+  <text x="799" y="144" text-anchor="middle" font-size="11" fill="#1e3a8a">tokens, cached tokens</text>
+  <rect x="888" y="104" width="158" height="54" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="967" y="126" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">5. Break it yourself</text>
+  <text x="967" y="144" text-anchor="middle" font-size="11" fill="#1e3a8a">6 failure toggles</text>
+
+  <!-- UI <-> API -->
+  <line x1="420" y1="170" x2="420" y2="208" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="428" y="194" font-size="11" fill="#374151">/api calls</text>
+  <line x1="700" y1="210" x2="700" y2="172" stroke="#6b7280" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="708" y="194" font-size="11" fill="#374151">reply + trace JSON</text>
+
+  <!-- FastAPI -->
+  <rect x="200" y="210" width="650" height="92" rx="10" fill="#ecfeff" stroke="#0891b2" stroke-width="2"/>
+  <text x="216" y="230" font-size="13" font-weight="700" fill="#0e7490">FastAPI backend (app/main.py, :8000)</text>
+  <rect x="216" y="240" width="146" height="50" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="289" y="261" text-anchor="middle" font-size="11.5" font-weight="600" fill="#155e75">GET /api/health</text>
+  <text x="289" y="278" text-anchor="middle" font-size="11" fill="#164e63">replay or live</text>
+  <rect x="372" y="240" width="146" height="50" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="445" y="261" text-anchor="middle" font-size="11.5" font-weight="600" fill="#155e75">GET /api/config</text>
+  <text x="445" y="278" text-anchor="middle" font-size="11" fill="#164e63">models, budgets</text>
+  <rect x="528" y="240" width="146" height="50" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="601" y="261" text-anchor="middle" font-size="11.5" font-weight="600" fill="#155e75">GET /api/replay/{id}</text>
+  <text x="601" y="278" text-anchor="middle" font-size="11" fill="#164e63">one recorded trace</text>
+  <rect x="684" y="240" width="146" height="50" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="757" y="261" text-anchor="middle" font-size="11.5" font-weight="600" fill="#155e75">POST /api/ask</text>
+  <text x="757" y="278" text-anchor="middle" font-size="11" fill="#164e63">runs the pipeline</text>
+
+  <!-- Recorded traces store -->
+  <rect x="890" y="222" width="180" height="72" rx="6" fill="#fefce8" stroke="#ca8a04"/>
+  <text x="980" y="242" text-anchor="middle" font-size="12" font-weight="600" fill="#854d0e">Recorded traces</text>
+  <text x="980" y="260" text-anchor="middle" font-size="11" fill="#854d0e">replay/*.json, 7 files</text>
+  <text x="980" y="276" text-anchor="middle" font-size="11" fill="#854d0e">record_replays.py writes</text>
+  <line x1="850" y1="258" x2="888" y2="258" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="869" y="250" text-anchor="middle" font-size="10.5" fill="#374151">reads</text>
+
+  <!-- API <-> Pipeline -->
+  <line x1="757" y1="302" x2="757" y2="338" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="765" y="325" font-size="11" fill="#374151">run_request()</text>
+  <line x1="610" y1="340" x2="610" y2="304" stroke="#6b7280" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="602" y="325" text-anchor="end" font-size="11" fill="#374151">reply, trace, warnings</text>
+
+  <!-- Pipeline -->
+  <rect x="30" y="340" width="840" height="444" rx="10" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="46" y="362" font-size="13" font-weight="700" fill="#4338ca">Pipeline: run_request() in pipeline.py, no agent framework</text>
+
+  <!-- Row 1: stages 1-3 -->
+  <rect x="46" y="376" width="250" height="62" rx="6" fill="#fef2f2" stroke="#dc2626"/>
+  <text x="171" y="396" text-anchor="middle" font-size="12" font-weight="600" fill="#991b1b">1. Input guardrail</text>
+  <text x="171" y="413" text-anchor="middle" font-size="11" fill="#991b1b">rate limit by count and by spend</text>
+  <text x="171" y="429" text-anchor="middle" font-size="11" fill="#991b1b">injection screen, canonical request id</text>
+  <rect x="325" y="376" width="250" height="62" rx="6" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="450" y="396" text-anchor="middle" font-size="12" font-weight="600" fill="#3730a3">2. Classify and route</text>
+  <text x="450" y="413" text-anchor="middle" font-size="11" fill="#3730a3">a rule: full, single or cached</text>
+  <text x="450" y="429" text-anchor="middle" font-size="11" fill="#3730a3">"hi" never reaches the fan-out</text>
+  <rect x="604" y="376" width="250" height="62" rx="6" fill="#f0fdfa" stroke="#0d9488"/>
+  <text x="729" y="396" text-anchor="middle" font-size="12" font-weight="600" fill="#115e59">3. Orchestrator plan</text>
+  <text x="729" y="413" text-anchor="middle" font-size="11" fill="#115e59">top-tier model, call 1 of 2</text>
+  <text x="729" y="429" text-anchor="middle" font-size="11" fill="#115e59">plan checkpointed on its span</text>
+  <line x1="296" y1="407" x2="323" y2="407" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="575" y1="407" x2="602" y2="407" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="729" y1="438" x2="729" y2="468" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="737" y="457" font-size="10.5" fill="#374151">delegate with a budget</text>
+
+  <!-- Row 2: fan-out -->
+  <rect x="46" y="470" width="808" height="130" rx="8" fill="#ffffff" stroke="#4f46e5" stroke-dasharray="4 3"/>
+  <text x="58" y="488" font-size="12.5" font-weight="700" fill="#4338ca">4. Fan-out: asyncio.gather over three agents, each with its own timeout</text>
+  <rect x="58" y="498" width="170" height="52" rx="6" fill="#f0fdfa" stroke="#0d9488"/>
+  <text x="143" y="519" text-anchor="middle" font-size="12" font-weight="600" fill="#115e59">order agent</text>
+  <text x="143" y="537" text-anchor="middle" font-size="11" fill="#115e59">get_order, 20s</text>
+  <rect x="240" y="498" width="170" height="52" rx="6" fill="#f0fdfa" stroke="#0d9488"/>
+  <text x="325" y="519" text-anchor="middle" font-size="12" font-weight="600" fill="#115e59">shipping agent</text>
+  <text x="325" y="537" text-anchor="middle" font-size="11" fill="#115e59">get_shipment, 20s</text>
+  <rect x="422" y="498" width="170" height="52" rx="6" fill="#f0fdfa" stroke="#0d9488"/>
+  <text x="507" y="519" text-anchor="middle" font-size="12" font-weight="600" fill="#115e59">policy agent</text>
+  <text x="507" y="537" text-anchor="middle" font-size="11" fill="#115e59">policy search, 25s</text>
+  <rect x="58" y="558" width="534" height="30" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="325" y="577" text-anchor="middle" font-size="11" fill="#334155">each agent: its own tools, schema and prompt prefix (agents/workers.py)</text>
+  <rect x="606" y="498" width="236" height="90" rx="6" fill="#f1f5f9" stroke="#475569"/>
+  <text x="724" y="516" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">Saga (tools/saga.py)</text>
+  <text x="724" y="532" text-anchor="middle" font-size="11" fill="#334155">only when asked to book a return</text>
+  <text x="724" y="547" text-anchor="middle" font-size="11" fill="#334155">book_courier, charge_fee,</text>
+  <text x="724" y="562" text-anchor="middle" font-size="11" fill="#334155">update_order</text>
+  <text x="724" y="580" text-anchor="middle" font-size="11" fill="#334155">on failure: undos run in reverse</text>
+  <line x1="143" y1="600" x2="143" y2="626" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="151" y="617" font-size="10.5" fill="#374151">branch results, gaps declared</text>
+
+  <!-- Row 3: stages 5-8 -->
+  <rect x="46" y="628" width="188" height="56" rx="6" fill="#f0fdfa" stroke="#0d9488"/>
+  <text x="140" y="650" text-anchor="middle" font-size="12" font-weight="600" fill="#115e59">5. Writer agent</text>
+  <text x="140" y="668" text-anchor="middle" font-size="11" fill="#115e59">states a gap, never fills it</text>
+  <rect x="253" y="628" width="188" height="56" rx="6" fill="#f0fdfa" stroke="#0d9488"/>
+  <text x="347" y="650" text-anchor="middle" font-size="12" font-weight="600" fill="#115e59">6. Orchestrator merge</text>
+  <text x="347" y="668" text-anchor="middle" font-size="11" fill="#115e59">top-tier model, call 2 of 2</text>
+  <rect x="460" y="628" width="188" height="56" rx="6" fill="#fef2f2" stroke="#dc2626"/>
+  <text x="554" y="650" text-anchor="middle" font-size="12" font-weight="600" fill="#991b1b">7. Output guardrail</text>
+  <text x="554" y="668" text-anchor="middle" font-size="11" fill="#991b1b">redacts emails, card numbers</text>
+  <rect x="666" y="628" width="188" height="56" rx="6" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="760" y="650" text-anchor="middle" font-size="12" font-weight="600" fill="#3730a3">8. Respond</text>
+  <text x="760" y="668" text-anchor="middle" font-size="11" fill="#3730a3">reply, trace, warnings</text>
+  <line x1="234" y1="656" x2="251" y2="656" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="441" y1="656" x2="458" y2="656" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="648" y1="656" x2="664" y2="656" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Row 4: what every stage carries -->
+  <text x="46" y="708" font-size="11.5" font-weight="600" fill="#4338ca">Every stage reads one envelope, Ctx in agents/base.py:</text>
+  <rect x="46" y="716" width="188" height="54" rx="6" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="140" y="737" text-anchor="middle" font-size="12" font-weight="600" fill="#3730a3">budget.py</text>
+  <text x="140" y="755" text-anchor="middle" font-size="11" fill="#3730a3">60s deadline, 60k tokens</text>
+  <rect x="253" y="716" width="188" height="54" rx="6" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="347" y="737" text-anchor="middle" font-size="12" font-weight="600" fill="#3730a3">trace.py</text>
+  <text x="347" y="755" text-anchor="middle" font-size="11" fill="#3730a3">one span per step</text>
+  <rect x="460" y="716" width="188" height="54" rx="6" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="554" y="737" text-anchor="middle" font-size="12" font-weight="600" fill="#3730a3">failures.py</text>
+  <text x="554" y="755" text-anchor="middle" font-size="11" fill="#3730a3">the 6 failure switches</text>
+  <rect x="666" y="716" width="188" height="54" rx="6" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="760" y="737" text-anchor="middle" font-size="12" font-weight="600" fill="#3730a3">prompts.py</text>
+  <text x="760" y="755" text-anchor="middle" font-size="11" fill="#3730a3">4 bands, cache boundary</text>
+
+  <!-- Stores beside the fan-out -->
+  <rect x="910" y="452" width="160" height="84" rx="6" fill="#fefce8" stroke="#ca8a04"/>
+  <text x="990" y="472" text-anchor="middle" font-size="12" font-weight="600" fill="#854d0e">SQLite</text>
+  <text x="990" y="490" text-anchor="middle" font-size="11" fill="#854d0e">data/anatomy.db</text>
+  <text x="990" y="506" text-anchor="middle" font-size="11" fill="#854d0e">orders, shipments,</text>
+  <text x="990" y="522" text-anchor="middle" font-size="11" fill="#854d0e">saga_log, two tenants</text>
+  <rect x="910" y="552" width="160" height="84" rx="6" fill="#fefce8" stroke="#ca8a04"/>
+  <text x="990" y="572" text-anchor="middle" font-size="12" font-weight="600" fill="#854d0e">Policy index</text>
+  <text x="990" y="590" text-anchor="middle" font-size="11" fill="#854d0e">in memory, word match</text>
+  <text x="990" y="606" text-anchor="middle" font-size="11" fill="#854d0e">tenant id in the query</text>
+  <text x="990" y="622" text-anchor="middle" font-size="11" fill="#854d0e">index age per chunk</text>
+  <line x1="856" y1="494" x2="908" y2="494" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="890" y="486" text-anchor="middle" font-size="10.5" fill="#374151">SQL</text>
+  <line x1="856" y1="590" x2="908" y2="590" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="890" y="582" text-anchor="middle" font-size="10.5" fill="#374151">search</text>
+
+  <!-- Pipeline -> model layer -->
+  <line x1="330" y1="784" x2="330" y2="818" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="338" y="805" font-size="11" fill="#374151">every model call, stages 3 to 6</text>
+
+  <!-- Model layer -->
+  <rect x="30" y="820" width="600" height="132" rx="10" fill="#f8fafc" stroke="#64748b" stroke-width="2"/>
+  <text x="46" y="841" font-size="13" font-weight="700" fill="#334155">Model layer: llm.py, get_client() picks one</text>
+  <rect x="46" y="852" width="280" height="88" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="186" y="873" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">ReplayClient (default, no key)</text>
+  <text x="186" y="892" text-anchor="middle" font-size="11" fill="#334155">builds each answer from the facts</text>
+  <text x="186" y="908" text-anchor="middle" font-size="11" fill="#334155">it is handed, deterministic</text>
+  <text x="186" y="926" text-anchor="middle" font-size="11" fill="#334155">tests always use it</text>
+  <rect x="342" y="852" width="272" height="88" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="478" y="873" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">LiveClient (key is set)</text>
+  <text x="478" y="892" text-anchor="middle" font-size="11" fill="#334155">google-genai, API v1beta</text>
+  <text x="478" y="908" text-anchor="middle" font-size="11" fill="#334155">renamed model id: falls back</text>
+  <text x="478" y="926" text-anchor="middle" font-size="11" fill="#334155">to the worker model, span says so</text>
+
+  <!-- Gemini -->
+  <rect x="690" y="852" width="230" height="88" rx="6" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="805" y="873" text-anchor="middle" font-size="12" font-weight="600" fill="#15803d">Google Gemini (optional)</text>
+  <text x="805" y="892" text-anchor="middle" font-size="11" fill="#15803d">plan, merge: gemini-3.1-pro-preview</text>
+  <text x="805" y="908" text-anchor="middle" font-size="11" fill="#15803d">4 workers: gemini-3.6-flash</text>
+  <text x="805" y="926" text-anchor="middle" font-size="11" fill="#15803d">key: GOOGLE_API_KEY</text>
+  <line x1="614" y1="896" x2="688" y2="896" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="660" y="888" text-anchor="middle" font-size="10.5" fill="#374151">live mode</text>
+
+  <!-- Legend -->
+  <line x1="30" y1="984" x2="60" y2="984" stroke="#6b7280" stroke-width="2"/>
+  <text x="66" y="988" font-size="11" fill="#374151">request / control flow</text>
+  <line x1="210" y1="984" x2="240" y2="984" stroke="#6b7280" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="246" y="988" font-size="11" fill="#374151">result back to the UI</text>
+  <rect x="390" y="976" width="16" height="16" rx="3" fill="#f0fdfa" stroke="#0d9488"/>
+  <text x="412" y="988" font-size="11" fill="#374151">agent</text>
+  <rect x="520" y="976" width="16" height="16" rx="3" fill="#fef2f2" stroke="#dc2626"/>
+  <text x="542" y="988" font-size="11" fill="#374151">guardrail</text>
+  <rect x="620" y="976" width="16" height="16" rx="3" fill="#fefce8" stroke="#ca8a04"/>
+  <text x="642" y="988" font-size="11" fill="#374151">data store</text>
+  <text x="1070" y="988" text-anchor="end" font-size="11" fill="#6b7280">Stage numbers match span names, logs and UI labels.</text>
+</svg>

@@ -33,7 +33,6 @@ from src.models import (
     build_ensemble,
     predict_match,
     prepare_features,
-    split_data,
 )
 
 logger = logging.getLogger(__name__)
@@ -56,7 +55,9 @@ def run_prediction(
     1. Load historical match data (2008-2025)
     2. Clean and standardize team names
     3. Engineer features (Elo, momentum, H2H, home, toss, venue)
-    4. Train 4-model calibrated ensemble with recency weighting
+    4. Train 4-model calibrated ensemble with recency weighting on all
+       decided matches (no held-out split: the match being predicted is
+       the future)
     5. Predict the match outcome
     6. Validate with Monte Carlo simulation (10,000 matches)
 
@@ -105,12 +106,18 @@ def run_prediction(
     logger.info("Training ensemble models...")
     model_df, feature_names = prepare_features(matches)
 
-    # Target: 1 if team1 wins
-    target = (
-        matches.loc[model_df.index, "winner"] == matches.loc[model_df.index, "team1"]
-    ).astype(int)
+    # Train on every decided match. This predicts a match that has not been
+    # played, so there is no later season to hold out (main.py measures that
+    # with split_data_by_season). A random split would throw away 25% of the
+    # history, scattered across all seasons, for nothing. Rows with no result
+    # have no winner and are not training examples.
+    decided = ~matches.loc[model_df.index, "winner"].isin(["No Result", "Unknown"])
+    X_train = model_df[decided.values]
 
-    X_train, X_test, y_train, y_test = split_data(model_df, target)
+    # Target: 1 if team1 wins
+    y_train = (
+        matches.loc[X_train.index, "winner"] == matches.loc[X_train.index, "team1"]
+    ).astype(int)
 
     # Recency weights
     sample_weight = None
