@@ -1,11 +1,13 @@
 # AI/ML Learning Companion
 
-> **Learn AI/ML interactively at [AI-ML Companion](https://aimlcompanion.ai/)** - Guided walkthroughs, architecture decisions, hands-on challenges, and narrated overviews.
-
 ![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![Projects](https://img.shields.io/badge/Projects-33-orange)
 ![Status](https://img.shields.io/badge/Status-Portfolio_Ready-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-green)
+
+> **Learn AI/ML interactively at [AI-ML Companion](https://aimlcompanion.ai/)** - Guided walkthroughs, architecture decisions, hands-on challenges, and narrated overviews.
+
+<a href="https://aimlcompanion.ai/"><img src="https://raw.githubusercontent.com/genieincodebottle/generative-ai/main/images/aiml-companion-tour.gif" width="80%" alt="AI-ML Companion tour"></a>
 
 > 33 end-to-end projects covering the full spectrum, from classical ML to production LLM and agent systems. Most are the runnable companion to a module or blog post on the platform, and most follow a common **industry best-practice structure**.
 
