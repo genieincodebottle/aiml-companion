@@ -7,7 +7,7 @@ The notes in italics marked "WEAK:" describe what a weak version of that section
 Delete them from your report. They are here so you can read your own draft against them.
 -->
 
-# Serving <<model>> on <<GPU>>: benchmark, quantisation, speculation, cost and fleet size
+# Serving <<model>> on <<GPU>>: benchmark, quantisation, speculation, GPU usage and fleet size
 
 ## 1. Setup
 
@@ -54,21 +54,22 @@ acceptance rate you assumed or measured, because the whole result depends on it.
 
 *WEAK: "speculation gave 1.8x." At one concurrency, with one acceptance rate, stated as a law. The shape matters more than the number: it flips sign.*
 
-## 6. Cost per million tokens
+## 6. GPU-hours per million tokens
 
-<<Cost = GPU $/hour x GPUs / (tokens per second x 3600) x 1e6, using the output tok/s AT the SLO-safe operating
-concurrency, not the peak. GPU price: $<<price>>/hour from <<source and date>>. Result: $<<cost>> per million output tokens.>>
+<<GPU-hours per 1M tokens = GPUs x 1e6 / (tokens per second x 3600), using the output tok/s AT the SLO-safe operating
+concurrency, not the peak. Result: <<gh>> GPU-hours per million output tokens at full utilisation, and <<eff>> effective GPU-hours
+at your fleet's <<u>> utilisation at peak (the idle share is real usage).>>
 
 <<Two SLOs, one sweep (python -m analysis.decide reads it under both). Say why the second limit exists and who would accept it.>>
 
-| SLO | TTFT / TPOT limit | Operating concurrency | Output tok/s | $ per 1M output tokens | Replicas |
+| SLO | TTFT / TPOT limit | Operating concurrency | Output tok/s | GPU-hours per 1M output tokens | Replicas |
 |---|---|---|---|---|---|
-| <<chat>> | <<2 s / 0.15 s>> | <<c1>> | <<t1>> | <<$1>> | <<r1>> |
-| <<second>> | <<10 s / 0.3 s>> | <<c2>> | <<t2>> | <<$2>> | <<r2>> |
+| <<chat>> | <<2 s / 0.15 s>> | <<c1>> | <<t1>> | <<gh1>> | <<r1>> |
+| <<second>> | <<10 s / 0.3 s>> | <<c2>> | <<t2>> | <<gh2>> | <<r2>> |
 
-<<Input tokens and the API. The mean request has <<P>> input and <<O>> output tokens, so one request costs $<<req>> of GPU time at your operating point. Counting input and output tokens together that is $<<blend>> per million tokens, which prices an input token like an output token. The same request through a hosted API costs $<<api>> at $<<in>> and $<<out>> per million input and output tokens (<<API source and date>>). Self-hosting breaks even at <<u>> utilisation. Say whether your fleet reaches it, and what the comparison leaves out.>>
+<<Input tokens and the API. The mean request has <<P>> input and <<O>> output tokens, so one request uses <<req>> GPU-seconds at your operating point (GPUs / requests per second). Counting input and output tokens together that is <<blend>> GPU-hours per million tokens, which weighs an input token like an output token. The same request through a hosted API is worth <<api>> GPU-seconds of your GPU, using the API's rate for input and output tokens expressed as <<in>> and <<out>> GPU-hours per million tokens (how you derived those, and the date: <<basis>>). Self-hosting breaks even at <<bu>> utilisation: below it the API uses less GPU time per request, above it your fleet does. Say whether your fleet reaches it, and what the comparison leaves out.>>
 
-*WEAK: a price copied from a blog post with no date, or throughput taken from the highest concurrency where the SLO was already broken. A second SLO row that equals the first. "Self-hosting is cheaper" with no break-even utilisation, or an API price with no date.*
+*WEAK: an API rate copied from a blog post with no date, or throughput taken from the highest concurrency where the SLO was already broken. A second SLO row that equals the first. "Self-hosting is cheaper" with no break-even utilisation, or an API rate with no stated derivation.*
 
 ## 7. Fleet-size recommendation
 
@@ -99,6 +100,6 @@ and whether they agree within about 10 percent. One sentence for each number tha
 - <<The dataset is synthetic lengths, not a real traffic log. How would a RAG or agent workload change the result?>>
 - <<Single seed, <<n>> requests per level. How wide is the noise? Say how you know.>>
 - <<Quality: nothing here measured accuracy after quantisation or the effect of speculation on output.>>
-- <<Anything you assumed (acceptance rate, price, utilisation) and how sensitive the recommendation is to it.>>
+- <<Anything you assumed (acceptance rate, API rate, utilisation) and how sensitive the recommendation is to it.>>
 
 *WEAK: "results may vary." Name the specific thing and the direction it would push the answer.*

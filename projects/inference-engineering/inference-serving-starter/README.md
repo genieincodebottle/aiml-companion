@@ -10,14 +10,14 @@
 
 You walk away with portfolio evidence for an inference-engineer job:
 
-> "I served an open model, benchmarked it properly with an open loop and a closed loop, compared quantisation and speculative decoding, diagnosed three incidents from metrics, and produced a cost-per-million-tokens figure under two SLOs, a self-host-versus-API break-even and a fleet-size recommendation."
+> "I served an open model, benchmarked it properly with an open loop and a closed loop, compared quantisation and speculative decoding, diagnosed three incidents from metrics, and produced a GPU-hours-per-million-tokens figure under two SLOs, a self-host-versus-API break-even and a fleet-size recommendation."
 
 The hard-to-fake parts are given to you: a serving engine to benchmark, a dataset, the incident recordings, and the definition of done written as failing tests. You write the load generator, the analysis and the report.
 
 ```
 engine_sim/   GIVEN  A deterministic model of a vLLM-style server (OpenAI API + /metrics).
 bench/        YOU    Open-loop and closed-loop load generators, per-request records.
-analysis/     YOU    Percentiles, goodput, knee plot, cost per 1M tokens, fleet size.
+analysis/     YOU    Percentiles, goodput, knee plot, GPU-hours per 1M tokens, fleet size.
 debug_lab/    GIVEN data, YOU diagnose. Three recorded incidents, and an optional fourth with a config diff.
 gpu/          GIVEN  The same harness against a real `vllm serve` (where numbers become real), incl. a TP=2 script.
 k8s/          GIVEN  Stretch: autoscale engine_sim on queue depth; a gang-scheduling lab. Not gated.
@@ -34,13 +34,13 @@ tests/        GIVEN  The rubric, as executable spec.
 simplifications listed in `engine_sim/core.py`. It reproduces the *shape* of real behaviour and
 the *signatures* in the metrics. It cannot tell you what an L4 will do. The GPU path in `gpu/` is
 where numbers become real, and one short run there is **required**: Gate 6 checks for a real-GPU
-sweep in `results/` and a "Measured on a real GPU" section in the report. Budget 2 to 3 hours: free
-on a Colab T4 when one is available, or about $1 to $2 on a rented L4 (see `gpu/README.md`). Your
+sweep in `results/` and a "Measured on a real GPU" section in the report. Budget 2 to 3 hours: a free
+Colab T4 when one is available, or a rented L4 for about 2 to 3 GPU-hours (see `gpu/README.md`). Your
 report must say which of its numbers are model output and which were measured.
 
 Hardware figures are vendor spec-sheet values with the source URL in `engine_sim/config.py`.
 Everything else (bandwidth efficiency, MFU, n-gram acceptance rate) is an **assumption**, labelled
-as such. There is no GPU price list in this repo: you bring the price and its source.
+as such. This repo works in GPU time (GPU-hours and GPU-seconds), not money: it holds no price list.
 
 ## Quick start (3 steps, CPU only, no API key)
 
@@ -62,10 +62,10 @@ python run.py serve          # in a second shell: engine_sim on :8100  (curl loc
 |---|---|---|---|
 | 1 | Given engine | nothing | passes on clone: decode throughput rises with batch until KV is full, prefix hits cut TTFT, int4 beats bf16 at batch 1, speculation flips sign, incident bundles regenerate byte for byte |
 | 2 | Harness | `bench/dataset.py`, `loadgen.py`, `records.py` | Poisson arrivals are really Poisson, the open loop keeps its schedule while requests are slow, the closed loop holds exactly N in flight, TTFT/ITL/E2E match the server's own histograms |
-| 3 | Analysis | `analysis/tables.py`, `goodput.py`, `knee.py`, `cost.py`, `fleet.py` | pooled ITL percentiles, goodput under a TTFT+TPOT SLO, a knee, `$ per 1M tokens`, Little's-law fleet size |
+| 3 | Analysis | `analysis/tables.py`, `goodput.py`, `knee.py`, `cost.py`, `fleet.py` | pooled ITL percentiles, goodput under a TTFT+TPOT SLO, a knee, `GPU-hours per 1M tokens`, Little's-law fleet size |
 | 4 | Experiments | run `scripts/run_experiments.py` (about 8 to 10 minutes) | quantisation and speculation sweeps are physically sensible, an open-loop run shows the queue a closed loop hides, a knee plot exists |
 | 5 | Debug lab | three files in `debug_lab/diagnoses/` | each names the mechanism, cites real numbers from two or more scrapes (a counter from two scrapes of one folder), and gives a FIX that names the metric that would confirm it |
-| 6 | Report | `report/REPORT.md`, `results/decision.json`, one real-GPU sweep in `results/` | finished short report quoting your own cost and replica count under two SLOs, the open-loop p99, the self-host-versus-API break-even, and the real-GPU run set beside the model's numbers |
+| 6 | Report | `report/REPORT.md`, `results/decision.json`, one real-GPU sweep in `results/` | finished short report quoting your own GPU-hours per 1M tokens and replica count under two SLOs, the open-loop p99, the self-host-versus-API break-even, and the real-GPU run set beside the model's numbers |
 
 Gate 4 asserts physics (for example "int4 beats bf16 at concurrency 1", "speculation wins at low
 concurrency and loses at high"). A red line there is information about **your** code.
@@ -82,7 +82,7 @@ the real-GPU session on day 6.
 | 3 | 2 | `analysis/`: percentile, pooled ITL, goodput, knee. Then `python scripts/run_experiments.py` (about 8 to 10 minutes) and look at the tables | 3, 4 |
 | 4 | 2 | Read the quantisation, speculation and open-loop results. For each surprise, find the mechanism in `core.py`. Write sections 3 to 5 of the report, including the open-loop paragraph | 4 |
 | 5 | 2 | Debug lab: diagnose A, B, C from the scrapes. Plot the metrics over time before you guess. Read two scrapes of each counter. Optional: incident D | 5 |
-| 6 | 1.5 + 2 to 3 GPU | Cost and fleet: `python -m analysis.decide`, with your GPU price, your API price and their sources. Then the real-GPU session (`gpu/README.md`): a bf16 sweep (fp16 on a T4, which has no bf16), the `vllm bench serve` cross-check, and section 8 of the report | 6 |
+| 6 | 1.5 + 2 to 3 GPU | GPU usage and fleet: `python -m analysis.decide`, with the API rate expressed as GPU-hours of your GPU per 1M tokens and how you derived it. Then the real-GPU session (`gpu/README.md`): a bf16 sweep (fp16 on a T4, which has no bf16), the `vllm bench serve` cross-check, and section 8 of the report | 6 |
 | 7 | 2.5 | Finish the report against the "WEAK:" notes. Self-score the rubric below and spend the last two hours on your weakest row | 6 |
 
 ## Rubric (what a reviewer scores)
@@ -94,7 +94,7 @@ the real-GPU session on day 6.
 | Comparative experiments | 15 | quantisation and speculation explained by mechanism (weight bytes, KV room, ridge point), not just reported |
 | Debugging from data | 15 | the right mechanism, numbers cited from scrapes, a fix and the metric that would confirm it |
 | Real-GPU evidence | 10 | one real `vllm serve` run through your harness: GPU, vLLM version and flags stated, cross-checked against `vllm bench serve`, and each moved number explained |
-| Cost and fleet decision | 10 | cost from throughput at the SLO-safe operating point under two SLOs, a sourced GPU price, input-token cost and a self-host-versus-API break-even with a sourced API price, Little's law with headroom |
+| GPU usage and fleet decision | 10 | GPU-hours per 1M tokens from throughput at the SLO-safe operating point under two SLOs (plus the effective figure at peak utilisation), input-token usage as GPU-seconds per request, a self-host-versus-API break-even utilisation with the API rate and its derivation stated, Little's law with headroom |
 | Honesty | 10 | model vs measurement separated, threats to validity that name a direction |
 
 ## Optional extensions (not gated)

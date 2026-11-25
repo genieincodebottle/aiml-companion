@@ -8,9 +8,9 @@ Gate 6 needs one real run: a sweep from this folder saved in `results/` (for exa
 `results/gpu_bf16.json`) and the report's "Measured on a real GPU" section. Two to three hours on
 the smallest machine below is enough.
 
-**Budget, stated up front:** a free Colab T4 costs nothing when one is available, but Colab does not
-guarantee GPU access. A 2 to 3 hour session on a rented L4 (24 GB) is about $1 to $2 (check the
-provider's page the day you run; prices change). Stop the instance when you finish.
+**Budget, stated up front:** a free Colab T4 is available when Colab has one, but Colab does not
+guarantee GPU access. The session is about 2 to 3 GPU-hours on a rented L4 (24 GB). Stop the instance
+when you finish.
 
 ## What was checked, and when
 
@@ -67,11 +67,10 @@ link. Run `nvidia-smi topo -m` first: `NV#` means NVLink, `PHB`, `PIX` or `SYS` 
 again with the same levels. Report tokens per second per GPU for both, and say what the all-reduce did.
 The vLLM docs recommend tensor parallelism for a model too big for one GPU and pipeline parallelism for
 cards without NVLink such as the L40S, so expect a PCIe pair to scale poorly.
-Two GPUs double the hourly price: your cost per million tokens only improves if throughput more than doubles.
+Two GPUs double the GPU-hours you burn per hour: your GPU-hours per million tokens only improves if throughput more than doubles.
 
-Prices: look at the provider's page the day you run, and write the URL and the date in your
-report. The budget figure above is for planning only; this repo has no price table for the cost
-model, on purpose.
+Usage, not money: this repo counts GPU-hours and GPU-seconds. Write the GPU, the vLLM version and the
+date of your run in the report; the repo holds no price table, on purpose.
 
 ## The loop (same harness, real server)
 

@@ -23,7 +23,7 @@ jobs:
       run:
         working-directory: projects/agentic-ai/migration-engineer/backend
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install uv
         uses: astral-sh/setup-uv@v5
         with:
@@ -44,9 +44,9 @@ jobs:
       run:
         working-directory: projects/agentic-ai/migration-engineer/frontend
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: projects/agentic-ai/migration-engineer/frontend/.nvmrc
       - name: Install dependencies

@@ -17,13 +17,13 @@ GATES = [
     ("2 Harness", "tests/test_bench.py",
      "open and closed loop, TTFT/ITL/E2E records, warm-up -> bench/dataset.py loadgen.py records.py"),
     ("3 Analysis", "tests/test_analysis.py",
-     "percentiles, goodput, knee, cost, Little's law -> analysis/tables.py goodput.py knee.py cost.py fleet.py"),
+     "percentiles, goodput, knee, GPU-hours per 1M tokens, Little's law -> analysis/tables.py goodput.py knee.py cost.py fleet.py"),
     ("4 Experiments", "tests/test_experiments.py",
      "quant, speculation and open-loop sweeps are physically sensible -> python scripts/run_experiments.py"),
     ("5 Debug lab", "tests/test_debug_lab.py",
      "three incidents diagnosed from data (counters from two scrapes, a FIX that names its confirming metric) -> debug_lab/diagnoses/*.md"),
     ("6 Report", "tests/test_report.py",
-     "short report: cost under two SLOs, API break-even, open-loop p99, fleet size, a real-GPU run -> report/REPORT.md, results/decision.json, results/gpu_*.json"),
+     "short report: GPU-hours per 1M tokens under two SLOs, API break-even, open-loop p99, fleet size, a real-GPU run -> report/REPORT.md, results/decision.json, results/gpu_*.json"),
 ]
 
 GREEN, RED, DIM, BOLD, RESET = "\033[32m", "\033[31m", "\033[2m", "\033[1m", "\033[0m"

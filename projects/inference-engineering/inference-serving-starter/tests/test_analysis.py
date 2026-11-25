@@ -1,4 +1,4 @@
-"""GATE 3: percentiles, goodput, the knee, cost and fleet size. Fails until analysis/ is written."""
+"""GATE 3: percentiles, goodput, the knee, GPU-hours and fleet size. Fails until analysis/ is written."""
 from __future__ import annotations
 
 import math
@@ -6,7 +6,7 @@ import math
 import numpy as np
 import pytest
 
-from analysis.cost import cost_per_million_tokens
+from analysis.cost import gpu_hours_per_million_tokens
 from analysis.fleet import concurrent_requests, fleet_plan, replicas_needed
 from analysis.goodput import goodput, max_slo_concurrency, meets_slo, slo_attainment
 from analysis.knee import find_knee, plot_knee
@@ -111,16 +111,18 @@ def test_plot_knee_writes_a_png(tmp_path):
     assert data[:8] == b"\x89PNG\r\n\x1a\n" and len(data) > 4000
 
 
-# ---- cost and fleet ------------------------------------------------------------------
-def test_cost_per_million_tokens():
-    assert cost_per_million_tokens(1000, 2.00) == pytest.approx(2.0 / 3600 / 1000 * 1e6)
-    assert cost_per_million_tokens(1000, 2.00, num_gpus=4) == pytest.approx(4 * 0.5555555556, rel=1e-6)
-    assert cost_per_million_tokens(1000, 2.00, utilisation=0.5) == pytest.approx(2 * cost_per_million_tokens(1000, 2.0))
-    assert cost_per_million_tokens(500, 0.0) == 0.0
-    for bad in (dict(tokens_per_s=0, gpu_hourly_usd=2), dict(tokens_per_s=10, gpu_hourly_usd=-1),
-                dict(tokens_per_s=10, gpu_hourly_usd=2, utilisation=0), dict(tokens_per_s=10, gpu_hourly_usd=2, utilisation=1.5)):
+# ---- GPU-hours and fleet ------------------------------------------------------------------
+def test_gpu_hours_per_million_tokens():
+    # 1e6 / (1000 tok/s * 3600 s) = 0.27778 GPU-hours; 600 tok/s -> 1e6 / 2.16e6 = 0.46296
+    assert gpu_hours_per_million_tokens(1000) == pytest.approx(1e6 / (1000 * 3600))
+    assert gpu_hours_per_million_tokens(600) == pytest.approx(0.462963, rel=1e-5)
+    assert gpu_hours_per_million_tokens(1000, num_gpus=4) == pytest.approx(4 * 0.2777777778, rel=1e-6)
+    assert gpu_hours_per_million_tokens(1000, utilisation=0.5) == pytest.approx(2 * gpu_hours_per_million_tokens(1000))
+    assert gpu_hours_per_million_tokens(600, utilisation=0.625) == pytest.approx(0.462963 / 0.625, rel=1e-5)
+    for bad in (dict(tokens_per_s=0), dict(tokens_per_s=-5), dict(tokens_per_s=10, num_gpus=0),
+                dict(tokens_per_s=10, utilisation=0), dict(tokens_per_s=10, utilisation=1.5)):
         with pytest.raises(ValueError):
-            cost_per_million_tokens(**bad)
+            gpu_hours_per_million_tokens(**bad)
 
 
 def test_littles_law_and_replicas():

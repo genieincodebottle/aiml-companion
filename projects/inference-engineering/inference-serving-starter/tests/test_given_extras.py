@@ -1,7 +1,7 @@
 """GATE 1 (second file): the given extras behave. PASSES on a fresh clone. Do not edit it.
 
 Covers the parts that are not engine physics: the diagnosis checker cannot be gamed with one
-scrape and "FIX: x", the cost helpers do their arithmetic, the optional quality comparator and
+scrape and "FIX: x", the GPU-time helpers do their arithmetic, the optional quality comparator and
 its recording script work, the TP=2 script has its flag, the gang-lab manifest and its scheduler
 model agree, and the optional profiler script runs. Nothing here needs a GPU or a cluster.
 """
@@ -113,18 +113,19 @@ def test_the_optional_regression_incident_is_checked_when_written(tmp_path):
     assert not res.ok and any("both folders" in r for r in res.reasons)
 
 
-# ---- the cost helpers ---------------------------------------------------------------------
-def test_cost_helpers_do_their_arithmetic():
+# ---- the GPU-time helpers ---------------------------------------------------------------------
+def test_gpu_time_helpers_do_their_arithmetic():
     from analysis import cost as c
-    per_req = c.cost_per_request(2.0, 3.60)            # $3.60/h = $0.001/s, 2 req/s -> $0.0005 per request
-    assert per_req == pytest.approx(0.0005)
-    assert c.cost_per_request(2.0, 3.60, num_gpus=2, utilisation=0.5) == pytest.approx(0.002)
-    assert c.blended_cost_per_million_tokens(0.0005, 400, 100) == pytest.approx(1.0)
-    api = c.api_cost_per_request(400, 100, 0.5, 1.5)   # (400*0.5 + 100*1.5) / 1e6
-    assert api == pytest.approx(350 / 1e6)
-    assert c.breakeven_utilisation(0.0005, 0.001) == pytest.approx(0.5)
-    for bad in (lambda: c.cost_per_request(0, 1), lambda: c.cost_per_request(1, 1, utilisation=1.5),
-                lambda: c.blended_cost_per_million_tokens(1, 0, 0), lambda: c.breakeven_utilisation(1, 0)):
+    per_req = c.gpu_seconds_per_request(0.5)           # 1 GPU at 0.5 req/s -> 1 / 0.5 = 2 GPU-seconds per request
+    assert per_req == pytest.approx(2.0)
+    assert c.gpu_seconds_per_request(2.0, num_gpus=2, utilisation=0.5) == pytest.approx(2.0)   # 2 / 2 / 0.5
+    assert c.blended_gpu_hours_per_million_tokens(3.6, 400, 100) == pytest.approx(2.0)         # 3.6 / 3600 / 500 * 1e6
+    api = c.api_gpu_seconds_per_request(400, 100, 1.0, 3.0)   # (400*1.0 + 100*3.0) / 1e6 GPU-h = 7e-4 h = 2.52 s
+    assert api == pytest.approx(2.52)
+    assert c.breakeven_utilisation(1.26, 2.52) == pytest.approx(0.5)
+    for bad in (lambda: c.gpu_seconds_per_request(0, 1), lambda: c.gpu_seconds_per_request(1, 1, utilisation=1.5),
+                lambda: c.gpu_seconds_per_request(1, 0), lambda: c.blended_gpu_hours_per_million_tokens(1, 0, 0),
+                lambda: c.api_gpu_seconds_per_request(1, 1, -1, 1), lambda: c.breakeven_utilisation(1, 0)):
         with pytest.raises(ValueError):
             bad()
 

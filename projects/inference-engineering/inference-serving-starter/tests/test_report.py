@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parent.parent
 REPORT = ROOT / "report" / "REPORT.md"
 DECISION = ROOT / "results" / "decision.json"
 SECTIONS = ["Setup", "Method", "Results", "Quantisation comparison", "Speculative decoding",
-            "Cost per million tokens", "Fleet-size recommendation", "Measured on a real GPU",
+            "GPU-hours per million tokens", "Fleet-size recommendation", "Measured on a real GPU",
             "Threats to validity"]
 GPU_NAMES = r"\b(T4|L4|L40S?|A10G?|A100|H100|H200|B200|B300|GB200|RTX\s?\w+|MI\d{3}X?)\b"
 
@@ -69,13 +69,15 @@ def test_report_quotes_the_decision_numbers(text):
     if not DECISION.exists():
         pytest.fail("results/decision.json missing: run python -m analysis.decide ...")
     d = json.loads(DECISION.read_text(encoding="utf-8"))
-    assert d["gpu_hourly_usd"] >= 0 and d["price_source"].strip(), "price must be your input with a source"
-    cost = d["cost_per_million_output_tokens_usd"]
-    candidates = {f"{cost:.2f}", f"{cost:.3f}", f"{cost:.1f}", f"{cost:.4f}"}
-    assert any(c in text for c in candidates), f"report must state the cost per million tokens (about ${cost:.3f})"
+    assert "usd" not in json.dumps(d).lower(), "decision.json is in GPU time: no dollar fields"
+    gh = d["gpu_hours_per_million_output_tokens"]
+    candidates = {f"{gh:.2f}", f"{gh:.3f}", f"{gh:.1f}", f"{gh:.4f}"}
+    assert any(c in text for c in candidates), f"report must state the GPU-hours per million tokens (about {gh:.3f})"
+    eff = d["effective_gpu_hours_per_million_output_tokens"]
+    assert eff is not None and eff >= gh, "the effective figure charges idle time, so it is at least the full-utilisation figure"
+    assert any(f"{eff:.{n}f}" in text for n in (1, 2, 3, 4)), f"report must state the effective GPU-hours (about {eff:.3f})"
     assert re.search(rf"\b{d['replicas']}\s+replicas?\b", text, re.I), f"report must state {d['replicas']} replicas"
     assert str(d["operating_concurrency"]) in text
-    assert d["price_source"].split(",")[0][:20] in text or "price" in text.lower()
 
 
 def _variants(v: float, extra: tuple = ()) -> set:
@@ -90,9 +92,9 @@ def test_report_has_a_second_slo_row(text):
     assert second, "decision.json has no second_slo: re-run python -m analysis.decide with the current analysis/decide.py"
     assert second["slo"] != d["slo"], "the second SLO must differ from the first"
     assert str(second["operating_concurrency"]) in text
-    c2 = second["cost_per_million_output_tokens_usd"]
+    c2 = second["gpu_hours_per_million_output_tokens"]
     assert any(v in text for v in (f"{c2:.2f}", f"{c2:.3f}", f"{c2:.1f}", f"{c2:.4f}")), (
-        f"report must state the cost per million tokens under the second SLO (about ${c2:.3f})")
+        f"report must state the GPU-hours per million tokens under the second SLO (about {c2:.3f})")
     assert f"{second['slo']['ttft_s']:g}" in text, "name the second SLO's TTFT limit in the table"
 
 
@@ -101,12 +103,14 @@ def test_report_compares_self_hosting_with_an_api(text):
         pytest.fail("results/decision.json missing: run python -m analysis.decide ...")
     d = json.loads(DECISION.read_text(encoding="utf-8"))
     api = d.get("api") or {}
-    assert api.get("source", "").strip() and api.get("input_usd_per_m", 0) >= 0 and api.get("output_usd_per_m", 0) >= 0, (
-        "decision.json needs the API prices and the page and date you read them from")
-    assert api.get("breakeven_utilisation") is not None, "API prices must be above zero"
+    assert api.get("basis", "").strip() and api.get("input_gpu_h_per_m", 0) >= 0 and api.get("output_gpu_h_per_m", 0) >= 0, (
+        "decision.json needs the API's rate in GPU-hours per 1M tokens and how you derived it, with the date")
+    assert api.get("breakeven_utilisation") is not None, "the API rates must be above zero"
     u = api["breakeven_utilisation"]
+    assert any(v in text for v in _variants(d["gpu_seconds_per_request"])), (
+        f"quote the GPU-seconds per request (about {d['gpu_seconds_per_request']:.2f})")
     low = text.lower()
-    assert "api" in low and re.search(r"break(s)?[- ]?even", low), "the cost section needs a self-host vs API line with the break-even utilisation"
+    assert "api" in low and re.search(r"break(s)?[- ]?even", low), "the GPU-hours section needs a self-host vs API line with the break-even utilisation"
     assert any(v in text for v in _variants(u, (f"{u * 100:.0f}", f"{u * 100:.1f}"))), (
         f"quote the break-even utilisation (about {u:.2f}, or {u * 100:.0f} percent)")
     assert f"{d['mean_prompt_tokens']:.0f}" in text, "state the mean input tokens per request"
