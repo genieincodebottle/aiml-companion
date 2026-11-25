@@ -27,7 +27,6 @@ dev = [
 ]
 deploy = [
     "bedrock-agentcore>=1.26",
-    "bedrock-agentcore-starter-toolkit>=0.3",
 ]
 ui = [
     "streamlit>=1.67",

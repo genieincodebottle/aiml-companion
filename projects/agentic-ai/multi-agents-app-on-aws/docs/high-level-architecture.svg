@@ -107,7 +107,7 @@
   <text x="590" y="580" font-size="14.5" text-anchor="middle" font-weight="700" fill="#92400e">Optional: deploy to AWS (deploy/, scripts/)</text>
   <rect x="40" y="594" width="230" height="64" rx="6" fill="#ffffff" stroke="#fcd34d" stroke-width="1.5"/>
   <text x="155" y="615.5" font-size="13" text-anchor="middle" font-weight="600" fill="#92400e">bash scripts/deploy.sh</text>
-  <text x="155" y="630.5" font-size="11" text-anchor="middle" fill="#78350f">agentcore configure + launch</text>
+  <text x="155" y="630.5" font-size="11" text-anchor="middle" fill="#78350f">agentcore add runtime + deploy</text>
   <text x="155" y="645.5" font-size="11" text-anchor="middle" fill="#78350f">for each of the 4 entry files</text>
   <rect x="40" y="668" width="230" height="64" rx="6" fill="#ffffff" stroke="#fcd34d" stroke-width="1.5"/>
   <text x="155" y="689.5" font-size="13" text-anchor="middle" font-weight="600" fill="#92400e">agentcore invoke</text>

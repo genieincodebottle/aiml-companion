@@ -25,9 +25,9 @@ from agents import research_agent, analyst_agent, writer_agent
 # ---------------------------------------------------------------------------
 
 AGENT_ARNS = {
-    "research": "",  # Set after: agentcore launch (research_agent)
-    "analyst": "",   # Set after: agentcore launch (analyst_agent)
-    "writer": "",    # Set after: agentcore launch (writer_agent)
+    "research": "",  # Set after: agentcore deploy (research_agent)
+    "analyst": "",   # Set after: agentcore deploy (analyst_agent)
+    "writer": "",    # Set after: agentcore deploy (writer_agent)
 }
 
 # ---------------------------------------------------------------------------

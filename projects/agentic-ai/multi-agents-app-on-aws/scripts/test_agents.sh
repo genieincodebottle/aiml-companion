@@ -60,14 +60,14 @@ echo "Test 4: Deployed mode (AgentCore)"
 echo "-------------------------------------------"
 
 if command -v agentcore &> /dev/null; then
-    DEPLOYED=$(agentcore invoke '{"query": "Hello, are you working?"}' 2>/dev/null || echo "")
+    DEPLOYED=$( (cd deploy/multiagents 2>/dev/null && agentcore invoke --runtime orchestrator --payload '{"query": "Hello, are you working?"}') 2>/dev/null || echo "")
     if [ -n "$DEPLOYED" ]; then
         echo -e "${GREEN}[OK] Deployed agent responds${NC}"
     else
         echo -e "${YELLOW}⊘ No deployed agents found (use 'bash scripts/deploy.sh' to deploy)${NC}"
     fi
 else
-    echo -e "${YELLOW}⊘ agentcore CLI not installed (uv pip install bedrock-agentcore-starter-toolkit)${NC}"
+    echo -e "${YELLOW}⊘ agentcore CLI not installed (npm install -g @aws/agentcore)${NC}"
 fi
 
 echo ""

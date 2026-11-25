@@ -24,15 +24,10 @@ output "next_steps" {
 
     Infrastructure is ready! Next steps:
 
-    1. Deploy agents using AgentCore CLI:
-       cd deploy/agentcore
-       agentcore configure -e research_agent.py
-       agentcore launch
-
-    2. Or use the deploy script:
+    1. Deploy all four agents with the AgentCore CLI (npm install -g @aws/agentcore):
        bash scripts/deploy.sh
 
-    3. Test the deployed agents:
+    2. Test the deployed agents:
        bash scripts/test_agents.sh
 
   EOT

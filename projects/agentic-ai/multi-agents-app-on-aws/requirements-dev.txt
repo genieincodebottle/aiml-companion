@@ -3,4 +3,3 @@ pytest>=9.2
 pytest-cov>=7.1
 ruff>=0.17
 bedrock-agentcore>=1.26
-bedrock-agentcore-starter-toolkit>=0.3

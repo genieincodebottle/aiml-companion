@@ -3,7 +3,7 @@
 This file is deployed to AWS Bedrock AgentCore. It wraps the research agent
 as an AgentCore-compatible service with health checks and session management.
 
-Deploy: agentcore configure -e research_agent.py && agentcore launch
+Deploy: bash scripts/deploy.sh (AgentCore CLI; it copies this file to app/research_agent/main.py)
 """
 
 from bedrock_agentcore import BedrockAgentCoreApp, PingStatus
@@ -44,4 +44,4 @@ def health():
 
 
 if __name__ == "__main__":
-    app.run(port=8081)
+    app.run(port=int(os.environ.get("AGENT_PORT", "8081")))

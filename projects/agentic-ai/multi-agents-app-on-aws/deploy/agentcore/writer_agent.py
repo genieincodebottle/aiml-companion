@@ -1,6 +1,6 @@
 """AgentCore Runtime entrypoint for the Writer Agent.
 
-Deploy: agentcore configure -e writer_agent.py && agentcore launch
+Deploy: bash scripts/deploy.sh (AgentCore CLI; it copies this file to app/writer_agent/main.py)
 """
 
 from bedrock_agentcore import BedrockAgentCoreApp, PingStatus
@@ -40,4 +40,4 @@ def health():
 
 
 if __name__ == "__main__":
-    app.run(port=8083)
+    app.run(port=int(os.environ.get("AGENT_PORT", "8083")))

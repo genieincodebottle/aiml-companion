@@ -69,7 +69,7 @@ Each agent also runs on its own: `python -m agents.research_agent "your topic"`,
 `python -m agents.analyst_agent` and `python -m agents.writer_agent` (the last two use
 built-in sample input). `bash scripts/test_agents.sh` runs the research agent, the analyst
 and the full orchestrator with your key, then tries `agentcore invoke` if the AgentCore CLI
-is installed.
+is installed and `deploy/multiagents/` exists.
 
 ### Your first research run
 
@@ -182,31 +182,43 @@ Needs an AWS account with Bedrock model access ([AWS setup](#aws-setup-only-for-
 The deploy and Terraform steps below were read from the scripts, not run for this README.
 
 ```bash
-uv pip install -r requirements-dev.txt    # pytest, ruff, bedrock-agentcore, the starter toolkit
+npm install -g @aws/agentcore             # AgentCore CLI: Node 20.12 or later, plus uv
+uv pip install -r requirements-dev.txt    # pytest, ruff, bedrock-agentcore
 bash scripts/deploy.sh
 ```
 
-> **Toolkit status.** These scripts use the Python starter toolkit
-> (`bedrock-agentcore-starter-toolkit` 0.3.x). Its README now says the Starter Toolkit CLI
-> is no longer supported and points to the AgentCore CLI
-> ([aws/agentcore-cli](https://github.com/aws/agentcore-cli), `npm install -g @aws/agentcore`,
-> commands `agentcore create`, `dev`, `build`, `deploy`, `invoke`). The toolkit still works for
-> existing Python workflows; moving these scripts to the new CLI is a planned change.
+> **AgentCore CLI.** The deploy scripts use the AgentCore CLI
+> ([aws/agentcore-cli](https://github.com/aws/agentcore-cli), package `@aws/agentcore`).
+> It replaces the Python starter toolkit (`bedrock-agentcore-starter-toolkit`), whose README
+> says its CLI is no longer supported. Both install an `agentcore` command, so run
+> `pip uninstall bedrock-agentcore-starter-toolkit` first. The CLI deploys through AWS CDK,
+> and the first deploy in an account and region bootstraps CDK there. The runtime SDK
+> `bedrock-agentcore`, which the wrappers import, is a separate package and does not change.
 
-`deploy.sh` installs `bedrock-agentcore-starter-toolkit` if the `agentcore` CLI is
-missing, then in `deploy/agentcore/` runs `agentcore configure -e <file>.py` and
-`agentcore launch` for `research_agent`, `analyst_agent`, `writer_agent` and
-`orchestrator`. Each file wraps the matching `agents/*.py` `run()` in a
-`BedrockAgentCoreApp` with an entrypoint and a ping. Test the deployed orchestrator with:
+`deploy.sh` checks that the new CLI is installed, then creates a CLI project in
+`deploy/multiagents/` (a build output, git-ignored). For each of `research_agent`,
+`analyst_agent`, `writer_agent` and `orchestrator` it runs `agentcore add runtime --name
+<agent> --language python`, copies the matching `deploy/agentcore/<agent>.py` to
+`app/<agent>/main.py` together with `agents/` and `tools/`, and writes a `pyproject.toml`
+there, built from `deploy/agentcore/requirements.txt` (the CLI reads dependencies only from
+`pyproject.toml`). A single `agentcore deploy` then ships all
+four runtimes. Each file wraps the matching `agents/*.py` `run()` in a `BedrockAgentCoreApp`
+with an entrypoint and a ping. The wrappers listen on `AGENT_PORT`, which `deploy.sh` sets to
+8080, the port AgentCore expects; run locally, they keep their own ports. Set `AWS_REGION` to
+choose the region (otherwise the CLI uses your AWS profile, then `us-east-1`). Test the
+deployed orchestrator, and read its logs, from the project folder:
 
 ```bash
-agentcore invoke '{"query": "Compare AI agent frameworks"}'
+cd deploy/multiagents
+agentcore status
+agentcore invoke --runtime orchestrator --payload '{"query": "Compare AI agent frameworks"}'
+agentcore logs runtime --name orchestrator --since 1h
 ```
 
 **How the deployed agents talk.** `AGENT_ARNS` in `agents/orchestrator.py` ships empty, so
 the deployed orchestrator runs the three specialists in-process inside its own runtime.
 To make it call the specialist runtimes, put their ARNs into `AGENT_ARNS` before you
-launch the orchestrator. It then calls `invoke_agent_runtime` on the boto3
+deploy the orchestrator. It then calls `invoke_agent_runtime` on the boto3
 `bedrock-agentcore` client, with a new UUID session ID per call. The deployed agents run
 the same `call_llm()`, so `LLM_PROVIDER` and the provider's key or IAM access must be set
 in the runtime environment.
@@ -224,9 +236,10 @@ terraform output
 It makes one IAM role for the AgentCore runtimes, shared by all four (Bedrock
 `InvokeModel`, AgentCore invoke and sessions, CloudWatch logs), a deployer role, and the
 log group `/agentcore/multi-agents/dev` with 14-day retention. `deploy.sh` passes this
-role to `agentcore configure --execution-role`: it reads `AGENTCORE_ROLE_ARN` if set,
+role to `agentcore add runtime --role-arn`: it reads `AGENTCORE_ROLE_ARN` if set,
 otherwise the Terraform output `agentcore_runtime_role_arn`, and if neither exists the
-toolkit creates its own role. Run `terraform apply` before `deploy.sh` to use the shared role.
+CLI creates a role for each runtime. The CLI cannot change the permissions of a role you
+pass, so the Terraform role must already hold what the agents need. Run `terraform apply` before `deploy.sh` to use the shared role.
 Terraform stores no Tavily key: set `TAVILY_API_KEY` in the runtime environment instead.
 
 **Cleanup:**
@@ -236,10 +249,13 @@ bash scripts/cleanup.sh --dry-run    # list the runtimes it would delete
 bash scripts/cleanup.sh              # asks, then deletes them
 ```
 
-It lists runtimes with `aws bedrock-agentcore-control list-agent-runtimes` and deletes the
-ones named `research_agent`, `analyst_agent`, `writer_agent` and `orchestrator` (override
-with `AGENT_RUNTIME_NAMES="..."` if you passed `--name` to `agentcore configure`). If
-`deploy/terraform/terraform.tfstate` exists, it also runs `terraform destroy`. Without the
+If `deploy/multiagents/` exists, it runs `agentcore remove all --yes` and then
+`agentcore deploy --yes` there, which deletes the CloudFormation stack that holds the
+runtimes. Without that folder (runtimes made earlier with the starter toolkit), it lists
+runtimes with `aws bedrock-agentcore-control list-agent-runtimes` and deletes the ones named
+`research_agent`, `analyst_agent`, `writer_agent` and `orchestrator` (override with
+`AGENT_RUNTIME_NAMES="..."`). If `deploy/terraform/terraform.tfstate` exists, it also runs
+`terraform destroy`. Without the
 script: `cd deploy/terraform && terraform destroy -var="aws_region=us-east-1"`.
 
 ---
@@ -278,9 +294,10 @@ It is not a production research service. Limits found in the code:
   skipped with a warning, and if no step is usable the default research, analyst, writer
   plan runs. A valid step that names an unknown agent gives an error string for that
   step.
-- **Deploy packaging is unverified here.** `deploy/agentcore/*.py` import `agents/` and
-  `tools/` from the project root; check that your `agentcore configure` source path
-  includes them.
+- **Deploy was not run end to end here.** `deploy.sh` was run up to `agentcore deploy`
+  against the CLI's own scaffolding, with no AWS account. The AgentCore CLI uploads only
+  `app/<agent>/`, so `deploy.sh` copies `agents/` and `tools/` into each runtime folder;
+  check that the deployed runtimes start and answer `agentcore invoke`.
 
 ---
 

@@ -19,12 +19,18 @@ NC='\033[0m'
 # Usage: bash scripts/cleanup.sh [--dry-run]
 #   --dry-run   list what would be deleted, delete nothing
 #
-# Runtime names: `agentcore configure -e <file>.py` (see deploy.sh) names each
-# runtime after the entrypoint file, so the names are the four below. AgentCore
-# runtime names match [a-zA-Z][a-zA-Z0-9_]{0,47}, i.e. NO hyphens, so a name
-# filter such as "multi-agents" can never match. Override the list with e.g.
-#   AGENT_RUNTIME_NAMES="research_agent analyst_agent" bash scripts/cleanup.sh
-# if you passed --name to `agentcore configure`.
+# Two cases:
+#   1. deploy/multiagents/ exists: deploy.sh created it with the AgentCore CLI
+#      (@aws/agentcore). The runtimes belong to a CloudFormation stack, so they
+#      are removed the CLI way: `agentcore remove all --yes`, then
+#      `agentcore deploy --yes`, which deletes the stack.
+#   2. No such folder: the runtimes came from the old starter toolkit
+#      (`agentcore configure -e <file>.py`), which named each runtime after the
+#      entrypoint file. They are found and deleted by name with the AWS CLI.
+#      AgentCore runtime names match [a-zA-Z][a-zA-Z0-9_]{0,47}, i.e. NO
+#      hyphens, so a name filter such as "multi-agents" can never match.
+#      Override the list with e.g.
+#        AGENT_RUNTIME_NAMES="research_agent analyst_agent" bash scripts/cleanup.sh
 # ---------------------------------------------------------------------------
 
 DRY_RUN=0
@@ -32,38 +38,49 @@ if [[ "${1:-}" == "--dry-run" ]]; then
     DRY_RUN=1
 fi
 
+CLI_PROJECT="deploy/multiagents"
 RUNTIME_NAMES="${AGENT_RUNTIME_NAMES:-research_agent analyst_agent writer_agent orchestrator}"
 
-# ---------------------------------------------------------------------------
-# Find AgentCore runtimes (control-plane API: bedrock-agentcore-control)
-# ---------------------------------------------------------------------------
-
-echo "Looking for AgentCore runtimes: ${RUNTIME_NAMES}"
-
-# Output is "<agentRuntimeName>	<agentRuntimeId>" per runtime (auto-paginated).
-# A failure here (no credentials, no permission, old AWS CLI) must stop the
-# script, not be reported as "nothing to delete".
-ALL_RUNTIMES=$(aws bedrock-agentcore-control list-agent-runtimes     --query "agentRuntimes[].[agentRuntimeName,agentRuntimeId]"     --output text)
+REGION_ARGS=()
+if [ -n "${AWS_REGION:-}" ]; then
+    REGION_ARGS=(--region "$AWS_REGION")
+fi
 
 TARGETS=""
-while IFS=$'	' read -r name id; do
-    [ -z "$name" ] && continue
-    for wanted in $RUNTIME_NAMES; do
-        if [ "$name" == "$wanted" ]; then
-            TARGETS+="${name}"$'	'"${id}"$'
-'
-        fi
-    done
-done <<< "$ALL_RUNTIMES"
 
-if [ -z "$TARGETS" ]; then
-    echo -e "  ${GREEN}[OK]${NC} No matching AgentCore runtimes found to delete"
+if [ -d "$CLI_PROJECT/agentcore" ]; then
+    echo "AgentCore CLI project found: $CLI_PROJECT"
+    echo "It will run: agentcore remove all --yes, then agentcore deploy --yes"
 else
-    echo "Runtimes that will be deleted:"
-    while IFS=$'	' read -r name id; do
+    # -----------------------------------------------------------------------
+    # Find AgentCore runtimes (control-plane API: bedrock-agentcore-control)
+    # -----------------------------------------------------------------------
+
+    echo "Looking for AgentCore runtimes: ${RUNTIME_NAMES}"
+
+    # Output is "<agentRuntimeName>	<agentRuntimeId>" per runtime (auto-paginated).
+    # A failure here (no credentials, no permission, old AWS CLI) must stop the
+    # script, not be reported as "nothing to delete".
+    ALL_RUNTIMES=$(aws bedrock-agentcore-control list-agent-runtimes --query "agentRuntimes[].[agentRuntimeName,agentRuntimeId]" --output text)
+
+    while IFS=$'\t' read -r name id; do
         [ -z "$name" ] && continue
-        echo "  - $name ($id)"
-    done <<< "$TARGETS"
+        for wanted in $RUNTIME_NAMES; do
+            if [ "$name" == "$wanted" ]; then
+                TARGETS+="${name}"$'\t'"${id}"$'\n'
+            fi
+        done
+    done <<< "$ALL_RUNTIMES"
+
+    if [ -z "$TARGETS" ]; then
+        echo -e "  ${GREEN}[OK]${NC} No matching AgentCore runtimes found to delete"
+    else
+        echo "Runtimes that will be deleted:"
+        while IFS=$'\t' read -r name id; do
+            [ -z "$name" ] && continue
+            echo "  - $name ($id)"
+        done <<< "$TARGETS"
+    fi
 fi
 
 if [ "$DRY_RUN" -eq 1 ]; then
@@ -86,10 +103,21 @@ fi
 # ---------------------------------------------------------------------------
 
 FAILED=0
-if [ -n "$TARGETS" ]; then
+if [ -d "$CLI_PROJECT/agentcore" ]; then
+    echo ""
+    echo "Removing the AgentCore CLI project's resources and stack..."
+    if (cd "$CLI_PROJECT" \
+        && agentcore remove all --yes ${REGION_ARGS[@]+"${REGION_ARGS[@]}"} \
+        && agentcore deploy --yes ${REGION_ARGS[@]+"${REGION_ARGS[@]}"}); then
+        echo -e "  ${GREEN}[OK]${NC} CLI project stack removed"
+    else
+        echo -e "  ${RED}[FAIL]${NC} Could not remove the CLI project stack"
+        FAILED=1
+    fi
+elif [ -n "$TARGETS" ]; then
     echo ""
     echo "Deleting AgentCore runtimes..."
-    while IFS=$'	' read -r name id; do
+    while IFS=$'\t' read -r name id; do
         [ -z "$name" ] && continue
         echo "  Deleting: $name ($id)"
         if aws bedrock-agentcore-control delete-agent-runtime --agent-runtime-id "$id" > /dev/null; then

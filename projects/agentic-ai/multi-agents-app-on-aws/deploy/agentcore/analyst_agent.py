@@ -1,6 +1,6 @@
 """AgentCore Runtime entrypoint for the Analyst Agent.
 
-Deploy: agentcore configure -e analyst_agent.py && agentcore launch
+Deploy: bash scripts/deploy.sh (AgentCore CLI; it copies this file to app/analyst_agent/main.py)
 """
 
 from bedrock_agentcore import BedrockAgentCoreApp, PingStatus
@@ -40,4 +40,4 @@ def health():
 
 
 if __name__ == "__main__":
-    app.run(port=8082)
+    app.run(port=int(os.environ.get("AGENT_PORT", "8082")))
